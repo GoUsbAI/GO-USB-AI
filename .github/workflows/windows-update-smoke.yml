@@ -1,5 +1,6 @@
 name: windows-update-smoke
 
+# Retry trigger
 on:
   workflow_dispatch:
   push:
