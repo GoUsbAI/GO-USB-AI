@@ -1,0 +1,28 @@
+name = "nextclaw-public-roadmap-feedback-portal"
+main = "worker/index.ts"
+compatibility_date = "2026-04-14"
+workers_dev = true
+
+[[routes]]
+pattern = "roadmap.nextclaw.io"
+custom_domain = true
+
+[vars]
+PUBLIC_ROADMAP_FEEDBACK_PORTAL_DATA_MODE = "live"
+PUBLIC_ROADMAP_FEEDBACK_PORTAL_LINEAR_API_URL = "https://api.linear.app/graphql"
+PUBLIC_ROADMAP_FEEDBACK_PORTAL_LINEAR_AUTH_MODE = "personal-key"
+PUBLIC_ROADMAP_FEEDBACK_PORTAL_LINEAR_TEAM_KEY = "NC"
+PUBLIC_ROADMAP_FEEDBACK_PORTAL_LINEAR_PUBLIC_LABELS = "all"
+PUBLIC_ROADMAP_FEEDBACK_PORTAL_LINEAR_FEATURE_LABELS = "feature"
+PUBLIC_ROADMAP_FEEDBACK_PORTAL_LINEAR_BUG_LABELS = "bug"
+PUBLIC_ROADMAP_FEEDBACK_PORTAL_LINEAR_IMPROVEMENT_LABELS = "improvement"
+PUBLIC_ROADMAP_FEEDBACK_PORTAL_LINEAR_RESEARCH_LABELS = "research"
+
+[[d1_databases]]
+binding = "PUBLIC_ROADMAP_PORTAL_DB"
+database_name = "nextclaw-public-roadmap-portal"
+database_id = "4982a23b-f303-46fc-b746-efa785ddc7d2"
+
+[assets]
+directory = "./dist/client"
+binding = "ASSETS"

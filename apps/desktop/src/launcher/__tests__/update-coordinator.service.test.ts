@@ -1,0 +1,529 @@
+import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import test from "node:test";
+import { DesktopBundleLifecycleService } from "../services/bundle-lifecycle.service";
+import { DesktopBundleService } from "../services/bundle.service";
+import { DesktopUpdateCoordinatorService } from "../services/update-coordinator.service";
+import { DesktopUpdateService } from "../services/update.service";
+import { DesktopBundleLayoutStore } from "../stores/bundle-layout.store";
+import { DesktopLauncherStateStore } from "../stores/launcher-state.store";
+import type { DesktopUpdateSourceService } from "../../services/desktop-update-source.service";
+import {
+  bundlePublicKey,
+  createBundleArchive,
+  createLauncherState,
+  createSignedUpdateManifest,
+  signBundleArchive,
+  withTempDir,
+  writeBundleFixture
+} from "./launcher-test.utils";
+
+type TestCoordinatorOptions = {
+  stateStore: DesktopLauncherStateStore;
+  updateService: DesktopUpdateService;
+  bundleService?: DesktopBundleService;
+  bundleLifecycle?: DesktopBundleLifecycleService;
+  updateCapability?: ConstructorParameters<typeof DesktopUpdateCoordinatorService>[0]["updateCapability"];
+  resolveManifestUrl?: () => Promise<string | null>;
+  publishSnapshot?: ConstructorParameters<typeof DesktopUpdateCoordinatorService>[0]["publishSnapshot"];
+  onAutoDownloadedUpdateReady?: ConstructorParameters<typeof DesktopUpdateCoordinatorService>[0]["onAutoDownloadedUpdateReady"];
+};
+
+function createTestUpdateCoordinator(options: TestCoordinatorOptions): DesktopUpdateCoordinatorService {
+  const {
+    stateStore,
+    updateService,
+    bundleLifecycle,
+    bundleService,
+    updateCapability,
+    resolveManifestUrl,
+    publishSnapshot,
+    onAutoDownloadedUpdateReady
+  } = options;
+  const bundleManager = {
+    launcherStateStore: stateStore,
+    updateService,
+    bundleLifecycle: bundleLifecycle ?? ({} as DesktopBundleLifecycleService),
+    bundleService: bundleService ?? ({} as DesktopBundleService)
+  };
+  const updateSourceService = {
+    resolveChannel: () => stateStore.read().channel,
+    resolveManifestUrl: resolveManifestUrl ?? (async () => "https://example.com/manifest.json")
+  } as unknown as DesktopUpdateSourceService;
+
+  return new DesktopUpdateCoordinatorService({
+    launcherVersion: "0.1.0",
+    updateCapability,
+    bundleManager,
+    updateSourceService,
+    publishSnapshot,
+    onAutoDownloadedUpdateReady
+  });
+}
+
+test("downloads and installs an update without changing the active version", async () =>
+  await withTempDir("nextclaw-update-download-only-", async (rootDir) => {
+    const layout = new DesktopBundleLayoutStore(rootDir);
+    await layout.ensureLauncherDirs();
+    const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
+    writeBundleFixture({
+      rootDir: layout.getVersionsDir(),
+      version: "0.18.1"
+    });
+    await stateStore.write(
+      createLauncherState({
+        currentVersion: "0.18.1",
+        lastKnownGoodVersion: "0.18.1"
+      })
+    );
+    await layout.writeCurrentPointer({ version: "0.18.1" });
+
+    const archiveBytes = await createBundleArchive({
+      rootDir: join(rootDir, "source"),
+      version: "0.18.2"
+    });
+    const archiveSha256 = createHash("sha256").update(archiveBytes).digest("hex");
+    const manifest = createSignedUpdateManifest({
+      latestVersion: "0.18.2",
+      bundleSha256: archiveSha256,
+      bundleSignature: signBundleArchive(archiveBytes)
+    });
+    const updateClient = new DesktopUpdateService({
+      layout,
+      launcherVersion: "0.1.0",
+      bundlePublicKey,
+      fetchImpl: async () => new Response(archiveBytes, { status: 200 }),
+      now: () => 321
+    });
+
+    const downloaded = await updateClient.downloadAndInstallUpdate(manifest);
+    assert.deepEqual(downloaded, {
+      kind: "bundle-update-downloaded",
+      manifest,
+      downloadedVersion: "0.18.2",
+      bundleDirectory: layout.getVersionDir("0.18.2")
+    });
+    assert.deepEqual(
+      stateStore.read(),
+      createLauncherState({
+        currentVersion: "0.18.1",
+        lastKnownGoodVersion: "0.18.1"
+      })
+    );
+    assert.deepEqual(layout.readCurrentPointer(), { version: "0.18.1" });
+  }));
+
+test("download service reports streamed bundle progress", async () =>
+  await withTempDir("nextclaw-update-download-progress-", async (rootDir) => {
+    const layout = new DesktopBundleLayoutStore(rootDir);
+    await layout.ensureLauncherDirs();
+    const archiveBytes = await createBundleArchive({
+      rootDir: join(rootDir, "source"),
+      version: "0.18.2"
+    });
+    const archiveSha256 = createHash("sha256").update(archiveBytes).digest("hex");
+    const manifest = createSignedUpdateManifest({
+      latestVersion: "0.18.2",
+      bundleSha256: archiveSha256,
+      bundleSignature: signBundleArchive(archiveBytes)
+    });
+    const progressEvents: Array<{ downloadedBytes: number; totalBytes: number | null; percent: number | null }> = [];
+    const updateClient = new DesktopUpdateService({
+      layout,
+      launcherVersion: "0.1.0",
+      bundlePublicKey,
+      fetchImpl: async () =>
+        new Response(
+          new ReadableStream<Uint8Array>({
+            start: (controller) => {
+              controller.enqueue(archiveBytes.subarray(0, 10));
+              controller.enqueue(archiveBytes.subarray(10));
+              controller.close();
+            }
+          }),
+          {
+            status: 200,
+            headers: {
+              "content-length": String(archiveBytes.byteLength)
+            }
+          }
+        ),
+      now: () => 321
+    });
+
+    await updateClient.downloadAndInstallUpdate(manifest, (progress) => {
+      progressEvents.push(progress);
+    });
+
+    assert.equal(progressEvents[0]?.downloadedBytes, 0);
+    assert.equal(progressEvents.at(-1)?.downloadedBytes, archiveBytes.byteLength);
+    assert.equal(progressEvents.at(-1)?.totalBytes, archiveBytes.byteLength);
+    assert.equal(progressEvents.at(-1)?.percent, 100);
+  }));
+
+test("coordinator blocks updates for unsupported installation kinds", async () =>
+  await withTempDir("nextclaw-update-coordinator-unsupported-", async (rootDir) => {
+    const layout = new DesktopBundleLayoutStore(rootDir);
+    const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
+    await stateStore.write(createLauncherState({ currentVersion: "0.18.0" }));
+    let checkInvocations = 0;
+    const coordinator = createTestUpdateCoordinator({
+      updateCapability: {
+        supported: false,
+        blockReason: "unsupported-installation",
+        message: "Portable Edition updates are manual."
+      },
+      stateStore,
+      updateService: {
+        checkForUpdate: async () => {
+          checkInvocations += 1;
+          return null;
+        }
+      } as unknown as DesktopUpdateService
+    });
+
+    assert.equal(coordinator.getSnapshot().status, "blocked");
+    assert.equal(coordinator.getSnapshot().blockReason, "unsupported-installation");
+    assert.equal(coordinator.getSnapshot().errorMessage, "Portable Edition updates are manual.");
+    assert.equal((await coordinator.runStartupCheck()).status, "blocked");
+    assert.equal((await coordinator.checkForUpdates({ manual: true })).status, "blocked");
+    assert.equal((await coordinator.downloadUpdate()).status, "blocked");
+    assert.equal((await coordinator.applyDownloadedUpdate()).status, "blocked");
+    assert.equal(checkInvocations, 0);
+  }));
+
+test("coordinator reports an available update without downloading by default", async () =>
+  await withTempDir("nextclaw-update-coordinator-check-", async (rootDir) => {
+    const layout = new DesktopBundleLayoutStore(rootDir);
+    const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
+    await stateStore.write(
+      createLauncherState({
+        currentVersion: "0.18.0",
+        lastKnownGoodVersion: "0.18.0"
+      })
+    );
+    const manifest = createSignedUpdateManifest({
+      latestVersion: "0.18.1",
+      releaseNotesUrl: "https://example.com/release-notes"
+    });
+    let downloadInvocations = 0;
+    const coordinator = createTestUpdateCoordinator({
+      stateStore,
+      updateService: {
+        checkForUpdate: async () => ({
+          kind: "bundle-update",
+          manifest
+        }),
+        downloadAndInstallUpdate: async () => {
+          downloadInvocations += 1;
+          return {
+            kind: "bundle-update-downloaded",
+            manifest,
+            downloadedVersion: manifest.latestVersion,
+            bundleDirectory: layout.getVersionDir(manifest.latestVersion)
+          };
+        }
+      } as unknown as DesktopUpdateService,
+      bundleLifecycle: {} as DesktopBundleLifecycleService,
+      bundleService: {
+        resolveVersion: () => ({
+          manifest: {
+            bundleVersion: "0.18.1"
+          }
+        })
+      } as unknown as DesktopBundleService
+    });
+
+    const snapshot = await coordinator.checkForUpdates({ manual: true });
+    assert.equal(snapshot.status, "update-available");
+    assert.equal(snapshot.availableVersion, "0.18.1");
+    assert.equal(snapshot.downloadedVersion, null);
+    assert.equal(downloadInvocations, 0);
+    assert.match(stateStore.read().lastUpdateCheckAt ?? "", /^20\d\d-/);
+  }));
+
+test("coordinator downloads an update and waits for user-triggered apply", async () =>
+  await withTempDir("nextclaw-update-coordinator-apply-", async (rootDir) => {
+    const layout = new DesktopBundleLayoutStore(rootDir);
+    await layout.ensureLauncherDirs();
+    const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
+    writeBundleFixture({
+      rootDir: layout.getVersionsDir(),
+      version: "0.17.9"
+    });
+    writeBundleFixture({
+      rootDir: layout.getVersionsDir(),
+      version: "0.18.0"
+    });
+    writeBundleFixture({
+      rootDir: layout.getVersionsDir(),
+      version: "0.18.1"
+    });
+    await stateStore.write(
+      createLauncherState({
+        currentVersion: "0.18.0",
+        lastKnownGoodVersion: "0.18.0"
+      })
+    );
+    await layout.writeCurrentPointer({ version: "0.18.0" });
+
+    const manifest = createSignedUpdateManifest({
+      latestVersion: "0.18.1",
+      releaseNotesUrl: "https://example.com/release-notes"
+    });
+    const snapshots: Array<{ status: string; progress?: { percent: number | null } | null }> = [];
+    const bundleService = new DesktopBundleService({
+      layout,
+      stateStore,
+      launcherVersion: "0.1.0"
+    });
+    const coordinator = createTestUpdateCoordinator({
+      stateStore,
+      updateService: {
+        checkForUpdate: async () => ({
+          kind: "bundle-update",
+          manifest
+        }),
+        downloadAndInstallUpdate: async (
+          _manifest: unknown,
+          reportProgress?: (progress: { downloadedBytes: number; totalBytes: number | null; percent: number | null }) => void
+        ) => {
+          reportProgress?.({ downloadedBytes: 5, totalBytes: 10, percent: 50 });
+          return {
+            kind: "bundle-update-downloaded",
+            manifest,
+            downloadedVersion: manifest.latestVersion,
+            bundleDirectory: layout.getVersionDir(manifest.latestVersion)
+          };
+        }
+      } as unknown as DesktopUpdateService,
+      bundleLifecycle: new DesktopBundleLifecycleService({
+        layout,
+        stateStore,
+        bundleService
+      }),
+      bundleService,
+      publishSnapshot: (snapshot) => {
+        snapshots.push({ status: snapshot.status, progress: snapshot.progress });
+      }
+    });
+
+    const downloadedSnapshot = await coordinator.downloadUpdate();
+    assert.deepEqual(
+      snapshots.some((snapshot) => snapshot.status === "downloading" && snapshot.progress?.percent === 50),
+      true
+    );
+    assert.equal(downloadedSnapshot.status, "downloaded");
+    assert.equal(downloadedSnapshot.progress, null);
+    assert.equal(stateStore.read().currentVersion, "0.18.0");
+    assert.equal(stateStore.read().downloadedVersion, "0.18.1");
+    assert.equal(existsSync(layout.getVersionDir("0.17.9")), false);
+    assert.equal(existsSync(layout.getVersionDir("0.18.0")), true);
+    assert.equal(existsSync(layout.getVersionDir("0.18.1")), true);
+
+    const appliedSnapshot = await coordinator.applyDownloadedUpdate();
+    assert.equal(appliedSnapshot.currentVersion, "0.18.1");
+    assert.equal(appliedSnapshot.downloadedVersion, null);
+    assert.deepEqual(layout.readCurrentPointer(), { version: "0.18.1" });
+    assert.deepEqual(
+      stateStore.read(),
+      createLauncherState({
+        currentVersion: "0.18.1",
+        previousVersion: "0.18.0",
+        candidateVersion: "0.18.1",
+        lastKnownGoodVersion: "0.18.0",
+        lastUpdateCheckAt: stateStore.read().lastUpdateCheckAt
+      })
+    );
+  }));
+
+test("coordinator auto-downloads only when the preference is enabled", async () =>
+  await withTempDir("nextclaw-update-coordinator-auto-download-", async (rootDir) => {
+    const layout = new DesktopBundleLayoutStore(rootDir);
+    const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
+    await stateStore.write(
+      createLauncherState({
+        currentVersion: "0.18.0",
+        lastKnownGoodVersion: "0.18.0",
+        updatePreferences: {
+          automaticChecks: true,
+          autoDownload: true
+        }
+      })
+    );
+    const manifest = createSignedUpdateManifest({
+      latestVersion: "0.18.1"
+    });
+    let autoReadyNotifications = 0;
+    let downloadInvocations = 0;
+    const coordinator = createTestUpdateCoordinator({
+      stateStore,
+      updateService: {
+        checkForUpdate: async () => ({
+          kind: "bundle-update",
+          manifest
+        }),
+        downloadAndInstallUpdate: async () => {
+          downloadInvocations += 1;
+          return {
+            kind: "bundle-update-downloaded",
+            manifest,
+            downloadedVersion: manifest.latestVersion,
+            bundleDirectory: layout.getVersionDir(manifest.latestVersion)
+          };
+        }
+      } as unknown as DesktopUpdateService,
+      bundleLifecycle: {} as DesktopBundleLifecycleService,
+      bundleService: {
+        pruneRetainedArtifacts: async () => ({
+          keptVersions: [],
+          removedVersions: [],
+          removedStagingEntries: []
+        })
+      } as unknown as DesktopBundleService,
+      onAutoDownloadedUpdateReady: () => {
+        autoReadyNotifications += 1;
+      }
+    });
+
+    const snapshot = await coordinator.checkForUpdates();
+    assert.equal(snapshot.status, "downloaded");
+    assert.equal(downloadInvocations, 1);
+    assert.equal(autoReadyNotifications, 1);
+    assert.equal(stateStore.read().downloadedVersion, "0.18.1");
+  }));
+
+test("background update check failures do not replace the primary status with failed", async () =>
+  await withTempDir("nextclaw-update-coordinator-background-failure-", async (rootDir) => {
+    const layout = new DesktopBundleLayoutStore(rootDir);
+    const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
+    await stateStore.write(
+      createLauncherState({
+        currentVersion: "0.18.0",
+        lastKnownGoodVersion: "0.18.0"
+      })
+    );
+
+    const coordinator = createTestUpdateCoordinator({
+      stateStore,
+      updateService: {
+        checkForUpdate: async () => {
+          throw new Error("update manifest request failed with status 404");
+        }
+      } as unknown as DesktopUpdateService,
+      bundleLifecycle: {} as DesktopBundleLifecycleService,
+      bundleService: {
+        resolveVersion: () => ({
+          manifest: {
+            bundleVersion: "0.18.1"
+          }
+        })
+      } as unknown as DesktopBundleService
+    });
+
+    const snapshot = await coordinator.checkForUpdates();
+    assert.equal(snapshot.status, "idle");
+    assert.equal(snapshot.errorMessage, null);
+    assert.match(snapshot.lastCheckedAt ?? "", /^20\d\d-/);
+  }));
+
+test("manual update checks throw without replacing the primary status", async () =>
+  await withTempDir("nextclaw-update-coordinator-manual-failure-", async (rootDir) => {
+    const layout = new DesktopBundleLayoutStore(rootDir);
+    const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
+    await stateStore.write(
+      createLauncherState({
+        currentVersion: "0.18.0",
+        lastKnownGoodVersion: "0.18.0"
+      })
+    );
+
+    const coordinator = createTestUpdateCoordinator({
+      stateStore,
+      updateService: {
+        checkForUpdate: async () => {
+          throw new Error("update manifest request failed with status 404");
+        }
+      } as unknown as DesktopUpdateService,
+      bundleLifecycle: {} as DesktopBundleLifecycleService,
+      bundleService: {
+        resolveVersion: () => ({
+          manifest: {
+            bundleVersion: "0.18.1"
+          }
+        })
+      } as unknown as DesktopBundleService
+    });
+
+    await assert.rejects(
+      async () => await coordinator.checkForUpdates({ manual: true }),
+      /update manifest request failed with status 404/
+    );
+    const snapshot = coordinator.getSnapshot();
+    assert.equal(snapshot.status, "idle");
+    assert.equal(snapshot.errorMessage, null);
+    assert.match(snapshot.lastCheckedAt ?? "", /^20\d\d-/);
+  }));
+
+test("channel switching clears stale downloads and refreshes availability without auto-download", async () =>
+  await withTempDir("nextclaw-update-coordinator-channel-switch-", async (rootDir) => {
+    const layout = new DesktopBundleLayoutStore(rootDir);
+    const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
+    await stateStore.write(
+      createLauncherState({
+        channel: "stable",
+        currentVersion: "0.18.0",
+        lastKnownGoodVersion: "0.18.0",
+        downloadedVersion: "0.18.1",
+        downloadedReleaseNotesUrl: "https://example.com/stable-notes",
+        updatePreferences: {
+          automaticChecks: true,
+          autoDownload: true
+        }
+      })
+    );
+    const manifest = createSignedUpdateManifest({
+      channel: "beta",
+      latestVersion: "0.18.2-beta.1",
+      releaseNotesUrl: "https://example.com/beta-notes"
+    });
+    let downloadInvocations = 0;
+    const coordinator = createTestUpdateCoordinator({
+      resolveManifestUrl: async () => "https://example.com/beta-manifest.json",
+      stateStore,
+      updateService: {
+        checkForUpdate: async () => ({
+          kind: "bundle-update",
+          manifest
+        }),
+        downloadAndInstallUpdate: async () => {
+          downloadInvocations += 1;
+          return {
+            kind: "bundle-update-downloaded",
+            manifest,
+            downloadedVersion: manifest.latestVersion,
+            bundleDirectory: layout.getVersionDir(manifest.latestVersion)
+          };
+        }
+      } as unknown as DesktopUpdateService,
+      bundleLifecycle: {} as DesktopBundleLifecycleService,
+      bundleService: {
+        resolveVersion: () => ({
+          manifest: {
+            bundleVersion: "0.18.1"
+          }
+        })
+      } as unknown as DesktopBundleService
+    });
+
+    const snapshot = await coordinator.updateChannel("beta");
+    assert.equal(snapshot.channel, "beta");
+    assert.equal(snapshot.status, "update-available");
+    assert.equal(snapshot.availableVersion, "0.18.2-beta.1");
+    assert.equal(snapshot.downloadedVersion, null);
+    assert.equal(downloadInvocations, 0);
+    assert.equal(stateStore.read().channel, "beta");
+    assert.equal(stateStore.read().downloadedVersion, null);
+  }));

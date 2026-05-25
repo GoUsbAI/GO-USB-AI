@@ -1,0 +1,151 @@
+{
+  "generatedAt": "2026-05-24T03:23:05.302Z",
+  "base": {
+    "name": "nextclaw",
+    "projectRoot": "/home/runner/work/nextclaw/nextclaw",
+    "scope": {
+      "profile": "source",
+      "title": "Source LOC",
+      "includePaths": [
+        "apps/companion/src",
+        "apps/competitive-leaderboard/src",
+        "apps/desktop/src",
+        "apps/landing/src",
+        "apps/maintainability-console/src",
+        "apps/nextclaw-apps-web/src",
+        "apps/platform-admin/src",
+        "apps/platform-console/src",
+        "apps/public-roadmap-feedback-portal/src",
+        "bridge/src",
+        "packages/extensions/nextclaw-channel-extension-feishu/src",
+        "packages/extensions/nextclaw-channel-extension-qq/src",
+        "packages/extensions/nextclaw-channel-extension-weixin/src",
+        "packages/extensions/nextclaw-channel-plugin-dingtalk/index.js",
+        "packages/extensions/nextclaw-channel-plugin-discord/index.js",
+        "packages/extensions/nextclaw-channel-plugin-email/index.js",
+        "packages/extensions/nextclaw-channel-plugin-slack/index.js",
+        "packages/extensions/nextclaw-channel-plugin-telegram/index.js",
+        "packages/extensions/nextclaw-channel-plugin-wecom/index.js",
+        "packages/extensions/nextclaw-channel-plugin-whatsapp/index.js",
+        "packages/extensions/nextclaw-channel-runtime/src",
+        "packages/extensions/nextclaw-feishu-core/src",
+        "packages/extensions/nextclaw-narp-runtime-claude-code-sdk/src",
+        "packages/extensions/nextclaw-narp-runtime-codex-sdk/src",
+        "packages/extensions/nextclaw-ncp-runtime-claude-code-sdk/src",
+        "packages/extensions/nextclaw-ncp-runtime-codex-sdk/src",
+        "packages/ncp-packages/nextclaw-ncp-agent-runtime/src",
+        "packages/ncp-packages/nextclaw-ncp-http-agent-client/src",
+        "packages/ncp-packages/nextclaw-ncp-http-agent-server/src",
+        "packages/ncp-packages/nextclaw-ncp-mcp/src",
+        "packages/ncp-packages/nextclaw-ncp-react-ui/src",
+        "packages/ncp-packages/nextclaw-ncp-react/src",
+        "packages/ncp-packages/nextclaw-ncp-toolkit/src",
+        "packages/ncp-packages/nextclaw-ncp/src",
+        "packages/nextclaw-agent-chat-ui/src",
+        "packages/nextclaw-agent-chat/src",
+        "packages/nextclaw-app-runtime/src",
+        "packages/nextclaw-app-sdk/src",
+        "packages/nextclaw-client-sdk/src",
+        "packages/nextclaw-core/src",
+        "packages/nextclaw-extension-sdk/src",
+        "packages/nextclaw-hermes-acp-bridge/src",
+        "packages/nextclaw-kernel/src",
+        "packages/nextclaw-mcp/src",
+        "packages/nextclaw-narp-stdio-runtime-wrapper/src",
+        "packages/nextclaw-ncp-runtime-adapter-hermes-http/src",
+        "packages/nextclaw-ncp-runtime-http-client/src",
+        "packages/nextclaw-ncp-runtime-stdio-client/src",
+        "packages/nextclaw-openclaw-compat/src",
+        "packages/nextclaw-remote/src",
+        "packages/nextclaw-runtime/src",
+        "packages/nextclaw-server/src",
+        "packages/nextclaw-service/src",
+        "packages/nextclaw-shared/src",
+        "packages/nextclaw-ui/src",
+        "packages/nextclaw/bridge/src",
+        "packages/nextclaw/src",
+        "workers/marketplace-api/src",
+        "workers/nextclaw-provider-gateway-api/src"
+      ],
+      "includeExtensions": [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx",
+        ".mjs",
+        ".cjs"
+      ],
+      "excludeDirs": [
+        ".git",
+        ".changeset",
+        "node_modules",
+        "dist",
+        "coverage",
+        "build",
+        "ui-dist",
+        ".turbo",
+        "release",
+        "out",
+        ".next",
+        ".wrangler",
+        ".temp"
+      ]
+    },
+    "totals": {
+      "files": 1766,
+      "totalLines": 246452,
+      "blankLines": 23113,
+      "commentLines": 640,
+      "codeLines": 173986,
+      "testCodeLines": 48713
+    }
+  },
+  "benchmark": {
+    "name": "openclaw",
+    "projectRoot": "/home/runner/work/nextclaw/nextclaw/external/openclaw",
+    "scope": {
+      "profile": "source",
+      "includePaths": [
+        "src",
+        "extensions"
+      ],
+      "includeExtensions": [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx",
+        ".mjs",
+        ".cjs"
+      ],
+      "excludeDirs": [
+        ".git",
+        ".changeset",
+        "node_modules",
+        "dist",
+        "coverage",
+        "build",
+        "ui-dist",
+        ".turbo",
+        "release",
+        "out",
+        ".next",
+        ".wrangler",
+        ".temp"
+      ]
+    },
+    "totals": {
+      "files": 13798,
+      "totalLines": 3346377,
+      "blankLines": 280607,
+      "commentLines": 46513,
+      "codeLines": 1444843,
+      "testCodeLines": 1574414
+    }
+  },
+  "comparison": {
+    "baseMinusBenchmarkLines": -1270857,
+    "basePercentOfBenchmark": 12.04,
+    "benchmarkMultipleOfBase": 8.3,
+    "baseIsLighterByPercent": 87.96
+  }
+}

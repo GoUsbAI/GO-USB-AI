@@ -1,0 +1,35 @@
+{
+  "name": "@nextclaw/ncp-mcp",
+  "version": "0.1.91",
+  "private": false,
+  "description": "Thin NCP adapter for exposing platform MCP tools inside NextClaw NCP runtimes.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown src/index.ts --dts.sourcemap --clean --target es2022 --no-fixedExtension",
+    "prepack": "pnpm run build",
+    "lint": "cd ../../.. && pnpm exec eslint packages/ncp-packages/nextclaw-ncp-mcp --config packages/ncp-packages/nextclaw-ncp-mcp/eslint.config.mjs",
+    "tsc": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "prepublishOnly": "node ../../../scripts/release/ensure-pnpm-publish.mjs"
+  },
+  "dependencies": {
+    "@nextclaw/mcp": "workspace:*",
+    "@nextclaw/ncp": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.2"
+  }
+}

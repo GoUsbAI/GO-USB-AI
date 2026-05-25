@@ -1,0 +1,50 @@
+import { lazy, Suspense } from "react";
+import {
+  isChatSessionDetailRoute,
+  isMainWorkspaceRoute,
+} from "@/app/configs/app-navigation.config";
+import { MobileBottomNav } from "@/platforms/mobile/components/mobile-bottom-nav";
+import { MobileTopbar } from "@/platforms/mobile/components/mobile-topbar";
+
+const DocBrowser = lazy(async () => ({
+  default: (await import("@/shared/components/doc-browser/doc-browser")).DocBrowser,
+}));
+
+type MobileAppShellProps = {
+  pathname: string;
+  isDocBrowserOpen: boolean;
+  topbarLeadingInset?: string;
+  children: React.ReactNode;
+};
+
+export function MobileAppShell({
+  pathname,
+  isDocBrowserOpen,
+  topbarLeadingInset,
+  children,
+}: MobileAppShellProps) {
+  const isMainRoute = isMainWorkspaceRoute(pathname);
+  const showTopbar = !isChatSessionDetailRoute(pathname);
+  const showBottomNav = !isChatSessionDetailRoute(pathname);
+
+  return (
+    <div className="flex h-[100svh] flex-col bg-background font-sans text-foreground supports-[height:100dvh]:h-[100dvh]">
+      {showTopbar ? <MobileTopbar leadingInset={topbarLeadingInset} /> : null}
+      <div className="relative flex-1 min-h-0 overflow-hidden">
+        {isMainRoute ? (
+          <div className="h-full min-h-0 overflow-hidden">{children}</div>
+        ) : (
+          <main className="h-full overflow-auto px-4 py-4 custom-scrollbar">
+            <div className="mx-auto max-w-3xl animate-fade-in">{children}</div>
+          </main>
+        )}
+      </div>
+      {showBottomNav ? <MobileBottomNav /> : null}
+      {isDocBrowserOpen ? (
+        <Suspense fallback={null}>
+          <DocBrowser displayMode="fullscreen" />
+        </Suspense>
+      ) : null}
+    </div>
+  );
+}

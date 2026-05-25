@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Warm Organic Palette (YouWare Inspired) */
+    --background: 45 13% 95%;
+    /* #F4F3F0 */
+    --foreground: 0 0% 17%;
+    /* #2C2C2C */
+
+    /* Primary: Olive Green */
+    --primary: 88 16% 40%;
+    /* #677656 */
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary/Muted: Warm Gray/Beige */
+    --secondary: 48 11% 91%;
+    /* #EBEAE6 */
+    --secondary-foreground: 30 16% 25%;
+    /* #4A3F35 */
+
+    --muted: 48 11% 91%;
+    --muted-foreground: 30 7% 45%;
+
+    --border: 45 9% 85%;
+    --radius: 1rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply antialiased scroll-smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.03);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--muted-foreground)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-brand {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, #4a5d3d 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.02em;
+  }
+
+  .bg-gradient-radial {
+    background: radial-gradient(circle at top right, hsla(var(--primary), 0.15) 0%, transparent 40%),
+      radial-gradient(circle at bottom left, hsla(var(--primary), 0.08) 0%, transparent 40%);
+  }
+
+  .terminal-cursor {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.2em;
+    background-color: #8eb079;
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+  }
+
+  @keyframes blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
+}

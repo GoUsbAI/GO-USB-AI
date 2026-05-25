@@ -1,0 +1,2434 @@
+# @nextclaw/desktop
+
+## 0.0.191
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-extension-qq@0.1.5
+  - @nextclaw/channel-plugin-dingtalk@0.2.55
+  - @nextclaw/channel-plugin-discord@0.2.55
+  - @nextclaw/channel-plugin-email@0.2.55
+  - @nextclaw/channel-plugin-slack@0.2.55
+  - @nextclaw/channel-plugin-telegram@0.2.55
+  - @nextclaw/channel-plugin-wecom@0.2.55
+  - @nextclaw/channel-plugin-whatsapp@0.2.55
+  - @nextclaw/channel-runtime@0.4.41
+  - @nextclaw/core@0.12.24
+  - @nextclaw/kernel@0.1.14
+  - @nextclaw/openclaw-compat@1.0.24
+  - @nextclaw/server@0.12.25
+  - nextclaw@0.19.28
+
+## 0.0.190
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-extension-qq@0.1.4
+  - @nextclaw/channel-plugin-dingtalk@0.2.54
+  - @nextclaw/channel-plugin-discord@0.2.54
+  - @nextclaw/channel-plugin-email@0.2.54
+  - @nextclaw/channel-plugin-slack@0.2.54
+  - @nextclaw/channel-plugin-telegram@0.2.54
+  - @nextclaw/channel-plugin-wecom@0.2.54
+  - @nextclaw/channel-plugin-whatsapp@0.2.54
+  - @nextclaw/channel-runtime@0.4.40
+  - @nextclaw/core@0.12.23
+  - @nextclaw/kernel@0.1.13
+  - @nextclaw/openclaw-compat@1.0.23
+  - @nextclaw/server@0.12.24
+  - nextclaw@0.19.27
+
+## 0.0.189
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-extension-qq@0.1.3
+  - @nextclaw/channel-plugin-dingtalk@0.2.53
+  - @nextclaw/channel-plugin-discord@0.2.53
+  - @nextclaw/channel-plugin-email@0.2.53
+  - @nextclaw/channel-plugin-slack@0.2.53
+  - @nextclaw/channel-plugin-telegram@0.2.53
+  - @nextclaw/channel-plugin-wecom@0.2.53
+  - @nextclaw/channel-plugin-whatsapp@0.2.53
+  - @nextclaw/channel-runtime@0.4.39
+  - @nextclaw/core@0.12.22
+  - @nextclaw/kernel@0.1.12
+  - @nextclaw/openclaw-compat@1.0.22
+  - @nextclaw/server@0.12.23
+  - nextclaw@0.19.26
+
+## 0.0.188
+
+### Patch Changes
+
+- Keep desktop chrome active on Windows desktop hosts at compact window sizes.
+- Updated dependencies
+  - nextclaw@0.19.25
+
+## 0.0.187
+
+### Patch Changes
+
+- Validate Windows titlebar dragging with a real mouse geometry probe.
+
+## 0.0.186
+
+### Patch Changes
+
+- Replace the Windows titlebar overlay with renderer-owned window controls.
+
+## 0.0.185
+
+### Patch Changes
+
+- Expand the Windows titlebar smoke test to inspect the HWND under the drag point.
+
+## 0.0.184
+
+### Patch Changes
+
+- Render the Windows custom titlebar drag surface as a dedicated absolute region.
+
+## 0.0.183
+
+### Patch Changes
+
+- Use the VS Code-style Windows hidden-titlebar chrome contract for custom titlebar dragging.
+
+## 0.0.182
+
+### Patch Changes
+
+- Ship the Windows custom titlebar with the official Electron overlay chrome contract.
+
+## 0.0.181
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-extension-qq@0.1.2
+  - @nextclaw/channel-plugin-dingtalk@0.2.52
+  - @nextclaw/channel-plugin-discord@0.2.52
+  - @nextclaw/channel-plugin-email@0.2.52
+  - @nextclaw/channel-plugin-slack@0.2.52
+  - @nextclaw/channel-plugin-telegram@0.2.52
+  - @nextclaw/channel-plugin-wecom@0.2.52
+  - @nextclaw/channel-plugin-whatsapp@0.2.52
+  - @nextclaw/channel-runtime@0.4.38
+  - @nextclaw/core@0.12.21
+  - @nextclaw/kernel@0.1.11
+  - @nextclaw/openclaw-compat@1.0.21
+  - @nextclaw/server@0.12.22
+  - nextclaw@0.19.24
+
+## 0.0.180
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.19.23
+  - @nextclaw/kernel@0.1.10
+  - @nextclaw/server@0.12.21
+
+## 0.0.178
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-extension-qq@0.1.1
+  - @nextclaw/channel-plugin-dingtalk@0.2.51
+  - @nextclaw/channel-plugin-discord@0.2.51
+  - @nextclaw/channel-plugin-email@0.2.51
+  - @nextclaw/channel-plugin-slack@0.2.51
+  - @nextclaw/channel-plugin-telegram@0.2.51
+  - @nextclaw/channel-plugin-wecom@0.2.51
+  - @nextclaw/channel-plugin-whatsapp@0.2.51
+  - @nextclaw/channel-runtime@0.4.37
+  - @nextclaw/core@0.12.20
+  - @nextclaw/kernel@0.1.9
+  - @nextclaw/openclaw-compat@1.0.20
+  - @nextclaw/server@0.12.20
+  - nextclaw@0.19.21
+
+## 0.0.174
+
+### Patch Changes
+
+- Add Windows Portable Edition packaging, data-root isolation, update blocking, and release validation.
+
+## 0.0.173
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.50
+  - @nextclaw/channel-plugin-discord@0.2.50
+  - @nextclaw/channel-plugin-email@0.2.50
+  - @nextclaw/channel-plugin-mochat@0.2.50
+  - @nextclaw/channel-plugin-qq@0.2.50
+  - @nextclaw/channel-plugin-slack@0.2.50
+  - @nextclaw/channel-plugin-telegram@0.2.50
+  - @nextclaw/channel-plugin-wecom@0.2.50
+  - @nextclaw/channel-plugin-whatsapp@0.2.50
+  - @nextclaw/channel-runtime@0.4.36
+  - @nextclaw/core@0.12.19
+  - @nextclaw/kernel@0.1.8
+  - @nextclaw/openclaw-compat@1.0.19
+  - @nextclaw/server@0.12.19
+  - nextclaw@0.19.17
+
+## 0.0.172
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.19.16
+
+## 0.0.171
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.49
+  - @nextclaw/channel-plugin-discord@0.2.49
+  - @nextclaw/channel-plugin-email@0.2.49
+  - @nextclaw/channel-plugin-mochat@0.2.49
+  - @nextclaw/channel-plugin-qq@0.2.49
+  - @nextclaw/channel-plugin-slack@0.2.49
+  - @nextclaw/channel-plugin-telegram@0.2.49
+  - @nextclaw/channel-plugin-wecom@0.2.49
+  - @nextclaw/channel-plugin-whatsapp@0.2.49
+  - @nextclaw/channel-runtime@0.4.35
+  - @nextclaw/core@0.12.18
+  - @nextclaw/kernel@0.1.7
+  - @nextclaw/openclaw-compat@1.0.18
+  - @nextclaw/server@0.12.18
+  - nextclaw@0.19.15
+
+## 0.0.166
+
+### Patch Changes
+
+- Give the desktop preview installer a new shipped version for the Windows console-window verification build.
+- Updated dependencies
+  - nextclaw@0.19.10
+
+## 0.0.165
+
+### Patch Changes
+
+- Fix desktop first-run runtime readiness and Windows startup smoke validation.
+- Updated dependencies
+  - nextclaw@0.19.9
+
+## 0.0.164
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.19.8
+
+## 0.0.163
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.48
+  - @nextclaw/channel-plugin-discord@0.2.48
+  - @nextclaw/channel-plugin-email@0.2.48
+  - @nextclaw/channel-plugin-mochat@0.2.48
+  - @nextclaw/channel-plugin-qq@0.2.48
+  - @nextclaw/channel-plugin-slack@0.2.48
+  - @nextclaw/channel-plugin-telegram@0.2.48
+  - @nextclaw/channel-plugin-wecom@0.2.48
+  - @nextclaw/channel-plugin-whatsapp@0.2.48
+  - @nextclaw/channel-runtime@0.4.34
+  - @nextclaw/core@0.12.17
+  - @nextclaw/kernel@0.1.6
+  - @nextclaw/openclaw-compat@1.0.17
+  - @nextclaw/server@0.12.17
+  - nextclaw@0.19.7
+
+## 0.0.162
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.47
+  - @nextclaw/channel-plugin-discord@0.2.47
+  - @nextclaw/channel-plugin-email@0.2.47
+  - @nextclaw/channel-plugin-feishu@0.2.32
+  - @nextclaw/channel-plugin-mochat@0.2.47
+  - @nextclaw/channel-plugin-qq@0.2.47
+  - @nextclaw/channel-plugin-slack@0.2.47
+  - @nextclaw/channel-plugin-telegram@0.2.47
+  - @nextclaw/channel-plugin-wecom@0.2.47
+  - @nextclaw/channel-plugin-whatsapp@0.2.47
+  - @nextclaw/channel-runtime@0.4.33
+  - @nextclaw/core@0.12.16
+  - @nextclaw/kernel@0.1.5
+  - @nextclaw/openclaw-compat@1.0.16
+  - @nextclaw/server@0.12.16
+  - nextclaw@0.19.6
+
+## 0.0.161
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.19.5
+
+## 0.0.160
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.46
+  - @nextclaw/channel-plugin-discord@0.2.46
+  - @nextclaw/channel-plugin-email@0.2.46
+  - @nextclaw/channel-plugin-feishu@0.2.31
+  - @nextclaw/channel-plugin-mochat@0.2.46
+  - @nextclaw/channel-plugin-qq@0.2.46
+  - @nextclaw/channel-plugin-slack@0.2.46
+  - @nextclaw/channel-plugin-telegram@0.2.46
+  - @nextclaw/channel-plugin-wecom@0.2.46
+  - @nextclaw/channel-plugin-whatsapp@0.2.46
+  - @nextclaw/channel-runtime@0.4.32
+  - @nextclaw/core@0.12.15
+  - @nextclaw/kernel@0.1.4
+  - @nextclaw/openclaw-compat@1.0.15
+  - @nextclaw/server@0.12.15
+  - nextclaw@0.19.4
+
+## 0.0.159
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.19.3
+
+## 0.0.158
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.19.2
+
+## 0.0.157
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.19.1
+
+## 0.0.156
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.45
+  - @nextclaw/channel-plugin-discord@0.2.45
+  - @nextclaw/channel-plugin-email@0.2.45
+  - @nextclaw/channel-plugin-feishu@0.2.30
+  - @nextclaw/channel-plugin-mochat@0.2.45
+  - @nextclaw/channel-plugin-qq@0.2.45
+  - @nextclaw/channel-plugin-slack@0.2.45
+  - @nextclaw/channel-plugin-telegram@0.2.45
+  - @nextclaw/channel-plugin-wecom@0.2.45
+  - @nextclaw/channel-plugin-whatsapp@0.2.45
+  - @nextclaw/channel-runtime@0.4.31
+  - @nextclaw/core@0.12.14
+  - @nextclaw/kernel@0.1.3
+  - @nextclaw/openclaw-compat@1.0.14
+  - @nextclaw/server@0.12.14
+  - nextclaw@0.19.0
+
+## 0.0.155
+
+### Patch Changes
+
+- Updated dependencies [0251268]
+- Updated dependencies [a11f4fd]
+- Updated dependencies [2418020]
+- Updated dependencies [a5da9d6]
+- Updated dependencies [1600643]
+- Updated dependencies [223037c]
+- Updated dependencies [b5ad059]
+- Updated dependencies [eb0bc85]
+- Updated dependencies [e380101]
+- Updated dependencies [9ff8504]
+- Updated dependencies [4178381]
+- Updated dependencies [85d8439]
+- Updated dependencies [42e0140]
+- Updated dependencies [b6c7a9c]
+- Updated dependencies [9802516]
+- Updated dependencies [461ec1a]
+- Updated dependencies [72ed7d0]
+  - @nextclaw/channel-plugin-feishu@0.2.29
+  - @nextclaw/core@0.12.13
+  - @nextclaw/server@0.12.13
+  - nextclaw@0.18.12
+  - @nextclaw/channel-plugin-dingtalk@0.2.44
+  - @nextclaw/channel-plugin-discord@0.2.44
+  - @nextclaw/channel-plugin-email@0.2.44
+  - @nextclaw/channel-plugin-mochat@0.2.44
+  - @nextclaw/channel-plugin-qq@0.2.44
+  - @nextclaw/channel-plugin-slack@0.2.44
+  - @nextclaw/channel-plugin-telegram@0.2.44
+  - @nextclaw/channel-plugin-wecom@0.2.44
+  - @nextclaw/channel-plugin-whatsapp@0.2.44
+  - @nextclaw/channel-runtime@0.4.30
+  - @nextclaw/kernel@0.1.2
+  - @nextclaw/openclaw-compat@1.0.13
+
+## 0.0.155-beta.16
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.44-beta.6
+  - @nextclaw/channel-plugin-discord@0.2.44-beta.6
+  - @nextclaw/channel-plugin-email@0.2.44-beta.6
+  - @nextclaw/channel-plugin-feishu@0.2.29-beta.4
+  - @nextclaw/channel-plugin-mochat@0.2.44-beta.6
+  - @nextclaw/channel-plugin-qq@0.2.44-beta.6
+  - @nextclaw/channel-plugin-slack@0.2.44-beta.6
+  - @nextclaw/channel-plugin-telegram@0.2.44-beta.6
+  - @nextclaw/channel-plugin-wecom@0.2.44-beta.6
+  - @nextclaw/channel-plugin-whatsapp@0.2.44-beta.6
+  - @nextclaw/channel-runtime@0.4.30-beta.6
+  - @nextclaw/core@0.12.13-beta.5
+  - @nextclaw/kernel@0.1.2-beta.6
+  - @nextclaw/openclaw-compat@1.0.13-beta.6
+  - @nextclaw/server@0.12.13-beta.6
+  - nextclaw@0.18.12-beta.22
+
+## 0.0.155-beta.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.44-beta.5
+  - @nextclaw/channel-plugin-discord@0.2.44-beta.5
+  - @nextclaw/channel-plugin-email@0.2.44-beta.5
+  - @nextclaw/channel-plugin-feishu@0.2.29-beta.3
+  - @nextclaw/channel-plugin-mochat@0.2.44-beta.5
+  - @nextclaw/channel-plugin-qq@0.2.44-beta.5
+  - @nextclaw/channel-plugin-slack@0.2.44-beta.5
+  - @nextclaw/channel-plugin-telegram@0.2.44-beta.5
+  - @nextclaw/channel-plugin-wecom@0.2.44-beta.5
+  - @nextclaw/channel-plugin-whatsapp@0.2.44-beta.5
+  - @nextclaw/channel-runtime@0.4.30-beta.5
+  - @nextclaw/core@0.12.13-beta.4
+  - @nextclaw/kernel@0.1.2-beta.5
+  - @nextclaw/openclaw-compat@1.0.13-beta.5
+  - @nextclaw/server@0.12.13-beta.5
+  - nextclaw@0.18.12-beta.21
+
+## 0.0.155-beta.14
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.44-beta.4
+  - @nextclaw/channel-plugin-discord@0.2.44-beta.4
+  - @nextclaw/channel-plugin-email@0.2.44-beta.4
+  - @nextclaw/channel-plugin-feishu@0.2.29-beta.2
+  - @nextclaw/channel-plugin-mochat@0.2.44-beta.4
+  - @nextclaw/channel-plugin-qq@0.2.44-beta.4
+  - @nextclaw/channel-plugin-slack@0.2.44-beta.4
+  - @nextclaw/channel-plugin-telegram@0.2.44-beta.4
+  - @nextclaw/channel-plugin-wecom@0.2.44-beta.4
+  - @nextclaw/channel-plugin-whatsapp@0.2.44-beta.4
+  - @nextclaw/channel-runtime@0.4.30-beta.4
+  - @nextclaw/core@0.12.13-beta.3
+  - @nextclaw/kernel@0.1.2-beta.4
+  - @nextclaw/openclaw-compat@1.0.13-beta.4
+  - @nextclaw/server@0.12.13-beta.4
+  - nextclaw@0.18.12-beta.20
+
+## 0.0.155-beta.13
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.44-beta.3
+  - @nextclaw/channel-plugin-discord@0.2.44-beta.3
+  - @nextclaw/channel-plugin-email@0.2.44-beta.3
+  - @nextclaw/channel-plugin-feishu@0.2.29-beta.1
+  - @nextclaw/channel-plugin-mochat@0.2.44-beta.3
+  - @nextclaw/channel-plugin-qq@0.2.44-beta.3
+  - @nextclaw/channel-plugin-slack@0.2.44-beta.3
+  - @nextclaw/channel-plugin-telegram@0.2.44-beta.3
+  - @nextclaw/channel-plugin-wecom@0.2.44-beta.3
+  - @nextclaw/channel-plugin-whatsapp@0.2.44-beta.3
+  - @nextclaw/channel-runtime@0.4.30-beta.3
+  - @nextclaw/core@0.12.13-beta.2
+  - @nextclaw/kernel@0.1.2-beta.3
+  - @nextclaw/openclaw-compat@1.0.13-beta.3
+  - @nextclaw/server@0.12.13-beta.3
+  - nextclaw@0.18.12-beta.19
+
+## 0.0.155-beta.12
+
+### Patch Changes
+
+- Updated dependencies [85d8439]
+  - @nextclaw/channel-runtime@0.4.30-beta.2
+  - @nextclaw/channel-plugin-qq@0.2.44-beta.2
+  - @nextclaw/openclaw-compat@1.0.13-beta.2
+  - nextclaw@0.18.12-beta.18
+  - @nextclaw/channel-plugin-dingtalk@0.2.44-beta.2
+  - @nextclaw/channel-plugin-discord@0.2.44-beta.2
+  - @nextclaw/channel-plugin-email@0.2.44-beta.2
+  - @nextclaw/channel-plugin-mochat@0.2.44-beta.2
+  - @nextclaw/channel-plugin-slack@0.2.44-beta.2
+  - @nextclaw/channel-plugin-telegram@0.2.44-beta.2
+  - @nextclaw/channel-plugin-wecom@0.2.44-beta.2
+  - @nextclaw/channel-plugin-whatsapp@0.2.44-beta.2
+  - @nextclaw/server@0.12.13-beta.2
+
+## 0.0.155-beta.11
+
+### Patch Changes
+
+- Updated dependencies [72ed7d0]
+  - nextclaw@0.18.12-beta.17
+
+## 0.0.155-beta.10
+
+### Patch Changes
+
+- Updated dependencies [e380101]
+  - nextclaw@0.18.12-beta.16
+
+## 0.0.155-beta.9
+
+### Patch Changes
+
+- Updated dependencies [461ec1a]
+  - nextclaw@0.18.12-beta.15
+
+## 0.0.155-beta.8
+
+### Patch Changes
+
+- Updated dependencies [9ff8504]
+  - nextclaw@0.18.12-beta.14
+
+## 0.0.155-beta.7
+
+### Patch Changes
+
+- Updated dependencies [9802516]
+  - nextclaw@0.18.12-beta.13
+
+## 0.0.155-beta.6
+
+### Patch Changes
+
+- Updated dependencies [b5ad059]
+  - nextclaw@0.18.12-beta.12
+
+## 0.0.155-beta.5
+
+### Patch Changes
+
+- Updated dependencies [b6c7a9c]
+  - nextclaw@0.18.12-beta.11
+
+## 0.0.155-beta.4
+
+### Patch Changes
+
+- Updated dependencies [eb0bc85]
+  - nextclaw@0.18.12-beta.10
+
+## 0.0.155-beta.3
+
+### Patch Changes
+
+- Updated dependencies [42e0140]
+  - nextclaw@0.18.12-beta.9
+
+## 0.0.155-beta.2
+
+### Patch Changes
+
+- Updated dependencies [4178381]
+  - nextclaw@0.18.12-beta.8
+
+## 0.0.155-beta.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.44-beta.1
+  - @nextclaw/channel-plugin-discord@0.2.44-beta.1
+  - @nextclaw/channel-plugin-email@0.2.44-beta.1
+  - @nextclaw/channel-plugin-mochat@0.2.44-beta.1
+  - @nextclaw/channel-plugin-qq@0.2.44-beta.1
+  - @nextclaw/channel-plugin-slack@0.2.44-beta.1
+  - @nextclaw/channel-plugin-telegram@0.2.44-beta.1
+  - @nextclaw/channel-plugin-wecom@0.2.44-beta.1
+  - @nextclaw/channel-plugin-whatsapp@0.2.44-beta.1
+  - @nextclaw/channel-runtime@0.4.30-beta.1
+  - @nextclaw/kernel@0.1.2-beta.2
+  - @nextclaw/openclaw-compat@1.0.13-beta.1
+  - nextclaw@0.18.12-beta.7
+  - @nextclaw/server@0.12.13-beta.1
+
+## 0.0.155-beta.0
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-feishu@0.2.29-beta.0
+  - @nextclaw/core@0.12.13-beta.1
+  - @nextclaw/server@0.12.13-beta.0
+  - nextclaw@0.18.12-beta.3
+  - @nextclaw/openclaw-compat@1.0.13-beta.0
+  - @nextclaw/channel-runtime@0.4.30-beta.0
+  - @nextclaw/kernel@0.1.2-beta.1
+  - @nextclaw/channel-plugin-dingtalk@0.2.44-beta.0
+  - @nextclaw/channel-plugin-discord@0.2.44-beta.0
+  - @nextclaw/channel-plugin-email@0.2.44-beta.0
+  - @nextclaw/channel-plugin-mochat@0.2.44-beta.0
+  - @nextclaw/channel-plugin-qq@0.2.44-beta.0
+  - @nextclaw/channel-plugin-slack@0.2.44-beta.0
+  - @nextclaw/channel-plugin-telegram@0.2.44-beta.0
+  - @nextclaw/channel-plugin-wecom@0.2.44-beta.0
+  - @nextclaw/channel-plugin-whatsapp@0.2.44-beta.0
+
+## 0.0.154
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.18.11
+
+## 0.0.153
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.12.12
+  - @nextclaw/server@0.12.12
+  - nextclaw@0.18.10
+  - @nextclaw/channel-runtime@0.4.29
+  - @nextclaw/openclaw-compat@1.0.12
+  - @nextclaw/channel-plugin-dingtalk@0.2.43
+  - @nextclaw/channel-plugin-discord@0.2.43
+  - @nextclaw/channel-plugin-email@0.2.43
+  - @nextclaw/channel-plugin-mochat@0.2.43
+  - @nextclaw/channel-plugin-qq@0.2.43
+  - @nextclaw/channel-plugin-slack@0.2.43
+  - @nextclaw/channel-plugin-telegram@0.2.43
+  - @nextclaw/channel-plugin-wecom@0.2.43
+  - @nextclaw/channel-plugin-whatsapp@0.2.43
+
+## 0.0.152
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.18.9
+
+## 0.0.151
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.18.8
+
+## 0.0.150
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.18.7
+
+## 0.0.149
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.18.6
+
+## 0.0.148
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.18.5
+
+## 0.0.147
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.42
+  - @nextclaw/channel-plugin-discord@0.2.42
+  - @nextclaw/channel-plugin-email@0.2.42
+  - @nextclaw/channel-plugin-feishu@0.2.28
+  - @nextclaw/channel-plugin-mochat@0.2.42
+  - @nextclaw/channel-plugin-qq@0.2.42
+  - @nextclaw/channel-plugin-slack@0.2.42
+  - @nextclaw/channel-plugin-telegram@0.2.42
+  - @nextclaw/channel-plugin-wecom@0.2.42
+  - @nextclaw/channel-plugin-whatsapp@0.2.42
+  - @nextclaw/channel-runtime@0.4.28
+  - @nextclaw/core@0.12.11
+  - @nextclaw/openclaw-compat@1.0.11
+  - @nextclaw/server@0.12.11
+  - nextclaw@0.18.4
+
+## 0.0.146
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.18.3
+
+## 0.0.145
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.41
+  - @nextclaw/channel-plugin-discord@0.2.41
+  - @nextclaw/channel-plugin-email@0.2.41
+  - @nextclaw/channel-plugin-feishu@0.2.27
+  - @nextclaw/channel-plugin-mochat@0.2.41
+  - @nextclaw/channel-plugin-qq@0.2.41
+  - @nextclaw/channel-plugin-slack@0.2.41
+  - @nextclaw/channel-plugin-telegram@0.2.41
+  - @nextclaw/channel-plugin-wecom@0.2.41
+  - @nextclaw/channel-plugin-whatsapp@0.2.41
+  - @nextclaw/channel-runtime@0.4.27
+  - @nextclaw/core@0.12.10
+  - @nextclaw/openclaw-compat@1.0.10
+  - @nextclaw/server@0.12.10
+  - nextclaw@0.18.2
+
+## 0.0.144
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.40
+  - @nextclaw/channel-plugin-discord@0.2.40
+  - @nextclaw/channel-plugin-email@0.2.40
+  - @nextclaw/channel-plugin-feishu@0.2.26
+  - @nextclaw/channel-plugin-mochat@0.2.40
+  - @nextclaw/channel-plugin-qq@0.2.40
+  - @nextclaw/channel-plugin-slack@0.2.40
+  - @nextclaw/channel-plugin-telegram@0.2.40
+  - @nextclaw/channel-plugin-wecom@0.2.40
+  - @nextclaw/channel-plugin-whatsapp@0.2.40
+  - @nextclaw/channel-runtime@0.4.26
+  - @nextclaw/core@0.12.9
+  - @nextclaw/openclaw-compat@1.0.9
+  - @nextclaw/server@0.12.9
+  - nextclaw@0.18.1
+
+## 0.0.143
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.18.0
+  - @nextclaw/core@0.12.8
+  - @nextclaw/channel-runtime@0.4.25
+  - @nextclaw/openclaw-compat@1.0.8
+  - @nextclaw/server@0.12.8
+  - @nextclaw/channel-plugin-dingtalk@0.2.39
+  - @nextclaw/channel-plugin-discord@0.2.39
+  - @nextclaw/channel-plugin-email@0.2.39
+  - @nextclaw/channel-plugin-mochat@0.2.39
+  - @nextclaw/channel-plugin-qq@0.2.39
+  - @nextclaw/channel-plugin-slack@0.2.39
+  - @nextclaw/channel-plugin-telegram@0.2.39
+  - @nextclaw/channel-plugin-wecom@0.2.39
+  - @nextclaw/channel-plugin-whatsapp@0.2.39
+
+## 0.0.142
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.38
+  - @nextclaw/channel-plugin-discord@0.2.38
+  - @nextclaw/channel-plugin-email@0.2.38
+  - @nextclaw/channel-plugin-feishu@0.2.25
+  - @nextclaw/channel-plugin-mochat@0.2.38
+  - @nextclaw/channel-plugin-qq@0.2.38
+  - @nextclaw/channel-plugin-slack@0.2.38
+  - @nextclaw/channel-plugin-telegram@0.2.38
+  - @nextclaw/channel-plugin-wecom@0.2.38
+  - @nextclaw/channel-plugin-whatsapp@0.2.38
+  - @nextclaw/core@0.12.7
+  - @nextclaw/openclaw-compat@1.0.7
+  - @nextclaw/server@0.12.7
+  - nextclaw@0.17.12
+  - @nextclaw/channel-runtime@0.4.24
+
+## 0.0.141
+
+### Patch Changes
+
+- Add packaged seed metadata to the desktop release payload so startup can avoid redundant archive reads before deciding whether a packaged seed needs reinstall.
+- Add desktop bootstrap timing logs to separate bundle-bootstrap time from runtime-startup time during Windows startup investigations.
+- Updated dependencies
+  - nextclaw@0.17.11
+
+## 0.0.140
+
+### Patch Changes
+
+- Promoted the current desktop update and presence lifecycle work into the next stable launcher build.
+- Hardened packaged seed recovery and bundled update public-key validation for desktop updates.
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.37
+  - @nextclaw/channel-plugin-discord@0.2.37
+  - @nextclaw/channel-plugin-email@0.2.37
+  - @nextclaw/channel-plugin-feishu@0.2.24
+  - @nextclaw/channel-plugin-mochat@0.2.37
+  - @nextclaw/channel-plugin-qq@0.2.37
+  - @nextclaw/channel-plugin-slack@0.2.37
+  - @nextclaw/channel-plugin-telegram@0.2.37
+  - @nextclaw/channel-plugin-wecom@0.2.37
+  - @nextclaw/channel-plugin-whatsapp@0.2.37
+  - @nextclaw/channel-runtime@0.4.23
+  - @nextclaw/core@0.12.6
+  - @nextclaw/openclaw-compat@1.0.6
+  - @nextclaw/server@0.12.6
+  - nextclaw@0.17.11
+
+## 0.0.138
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.36
+  - @nextclaw/channel-plugin-discord@0.2.36
+  - @nextclaw/channel-plugin-email@0.2.36
+  - @nextclaw/channel-plugin-mochat@0.2.36
+  - @nextclaw/channel-plugin-qq@0.2.36
+  - @nextclaw/channel-plugin-slack@0.2.36
+  - @nextclaw/channel-plugin-telegram@0.2.36
+  - @nextclaw/channel-plugin-wecom@0.2.36
+  - @nextclaw/channel-plugin-whatsapp@0.2.36
+  - @nextclaw/channel-runtime@0.4.22
+  - @nextclaw/core@0.12.5
+  - @nextclaw/openclaw-compat@1.0.5
+  - @nextclaw/server@0.12.5
+  - nextclaw@0.17.10
+
+## 0.0.137
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.17.9
+
+## 0.0.136
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.12.4
+  - @nextclaw/openclaw-compat@1.0.4
+  - @nextclaw/server@0.12.4
+  - nextclaw@0.17.8
+  - @nextclaw/channel-runtime@0.4.21
+  - @nextclaw/channel-plugin-dingtalk@0.2.35
+  - @nextclaw/channel-plugin-discord@0.2.35
+  - @nextclaw/channel-plugin-email@0.2.35
+  - @nextclaw/channel-plugin-mochat@0.2.35
+  - @nextclaw/channel-plugin-qq@0.2.35
+  - @nextclaw/channel-plugin-slack@0.2.35
+  - @nextclaw/channel-plugin-telegram@0.2.35
+  - @nextclaw/channel-plugin-wecom@0.2.35
+  - @nextclaw/channel-plugin-whatsapp@0.2.35
+
+## 0.0.134
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.34
+  - @nextclaw/channel-plugin-discord@0.2.34
+  - @nextclaw/channel-plugin-email@0.2.34
+  - @nextclaw/channel-plugin-mochat@0.2.34
+  - @nextclaw/channel-plugin-qq@0.2.34
+  - @nextclaw/channel-plugin-slack@0.2.34
+  - @nextclaw/channel-plugin-telegram@0.2.34
+  - @nextclaw/channel-plugin-wecom@0.2.34
+  - @nextclaw/channel-plugin-whatsapp@0.2.34
+  - @nextclaw/channel-runtime@0.4.20
+  - @nextclaw/core@0.12.3
+  - @nextclaw/openclaw-compat@1.0.3
+  - @nextclaw/server@0.12.3
+  - nextclaw@0.17.6
+
+## 0.0.133
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.17.5
+
+## 0.0.132
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.17.4
+
+## 0.0.131
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.33
+  - @nextclaw/channel-plugin-discord@0.2.33
+  - @nextclaw/channel-plugin-email@0.2.33
+  - @nextclaw/channel-plugin-mochat@0.2.33
+  - @nextclaw/channel-plugin-qq@0.2.33
+  - @nextclaw/channel-plugin-slack@0.2.33
+  - @nextclaw/channel-plugin-telegram@0.2.33
+  - @nextclaw/channel-plugin-wecom@0.2.33
+  - @nextclaw/channel-plugin-whatsapp@0.2.33
+  - @nextclaw/channel-runtime@0.4.19
+  - @nextclaw/core@0.12.2
+  - @nextclaw/openclaw-compat@1.0.2
+  - @nextclaw/server@0.12.2
+  - nextclaw@0.17.3
+
+## 0.0.130
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.12.1
+  - @nextclaw/server@0.12.1
+  - nextclaw@0.17.2
+  - @nextclaw/channel-runtime@0.4.18
+  - @nextclaw/openclaw-compat@1.0.1
+  - @nextclaw/channel-plugin-dingtalk@0.2.32
+  - @nextclaw/channel-plugin-discord@0.2.32
+  - @nextclaw/channel-plugin-email@0.2.32
+  - @nextclaw/channel-plugin-mochat@0.2.32
+  - @nextclaw/channel-plugin-qq@0.2.32
+  - @nextclaw/channel-plugin-slack@0.2.32
+  - @nextclaw/channel-plugin-telegram@0.2.32
+  - @nextclaw/channel-plugin-wecom@0.2.32
+  - @nextclaw/channel-plugin-whatsapp@0.2.32
+
+## 0.0.129
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.17.1
+
+## 0.0.128
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.17.0
+  - @nextclaw/server@0.12.0
+  - @nextclaw/core@0.12.0
+  - @nextclaw/openclaw-compat@1.0.0
+  - @nextclaw/channel-runtime@0.4.17
+  - @nextclaw/channel-plugin-dingtalk@0.2.31
+  - @nextclaw/channel-plugin-discord@0.2.31
+  - @nextclaw/channel-plugin-email@0.2.31
+  - @nextclaw/channel-plugin-mochat@0.2.31
+  - @nextclaw/channel-plugin-qq@0.2.31
+  - @nextclaw/channel-plugin-slack@0.2.31
+  - @nextclaw/channel-plugin-telegram@0.2.31
+  - @nextclaw/channel-plugin-wecom@0.2.31
+  - @nextclaw/channel-plugin-whatsapp@0.2.31
+
+## 0.0.127
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.11.17
+  - nextclaw@0.16.33
+  - @nextclaw/channel-runtime@0.4.16
+  - @nextclaw/openclaw-compat@0.3.58
+  - @nextclaw/server@0.11.24
+  - @nextclaw/channel-plugin-dingtalk@0.2.30
+  - @nextclaw/channel-plugin-discord@0.2.30
+  - @nextclaw/channel-plugin-email@0.2.30
+  - @nextclaw/channel-plugin-mochat@0.2.30
+  - @nextclaw/channel-plugin-qq@0.2.30
+  - @nextclaw/channel-plugin-slack@0.2.30
+  - @nextclaw/channel-plugin-telegram@0.2.30
+  - @nextclaw/channel-plugin-wecom@0.2.30
+  - @nextclaw/channel-plugin-whatsapp@0.2.30
+
+## 0.0.126
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.29
+  - @nextclaw/channel-plugin-discord@0.2.29
+  - @nextclaw/channel-plugin-email@0.2.29
+  - @nextclaw/channel-plugin-mochat@0.2.29
+  - @nextclaw/channel-plugin-qq@0.2.29
+  - @nextclaw/channel-plugin-slack@0.2.29
+  - @nextclaw/channel-plugin-telegram@0.2.29
+  - @nextclaw/channel-plugin-wecom@0.2.29
+  - @nextclaw/channel-plugin-whatsapp@0.2.29
+  - @nextclaw/channel-runtime@0.4.15
+  - @nextclaw/core@0.11.16
+  - @nextclaw/openclaw-compat@0.3.57
+  - @nextclaw/server@0.11.23
+  - nextclaw@0.16.32
+
+## 0.0.125
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.28
+  - @nextclaw/channel-plugin-discord@0.2.28
+  - @nextclaw/channel-plugin-email@0.2.28
+  - @nextclaw/channel-plugin-mochat@0.2.28
+  - @nextclaw/channel-plugin-qq@0.2.28
+  - @nextclaw/channel-plugin-slack@0.2.28
+  - @nextclaw/channel-plugin-telegram@0.2.28
+  - @nextclaw/channel-plugin-wecom@0.2.28
+  - @nextclaw/channel-plugin-whatsapp@0.2.28
+  - @nextclaw/channel-runtime@0.4.14
+  - @nextclaw/core@0.11.15
+  - nextclaw@0.16.31
+  - @nextclaw/openclaw-compat@0.3.56
+  - @nextclaw/server@0.11.22
+
+## 0.0.124
+
+### Patch Changes
+
+- Updated dependencies [f65c1f5]
+  - nextclaw@0.16.30
+  - @nextclaw/openclaw-compat@0.3.55
+  - @nextclaw/server@0.11.21
+
+## 0.0.123
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.27
+  - @nextclaw/channel-plugin-discord@0.2.27
+  - @nextclaw/channel-plugin-email@0.2.27
+  - @nextclaw/channel-plugin-mochat@0.2.27
+  - @nextclaw/channel-plugin-qq@0.2.27
+  - @nextclaw/channel-plugin-slack@0.2.27
+  - @nextclaw/channel-plugin-telegram@0.2.27
+  - @nextclaw/channel-plugin-wecom@0.2.27
+  - @nextclaw/channel-plugin-whatsapp@0.2.27
+  - @nextclaw/channel-runtime@0.4.13
+  - @nextclaw/core@0.11.14
+  - @nextclaw/openclaw-compat@0.3.54
+  - @nextclaw/server@0.11.20
+  - nextclaw@0.16.29
+
+## 0.0.122
+
+### Patch Changes
+
+- Updated dependencies [9a336f2]
+  - @nextclaw/channel-plugin-dingtalk@0.2.26
+  - @nextclaw/channel-plugin-discord@0.2.26
+  - @nextclaw/channel-plugin-email@0.2.26
+  - @nextclaw/channel-plugin-feishu@0.2.23
+  - @nextclaw/channel-plugin-mochat@0.2.26
+  - @nextclaw/channel-plugin-qq@0.2.26
+  - @nextclaw/channel-plugin-slack@0.2.26
+  - @nextclaw/channel-plugin-telegram@0.2.26
+  - @nextclaw/channel-plugin-wecom@0.2.26
+  - @nextclaw/channel-plugin-whatsapp@0.2.26
+  - @nextclaw/channel-runtime@0.4.12
+  - @nextclaw/core@0.11.13
+  - @nextclaw/openclaw-compat@0.3.53
+  - @nextclaw/server@0.11.19
+  - nextclaw@0.16.28
+
+## 0.0.121
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.11.12
+  - @nextclaw/server@0.11.18
+  - nextclaw@0.16.27
+  - @nextclaw/channel-runtime@0.4.11
+  - @nextclaw/openclaw-compat@0.3.52
+  - @nextclaw/channel-plugin-dingtalk@0.2.25
+  - @nextclaw/channel-plugin-discord@0.2.25
+  - @nextclaw/channel-plugin-email@0.2.25
+  - @nextclaw/channel-plugin-mochat@0.2.25
+  - @nextclaw/channel-plugin-qq@0.2.25
+  - @nextclaw/channel-plugin-slack@0.2.25
+  - @nextclaw/channel-plugin-telegram@0.2.25
+  - @nextclaw/channel-plugin-wecom@0.2.25
+  - @nextclaw/channel-plugin-whatsapp@0.2.25
+
+## 0.0.120
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.11.17
+  - nextclaw@0.16.26
+  - @nextclaw/openclaw-compat@0.3.51
+
+## 0.0.119
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.11.11
+  - nextclaw@0.16.25
+  - @nextclaw/channel-runtime@0.4.10
+  - @nextclaw/openclaw-compat@0.3.50
+  - @nextclaw/server@0.11.16
+  - @nextclaw/channel-plugin-dingtalk@0.2.24
+  - @nextclaw/channel-plugin-discord@0.2.24
+  - @nextclaw/channel-plugin-email@0.2.24
+  - @nextclaw/channel-plugin-mochat@0.2.24
+  - @nextclaw/channel-plugin-qq@0.2.24
+  - @nextclaw/channel-plugin-slack@0.2.24
+  - @nextclaw/channel-plugin-telegram@0.2.24
+  - @nextclaw/channel-plugin-wecom@0.2.24
+  - @nextclaw/channel-plugin-whatsapp@0.2.24
+
+## 0.0.118
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.16.24
+
+## 0.0.117
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.11.10
+  - @nextclaw/server@0.11.15
+  - nextclaw@0.16.23
+  - @nextclaw/channel-runtime@0.4.9
+  - @nextclaw/openclaw-compat@0.3.49
+  - @nextclaw/channel-plugin-dingtalk@0.2.23
+  - @nextclaw/channel-plugin-discord@0.2.23
+  - @nextclaw/channel-plugin-email@0.2.23
+  - @nextclaw/channel-plugin-mochat@0.2.23
+  - @nextclaw/channel-plugin-qq@0.2.23
+  - @nextclaw/channel-plugin-slack@0.2.23
+  - @nextclaw/channel-plugin-telegram@0.2.23
+  - @nextclaw/channel-plugin-wecom@0.2.23
+  - @nextclaw/channel-plugin-whatsapp@0.2.23
+
+## 0.0.116
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.11.9
+  - @nextclaw/server@0.11.14
+  - nextclaw@0.16.22
+  - @nextclaw/channel-runtime@0.4.8
+  - @nextclaw/openclaw-compat@0.3.48
+  - @nextclaw/channel-plugin-dingtalk@0.2.22
+  - @nextclaw/channel-plugin-discord@0.2.22
+  - @nextclaw/channel-plugin-email@0.2.22
+  - @nextclaw/channel-plugin-mochat@0.2.22
+  - @nextclaw/channel-plugin-qq@0.2.22
+  - @nextclaw/channel-plugin-slack@0.2.22
+  - @nextclaw/channel-plugin-telegram@0.2.22
+  - @nextclaw/channel-plugin-wecom@0.2.22
+  - @nextclaw/channel-plugin-whatsapp@0.2.22
+
+## 0.0.115
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.11.8
+  - @nextclaw/openclaw-compat@0.3.47
+  - nextclaw@0.16.21
+  - @nextclaw/channel-runtime@0.4.7
+  - @nextclaw/server@0.11.13
+  - @nextclaw/channel-plugin-dingtalk@0.2.21
+  - @nextclaw/channel-plugin-discord@0.2.21
+  - @nextclaw/channel-plugin-email@0.2.21
+  - @nextclaw/channel-plugin-mochat@0.2.21
+  - @nextclaw/channel-plugin-qq@0.2.21
+  - @nextclaw/channel-plugin-slack@0.2.21
+  - @nextclaw/channel-plugin-telegram@0.2.21
+  - @nextclaw/channel-plugin-wecom@0.2.21
+  - @nextclaw/channel-plugin-whatsapp@0.2.21
+
+## 0.0.114
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.16.20
+  - @nextclaw/openclaw-compat@0.3.46
+  - @nextclaw/server@0.11.12
+
+## 0.0.113
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.16.19
+
+## 0.0.112
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.16.18
+
+## 0.0.111
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-feishu@0.2.22
+  - @nextclaw/channel-runtime@0.4.6
+  - @nextclaw/core@0.11.7
+  - @nextclaw/openclaw-compat@0.3.45
+  - @nextclaw/server@0.11.11
+  - nextclaw@0.16.17
+  - @nextclaw/channel-plugin-dingtalk@0.2.20
+  - @nextclaw/channel-plugin-discord@0.2.20
+  - @nextclaw/channel-plugin-email@0.2.20
+  - @nextclaw/channel-plugin-mochat@0.2.20
+  - @nextclaw/channel-plugin-qq@0.2.20
+  - @nextclaw/channel-plugin-slack@0.2.20
+  - @nextclaw/channel-plugin-telegram@0.2.20
+  - @nextclaw/channel-plugin-wecom@0.2.20
+  - @nextclaw/channel-plugin-whatsapp@0.2.20
+
+## 0.0.110
+
+### Patch Changes
+
+- Updated dependencies [2a5f94e]
+  - @nextclaw/openclaw-compat@0.3.44
+  - @nextclaw/server@0.11.10
+  - nextclaw@0.16.16
+
+## 0.0.109
+
+### Patch Changes
+
+- Updated dependencies [f15df6a]
+  - @nextclaw/channel-plugin-dingtalk@0.2.19
+  - @nextclaw/channel-plugin-discord@0.2.19
+  - @nextclaw/channel-plugin-email@0.2.19
+  - @nextclaw/channel-plugin-mochat@0.2.19
+  - @nextclaw/channel-plugin-qq@0.2.19
+  - @nextclaw/channel-plugin-slack@0.2.19
+  - @nextclaw/channel-plugin-telegram@0.2.19
+  - @nextclaw/channel-plugin-wecom@0.2.19
+  - @nextclaw/channel-plugin-whatsapp@0.2.19
+  - @nextclaw/channel-runtime@0.4.5
+  - @nextclaw/core@0.11.6
+  - @nextclaw/openclaw-compat@0.3.43
+  - @nextclaw/server@0.11.9
+  - nextclaw@0.16.15
+
+## 0.0.108
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.16.14
+
+## 0.0.107
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.11.8
+  - nextclaw@0.16.13
+
+## 0.0.106
+
+### Patch Changes
+
+- nextclaw@0.16.12
+- @nextclaw/openclaw-compat@0.3.42
+- @nextclaw/server@0.11.7
+
+## 0.0.105
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.16.11
+
+## 0.0.104
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/openclaw-compat@0.3.41
+  - @nextclaw/server@0.11.6
+  - nextclaw@0.16.10
+
+## 0.0.103
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.16.9
+  - @nextclaw/openclaw-compat@0.3.40
+  - @nextclaw/server@0.11.5
+
+## 0.0.102
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.16.8
+  - @nextclaw/openclaw-compat@0.3.39
+  - @nextclaw/server@0.11.4
+
+## 0.0.101
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/openclaw-compat@0.3.38
+  - @nextclaw/server@0.11.3
+  - nextclaw@0.16.7
+
+## 0.0.100
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.16.6
+
+## 0.0.99
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.11.3
+  - @nextclaw/openclaw-compat@0.3.36
+  - @nextclaw/server@0.11.2
+  - nextclaw@0.16.3
+  - @nextclaw/channel-runtime@0.4.4
+  - @nextclaw/channel-plugin-dingtalk@0.2.18
+  - @nextclaw/channel-plugin-discord@0.2.18
+  - @nextclaw/channel-plugin-email@0.2.18
+  - @nextclaw/channel-plugin-mochat@0.2.18
+  - @nextclaw/channel-plugin-qq@0.2.18
+  - @nextclaw/channel-plugin-slack@0.2.18
+  - @nextclaw/channel-plugin-telegram@0.2.18
+  - @nextclaw/channel-plugin-wecom@0.2.18
+  - @nextclaw/channel-plugin-whatsapp@0.2.18
+
+## 0.0.98
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/openclaw-compat@0.3.35
+  - @nextclaw/server@0.11.1
+  - nextclaw@0.16.2
+
+## 0.0.97
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.16.1
+
+## 0.0.96
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.11.0
+  - nextclaw@0.16.0
+  - @nextclaw/openclaw-compat@0.3.34
+
+## 0.0.95
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.17
+  - @nextclaw/channel-plugin-discord@0.2.17
+  - @nextclaw/channel-plugin-email@0.2.17
+  - @nextclaw/channel-plugin-mochat@0.2.17
+  - @nextclaw/channel-plugin-qq@0.2.17
+  - @nextclaw/channel-plugin-slack@0.2.17
+  - @nextclaw/channel-plugin-telegram@0.2.17
+  - @nextclaw/channel-plugin-wecom@0.2.17
+  - @nextclaw/channel-plugin-whatsapp@0.2.17
+  - @nextclaw/channel-runtime@0.4.3
+  - @nextclaw/core@0.11.2
+  - @nextclaw/server@0.10.57
+  - nextclaw@0.15.15
+  - @nextclaw/openclaw-compat@0.3.33
+
+## 0.0.94
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-feishu@0.2.21
+  - @nextclaw/openclaw-compat@0.3.32
+  - @nextclaw/server@0.10.56
+  - nextclaw@0.15.14
+
+## 0.0.93
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-feishu@0.2.20
+  - @nextclaw/openclaw-compat@0.3.31
+  - @nextclaw/server@0.10.55
+  - nextclaw@0.15.13
+
+## 0.0.92
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.54
+  - nextclaw@0.15.12
+
+## 0.0.91
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/openclaw-compat@0.3.30
+  - @nextclaw/server@0.10.53
+  - nextclaw@0.15.11
+
+## 0.0.90
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/openclaw-compat@0.3.29
+  - @nextclaw/server@0.10.52
+  - nextclaw@0.15.10
+
+## 0.0.89
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-runtime@0.4.2
+  - @nextclaw/openclaw-compat@0.3.28
+  - @nextclaw/server@0.10.51
+  - nextclaw@0.15.9
+  - @nextclaw/channel-plugin-dingtalk@0.2.16
+  - @nextclaw/channel-plugin-discord@0.2.16
+  - @nextclaw/channel-plugin-email@0.2.16
+  - @nextclaw/channel-plugin-mochat@0.2.16
+  - @nextclaw/channel-plugin-qq@0.2.16
+  - @nextclaw/channel-plugin-slack@0.2.16
+  - @nextclaw/channel-plugin-telegram@0.2.16
+  - @nextclaw/channel-plugin-wecom@0.2.16
+  - @nextclaw/channel-plugin-whatsapp@0.2.16
+
+## 0.0.88
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.11.1
+  - @nextclaw/openclaw-compat@0.3.27
+  - @nextclaw/server@0.10.50
+  - nextclaw@0.15.8
+  - @nextclaw/channel-runtime@0.4.1
+  - @nextclaw/channel-plugin-dingtalk@0.2.15
+  - @nextclaw/channel-plugin-discord@0.2.15
+  - @nextclaw/channel-plugin-email@0.2.15
+  - @nextclaw/channel-plugin-mochat@0.2.15
+  - @nextclaw/channel-plugin-qq@0.2.15
+  - @nextclaw/channel-plugin-slack@0.2.15
+  - @nextclaw/channel-plugin-telegram@0.2.15
+  - @nextclaw/channel-plugin-wecom@0.2.15
+  - @nextclaw/channel-plugin-whatsapp@0.2.15
+
+## 0.0.87
+
+### Patch Changes
+
+- Updated dependencies [ee69ef6]
+  - @nextclaw/server@0.10.49
+  - nextclaw@0.15.7
+
+## 0.0.86
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.48
+  - nextclaw@0.15.6
+
+## 0.0.85
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.47
+  - nextclaw@0.15.5
+
+## 0.0.84
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.46
+  - nextclaw@0.15.4
+
+## 0.0.83
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.45
+  - nextclaw@0.15.3
+
+## 0.0.82
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-feishu@0.2.19
+  - @nextclaw/openclaw-compat@0.3.26
+  - @nextclaw/server@0.10.44
+  - nextclaw@0.15.2
+
+## 0.0.81
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-feishu@0.2.18
+  - @nextclaw/openclaw-compat@0.3.25
+  - @nextclaw/server@0.10.43
+  - nextclaw@0.15.1
+
+## 0.0.80
+
+### Patch Changes
+
+- Updated dependencies [bb891c2]
+  - @nextclaw/core@0.11.0
+  - @nextclaw/channel-runtime@0.4.0
+  - nextclaw@0.15.0
+  - @nextclaw/channel-plugin-dingtalk@0.2.14
+  - @nextclaw/channel-plugin-discord@0.2.14
+  - @nextclaw/channel-plugin-email@0.2.14
+  - @nextclaw/channel-plugin-feishu@0.2.17
+  - @nextclaw/channel-plugin-mochat@0.2.14
+  - @nextclaw/channel-plugin-qq@0.2.14
+  - @nextclaw/channel-plugin-slack@0.2.14
+  - @nextclaw/channel-plugin-telegram@0.2.14
+  - @nextclaw/channel-plugin-wecom@0.2.14
+  - @nextclaw/channel-plugin-whatsapp@0.2.14
+  - @nextclaw/openclaw-compat@0.3.24
+  - @nextclaw/server@0.10.42
+
+## 0.0.79
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-feishu@0.2.16
+  - @nextclaw/openclaw-compat@0.3.23
+  - @nextclaw/server@0.10.41
+  - nextclaw@0.14.4
+
+## 0.0.78
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/openclaw-compat@0.3.22
+  - @nextclaw/server@0.10.40
+  - nextclaw@0.14.3
+
+## 0.0.77
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-feishu@0.2.15
+  - @nextclaw/openclaw-compat@0.3.21
+  - @nextclaw/server@0.10.39
+  - nextclaw@0.14.2
+
+## 0.0.76
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-feishu@0.2.14
+  - @nextclaw/openclaw-compat@0.3.20
+  - @nextclaw/server@0.10.38
+  - nextclaw@0.14.1
+
+## 0.0.75
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.10.0
+  - @nextclaw/channel-runtime@0.3.0
+  - nextclaw@0.14.0
+  - @nextclaw/channel-plugin-dingtalk@0.2.13
+  - @nextclaw/channel-plugin-discord@0.2.13
+  - @nextclaw/channel-plugin-email@0.2.13
+  - @nextclaw/channel-plugin-feishu@0.2.13
+  - @nextclaw/channel-plugin-mochat@0.2.13
+  - @nextclaw/channel-plugin-qq@0.2.13
+  - @nextclaw/channel-plugin-slack@0.2.13
+  - @nextclaw/channel-plugin-telegram@0.2.13
+  - @nextclaw/channel-plugin-wecom@0.2.13
+  - @nextclaw/channel-plugin-whatsapp@0.2.13
+  - @nextclaw/openclaw-compat@0.3.19
+  - @nextclaw/server@0.10.37
+
+## 0.0.74
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.36
+  - nextclaw@0.13.40
+
+## 0.0.73
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.12
+  - @nextclaw/channel-plugin-discord@0.2.12
+  - @nextclaw/channel-plugin-email@0.2.12
+  - @nextclaw/channel-plugin-feishu@0.2.12
+  - @nextclaw/channel-plugin-mochat@0.2.12
+  - @nextclaw/channel-plugin-qq@0.2.12
+  - @nextclaw/channel-plugin-slack@0.2.12
+  - @nextclaw/channel-plugin-telegram@0.2.12
+  - @nextclaw/channel-plugin-wecom@0.2.12
+  - @nextclaw/channel-plugin-whatsapp@0.2.12
+  - @nextclaw/channel-runtime@0.2.12
+  - @nextclaw/core@0.9.12
+  - @nextclaw/openclaw-compat@0.3.18
+  - @nextclaw/server@0.10.35
+  - nextclaw@0.13.39
+
+## 0.0.72
+
+### Patch Changes
+
+- @nextclaw/openclaw-compat@0.3.17
+- nextclaw@0.13.38
+- @nextclaw/server@0.10.34
+
+## 0.0.71
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.33
+  - nextclaw@0.13.37
+
+## 0.0.70
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.32
+  - nextclaw@0.13.36
+
+## 0.0.69
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/openclaw-compat@0.3.16
+  - @nextclaw/server@0.10.31
+  - nextclaw@0.13.35
+
+## 0.0.68
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.9.11
+  - @nextclaw/openclaw-compat@0.3.14
+  - @nextclaw/server@0.10.28
+  - nextclaw@0.13.32
+  - @nextclaw/channel-runtime@0.2.11
+  - @nextclaw/channel-plugin-dingtalk@0.2.11
+  - @nextclaw/channel-plugin-discord@0.2.11
+  - @nextclaw/channel-plugin-email@0.2.11
+  - @nextclaw/channel-plugin-feishu@0.2.11
+  - @nextclaw/channel-plugin-mochat@0.2.11
+  - @nextclaw/channel-plugin-qq@0.2.11
+  - @nextclaw/channel-plugin-slack@0.2.11
+  - @nextclaw/channel-plugin-telegram@0.2.11
+  - @nextclaw/channel-plugin-wecom@0.2.11
+  - @nextclaw/channel-plugin-whatsapp@0.2.11
+
+## 0.0.67
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.9.10
+  - @nextclaw/openclaw-compat@0.3.13
+  - @nextclaw/server@0.10.27
+  - nextclaw@0.13.31
+  - @nextclaw/channel-runtime@0.2.10
+  - @nextclaw/channel-plugin-dingtalk@0.2.10
+  - @nextclaw/channel-plugin-discord@0.2.10
+  - @nextclaw/channel-plugin-email@0.2.10
+  - @nextclaw/channel-plugin-feishu@0.2.10
+  - @nextclaw/channel-plugin-mochat@0.2.10
+  - @nextclaw/channel-plugin-qq@0.2.10
+  - @nextclaw/channel-plugin-slack@0.2.10
+  - @nextclaw/channel-plugin-telegram@0.2.10
+  - @nextclaw/channel-plugin-wecom@0.2.10
+  - @nextclaw/channel-plugin-whatsapp@0.2.10
+
+## 0.0.66
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @nextclaw/server@0.10.26
+  - nextclaw@0.13.30
+  - @nextclaw/core@0.9.9
+  - @nextclaw/openclaw-compat@0.3.12
+  - @nextclaw/channel-runtime@0.2.9
+  - @nextclaw/channel-plugin-dingtalk@0.2.9
+  - @nextclaw/channel-plugin-discord@0.2.9
+  - @nextclaw/channel-plugin-email@0.2.9
+  - @nextclaw/channel-plugin-feishu@0.2.9
+  - @nextclaw/channel-plugin-mochat@0.2.9
+  - @nextclaw/channel-plugin-qq@0.2.9
+  - @nextclaw/channel-plugin-slack@0.2.9
+  - @nextclaw/channel-plugin-telegram@0.2.9
+  - @nextclaw/channel-plugin-wecom@0.2.9
+  - @nextclaw/channel-plugin-whatsapp@0.2.9
+
+## 0.0.65
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.25
+  - nextclaw@0.13.29
+
+## 0.0.64
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.24
+  - nextclaw@0.13.28
+
+## 0.0.63
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.23
+  - nextclaw@0.13.27
+
+## 0.0.62
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.22
+  - nextclaw@0.13.26
+
+## 0.0.61
+
+### Patch Changes
+
+- Updated dependencies [7795d61]
+  - @nextclaw/server@0.10.21
+  - nextclaw@0.13.25
+
+## 0.0.60
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.20
+  - nextclaw@0.13.24
+
+## 0.0.59
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.9.8
+  - @nextclaw/server@0.10.19
+  - nextclaw@0.13.23
+  - @nextclaw/channel-runtime@0.2.8
+  - @nextclaw/openclaw-compat@0.3.11
+  - @nextclaw/channel-plugin-dingtalk@0.2.8
+  - @nextclaw/channel-plugin-discord@0.2.8
+  - @nextclaw/channel-plugin-email@0.2.8
+  - @nextclaw/channel-plugin-feishu@0.2.8
+  - @nextclaw/channel-plugin-mochat@0.2.8
+  - @nextclaw/channel-plugin-qq@0.2.8
+  - @nextclaw/channel-plugin-slack@0.2.8
+  - @nextclaw/channel-plugin-telegram@0.2.8
+  - @nextclaw/channel-plugin-wecom@0.2.8
+  - @nextclaw/channel-plugin-whatsapp@0.2.8
+
+## 0.0.58
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.13.22
+  - @nextclaw/server@0.10.18
+
+## 0.0.57
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.9.7
+  - @nextclaw/server@0.10.17
+  - nextclaw@0.13.21
+  - @nextclaw/channel-runtime@0.2.7
+  - @nextclaw/openclaw-compat@0.3.10
+  - @nextclaw/channel-plugin-dingtalk@0.2.7
+  - @nextclaw/channel-plugin-discord@0.2.7
+  - @nextclaw/channel-plugin-email@0.2.7
+  - @nextclaw/channel-plugin-feishu@0.2.7
+  - @nextclaw/channel-plugin-mochat@0.2.7
+  - @nextclaw/channel-plugin-qq@0.2.7
+  - @nextclaw/channel-plugin-slack@0.2.7
+  - @nextclaw/channel-plugin-telegram@0.2.7
+  - @nextclaw/channel-plugin-wecom@0.2.7
+  - @nextclaw/channel-plugin-whatsapp@0.2.7
+
+## 0.0.56
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.9.6
+  - @nextclaw/server@0.10.16
+  - nextclaw@0.13.20
+  - @nextclaw/channel-runtime@0.2.6
+  - @nextclaw/openclaw-compat@0.3.9
+  - @nextclaw/channel-plugin-dingtalk@0.2.6
+  - @nextclaw/channel-plugin-discord@0.2.6
+  - @nextclaw/channel-plugin-email@0.2.6
+  - @nextclaw/channel-plugin-feishu@0.2.6
+  - @nextclaw/channel-plugin-mochat@0.2.6
+  - @nextclaw/channel-plugin-qq@0.2.6
+  - @nextclaw/channel-plugin-slack@0.2.6
+  - @nextclaw/channel-plugin-telegram@0.2.6
+  - @nextclaw/channel-plugin-wecom@0.2.6
+  - @nextclaw/channel-plugin-whatsapp@0.2.6
+
+## 0.0.55
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.15
+  - nextclaw@0.13.19
+
+## 0.0.54
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.14
+  - nextclaw@0.13.18
+
+## 0.0.53
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.13
+  - nextclaw@0.13.17
+
+## 0.0.52
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.12
+  - nextclaw@0.13.16
+
+## 0.0.51
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.11
+  - nextclaw@0.13.15
+
+## 0.0.50
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.10
+  - nextclaw@0.13.10
+
+## 0.0.49
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.13.9
+  - @nextclaw/server@0.10.9
+
+## 0.0.48
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.8
+  - nextclaw@0.13.8
+
+## 0.0.47
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.7
+  - nextclaw@0.13.7
+
+## 0.0.46
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.6
+  - nextclaw@0.13.6
+
+## 0.0.45
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.10.5
+  - nextclaw@0.13.5
+
+## 0.0.44
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @nextclaw/openclaw-compat@0.3.8
+  - @nextclaw/server@0.10.4
+  - nextclaw@0.13.4
+  - @nextclaw/core@0.9.5
+  - @nextclaw/channel-runtime@0.2.5
+  - @nextclaw/channel-plugin-dingtalk@0.2.5
+  - @nextclaw/channel-plugin-discord@0.2.5
+  - @nextclaw/channel-plugin-email@0.2.5
+  - @nextclaw/channel-plugin-feishu@0.2.5
+  - @nextclaw/channel-plugin-mochat@0.2.5
+  - @nextclaw/channel-plugin-qq@0.2.5
+  - @nextclaw/channel-plugin-slack@0.2.5
+  - @nextclaw/channel-plugin-telegram@0.2.5
+  - @nextclaw/channel-plugin-wecom@0.2.5
+  - @nextclaw/channel-plugin-whatsapp@0.2.5
+
+## 0.0.43
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-runtime@0.2.4
+  - @nextclaw/core@0.9.4
+  - @nextclaw/openclaw-compat@0.3.7
+  - @nextclaw/server@0.10.3
+  - nextclaw@0.13.3
+  - @nextclaw/channel-plugin-dingtalk@0.2.4
+  - @nextclaw/channel-plugin-discord@0.2.4
+  - @nextclaw/channel-plugin-email@0.2.4
+  - @nextclaw/channel-plugin-feishu@0.2.4
+  - @nextclaw/channel-plugin-mochat@0.2.4
+  - @nextclaw/channel-plugin-qq@0.2.4
+  - @nextclaw/channel-plugin-slack@0.2.4
+  - @nextclaw/channel-plugin-telegram@0.2.4
+  - @nextclaw/channel-plugin-wecom@0.2.4
+  - @nextclaw/channel-plugin-whatsapp@0.2.4
+
+## 0.0.42
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.13.2
+  - @nextclaw/server@0.10.2
+
+## 0.0.41
+
+### Patch Changes
+
+- Updated dependencies [d1162f2]
+- Updated dependencies
+- Updated dependencies [7e3aa0d]
+  - @nextclaw/server@0.10.1
+  - nextclaw@0.13.1
+  - @nextclaw/core@0.9.3
+  - @nextclaw/channel-runtime@0.2.3
+  - @nextclaw/openclaw-compat@0.3.6
+  - @nextclaw/channel-plugin-dingtalk@0.2.3
+  - @nextclaw/channel-plugin-discord@0.2.3
+  - @nextclaw/channel-plugin-email@0.2.3
+  - @nextclaw/channel-plugin-feishu@0.2.3
+  - @nextclaw/channel-plugin-mochat@0.2.3
+  - @nextclaw/channel-plugin-qq@0.2.3
+  - @nextclaw/channel-plugin-slack@0.2.3
+  - @nextclaw/channel-plugin-telegram@0.2.3
+  - @nextclaw/channel-plugin-wecom@0.2.3
+  - @nextclaw/channel-plugin-whatsapp@0.2.3
+
+## 0.0.40
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.13.0
+  - @nextclaw/server@0.10.0
+
+## 0.0.39
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.12.6
+
+## 0.0.38
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/openclaw-compat@0.3.5
+  - @nextclaw/server@0.9.4
+  - nextclaw@0.12.5
+
+## 0.0.37
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.12.4
+
+## 0.0.36
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.9.2
+  - nextclaw@0.12.3
+  - @nextclaw/channel-runtime@0.2.2
+  - @nextclaw/openclaw-compat@0.3.4
+  - @nextclaw/server@0.9.3
+  - @nextclaw/channel-plugin-dingtalk@0.2.2
+  - @nextclaw/channel-plugin-discord@0.2.2
+  - @nextclaw/channel-plugin-email@0.2.2
+  - @nextclaw/channel-plugin-feishu@0.2.2
+  - @nextclaw/channel-plugin-mochat@0.2.2
+  - @nextclaw/channel-plugin-qq@0.2.2
+  - @nextclaw/channel-plugin-slack@0.2.2
+  - @nextclaw/channel-plugin-telegram@0.2.2
+  - @nextclaw/channel-plugin-wecom@0.2.2
+  - @nextclaw/channel-plugin-whatsapp@0.2.2
+
+## 0.0.35
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.9.0
+  - nextclaw@0.12.0
+  - @nextclaw/openclaw-compat@0.3.1
+
+## 0.0.34
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.2.0
+  - @nextclaw/channel-plugin-discord@0.2.0
+  - @nextclaw/channel-plugin-email@0.2.0
+  - @nextclaw/channel-plugin-feishu@0.2.0
+  - @nextclaw/channel-plugin-mochat@0.2.0
+  - @nextclaw/channel-plugin-qq@0.2.0
+  - @nextclaw/channel-plugin-slack@0.2.0
+  - @nextclaw/channel-plugin-telegram@0.2.0
+  - @nextclaw/channel-plugin-wecom@0.2.0
+  - @nextclaw/channel-plugin-whatsapp@0.2.0
+  - @nextclaw/channel-runtime@0.2.0
+  - @nextclaw/core@0.9.0
+  - @nextclaw/openclaw-compat@0.3.0
+  - @nextclaw/server@0.8.0
+  - nextclaw@0.11.0
+
+## 0.0.33
+
+### Patch Changes
+
+- Updated dependencies [eb9562b]
+  - @nextclaw/core@0.8.0
+  - @nextclaw/server@0.7.0
+  - nextclaw@0.10.0
+  - @nextclaw/channel-runtime@0.1.36
+  - @nextclaw/openclaw-compat@0.2.7
+  - @nextclaw/channel-plugin-dingtalk@0.1.12
+  - @nextclaw/channel-plugin-discord@0.1.13
+  - @nextclaw/channel-plugin-email@0.1.12
+  - @nextclaw/channel-plugin-feishu@0.1.12
+  - @nextclaw/channel-plugin-mochat@0.1.12
+  - @nextclaw/channel-plugin-qq@0.1.12
+  - @nextclaw/channel-plugin-slack@0.1.12
+  - @nextclaw/channel-plugin-telegram@0.1.12
+  - @nextclaw/channel-plugin-wecom@0.1.12
+  - @nextclaw/channel-plugin-whatsapp@0.1.12
+
+## 0.0.32
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.28
+
+## 0.0.31
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.27
+
+## 0.0.30
+
+### Patch Changes
+
+- Updated dependencies [63c7ab3]
+  - @nextclaw/server@0.6.13
+  - nextclaw@0.9.26
+
+## 0.0.29
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.6.12
+  - nextclaw@0.9.25
+
+## 0.0.28
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.7.7
+  - @nextclaw/server@0.6.11
+  - @nextclaw/channel-runtime@0.1.35
+  - @nextclaw/openclaw-compat@0.2.6
+  - nextclaw@0.9.24
+  - @nextclaw/channel-plugin-dingtalk@0.1.11
+  - @nextclaw/channel-plugin-discord@0.1.12
+  - @nextclaw/channel-plugin-email@0.1.11
+  - @nextclaw/channel-plugin-feishu@0.1.11
+  - @nextclaw/channel-plugin-mochat@0.1.11
+  - @nextclaw/channel-plugin-qq@0.1.11
+  - @nextclaw/channel-plugin-slack@0.1.11
+  - @nextclaw/channel-plugin-telegram@0.1.11
+  - @nextclaw/channel-plugin-wecom@0.1.11
+  - @nextclaw/channel-plugin-whatsapp@0.1.11
+
+## 0.0.27
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.7.6
+  - @nextclaw/server@0.6.10
+  - nextclaw@0.9.23
+  - @nextclaw/channel-runtime@0.1.34
+  - @nextclaw/openclaw-compat@0.2.5
+  - @nextclaw/channel-plugin-dingtalk@0.1.10
+  - @nextclaw/channel-plugin-discord@0.1.11
+  - @nextclaw/channel-plugin-email@0.1.10
+  - @nextclaw/channel-plugin-feishu@0.1.10
+  - @nextclaw/channel-plugin-mochat@0.1.10
+  - @nextclaw/channel-plugin-qq@0.1.10
+  - @nextclaw/channel-plugin-slack@0.1.10
+  - @nextclaw/channel-plugin-telegram@0.1.10
+  - @nextclaw/channel-plugin-wecom@0.1.10
+  - @nextclaw/channel-plugin-whatsapp@0.1.10
+
+## 0.0.26
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.7.5
+  - @nextclaw/channel-runtime@0.1.33
+  - @nextclaw/channel-plugin-dingtalk@0.1.9
+  - @nextclaw/channel-plugin-discord@0.1.10
+  - @nextclaw/channel-plugin-email@0.1.9
+  - @nextclaw/channel-plugin-feishu@0.1.9
+  - @nextclaw/channel-plugin-mochat@0.1.9
+  - @nextclaw/channel-plugin-qq@0.1.9
+  - @nextclaw/channel-plugin-slack@0.1.9
+  - @nextclaw/channel-plugin-telegram@0.1.9
+  - @nextclaw/channel-plugin-wecom@0.1.9
+  - @nextclaw/channel-plugin-whatsapp@0.1.9
+  - @nextclaw/openclaw-compat@0.2.4
+  - @nextclaw/server@0.6.9
+  - nextclaw@0.9.22
+
+## 0.0.25
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-plugin-dingtalk@0.1.8
+  - @nextclaw/channel-plugin-discord@0.1.9
+  - @nextclaw/channel-plugin-email@0.1.8
+  - @nextclaw/channel-plugin-feishu@0.1.8
+  - @nextclaw/channel-plugin-mochat@0.1.8
+  - @nextclaw/channel-plugin-qq@0.1.8
+  - @nextclaw/channel-plugin-slack@0.1.8
+  - @nextclaw/channel-plugin-telegram@0.1.8
+  - @nextclaw/channel-plugin-wecom@0.1.8
+  - @nextclaw/channel-plugin-whatsapp@0.1.8
+  - @nextclaw/channel-runtime@0.1.32
+  - @nextclaw/core@0.7.4
+  - @nextclaw/openclaw-compat@0.2.3
+  - @nextclaw/server@0.6.8
+  - nextclaw@0.9.21
+
+## 0.0.24
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/channel-runtime@0.1.31
+  - @nextclaw/channel-plugin-dingtalk@0.1.7
+  - @nextclaw/channel-plugin-discord@0.1.8
+  - @nextclaw/channel-plugin-email@0.1.7
+  - @nextclaw/channel-plugin-feishu@0.1.7
+  - @nextclaw/channel-plugin-mochat@0.1.7
+  - @nextclaw/channel-plugin-qq@0.1.7
+  - @nextclaw/channel-plugin-slack@0.1.7
+  - @nextclaw/channel-plugin-telegram@0.1.7
+  - @nextclaw/channel-plugin-wecom@0.1.7
+  - @nextclaw/channel-plugin-whatsapp@0.1.7
+  - @nextclaw/openclaw-compat@0.2.2
+  - nextclaw@0.9.20
+  - @nextclaw/server@0.6.7
+
+## 0.0.23
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.19
+
+## 0.0.22
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.7.3
+  - @nextclaw/channel-runtime@0.1.30
+  - @nextclaw/openclaw-compat@0.2.1
+  - @nextclaw/server@0.6.6
+  - nextclaw@0.9.18
+
+## 0.0.21
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.17
+
+## 0.0.20
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.16
+
+## 0.0.19
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.7.2
+  - @nextclaw/server@0.6.5
+  - nextclaw@0.9.15
+
+## 0.0.18
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.14
+
+## 0.0.17
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.13
+
+## 0.0.16
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.12
+
+## 0.0.15
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.11
+
+## 0.0.14
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/server@0.6.4
+  - nextclaw@0.9.10
+
+## 0.0.13
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.7.1
+  - @nextclaw/server@0.6.3
+  - nextclaw@0.9.9
+
+## 0.0.12
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.8
+
+## 0.0.11
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.7
+
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.6
+
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.5
+  - @nextclaw/server@0.6.2
+
+## 0.0.8
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.4
+  - @nextclaw/server@0.6.1
+
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.9.1
+
+## 0.0.6
+
+### Patch Changes
+
+- Updated dependencies
+  - @nextclaw/core@0.7.0
+  - @nextclaw/openclaw-compat@0.2.0
+  - @nextclaw/server@0.6.0
+  - nextclaw@0.9.0
+  - @nextclaw/channel-runtime@0.1.29
+
+## 0.0.5
+
+### Patch Changes
+
+- Use branded app icons for desktop packaging (macOS + Windows).
+- Updated dependencies
+  - nextclaw@0.8.62
+
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.8.62
+
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.8.61
+
+## 0.0.2
+
+### Patch Changes
+
+- Updated dependencies
+  - nextclaw@0.8.60

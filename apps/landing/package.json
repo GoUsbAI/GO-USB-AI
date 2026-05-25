@@ -1,0 +1,22 @@
+{
+    "name": "@nextclaw/landing",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "lint": "eslint \"src/**/*.{ts,tsx}\" vite.config.ts",
+        "preview": "vite preview",
+        "tsc": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.4.20",
+        "lucide": "^0.462.0",
+        "postcss": "^8.4.49",
+        "tailwindcss": "^3.4.15",
+        "tailwindcss-animate": "^1.0.7",
+        "typescript": "^5.6.3",
+        "vite": "^8.0.3"
+    }
+}

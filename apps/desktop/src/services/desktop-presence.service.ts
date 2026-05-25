@@ -1,0 +1,336 @@
+import {
+  Menu,
+  Tray,
+  app,
+  ipcMain,
+  nativeImage,
+  type Event as ElectronEvent,
+  type MenuItem,
+  type MenuItemConstructorOptions,
+  type NativeImage
+} from "electron";
+import { existsSync } from "node:fs";
+import { join, resolve } from "node:path";
+import type { DesktopLauncherStateStore, DesktopUiLanguagePreference } from "../launcher/stores/launcher-state.store";
+import { normalizeDesktopUiLanguagePreference } from "../launcher/stores/launcher-state.store";
+import {
+  DESKTOP_LOCALE_GET_CHANNEL,
+  DESKTOP_LOCALE_SET_CHANNEL,
+  DESKTOP_PRESENCE_GET_STATE_CHANNEL,
+  DESKTOP_PRESENCE_UPDATE_PREFERENCES_CHANNEL
+} from "../utils/desktop-ipc.utils";
+import type { DesktopWindowManager } from "../managers/desktop-window.manager";
+import {
+  drainDesktopCleanups,
+  removeDesktopIpcHandlers,
+  type DesktopCleanup
+} from "../utils/desktop-lifecycle.utils";
+
+type DesktopPresenceLogger = {
+  info: (message: string) => void;
+  warn: (message: string) => void;
+  error: (message: string) => void;
+};
+
+type DesktopPresencePreferences = {
+  closeToBackground: boolean;
+  launchAtLogin: boolean;
+};
+
+export type DesktopPresenceSnapshot = DesktopPresencePreferences & {
+  supportsLaunchAtLogin: boolean;
+  launchAtLoginReason: string | null;
+};
+
+type DesktopPresenceServiceOptions = {
+  logger: DesktopPresenceLogger;
+  windowManager: DesktopWindowManager;
+  launcherStateStore: DesktopLauncherStateStore;
+};
+
+const DEFAULT_PRESENCE_PREFERENCES: DesktopPresencePreferences = {
+  closeToBackground: true,
+  launchAtLogin: false
+};
+
+export class DesktopPresenceService {
+  private readonly cleanups: DesktopCleanup[] = [];
+  private tray: Tray | null = null;
+  private quitting = false;
+
+  constructor(private readonly options: DesktopPresenceServiceOptions) {}
+
+  start = (): void => {
+    this.dispose();
+    this.registerIpcHandlers();
+    this.installTray();
+  };
+
+  dispose = (): void => {
+    drainDesktopCleanups(this.cleanups);
+  };
+
+  private registerIpcHandlers = (): void => {
+    ipcMain.removeAllListeners(DESKTOP_LOCALE_GET_CHANNEL);
+    ipcMain.removeHandler(DESKTOP_LOCALE_SET_CHANNEL);
+    ipcMain.removeHandler(DESKTOP_PRESENCE_GET_STATE_CHANNEL);
+    ipcMain.removeHandler(DESKTOP_PRESENCE_UPDATE_PREFERENCES_CHANNEL);
+
+    ipcMain.on(DESKTOP_LOCALE_GET_CHANNEL, (event) => {
+      event.returnValue = this.readLocalePreference();
+    });
+    ipcMain.handle(
+      DESKTOP_LOCALE_SET_CHANNEL,
+      async (_event, language: unknown) => await this.updateLocalePreference(language)
+    );
+    ipcMain.handle(DESKTOP_PRESENCE_GET_STATE_CHANNEL, async () => this.getSnapshot());
+    ipcMain.handle(
+      DESKTOP_PRESENCE_UPDATE_PREFERENCES_CHANNEL,
+      async (_event, preferences: Partial<DesktopPresencePreferences> | undefined) =>
+        await this.updatePreferences(preferences ?? {})
+    );
+    this.cleanups.push(() => {
+      ipcMain.removeAllListeners(DESKTOP_LOCALE_GET_CHANNEL);
+      removeDesktopIpcHandlers(
+        DESKTOP_LOCALE_SET_CHANNEL,
+        DESKTOP_PRESENCE_GET_STATE_CHANNEL,
+        DESKTOP_PRESENCE_UPDATE_PREFERENCES_CHANNEL
+      )();
+    });
+  };
+
+  private installTray = (): void => {
+    if (this.tray) {
+      this.refreshTrayMenu();
+      return;
+    }
+
+    const trayIcon = this.resolveTrayImage();
+    this.tray = new Tray(trayIcon);
+    this.tray.setToolTip("NextClaw");
+    this.tray.on("click", this.showMainWindow);
+    this.refreshTrayMenu();
+    this.cleanups.push(() => {
+      this.tray?.removeListener("click", this.showMainWindow);
+      this.tray?.destroy();
+      this.tray = null;
+    });
+  };
+
+  handleWindowClose = (event: ElectronEvent): void => {
+    if (this.quitting) {
+      return;
+    }
+    if (!this.getSnapshot().closeToBackground) {
+      return;
+    }
+    event.preventDefault();
+    this.hideMainWindow();
+    this.options.logger.info("Desktop window close intercepted. Hiding window to tray.");
+  };
+
+  handleBeforeQuit = (event: ElectronEvent): boolean => {
+    if (this.quitting || !this.getSnapshot().closeToBackground) {
+      return true;
+    }
+    event.preventDefault();
+    this.hideMainWindow();
+    this.options.logger.warn("Implicit desktop quit intercepted while background-running is enabled.");
+    return false;
+  };
+
+  handleAllWindowsClosed = (): void => {
+    if (this.quitting || !this.getSnapshot().closeToBackground) {
+      this.options.logger.info("All desktop windows closed. Quitting launcher.");
+      app.quit();
+      return;
+    }
+    this.options.logger.info("All desktop windows closed. Keeping launcher alive in background.");
+  };
+
+  markQuitting = (): void => {
+    this.quitting = true;
+  };
+
+  requestExplicitQuit = (): void => {
+    this.markQuitting();
+    app.quit();
+  };
+
+  showMainWindow = (): void => {
+    this.options.windowManager.showMainWindow();
+  };
+
+  hideMainWindow = (): void => {
+    this.options.windowManager.hideMainWindow();
+  };
+
+  getSnapshot = (): DesktopPresenceSnapshot => {
+    const preferences = this.readPreferences();
+    const supportsLaunchAtLogin = this.supportsLaunchAtLogin();
+    return {
+      closeToBackground: preferences.closeToBackground,
+      launchAtLogin: supportsLaunchAtLogin ? this.readLaunchAtLogin(preferences.launchAtLogin) : preferences.launchAtLogin,
+      supportsLaunchAtLogin,
+      launchAtLoginReason: this.getLaunchAtLoginReason()
+    };
+  };
+
+  private updatePreferences = async (
+    preferencesPatch: Partial<DesktopPresencePreferences>
+  ): Promise<DesktopPresenceSnapshot> => {
+    const nextPreferences = {
+      ...this.readPreferences(),
+      ...preferencesPatch
+    };
+
+    if (preferencesPatch.launchAtLogin !== undefined) {
+      this.applyLaunchAtLogin(preferencesPatch.launchAtLogin);
+    }
+
+    await this.options.launcherStateStore.update((state) => ({
+      ...state,
+      presencePreferences: nextPreferences
+    }));
+
+    this.refreshTrayMenu();
+    return this.getSnapshot();
+  };
+
+  private refreshTrayMenu = (): void => {
+    if (!this.tray) {
+      return;
+    }
+    const snapshot = this.getSnapshot();
+    const template: MenuItemConstructorOptions[] = [
+      {
+        label: "Open NextClaw",
+        click: this.showMainWindow
+      },
+      {
+        label: snapshot.closeToBackground ? "Close Window Hides to Background" : "Close Window Quits App",
+        enabled: false
+      },
+      { type: "separator" },
+      {
+        label: "Launch at Login",
+        type: "checkbox",
+        checked: snapshot.launchAtLogin,
+        enabled: snapshot.supportsLaunchAtLogin,
+        click: (menuItem: MenuItem) => {
+          void this.handleLaunchAtLoginToggle(menuItem.checked);
+        }
+      },
+      ...(snapshot.launchAtLoginReason
+        ? [
+            {
+              label: snapshot.launchAtLoginReason,
+              enabled: false
+            } satisfies MenuItemConstructorOptions
+          ]
+        : []),
+      { type: "separator" },
+      {
+        label: "Quit NextClaw",
+        click: () => {
+          this.requestExplicitQuit();
+        }
+      }
+    ];
+    this.tray.setContextMenu(Menu.buildFromTemplate(template));
+  };
+
+  private handleLaunchAtLoginToggle = async (checked: boolean): Promise<void> => {
+    try {
+      await this.updatePreferences({
+        launchAtLogin: checked
+      });
+    } catch (error) {
+      this.options.logger.error(`Failed to update launch-at-login setting from tray: ${String(error)}`);
+    }
+  };
+
+  private readPreferences = (): DesktopPresencePreferences => {
+    const state = this.options.launcherStateStore.read();
+    return state.presencePreferences ?? { ...DEFAULT_PRESENCE_PREFERENCES };
+  };
+
+  private readLocalePreference = (): DesktopUiLanguagePreference | null => {
+    return this.options.launcherStateStore.read().languagePreference ?? null;
+  };
+
+  private updateLocalePreference = async (language: unknown): Promise<DesktopUiLanguagePreference | null> => {
+    const normalizedLanguage = normalizeDesktopUiLanguagePreference(language);
+    const nextState = await this.options.launcherStateStore.update((state) => ({
+      ...state,
+      languagePreference: normalizedLanguage
+    }));
+    return nextState.languagePreference ?? null;
+  };
+
+  private supportsLaunchAtLogin = (): boolean => {
+    if (!app.isPackaged) {
+      return false;
+    }
+    return process.platform === "darwin" || process.platform === "win32";
+  };
+
+  private getLaunchAtLoginReason = (): string | null => {
+    if (this.supportsLaunchAtLogin()) {
+      return null;
+    }
+    if (!app.isPackaged) {
+      return "Launch at login is available in packaged desktop builds.";
+    }
+    return "Launch at login currently supports macOS and Windows desktop builds.";
+  };
+
+  private applyLaunchAtLogin = (enabled: boolean): void => {
+    if (!this.supportsLaunchAtLogin()) {
+      return;
+    }
+    if (process.platform === "darwin") {
+      app.setLoginItemSettings({
+        openAtLogin: enabled,
+        openAsHidden: true
+      });
+      return;
+    }
+    app.setLoginItemSettings({
+      openAtLogin: enabled
+    });
+  };
+
+  private readLaunchAtLogin = (fallback: boolean): boolean => {
+    if (!this.supportsLaunchAtLogin()) {
+      return fallback;
+    }
+    try {
+      return app.getLoginItemSettings().openAtLogin;
+    } catch (error) {
+      this.options.logger.warn(`Failed to read launch-at-login state. Falling back to stored preference: ${String(error)}`);
+      return fallback;
+    }
+  };
+
+  private resolveTrayImage = (): NativeImage => {
+    const candidatePaths = [
+      resolve(app.getAppPath(), "build", "icons", "icon.png"),
+      join(process.resourcesPath, "app.asar", "build", "icons", "icon.png"),
+      join(process.resourcesPath, "build", "icons", "icon.png")
+    ];
+
+    for (const candidatePath of candidatePaths) {
+      if (!existsSync(candidatePath)) {
+        continue;
+      }
+      const image = nativeImage.createFromPath(candidatePath);
+      if (!image.isEmpty()) {
+        return image.resize({ width: 18, height: 18 });
+      }
+    }
+
+    this.options.logger.warn("Tray icon could not be resolved. Falling back to an empty image.");
+    return nativeImage.createEmpty();
+  };
+}

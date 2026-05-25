@@ -1,0 +1,54 @@
+{
+  "name": "@nextclaw/kernel",
+  "version": "0.1.14",
+  "private": false,
+  "description": "NextClaw product kernel skeleton for agents, tasks, sessions, context, tools, skills, providers, automation, and channels.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./update-contract": {
+      "development": "./src/types/update-contract.types.ts",
+      "types": "./dist/types/update-contract.types.d.ts",
+      "default": "./dist/types/update-contract.types.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown src/index.ts src/types/update-contract.types.ts --dts.sourcemap --clean --target es2022 --no-fixedExtension",
+    "prepack": "pnpm run build",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "tsc": "tsc -p tsconfig.json",
+    "prepublishOnly": "node ../../scripts/release/ensure-pnpm-publish.mjs"
+  },
+  "dependencies": {
+    "@nextclaw/channel-extension-feishu": "workspace:*",
+    "@nextclaw/channel-extension-weixin": "workspace:*",
+    "@nextclaw/core": "workspace:*",
+    "@nextclaw/mcp": "workspace:*",
+    "@nextclaw/ncp-agent-runtime": "workspace:*",
+    "@nextclaw/ncp-agent-runtime-next": "workspace:*",
+    "@nextclaw/ncp-mcp": "workspace:*",
+    "@nextclaw/ncp-toolkit": "workspace:*",
+    "@nextclaw/nextclaw-ncp-runtime-http-client": "workspace:*",
+    "@nextclaw/nextclaw-ncp-runtime-stdio-client": "workspace:*",
+    "@nextclaw/openclaw-compat": "workspace:*",
+    "@nextclaw/runtime": "workspace:*",
+    "@nextclaw/shared": "workspace:*",
+    "@nextclaw/ncp": "workspace:*",
+    "rxjs": "^7.8.2",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.2"
+  }
+}

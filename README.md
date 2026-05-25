@@ -1,96 +1,160 @@
-# GO-USB-AI
-
-<p align="center">
-  <img src="https://img.shields.io/badge/status-alpha-orange" alt="status">
-  <img src="https://img.shields.io/badge/license-MIT-blue" alt="license">
-  <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey" alt="platform">
+<p align="right">
+  <a href="./README.zh-CN.md">简体中文</a>
 </p>
 
-<p align="center">
-  <b>🔌 即插即用的便携AI — 插上U盘，任何电脑秒变AI工作站</b>
+<div align="center">
+
+<img src="images/marketing/nextclaw-omni-assistant-en.jpg" alt="NextClaw — Powerful AI Assistant for Your Computer" width="720" />
+
+<br /><br />
+
+# NextClaw
+
+**Turn your computer into a powerful AI assistant that coordinates agents, skills, CLI tools, automations, and messaging apps.**
+
+[![npm](https://img.shields.io/npm/v/nextclaw)](https://www.npmjs.com/package/nextclaw)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%3E%3D18-blue)](https://nodejs.org)
+[![Discord](https://img.shields.io/badge/Discord-NextClaw-5865F2?logo=discord&logoColor=white)](https://discord.gg/j4Skbgye)
+
+[Documentation](https://docs.nextclaw.io/en/) · [Planning](docs/ROADMAP.md) · [Discord](https://discord.gg/j4Skbgye) · [Issues](https://github.com/Peiiii/nextclaw/issues) · [Roadmap](https://docs.nextclaw.io/en/guide/roadmap)
+
+<p>
+  <img src="https://img.shields.io/badge/Windows-0078D6?style=flat-square&logo=windows&logoColor=white" alt="Windows" />
+  <img src="https://img.shields.io/badge/macOS-000000?style=flat-square&logo=apple&logoColor=white" alt="macOS" />
+  <img src="https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black" alt="Linux" />
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" />
+  <img src="https://img.shields.io/badge/Cloud_VMs-4285F4?style=flat-square&logo=googlecloud&logoColor=white" alt="Cloud VMs" />
 </p>
 
----
-
-## 💡 这是什么
-
-**GO-USB-AI** 是一个完全自包含的便携AI助手。把它装进U盘，插到任意一台电脑上，就能立刻拥有一个私有的、离线可用的AI环境——不需要安装、不需要联网、不需要云端。
-
-> *Plug in. Go. AI follows you everywhere.*
+</div>
 
 ---
 
-## ✨ 特性
+NextClaw runs on your machine and brings agents, skills, CLI tools, scheduled automations, and messaging app integrations into one controllable assistant workspace.
 
-- **🔌 真正的即插即用** — U盘插上就运行，拔掉不留痕迹
-- **🔒 完全私有** — 所有数据留在U盘里，不上传云端
-- **🌐 离线可用** — 不依赖网络，飞机上、地下室都能用
-- **🖥️ 跨平台** — Windows / macOS / Linux 通吃
-- **🧠 本地大模型** — 内置轻量级LLM，即刻对话
-- **🛠️ 工具集成** — 邮件、代码、文档、日历、聊天，一站式
-- **📦 零安装** — 不需要管理员权限，不需要装任何东西
+- **One-command startup** — `nextclaw start`, then configure everything in the browser UI
+- **12+ AI providers** — OpenRouter, OpenAI, Anthropic, Gemini, DeepSeek, Groq, MiniMax, and more
+  <br /><img src="https://img.shields.io/badge/OpenRouter-6366F1?style=flat-square" alt="OpenRouter" /> <img src="https://img.shields.io/badge/OpenAI-412991?style=flat-square&logo=openai&logoColor=white" alt="OpenAI" /> <img src="https://img.shields.io/badge/Anthropic-D4A27F?style=flat-square&logo=anthropic&logoColor=white" alt="Anthropic" /> <img src="https://img.shields.io/badge/Gemini-8E75B2?style=flat-square&logo=googlegemini&logoColor=white" alt="Gemini" /> <img src="https://img.shields.io/badge/DeepSeek-0066FF?style=flat-square" alt="DeepSeek" /> <img src="https://img.shields.io/badge/Groq-F55036?style=flat-square" alt="Groq" /> <img src="https://img.shields.io/badge/MiniMax-FF6B35?style=flat-square" alt="MiniMax" /> <img src="https://img.shields.io/badge/Moonshot-1A1A2E?style=flat-square" alt="Moonshot" /> <img src="https://img.shields.io/badge/DashScope-FF6A00?style=flat-square" alt="DashScope" /> <img src="https://img.shields.io/badge/Zhipu-0052CC?style=flat-square" alt="Zhipu" /> <img src="https://img.shields.io/badge/AiHubMix-00B4D8?style=flat-square" alt="AiHubMix" /> <img src="https://img.shields.io/badge/vLLM-FF4500?style=flat-square" alt="vLLM" />
+- **10+ message channels** — Discord, Telegram, Slack, WhatsApp, Feishu, DingTalk, WeCom, QQ, Weixin, Email
+  <br /><img src="https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Discord" /> <img src="https://img.shields.io/badge/Telegram-26A5E4?style=flat-square&logo=telegram&logoColor=white" alt="Telegram" /> <img src="https://img.shields.io/badge/Slack-4A154B?style=flat-square&logo=slack&logoColor=white" alt="Slack" /> <img src="https://img.shields.io/badge/WhatsApp-25D366?style=flat-square&logo=whatsapp&logoColor=white" alt="WhatsApp" /> <img src="https://img.shields.io/badge/Feishu-00D6B9?style=flat-square" alt="Feishu" /> <img src="https://img.shields.io/badge/DingTalk-0089FF?style=flat-square" alt="DingTalk" /> <img src="https://img.shields.io/badge/WeCom-07C160?style=flat-square" alt="WeCom" /> <img src="https://img.shields.io/badge/QQ-EB1923?style=flat-square&logo=tencentqq&logoColor=white" alt="QQ" /> <img src="https://img.shields.io/badge/Weixin-07C160?style=flat-square" alt="Weixin" /> <img src="https://img.shields.io/badge/Email-EA4335?style=flat-square&logo=gmail&logoColor=white" alt="Email" />
+- **Built-in automation** — Cron for scheduled autonomous tasks
+- **Local & private** — Runs entirely on your machine; configs, history, and tokens stay with you
+- **Ultra-lightweight** — ~1/20 the codebase of OpenClaw, easier to maintain and extend
 
----
+## Community
 
-## 🚀 快速开始
+- **Discord** — [NextClaw / OpenClaw](https://discord.gg/j4Skbgye)
+- **WeChat Group** — Scan to join:
+
+  <img src="images/contact/nextclaw-contact-wechat-group.png" width="180" alt="WeChat Group QR" />
+
+## Quick Start
+
+### 0. Prerequisites
+
+- Install Node.js (LTS recommended): [nodejs.org](https://nodejs.org/)
+- Open a terminal:
+  - Windows: `Win + R`, type `cmd` (or open PowerShell)
+  - macOS: `Command + Space`, search `Terminal`
+  - Linux: `Ctrl + Alt + T` (or Terminal from app menu)
+
+Verify your environment first:
 
 ```bash
-# 1. 准备一个 16GB+ 的 USB 3.0 U盘
-# 2. 下载最新 release
-# 3. 解压到 U 盘根目录
-# 4. 插上电脑，双击 run.bat (Windows) 或 run.sh (macOS/Linux)
-# 5. 浏览器打开 http://localhost:7860
+node -v
+npm -v
 ```
-
-> ⚡ 从插上到开始使用，不超过 30 秒。
-
----
-
-## 🏗️ 架构
-
-```
-┌──────────────────────────────────────┐
-│              GO-USB-AI                │
-├──────────┬──────────┬────────────────┤
-│  Web UI  │  Agent   │  Local LLM     │
-│  (对话界面) │  (工具调度) │  (本地推理引擎)   │
-├──────────┴──────────┴────────────────┤
-│          Memory Tree 记忆树           │
-├──────────────────────────────────────┤
-│        USB Storage 持久化存储          │
-└──────────────────────────────────────┘
-```
-
----
-
-## 📋 路线图
-
-- [ ] v0.1 — 基础对话 + 本地LLM
-- [ ] v0.3 — 记忆树系统（Memory Tree）
-- [ ] v0.5 — 代码助手 + 文档解析
-- [ ] v0.7 — 邮件/日历/聊天集成
-- [ ] v0.9 — 多Agent协作
-- [ ] v1.0 — 完整便携AI生态
-
----
-
-## 🤝 贡献
-
-欢迎提 Issue 和 PR！
 
 ```bash
-git clone https://github.com/GoUsbAI/GO-USB-AI.git
-cd GO-USB-AI
+npm i -g nextclaw
+nextclaw start
 ```
 
+Open **http://127.0.0.1:55667** → set your provider and model → start chatting.
+
+On a VPS, NextClaw serves plain HTTP on `55667`. Use `http://<server-ip>:55667` directly for a quick check, or put Nginx/Caddy in front for `80/443`. `https://` must be terminated by the reverse proxy, not by NextClaw itself.
+
+```bash
+nextclaw stop    # stop the service
+```
+
+If `npm` is not found, install/reinstall Node.js and reopen your terminal.
+
+### Run The Development Server
+
+For local development in this repository, use the built-in dev runner from the repo root:
+
+```bash
+pnpm install
+pnpm dev
+```
+
+This starts the NextClaw development stack and prints the local URLs in the terminal.
+By default it uses `~/.nextclaw`, the same data directory as the normal local app. Set `NEXTCLAW_HOME=/path/to/home` if you want development to run against a different data directory.
+
+`pnpm dev start` intentionally disables the runtime update host so development builds do not show a false "Update Issue" state before a release manifest exists.
+
+If you only need one side, you can run them separately:
+
+```bash
+pnpm dev:backend   # backend on 127.0.0.1:18792
+pnpm dev:frontend  # frontend on 127.0.0.1:5174
+```
+
+> Full configuration guide: [docs.nextclaw.io](https://docs.nextclaw.io/en/guide/configuration)
+>
+> Beginner step-by-step guide (with troubleshooting): [Getting Started](https://docs.nextclaw.io/en/guide/getting-started)
+
+## Screenshots
+
+Refresh all product screenshots (website + GitHub assets):
+
+```bash
+pnpm screenshots:refresh
+```
+
+**Agent Chat** — send tasks and review multi-turn conversations in one place:
+
+![Agent Chat](images/screenshots/nextclaw-chat-page-en.png)
+
+**AI Providers** — configure and switch between providers in the UI:
+
+![AI Providers](images/screenshots/nextclaw-providers-page-en.png)
+
+**Message Channels** — enable Discord, Telegram, Feishu, QQ, and more:
+
+![Message Channels](images/screenshots/nextclaw-channels-page-en.png)
+
+## Documentation
+
+Visit **[docs.nextclaw.io](https://docs.nextclaw.io/en/)** for the full documentation, including:
+
+- [Model Selection](https://docs.nextclaw.io/en/guide/model-selection)
+- [Commands](https://docs.nextclaw.io/en/guide/commands)
+- [Vision & Roadmap](https://docs.nextclaw.io/en/guide/vision)
+- [Feishu Setup Tutorial](https://docs.nextclaw.io/en/guide/tutorials/feishu)
+- GitHub planning docs: [Roadmap](docs/ROADMAP.md) · [TODO Backlog](docs/TODO.md) · [File Naming Convention](docs/workflows/file-naming-convention.md)
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+## Acknowledgements
+
+NextClaw is inspired by and built upon the shoulders of these great projects:
+
+- [OpenClaw](https://github.com/openclaw/openclaw) — The full-stack AI assistant platform that inspired NextClaw's early exploration.
+- [NanoBot](https://github.com/nicepkg/gpt-runner) — A lightweight Python agent framework that demonstrated how simplicity and power can coexist.
+
+## License
+
+[MIT](LICENSE)
+
 ---
 
-## 📄 许可证
+<div align="center">
 
-[MIT License](LICENSE) © 2026 GoUsbAI
+[![Star History Chart](https://api.star-history.com/svg?repos=Peiiii/nextclaw&type=Date)](https://star-history.com/#Peiiii/nextclaw&Date)
 
----
-
-<p align="center">
-  <sub>Built with ❤️ for everyone who needs AI without boundaries.</sub>
-</p>
+</div>

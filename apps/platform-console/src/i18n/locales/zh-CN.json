@@ -1,0 +1,378 @@
+{
+  "common": {
+    "logout": "退出",
+    "retry": "重试",
+    "openNow": "立即打开",
+    "copyLink": "复制链接",
+    "openLink": "打开链接",
+    "revoke": "撤销",
+    "languageLabel": "语言",
+    "languages": {
+      "zh-CN": "中文",
+      "en-US": "English"
+    }
+  },
+  "app": {
+    "brand": "NextClaw Platform",
+    "workbenchTag": "NextClaw 工作台",
+    "loadingAccount": "加载 NextClaw Account...",
+    "accountLoadFailedTitle": "暂时无法加载你的 NextClaw 账号。",
+    "accountLoadFailedDescription": "请重新登录，刷新账号会话后再继续使用网页版 NextClaw。",
+    "accountLoadFailedAction": "重新登录",
+    "navigation": {
+      "home": "我的实例",
+      "apps": "我的 Apps",
+      "skills": "我的 Skills",
+      "account": "账号"
+    },
+    "routeDescriptions": {
+      "instances": "从网页打开你的远程实例，查看额度用量，并继续当前工作流。",
+      "apps": "管理你自己发布的 app，可见性和审核状态统一收在这里。",
+      "skills": "管理你自己发布的 skill，可见性和生命周期入口统一收在这里。",
+      "account": "统一管理用户名、个人发布 scope 和账号准备状态。"
+    },
+    "metrics": {
+      "publishReadiness": "发布准备状态",
+      "freeQuotaRemaining": "免费额度剩余",
+      "paidBalance": "付费余额"
+    },
+    "roles": {
+      "user": "用户",
+      "admin": "管理员"
+    }
+  },
+  "account": {
+    "title": "NextClaw 账号",
+    "description": "这里把发布身份、用户名准备状态，以及网页版 NextClaw 的标准账号入口收敛到同一个地方。",
+    "highlightDescription": "你现在所在的就是发布报错应该指向的那个账号设置页。发布个人 skill 之前，先在这里把用户名设好。",
+    "readiness": {
+      "ready": "已就绪",
+      "missing": "需要处理"
+    },
+    "fields": {
+      "email": "邮箱",
+      "username": "用户名",
+      "role": "角色",
+      "publishScope": "个人发布 Scope",
+      "webAddress": "网页版账号地址",
+      "cliFallback": "CLI 兜底命令"
+    },
+    "values": {
+      "notSet": "还没有设置"
+    },
+    "publishScopeMissing": "先设置用户名，才能启用 @username/* 个人发布",
+    "missingTitle": "发布个人 skill 之前需要先设置用户名",
+    "missingDescription": "你的账号已经登录，但个人 marketplace 发布还会被用户名缺失卡住。标准页面就是 https://platform.nextclaw.io/account，CLI 兜底命令是 `nextclaw account set-username <username>`。",
+    "usernamePlaceholder": "例如：alice-dev",
+    "readyTitle": "个人发布已经解锁",
+    "readyDescription": "你的个人 skill 现在会以 {scope} 发布。",
+    "lockedHelp": "当前版本先支持首次设置用户名；设置后暂不支持改名。",
+    "messages": {
+      "usernameSaved": "用户名已保存，个人发布 scope 已经就绪。",
+      "usernameSaveFailed": "用户名保存失败"
+    },
+    "actions": {
+      "saveUsername": "保存用户名",
+      "savingUsername": "保存中...",
+      "openInstances": "打开我的实例"
+    }
+  },
+  "skills": {
+    "title": "我的 Skills",
+    "description": "这里集中管理你自己 scope 下发布过的 skill。管理员审核状态和你自己的 marketplace 可见性，在这里分开处理。",
+    "queueTitle": "我发布的 Skill",
+    "queueSummary": "当前列表共 {count} 个 skill。",
+    "searchPlaceholder": "搜索包名或标题",
+    "updatedAt": "更新于 {updatedAt}",
+    "metrics": {
+      "total": "Skill 总数",
+      "totalHint": "你名下当前未删除的 skill。",
+      "live": "公开中",
+      "liveHint": "已审核通过且对 marketplace 可见。",
+      "hidden": "已隐藏",
+      "hiddenHint": "你主动隐藏，但数据仍保留。",
+      "pending": "待审核",
+      "pendingHint": "还在等待 marketplace 审核。"
+    },
+    "fields": {
+      "scope": "Scope",
+      "updatedAt": "更新时间",
+      "publishedAt": "发布时间",
+      "reviewedAt": "最近审核时间",
+      "summary": "摘要",
+      "description": "描述",
+      "reviewNote": "审核备注"
+    },
+    "values": {
+      "notReviewed": "还没有审核"
+    },
+    "publishStatus": {
+      "pending": "待审核",
+      "published": "已发布",
+      "rejected": "已拒绝"
+    },
+    "visibility": {
+      "public": "公开中",
+      "hidden": "已隐藏"
+    },
+    "actions": {
+      "search": "搜索",
+      "clear": "清空",
+      "manageTitle": "Marketplace 可见性",
+      "manageDescription": "隐藏只会把 skill 从公共 marketplace 中撤下，不会改动管理员的审核结论。删除会把它从你的默认管理列表中移除。",
+      "hide": "隐藏",
+      "hiding": "隐藏中...",
+      "show": "重新公开",
+      "showing": "更新中...",
+      "delete": "删除",
+      "deleting": "删除中..."
+    },
+    "messages": {
+      "loading": "正在加载你的 skill...",
+      "loadingDetail": "正在加载 skill 详情...",
+      "empty": "你当前 scope 下还没有 skill。先发布一个，再回到这里管理。",
+      "selectOne": "先从左侧选择一个 skill，再查看它的当前状态。",
+      "deleteConfirm": "确认把这个 skill 从你的 marketplace 管理列表中删除吗？公开市场里的条目会立即移除。"
+    }
+  },
+  "apps": {
+    "title": "我的 Apps",
+    "description": "这里集中管理你自己 scope 下发布过的 app。管理员审核状态和你自己的 marketplace 可见性，在这里分开处理。",
+    "queueTitle": "我发布的 App",
+    "queueSummary": "当前列表共 {count} 个 app。",
+    "searchPlaceholder": "搜索 appId 或标题",
+    "metrics": {
+      "total": "App 总数",
+      "totalHint": "你名下当前未删除的 app。",
+      "live": "公开中",
+      "liveHint": "已审核通过且对 marketplace 可见。",
+      "hidden": "已隐藏",
+      "hiddenHint": "你主动隐藏，但数据仍保留。",
+      "pending": "待审核",
+      "pendingHint": "还在等待 marketplace 审核。"
+    },
+    "fields": {
+      "scope": "Scope",
+      "appId": "App ID",
+      "updatedAt": "更新时间",
+      "publishedAt": "发布时间",
+      "reviewedAt": "最近审核时间",
+      "summary": "摘要",
+      "description": "描述",
+      "reviewNote": "审核备注",
+      "install": "安装命令"
+    },
+    "values": {
+      "notReviewed": "还没有审核"
+    },
+    "publishStatus": {
+      "pending": "待审核",
+      "published": "已发布",
+      "rejected": "已拒绝"
+    },
+    "visibility": {
+      "public": "公开中",
+      "hidden": "已隐藏"
+    },
+    "actions": {
+      "search": "搜索",
+      "clear": "清空",
+      "openStore": "打开详情页",
+      "manageTitle": "Marketplace 可见性",
+      "manageDescription": "隐藏只会把 app 从公共 marketplace 中撤下，不会改动管理员的审核结论。删除会把它从你的默认管理列表中移除。",
+      "hide": "隐藏",
+      "hiding": "隐藏中...",
+      "show": "重新公开",
+      "showing": "更新中...",
+      "delete": "删除",
+      "deleting": "删除中..."
+    },
+    "messages": {
+      "loading": "正在加载你的 apps...",
+      "loadingDetail": "正在加载 app 详情...",
+      "empty": "你当前 scope 下还没有 app。先发布一个，再回到这里管理。",
+      "selectOne": "先从左侧选择一个 app，再查看它的当前状态。",
+      "deleteConfirm": "确认把这个 app 从你的 marketplace 管理列表中删除吗？公开市场里的条目会立即移除。"
+    }
+  },
+  "login": {
+    "platformTag": "NextClaw Platform",
+    "heroTitle": "登录 NextClaw Web，继续你的实例与 Agent 工作流。",
+    "heroDescription": "一个 NextClaw Account，把网页入口、远程访问和后续协作能力连成一套体验。登录之后，你的实例、分享和账号能力都会在这里汇合。",
+    "highlights": {
+      "password": {
+        "title": "一个账号，连接所有入口",
+        "description": "桌面端、网页端和后续账号能力共享同一个 NextClaw Account，不需要记两套身份。"
+      },
+      "register": {
+        "title": "从网页直接进入你的实例",
+        "description": "登录后可以在浏览器里查看实例、远程打开工作区，并继续你正在进行的 Agent 流程。"
+      },
+      "instance": {
+        "title": "分享访问，边界清晰可控",
+        "description": "需要协作时可以生成可撤销的分享链接，让他人访问指定实例，而不用暴露你的主账号。"
+      }
+    },
+    "accountTag": "NextClaw Account",
+    "modes": {
+      "login": {
+        "label": "登录",
+        "title": "邮箱 + 密码登录",
+        "subtitle": "已有 NextClaw Account 直接用密码登录。注册和找回密码在旁边两个入口。"
+      },
+      "register": {
+        "label": "注册",
+        "title": "先验证邮箱，再设置密码",
+        "subtitle": "新账号必须先通过邮箱验证码验证归属，再设置密码完成注册。"
+      },
+      "reset_password": {
+        "label": "忘记密码",
+        "title": "验证码验证后重置密码",
+        "subtitle": "我们会先验证邮箱归属，确认后允许设置新密码。"
+      }
+    },
+    "fields": {
+      "email": "邮箱",
+      "password": "密码",
+      "code": "验证码",
+      "setPassword": "设置密码",
+      "newPassword": "新密码"
+    },
+    "placeholders": {
+      "email": "name@example.com",
+      "password": "请输入你的密码",
+      "code": "123456",
+      "passwordMin": "至少 8 位"
+    },
+    "notices": {
+      "codeSent": "验证码已发送至 {email}",
+      "codeExpiresAt": "当前验证码过期时间：{expiresAt}。",
+      "devCode": "Dev code: {code}"
+    },
+    "actions": {
+      "login": "登录",
+      "loggingIn": "登录中...",
+      "sendCode": "发送验证码",
+      "sendingCode": "发送中...",
+      "completeRegister": "完成注册",
+      "registering": "注册中...",
+      "resetPassword": "重置密码",
+      "resettingPassword": "重置中...",
+      "resendCode": "重新发送",
+      "changeEmail": "更换邮箱"
+    },
+    "errors": {
+      "loginFailed": "登录失败",
+      "sendRegisterCodeFailed": "发送注册验证码失败",
+      "registerFailed": "注册失败",
+      "sendResetCodeFailed": "发送重置验证码失败",
+      "resetPasswordFailed": "重置密码失败"
+    }
+  },
+  "remote": {
+    "title": "我的实例",
+    "description": "在桌面端登录 NextClaw Account 并开启远程访问后，实例会出现在这里。你可以直接在网页里打开它，也可以生成可撤销的分享链接给其他人访问。",
+    "table": {
+      "instance": "实例",
+      "platform": "平台",
+      "status": "状态",
+      "lastSeenAt": "最近在线",
+      "actions": "操作"
+    },
+  "actions": {
+    "createShare": "创建分享链接",
+    "viewShare": "查看分享",
+    "openInWeb": "在网页中打开",
+    "openWithFixedDomain": "用固定域名打开",
+    "createAnotherShare": "再创建一个",
+    "archive": "归档",
+    "restore": "恢复",
+    "delete": "删除"
+  },
+  "status": {
+    "online": "在线",
+    "offline": "离线",
+    "archived": "已归档",
+    "shareActive": "可用分享",
+    "shareRevoked": "已撤销分享",
+    "shareExpired": "已过期分享"
+  },
+  "messages": {
+      "empty": "还没有可用实例。先回到桌面端登录 NextClaw 并开启远程访问。",
+      "loadingShares": "加载分享链接中...",
+      "loadInstancesFailed": "实例加载失败",
+      "openInstanceFailed": "打开实例失败",
+      "createShareFailed": "创建分享失败",
+      "revokeShareFailed": "撤销分享失败",
+      "loadSharesFailed": "加载分享失败",
+      "shareCopied": "分享链接已复制到剪贴板。",
+    "shareCopyManual": "复制失败，请手动复制链接。",
+    "newShareCopied": "新分享链接已复制到剪贴板。",
+    "newShareCreated": "新分享链接已创建，请手动复制。",
+    "shareRevoked": "分享链接已撤销，已打开的分享会话会立即失效。",
+    "noShares": "当前实例还没有分享链接。",
+    "archiveSuccess": "实例已归档，主列表里不会再显示它。",
+    "restoreSuccess": "实例已恢复到主列表。",
+    "deleteSuccess": "归档实例已被永久删除。",
+    "archiveFailed": "归档实例失败",
+    "restoreFailed": "恢复实例失败",
+    "deleteFailed": "删除实例失败",
+    "archiveConfirm": "确认归档这个实例，并把它从主列表里隐藏吗？",
+    "deleteConfirm": "确认永久删除这个已归档实例吗？它关联的分享链接和会话记录也会一起移除。"
+  },
+  "archived": {
+    "title": "已归档实例",
+    "description": "已归档实例不会再出现在主列表，直到你恢复或删除它。",
+    "loading": "加载已归档实例中...",
+    "loadFailed": "加载已归档实例失败",
+    "empty": "还没有已归档实例。",
+    "archivedAt": "归档于 {archivedAt}"
+  },
+  "sharePanel": {
+    "title": "分享链接",
+    "description": "撤销后，已经打开的分享会话也会立即失效。",
+      "meta": "创建于 {createdAt}，失效于 {expiresAt}",
+      "activeSessions": "当前活跃分享会话：{count}"
+    },
+    "quota": {
+      "title": "Remote 额度与用量",
+      "description": "这里显示你今天的 remote 配额消耗情况，方便直接判断是单会话限流、个人日预算，还是连接数问题。",
+      "remaining": "剩余 {value} {unit}",
+      "units": {
+        "requests": "次",
+        "requestUnits": "请求单位"
+      },
+      "worker": {
+        "title": "每日 Worker 请求"
+      },
+      "do": {
+        "title": "每日 Durable Object 请求"
+      },
+      "runtime": {
+        "title": "运行时限制",
+        "sessionLimit": "单 session 每分钟上限",
+        "activeConnections": "当前活跃浏览器连接",
+        "instanceConnectionLimit": "单实例连接上限",
+        "resetAt": "今日额度重置时间"
+      },
+      "messages": {
+        "loading": "加载额度中...",
+        "loadFailed": "额度加载失败"
+      }
+    }
+  },
+  "billing": {
+    "title": "用量与充值",
+    "description": "该模块正在收敛和准备中，当前平台首页先聚焦实例访问与分享能力。",
+    "badge": "即将上线"
+  },
+  "share": {
+    "tag": "NextClaw Share",
+    "title": "正在打开共享实例",
+    "description": "分享链接每次打开都会创建一个新的访问会话。刷新当前页面后，系统会重新创建会话并继续跳转。",
+    "loading": "正在校验分享链接并建立访问会话...",
+    "unavailableTitle": "分享链接当前不可用",
+    "unavailableFallback": "无法打开分享链接",
+    "sessionCreated": "访问会话已创建"
+  }
+}

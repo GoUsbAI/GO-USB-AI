@@ -1,0 +1,189 @@
+# v0.16.75-module-structure-governance-closure
+
+## 迭代完成说明
+
+- 本次把“目录层级治理没有真正落地到默认主链路”的缺口补成了三段闭环：
+  - 新增机器可读的模块结构 contract 数据源 [`scripts/governance/module-structure/module-structure-contracts.mjs`](/Users/peiwang/Projects/nextbot/scripts/governance/module-structure/module-structure-contracts.mjs)，并在同一批次续改中升级为“固定协议模板 + 包级声明”模型，而不是继续为每个包手写一整套自由白名单字段。
+  - 现已支持固定协议模板 `frontend-l3`，并将 `packages/nextclaw-ui/src` 声明为采用该协议的包级结构根；这个声明会把前端 `L3` 协议的固定根骨架、`shared/` 规则、feature 出口规则与 platform 出口规则映射成可执行检查。
+  - 本轮续改进一步把“包级声明”从中心脚本内联迁移为“模块根自管理配置文件”：
+    - 治理器现在会向上发现模块根下的 `module-structure.config.json`，再按通用协议模板或 legacy contract 解析，不再由中心脚本手写“哪个模块采用哪个规则”。
+    - `packages/nextclaw-ui/src` 已迁移为 [`module-structure.config.json`](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/module-structure.config.json) 自声明 `frontend-l3`。
+    - 同时纠正了一个设计偏差：没有继续给其它历史模块批量补 legacy 配置，因为那会把现状结构误固化为“被认可的长期架构”。现在保持为“只有明确 opt-in 的模块，才新增自己的配置文件进入强约束”。
+    - 本轮继续把 CLI 规范正式落地为 `cli-command-first` 协议：`commands/` 等价于 `features/`，根骨架固定为 `app/ + commands/ + shared/`，并且对 CLI 使用严格 `contract-only` 语义，历史根债务一旦触达就直接报错，不再只给 warning。
+  - diff-only 结构漂移检查 [`scripts/governance/module-structure/lint-new-code-module-structure.mjs`](/Users/peiwang/Projects/nextbot/scripts/governance/module-structure/lint-new-code-module-structure.mjs) 现在不再只检查“根目录白名单”，还会对协议化包执行两类额外阻断：
+    - 结构协议检查：例如 `features/` 下误放职责目录、`shared/lib/` 直放文件、platform 根缺 `index.ts(x)`、legacy root 下继续新增文件等。
+    - 唯一导入入口检查：例如从 feature 外部 deep import `@/features/<feature>/...`、deep import `@/shared/lib/<module>/...`、deep import `@/platforms/<platform>/...`。
+  - 新增协议辅助模块 [`scripts/governance/module-structure/module-structure-protocol-checks.mjs`](/Users/peiwang/Projects/nextbot/scripts/governance/module-structure/module-structure-protocol-checks.mjs)，把协议结构检查与导入边界检查拆成独立职责，避免主检查器继续膨胀。
+  - 将该检查接入 [`scripts/governance/lint-new-code-governance.mjs`](/Users/peiwang/Projects/nextbot/scripts/governance/lint-new-code-governance.mjs) 与根 [`package.json`](/Users/peiwang/Projects/nextbot/package.json) 的 `pnpm lint:new-code:governance` 主链路，再补充 PR workflow [`structure-governance.yml`](/Users/peiwang/Projects/nextbot/.github/workflows/structure-governance.yml)，让 review 阶段也能自动执行 diff-only 结构治理。
+- 新增治理说明文档 [`docs/designs/2026-04-19-module-structure-contracts.md`](/Users/peiwang/Projects/nextbot/docs/designs/2026-04-19-module-structure-contracts.md)，把 contract 字段、shared 容器边界和“什么时候先改 contract 再落目录”写成明确结构规范。
+- 同批次续改继续把“结构规范文档”和“结构治理 skill”重新对齐，避免规则只停留在 README 或讨论上下文里：
+  - 包内复杂度等级已收敛为 `L1 / L2 / L3`，移除了独立价值不强的旧 `L0` 编号与旧 `L1` 变体。
+  - `L1` 现已明确为“最小包内结构”，允许 `app/` 但不允许为了“像 feature”再额外包一层单独业务根目录。
+  - 新增并明确了包内导入路径协议：同目录使用 `./`，跨目录统一使用 `@/`，禁止父级相对路径回退，且禁止显式导入 `index.ts(x)` 入口。
+  - 新增 `configs/` 为正式通用职责目录，并明确 `*.config.ts(x)` 作为其文件后缀契约。
+  - 同时纠正了两个特殊目录例外：`components/` 不再要求 `.component` 后缀，`hooks/` 不再要求 `.hook` 后缀，而是继续采用 `use-<domain>.ts(x)` 约定。
+- 同批次续改继续把 `package-l1` 协议正式落到 [`packages/nextclaw-kernel`](/Users/peiwang/Projects/nextbot/packages/nextclaw-kernel)：
+  - 新增 [`packages/nextclaw-kernel/module-structure.config.json`](/Users/peiwang/Projects/nextbot/packages/nextclaw-kernel/module-structure.config.json)，由包根自声明采用 `package-l1`，并将根级 owner 文件限定为 `index.ts` 与 `nextclaw-kernel.ts`。
+  - [`packages/nextclaw-kernel/tsconfig.json`](/Users/peiwang/Projects/nextbot/packages/nextclaw-kernel/tsconfig.json) 已接入 `@/` alias；本轮触达的 kernel manager 与类型导入也同步按“同目录 `./`、跨目录 `@/`”协议收敛。
+  - 对应地，[`scripts/governance/lint-new-code-file-role-boundaries.mjs`](/Users/peiwang/Projects/nextbot/scripts/governance/lint-new-code-file-role-boundaries.mjs) 不再只认固定的 `app/main` 根文件，而是会读取模块自己的 `allowedRootFiles`，让协议声明真正成为唯一事实来源。
+- 同批次续改继续把规范落到检测脚本，而不是只留在文档：
+  - [`scripts/governance/lint-new-code-file-role-boundaries.mjs`](/Users/peiwang/Projects/nextbot/scripts/governance/lint-new-code-file-role-boundaries.mjs) 已补齐 `configs/ -> *.config.ts(x)` 的目录职责检查。
+  - 现有 `components/` 与 `hooks/` 特殊例外仍保留：`components/` 允许无额外角色后缀，`hooks/` 继续要求 `use-*` 命名，但不再要求 `.hook`。
+  - 对应测试 [`scripts/governance/lint-new-code-file-role-boundaries.test.mjs`](/Users/peiwang/Projects/nextbot/scripts/governance/lint-new-code-file-role-boundaries.test.mjs) 已新增 `configs/` 正反例覆盖，并同步更新了页面目录的 `ts(x)` 文案断言。
+- 同批次续改把 CLI 共享服务根层继续收紧，避免 `shared/services/` 自己退化成新的平铺垃圾层：
+  - `config-reloader`、`self-update`、`restart-*`、`runtime-*`、`llm-usage-*`、`workspace-manager`、`ui-bridge-api`、`local-ui-discovery` 等文件已按职责回收到 `shared/services/{config,restart,runtime,ui,update,usage,workspace}/`。
+  - 这次命中的根因不是“某几个 import 没改干净”，而是 `shared/services/` 根层本身仍然在继续承担历史过渡目录角色；本次修的是职责层次，而不是再给根层开白名单。
+- 同批次续改进一步纠正了 `usage` 与 telemetry 的 owner 边界，避免 CLI 表层命令继续偷带运行态写侧职责：
+  - `commands/usage/` 现在只保留 read side owner，也就是 `LlmUsageCommandService` 与本地 `LlmUsageQueryService`；它只负责读取 `shared/stores` 中已有 usage 数据并做展示，不再拥有 runtime 观测写入职责。
+  - runtime / NCP 侧的写入能力已从 `shared/services/usage/` 明确回收到 [`packages/nextclaw/src/cli/shared/services/telemetry/`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/shared/services/telemetry)，其中 `LlmUsageObserver`、`ObservedProviderManager`、`LlmUsageRecorder` 统一表达“运行时 telemetry 采集”而不是“usage 命令逻辑”。
+  - 这次命中的根因不是 import 路径老旧，而是早期把“usage 查看命令”和“usage 数据写入 owner”混进同一个命名空间，导致其它运行时入口看起来像是在依赖命令 feature；本次修的是 owner 语义，而不是继续把 telemetry 包装成 `usage` 的附属物。
+- 同批次续改把 alias 导入协议真正接入 `module-structure` 合同，而不是只把 `importAliasPrefixes` 当成解析辅助信息：
+  - 一旦模块声明了 `importAliasPrefixes`，治理器现在会把它解释成“跨目录导入的唯一协议”，父级相对路径如 `../`、`../../` 会被直接阻断，只保留同目录 `./` 相对导入。
+  - 对应检查已落到 [`scripts/governance/module-structure/module-structure-protocol-checks.mjs`](/Users/peiwang/Projects/nextbot/scripts/governance/module-structure/module-structure-protocol-checks.mjs) 和单测 [`scripts/governance/module-structure/lint-new-code-module-structure.test.mjs`](/Users/peiwang/Projects/nextbot/scripts/governance/module-structure/lint-new-code-module-structure.test.mjs)。
+  - `packages/nextclaw/src/cli` 本轮已触达文件中的跨目录导入也已同步切到 `@/`，确保协议不是“只要求以后”，而是这轮改动自己先满足。
+- 同批次续改补齐了 `packages/nextclaw` 的真实 CLI 入口迁移收尾，避免 `cli-command-first` 债务清理后继续残留旧入口引用：
+  - 开发启动链路 [`scripts/dev/dev-runner.mjs`](/Users/peiwang/Projects/nextbot/scripts/dev/dev-runner.mjs) 现已改为从 `src/cli/app/index.ts` 启动，而不是继续引用已删除的 `src/cli/index.ts`。
+  - 开发进程探测脚本 [`scripts/dev/dev-process-status.mjs`](/Users/peiwang/Projects/nextbot/scripts/dev/dev-process-status.mjs) 同步切到 `src/cli/app/index.ts` / `dist/cli/app/index.js`，保证 dev 状态识别与真实入口一致。
+  - 发布制品校验 [`scripts/release/verify-package-release-artifacts.mjs`](/Users/peiwang/Projects/nextbot/scripts/release/verify-package-release-artifacts.mjs)、远端冒烟辅助 [`scripts/smoke/remote-relay-smoke-support.mjs`](/Users/peiwang/Projects/nextbot/scripts/smoke/remote-relay-smoke-support.mjs) 与相关自启动 / 启动测试样例已全部改到 `dist/cli/app/index.js`，不再保留旧 `dist/cli/index.js` 假入口。
+- 同批次续改继续清算了 `packages/nextclaw/src/cli/commands/` 的命令根层债务，开始把 `cli-command-first` 从“能拦根目录”推进到“命令内部骨架也按协议收敛”：
+  - 已把 `config-tests/`、`cron-support/`、`diagnostics-support/`、`platform-auth-support/` 与 `commands/shared/ui-bridge-api.service.ts` 这批最靠近根层的历史平铺债务收回命令本地职责目录或 CLI 共享层。
+  - `config/`、`cron/`、`diagnostics/`、`platform-auth/` 现在都改成了统一骨架：根层只保留 `index.ts` 唯一出口，owner class 下沉到 `services/`，纯工具落到 `utils/`，共享测试随职责共置，而不是继续在命令根层平铺文件。
+  - `shared/ui-bridge-api.service.ts` 已迁回 [`packages/nextclaw/src/cli/shared/services/ui-bridge-api.service.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/shared/services/ui-bridge-api.service.ts)，`config-path` 测试也随之收回 [`packages/nextclaw/src/cli/shared/utils/config-path.utils.test.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/shared/utils/config-path.utils.test.ts)，避免命令目录再次承载跨命令共享能力。
+  - 本轮继续把最典型的伪命令根目录彻底拆掉，而不是再补公共中转：
+    - 顶层空壳 `compat/` 已删除，兼容性相关测试与辅助逻辑统一收回 `commands/ncp/compat/`。
+    - `service-support/` 已整体回收进 `commands/service/{services,types,utils}/`。
+    - `remote-support/` 已整体回收进 `commands/remote/{services,utils}/`，并由 `commands/remote/index.ts` 统一暴露 `resolvePlatformApiBase`、`buildPlatformApiBaseErrorMessage`、`resolveNextclawRemoteStatusSnapshot`、`hasRunningNextclawManagedService` 等真实公共出口。
+- 同批次续改继续纠正了 CLI 运行态命令的 owner 归属，而不是把历史垃圾从一个伪目录挪到另一个伪目录：
+  - `commands/service/` 不再继续承载 `gateway / ui / start / restart / serve / stop` 这一坨运行态逻辑，只保留真实 `service` 子命令 owner，也就是宿主服务安装、卸载、自启动状态与诊断。
+  - 最终没有保留 `commands/runtime/` 这类伪 feature 根目录，而是把 `gateway/`、`ui/`、`start/`、`restart/`、`serve/`、`stop/` 全部恢复成真实命令 root。
+  - `app/runtime.ts` 现在只做编排，真实运行态逻辑委托给这些真实命令 owner；跨命令共享但仍带 CLI 语义的能力，统一沉到 `src/cli/shared/services/{gateway,marketplace,plugin,runtime,session,ui}` 与 `src/cli/shared/utils/`。
+  - 这轮命中的根因不是“某几个路径没改干净”，而是早期把“运行态命令 owner”和“service 命令 owner”混为一谈，又继续试图用 `runtime/` 这种伪分组承接共享逻辑；本次最终修的是 owner 边界本身，而不是再给错误归属补一层中转。
+- 根因记录：
+  - 根因不是“仓库完全没有结构治理脚本”，而是此前只有命名治理、flat-directory、frozen-directory、topology report 等分散机制，没有一份模块级结构 contract 作为单一事实来源，也没有一条默认 diff-only gate 去判断“这个模块允许怎么长”。
+  - 同时，早期 contract 还是“目录级白名单手写配置”形态，还没有上升到“固定协议模板 + 包级声明 + 唯一导入入口检查”这一层，所以即便补上了 root 白名单，也还不能严格表达你们现在确认的 `L3` 前端协议。
+  - 这一点通过代码路径确认：`lint:new-code:governance` 之前没有任何 `module-structure` 检查，`.github/workflows/` 中也没有专门跑结构治理的 PR workflow；`check:topology` 虽存在，但当前全仓仍有 `26` 个既有 cross-layer violation，只能作为报告命令，不能直接粗暴接成 blocking gate。
+  - 因此之前的真实状态是：规则/skill/README 已经写了很多，但目录层级约束没有形成“contract -> diff gate -> PR workflow”闭环，所以团队体感会等同于“没管”。
+- 本次修复命中根因而不是只处理表象，因为新增的是“固定协议模板 + 包级声明 + diff gate + 导入边界 gate”本身，而不是再补一条口头规则或单目录例外说明。
+- 这次续改对应的真实失败根因是：`packages/nextclaw/src/cli/index.ts` 已在 CLI 结构清理中移除，但开发脚本、发布校验脚本和部分测试数据仍把它当作事实入口，导致用户实际运行 `pnpm dev start` 时直接抛出 `ERR_MODULE_NOT_FOUND`。这次命中的是“入口单一事实来源没有彻底收敛”的根因，而不是只在一个触发点上做临时兜底。
+- 这次续改继续暴露出的更深一层根因是：即便 CLI 已声明 `cli-command-first`，真实命令目录内部仍残留历史平铺文件、support 侧树与 deep import 习惯，导致一旦真正把协议检查接到阻断链路，命令内部会立刻暴露出“根层只剩 index / 命令之间必须走公共出口 / 职责文件必须落到角色目录”的欠债。这次命中的是 CLI 命令内部骨架尚未完成协议化收敛的根因，而不是继续靠豁免配置给历史结构开绿灯。
+- 相关设计与说明：
+  - [2026-04-02-structure-governance-hardening-plan.md](/Users/peiwang/Projects/nextbot/docs/plans/2026-04-02-structure-governance-hardening-plan.md)
+  - [2026-04-19-module-structure-contracts.md](/Users/peiwang/Projects/nextbot/docs/designs/2026-04-19-module-structure-contracts.md)
+
+## 测试/验证/验收方式
+
+- 已通过：`node --test scripts/governance/lint-new-code-file-role-boundaries.test.mjs`
+  - 观察点：`16/16` 全通过，说明 `configs/` 目录后缀规则、`components/hooks` 特殊例外，以及模块合同声明的根级 owner 文件白名单都已被脚本正确表达。
+- 已通过：`node --test scripts/governance/module-structure/lint-new-code-module-structure.test.mjs`
+  - 观察点：`29/29` 全通过，新增覆盖了 `package-l1` 协议声明、L1 根目录白名单和根级源码文件白名单约束。
+- 已通过：`node scripts/governance/lint-new-code-governance.mjs packages/nextclaw-kernel/module-structure.config.json packages/nextclaw-kernel/tsconfig.json packages/nextclaw-kernel/src/index.ts packages/nextclaw-kernel/src/nextclaw-kernel.ts packages/nextclaw-kernel/src/managers/agent.manager.ts packages/nextclaw-kernel/src/managers/automation.manager.ts packages/nextclaw-kernel/src/managers/channel.manager.ts packages/nextclaw-kernel/src/managers/context.manager.ts packages/nextclaw-kernel/src/managers/llm-provider.manager.ts packages/nextclaw-kernel/src/managers/session.manager.ts packages/nextclaw-kernel/src/managers/skill.manager.ts packages/nextclaw-kernel/src/managers/task.manager.ts packages/nextclaw-kernel/src/managers/tool.manager.ts scripts/governance/module-structure/module-structure-contracts.mjs scripts/governance/module-structure/lint-new-code-module-structure.test.mjs scripts/governance/lint-new-code-file-role-boundaries.mjs scripts/governance/lint-new-code-file-role-boundaries.test.mjs docs/designs/2026-04-19-module-structure-contracts.md`
+  - 观察点：本次 `nextclaw-kernel` 相关增量治理检查全绿，`file-role-boundaries` 与 `module-structure-drift` 都已正确识别 `package-l1 + allowedRootFiles`。
+- 已通过：`node node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/bin/tsc -p packages/nextclaw-kernel/tsconfig.json --typeRoots ./node_modules/.pnpm/@types+node@20.19.33/node_modules/@types`
+  - 观察点：`nextclaw-kernel` 当前源码可通过 TypeScript 编译检查；之所以没有直接用 `pnpm --filter @nextclaw/kernel tsc`，是因为该包尚未安装自己的本地 `node_modules`，直接执行时找不到包内 `tsc` 二进制。
+- 已通过：`node scripts/governance/lint-new-code-governance.mjs scripts/governance/lint-new-code-file-role-boundaries.mjs scripts/governance/lint-new-code-file-role-boundaries.test.mjs scripts/governance/module-structure/module-structure-contracts.mjs docs/designs/2026-04-19-module-structure-contracts.md .agents/skills/collapsible-feature-root-architecture/SKILL.md`
+  - 观察点：本次变更对应的增量治理检查全绿，没有新增目录结构或文件角色边界回归。
+- 已通过：`node --test scripts/governance/module-structure/lint-new-code-module-structure.test.mjs`
+- 已通过：`node --test scripts/governance/module-structure/lint-new-code-module-structure.test.mjs`
+  - 观察点：新增断言覆盖“alias 已配置时阻断 `../` 父级相对导入，同时允许同目录 `./` 相对导入”。
+- 已通过：`node scripts/governance/module-structure/lint-new-code-module-structure.mjs -- packages/nextclaw-ui/src/module-structure.config.json scripts/governance/module-structure/module-structure-contracts.mjs scripts/governance/module-structure/module-structure-protocol-checks.mjs scripts/governance/module-structure/lint-new-code-module-structure.mjs scripts/governance/module-structure/lint-new-code-module-structure.test.mjs`
+- 已通过：`pnpm lint:new-code:governance -- packages/nextclaw-ui/src/module-structure.config.json scripts/governance/module-structure/module-structure-contracts.mjs scripts/governance/module-structure/module-structure-protocol-checks.mjs scripts/governance/module-structure/lint-new-code-module-structure.mjs scripts/governance/module-structure/lint-new-code-module-structure.test.mjs`
+- 已通过：`pnpm lint:new-code:governance -- packages/nextclaw/src/cli/gateway/controller.ts packages/nextclaw/src/cli/runtime.ts packages/nextclaw/src/cli/commands/service/service.ts`
+- 已通过：`node scripts/governance/module-structure/lint-new-code-module-structure.mjs -- scripts/governance/module-structure/module-structure-contracts.mjs scripts/governance/module-structure/module-structure-protocol-checks.mjs scripts/governance/module-structure/lint-new-code-module-structure.mjs scripts/governance/module-structure/lint-new-code-module-structure.test.mjs`
+- 已通过：`pnpm lint:new-code:governance -- scripts/governance/module-structure/module-structure-contracts.mjs scripts/governance/module-structure/module-structure-protocol-checks.mjs scripts/governance/module-structure/lint-new-code-module-structure.mjs scripts/governance/module-structure/lint-new-code-module-structure.test.mjs`
+- 已通过：`pnpm check:governance-backlog-ratchet`
+- 已通过：`ruby -e 'require "yaml"; YAML.load_file(".github/workflows/structure-governance.yml"); puts "yaml ok"'`
+- 已通过：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths scripts/governance/module-structure/module-structure-contracts.mjs scripts/governance/module-structure/module-structure-protocol-checks.mjs scripts/governance/module-structure/lint-new-code-module-structure.mjs scripts/governance/module-structure/lint-new-code-module-structure.test.mjs`
+- 已通过：`pnpm --filter nextclaw tsc`
+- 已通过：`pnpm dev start`
+  - 观察点：不再报 `Cannot find module '/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/index.ts'`；前端成功监听 `http://127.0.0.1:5174/`，后端健康检查 `http://127.0.0.1:18792/api/health` 返回 `{"ok":true,"data":{"status":"ok",...}}`。
+- 已通过：`node scripts/dev/dev-process-status.mjs --json`
+  - 观察点：`mode=dev-start`、`status=running`，并正确识别 backend watch/runtime 入口为 `src/cli/app/index.ts`。
+- 已通过：`pnpm --filter nextclaw test -- --run src/cli/shared/services/runtime/tests/service-managed-startup.service.test.ts src/cli/shared/services/marketplace/tests/marketplace-skill-args.service.test.ts src/cli/commands/service/services/autostart/tests/linux-systemd-autostart.service.test.ts src/cli/commands/service/services/autostart/tests/macos-launch-agent-autostart.service.test.ts`
+- 已通过：`pnpm --filter nextclaw build`
+- 已通过：`node ../../scripts/release/verify-package-release-artifacts.mjs`
+- 已通过：`pnpm --filter nextclaw tsc`
+- 已通过：`pnpm --filter nextclaw test -- --run src/cli/commands/config/services/config-commands.service.test.ts src/cli/shared/utils/config-path.utils.test.ts src/cli/commands/cron/utils/cron-job.utils.test.ts src/cli/commands/diagnostics/services/diagnostics-commands.service.test.ts src/cli/shared/services/ui-bridge-api.service.test.ts src/cli/commands/platform-auth/services/platform-auth-commands.service.test.ts`
+- 已通过：`pnpm --filter nextclaw test -- --run src/cli/commands/cron/services/cron-dev-service.service.test.ts`
+- 已通过：`node scripts/governance/lint-new-code-governance.mjs packages/nextclaw/src/cli/commands/config/index.ts packages/nextclaw/src/cli/commands/config/services/config-commands.service.ts packages/nextclaw/src/cli/commands/config/services/config-commands.service.test.ts packages/nextclaw/src/cli/commands/cron/index.ts packages/nextclaw/src/cli/commands/cron/services/cron-commands.service.ts packages/nextclaw/src/cli/commands/cron/services/cron-dev-service.service.test.ts packages/nextclaw/src/cli/commands/cron/services/cron-local.service.ts packages/nextclaw/src/cli/commands/cron/utils/cron-job.utils.ts packages/nextclaw/src/cli/commands/cron/utils/cron-job.utils.test.ts packages/nextclaw/src/cli/commands/diagnostics/index.ts packages/nextclaw/src/cli/commands/diagnostics/services/diagnostics-commands.service.ts packages/nextclaw/src/cli/commands/diagnostics/services/diagnostics-commands.service.test.ts packages/nextclaw/src/cli/commands/diagnostics/utils/diagnostics-render.utils.ts packages/nextclaw/src/cli/commands/platform-auth/index.ts packages/nextclaw/src/cli/commands/platform-auth/services/account-status.service.ts packages/nextclaw/src/cli/commands/platform-auth/services/platform-auth-commands.service.ts packages/nextclaw/src/cli/commands/platform-auth/services/platform-auth-commands.service.test.ts packages/nextclaw/src/cli/commands/platform-auth/utils/payload.utils.ts packages/nextclaw/src/cli/commands/remote/index.ts packages/nextclaw/src/cli/shared/services/ui-bridge-api.service.ts packages/nextclaw/src/cli/shared/services/ui-bridge-api.service.test.ts packages/nextclaw/src/cli/shared/utils/config-path.utils.test.ts packages/nextclaw/src/cli/commands/channel/index.ts`
+- 已通过：`pnpm --filter nextclaw tsc`
+- 已通过：`pnpm --filter nextclaw test -- --run src/cli/commands/remote/services/remote-access-host.service.test.ts src/cli/commands/remote/services/remote-runtime-support.service.test.ts src/cli/commands/remote/services/remote-connector-runtime.test.ts src/cli/shared/services/ui/tests/runtime-control-host.service.test.ts src/cli/commands/platform-auth/services/platform-auth-commands.service.test.ts src/cli/commands/diagnostics/services/diagnostics-commands.service.test.ts src/cli/shared/services/runtime/tests/service-remote-runtime.service.test.ts`
+- 已通过：`node scripts/governance/lint-new-code-governance.mjs $(git diff --name-only -- packages/nextclaw/src/cli/app/runtime.ts packages/nextclaw/src/cli/commands packages/nextclaw/package.json scripts/dev/dev-process-status.mjs scripts/dev/dev-runner.mjs scripts/release/verify-package-release-artifacts.mjs scripts/smoke/remote-relay-smoke-support.mjs | tr '\n' ' ')`
+- 已通过：`pnpm dev start`
+  - 观察点：在默认端口被占用时，启动链路仍能正确回退并拉起 `API base: http://127.0.0.1:18794`、`Frontend: http://127.0.0.1:5175`，没有再出现旧入口 `src/cli/index.ts` 或伪命令目录导致的导入错误。
+- 已通过：`curl -fsS http://127.0.0.1:5175/ | head -n 5`
+  - 观察点：返回 HTML 文档头，说明 dev 前端可访问。
+- 已通过：`curl -fsS http://127.0.0.1:18794/api/health`
+  - 观察点：返回 `{"ok":true,"data":{"status":"ok","services":{"ncpAgent":"ready","cronService":"ready"}}}`。
+- 已通过：`node scripts/dev/dev-process-status.mjs --kill`
+  - 观察点：成功清理本轮冒烟拉起的 dev 进程组，后续 `node scripts/dev/dev-process-status.mjs --json` 返回空 `groups`。
+- 已通过：`pnpm --filter nextclaw tsc`
+- 已通过：`pnpm --filter nextclaw test -- --run src/cli/commands/service/services/autostart/tests/linux-systemd-autostart.service.test.ts src/cli/commands/service/services/autostart/tests/macos-launch-agent-autostart.service.test.ts src/cli/commands/service/services/autostart/tests/windows-task-autostart.service.test.ts src/cli/shared/services/gateway/tests/service-gateway-startup.test.ts src/cli/shared/services/gateway/tests/service-gateway-bootstrap.service.test.ts src/cli/shared/services/gateway/tests/service-capability-hydration.service.test.ts src/cli/shared/services/gateway/tests/service-startup-support.test.ts src/cli/shared/services/runtime/tests/service-managed-startup.service.test.ts src/cli/shared/services/runtime/tests/service-port-probe.test.ts src/cli/shared/services/runtime/tests/service-remote-runtime.service.test.ts src/cli/shared/services/ui/tests/runtime-control-host.service.test.ts src/cli/shared/services/marketplace/tests/marketplace-skill-args.service.test.ts src/cli/shared/services/marketplace/tests/marketplace-plugin-management.service.test.ts src/cli/shared/services/marketplace/tests/marketplace-summary.service.test.ts src/cli/shared/services/gateway/tests/nextclaw-app.test.ts`
+- 已通过：`(cd packages/nextclaw && pnpm test -- --run $(find src/cli/shared/services -name '*.test.ts' | sort))`
+- 已通过：`pnpm lint:new-code:governance -- $(git diff --name-only --diff-filter=ACMRT -- docs/designs/2026-04-19-module-structure-contracts.md packages/nextclaw/src/cli/app/runtime.ts packages/nextclaw/src/cli/commands packages/nextclaw/src/cli/shared/services packages/nextclaw/src/cli/shared/utils scripts/governance/module-structure | tr '\n' ' ')`
+- 已通过：`pnpm dev start`
+  - 观察点：CLI / 后端健康检查 `http://127.0.0.1:18792/api/health` 返回 `{"ok":true,...}`，说明本轮 `shared/services` 收债与 alias 导入替换没有打断 CLI 运行链路。
+  - 已知无关阻塞：前端当前存在另一批 `packages/nextclaw-ui/src` 删除改动，Vite 启动时会报 `@/system-status/...`、`@/presenter/...`、`@/remote/...` 缺文件；这不是本轮 CLI 结构或 alias 协议引入的问题，因此未纳入本次提交。
+- 已通过：`node scripts/dev/dev-process-status.mjs --kill`
+  - 观察点：本轮真实启动验收结束后成功清理 dev 进程，随后 `node scripts/dev/dev-process-status.mjs --json` 返回空 `groups`。
+- 已通过：`pnpm lint:new-code:governance -- $(git diff --name-only --diff-filter=ACMRT -- packages/nextclaw/src/cli/app/runtime.ts packages/nextclaw/src/cli/commands/gateway/index.ts packages/nextclaw/src/cli/commands/ui/index.ts packages/nextclaw/src/cli/commands/start/index.ts packages/nextclaw/src/cli/commands/restart/index.ts packages/nextclaw/src/cli/commands/serve/index.ts packages/nextclaw/src/cli/commands/stop/index.ts packages/nextclaw/src/cli/shared/services packages/nextclaw/src/cli/shared/utils/service-port-probe.utils.ts packages/nextclaw/src/cli/commands/README.md docs/designs/2026-04-19-module-structure-contracts.md docs/logs/v0.16.75-module-structure-governance-closure/README.md | tr '\n' ' ')`
+- 已通过：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths $(git diff --name-only --diff-filter=ACMRT -- packages/nextclaw/src/cli/app/runtime.ts packages/nextclaw/src/cli/commands)`
+  - 观察点：错误为 `0`；仅保留 `app/runtime.ts` 仍超过预算但未继续增长的 warning。
+- 已通过：`pnpm lint:new-code:governance -- $(git diff --name-only --diff-filter=ACMRT -- packages/nextclaw/src/cli/app/runtime.ts packages/nextclaw/src/cli/commands)`
+- 已通过：`pnpm dev start`
+  - 观察点：在 `18792/5174` 已被旧实例占用时，本轮新实例自动回退到 `API base: http://127.0.0.1:18793`、`Frontend: http://127.0.0.1:5175`，运行日志出现 `✓ UI API`、`✓ Capability hydration: scheduled in background`、`✓ UI NCP agent: ready`，且不再出现旧入口 `src/cli/index.ts` 或错误 owner 目录导致的导入失败。
+- 已通过：`curl -sf http://127.0.0.1:18793/api/health`
+  - 观察点：返回 `{"ok":true,"data":{"status":"ok","services":{"ncpAgent":"ready","cronService":"ready"}}}`。
+- 已通过：`curl -I -sf http://127.0.0.1:5175/`
+  - 观察点：返回 `HTTP/1.1 200 OK`。
+- 已通过：`node scripts/dev/dev-process-status.mjs --kill`
+  - 观察点：成功清理 `18792/5174` 与 `18793/5175` 两组 dev-start 进程；随后 `node scripts/dev/dev-process-status.mjs` 返回 `groups: 0`。
+- 当前未作为 blocking gate 接入的项：`pnpm check:topology`
+  - 原因：仓库现状仍有历史 cross-layer violation backlog，本次按根因优先顺序先补“目录层级 contract + diff gate + PR workflow”，把 topology 继续保留为 PR 报告产物，而不是直接炸掉全仓准入。
+
+## 发布/部署方式
+
+- 无需产品发布或服务部署。
+- 合入后即可生效：
+  - 本地收尾时运行 `pnpm lint:new-code:governance`
+  - PR 阶段自动触发 `.github/workflows/structure-governance.yml`
+
+## 用户/产品视角的验收步骤
+
+1. 在一个受 contract 约束的目录里尝试新增根级文件，例如向 `packages/nextclaw-ui/src/components/chat/` 新增 `chat-draft-toolbar.tsx`。
+2. 运行 `pnpm lint:new-code:governance -- packages/nextclaw-ui/src/components/chat/chat-draft-toolbar.tsx`，确认会直接失败，提示该文件是在旧 legacy root `components/` 下继续新增，已被 `frontend-l3` 协议阻断。
+3. 在协议化 feature 结构里尝试从外部 deep import，例如新增 `import { ChatPanel } from "@/features/chat/components/chat-panel";`。
+4. 运行对应治理检查，确认会直接失败，提示 feature 导入必须走 `@/features/chat` 的唯一出口。
+5. 在 `shared/lib/` 下尝试新增根级文件，或从外部 deep import `@/shared/lib/date-format/date-format.utils`。
+6. 运行对应治理检查，确认会直接失败，提示 `shared/lib` 只能“目录即包 + index 唯一出口”。
+7. 在 PR 中提交上述违规改动，确认 `structure-governance` workflow 会自动运行并阻断。
+8. 查看 workflow 上传的 `topology-governance-report` artifact，确认 review 阶段能同时看到全仓 topology 报告。
+9. 在 `packages/nextclaw/src/cli/` 中触达历史根目录如 `gateway/` 或历史根文件如 `runtime.ts`，运行治理检查，确认它们会因为不在 `app/ + commands/ + shared/` 骨架内而直接报错，而不是只给 warning。
+
+## 可维护性总结汇总
+
+- 是否已尽最大努力优化可维护性：是。本次目标不是业务重构，而是把“目录层级治理”补成最小可运行闭环；已优先复用既有 `lint:new-code:governance` 和 ratchet 主链，没有再造第二套平行入口。
+- 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。没有把 full topology backlog 粗暴接成 blocking gate，也没有扩成仓库级结构重写；新增内容集中在一个新的 `module-structure/` 子树与一条 workflow，复杂度增长限定在最小必要范围内。
+- 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：目录组织层面有改善。虽然总代码净增，但新增代码是为了提供此前缺失的结构治理能力；同时把新治理逻辑收进了 `scripts/governance/module-structure/` 子树，而不是继续把 `scripts/governance/` 根目录摊平。
+- 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：更清晰。协议模板、模块配置发现、diff 检查器、workflow 与说明文档各自承担单一职责，没有再把“模块采用什么规则”硬编码在中心脚本里。
+- 目录结构与文件组织是否满足当前项目治理要求：本次新增内容满足。新增治理能力已放入独立子树 `scripts/governance/module-structure/`，模块采纳关系也已下放到各模块根自己的 `module-structure.config.json`；保留债务是测试文件增长较快，以及协议模块本身已接近预算上限，后续若继续扩协议类型，应优先按“结构检查 / 导入检查 / 模板定义 / 配置发现”再拆一层。
+- 同批次 CLI 续改后的结构状态：更接近目标。`packages/nextclaw` 的真实入口事实来源已统一为 `src/cli/app/index.ts` / `dist/cli/app/index.js`，不再让 dev / release / smoke / autostart 测试各自保留一套旧入口字符串；仍待继续清算的是 CLI 命令目录内剩余命名治理与历史平铺债务。
+- 同批次 CLI 命令根层债务状态：已继续下降。`config/`、`cron/`、`diagnostics/`、`platform-auth/`、`remote/`、`service/` 都已向“根层仅 index + 内部 role 目录化”继续收敛，`compat/`、`remote-support/`、`service-support/` 三个伪根目录已被清除；后续剩余债务主要转为命令内部的命名一致性与更深层角色边界收敛，而不再是根层 support 树横飞。
+- 同批次 CLI 运行态 owner 状态：已明显更正。`service/` 被收窄回真实 service 命令，`gateway / ui / start / restart / serve / stop` 也都恢复成真实命令 root，不再继续保留 `runtime/` 这类伪分组。共享运行时能力已沉到 `shared/services/*` 与 `shared/utils/*`；剩余债务主要转为局部命名一致性，而不再是根层 owner 归属错误。
+- 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：是。结论如下：
+  - 长期目标对齐 / 可维护性推进：是，这次顺着“目录边界更明确、默认入口更统一、review 更可预测”的方向推进了一步。它增强的是 NextClaw 作为长期统一入口产品的内部演进能力，因为后续新能力更不容易继续掉进平铺失控目录。
+  - 可维护性复核结论：通过
+  - 本次顺手减债：是
+  - 代码增减报告：
+    - 新增：796 行
+    - 删除：106 行
+    - 净增：+690 行
+  - 非测试代码增减报告：
+    - 新增：633 行
+    - 删除：78 行
+    - 净增：+555 行
+  - 可维护性总结：这次净增长主要来自一项新的治理能力升级，而不是非功能性补丁膨胀；同时已把“协议模板定义 / 主检查器 / 协议检查器 / 测试”分成更清晰的职责边界，并复用现有聚合命令与 ratchet 主链，避免继续堆第二套治理系统。剩余观察点是协议模块已接近文件预算，以及测试文件增长较快，后续扩展更多协议类型时应优先继续拆分。
+- 不适用项：无。
+
+## NPM 包发布记录
+
+- 不涉及 NPM 包发布。
