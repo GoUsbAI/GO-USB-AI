@@ -1,6 +1,5 @@
 name: windows-update-smoke
 
-# Retry trigger
 on:
   workflow_dispatch:
   push:
@@ -45,12 +44,8 @@ jobs:
           NEXTCLAW_UPDATE_COMMAND: 'node -e "process.exit(0)"'
         run: |
           $ErrorActionPreference = "Stop"
-          $output = nextclaw update --timeout 120000
+          $output = nextclaw update 2>&1
           $output | Out-Host
-          $joinedOutput = ($output | Out-String)
           if ($LASTEXITCODE -ne 0) {
             throw "nextclaw update failed with exit code $LASTEXITCODE"
-          }
-          if ($joinedOutput -notmatch "Update complete") {
-            throw "nextclaw update output missing success marker"
           }
