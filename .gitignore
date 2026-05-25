@@ -7,6 +7,7 @@ coverage/
 .npmrc
 .npmrc.publish.local
 tmp
+graphify-out/
 apps/docs/.vitepress/dist/
 apps/docs/.vitepress/cache/
 apps/docs/--host/

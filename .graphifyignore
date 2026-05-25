@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.next/
+.cursor/
+data/
+*.bin
+*.exe
+*.dll
+*.zip
+*.tar.gz
