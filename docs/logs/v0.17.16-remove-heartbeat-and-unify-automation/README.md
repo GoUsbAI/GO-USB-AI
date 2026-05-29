@@ -3,8 +3,8 @@
 - 删除 `Heartbeat` 作为独立产品/runtime 概念，统一收口到 `cron + session binding + skill`。
 - 删除了独立的 `HeartbeatService`、gateway heartbeat wiring、启动日志、专用 handler、`HEARTBEAT_OK` ack 规则，以及 `HEARTBEAT.md` 模板与 bootstrap/config 特例。
 - `cron` 保持为唯一后台自动化调度主路径，继续承接定时执行能力；会话连续性则统一通过已有的 `sessionId` 绑定能力表达。
-- 新增一个很薄的 [`automation-setup` skill](../../../packages/nextclaw-core/src/agent/skills/automation-setup/SKILL.md)，只负责把“稍后提醒我 / 定期跟进 / 继续这个会话”这类自然语言需求翻译成 `cron` 配置，不新增第二套调度器。
-- 同时增强了 [`cron` skill](../../../packages/nextclaw-core/src/agent/skills/cron/SKILL.md) 的说明，明确它是唯一内建自动化调度能力，不再引导用户使用 `Heartbeat` 或 `HEARTBEAT.md`。
+- 新增一个很薄的 [`automation-setup` skill](../../../packages/go-usb-ai-core/src/agent/skills/automation-setup/SKILL.md)，只负责把“稍后提醒我 / 定期跟进 / 继续这个会话”这类自然语言需求翻译成 `cron` 配置，不新增第二套调度器。
+- 同时增强了 [`cron` skill](../../../packages/go-usb-ai-core/src/agent/skills/cron/SKILL.md) 的说明，明确它是唯一内建自动化调度能力，不再引导用户使用 `Heartbeat` 或 `HEARTBEAT.md`。
 - 对外入口文档、CLI 使用说明、UI 会话标签和模板文案已同步收口，不再把 `Heartbeat` 当成正式能力并列展示。
 - 根因说明：
   - 根因不是“Heartbeat 实现得还不够完整”，而是产品和运行时长期同时维护了两条语义重叠的自动化路径：一条是通用 `cron`，一条是固定周期文件轮询的 `heartbeat`。
@@ -14,31 +14,31 @@
 ## 测试/验证/验收方式
 
 - 已通过：
-  - `pnpm -C packages/nextclaw-core exec vitest run src/agent/tests/context.test.ts src/agent/tools/cron.test.ts`
-  - `pnpm -C packages/nextclaw exec vitest run src/cli/shared/services/gateway/tests/cron-job-handler.service.test.ts src/cli/shared/services/gateway/tests/service-startup-support.test.ts src/cli/shared/services/workspace/workspace-manager.service.test.ts src/cli/commands/ncp/context/nextclaw-ncp-context-builder.test.ts`
-  - `pnpm -C packages/nextclaw-core tsc`
-  - `pnpm -C packages/nextclaw-ui tsc`
-  - `pnpm -C packages/nextclaw-server tsc`
+  - `pnpm -C packages/go-usb-ai-core exec vitest run src/agent/tests/context.test.ts src/agent/tools/cron.test.ts`
+  - `pnpm -C packages/go-usb-ai exec vitest run src/cli/shared/services/gateway/tests/cron-job-handler.service.test.ts src/cli/shared/services/gateway/tests/service-startup-support.test.ts src/cli/shared/services/workspace/workspace-manager.service.test.ts src/cli/commands/ncp/context/go-usb-ai-ncp-context-builder.test.ts`
+  - `pnpm -C packages/go-usb-ai-core tsc`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
+  - `pnpm -C packages/go-usb-ai-server tsc`
 - 已确认的定向结果：
   - workspace 初始化不再生成 `HEARTBEAT.md`
   - gateway 启动路径不再打印 Heartbeat 启动信息
   - 活跃文档入口不再并列展示 `Cron & Heartbeat`
   - `cron` 相关能力与测试仍可正常工作
 - 未完全通过项：
-  - `pnpm -C packages/nextclaw tsc` 失败，失败点位于用户已有改动的 [`nextclaw-agent-session-store.test.ts`](../../../packages/nextclaw/src/cli/commands/ncp/session/nextclaw-agent-session-store.test.ts) 第 175 行附近，为本次改动之外的既有类型错误。
+  - `pnpm -C packages/go-usb-ai tsc` 失败，失败点位于用户已有改动的 [`go-usb-ai-agent-session-store.test.ts`](../../../packages/go-usb-ai/src/cli/commands/ncp/session/go-usb-ai-agent-session-store.test.ts) 第 175 行附近，为本次改动之外的既有类型错误。
   - `pnpm lint:new-code:governance` 未通过，主要拦在仓库历史文件命名/目录治理债务上；本次没有新增第二套 Heartbeat 相关复杂度，但触达旧文件后会被现有治理规则继续暴露。
   - `post-edit-maintainability-guard` 未完全通过，失败项同样主要来自仓库已有热点目录与旧文件预算问题，而不是本次删除 Heartbeat 后新增的维护性负担。
 
 ## 发布/部署方式
 
-- 本次改动随常规 `nextclaw`、`@nextclaw/core`、`@nextclaw/ui`、`@nextclaw/server` 等相关包的统一发版发布，无需单独部署步骤。
+- 本次改动随常规 `go-usb-ai`、`@go-usb-ai/core`、`@go-usb-ai/ui`、`@go-usb-ai/server` 等相关包的统一发版发布，无需单独部署步骤。
 - 若进入统一 release 批次，需要确保 CLI/runtime/docs/UI 变更随同一个版本窗口一起发布，避免文档已删除 `Heartbeat` 但旧二进制仍暴露该概念。
 
 ## 用户/产品视角的验收步骤
 
 1. 初始化一个新的 workspace，确认目录中不再自动出现 `HEARTBEAT.md`。
 2. 启动服务或相关 runtime，确认启动输出中不再出现 `Heartbeat: every 30m`。
-3. 通过 `nextclaw cron add ... --session-id <sessionId>` 创建一个绑定现有会话的定时任务，确认命令仍然可用。
+3. 通过 `go-usb-ai cron add ... --session-id <sessionId>` 创建一个绑定现有会话的定时任务，确认命令仍然可用。
 4. 在 AI 对话里使用 `automation-setup` 或 `cron` skill 表达“稍后继续这个会话 / 定期跟进这件事”，确认 AI 会创建 cron job，而不是引用 Heartbeat。
 5. 浏览 README、USAGE 和 docs guide，确认当前对外入口只介绍 `Cron` / automation，不再把 `Heartbeat` 当成正式功能。
 
@@ -65,7 +65,7 @@
 本次顺手减债：是
 
 长期目标对齐 / 可维护性推进：
-- 这次改动顺着“NextClaw 作为统一入口与能力编排层”的方向前进了一步。我们去掉了一个并列但不必要的产品概念，让自动化能力回到统一入口，而不是继续让用户理解两套近似机制。
+- 这次改动顺着“GoUsbAi 作为统一入口与能力编排层”的方向前进了一步。我们去掉了一个并列但不必要的产品概念，让自动化能力回到统一入口，而不是继续让用户理解两套近似机制。
 - 在可维护性上，这次最关键的推进是删除旧特例、统一调度语义，并把快捷体验放回 skill 层，而不是继续在 runtime 中保留第二条路径。
 
 代码增减报告：
@@ -99,15 +99,15 @@ no maintainability findings
 
 - 本次是否需要发包：待统一发布。
 - 需要发布哪些包：
-  - `nextclaw`
-  - `@nextclaw/core`
-  - `@nextclaw/ui`
-  - `@nextclaw/server`
+  - `go-usb-ai`
+  - `@go-usb-ai/core`
+  - `@go-usb-ai/ui`
+  - `@go-usb-ai/server`
 - 每个包当前是否已经发布：
-  - `nextclaw`：未发布，待统一发布
-  - `@nextclaw/core`：未发布，待统一发布
-  - `@nextclaw/ui`：未发布，待统一发布
-  - `@nextclaw/server`：未发布，待统一发布
+  - `go-usb-ai`：未发布，待统一发布
+  - `@go-usb-ai/core`：未发布，待统一发布
+  - `@go-usb-ai/ui`：未发布，待统一发布
+  - `@go-usb-ai/server`：未发布，待统一发布
 - 未发布原因：
   - 当前改动已完成实现与定向验证，但尚未进入统一 release 批次。
 - 后续触发条件：

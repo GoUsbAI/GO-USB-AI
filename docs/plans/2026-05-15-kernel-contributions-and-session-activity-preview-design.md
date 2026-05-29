@@ -24,7 +24,7 @@ export interface KernelContribution {
 }
 ```
 
-`NextclawKernel` 直接持有数组：
+`GoUsbAiKernel` 直接持有数组：
 
 ```ts
 private readonly contributions: KernelContribution[];
@@ -47,7 +47,7 @@ this.contributions = [
 推荐结构：
 
 ```txt
-packages/nextclaw-kernel/src/contributions/
+packages/go-usb-ai-kernel/src/contributions/
   session-activity-preview/
     index.ts
     types/

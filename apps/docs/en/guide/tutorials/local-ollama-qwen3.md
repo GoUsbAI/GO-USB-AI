@@ -6,12 +6,12 @@ Local models are useful when you want fewer external dependencies, offline exper
 
 - Ollama is installed
 - the machine has enough resources for the model
-- NextClaw can start and open the UI
+- GoUsbAi can start and open the UI
 
 ## Steps
 
 1. Pull and run the model in Ollama.
-2. Add a local provider in NextClaw.
+2. Add a local provider in GoUsbAi.
 3. Point it at the local Ollama address.
 4. Select the model.
 5. Send one real message to verify.

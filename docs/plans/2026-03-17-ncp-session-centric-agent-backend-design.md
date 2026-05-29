@@ -233,14 +233,14 @@ This is more honest than saying the endpoint supports streaming an existing run 
 
 ## Required Code Changes
 
-### `@nextclaw/ncp`
+### `@go-usb-ai/ncp`
 
 - Update `NcpStreamRequestPayload`
 - Update `NcpMessageAbortPayload`
 - Update `NcpSessionSummary`
 - Update manifest capability field and docs
 
-### `@nextclaw/ncp-toolkit`
+### `@go-usb-ai/ncp-toolkit`
 
 - Remove `AgentRunStore`
 - Remove `RunRecord`
@@ -252,7 +252,7 @@ This is more honest than saying the endpoint supports streaming an existing run 
 - Simplify or inline `AgentRunExecutor`
 - Update tests that currently assume run-store-backed streaming
 
-### `@nextclaw/ncp-http-agent-server`
+### `@go-usb-ai/ncp-http-agent-server`
 
 - Update `/stream` semantics from run-based reading to live session subscription
 - Remove stored-stream wording from docs and types
@@ -315,8 +315,8 @@ Why:
 
 Recommended implementation order:
 
-1. Update protocol types in `@nextclaw/ncp`
-2. Refactor `@nextclaw/ncp-toolkit` backend internals
+1. Update protocol types in `@go-usb-ai/ncp`
+2. Refactor `@go-usb-ai/ncp-toolkit` backend internals
 3. Update HTTP agent server
 4. Update demo backend and frontend
 5. Run end-to-end smoke tests for session send, stream, abort, restart, and delete

@@ -1,10 +1,10 @@
 # Session Search Worker Indexing Implementation Plan
 
-**Goal:** Move `session_search` indexing and querying out of the main Node.js event loop so NextClaw startup, `/api/health`, `/api/runtime/bootstrap-status`, UI, channels, and remote status remain responsive even with large historical session stores.
+**Goal:** Move `session_search` indexing and querying out of the main Node.js event loop so GoUsbAi startup, `/api/health`, `/api/runtime/bootstrap-status`, UI, channels, and remote status remain responsive even with large historical session stores.
 
 **Architecture:** `session_search` becomes a worker-owned capability. The main process owns only a lightweight `SessionSearchRuntimeSupport` controller and an async NCP tool facade; a dedicated worker thread owns session scanning, SQLite FTS access, incremental indexing, query execution, progress, and errors. Startup no longer runs session search initialization on the main thread, and the worker uses stale-while-revalidate indexing rather than rebuilding everything on every process start.
 
-**Tech Stack:** Node.js `worker_threads`, TypeScript, existing `node:sqlite` FTS5 storage inside the worker only, existing NCP tool interfaces, Vitest, startup trace, NextClaw service smoke.
+**Tech Stack:** Node.js `worker_threads`, TypeScript, existing `node:sqlite` FTS5 storage inside the worker only, existing NCP tool interfaces, Vitest, startup trace, GoUsbAi service smoke.
 
 ---
 
@@ -18,7 +18,7 @@ Current startup behavior is not acceptable:
 - On a large real home directory, this blocked the main Node event loop for about 12 seconds.
 - During that block, `/api/health` was already listening but could not be served. A real probe measured the first `/api/health` request at `8.720779s`, then subsequent requests dropped to about `1ms`.
 
-This violates the startup contract for NextClaw as a user-facing personal operation layer: the core entrypoint must become responsive first, while derived capabilities warm independently.
+This violates the startup contract for GoUsbAi as a user-facing personal operation layer: the core entrypoint must become responsive first, while derived capabilities warm independently.
 
 ## Non-Goals
 
@@ -31,7 +31,7 @@ This violates the startup contract for NextClaw as a user-facing personal operat
 
 ## Target Behavior
 
-- Starting NextClaw must not run full session search indexing on the main thread.
+- Starting GoUsbAi must not run full session search indexing on the main thread.
 - First `/api/health` request after UI API listen should remain fast, target `< 200ms` on the current large local home.
 - `session_search` may be temporarily unavailable or stale while the worker starts, but the main app must stay responsive.
 - Existing indexed data may be queried quickly once the worker opens the DB.
@@ -67,7 +67,7 @@ Worker thread:
 
 Create a small protocol in:
 
-- `packages/nextclaw/src/cli/commands/ncp/session-search/worker/session-search-worker-protocol.types.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/session-search/worker/session-search-worker-protocol.types.ts`
 
 Message types:
 
@@ -208,18 +208,18 @@ If the worker is not ready:
 
 Create worker entry:
 
-- `packages/nextclaw/src/cli/commands/ncp/session-search/worker/session-search-worker-host.service.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/session-search/worker/session-search-worker-host.service.ts`
 
 Create controller:
 
-- `packages/nextclaw/src/cli/commands/ncp/session-search/worker/session-search-worker.controller.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/session-search/worker/session-search-worker.controller.ts`
 
 Worker resolution must support both dev and built package:
 
 - in dev, use a tiny `tsx` bootstrap to load the `.ts` worker host, because worker threads do not reliably remap `.js` import specifiers to source `.ts` files,
 - in dist, resolve the emitted `.js` worker host from the bundled app layout.
 
-Update `packages/nextclaw/package.json` build script to include the worker entry as an additional `tsdown` entry:
+Update `packages/go-usb-ai/package.json` build script to include the worker entry as an additional `tsdown` entry:
 
 ```bash
 tsdown src/index.ts src/cli/app/index.ts src/cli/launcher/index.ts src/cli/commands/ncp/session-search/worker/session-search-worker-host.service.ts --dts --clean --target es2022 --no-fixedExtension
@@ -231,10 +231,10 @@ This keeps release artifacts self-contained.
 
 **Files:**
 
-- Modify: `packages/nextclaw/src/cli/shared/services/gateway/tests/nextclaw-app.service.test.ts`
-- Test support only if needed: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-runtime.service.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/shared/services/gateway/tests/go-usb-ai-app.service.test.ts`
+- Test support only if needed: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-runtime.service.test.ts`
 
-**Step 1: Add a test proving `NextclawApp.start()` does not call heavy warmup before returning**
+**Step 1: Add a test proving `GoUsbAiApp.start()` does not call heavy warmup before returning**
 
 Use the existing renamed gateway test. The test should assert:
 
@@ -247,7 +247,7 @@ Use the existing renamed gateway test. The test should assert:
 Run:
 
 ```bash
-pnpm --filter nextclaw test -- --run src/cli/shared/services/gateway/tests/nextclaw-app.service.test.ts
+pnpm --filter go-usb-ai test -- --run src/cli/shared/services/gateway/tests/go-usb-ai-app.service.test.ts
 ```
 
 Expected before final implementation:
@@ -270,7 +270,7 @@ Expected behavior:
 Run:
 
 ```bash
-pnpm --filter nextclaw test -- --run src/cli/commands/ncp/session-search/session-search-runtime.service.test.ts
+pnpm --filter go-usb-ai test -- --run src/cli/commands/ncp/session-search/session-search-runtime.service.test.ts
 ```
 
 Expected:
@@ -281,7 +281,7 @@ Expected:
 
 **Files:**
 
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/worker/session-search-worker-protocol.types.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/worker/session-search-worker-protocol.types.ts`
 
 **Step 1: Add request/event/result types**
 
@@ -296,7 +296,7 @@ No runtime logic in this file.
 Run:
 
 ```bash
-pnpm --filter nextclaw tsc
+pnpm --filter go-usb-ai tsc
 ```
 
 Expected:
@@ -307,10 +307,10 @@ Expected:
 
 **Files:**
 
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/worker/session-search-file-scanner.service.ts`
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-document-builder.service.ts`
-- Modify: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-index.manager.ts`
-- Test: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-feature.service.test.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/worker/session-search-file-scanner.service.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-document-builder.service.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-index.manager.ts`
+- Test: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-feature.service.test.ts`
 
 **Step 1: Move document construction out of `SessionSearchIndexManager`**
 
@@ -338,7 +338,7 @@ Use asynchronous `fs.promises` APIs.
 Run:
 
 ```bash
-pnpm --filter nextclaw test -- --run src/cli/commands/ncp/session-search/session-search-feature.service.test.ts
+pnpm --filter go-usb-ai test -- --run src/cli/commands/ncp/session-search/session-search-feature.service.test.ts
 ```
 
 Expected:
@@ -349,9 +349,9 @@ Expected:
 
 **Files:**
 
-- Modify: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-store.service.ts`
-- Modify: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search.types.ts`
-- Test: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-feature.service.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-store.service.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search.types.ts`
+- Test: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-feature.service.test.ts`
 
 **Step 1: Add metadata table creation**
 
@@ -382,8 +382,8 @@ Add a test proving unchanged sessions are not re-upserted when metadata matches.
 
 **Files:**
 
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/worker/session-search-worker-indexer.service.ts`
-- Test: `packages/nextclaw/src/cli/commands/ncp/session-search/worker/session-search-worker-indexer.service.test.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/worker/session-search-worker-indexer.service.ts`
+- Test: `packages/go-usb-ai/src/cli/commands/ncp/session-search/worker/session-search-worker-indexer.service.test.ts`
 
 **Step 1: Write failing test for incremental indexing**
 
@@ -426,7 +426,7 @@ This keeps the worker responsive to query messages.
 Run:
 
 ```bash
-pnpm --filter nextclaw test -- --run src/cli/commands/ncp/session-search/worker/session-search-worker-indexer.service.test.ts
+pnpm --filter go-usb-ai test -- --run src/cli/commands/ncp/session-search/worker/session-search-worker-indexer.service.test.ts
 ```
 
 Expected:
@@ -437,7 +437,7 @@ Expected:
 
 **Files:**
 
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/worker/session-search-worker-host.service.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/worker/session-search-worker-host.service.ts`
 - Test indirectly through controller tests.
 
 **Step 1: Wire protocol handling**
@@ -474,8 +474,8 @@ All request handlers return `response` with `ok: false` on failure. Worker-level
 
 **Files:**
 
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/worker/session-search-worker.controller.ts`
-- Test: `packages/nextclaw/src/cli/commands/ncp/session-search/worker/session-search-worker.controller.test.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/worker/session-search-worker.controller.ts`
+- Test: `packages/go-usb-ai/src/cli/commands/ncp/session-search/worker/session-search-worker.controller.test.ts`
 
 **Step 1: Add controller state**
 
@@ -533,9 +533,9 @@ Use a fake worker adapter if direct worker tests are too brittle. The controller
 
 **Files:**
 
-- Modify: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-runtime.service.ts`
-- Modify: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-tool.service.ts`
-- Test: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-runtime.service.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-runtime.service.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-tool.service.ts`
+- Test: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-runtime.service.test.ts`
 
 **Step 1: Change constructor dependencies**
 
@@ -579,7 +579,7 @@ type SessionSearchQueryExecutor = {
 Run:
 
 ```bash
-pnpm --filter nextclaw test -- --run src/cli/commands/ncp/session-search/session-search-runtime.service.test.ts
+pnpm --filter go-usb-ai test -- --run src/cli/commands/ncp/session-search/session-search-runtime.service.test.ts
 ```
 
 Expected:
@@ -590,9 +590,9 @@ Expected:
 
 **Files:**
 
-- Modify: `packages/nextclaw/src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts`
-- Modify: `packages/nextclaw/src/cli/shared/services/gateway/nextclaw-app.service.ts`
-- Test: `packages/nextclaw/src/cli/shared/services/gateway/tests/nextclaw-app.service.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts`
+- Modify: `packages/go-usb-ai/src/cli/shared/services/gateway/go-usb-ai-app.service.ts`
+- Test: `packages/go-usb-ai/src/cli/shared/services/gateway/tests/go-usb-ai-app.service.test.ts`
 
 **Step 1: Keep MCP warmup separate**
 
@@ -610,7 +610,7 @@ private runDerivedCapabilityWarmup = async (): Promise<void> => {
 
 This is acceptable only after `SessionSearchRuntimeSupport.initialize()` has become worker-start-only and does not index in the main thread.
 
-**Step 2: Keep `NextclawApp` warmup post-ready**
+**Step 2: Keep `GoUsbAiApp` warmup post-ready**
 
 Current post-ready timer is acceptable after workerization because session search no longer blocks the main thread. Do not add another arbitrary grace delay.
 
@@ -619,7 +619,7 @@ Current post-ready timer is acceptable after workerization because session searc
 Run:
 
 ```bash
-pnpm --filter nextclaw test -- --run src/cli/shared/services/gateway/tests/nextclaw-app.service.test.ts
+pnpm --filter go-usb-ai test -- --run src/cli/shared/services/gateway/tests/go-usb-ai-app.service.test.ts
 ```
 
 Expected:
@@ -630,7 +630,7 @@ Expected:
 
 **Files:**
 
-- Modify: `packages/nextclaw/package.json`
+- Modify: `packages/go-usb-ai/package.json`
 
 **Step 1: Add worker entry to build**
 
@@ -641,7 +641,7 @@ Update `build` script as described in the build section.
 Run:
 
 ```bash
-pnpm -C packages/nextclaw build
+pnpm -C packages/go-usb-ai build
 ```
 
 Expected:
@@ -653,7 +653,7 @@ Expected:
 Run:
 
 ```bash
-pnpm -C packages/nextclaw start serve --ui-port 18895
+pnpm -C packages/go-usb-ai start serve --ui-port 18895
 ```
 
 In another shell:
@@ -678,7 +678,7 @@ Expected:
 Run:
 
 ```bash
-NEXTCLAW_STARTUP_TRACE=1 pnpm -C packages/nextclaw dev:build serve --ui-port 18894
+GOUSB_AI_STARTUP_TRACE=1 pnpm -C packages/go-usb-ai dev:build serve --ui-port 18894
 ```
 
 **Step 2: Probe health repeatedly**
@@ -714,11 +714,11 @@ Start a session after the worker reports ready and confirm `session_search` appe
 Run:
 
 ```bash
-pnpm --filter nextclaw test -- --run \
+pnpm --filter go-usb-ai test -- --run \
   src/cli/commands/ncp/session-search/session-search-runtime.service.test.ts \
   src/cli/commands/ncp/session-search/session-search-feature.service.test.ts \
   src/cli/commands/ncp/session-search/worker/session-search-worker-indexer.service.test.ts \
-  src/cli/shared/services/gateway/tests/nextclaw-app.service.test.ts
+  src/cli/shared/services/gateway/tests/go-usb-ai-app.service.test.ts
 ```
 
 **Step 2: Run TypeScript**
@@ -726,7 +726,7 @@ pnpm --filter nextclaw test -- --run \
 Run:
 
 ```bash
-pnpm --filter nextclaw tsc
+pnpm --filter go-usb-ai tsc
 ```
 
 **Step 3: Run build**
@@ -734,7 +734,7 @@ pnpm --filter nextclaw tsc
 Run:
 
 ```bash
-pnpm -C packages/nextclaw build
+pnpm -C packages/go-usb-ai build
 ```
 
 **Step 4: Run startup smoke**
@@ -758,7 +758,7 @@ pnpm check:governance-backlog-ratchet
 
 Known current risk:
 
-- `packages/nextclaw-openclaw-compat/src/plugins/bundled-channel-plugin-packages.constants.ts` is already touched in the current working tree and may still fail file-role-boundary governance until that separate temporary channel-disable change is cleaned up or renamed.
+- `packages/go-usb-ai-openclaw-compat/src/plugins/bundled-channel-plugin-packages.constants.ts` is already touched in the current working tree and may still fail file-role-boundary governance until that separate temporary channel-disable change is cleaned up or renamed.
 
 **Step 6: Update iteration log**
 
@@ -790,5 +790,5 @@ Because implementation will touch runtime code, update or create `docs/logs/v0.1
 - Do not run `SessionManager.getIfExists()` for every historical session on the main thread.
 - Do not pass full session contents from main to worker. Pass paths/config; worker reads files itself.
 - Do not expose partial worker internals through the NCP tool registry.
-- Keep `session_search` as a derived capability. It is useful, but it must never define whether NextClaw is started.
+- Keep `session_search` as a derived capability. It is useful, but it must never define whether GoUsbAi is started.
 - Do not commit unless the user explicitly asks.

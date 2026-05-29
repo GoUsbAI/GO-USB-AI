@@ -31,7 +31,7 @@
 
 ## 实施范围
 
-1. `@nextclaw/core`
+1. `@go-usb-ai/core`
    - 扩展 Agent profile create/update 输入，接受 `runtime` / `runtimeConfig`
    - 对外有效 profile 增加 `runtime` / `runtimeConfig` 视图字段
    - 内部继续写入 `engine` / `engineConfig`

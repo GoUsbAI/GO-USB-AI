@@ -22,14 +22,14 @@
 
 并进一步收敛了正式推进策略：
 
-- 第一阶段默认直接基于 `DefaultNcpAgentRuntime` 实现 Nextclaw NCP-native runtime
+- 第一阶段默认直接基于 `DefaultNcpAgentRuntime` 实现 GoUsbAi NCP-native runtime
 - 不预设先新增一批 NCP 新积木
 - 等 bridge runtime 被替换、第一版跑通后，再看哪些通用模式值得沉淀回 NCP
 
 同时，这份文档也和已有方案建立了清晰关系：
 
 - 它承接 [NCP 定位与愿景](../../designs/2026-03-17-ncp-positioning-and-vision.md)
-- 它细化 [NCP Phase 2.5：Nextclaw Capability Assembly Plan](../../plans/2026-03-18-ncp-phase2-5-nextclaw-capability-assembly-plan.md) 之后的下一步
+- 它细化 [NCP Phase 2.5：GoUsbAi Capability Assembly Plan](../../plans/2026-03-18-ncp-phase2-5-go-usb-ai-capability-assembly-plan.md) 之后的下一步
 - 它把 bridge runtime 的临时角色和 native runtime 的终局角色彻底区分开
 
 # 测试/验证/验收方式

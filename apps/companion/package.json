@@ -1,13 +1,13 @@
 {
-  "name": "@nextclaw/companion",
+  "name": "@go-usb-ai/companion",
   "version": "0.1.13",
   "private": false,
-  "description": "Standalone Electron companion shell for active NextClaw agents.",
-  "author": "NextClaw Team",
-  "homepage": "https://github.com/Peiiii/nextclaw",
+  "description": "Standalone Electron companion shell for active GoUsbAi agents.",
+  "author": "GoUsbAi Team",
+  "homepage": "https://github.com/Peiiii/go-usb-ai",
   "main": "dist/electron/main.js",
   "bin": {
-    "nextclaw-companion": "dist/electron/launcher.js"
+    "go-usb-ai-companion": "dist/electron/launcher.js"
   },
   "license": "MIT",
   "scripts": {
@@ -22,7 +22,7 @@
     "smoke": "pnpm build && node scripts/smoke.mjs"
   },
   "dependencies": {
-    "@nextclaw/client-sdk": "workspace:*",
+    "@go-usb-ai/client-sdk": "workspace:*",
     "electron": "^32.2.1",
     "lucide-react": "^0.462.0",
     "react": "^18.3.1",

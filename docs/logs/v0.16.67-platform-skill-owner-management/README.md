@@ -7,7 +7,7 @@
   - skill 表新增 `owner_visibility` 与 `owner_deleted_at`
   - 公共 marketplace 列表仅暴露 `publish_status='published' + owner_visibility='public' + owner_deleted_at IS NULL`
   - 新增 owner 视角接口：列出自己的 skill、读取详情、执行 `hide/show/delete`
-- `nextclaw-provider-gateway-api` 新增平台用户侧 marketplace skill 代理接口，并为 owner 管理动作写入 audit log。
+- `go-usb-ai-provider-gateway-api` 新增平台用户侧 marketplace skill 代理接口，并为 owner 管理动作写入 audit log。
 - `platform-console` 新增 `My Skills / 我的 Skills` 页面，提供经典工作台内的 skill 管理入口，支持：
   - 查看自己发布的 skill 列表与详情
   - 查看管理员审核状态与自己的可见性状态
@@ -22,24 +22,24 @@
   - `pnpm -C workers/marketplace-api tsc`
   - `pnpm -C workers/marketplace-api lint`
   - `pnpm -C workers/marketplace-api build`
-  - `pnpm -C workers/nextclaw-provider-gateway-api tsc`
-  - `pnpm -C workers/nextclaw-provider-gateway-api build`
+  - `pnpm -C workers/go-usb-ai-provider-gateway-api tsc`
+  - `pnpm -C workers/go-usb-ai-provider-gateway-api build`
   - `pnpm -C apps/platform-console lint`
   - `pnpm -C apps/platform-console tsc`
   - `pnpm -C apps/platform-console build`
   - `pnpm smoke:platform:console`
-  - `curl https://marketplace-api.nextclaw.io/health`
-  - `curl https://ai-gateway-api.nextclaw.io/health`
-  - `curl -I https://platform.nextclaw.io`
-  - `PLATFORM_CONSOLE_BASE_URL=https://platform.nextclaw.io pnpm smoke:platform:console`
+  - `curl https://marketplace-api.go-usb-ai.io/health`
+  - `curl https://ai-gateway-api.go-usb-ai.io/health`
+  - `curl -I https://platform.go-usb-ai.io`
+  - `PLATFORM_CONSOLE_BASE_URL=https://platform.go-usb-ai.io pnpm smoke:platform:console`
 - 结果：
   - 本次交付范围内的 `tsc / lint / build / 本地 smoke / 线上 smoke` 均通过。
   - `lint:maintainability:guard` 未全量通过，但剩余 error 来自本次任务之外的既有工作树热点：
-    - `packages/nextclaw-core/src/agent`
-    - `packages/nextclaw-server/src/ui/config.ts`
-    - `packages/nextclaw-server/src/ui/types.ts`
-    - `packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx`
-    - `packages/nextclaw-ui/src/components/config/use-provider-form-state.ts`
+    - `packages/go-usb-ai-core/src/agent`
+    - `packages/go-usb-ai-server/src/ui/config.ts`
+    - `packages/go-usb-ai-server/src/ui/types.ts`
+    - `packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx`
+    - `packages/go-usb-ai-ui/src/components/config/use-provider-form-state.ts`
   - 本次改动自己新增出来的 maintainability error 已在收尾阶段清理完毕。
 - 未完成项：
   - 未做真实线上登录态下的 owner 权限验收，因为当前会话没有可用的平台账号凭证。
@@ -49,17 +49,17 @@
 - 已执行：
   - `pnpm -C workers/marketplace-api run db:migrate:skills:remote`
   - `pnpm -C workers/marketplace-api run deploy`
-  - `pnpm -C workers/nextclaw-provider-gateway-api run deploy`
+  - `pnpm -C workers/go-usb-ai-provider-gateway-api run deploy`
   - `pnpm deploy:platform:console`
 - 发布结果：
-  - `nextclaw-marketplace-api` 已部署，Version ID：`d3d10100-e811-413e-bd36-5e554970a378`
-  - `nextclaw-provider-gateway-api` 已部署，Version ID：`7052d9c4-ba90-42e4-85f4-d753c7dc3865`
-  - `platform-console` 已发布到 Pages，自定义域名为 [platform.nextclaw.io](https://platform.nextclaw.io/)
-  - 本次 Pages 预览部署地址：<https://ef31cccb.nextclaw-platform-console.pages.dev>
+  - `go-usb-ai-marketplace-api` 已部署，Version ID：`d3d10100-e811-413e-bd36-5e554970a378`
+  - `go-usb-ai-provider-gateway-api` 已部署，Version ID：`7052d9c4-ba90-42e4-85f4-d753c7dc3865`
+  - `platform-console` 已发布到 Pages，自定义域名为 [platform.go-usb-ai.io](https://platform.go-usb-ai.io/)
+  - 本次 Pages 预览部署地址：<https://ef31cccb.go-usb-ai-platform-console.pages.dev>
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 [platform.nextclaw.io](https://platform.nextclaw.io/) 并登录平台账号。
+1. 打开 [platform.go-usb-ai.io](https://platform.go-usb-ai.io/) 并登录平台账号。
 2. 进入左侧导航 `My Skills / 我的 Skills`。
 3. 确认页面能列出当前用户自己发布的 skill，并同时展示：
    - 管理员审核状态

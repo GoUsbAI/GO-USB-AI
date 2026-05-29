@@ -16,7 +16,7 @@
 
 本轮讨论的起点有两个：
 
-- 我们希望 NextClaw 具备真正的 multi-agent 协作能力，而不只是“当前会话里起一个后台小任务”。
+- 我们希望 GoUsbAi 具备真正的 multi-agent 协作能力，而不只是“当前会话里起一个后台小任务”。
 - 我们希望一个会话可以向另一个会话发起一轮任务，并在目标会话那一轮真正结束时，收到标准化回执。
 
 在这个目标下，旧 `spawn` 已经不应再停留在“内部子代理特例”。
@@ -34,19 +34,19 @@
 
 从现有代码可以看到，仓库里已经有多条相关链路，但语义尚未统一：
 
-- [spawn.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/tools/spawn.ts)
+- [spawn.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/tools/spawn.ts)
   - 当前 `spawn` 更像“起一个后台 subagent run”。
-- [subagent.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/subagent.ts)
+- [subagent.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/subagent.ts)
   - 子任务完成后，通过 `completionSink` 或发布带 metadata 的入站消息，把结果送回源会话。
-- [sessions.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/tools/sessions.ts)
+- [sessions.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/tools/sessions.ts)
   - 当前已有 `sessions_send`，但它是 fire-and-forget，不负责等待最终回复。
-- [ncp-subagent-completion-follow-up.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/ncp/ncp-subagent-completion-follow-up.ts)
+- [ncp-subagent-completion-follow-up.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/ncp/ncp-subagent-completion-follow-up.ts)
   - NCP 链路里，子任务完成后会更新原 tool call 结果，并向父会话注入一条 hidden follow-up。
-- [ncp-subagent-completion-message.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/ncp/ncp-subagent-completion-message.ts)
+- [ncp-subagent-completion-message.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/ncp/ncp-subagent-completion-message.ts)
   - 这条 hidden follow-up 目前以内部 `user` message 形式承载。
-- [events.ts](/Users/peiwang/Projects/nextbot/packages/ncp-packages/nextclaw-ncp/src/types/events.ts)
+- [events.ts](/Users/peiwang/Projects/nextbot/packages/ncp-packages/go-usb-ai-ncp/src/types/events.ts)
   - NCP 底层已经有 `message.completed`、`message.failed`、live session stream 等基础事件。
-- [agent-backend.ts](/Users/peiwang/Projects/nextbot/packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend.ts)
+- [agent-backend.ts](/Users/peiwang/Projects/nextbot/packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend.ts)
   - 运行态已经具备 session 级别的 live stream 和 terminal event 发布基础。
 
 一句话总结当前状态：
@@ -795,10 +795,10 @@ UI 之后可以按自身节奏逐步支持：
 - [external-agent-runtime-framework-design.md](/Users/peiwang/Projects/nextbot/docs/plans/2026-03-31-external-agent-runtime-framework-design.md)
 - [external-agent-session-framework-v1-plan.md](/Users/peiwang/Projects/nextbot/docs/plans/2026-04-01-external-agent-session-framework-v1-plan.md)
 - [subagent-completion-and-visibility-plan.md](/Users/peiwang/Projects/nextbot/docs/plans/2026-03-31-subagent-completion-and-visibility-plan.md)
-- [spawn.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/tools/spawn.ts)
-- [subagent.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/subagent.ts)
-- [sessions.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/tools/sessions.ts)
-- [ncp-subagent-completion-follow-up.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/ncp/ncp-subagent-completion-follow-up.ts)
-- [ncp-subagent-completion-message.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/ncp/ncp-subagent-completion-message.ts)
-- [events.ts](/Users/peiwang/Projects/nextbot/packages/ncp-packages/nextclaw-ncp/src/types/events.ts)
-- [agent-backend.ts](/Users/peiwang/Projects/nextbot/packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend.ts)
+- [spawn.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/tools/spawn.ts)
+- [subagent.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/subagent.ts)
+- [sessions.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/tools/sessions.ts)
+- [ncp-subagent-completion-follow-up.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/ncp/ncp-subagent-completion-follow-up.ts)
+- [ncp-subagent-completion-message.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/ncp/ncp-subagent-completion-message.ts)
+- [events.ts](/Users/peiwang/Projects/nextbot/packages/ncp-packages/go-usb-ai-ncp/src/types/events.ts)
+- [agent-backend.ts](/Users/peiwang/Projects/nextbot/packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend.ts)

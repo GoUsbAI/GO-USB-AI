@@ -17,7 +17,7 @@ PATH=/opt/homebrew/bin:$PATH pnpm tsc
 ## 冒烟测试
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-channel-runtime exec tsx --eval "import { QQChannel } from './src/channels/qq.ts'; const bus={publishInbound: async ()=>{}} as any; const channel = new QQChannel({ appId:'a', secret:'b' } as any, bus); const privateMsg=(channel as any).decorateSpeakerPrefix({ content:'你好', messageType:'private', senderId:'u123', senderName:'张三' }); console.log(privateMsg);"
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-channel-runtime exec tsx --eval "import { QQChannel } from './src/channels/qq.ts'; const bus={publishInbound: async ()=>{}} as any; const channel = new QQChannel({ appId:'a', secret:'b' } as any, bus); const privateMsg=(channel as any).decorateSpeakerPrefix({ content:'你好', messageType:'private', senderId:'u123', senderName:'张三' }); console.log(privateMsg);"
 ```
 
 验收点：

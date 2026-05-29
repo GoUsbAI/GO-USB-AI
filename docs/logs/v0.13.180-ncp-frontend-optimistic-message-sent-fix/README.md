@@ -11,16 +11,16 @@
 ## 测试/验证/验收方式
 
 - 运行：
-  - `pnpm --filter @nextclaw/ncp-react build`
-  - `pnpm --filter @nextclaw/ui tsc`
+  - `pnpm --filter @go-usb-ai/ncp-react build`
+  - `pnpm --filter @go-usb-ai/ui tsc`
 - 观察点：
   - 用户按回车后，自己的消息应立即出现在消息列表。
   - 若发送失败，不应残留一条错误的本地用户消息。
 
 ## 发布/部署方式
 
-- 当前为 `@nextclaw/ncp-react` + UI 消费链路修复。
-- 本地 workspace 环境下，重新构建 `@nextclaw/ncp-react` 后即可让 UI 吃到新的 dist。
+- 当前为 `@go-usb-ai/ncp-react` + UI 消费链路修复。
+- 本地 workspace 环境下，重新构建 `@go-usb-ai/ncp-react` 后即可让 UI 吃到新的 dist。
 - 如需正式发布，按常规 NCP React/UI 相关包发布流程进行。
 
 ## 用户/产品视角的验收步骤

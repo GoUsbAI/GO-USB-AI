@@ -2,21 +2,21 @@
 
 - 将发布链路里的库包构建器从 `tsup` 统一迁到 `tsdown`，并保持现有发布产物仍然输出为 `.js` / `.d.ts`，避免破坏既有 `exports` 契约。
 - 删除了 7 个散落的 `tsup.config.ts`，把大多数包的构建约定收敛成直接可读的 `package.json` script。
-- 将 `@nextclaw/ui`、`apps/platform-console`、`apps/platform-admin`、`apps/landing` 的 `build` 收敛为纯构建语义，不再把 `tsc` 混进 `build`。
-- 重构 [`scripts/check-release-batch.mjs`](/Users/tongwenwen/Projects/Peiiii/nextclaw/scripts/check-release-batch.mjs)，把原先膨胀的主脚本拆到 [`scripts/release-check/batch-plan.mjs`](/Users/tongwenwen/Projects/Peiiii/nextclaw/scripts/release-check/batch-plan.mjs)、[`scripts/release-check/task-runner.mjs`](/Users/tongwenwen/Projects/Peiiii/nextclaw/scripts/release-check/task-runner.mjs)、[`scripts/release-check/steps.mjs`](/Users/tongwenwen/Projects/Peiiii/nextclaw/scripts/release-check/steps.mjs)。
+- 将 `@go-usb-ai/ui`、`apps/platform-console`、`apps/platform-admin`、`apps/landing` 的 `build` 收敛为纯构建语义，不再把 `tsc` 混进 `build`。
+- 重构 [`scripts/check-release-batch.mjs`](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/scripts/check-release-batch.mjs)，把原先膨胀的主脚本拆到 [`scripts/release-check/batch-plan.mjs`](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/scripts/release-check/batch-plan.mjs)、[`scripts/release-check/task-runner.mjs`](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/scripts/release-check/task-runner.mjs)、[`scripts/release-check/steps.mjs`](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/scripts/release-check/steps.mjs)。
 - 默认 `release:check` 语义从 `build + lint + tsc` 收敛为发布关键路径的 `build + typecheck`；新增 `release:check:strict` 承接“当前 release batch 也要带 lint”的显式需求。
 - 删除独立的 frontend release checker，让 `release:check:frontend` 直接复用 batch-scoped `release:check`，不再维护两套规则。
 - 修正 release-check fingerprint 与治理守卫，让生成产物目录 `ui-dist` 不再破坏 checkpoint cache，也不再被新代码治理误判为手写源码。
-- 方案文档：[`docs/plans/2026-04-06-minute-scale-release-check-plan.md`](/Users/tongwenwen/Projects/Peiiii/nextclaw/docs/plans/2026-04-06-minute-scale-release-check-plan.md)
+- 方案文档：[`docs/plans/2026-04-06-minute-scale-release-check-plan.md`](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/docs/plans/2026-04-06-minute-scale-release-check-plan.md)
 
 # 测试/验证/验收方式
 
 - `pnpm install`
-- `pnpm -C packages/nextclaw-runtime build`
-- `pnpm -C packages/extensions/nextclaw-engine-plugin-codex-sdk build`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-weixin build`
-- `pnpm -C packages/nextclaw-ui build`
-- `pnpm -C packages/nextclaw build`
+- `pnpm -C packages/go-usb-ai-runtime build`
+- `pnpm -C packages/extensions/go-usb-ai-engine-plugin-codex-sdk build`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin build`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `pnpm -C packages/go-usb-ai build`
 - `node --check scripts/check-release-batch.mjs`
 - `node --check scripts/release-check/batch-plan.mjs`
 - `node --check scripts/release-check/task-runner.mjs`
@@ -30,7 +30,7 @@
 # 发布/部署方式
 
 - 本次未执行实际 NPM 发布或部署。
-- 后续按 [`docs/workflows/npm-release-process.md`](/Users/tongwenwen/Projects/Peiiii/nextclaw/docs/workflows/npm-release-process.md) 执行。
+- 后续按 [`docs/workflows/npm-release-process.md`](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/docs/workflows/npm-release-process.md) 执行。
 - 默认发布前校验现在使用 `pnpm release:check`。
 - 若需要当前 release batch 带 lint 的更严格门禁，执行 `pnpm release:check:strict`。
 

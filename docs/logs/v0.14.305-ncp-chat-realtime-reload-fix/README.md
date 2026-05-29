@@ -10,8 +10,8 @@
 
 # 测试/验证/验收方式
 
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/ui exec vitest run src/components/chat/ncp/ncp-chat-realtime-reload.test.ts src/components/chat/useHydratedNcpAgent.test.tsx`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/ui exec tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/ui exec vitest run src/components/chat/ncp/ncp-chat-realtime-reload.test.ts src/components/chat/useHydratedNcpAgent.test.tsx`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/ui exec tsc -p tsconfig.json --noEmit`
 - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainability:guard`
 
 # 发布/部署方式

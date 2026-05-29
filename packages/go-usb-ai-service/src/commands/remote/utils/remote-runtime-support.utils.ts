@@ -1,0 +1,116 @@
+import { getConfigPath, getDataDir, loadConfig, type Config } from "@go-usb-ai/core";
+import {
+  RemoteConnector,
+  RemotePlatformClient,
+  RemoteStatusStore,
+  buildConfiguredRemoteState,
+  resolveRemoteStatusSnapshot,
+  type RemoteLogger,
+  type RemoteRuntimeState,
+  type RemoteStatusSnapshot
+} from "@go-usb-ai/remote";
+import {
+  getPackageVersion,
+  isProcessRunning
+} from "../../../shared/utils/cli.utils.js";
+import { localUiRuntimeStore } from "../../../shared/stores/local-ui-runtime.store.js";
+import { managedServiceStateStore } from "../../../shared/stores/managed-service-state.store.js";
+import { resolvePlatformApiBase } from "../utils/platform-api-base.utils.js";
+
+let currentProcessRemoteRuntimeState: RemoteRuntimeState | null = null;
+
+export function hasRunningGoUsbAiManagedService(): boolean {
+  const state = managedServiceStateStore.read();
+  return Boolean(state && isProcessRunning(state.pid));
+}
+
+export function createGoUsbAiRemotePlatformClient(): RemotePlatformClient {
+  return new RemotePlatformClient({
+    loadConfig: () => loadConfig(getConfigPath()),
+    getDataDir,
+    getPackageVersion,
+    resolvePlatformBase: (rawApiBase) =>
+      resolvePlatformApiBase({
+        explicitApiBase: rawApiBase,
+        requireConfigured: true
+      }).platformBase,
+    readManagedServiceState: () => {
+      const state = managedServiceStateStore.read();
+      if (!state) {
+        return null;
+      }
+      return {
+        pid: state.pid,
+        uiPort: state.uiPort
+      };
+    },
+    isProcessRunning
+  });
+}
+
+export function createGoUsbAiRemoteConnector(params: {
+  logger?: RemoteLogger;
+} = {}): RemoteConnector {
+  return new RemoteConnector({
+    platformClient: createGoUsbAiRemotePlatformClient(),
+    logger: params.logger
+  });
+}
+
+export function createGoUsbAiRemoteStatusStore(
+  mode: RemoteRuntimeState["mode"], onChange?: (next: RemoteRuntimeState) => void
+): RemoteStatusStore {
+  return new RemoteStatusStore(mode, {
+    writeRemoteState: (next) => {
+      currentProcessRemoteRuntimeState = next;
+      onChange?.(next);
+      const uiRuntimeState = localUiRuntimeStore.read();
+      if (uiRuntimeState?.pid === process.pid) {
+        localUiRuntimeStore.update((state) => ({
+          ...state,
+          remote: next
+        }));
+      }
+      const serviceState = managedServiceStateStore.read();
+      if (!serviceState || serviceState.pid !== process.pid) {
+        return;
+      }
+      managedServiceStateStore.update((state) => ({
+        ...state,
+        remote: next
+      }));
+    }
+  });
+}
+
+export function buildGoUsbAiConfiguredRemoteState(config: Config): RemoteRuntimeState {
+  return buildConfiguredRemoteState(config);
+}
+
+export function readCurrentGoUsbAiRemoteRuntimeState(): RemoteRuntimeState | null {
+  const uiRuntimeState = localUiRuntimeStore.read();
+  const serviceState = managedServiceStateStore.read();
+  const currentRemoteState = currentProcessRemoteRuntimeState ?? uiRuntimeState?.remote ?? serviceState?.remote ?? null;
+  if (!currentRemoteState) {
+    return null;
+  }
+
+  const owningRuntime = uiRuntimeState ?? serviceState;
+  if (!owningRuntime || isProcessRunning(owningRuntime.pid)) {
+    return currentRemoteState;
+  }
+
+  return {
+    ...currentRemoteState,
+    state: currentRemoteState.enabled ? "disconnected" : "disabled",
+    lastError: currentRemoteState.lastError ?? "Managed service is not running.",
+    updatedAt: new Date().toISOString()
+  };
+}
+
+export function resolveGoUsbAiRemoteStatusSnapshot(config: Config): RemoteStatusSnapshot {
+  return resolveRemoteStatusSnapshot({
+    config,
+    currentRemoteState: readCurrentGoUsbAiRemoteRuntimeState()
+  });
+}

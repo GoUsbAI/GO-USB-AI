@@ -7,13 +7,13 @@
 
 ## 发布范围
 
-- `nextclaw@0.6.11`
+- `go-usb-ai@0.6.11`
 
 未发布（版本未变更）：
-- `@nextclaw/core@0.6.9`
-- `@nextclaw/openclaw-compat@0.1.5`
-- `@nextclaw/server@0.4.2`
-- `@nextclaw/ui@0.3.9`
+- `@go-usb-ai/core@0.6.9`
+- `@go-usb-ai/openclaw-compat@0.1.5`
+- `@go-usb-ai/server@0.4.2`
+- `@go-usb-ai/ui@0.3.9`
 
 ## 执行记录
 
@@ -33,18 +33,18 @@ pnpm release:publish
 
 - 本地校验通过：`build/lint/tsc`（仅仓库既有 warning，无新增 error）。
 - `/tmp` 隔离冒烟通过：
-  - `pnpm dlx tsx /tmp/nextclaw-restart-e2e-guard-smoke.ts`
-  - `pnpm dlx tsx /tmp/nextclaw-restart-notify-smoke.ts`
+  - `pnpm dlx tsx /tmp/go-usb-ai-restart-e2e-guard-smoke.ts`
+  - `pnpm dlx tsx /tmp/go-usb-ai-restart-notify-smoke.ts`
 - 本机真实服务 E2E 通过（非 mock）：
-  - 触发 `nextclaw restart --ui-port 18791` 后进程 PID 从 `3720` 变更为 `92975`。
-  - 哨兵文件 `~/.nextclaw/run/restart-sentinel.json` 被消费（重启后不存在）。
+  - 触发 `go-usb-ai restart --ui-port 18791` 后进程 PID 从 `3720` 变更为 `92975`。
+  - 哨兵文件 `~/.go-usb-ai/run/restart-sentinel.json` 被消费（重启后不存在）。
   - Discord 实际回执命中：消息 ID `1473962465997099131`，内容包含 `Gateway restart complete (e2e-verify).` 与 `[e2e-restart-notify-1771490430]`。
 - npm 发布成功：
-  - `nextclaw@0.6.11`
+  - `go-usb-ai@0.6.11`
 - npm 线上版本校验：
-  - `npm view nextclaw version` -> `0.6.11`
+  - `npm view go-usb-ai version` -> `0.6.11`
 - tag 创建成功：
-  - `nextclaw@0.6.11`
+  - `go-usb-ai@0.6.11`
 
 ## 文档复盘
 

@@ -8,9 +8,9 @@
 
 ## 测试/验证/验收方式
 
-- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui test -- src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
-- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui tsc`
-- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-tokenized-composer.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-runtime.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui test -- src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-tokenized-composer.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-runtime.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
 - 验证结果：上述命令全部通过；回归测试确认 `ESC` 后同一段 slash 输入不会重新弹出浮层。
 
 ## 发布/部署方式

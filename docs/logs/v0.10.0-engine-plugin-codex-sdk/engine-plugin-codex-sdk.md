@@ -12,11 +12,11 @@
 - Runtime Pool 支持按 agent 选择引擎：
   - `native`（默认）
   - 插件注册的任意引擎（找不到或初始化失败会回退 `native` 并告警）
-- 新增**独立插件包** `@nextclaw/nextclaw-engine-codex-sdk`（路径：`packages/extensions/nextclaw-engine-plugin-codex-sdk`）：
+- 新增**独立插件包** `@go-usb-ai/go-usb-ai-engine-codex-sdk`（路径：`packages/extensions/go-usb-ai-engine-plugin-codex-sdk`）：
   - 基于 OpenAI 官方开源 `@openai/codex-sdk`
   - 注册 engine kind `codex-sdk`
   - 支持流式事件转发与会话复用
-- 已移除 `@nextclaw/core` 与 `@nextclaw/openclaw-compat` 中的 Codex 专有实现和依赖，Codex 逻辑仅存在于独立插件包。
+- 已移除 `@go-usb-ai/core` 与 `@go-usb-ai/openclaw-compat` 中的 Codex 专有实现和依赖，Codex 逻辑仅存在于独立插件包。
 
 ## 配置示例（Codex SDK via Relay）
 
@@ -25,7 +25,7 @@
   "plugins": {
     "load": {
       "paths": [
-        "/absolute/path/to/packages/extensions/nextclaw-engine-plugin-codex-sdk"
+        "/absolute/path/to/packages/extensions/go-usb-ai-engine-plugin-codex-sdk"
       ]
     }
   },
@@ -58,22 +58,22 @@ PATH=/opt/homebrew/bin:$PATH pnpm build
 PATH=/opt/homebrew/bin:$PATH pnpm lint
 PATH=/opt/homebrew/bin:$PATH pnpm tsc
 
-# 冒烟（隔离 NEXTCLAW_HOME，且不向仓库目录写测试数据）
+# 冒烟（隔离 GOUSB_AI_HOME，且不向仓库目录写测试数据）
 TMP_HOME="$(mktemp -d)"
 cat > "$TMP_HOME/config.json" <<'JSON'
 {
   "plugins": {
     "load": {
       "paths": [
-        "/absolute/path/to/packages/extensions/nextclaw-engine-plugin-codex-sdk"
+        "/absolute/path/to/packages/extensions/go-usb-ai-engine-plugin-codex-sdk"
       ]
     }
   }
 }
 JSON
 
-NEXTCLAW_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH node packages/nextclaw/dist/cli/index.js plugins info nextclaw-engine-codex-sdk
-NEXTCLAW_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH node packages/nextclaw/dist/cli/index.js plugins list --json
+GOUSB_AI_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH node packages/go-usb-ai/dist/cli/index.js plugins info go-usb-ai-engine-codex-sdk
+GOUSB_AI_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH node packages/go-usb-ai/dist/cli/index.js plugins list --json
 rm -rf "$TMP_HOME"
 ```
 
@@ -81,19 +81,19 @@ rm -rf "$TMP_HOME"
 
 - build/lint/tsc 全通过。
 - 插件信息中可见 `Engines: codex-sdk`。
-- 插件列表 JSON 中 `nextclaw-engine-codex-sdk` 已加载。
+- 插件列表 JSON 中 `go-usb-ai-engine-codex-sdk` 已加载。
 
 ## 发布 / 部署方式
 
 - 本次变更为代码与配置能力增强，不涉及数据库变更。
 - 发布按常规 npm 流程（changeset -> version -> publish）执行。
 - 需要发布的核心组件：
-  - `@nextclaw/openclaw-compat`（去除 Codex 内置耦合）
-  - `@nextclaw/nextclaw-engine-codex-sdk`（新增独立插件包）
+  - `@go-usb-ai/openclaw-compat`（去除 Codex 内置耦合）
+  - `@go-usb-ai/go-usb-ai-engine-codex-sdk`（新增独立插件包）
 
 ## 用户 / 产品视角验收步骤
 
-1. 在配置中增加 `plugins.load.paths` 指向 `@nextclaw/nextclaw-engine-codex-sdk`。
+1. 在配置中增加 `plugins.load.paths` 指向 `@go-usb-ai/go-usb-ai-engine-codex-sdk`。
 2. 将 `agents.defaults.engine` 设为 `codex-sdk`。
 3. 配置 `engineConfig.model/apiBase/apiKey`（可使用中转站地址）。
 4. 启动 gateway 或在 UI 发起对话。

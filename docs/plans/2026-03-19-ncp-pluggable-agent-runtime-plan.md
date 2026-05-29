@@ -4,7 +4,7 @@
 
 这份文档专门回答一个问题：
 
-在保持 NCP 主链路纯粹、默认体验稳定的前提下，如何让 Nextclaw 未来对接多种 agent 平台，例如 `Codex SDK`、`Claude Code`，以及未来更多外部 agent runtime。
+在保持 NCP 主链路纯粹、默认体验稳定的前提下，如何让 GoUsbAi 未来对接多种 agent 平台，例如 `Codex SDK`、`Claude Code`，以及未来更多外部 agent runtime。
 
 目标不是再做一套新的 bridge，而是建立一套长期成立的 runtime 扩展结构：
 
@@ -34,7 +34,7 @@
 
 我们的未来目标不是只有一种 runtime。
 
-Nextclaw 应该允许前端创建不同类型的会话，例如：
+GoUsbAi 应该允许前端创建不同类型的会话，例如：
 
 - 默认 NCP native chat
 - Codex 会话
@@ -156,8 +156,8 @@ NCP Frontend
 
 例如：
 
-- `@nextclaw/nextclaw-ncp-runtime-codex-sdk`
-- `@nextclaw/nextclaw-ncp-runtime-claude-code`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-codex-sdk`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-claude-code`
 
 这些插件的职责是：
 
@@ -166,7 +166,7 @@ NCP Frontend
 - 实现 `NcpAgentRuntime`
 - 暴露插件元信息与 runtime kind
 
-这意味着外部平台进入 Nextclaw 的方式，是“实现 NCP runtime”，而不是“绕开 NCP 直接接 UI”。
+这意味着外部平台进入 GoUsbAi 的方式，是“实现 NCP runtime”，而不是“绕开 NCP 直接接 UI”。
 
 ### 3. Session Type 与 Runtime Kind 对齐
 
@@ -354,4 +354,4 @@ NCP Frontend
 - 前端通过会话类型选择 runtime
 - 默认安装保持轻量，扩展能力按需启用
 
-这既符合 Nextclaw 的产品方向，也符合 NCP 面向通用、可扩展、可维护、解耦业务的定位。
+这既符合 GoUsbAi 的产品方向，也符合 NCP 面向通用、可扩展、可维护、解耦业务的定位。

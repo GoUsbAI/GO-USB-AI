@@ -10,18 +10,18 @@
 
 ## 测试/验证/验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-http-agent-client test`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-http-agent-server test`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-react tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-http-agent-client test`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-http-agent-server test`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-react tsc`
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo/backend build`
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo/frontend build`
 
 ## 发布/部署方式
 
 - 本次未执行正式发布。
-- 如需发布相关包，按仓库既有 NPM 发布流程执行受影响包的 `build`、版本变更与 publish，并优先发布 `@nextclaw/ncp`、`@nextclaw/ncp-toolkit`、HTTP transport、React bindings，再处理 demo 部署。
+- 如需发布相关包，按仓库既有 NPM 发布流程执行受影响包的 `build`、版本变更与 publish，并优先发布 `@go-usb-ai/ncp`、`@go-usb-ai/ncp-toolkit`、HTTP transport、React bindings，再处理 demo 部署。
 - 如需部署 demo，先构建 backend/frontend，再按 demo 现有启动方式重启服务。
 
 ## 用户/产品视角的验收步骤

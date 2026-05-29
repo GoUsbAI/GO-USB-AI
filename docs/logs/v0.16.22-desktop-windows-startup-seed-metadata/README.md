@@ -16,18 +16,18 @@
   - `DesktopBundleBootstrapService` 现在优先用 packaged metadata 判断 seed 版本与归档指纹，避免首启时为了“只是判断要不要装”而反复整包读 zip。
   - `main.ts` 现在会记录 `bundle bootstrap` 与 `runtime startup` 两段耗时，方便后续在真实 Windows 现场日志里判断时间究竟卡在 seed 安装前后哪一段。
 - 同时补了一条回归测试，确保当 packaged metadata 已经说明 seed 比当前版本更旧时，启动器可以直接跳过，不会再去碰缺失或不必要读取的 seed zip。
-- 为了让这次 preview beta 更容易和刚发出的 stable 区分，本次把桌面 launcher 版本从 `0.0.140` 提到了 `0.0.141`；`nextclaw` bundle 版本仍保持 `0.17.11`。
+- 为了让这次 preview beta 更容易和刚发出的 stable 区分，本次把桌面 launcher 版本从 `0.0.140` 提到了 `0.0.141`；`go-usb-ai` bundle 版本仍保持 `0.17.11`。
 - 在 beta preview 用户实测确认“看起来没问题”后，本批改动继续提升为正式稳定版：
   - 新桌面正式 release tag：`v0.17.11-desktop.2`
   - 新桌面 launcher 版本：`0.0.141`
-  - `nextclaw` bundle 版本：`0.17.11`
+  - `go-usb-ai` bundle 版本：`0.17.11`
 - 同批次补齐了 landing 页 stable fallback，把官网兜底下载目标从 `v0.17.11-desktop.1 / 0.0.140` 切到 `v0.17.11-desktop.2 / 0.0.141`，避免 GitHub Releases API 失手时仍回退到旧安装包。
 - 同批次继续补齐了 landing 的静态 HTML 结构化数据入口，避免官网运行时入口已经是新版本，但 SEO / 分享抓取面仍停在旧 release：
   - [apps/landing/en/index.html](/Users/peiwang/Projects/nextbot/apps/landing/en/index.html)
   - [apps/landing/en/download/index.html](/Users/peiwang/Projects/nextbot/apps/landing/en/download/index.html)
   - [apps/landing/zh/index.html](/Users/peiwang/Projects/nextbot/apps/landing/zh/index.html)
   - [apps/landing/zh/download/index.html](/Users/peiwang/Projects/nextbot/apps/landing/zh/download/index.html)
-  - 上述 4 个 `downloadUrl` 现已统一切到 `https://github.com/Peiiii/nextclaw/releases/tag/v0.17.11-desktop.2`
+  - 上述 4 个 `downloadUrl` 现已统一切到 `https://github.com/Peiiii/go-usb-ai/releases/tag/v0.17.11-desktop.2`
 - 本次正式版发布正文：[github-release.md](/Users/peiwang/Projects/nextbot/docs/logs/v0.16.22-desktop-windows-startup-seed-metadata/github-release.md)
 
 ## 测试/验证/验收方式
@@ -46,7 +46,7 @@
     - `uncompressedBytes = 70569748`
 - 已通过：`PATH=/opt/homebrew/bin:$PATH pnpm desktop:package:verify`
   - 结果：
-    - 新 DMG 产物：`apps/desktop/release/NextClaw Desktop-0.0.141-arm64.dmg`
+    - 新 DMG 产物：`apps/desktop/release/GoUsbAi Desktop-0.0.141-arm64.dmg`
     - 包内公钥可真实验证线上 stable manifest 签名
     - seed bundle version 已验证为 `0.17.11`
     - seed runtime `init` 验证通过
@@ -60,10 +60,10 @@
 - 已通过：`pnpm -C apps/landing lint`
   - 结果：无 error；保留既有 warning：[`apps/landing/src/main.ts`](/Users/peiwang/Projects/nextbot/apps/landing/src/main.ts) 超长文件与超长 `render` 方法，本次没有继续放大该债务。
 - 已通过：`pnpm -C apps/landing tsc`
-- 已通过：`rg -n "v0\\.17\\.11-desktop\\.2|0\\.0\\.141|NextClaw\\.Desktop-0\\.0\\.141" apps/landing/dist`
+- 已通过：`rg -n "v0\\.17\\.11-desktop\\.2|0\\.0\\.141|GoUsbAi\\.Desktop-0\\.0\\.141" apps/landing/dist`
   - 结果：构建产物中的主 bundle 已包含新的正式版 tag、版本号和四个平台下载资产名。
 - 已通过：`pnpm deploy:landing`
-  - Wrangler 返回的本次部署地址：`https://b7080200.nextclaw-landing.pages.dev`
+  - Wrangler 返回的本次部署地址：`https://b7080200.go-usb-ai-landing.pages.dev`
 - 已通过：线上回读部署后的 `/en/download/` HTML
   - 结果：部署后的静态 HTML 中，结构化数据 `downloadUrl` 已切到 `v0.17.11-desktop.2`，不再停在旧的 `v0.17.8-desktop.1`。
 - 未执行：真实 Windows 安装级冒烟
@@ -88,7 +88,7 @@
 - landing 页 stable fallback 需与正式版同步指向 `v0.17.11-desktop.2`，避免官网兜底仍分发旧版 `0.0.140` 安装包。
 - landing 官网静态站点已重新部署：
   - 命令：`pnpm deploy:landing`
-  - 本次 Pages 部署地址：`https://b7080200.nextclaw-landing.pages.dev`
+  - 本次 Pages 部署地址：`https://b7080200.go-usb-ai-landing.pages.dev`
   - 目标：让运行时 fallback、SEO 结构化 `downloadUrl`、下载页入口和正式 GitHub release 同步收敛到同一个稳定版。
 
 ## 用户/产品视角的验收步骤

@@ -13,7 +13,7 @@
 
 - UI Tooltip 通过 Portal 渲染并使用 `--z-tooltip` 层级。
 - Marketplace 列表卡片：头像缩略、标题/spec/摘要 Tooltip、按钮样式统一。
-- `@nextclaw/ui` 升级到 `0.5.3` 并新增 `@radix-ui/react-tooltip` 依赖。
+- `@go-usb-ai/ui` 升级到 `0.5.3` 并新增 `@radix-ui/react-tooltip` 依赖。
 
 ## 验证（怎么确认符合预期）
 
@@ -22,10 +22,10 @@
 pnpm release:publish
 
 # smoke-check（非仓库目录）
-NEXTCLAW_HOME=/tmp/nextclaw-ui-release-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw dev start --ui-port 18813 > /tmp/nextclaw-ui-release-smoke.log 2>&1
+GOUSB_AI_HOME=/tmp/go-usb-ai-ui-release-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai dev start --ui-port 18813 > /tmp/go-usb-ai-ui-release-smoke.log 2>&1
 sleep 2
 curl -s http://127.0.0.1:18813/api/health
-NEXTCLAW_HOME=/tmp/nextclaw-ui-release-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw dev stop
+GOUSB_AI_HOME=/tmp/go-usb-ai-ui-release-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai dev stop
 ```
 
 验收点：

@@ -4,21 +4,21 @@
 
 本次修复默认 Agent 在无头像 URL 时退化显示首字母 `M` 的体验问题。根因是共享组件 `AgentAvatar` 对所有无图片 Agent 都统一使用 `displayName / agentId` 首字母作为 fallback，而默认 Agent 的 `displayName=Main`、`agentId=main`，因此在欢迎页、Agents 页等使用共享头像的位置会显示成 `M`。
 
-根因通过代码路径确认：`ChatWelcome`、`AgentsPage`、`AgentIdentityAvatar` 等入口均复用 `packages/nextclaw-ui/src/shared/components/common/agent-avatar.tsx`，该组件此前在无 `avatarUrl` 时直接渲染 `resolveLetter(seed)`。本次修复命中根因：在共享头像组件内将 `main` Agent 的无图片 fallback 改为复用现有 `lucide-react` 的 `Bot` 图标，同时保留其它自定义 Agent 的首字母 fallback，不在各业务入口分别打补丁。
+根因通过代码路径确认：`ChatWelcome`、`AgentsPage`、`AgentIdentityAvatar` 等入口均复用 `packages/go-usb-ai-ui/src/shared/components/common/agent-avatar.tsx`，该组件此前在无 `avatarUrl` 时直接渲染 `resolveLetter(seed)`。本次修复命中根因：在共享头像组件内将 `main` Agent 的无图片 fallback 改为复用现有 `lucide-react` 的 `Bot` 图标，同时保留其它自定义 Agent 的首字母 fallback，不在各业务入口分别打补丁。
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui test -- src/shared/components/common/agent-avatar.test.tsx`
-- `pnpm --filter @nextclaw/ui exec eslint src/shared/components/common/agent-avatar.tsx src/shared/components/common/agent-avatar.test.tsx`
-- `pnpm --filter @nextclaw/ui tsc`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/shared/components/common/agent-avatar.tsx packages/nextclaw-ui/src/shared/components/common/agent-avatar.test.tsx`
+- `pnpm --filter @go-usb-ai/ui test -- src/shared/components/common/agent-avatar.test.tsx`
+- `pnpm --filter @go-usb-ai/ui exec eslint src/shared/components/common/agent-avatar.tsx src/shared/components/common/agent-avatar.test.tsx`
+- `pnpm --filter @go-usb-ai/ui tsc`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/shared/components/common/agent-avatar.tsx packages/go-usb-ai-ui/src/shared/components/common/agent-avatar.test.tsx`
 - `pnpm lint:new-code:governance`
 
 补充说明：`pnpm check:governance-backlog-ratchet` 执行失败，失败项为既有 doc 文件名治理基线超限：`docFileNameViolations` 当前 13，高于 baseline 11。本次只触达 `agent-avatar.tsx`、`agent-avatar.test.tsx` 与本迭代 `README.md`，不新增受管 doc 文件名违规。
 
 ## 发布/部署方式
 
-本次只修改 `@nextclaw/ui` 源码与测试。进入后续统一前端构建、桌面打包或 NPM 发布流程时随包产物一起发布；本次未单独执行发布。
+本次只修改 `@go-usb-ai/ui` 源码与测试。进入后续统一前端构建、桌面打包或 NPM 发布流程时随包产物一起发布；本次未单独执行发布。
 
 ## 用户/产品视角的验收步骤
 
@@ -40,4 +40,4 @@
 
 ## NPM 包发布记录
 
-本次未执行 NPM 包发布。若后续统一发布包含本次 UI 修复，涉及包为 `@nextclaw/ui`；当前状态为未发布，触发条件为后续统一发布流程。
+本次未执行 NPM 包发布。若后续统一发布包含本次 UI 修复，涉及包为 `@go-usb-ai/ui`；当前状态为未发布，触发条件为后续统一发布流程。

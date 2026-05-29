@@ -10,8 +10,8 @@
 - 删除对应私有转发实现，减少无效层级与调用跳转。
 
 ## 测试/验证/验收方式
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc --noEmit`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/chat-stream/chat-stream-flow-controller.ts src/components/chat/chat-stream/chat-stream-runtime-controller.ts src/components/chat/chat-stream/stream-run-controller.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc --noEmit`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/chat-stream/chat-stream-flow-controller.ts src/components/chat/chat-stream/chat-stream-runtime-controller.ts src/components/chat/chat-stream/stream-run-controller.ts`
 - `PATH=/opt/homebrew/bin:$PATH pnpm build:ui`
 
 ## 发布/部署方式

@@ -16,7 +16,7 @@
     - 输出 `UI: http://127.0.0.1:18891`
     - 输出 `Gateway (direct): http://127.0.0.1:18890`
     - `curl http://127.0.0.1:18891/api/health` 返回 `HTTP 200`
-- 官网脚本真实冒烟（`curl -fsSL https://nextclaw.io/install-docker.sh | bash`）：
+- 官网脚本真实冒烟（`curl -fsSL https://go-usb-ai.io/install-docker.sh | bash`）：
   - 输出默认端口已为 `18891/18890`
   - `api/health` 与 UI 页面均返回 `HTTP 200`
 
@@ -27,7 +27,7 @@
   - `pnpm deploy:docs`
 
 ## 用户/产品视角的验收步骤
-1. 执行：`curl -fsSL https://nextclaw.io/install-docker.sh | bash`
+1. 执行：`curl -fsSL https://go-usb-ai.io/install-docker.sh | bash`
 2. 观察输出默认地址：
    - `UI: http://127.0.0.1:18891`
    - `API: http://127.0.0.1:18891/api`

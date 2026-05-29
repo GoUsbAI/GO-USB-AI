@@ -1,4 +1,4 @@
-# NextClaw Remote Platform Daily Budget Guard Design
+# GoUsbAi Remote Platform Daily Budget Guard Design
 
 ## 背景
 

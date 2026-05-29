@@ -9,9 +9,9 @@
 - 明确当前非 legacy 主链路的核心已经下沉到 `NCP toolkit / agent backend / agent runtime / tool registry`，因此 MCP 首期不应挂到 UI 或 session router 层。
 - 明确 native 的首个 MCP consumer 不应被笼统描述为“runtime consumer”，而应更准确地收敛为“tool assembly consumer”。
 - 明确 MCP 首期不应直接侵入 `DefaultNcpAgentBackend`、`AgentLiveSessionRegistry`、`NcpSessionRoutesController` 等已趋于纯粹的 session/runtime 生命周期层。
-- 在原有 `packages/nextclaw-mcp` 平台级 domain 包之外，新增建议的极薄 NCP-facing adapter 层：
-  - `packages/ncp-packages/nextclaw-ncp-mcp`
-- 明确 `create-ui-ncp-agent.ts` 与 `nextclaw-ncp-tool-registry.ts` 在首期只应承担薄组合职责，不承接 MCP domain 复杂度。
+- 在原有 `packages/go-usb-ai-mcp` 平台级 domain 包之外，新增建议的极薄 NCP-facing adapter 层：
+  - `packages/ncp-packages/go-usb-ai-ncp-mcp`
+- 明确 `create-ui-ncp-agent.ts` 与 `go-usb-ai-ncp-tool-registry.ts` 在首期只应承担薄组合职责，不承接 MCP domain 复杂度。
 
 相关方案文档：
 
@@ -23,7 +23,7 @@
 
 已执行：
 
-- 结构对齐检查：确认方案文档已明确把 native 首期接缝修正为 `NcpToolRegistry / NextclawNcpToolRegistry` 一侧。
+- 结构对齐检查：确认方案文档已明确把 native 首期接缝修正为 `NcpToolRegistry / GoUsbAiNcpToolRegistry` 一侧。
 - 边界检查：确认方案文档已明确把 backend/session/router/controller/frontend 页面排除在 MCP 首期接入点之外。
 - 版本基线检查：扫描 `docs/logs` 有效目录，确认新增版本从当前最大有效版本 `v0.14.40` 递增到 `v0.14.41`。
 
@@ -40,9 +40,9 @@
 
 后续若进入实施阶段，建议先按调整后的路径推进：
 
-1. `packages/nextclaw-mcp`
-2. `packages/ncp-packages/nextclaw-ncp-mcp`
-3. `nextclaw mcp` CLI
+1. `packages/go-usb-ai-mcp`
+2. `packages/ncp-packages/go-usb-ai-ncp-mcp`
+3. `go-usb-ai mcp` CLI
 4. native tool assembly 薄组合
 5. 再考虑其它 consumer
 
@@ -51,4 +51,4 @@
 1. 打开方案文档，确认已明确“忽略 legacy，仅看非 legacy 主链路”。
 2. 确认文档中已把 native 首期 MCP consumer 改写为 `tool assembly` 而不是泛泛的 runtime 替换。
 3. 确认文档中已明确排除 backend/session/router/frontend 作为 MCP 首期接入点。
-4. 确认文档中已新增建议的极薄 `packages/ncp-packages/nextclaw-ncp-mcp` 适配层。
+4. 确认文档中已新增建议的极薄 `packages/ncp-packages/go-usb-ai-ncp-mcp` 适配层。

@@ -1,24 +1,24 @@
-# NextClaw 桌面端 Release Channel 配置设计
+# GoUsbAi 桌面端 Release Channel 配置设计
 
 ## 背景
 
-NextClaw 桌面端已经具备 `stable | beta` 更新源能力，但当前它更像底层发布参数，而不是一个正式产品能力。用户在桌面端设置页里只能控制“自动检查 / 自动下载”，不能明确选择自己跟随哪个 release channel。
+GoUsbAi 桌面端已经具备 `stable | beta` 更新源能力，但当前它更像底层发布参数，而不是一个正式产品能力。用户在桌面端设置页里只能控制“自动检查 / 自动下载”，不能明确选择自己跟随哪个 release channel。
 
 这会带来两个问题：
 
 - 产品语义不完整。既然已经存在 `stable` 和 `beta`，用户就应该能在产品中理解并控制它。
-- 发布体验不统一。用户如果想提前体验 beta，只能依赖打包时约定或额外说明，而不是通过 NextClaw 这个统一入口自己完成切换。
+- 发布体验不统一。用户如果想提前体验 beta，只能依赖打包时约定或额外说明，而不是通过 GoUsbAi 这个统一入口自己完成切换。
 
 ## 目标
 
-- 在同一个 NextClaw Desktop 应用里提供可配置的 `Release channel`。
+- 在同一个 GoUsbAi Desktop 应用里提供可配置的 `Release channel`。
 - 先只支持 `Stable` 和 `Beta` 两个通道。
 - 切换通道后，桌面端立即按新通道刷新更新状态。
 - 保持“应用内闭环、用户可见、用户可控”的更新体验，不引入第二套 Beta App。
 
 ## 明确不做
 
-- 不引入独立 `NextClaw Beta` 安装包作为主路径。
+- 不引入独立 `GoUsbAi Beta` 安装包作为主路径。
 - 不做隐藏式自动切换通道。
 - 不做“切回 Stable 后立即强制降级”。
 - 不新增 `nightly/canary` 等更多通道。
@@ -78,7 +78,7 @@ NextClaw 桌面端已经具备 `stable | beta` 更新源能力，但当前它更
 
 更新源通道解析顺序调整为：
 
-1. `NEXTCLAW_DESKTOP_UPDATE_CHANNEL` 环境变量
+1. `GOUSB_AI_DESKTOP_UPDATE_CHANNEL` 环境变量
 2. launcher state 中已持久化的 `channel`
 3. 打包内置的 release metadata channel
 4. 默认 `stable`
@@ -108,13 +108,13 @@ NextClaw 桌面端已经具备 `stable | beta` 更新源能力，但当前它更
   - 切换 channel 会刷新可用更新状态，但不触发自动下载
 - 类型 / 构建：
   - `pnpm -C apps/desktop tsc`
-  - `pnpm -C packages/nextclaw-ui tsc`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
 - 冒烟：
   - 运行受影响测试文件，确认桌面更新链路与 UI 类型链路正常
 
 ## 对产品愿景的对齐
 
-这个方案比“单独再做一个 Beta App”更符合 NextClaw 作为统一入口的方向：
+这个方案比“单独再做一个 Beta App”更符合 GoUsbAi 作为统一入口的方向：
 
 - 用户不用理解两套入口
 - 应用内即可完成通道选择、更新检查和应用

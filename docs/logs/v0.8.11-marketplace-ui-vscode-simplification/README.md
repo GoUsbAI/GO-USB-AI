@@ -7,7 +7,7 @@
 
 ## 迭代完成说明（改了什么）
 
-- `packages/nextclaw-ui/src/components/marketplace/MarketplacePage.tsx`
+- `packages/go-usb-ai-ui/src/components/marketplace/MarketplacePage.tsx`
   - 重构为更简洁的单列列表卡片风格，聚焦核心信息：名称、摘要、类型、状态、主操作（Install/Enable/Disable）。
   - 去除推荐区与冗余展示元素，降低视觉噪音。
   - 统一“商城项”和“已安装项”的卡片结构，不再维护两套展示范式。
@@ -18,8 +18,8 @@
 执行命令：
 
 ```bash
-pnpm -C packages/nextclaw-ui tsc
-pnpm -C packages/nextclaw-ui lint
+pnpm -C packages/go-usb-ai-ui tsc
+pnpm -C packages/go-usb-ai-ui lint
 pnpm build
 pnpm lint
 pnpm tsc
@@ -28,17 +28,17 @@ pnpm tsc
 CLI/UI API 冒烟（在临时目录，不写仓库）：
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-market-ui-smoke.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" pnpm -C packages/nextclaw dev:build serve --ui-port 18998
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-market-ui-smoke.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" pnpm -C packages/go-usb-ai dev:build serve --ui-port 18998
 
 # 观察点：Marketplace API 可用，插件 enable/disable 可实时回切
 curl -sf http://127.0.0.1:18998/api/marketplace/installed
 curl -sf -X POST http://127.0.0.1:18998/api/marketplace/manage \
   -H 'content-type: application/json' \
-  -d '{"type":"plugin","action":"disable","id":"@nextclaw/channel-plugin-discord","spec":"@nextclaw/channel-plugin-discord"}'
+  -d '{"type":"plugin","action":"disable","id":"@go-usb-ai/channel-plugin-discord","spec":"@go-usb-ai/channel-plugin-discord"}'
 curl -sf -X POST http://127.0.0.1:18998/api/marketplace/manage \
   -H 'content-type: application/json' \
-  -d '{"type":"plugin","action":"enable","id":"@nextclaw/channel-plugin-discord","spec":"@nextclaw/channel-plugin-discord"}'
+  -d '{"type":"plugin","action":"enable","id":"@go-usb-ai/channel-plugin-discord","spec":"@go-usb-ai/channel-plugin-discord"}'
 
 rm -rf "$TMP_HOME"
 ```
@@ -63,6 +63,6 @@ rm -rf "$TMP_HOME"
 
 ## 影响范围 / 风险
 
-- 影响范围：`@nextclaw/ui`。
+- 影响范围：`@go-usb-ai/ui`。
 - Breaking change：否。
 - 风险：纯前端展示层重构，功能接口未改；主要风险在 UI 交互一致性，已通过构建与冒烟验证。

@@ -11,32 +11,32 @@
 
 ## 测试/验证/验收方式
 - TypeScript 检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
 - 核心测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core test -- --run src/agent/thinking.test.ts src/providers/openai_provider.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core test -- --run src/agent/thinking.test.ts src/providers/openai_provider.test.ts`
 - 前端构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 - 发布前全量校验（`release:publish` 内置）：
   - `PATH=/opt/homebrew/bin:$PATH pnpm release:check`
   - 结果：`build + lint + tsc` 全部通过（lint 仅历史 warning，无 error）。
 - 发布后冒烟（非仓库目录）：
-  - `TMP_DIR=$(mktemp -d /tmp/nextclaw-release-smoke.XXXXXX) && cd "$TMP_DIR" && npm init -y && npm install nextclaw@0.9.24 && npx --yes nextclaw --version`
-  - 结果：`NEXTCLAW_VERSION=0.9.24`
+  - `TMP_DIR=$(mktemp -d /tmp/go-usb-ai-release-smoke.XXXXXX) && cd "$TMP_DIR" && npm init -y && npm install go-usb-ai@0.9.24 && npx --yes go-usb-ai --version`
+  - 结果：`GOUSB_AI_VERSION=0.9.24`
 
 ## 发布/部署方式
 - 本次已按项目发布流程完成：
   - `PATH=/opt/homebrew/bin:$PATH pnpm release:version`
   - `PATH=/opt/homebrew/bin:$PATH pnpm release:publish`
 - 本轮实际发布（npm）：
-  - `@nextclaw/core@0.7.7`
-  - `@nextclaw/server@0.6.11`
-  - `@nextclaw/ui@0.6.13`
-  - `@nextclaw/runtime@0.1.6`
-  - `@nextclaw/channel-runtime@0.1.35`
-  - `@nextclaw/openclaw-compat@0.2.6`
-  - `nextclaw@0.9.24`
+  - `@go-usb-ai/core@0.7.7`
+  - `@go-usb-ai/server@0.6.11`
+  - `@go-usb-ai/ui@0.6.13`
+  - `@go-usb-ai/runtime@0.1.6`
+  - `@go-usb-ai/channel-runtime@0.1.35`
+  - `@go-usb-ai/openclaw-compat@0.2.6`
+  - `go-usb-ai@0.9.24`
 
 ## 用户/产品视角的验收步骤
 1. 进入 Providers 页面，选中任一 provider，在模型 chip 上打开“思考档位能力”设置。

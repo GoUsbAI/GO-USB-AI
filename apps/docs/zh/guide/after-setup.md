@@ -1,14 +1,14 @@
 # 第一个有用工作流
 
-快速开始证明 NextClaw 能跑。这个页面证明它值得继续用。
+快速开始证明 GoUsbAi 能跑。这个页面证明它值得继续用。
 
 目标是完成一个简单但真实的工作流：配置模型，发起一次有用对话，再创建一个低风险自动化任务。
 
 ## 1. 先确认健康状态
 
 ```bash
-nextclaw status
-nextclaw doctor
+go-usb-ai status
+go-usb-ai doctor
 ```
 
 如果这里已经报错，先去 [故障排查](/zh/guide/troubleshooting)。
@@ -25,7 +25,7 @@ nextclaw doctor
 
 ## 3. 建一个提醒或定时任务
 
-接下来让 NextClaw 主动做一件小事，例如：
+接下来让 GoUsbAi 主动做一件小事，例如：
 
 ```text
 每天上午 9:30 提醒我确认今天最重要的一件事。
@@ -43,7 +43,7 @@ nextclaw doctor
 
 ## 5. 判断是否需要长期运行
 
-当你准备让 NextClaw 成为日常入口时，继续看：
+当你准备让 GoUsbAi 成为日常入口时，继续看：
 
 - [后台运行与自启动](/zh/guide/background-autostart)
 - [远程访问](/zh/guide/remote-access)

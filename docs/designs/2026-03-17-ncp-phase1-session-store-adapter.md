@@ -2,7 +2,7 @@
 
 ## 目标
 
-本文件记录 `Phase 1` 中 NCP 并行后端链路对现有 NextClaw session 存储的适配语义。
+本文件记录 `Phase 1` 中 NCP 并行后端链路对现有 GoUsbAi session 存储的适配语义。
 
 本阶段不迁移底层存储层本体，只通过 adapter 让 NCP backend 与既有 `SessionManager` 共享同一份会话数据。
 

@@ -5,7 +5,7 @@
 1. 新增原则文档：`docs/designs/chat-page-refactor-two-principles.md`，明确两条执行原则：
    - Chat 页面查询与派生统一拆分到独立模块。
    - 状态写入统一走 manager，页面不再维护重复 `setX` 包装器。
-2. 新增数据聚合模块：`packages/nextclaw-ui/src/components/chat/chat-page-data.ts`，承接 ChatPage 的 query hooks 与派生数据。
+2. 新增数据聚合模块：`packages/go-usb-ai-ui/src/components/chat/chat-page-data.ts`，承接 ChatPage 的 query hooks 与派生数据。
 3. `ChatPage.tsx` 调整为直接使用 `presenter.xxxManager.xxx` 写状态：
    - `setSelectedSessionKey`
    - `setSelectedAgentId`
@@ -21,9 +21,9 @@
 ## 测试/验证/验收方式
 
 1. 类型检查：
-   - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc --noEmit`（通过）
+   - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc --noEmit`（通过）
 2. 受影响文件 ESLint：
-   - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/ChatPage.tsx src/components/chat/chat-page-data.ts src/components/chat/managers/chat-input.manager.ts src/components/chat/managers/chat-session-list.manager.ts src/components/chat/presenter/chat.presenter.ts src/components/chat/stores/chat-input.store.ts src/components/chat/stores/chat-session-list.store.ts`（通过，无 error/warning）
+   - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/ChatPage.tsx src/components/chat/chat-page-data.ts src/components/chat/managers/chat-input.manager.ts src/components/chat/managers/chat-session-list.manager.ts src/components/chat/presenter/chat.presenter.ts src/components/chat/stores/chat-input.store.ts src/components/chat/stores/chat-session-list.store.ts`（通过，无 error/warning）
 3. 构建验证：
    - `PATH=/opt/homebrew/bin:$PATH pnpm build:ui`（通过）
 

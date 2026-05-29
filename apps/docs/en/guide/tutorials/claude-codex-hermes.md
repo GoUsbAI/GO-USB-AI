@@ -1,23 +1,23 @@
 # Claude Code / Codex / Hermes Integration
 
-These integrations are for users who already understand the basic NextClaw runtime. They are not the shortest first-run path.
+These integrations are for users who already understand the basic GoUsbAi runtime. They are not the shortest first-run path.
 
 ## When to use this
 
 - you already have Claude Code, Codex, or Hermes running
-- you want to connect an external agent runtime to NextClaw
+- you want to connect an external agent runtime to GoUsbAi
 - you need session or task routing across runtimes
 
 ## Before connecting
 
-- NextClaw itself works
+- GoUsbAi itself works
 - the external runtime works by itself
 - you know which task should use which runtime
 
 ## Basic steps
 
 1. Verify the external runtime independently.
-2. Add the corresponding integration configuration in NextClaw.
+2. Add the corresponding integration configuration in GoUsbAi.
 3. Save and restart or reload the required service.
 4. Create a test session.
 5. Verify routing with a low-risk task.

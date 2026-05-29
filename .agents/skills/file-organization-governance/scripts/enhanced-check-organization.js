@@ -150,7 +150,7 @@ function traverseDirectory(rootDir) {
 
 // 主执行逻辑
 if (require.main === module) {
-  const targetDir = process.argv[2] || './packages/nextclaw/src';
+  const targetDir = process.argv[2] || './packages/go-usb-ai/src';
   console.log(`🔍 分析目录: ${targetDir}\n`);
   
   const issues = traverseDirectory(targetDir);

@@ -14,13 +14,13 @@
 - 语法检查：
   - `bash -n apps/landing/public/install-docker.sh`
 - 本地脚本真实容器冒烟：
-  - `bash apps/landing/public/install-docker.sh --container-name nextclaw-local-smoke-<ts> --data-dir /tmp/nextclaw-local-smoke-<ts> --ui-port 19091 --api-port 19090 --health-timeout 240`
+  - `bash apps/landing/public/install-docker.sh --container-name go-usb-ai-local-smoke-<ts> --data-dir /tmp/go-usb-ai-local-smoke-<ts> --ui-port 19091 --api-port 19090 --health-timeout 240`
   - 验证点：
     - 脚本退出码为 0，输出 UI/API/Gateway 链接
     - `curl http://127.0.0.1:19091/api/health` 返回 `HTTP 200` 与 `{"ok":true,...}`
     - `curl http://127.0.0.1:19091/` 返回 `HTTP 200`（HTML）
 - 官网真实命令冒烟（Docker 专用一键命令）：
-  - `curl -fsSL https://nextclaw.io/install-docker.sh | NEXTCLAW_DOCKER_CONTAINER_NAME=nextclaw-official-smoke-<ts> NEXTCLAW_DOCKER_DATA_DIR=/tmp/nextclaw-official-smoke-<ts> NEXTCLAW_DOCKER_UI_PORT=19191 NEXTCLAW_DOCKER_API_PORT=19190 NEXTCLAW_DOCKER_HEALTH_TIMEOUT_SEC=240 bash`
+  - `curl -fsSL https://go-usb-ai.io/install-docker.sh | GOUSB_AI_DOCKER_CONTAINER_NAME=go-usb-ai-official-smoke-<ts> GOUSB_AI_DOCKER_DATA_DIR=/tmp/go-usb-ai-official-smoke-<ts> GOUSB_AI_DOCKER_UI_PORT=19191 GOUSB_AI_DOCKER_API_PORT=19190 GOUSB_AI_DOCKER_HEALTH_TIMEOUT_SEC=240 bash`
   - 验证点：
     - 脚本打印 `Health check passed`
     - `http://127.0.0.1:19191/api/health` 返回 `HTTP 200`
@@ -30,13 +30,13 @@
 - 已执行 landing 发布：
   - `pnpm deploy:landing`
 - 发布完成后，官网脚本地址：
-  - `https://nextclaw.io/install-docker.sh`
+  - `https://go-usb-ai.io/install-docker.sh`
 
 ## 用户/产品视角的验收步骤
-1. 在安装并启动 Docker 的机器执行：`curl -fsSL https://nextclaw.io/install-docker.sh | bash`
+1. 在安装并启动 Docker 的机器执行：`curl -fsSL https://go-usb-ai.io/install-docker.sh | bash`
 2. 观察终端输出应包含：
    - `Health check passed`
    - `UI: http://127.0.0.1:18791`
    - `API: http://127.0.0.1:18791/api`
 3. 打开 UI 地址确认页面可访问。
-4. 执行 `docker logs -f nextclaw`，确认服务持续运行。
+4. 执行 `docker logs -f go-usb-ai`，确认服务持续运行。

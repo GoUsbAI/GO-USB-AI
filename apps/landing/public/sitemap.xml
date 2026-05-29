@@ -4,27 +4,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml"
 >
   <url>
-    <loc>https://nextclaw.io/</loc>
+    <loc>https://go-usb-ai.io/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nextclaw.io/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://nextclaw.io/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://nextclaw.io/zh/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://go-usb-ai.io/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://go-usb-ai.io/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://go-usb-ai.io/zh/" />
   </url>
   <url>
-    <loc>https://nextclaw.io/en/</loc>
+    <loc>https://go-usb-ai.io/en/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nextclaw.io/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://nextclaw.io/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://nextclaw.io/zh/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://go-usb-ai.io/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://go-usb-ai.io/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://go-usb-ai.io/zh/" />
   </url>
   <url>
-    <loc>https://nextclaw.io/zh/</loc>
+    <loc>https://go-usb-ai.io/zh/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://nextclaw.io/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://nextclaw.io/en/" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://nextclaw.io/zh/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://go-usb-ai.io/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://go-usb-ai.io/en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://go-usb-ai.io/zh/" />
   </url>
 </urlset>

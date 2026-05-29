@@ -3,11 +3,11 @@
 ## 迭代完成说明
 
 - 新增 marketplace skill：[`skills/mmx-cli/SKILL.md`](../../../skills/mmx-cli/SKILL.md)
-  - 直接继承上游 [`MiniMax-AI/cli`](https://github.com/MiniMax-AI/cli) 仓库中的 [`skill/SKILL.md`](https://github.com/MiniMax-AI/cli/blob/main/skill/SKILL.md)，未再做 NextClaw 风格重写。
+  - 直接继承上游 [`MiniMax-AI/cli`](https://github.com/MiniMax-AI/cli) 仓库中的 [`skill/SKILL.md`](https://github.com/MiniMax-AI/cli/blob/main/skill/SKILL.md)，未再做 GoUsbAi 风格重写。
   - 本次仅将上游 skill 内容落入本仓库的 marketplace skill 目录，作为 marketplace 安装载体。
 - 新增 marketplace 元数据：[`skills/mmx-cli/marketplace.json`](../../../skills/mmx-cli/marketplace.json)
   - 补齐 marketplace 上架所需的 slug、名称、中英双语 summary / description、标签、作者与来源仓库信息。
-- 已通过项目 CLI 将该 skill 首次发布到 NextClaw marketplace，并完成远端查询与非仓库目录安装冒烟闭环。
+- 已通过项目 CLI 将该 skill 首次发布到 GoUsbAi marketplace，并完成远端查询与非仓库目录安装冒烟闭环。
 
 ## 测试 / 验证 / 验收方式
 
@@ -26,13 +26,13 @@ python3 .agents/skills/marketplace-skill-publisher/scripts/validate_marketplace_
 - 首次上架：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw dev:build skills publish /Users/peiwang/Projects/nextbot/skills/mmx-cli --meta /Users/peiwang/Projects/nextbot/skills/mmx-cli/marketplace.json --api-base https://marketplace-api.nextclaw.io
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai dev:build skills publish /Users/peiwang/Projects/nextbot/skills/mmx-cli --meta /Users/peiwang/Projects/nextbot/skills/mmx-cli/marketplace.json --api-base https://marketplace-api.go-usb-ai.io
 ```
 
 - marketplace 远端校验：
 
 ```bash
-curl -sS https://marketplace-api.nextclaw.io/api/v1/skills/items/mmx-cli
+curl -sS https://marketplace-api.go-usb-ai.io/api/v1/skills/items/mmx-cli
 ```
 
 观察点：
@@ -46,8 +46,8 @@ curl -sS https://marketplace-api.nextclaw.io/api/v1/skills/items/mmx-cli
 - marketplace 安装冒烟（非仓库目录）：
 
 ```bash
-tmp_dir=$(mktemp -d /tmp/nextclaw-marketplace-skill.XXXXXX)
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw dev:build skills install mmx-cli --api-base https://marketplace-api.nextclaw.io --workdir "$tmp_dir"
+tmp_dir=$(mktemp -d /tmp/go-usb-ai-marketplace-skill.XXXXXX)
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai dev:build skills install mmx-cli --api-base https://marketplace-api.go-usb-ai.io --workdir "$tmp_dir"
 find "$tmp_dir/skills/mmx-cli" -maxdepth 2 -type f | sort
 python3 .agents/skills/marketplace-skill-publisher/scripts/validate_marketplace_skill.py --skill-dir "$tmp_dir/skills/mmx-cli"
 rm -rf "$tmp_dir"
@@ -66,9 +66,9 @@ PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard
 - 远端详情查询返回正常，条目为 `install.kind=marketplace`。
 - 非仓库目录安装冒烟成功，安装后 skill 目录仅包含 `SKILL.md` 与 `marketplace.json`，且安装后二次 metadata 校验通过。
 - `pnpm lint:maintainability:guard` 未通过，但阻塞项与本次改动无关：
-  - 目录预算 warning：`packages/nextclaw-ui/src/components/chat`
-  - 治理失败：`packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`
-  - 相关已存在改动文件：`packages/nextclaw-ui/src/components/chat/chat-page-runtime.test.ts`
+  - 目录预算 warning：`packages/go-usb-ai-ui/src/components/chat`
+  - 治理失败：`packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`
+  - 相关已存在改动文件：`packages/go-usb-ai-ui/src/components/chat/chat-page-runtime.test.ts`
 
 - `build / lint / tsc`：
   - 不适用。本次未触达 TypeScript 业务源码、构建产物或类型链路，改动集中在 marketplace skill 内容与元数据。
@@ -78,33 +78,33 @@ PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard
 - 本次已首次上架：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw dev:build skills publish /Users/peiwang/Projects/nextbot/skills/mmx-cli --meta /Users/peiwang/Projects/nextbot/skills/mmx-cli/marketplace.json --api-base https://marketplace-api.nextclaw.io
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai dev:build skills publish /Users/peiwang/Projects/nextbot/skills/mmx-cli --meta /Users/peiwang/Projects/nextbot/skills/mmx-cli/marketplace.json --api-base https://marketplace-api.go-usb-ai.io
 ```
 
 - 当前发布结果：
   - marketplace slug：`mmx-cli`
-  - 安装命令：`nextclaw skills install mmx-cli`
-  - 远端查询：`https://marketplace-api.nextclaw.io/api/v1/skills/items/mmx-cli`
+  - 安装命令：`go-usb-ai skills install mmx-cli`
+  - 远端查询：`https://marketplace-api.go-usb-ai.io/api/v1/skills/items/mmx-cli`
 
 - 若后续需要更新远端条目，使用：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw dev:build skills update /Users/peiwang/Projects/nextbot/skills/mmx-cli --meta /Users/peiwang/Projects/nextbot/skills/mmx-cli/marketplace.json --api-base https://marketplace-api.nextclaw.io
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai dev:build skills update /Users/peiwang/Projects/nextbot/skills/mmx-cli --meta /Users/peiwang/Projects/nextbot/skills/mmx-cli/marketplace.json --api-base https://marketplace-api.go-usb-ai.io
 ```
 
 ## 用户 / 产品视角的验收步骤
 
-1. 在任意 NextClaw workspace 或项目目录执行：
+1. 在任意 GoUsbAi workspace 或项目目录执行：
 
 ```bash
-nextclaw skills install mmx-cli
+go-usb-ai skills install mmx-cli
 ```
 
 2. 安装后检查本地 skill 目录：
    - 应出现 `skills/mmx-cli/SKILL.md`
    - 应出现 `skills/mmx-cli/marketplace.json`
 
-3. 打开安装后的 `SKILL.md`，确认它就是上游 `MiniMax-AI/cli` 的 skill 内容，而不是 NextClaw 自行改写的一版。
+3. 打开安装后的 `SKILL.md`，确认它就是上游 `MiniMax-AI/cli` 的 skill 内容，而不是 GoUsbAi 自行改写的一版。
 
 4. 在对话中请求 MiniMax CLI 相关任务，例如：
    - 文本对话
@@ -123,7 +123,7 @@ nextclaw skills install mmx-cli
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：基本是。文件数仅最小必要新增一个 skill 目录下的两个文件与一份迭代记录，没有扩散到业务源码目录、测试目录或新的运行时逻辑。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：是。职责边界保持简单：
   - 上游 `MiniMax-AI/cli` skill 负责 skill 内容本身
-  - NextClaw 仅负责 marketplace 包装与分发
+  - GoUsbAi 仅负责 marketplace 包装与分发
   - 未引入额外 helper / service / store / wrapper 层
 - 目录结构与文件组织是否满足当前项目治理要求：是。新增内容收敛在 `skills/mmx-cli/`，迭代记录收敛在 [`docs/logs/v0.15.63-marketplace-mmx-cli-skill/README.md`](README.md)。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：不适用。本次未触达业务源码、脚本逻辑或运行链路实现，主要是 skill 文档继承与 marketplace 元数据补齐，因此未单独执行代码级 `post-edit-maintainability-review`。

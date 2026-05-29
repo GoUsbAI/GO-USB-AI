@@ -19,17 +19,17 @@
 
 已执行：
 
-- `pnpm -C packages/nextclaw-kernel tsc`
-- `pnpm -C packages/nextclaw-service tsc`
-- `pnpm -C packages/nextclaw-kernel lint`
-- `pnpm -C packages/nextclaw-service lint`
-- `pnpm -C packages/nextclaw-kernel test`
-- `pnpm -C packages/nextclaw-service exec vitest run src/shared/services/gateway/utils/cron-job-handler.utils.test.ts`
-- `pnpm -C packages/nextclaw-service exec vitest run src/shared/services/plugin/tests/service-plugin-runtime-bridge.service.test.ts`
-- `pnpm -C packages/nextclaw-service exec vitest run src/cli/commands/agent/agent-commands.test.ts src/shared/services/gateway/tests/service-bootstrap-status.service.test.ts`
-- `pnpm -C packages/nextclaw-kernel exec eslint src/features/ncp-dispatch`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-kernel/src/features/ncp-dispatch/services/gateway-inbound-processor.service.ts packages/nextclaw-kernel/src/features/ncp-dispatch/utils/ncp-run-metadata.utils.ts packages/nextclaw-kernel/src/features/ncp-dispatch/utils/nextclaw-ncp-dispatch.utils.ts packages/nextclaw-kernel/src/features/ncp-dispatch/index.ts`
-- `pnpm lint:new-code:governance --paths packages/nextclaw-kernel/src/features/ncp-dispatch/services/gateway-inbound-processor.service.ts packages/nextclaw-kernel/src/features/ncp-dispatch/utils/ncp-run-metadata.utils.ts packages/nextclaw-kernel/src/features/ncp-dispatch/utils/nextclaw-ncp-dispatch.utils.ts packages/nextclaw-kernel/src/features/ncp-dispatch/index.ts`
+- `pnpm -C packages/go-usb-ai-kernel tsc`
+- `pnpm -C packages/go-usb-ai-service tsc`
+- `pnpm -C packages/go-usb-ai-kernel lint`
+- `pnpm -C packages/go-usb-ai-service lint`
+- `pnpm -C packages/go-usb-ai-kernel test`
+- `pnpm -C packages/go-usb-ai-service exec vitest run src/shared/services/gateway/utils/cron-job-handler.utils.test.ts`
+- `pnpm -C packages/go-usb-ai-service exec vitest run src/shared/services/plugin/tests/service-plugin-runtime-bridge.service.test.ts`
+- `pnpm -C packages/go-usb-ai-service exec vitest run src/cli/commands/agent/agent-commands.test.ts src/shared/services/gateway/tests/service-bootstrap-status.service.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel exec eslint src/features/ncp-dispatch`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-kernel/src/features/ncp-dispatch/services/gateway-inbound-processor.service.ts packages/go-usb-ai-kernel/src/features/ncp-dispatch/utils/ncp-run-metadata.utils.ts packages/go-usb-ai-kernel/src/features/ncp-dispatch/utils/go-usb-ai-ncp-dispatch.utils.ts packages/go-usb-ai-kernel/src/features/ncp-dispatch/index.ts`
+- `pnpm lint:new-code:governance --paths packages/go-usb-ai-kernel/src/features/ncp-dispatch/services/gateway-inbound-processor.service.ts packages/go-usb-ai-kernel/src/features/ncp-dispatch/utils/ncp-run-metadata.utils.ts packages/go-usb-ai-kernel/src/features/ncp-dispatch/utils/go-usb-ai-ncp-dispatch.utils.ts packages/go-usb-ai-kernel/src/features/ncp-dispatch/index.ts`
 - `pnpm check:governance-backlog-ratchet`
 
 结果：

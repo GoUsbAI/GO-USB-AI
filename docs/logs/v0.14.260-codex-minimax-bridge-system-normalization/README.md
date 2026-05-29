@@ -9,14 +9,14 @@
 # 测试/验证/验收方式
 
 - 单测：
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/codex-openai-responses-bridge-request.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/codex-openai-responses-bridge-request.test.ts`
 - 编译：
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk build`
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk tsc`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk build`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk tsc`
 - 可维护性自检：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/codex-openai-responses-bridge-request.ts packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/codex-openai-responses-bridge-message-content.ts packages/nextclaw/src/cli/commands/codex-openai-responses-bridge-request.test.ts`
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/codex-openai-responses-bridge-request.ts packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/codex-openai-responses-bridge-message-content.ts packages/go-usb-ai/src/cli/commands/codex-openai-responses-bridge-request.test.ts`
 - 冒烟：
-  - `pnpm -C packages/nextclaw dev serve --ui-port 18804`
+  - `pnpm -C packages/go-usb-ai dev serve --ui-port 18804`
   - `pnpm smoke:ncp-chat -- --session-type codex --model minimax/MiniMax-M2.7 --port 18804 --prompt 'Reply exactly OK' --json`
 - 观察点：
   - `codex + minimax/MiniMax-M2.7` 不再出现 `stream closed before response.completed`
@@ -25,12 +25,12 @@
 # 发布/部署方式
 
 - 本次未执行发布或部署。
-- 如果后续需要发布，至少应包含 `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk` 对应版本更新，并重新执行上述单测、编译与 `codex + minimax` 冒烟。
+- 如果后续需要发布，至少应包含 `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk` 对应版本更新，并重新执行上述单测、编译与 `codex + minimax` 冒烟。
 
 # 用户/产品视角的验收步骤
 
-1. 启动本地 NextClaw 服务。
-2. 在 NextClaw UI 中新建 `codex` 会话。
+1. 启动本地 GoUsbAi 服务。
+2. 在 GoUsbAi UI 中新建 `codex` 会话。
 3. 选择 `minimax/MiniMax-M2.7`。
 4. 发送一条简单消息，例如 `Reply exactly OK`。
 5. 确认会话能正常返回内容，不再出现 `Reconnecting...` / `stream disconnected before completion`。

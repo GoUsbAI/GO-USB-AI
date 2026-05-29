@@ -5,7 +5,7 @@
 ## 操作步骤
 
 1. 准备可用账号或认证信息。
-2. 在 NextClaw UI 中添加 provider。
+2. 在 GoUsbAi UI 中添加 provider。
 3. 填入连接信息。
 4. 选择默认模型。
 5. 保存后发一条真实消息。
@@ -13,7 +13,7 @@
 ## 验证
 
 ```bash
-nextclaw doctor
+go-usb-ai doctor
 ```
 
 UI 中能得到正常回复，就表示这条路径跑通。

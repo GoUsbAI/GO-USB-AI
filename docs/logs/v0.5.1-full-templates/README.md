@@ -26,16 +26,16 @@ env PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C /Users/pei
 
 # smoke-check（非仓库目录）
 cd /tmp
-NEXTCLAW_HOME=/tmp/nextclaw-full-templates /Users/peiwang/.nvm/versions/node/v22.16.0/bin/node /Users/peiwang/Projects/nextbot/packages/nextclaw/dist/cli/index.js init
-test -f /tmp/nextclaw-full-templates/workspace/AGENTS.md
-test -f /tmp/nextclaw-full-templates/workspace/SOUL.md
-test -f /tmp/nextclaw-full-templates/workspace/USER.md
-test -f /tmp/nextclaw-full-templates/workspace/IDENTITY.md
-test -f /tmp/nextclaw-full-templates/workspace/TOOLS.md
-test -f /tmp/nextclaw-full-templates/workspace/BOOT.md
-test -f /tmp/nextclaw-full-templates/workspace/BOOTSTRAP.md
-test -f /tmp/nextclaw-full-templates/workspace/HEARTBEAT.md
-test -f /tmp/nextclaw-full-templates/workspace/MEMORY.md
+GOUSB_AI_HOME=/tmp/go-usb-ai-full-templates /Users/peiwang/.nvm/versions/node/v22.16.0/bin/node /Users/peiwang/Projects/nextbot/packages/go-usb-ai/dist/cli/index.js init
+test -f /tmp/go-usb-ai-full-templates/workspace/AGENTS.md
+test -f /tmp/go-usb-ai-full-templates/workspace/SOUL.md
+test -f /tmp/go-usb-ai-full-templates/workspace/USER.md
+test -f /tmp/go-usb-ai-full-templates/workspace/IDENTITY.md
+test -f /tmp/go-usb-ai-full-templates/workspace/TOOLS.md
+test -f /tmp/go-usb-ai-full-templates/workspace/BOOT.md
+test -f /tmp/go-usb-ai-full-templates/workspace/BOOTSTRAP.md
+test -f /tmp/go-usb-ai-full-templates/workspace/HEARTBEAT.md
+test -f /tmp/go-usb-ai-full-templates/workspace/MEMORY.md
 ```
 
 验收点：

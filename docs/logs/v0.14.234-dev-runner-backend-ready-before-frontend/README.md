@@ -18,11 +18,11 @@
 ## 测试/验证/验收方式
 
 - 前端测试：
-  - `pnpm -C packages/nextclaw-ui exec vitest run src/App.test.tsx src/hooks/use-auth.test.ts src/api/client.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui exec vitest run src/App.test.tsx src/hooks/use-auth.test.ts src/api/client.test.ts`
 - 前端类型检查：
-  - `pnpm -C packages/nextclaw-ui tsc -p tsconfig.json`
+  - `pnpm -C packages/go-usb-ai-ui tsc -p tsconfig.json`
 - 启动顺序冒烟：
-  - 使用真实 `NEXTCLAW_HOME=/Users/peiwang/.nextclaw`
+  - 使用真实 `GOUSB_AI_HOME=/Users/peiwang/.go-usb-ai`
   - 冷启动 `pnpm dev start`
   - 验证结果：
     - `frontend_ready_ms ~= 2043`

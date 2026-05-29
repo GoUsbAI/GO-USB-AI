@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "lib": ["ES2022"],
+    "baseUrl": ".",
+    "paths": {
+      "@kernel/*": ["./src/*"],
+      "@go-usb-ai/ncp-agent-runtime": ["../ncp-packages/go-usb-ai-ncp-agent-runtime/src/index.ts"],
+      "@go-usb-ai/ncp-agent-runtime-next": ["../ncp-packages/go-usb-ai-ncp-agent-runtime-next/src/index.ts"],
+      "@go-usb-ai/shared": ["../go-usb-ai-shared/src/index.ts"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts"]
+}

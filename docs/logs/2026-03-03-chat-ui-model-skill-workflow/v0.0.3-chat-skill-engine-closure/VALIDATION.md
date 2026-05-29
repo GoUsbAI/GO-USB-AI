@@ -2,10 +2,10 @@
 
 ## 执行命令
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-engine-plugin-codex-sdk tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-engine-plugin-claude-agent-sdk tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-engine-plugin-codex-sdk exec eslint src/index.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-engine-plugin-claude-agent-sdk exec eslint src/index.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-engine-plugin-codex-sdk tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-engine-plugin-claude-agent-sdk tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-engine-plugin-codex-sdk exec eslint src/index.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-engine-plugin-claude-agent-sdk exec eslint src/index.ts`
 
 ## 结果
 

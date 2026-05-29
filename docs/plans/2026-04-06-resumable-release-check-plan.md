@@ -73,8 +73,8 @@ pnpm release:publish
 至少执行：
 
 - `node --check scripts/check-release-batch.mjs`
-- `pnpm -C packages/nextclaw-openclaw-compat lint`
-- `pnpm -C packages/nextclaw-openclaw-compat tsc`
+- `pnpm -C packages/go-usb-ai-openclaw-compat lint`
+- `pnpm -C packages/go-usb-ai-openclaw-compat tsc`
 - 实际运行一次 `pnpm release:check` / `pnpm release:publish`，确认状态文件写出
 - 若中途失败或手动重跑，确认前面已成功步骤被跳过
 

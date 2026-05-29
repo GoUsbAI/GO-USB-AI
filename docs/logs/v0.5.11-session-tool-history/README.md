@@ -12,10 +12,10 @@
 
 ## 变更内容
 
-- `packages/nextclaw-core/src/agent/loop.ts`
+- `packages/go-usb-ai-core/src/agent/loop.ts`
   - 在 session 中记录 tool_calls 与 tool 输出
   - 用户消息提前写入 session，避免顺序错乱
-- `packages/nextclaw-core/src/session/manager.ts`
+- `packages/go-usb-ai-core/src/session/manager.ts`
   - `getHistory()` 返回完整消息字段（role/content/tool_calls/tool_call_id/name）
 
 ## 验证（怎么确认符合预期）
@@ -27,11 +27,11 @@ pnpm lint
 pnpm tsc
 
 # smoke-check（非仓库目录）
-export NEXTCLAW_HOME=/tmp/nextclaw-tool-history
-rm -rf "$NEXTCLAW_HOME"
+export GOUSB_AI_HOME=/tmp/go-usb-ai-tool-history
+rm -rf "$GOUSB_AI_HOME"
 PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" \
-  /Users/peiwang/Projects/nextbot/packages/nextclaw-core/node_modules/.bin/tsx -e \
-  "import { MessageBus } from '/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/bus/queue.ts';\nimport { ProviderManager } from '/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/providers/provider_manager.ts';\nimport { AgentLoop } from '/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/loop.ts';\nimport { readFileSync } from 'node:fs';\nimport { join } from 'node:path';\nclass FakeProvider {\n  calls = 0;\n  getDefaultModel(){ return 'fake'; }\n  async chat(){\n    this.calls += 1;\n    if (this.calls === 1) {\n      return { content: '', toolCalls: [{ id: 'call-1', name: 'exec', arguments: { command: 'echo tool-ok' } }], finishReason: 'tool_calls', usage: {} };\n    }\n    return { content: 'done', toolCalls: [], finishReason: 'stop', usage: {} };\n  }\n}\n(async () => {\n  const bus = new MessageBus();\n  const provider = new FakeProvider();\n  const loop = new AgentLoop({\n    bus,\n    providerManager: new ProviderManager(provider),\n    workspace: '/tmp/nextclaw-tool-history/workspace'\n  });\n  const out = await loop.processDirect({ content: 'run tool', sessionKey: 'cli:direct' });\n  const sessionsPath = join(process.env.NEXTCLAW_HOME, 'sessions', 'cli_direct.jsonl');\n  const data = readFileSync(sessionsPath, 'utf-8');\n  const ok = data.includes('\\"role\\":\\"tool\\"') && data.includes('\\"tool_call_id\\":\\"call-1\\"');\n  console.log(ok ? 'smoke-ok' : 'smoke-fail', out);\n})();"
+  /Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/node_modules/.bin/tsx -e \
+  "import { MessageBus } from '/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/bus/queue.ts';\nimport { ProviderManager } from '/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/providers/provider_manager.ts';\nimport { AgentLoop } from '/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/loop.ts';\nimport { readFileSync } from 'node:fs';\nimport { join } from 'node:path';\nclass FakeProvider {\n  calls = 0;\n  getDefaultModel(){ return 'fake'; }\n  async chat(){\n    this.calls += 1;\n    if (this.calls === 1) {\n      return { content: '', toolCalls: [{ id: 'call-1', name: 'exec', arguments: { command: 'echo tool-ok' } }], finishReason: 'tool_calls', usage: {} };\n    }\n    return { content: 'done', toolCalls: [], finishReason: 'stop', usage: {} };\n  }\n}\n(async () => {\n  const bus = new MessageBus();\n  const provider = new FakeProvider();\n  const loop = new AgentLoop({\n    bus,\n    providerManager: new ProviderManager(provider),\n    workspace: '/tmp/go-usb-ai-tool-history/workspace'\n  });\n  const out = await loop.processDirect({ content: 'run tool', sessionKey: 'cli:direct' });\n  const sessionsPath = join(process.env.GOUSB_AI_HOME, 'sessions', 'cli_direct.jsonl');\n  const data = readFileSync(sessionsPath, 'utf-8');\n  const ok = data.includes('\\"role\\":\\"tool\\"') && data.includes('\\"tool_call_id\\":\\"call-1\\"');\n  console.log(ok ? 'smoke-ok' : 'smoke-fail', out);\n})();"
 ```
 
 验收点：
@@ -56,25 +56,25 @@ pnpm release:publish
 
 发布结果：
 
-- `nextclaw@0.4.3`
-- `nextclaw-core@0.4.3`
+- `go-usb-ai@0.4.3`
+- `go-usb-ai-core@0.4.3`
 
 线上冒烟（npm）：
 
 ```bash
 cd /tmp
-PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" npm view nextclaw@0.4.3 version
-PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" npm install -g nextclaw@0.4.3
-export NEXTCLAW_HOME=/tmp/nextclaw-tool-history-release
-rm -rf "$NEXTCLAW_HOME"
-PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" nextclaw init --force
-ls -1 "$NEXTCLAW_HOME/workspace/skills" | head -n 5
+PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" npm view go-usb-ai@0.4.3 version
+PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" npm install -g go-usb-ai@0.4.3
+export GOUSB_AI_HOME=/tmp/go-usb-ai-tool-history-release
+rm -rf "$GOUSB_AI_HOME"
+PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" go-usb-ai init --force
+ls -1 "$GOUSB_AI_HOME/workspace/skills" | head -n 5
 ```
 
 观察点：
 
 - `npm view` 输出 `0.4.3`
-- `nextclaw init --force` 输出 `seeded`，且 `workspace/skills` 非空
+- `go-usb-ai init --force` 输出 `seeded`，且 `workspace/skills` 非空
 
 ## 影响范围 / 风险
 

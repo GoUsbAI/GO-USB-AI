@@ -12,18 +12,18 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-kernel test -- src/services/ncp-session-api.service.test.ts src/services/ncp-agent-session-store-adapter.service.test.ts src/managers/agent-run-request.manager.test.ts`
-- `pnpm -C packages/nextclaw-server test -- src/app/tests/router.ncp-agent-runtime-manager.test.ts`
-- `pnpm -C packages/nextclaw-kernel tsc`
-- `pnpm -C packages/nextclaw-kernel lint`
+- `pnpm -C packages/go-usb-ai-kernel test -- src/services/ncp-session-api.service.test.ts src/services/ncp-agent-session-store-adapter.service.test.ts src/managers/agent-run-request.manager.test.ts`
+- `pnpm -C packages/go-usb-ai-server test -- src/app/tests/router.ncp-agent-runtime-manager.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel tsc`
+- `pnpm -C packages/go-usb-ai-kernel lint`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths ...`
 - `pnpm check:governance-backlog-ratchet`
 
 `pnpm lint:new-code:governance` 运行后仍被当前工作区里并行改动的文件角色问题阻塞，不是本次触达文件：
 
-- `packages/nextclaw-core/src/features/config/configs/schema.help.ts`
-- `packages/nextclaw-core/src/features/config/configs/schema.labels.ts`
-- `packages/nextclaw-runtime/src/channels/builtin.ts`
+- `packages/go-usb-ai-core/src/features/config/configs/schema.help.ts`
+- `packages/go-usb-ai-core/src/features/config/configs/schema.labels.ts`
+- `packages/go-usb-ai-runtime/src/channels/builtin.ts`
 
 ## 发布/部署方式
 

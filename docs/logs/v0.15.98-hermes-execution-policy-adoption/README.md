@@ -4,10 +4,10 @@
 
 最终实现只做了两件事：
 
-- 新增一个很小的提示词 helper：[`execution-prompt.utils.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/execution-prompt.utils.ts)
+- 新增一个很小的提示词 helper：[`execution-prompt.utils.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/execution-prompt.utils.ts)
 - 在两个真实接入点按模型条件追加提示词：
-  - NCP system prompt：[`nextclaw-ncp-context-builder.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-context-builder.ts)
-  - runtime user overlay：[`runtime-user-prompt.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/runtime-context/runtime-user-prompt.ts)
+  - NCP system prompt：[`go-usb-ai-ncp-context-builder.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-context-builder.ts)
+  - runtime user overlay：[`runtime-user-prompt.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/runtime-context/runtime-user-prompt.ts)
 
 第一阶段保留的 Hermes 核心内容：
 
@@ -22,7 +22,7 @@
 - resolver / section service / system prompt service
 - NCP 额外 message builder service
 
-为了做到最小改动，我恢复复用了现有 [`context.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/context.ts) 作为 system prompt owner，而不是继续替换它。
+为了做到最小改动，我恢复复用了现有 [`context.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/context.ts) 作为 system prompt owner，而不是继续替换它。
 
 相关方案文档：
 
@@ -32,10 +32,10 @@
 
 已执行：
 
-- `pnpm -C packages/nextclaw-core exec vitest run src/agent/tests/context.test.ts src/agent/tests/runtime-user-prompt.test.ts`
-- `pnpm -C packages/nextclaw exec vitest run src/cli/commands/ncp/context/nextclaw-ncp-context-builder.test.ts`
-- `pnpm -C packages/nextclaw-core tsc --noEmit`
-- `pnpm -C packages/nextclaw tsc --noEmit`
+- `pnpm -C packages/go-usb-ai-core exec vitest run src/agent/tests/context.test.ts src/agent/tests/runtime-user-prompt.test.ts`
+- `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/ncp/context/go-usb-ai-ncp-context-builder.test.ts`
+- `pnpm -C packages/go-usb-ai-core tsc --noEmit`
+- `pnpm -C packages/go-usb-ai tsc --noEmit`
 
 已补跑维护性守卫：
 
@@ -57,7 +57,7 @@
 
 本次无需额外部署流程。
 
-- 合入后随 NextClaw 常规构建与重启生效。
+- 合入后随 GoUsbAi 常规构建与重启生效。
 - 因为没有新增配置项，所以不存在额外配置迁移或灰度开关。
 
 # 用户/产品视角的验收步骤
@@ -73,11 +73,11 @@
 
 本次是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。本次主动撤回了上一版过度设计，改为复用现有 `ContextBuilder`，只保留一个很小的 helper 和两个接入点。
 
-是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：做到。相对上一版实验性实现，本次删掉了整套 `execution-policy/*`、`system-context-prompt.service.ts`、`nextclaw-ncp-openai-message-builder.service.ts` 等重抽象，最终相对主干只保留少量增量改动。
+是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：做到。相对上一版实验性实现，本次删掉了整套 `execution-policy/*`、`system-context-prompt.service.ts`、`go-usb-ai-ncp-openai-message-builder.service.ts` 等重抽象，最终相对主干只保留少量增量改动。
 
 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：更合适。现在只有一个小 helper 负责“按模型返回哪段提示词”，其余全部复用原有上下文组装链，没有再额外引入一层 system prompt 平台。
 
-目录结构与文件组织是否满足当前项目治理要求：本次新增文件 [`execution-prompt.utils.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/execution-prompt.utils.ts) 满足 kebab-case 和角色约束。仓库内仍存在历史 legacy 命名告警文件，但不属于本次最小改动范围。
+目录结构与文件组织是否满足当前项目治理要求：本次新增文件 [`execution-prompt.utils.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/execution-prompt.utils.ts) 满足 kebab-case 和角色约束。仓库内仍存在历史 legacy 命名告警文件，但不属于本次最小改动范围。
 
 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：已基于独立复核填写。
 

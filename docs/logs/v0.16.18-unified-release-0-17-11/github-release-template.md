@@ -1,6 +1,6 @@
 # GitHub Release Template
 
-Use this when writing a formal GitHub Release note for NextClaw desktop or npm releases.
+Use this when writing a formal GitHub Release note for GoUsbAi desktop or npm releases.
 
 ## Required structure
 

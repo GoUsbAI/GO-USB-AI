@@ -4,7 +4,7 @@
 
 本次迭代按“尽可能像素级对齐 agent-kit”执行了 chat 核心链路重构，只覆盖发消息、流式输出、事件处理、中断与 run 生命周期。
 
-- 删除 `nextclaw-ui` 里的重状态机类：`nextbot-chat-runtime.ts`。
+- 删除 `go-usb-ai-ui` 里的重状态机类：`nextbot-chat-runtime.ts`。
 - 主链路切到 `AgentChatController -> IAgent.run()`，发送与恢复统一走 controller：
   - `handleSendMessage(..., { runOptions })`
   - `runAgent({ runId, metadata })`
@@ -13,7 +13,7 @@
 - `NextbotRuntimeAgent.abortRun()` 现在内建后端 stop run 语义（ready 后记录 runId 并调用 stop API）；外部统一调用 `AgentChatController.abortAgentRun()`。
 - `ChatPresenter` 改为按 agent-kit 方式注入 agent provider（`runtimeAgent + getToolDefs/getContexts/getToolExecutor`）。
 - `useChatRuntimeController` 保留薄接线与宿主差异桥接（history hydrate、stop run、session/refetch 同步）。
-- `@nextclaw/agent-chat` 的 run lifecycle 事件补充 `runId?: string`（`RUN_STARTED/RUN_FINISHED/RUN_ERROR`）。
+- `@go-usb-ai/agent-chat` 的 run lifecycle 事件补充 `runId?: string`（`RUN_STARTED/RUN_FINISHED/RUN_ERROR`）。
 
 设计文档：
 
@@ -21,9 +21,9 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui tsc`：通过。
-- `pnpm --filter @nextclaw/ui lint`：通过（0 error，存在仓库级 warning）。
-- `pnpm --filter @nextclaw/ui build`：通过（`tsc + vite build` 成功）。
+- `pnpm --filter @go-usb-ai/ui tsc`：通过。
+- `pnpm --filter @go-usb-ai/ui lint`：通过（0 error，存在仓库级 warning）。
+- `pnpm --filter @go-usb-ai/ui build`：通过（`tsc + vite build` 成功）。
 
 链路验收关注点：
 

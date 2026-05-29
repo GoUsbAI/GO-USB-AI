@@ -1,0 +1,28 @@
+{
+  "slug": "publish-to-go-usb-ai-marketplace",
+  "name": "Publish To GoUsbAi Marketplace",
+  "summary": "Publish or update local skills in the GoUsbAi marketplace with explicit v0.17.6+ readiness checks, platform username rules, scoped package naming, and post-publish verification.",
+  "summaryI18n": {
+    "en": "Publish or update local skills in the GoUsbAi marketplace with explicit v0.17.6+ readiness checks, platform username rules, scoped package naming, and post-publish verification.",
+    "zh": "帮助用户把本地 skill 发布或更新到 GoUsbAi marketplace，明确覆盖 v0.17.6+ 版本门槛、平台用户名规则、scope 包名规范与发布后校验。"
+  },
+  "description": "Use this skill when the user wants to publish or update a local skill in the GoUsbAi marketplace. It enforces the GoUsbAi v0.17.6+ baseline, distinguishes official and personal publishing scopes, keeps the platform username requirement visible, and completes remote verification plus install smoke after upload.",
+  "descriptionI18n": {
+    "en": "Use this skill when the user wants to publish or update a local skill in the GoUsbAi marketplace. It enforces the GoUsbAi v0.17.6+ baseline, distinguishes official and personal publishing scopes, keeps the platform username requirement visible, and completes remote verification plus install smoke after upload.",
+    "zh": "当用户希望把本地 skill 发布或更新到 GoUsbAi marketplace 时使用此技能。它会强制检查 GoUsbAi v0.17.6+ 基线，区分官方与个人发布 scope，明确平台用户名前置条件，并在上传后补齐远端校验与安装冒烟。"
+  },
+  "author": "GoUsbAi",
+  "tags": [
+    "skill",
+    "marketplace",
+    "publish",
+    "release",
+    "go-usb-ai",
+    "skill-authoring"
+  ],
+  "sourceRepo": "https://github.com/Peiiii/go-usb-ai",
+  "homepage": "https://github.com/Peiiii/go-usb-ai",
+  "install": {
+    "kind": "marketplace"
+  }
+}

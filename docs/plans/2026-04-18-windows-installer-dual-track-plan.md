@@ -53,7 +53,7 @@ Expected: 文档同时覆盖 installer 与 zip，不再只剩单一路径。
 - `allowToChangeInstallationDirectory: true`
 - `createDesktopShortcut: true`
 - `createStartMenuShortcut: true`
-- 图标和卸载名称对齐 `NextClaw Desktop`
+- 图标和卸载名称对齐 `GoUsbAi Desktop`
 
 **Step 3: 验证 package.json**
 
@@ -71,7 +71,7 @@ Expected: `apps/desktop/package.json ok`
 - 输入：`-InstallerPath`
 - 行为：
   - 静默安装 `Setup.exe`
-  - 定位安装后的 `NextClaw Desktop.exe`
+  - 定位安装后的 `GoUsbAi Desktop.exe`
   - 复用已有桌面启动烟测
   - 最后静默卸载，保持 runner 干净
 
@@ -117,7 +117,7 @@ Expected: 两个脚本都通过。
 **Step 1: 保留现有 `desktop-windows-exe-smoke`**
 
 - 构建 `--win dir`
-- 冒烟 `win-unpacked/NextClaw Desktop.exe`
+- 冒烟 `win-unpacked/GoUsbAi Desktop.exe`
 - 上传 `win-unpacked/**`
 
 **Step 2: 新增 `desktop-windows-installer-smoke`**
@@ -150,8 +150,8 @@ Expected: `desktop-validate yaml ok`
 
 **Step 3: 发布资产同时包含两类 Windows 包**
 
-- `NextClaw.Desktop-<version>-win32-x64-unpacked.zip`
-- `NextClaw.Desktop-Setup-<version>-x64.exe`
+- `GoUsbAi.Desktop-<version>-win32-x64-unpacked.zip`
+- `GoUsbAi.Desktop-Setup-<version>-x64.exe`
 
 **Step 4: workflow 校验**
 

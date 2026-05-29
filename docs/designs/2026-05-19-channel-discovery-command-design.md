@@ -17,7 +17,7 @@ That guess creates a dangerous failure mode: `message` can report success even t
 Make channel discovery an explicit CLI contract:
 
 ```bash
-nextclaw channels list --json
+go-usb-ai channels list --json
 ```
 
 The command returns the authoritative local channel list for agent use. The AI-facing cross-channel messaging skill tells the model to call this command before using `message` whenever the exact channel id or outbound capability is not already explicit.
@@ -26,7 +26,7 @@ The `message` tool then fail-fast validates explicit channel ids against the run
 
 ## Command Contract
 
-`nextclaw channels list --json` returns:
+`go-usb-ai channels list --json` returns:
 
 ```json
 {
@@ -34,7 +34,7 @@ The `message` tool then fail-fast validates explicit channel ids against the run
     {
       "id": "weixin",
       "label": "Weixin",
-      "pluginId": "nextclaw-channel-extension-weixin",
+      "pluginId": "go-usb-ai-channel-extension-weixin",
       "enabled": true,
       "outbound": { "text": true },
       "auth": { "login": true },
@@ -56,7 +56,7 @@ The `message` tool then fail-fast validates explicit channel ids against the run
 
 - `ChannelCommands` owns the CLI list command because it already owns channel status/login/setup commands and can load plugin channel bindings.
 - `MessageTool` owns parameter validation because it is the first executable boundary that can prevent a bad tool call from becoming a false success.
-- `NextclawNcpToolRegistry` owns wiring available extension channel ids into `MessageTool` because it already prepares tools for each run and can see the current extension registry.
+- `GoUsbAiNcpToolRegistry` owns wiring available extension channel ids into `MessageTool` because it already prepares tools for each run and can see the current extension registry.
 - `cross-channel-messaging` owns AI procedure: discover channels with the command, then call `message` with exact ids.
 
 ## Validation
@@ -64,5 +64,5 @@ The `message` tool then fail-fast validates explicit channel ids against the run
 - Unit test `channels list --json` output.
 - Unit test `message` rejects unknown explicit channels and skips publish.
 - Run TypeScript checks for touched packages.
-- Run targeted command smoke for `nextclaw channels list --json`.
+- Run targeted command smoke for `go-usb-ai channels list --json`.
 - Run governance and maintainability closure.

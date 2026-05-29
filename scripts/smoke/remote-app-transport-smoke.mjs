@@ -9,7 +9,7 @@ import {
   extractCookie,
   fetchWithRetry,
   findFreePort,
-  nextclawCli,
+  go-usb-aiCli,
   requestJson,
   rootDir,
   runOrThrow,
@@ -18,7 +18,7 @@ import {
   wranglerBin
 } from "./remote-relay-smoke-support.mjs";
 
-const workerDir = resolve(rootDir, "workers/nextclaw-provider-gateway-api");
+const workerDir = resolve(rootDir, "workers/go-usb-ai-provider-gateway-api");
 const workerConfig = resolve(workerDir, "wrangler.toml");
 
 function onceMessage(socket, timeoutMs = 10_000) {
@@ -50,8 +50,8 @@ async function waitForFrame(socket, matcher, timeoutMs = 10_000) {
 }
 
 async function main() {
-  const persistDir = mkdtempSync(resolve(tmpdir(), "nextclaw-remote-transport-smoke-"));
-  const nextclawHome = mkdtempSync(resolve(tmpdir(), "nextclaw-remote-transport-home-"));
+  const persistDir = mkdtempSync(resolve(tmpdir(), "go-usb-ai-remote-transport-smoke-"));
+  const go-usb-aiHome = mkdtempSync(resolve(tmpdir(), "go-usb-ai-remote-transport-home-"));
   const envFile = resolve(persistDir, ".smoke.env");
   const backendPort = await findFreePort();
   const uiPort = await findFreePort();
@@ -77,7 +77,7 @@ async function main() {
       res.end(JSON.stringify({
         ok: true,
         data: {
-          cookie: "nextclaw_ui_bridge=smoke-bridge"
+          cookie: "go-usb-ai_ui_bridge=smoke-bridge"
         }
       }));
       return;
@@ -169,7 +169,7 @@ async function main() {
       "d1",
       "migrations",
       "apply",
-      "NEXTCLAW_PLATFORM_DB",
+      "GOUSB_AI_PLATFORM_DB",
       "--local",
       "--config",
       workerConfig,
@@ -204,7 +204,7 @@ async function main() {
     workerProcess.stderr?.on("data", captureWorkerLog);
     await waitForHealth(`${base}/health`);
 
-    runOrThrow("pnpm", ["-C", "packages/nextclaw", "build"]);
+    runOrThrow("pnpm", ["-C", "packages/go-usb-ai", "build"]);
 
     const registerCode = await requestJson({
       method: "POST",
@@ -232,7 +232,7 @@ async function main() {
     }
 
     runOrThrow("node", [
-      nextclawCli,
+      go-usb-aiCli,
       "login",
       "--api-base",
       apiBase,
@@ -243,14 +243,14 @@ async function main() {
     ], {
       env: {
         ...process.env,
-        NEXTCLAW_HOME: nextclawHome
+        GOUSB_AI_HOME: go-usb-aiHome
       }
     });
 
     connectorProcess = spawn(
       "node",
       [
-        nextclawCli,
+        go-usb-aiCli,
         "remote",
         "connect",
         "--api-base",
@@ -265,7 +265,7 @@ async function main() {
         cwd: rootDir,
         env: {
           ...process.env,
-          NEXTCLAW_HOME: nextclawHome
+          GOUSB_AI_HOME: go-usb-aiHome
         },
         stdio: ["ignore", "pipe", "pipe"]
       }
@@ -414,7 +414,7 @@ async function main() {
     await new Promise((resolveClose) => localUiWss.close(() => resolveClose()));
     await new Promise((resolveClose) => localUiServer.close(() => resolveClose()));
     rmSync(persistDir, { recursive: true, force: true });
-    rmSync(nextclawHome, { recursive: true, force: true });
+    rmSync(go-usb-aiHome, { recursive: true, force: true });
   }
 }
 

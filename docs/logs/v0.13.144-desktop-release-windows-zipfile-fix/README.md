@@ -4,7 +4,7 @@
 
 - 继续修复 `desktop-release` 的 Windows 归档失败问题。
 - 在 [\.github/workflows/desktop-release.yml](/Users/peiwang/Projects/nextbot/.github/workflows/desktop-release.yml) 中，将 Windows 归档从 `Compress-Archive` 改为 `.NET` 的 `System.IO.Compression.ZipFile.CreateFromDirectory(...)`。
-- 目的：绕过 `Compress-Archive` 在 GitHub Windows runner 上对当前目录/文件句柄处理不稳定的问题，稳定生成 `NextClaw Desktop-win32-x64-unpacked.zip`。
+- 目的：绕过 `Compress-Archive` 在 GitHub Windows runner 上对当前目录/文件句柄处理不稳定的问题，稳定生成 `GoUsbAi Desktop-win32-x64-unpacked.zip`。
 
 ## 测试/验证/验收方式
 
@@ -26,6 +26,6 @@
 ## 用户/产品视角的验收步骤
 
 - 打开对应 desktop release 页面
-- 确认存在 `NextClaw Desktop-win32-x64-unpacked.zip`
-- 下载后解压并运行 `NextClaw Desktop.exe`
+- 确认存在 `GoUsbAi Desktop-win32-x64-unpacked.zip`
+- 下载后解压并运行 `GoUsbAi Desktop.exe`
 - 确认桌面应用可启动，且本次 release 页面同时保留 macOS / Linux 产物

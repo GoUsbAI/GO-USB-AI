@@ -7,7 +7,7 @@
 根因确认方式：
 
 - 线上 API 对比验证：`q=ui%20ux` 返回 0，`q=ui-ux` 返回 `ui-ux-pro-max`。
-- 代码路径确认：`packages/nextclaw/src/cli/commands/skills/skills-query.service.ts` 只负责传参；实际过滤和排序在 `workers/marketplace-api/src/infrastructure/in-memory-section-repository-base.service.ts`。
+- 代码路径确认：`packages/go-usb-ai/src/cli/commands/skills/skills-query.service.ts` 只负责传参；实际过滤和排序在 `workers/marketplace-api/src/infrastructure/in-memory-section-repository-base.service.ts`。
 - 修复命中根因：在同一个 repository owner 内把评分逻辑改为原始 query 匹配、去分隔符 compact 匹配、分词全命中三层判断，没有在 CLI 展示层或下游安装链路补兜底。
 
 同时顺手治理被触达 marketplace repository 文件命名：
@@ -27,15 +27,15 @@
 
 未完全通过项：
 
-- `pnpm lint:new-code:governance` 失败，剩余问题来自本轮开始前已存在且未触达的 `packages/nextclaw-ui/src/shared/lib/i18n/chat.ts` 命名治理问题。
+- `pnpm lint:new-code:governance` 失败，剩余问题来自本轮开始前已存在且未触达的 `packages/go-usb-ai-ui/src/shared/lib/i18n/chat.ts` 命名治理问题。
 - `pnpm check:governance-backlog-ratchet` 失败，剩余问题为仓库既有 doc file-name violations 当前值 13 高于 baseline 11，非本次 marketplace 搜索改动引入。
 
 ## 发布/部署方式
 
 本次改动位于 `workers/marketplace-api`，已部署到 Cloudflare Workers：
 
-- Worker：`nextclaw-marketplace-api`
-- Custom domains：`marketplace-api.nextclaw.io`、`apps-registry.nextclaw.io`
+- Worker：`go-usb-ai-marketplace-api`
+- Custom domains：`marketplace-api.go-usb-ai.io`、`apps-registry.go-usb-ai.io`
 - Version ID：`7b8cecb1-faf1-4a26-8b48-9fb8d1d8adc8`
 
 ## 用户/产品视角的验收步骤
@@ -43,14 +43,14 @@
 部署后通过命令行执行：
 
 ```bash
-nextclaw marketplace skills search --query "ui ux"
-nextclaw marketplace skills search --query "ux ui"
-nextclaw marketplace skills search --query "uiux"
+go-usb-ai marketplace skills search --query "ui ux"
+go-usb-ai marketplace skills search --query "ux ui"
+go-usb-ai marketplace skills search --query "uiux"
 ```
 
 预期结果：均应能返回 `ui-ux-pro-max`，且无关 query 不应误返回该 skill。
 
-线上 API smoke 已确认 `https://marketplace-api.nextclaw.io/api/v1/skills/items?q=ui%20ux&pageSize=10` 返回 `ui-ux-pro-max`。
+线上 API smoke 已确认 `https://marketplace-api.go-usb-ai.io/api/v1/skills/items?q=ui%20ux&pageSize=10` 返回 `ui-ux-pro-max`。
 
 ## 可维护性总结汇总
 

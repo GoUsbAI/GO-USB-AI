@@ -12,7 +12,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-file-directory-collisions.mjs
   node scripts/governance/lint-new-code-file-directory-collisions.mjs --staged
   node scripts/governance/lint-new-code-file-directory-collisions.mjs --base origin/main
-  node scripts/governance/lint-new-code-file-directory-collisions.mjs -- packages/nextclaw-ui/src
+  node scripts/governance/lint-new-code-file-directory-collisions.mjs -- packages/go-usb-ai-ui/src
 
 Blocks touched workspace files whose basename collides with a sibling directory in the same parent path.`;
 

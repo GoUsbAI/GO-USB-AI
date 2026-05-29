@@ -5,37 +5,37 @@
 ## 启动与停止
 
 ```bash
-nextclaw start
-nextclaw restart
-nextclaw stop
+go-usb-ai start
+go-usb-ai restart
+go-usb-ai stop
 ```
 
 ## 状态与诊断
 
 ```bash
-nextclaw status
-nextclaw doctor
+go-usb-ai status
+go-usb-ai doctor
 ```
 
 ## 版本与更新
 
 ```bash
-nextclaw --version
-nextclaw update
+go-usb-ai --version
+go-usb-ai update
 ```
 
 ## 自启动检查
 
 ```bash
-nextclaw service autostart status
-nextclaw service autostart doctor
+go-usb-ai service autostart status
+go-usb-ai service autostart doctor
 ```
 
 ## 远程访问检查
 
 ```bash
-nextclaw remote status
-nextclaw remote doctor
+go-usb-ai remote status
+go-usb-ai remote doctor
 ```
 
 ## 使用原则

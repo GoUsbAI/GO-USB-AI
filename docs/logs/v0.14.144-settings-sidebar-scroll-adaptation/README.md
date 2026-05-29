@@ -9,22 +9,22 @@
   - 帮助文档入口降级为更轻量的次级动作，保留可达性但不再和主要偏好入口竞争高度。
 - 这样在设置项继续增加时，侧栏不会整体被内容撑爆；用户仍能稳定访问“返回主界面”、当前设置导航和底部常用入口，同时底部区整体更紧凑。
 - 补充了设置侧栏布局与紧凑偏好控件回归测试，覆盖侧栏容器的高度约束、导航独立滚动能力，以及主题直达切换：
-  - [`packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx`](../../../packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx)
+  - [`packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx`](../../../packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx)
 
 ## 测试 / 验证 / 验收方式
 
 - 单测：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui test -- src/components/layout/sidebar.layout.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui test -- src/components/layout/sidebar.layout.test.tsx`
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui tsc`
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui build`
 - 定向 lint：
   - `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint src/components/layout/Sidebar.tsx src/components/layout/sidebar.layout.test.tsx`
 - 可维护性自检：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/layout/Sidebar.tsx packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx`
 - 说明：
-  - 包级 `pnpm --filter @nextclaw/ui lint` 会命中仓库已有存量问题（如 `packages/nextclaw-ui/src/components/config/ChannelsList.test.tsx`），与本次侧栏改动无关；本次已通过受影响文件的定向 lint 验证。
+  - 包级 `pnpm --filter @go-usb-ai/ui lint` 会命中仓库已有存量问题（如 `packages/go-usb-ai-ui/src/components/config/ChannelsList.test.tsx`），与本次侧栏改动无关；本次已通过受影响文件的定向 lint 验证。
 
 ## 发布 / 部署方式
 

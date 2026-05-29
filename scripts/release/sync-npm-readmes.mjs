@@ -6,12 +6,12 @@ const mode = process.argv.includes("--check") ? "check" : "write";
 
 const mappings = [
   {
-    source: join(root, "docs/npm-readmes/nextclaw.md"),
-    target: join(root, "packages/nextclaw/README.md"),
+    source: join(root, "docs/npm-readmes/go-usb-ai.md"),
+    target: join(root, "packages/go-usb-ai/README.md"),
   },
   {
-    source: join(root, "docs/npm-readmes/nextclaw-ui.md"),
-    target: join(root, "packages/nextclaw-ui/README.md"),
+    source: join(root, "docs/npm-readmes/go-usb-ai-ui.md"),
+    target: join(root, "packages/go-usb-ai-ui/README.md"),
   },
 ];
 

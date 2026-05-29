@@ -7,7 +7,7 @@ import test from "node:test";
 import { collectFileDirectoryCollisionViolations } from "./lint-new-code-file-directory-collisions.mjs";
 
 const createFixture = (t, { relativeFilePath, createSiblingDirectory = true }) => {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "nextclaw-file-dir-collision-governance-"));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "go-usb-ai-file-dir-collision-governance-"));
   t.after(() => {
     fs.rmSync(tempRoot, { recursive: true, force: true });
   });

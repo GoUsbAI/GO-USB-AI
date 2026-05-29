@@ -7,12 +7,12 @@
 
 # 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui build`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui build`
 
 # 发布/部署方式
 
-- 本次仅 UI 调整，按常规前端发布流程发布 `@nextclaw/ui` 与 `nextclaw` 对应前端产物。
+- 本次仅 UI 调整，按常规前端发布流程发布 `@go-usb-ai/ui` 与 `go-usb-ai` 对应前端产物。
 - 无后端/数据库变更，无 migration。
 
 # 用户/产品视角的验收步骤

@@ -60,7 +60,7 @@ function resolveBatchPackages() {
 
   if (
     readCliFlag("--from-latest-checkpoint") ||
-    readBooleanEnvFlag("NEXTCLAW_RELEASE_CHECK_FROM_LATEST")
+    readBooleanEnvFlag("GOUSB_AI_RELEASE_CHECK_FROM_LATEST")
   ) {
     return resolveCheckpointReleaseBatchPackages(workspacePackages, readLatestReleaseCheckpoint());
   }
@@ -121,26 +121,26 @@ function saveCheckpoint(checkpointPath, checkpoint) {
 }
 
 async function main() {
-  const resetCheckpoint = readCliFlag("--reset") || readBooleanEnvFlag("NEXTCLAW_RELEASE_CHECK_RESET");
+  const resetCheckpoint = readCliFlag("--reset") || readBooleanEnvFlag("GOUSB_AI_RELEASE_CHECK_RESET");
   const includeLint =
-    readCliFlag("--include-lint") || readBooleanEnvFlag("NEXTCLAW_RELEASE_CHECK_INCLUDE_LINT");
+    readCliFlag("--include-lint") || readBooleanEnvFlag("GOUSB_AI_RELEASE_CHECK_INCLUDE_LINT");
   const concurrency = readNumericArg(
     "--concurrency",
-    Number(process.env.NEXTCLAW_RELEASE_CHECK_CONCURRENCY) || DEFAULT_CONCURRENCY
+    Number(process.env.GOUSB_AI_RELEASE_CHECK_CONCURRENCY) || DEFAULT_CONCURRENCY
   );
   const stepConcurrency = {
     build: readNumericArg(
       "--build-concurrency",
-      Number(process.env.NEXTCLAW_RELEASE_CHECK_BUILD_CONCURRENCY) || DEFAULT_STEP_CONCURRENCY.build
+      Number(process.env.GOUSB_AI_RELEASE_CHECK_BUILD_CONCURRENCY) || DEFAULT_STEP_CONCURRENCY.build
     ),
     tsc: readNumericArg(
       "--typecheck-concurrency",
-      Number(process.env.NEXTCLAW_RELEASE_CHECK_TYPECHECK_CONCURRENCY) ||
+      Number(process.env.GOUSB_AI_RELEASE_CHECK_TYPECHECK_CONCURRENCY) ||
         DEFAULT_STEP_CONCURRENCY.tsc
     ),
     lint: readNumericArg(
       "--lint-concurrency",
-      Number(process.env.NEXTCLAW_RELEASE_CHECK_LINT_CONCURRENCY) || DEFAULT_STEP_CONCURRENCY.lint
+      Number(process.env.GOUSB_AI_RELEASE_CHECK_LINT_CONCURRENCY) || DEFAULT_STEP_CONCURRENCY.lint
     )
   };
   const batchPackages = resolveBatchPackages();

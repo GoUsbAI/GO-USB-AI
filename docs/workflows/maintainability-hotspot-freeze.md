@@ -24,13 +24,13 @@
 
 ## 当前首批红区
 
-- `packages/nextclaw-core/src/agent/loop.ts`
-- `packages/nextclaw/src/cli/commands/diagnostics.ts`
-- `packages/nextclaw-server/src/ui/router/chat.controller.ts`
-- `packages/nextclaw-server/src/ui/config.ts`
-- `packages/extensions/nextclaw-channel-runtime/src/channels/discord.ts`
-- `packages/extensions/nextclaw-channel-runtime/src/channels/telegram.ts`
-- `packages/nextclaw-ui/src/components/config/ProviderForm.tsx`
+- `packages/go-usb-ai-core/src/agent/loop.ts`
+- `packages/go-usb-ai/src/cli/commands/diagnostics.ts`
+- `packages/go-usb-ai-server/src/ui/router/chat.controller.ts`
+- `packages/go-usb-ai-server/src/ui/config.ts`
+- `packages/extensions/go-usb-ai-channel-runtime/src/channels/discord.ts`
+- `packages/extensions/go-usb-ai-channel-runtime/src/channels/telegram.ts`
+- `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx`
 
 以上文件的链路归属、允许新增职责、禁止新增职责、下一步拆分缝，以数据源文件中的定义为准。
 
@@ -39,7 +39,7 @@
 ```md
 ## 红区触达与减债记录
 
-### packages/nextclaw/src/cli/commands/diagnostics.ts
+### packages/go-usb-ai/src/cli/commands/diagnostics.ts
 - 本次是否减债：否
 - 说明：本次只修复诊断字段映射错误，未继续向文件内增加新的编排阶段。
 - 下一步拆分缝：拆出 diagnostics collector 与 user-facing renderer。
@@ -48,7 +48,7 @@
 ## 日常使用
 
 - 查看当前红区清单：`node scripts/governance/maintainability-hotspots.mjs`
-- 只看指定红区：`node scripts/governance/maintainability-hotspots.mjs --paths packages/nextclaw/src/cli/commands/diagnostics.ts`
+- 只看指定红区：`node scripts/governance/maintainability-hotspots.mjs --paths packages/go-usb-ai/src/cli/commands/diagnostics.ts`
 - 代码任务收尾：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs`
 
 ## 何时更新红区清单

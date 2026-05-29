@@ -14,14 +14,14 @@
 - 用户可见变化：
   - Marketplace skill/plugin 详情页中的超长 source URL 会在卡片内换行显示，不再溢出容器。
 - 关键实现点：
-  - `packages/nextclaw-ui/src/components/marketplace/MarketplacePage.tsx`
+  - `packages/go-usb-ai-ui/src/components/marketplace/MarketplacePage.tsx`
   - `.meta` 添加 `overflow-wrap: anywhere; word-break: break-word;`
   - `.source` 添加 `overflow-wrap: anywhere; word-break: break-all;`
 
 ## 验证（怎么确认符合预期）
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc
 ```
 
 验收点：
@@ -37,7 +37,7 @@ PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc
 
 ## 发布 / 部署
 
-- 本次变更涉及 `@nextclaw/ui`（以及携带 UI 产物的 `nextclaw`）。
+- 本次变更涉及 `@go-usb-ai/ui`（以及携带 UI 产物的 `go-usb-ai`）。
 - 按 `docs/workflows/npm-release-process.md` 执行 changeset/version/publish。
 
 ## 影响范围 / 风险

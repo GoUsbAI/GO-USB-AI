@@ -12,11 +12,11 @@
 ## 测试 / 验证 / 验收方式
 
 - 单测：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm --dir packages/nextclaw-ui test -- src/components/chat/ChatSidebar.test.tsx`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm --dir packages/go-usb-ai-ui test -- src/components/chat/ChatSidebar.test.tsx`
 - 类型检查：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm --dir packages/nextclaw-ui tsc`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm --dir packages/go-usb-ai-ui tsc`
 - 可维护性自检：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/chat/chat-sidebar-session-item.tsx packages/nextclaw-ui/src/components/chat/ChatSidebar.test.tsx`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/chat/chat-sidebar-session-item.tsx packages/go-usb-ai-ui/src/components/chat/ChatSidebar.test.tsx`
 
 ## 发布 / 部署方式
 

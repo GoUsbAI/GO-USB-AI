@@ -10,38 +10,38 @@
 
 - 顶层 `USAGE.md` 只保留 webhook 索引、地址发现规则和最小示例，避免把完整 payload 参数表塞进 AI 高频上下文。
 - 新增 `docs/usage/http-webhook-ingress.md` 作为按需细节页，承载完整 webhook envelope、`agent-run.send` payload、session 续写、验证与错误语义。
-- `packages/nextclaw/scripts/sync-usage-resource.mjs` 同步 `docs/usage/*.md` 到包内 `resources/usage/*.md`，确保 packaged runtime AI 也能按需读取细节页。
-- `nextclaw-self-manage` skill 明确本地 HTTP/API/webhook 地址通过 `nextclaw status --json` 的 `endpoints.uiUrl` / `endpoints.apiUrl` 发现，避免 AI 猜端口。
-- `nextclaw-agent-instructions-governance` 沉淀 AI 可读 guide 的分层原则：顶层做索引和高频规则，长参数表、协议细节、排障图谱拆到 focused linked files。
+- `packages/go-usb-ai/scripts/sync-usage-resource.mjs` 同步 `docs/usage/*.md` 到包内 `resources/usage/*.md`，确保 packaged runtime AI 也能按需读取细节页。
+- `go-usb-ai-self-manage` skill 明确本地 HTTP/API/webhook 地址通过 `go-usb-ai status --json` 的 `endpoints.uiUrl` / `endpoints.apiUrl` 发现，避免 AI 猜端口。
+- `go-usb-ai-agent-instructions-governance` 沉淀 AI 可读 guide 的分层原则：顶层做索引和高频规则，长参数表、协议细节、排障图谱拆到 focused linked files。
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/kernel test -- agent-run-request.manager.test.ts`
-- `pnpm --filter @nextclaw/server test -- router.ncp-agent.test.ts router.ncp-agent-runtime-manager.test.ts`
-- `pnpm --filter @nextclaw/shared tsc`
-- `pnpm --filter @nextclaw/kernel tsc`
-- `pnpm --filter @nextclaw/server tsc`
-- `pnpm --filter @nextclaw/shared lint`
-- `pnpm --filter @nextclaw/kernel lint`
-- `pnpm --filter @nextclaw/server lint`
+- `pnpm --filter @go-usb-ai/kernel test -- agent-run-request.manager.test.ts`
+- `pnpm --filter @go-usb-ai/server test -- router.ncp-agent.test.ts router.ncp-agent-runtime-manager.test.ts`
+- `pnpm --filter @go-usb-ai/shared tsc`
+- `pnpm --filter @go-usb-ai/kernel tsc`
+- `pnpm --filter @go-usb-ai/server tsc`
+- `pnpm --filter @go-usb-ai/shared lint`
+- `pnpm --filter @go-usb-ai/kernel lint`
+- `pnpm --filter @go-usb-ai/server lint`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-shared/src/configs/ingress-keys.config.ts packages/nextclaw-server/src/app/router.ts packages/nextclaw-kernel/src/managers/agent-run-request.manager.ts packages/nextclaw-kernel/src/managers/agent-run-request.manager.test.ts packages/nextclaw-server/src/app/tests/router.ncp-agent-runtime-manager.test.ts`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-shared/src/configs/ingress-keys.config.ts packages/go-usb-ai-server/src/app/router.ts packages/go-usb-ai-kernel/src/managers/agent-run-request.manager.ts packages/go-usb-ai-kernel/src/managers/agent-run-request.manager.test.ts packages/go-usb-ai-server/src/app/tests/router.ncp-agent-runtime-manager.test.ts`
 
 文档分层 follow-up 验证：
 
-- `nextclaw status --json`：确认现有 CLI 已提供 `endpoints.uiUrl` / `endpoints.apiUrl`。
-- `node packages/nextclaw/scripts/sync-usage-resource.mjs`
-- 自定义 Node 校验：确认 `docs/USAGE.md` 与 `packages/nextclaw/resources/USAGE.md` 同步，且 `docs/usage/http-webhook-ingress.md` 与 `packages/nextclaw/resources/usage/http-webhook-ingress.md` 同步。
-- `git diff --check -- docs/USAGE.md docs/usage/http-webhook-ingress.md packages/nextclaw/resources/USAGE.md packages/nextclaw/resources/usage/http-webhook-ingress.md packages/nextclaw/scripts/sync-usage-resource.mjs packages/nextclaw-core/src/features/agent/shared/skills/nextclaw-self-manage/SKILL.md .agents/skills/nextclaw-agent-instructions-governance/SKILL.md`
-- `pnpm -C packages/nextclaw exec eslint scripts/sync-usage-resource.mjs`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths docs/USAGE.md docs/usage/http-webhook-ingress.md packages/nextclaw/resources/USAGE.md packages/nextclaw/resources/usage/http-webhook-ingress.md packages/nextclaw/scripts/sync-usage-resource.mjs packages/nextclaw-core/src/features/agent/shared/skills/nextclaw-self-manage/SKILL.md .agents/skills/nextclaw-agent-instructions-governance/SKILL.md`
+- `go-usb-ai status --json`：确认现有 CLI 已提供 `endpoints.uiUrl` / `endpoints.apiUrl`。
+- `node packages/go-usb-ai/scripts/sync-usage-resource.mjs`
+- 自定义 Node 校验：确认 `docs/USAGE.md` 与 `packages/go-usb-ai/resources/USAGE.md` 同步，且 `docs/usage/http-webhook-ingress.md` 与 `packages/go-usb-ai/resources/usage/http-webhook-ingress.md` 同步。
+- `git diff --check -- docs/USAGE.md docs/usage/http-webhook-ingress.md packages/go-usb-ai/resources/USAGE.md packages/go-usb-ai/resources/usage/http-webhook-ingress.md packages/go-usb-ai/scripts/sync-usage-resource.mjs packages/go-usb-ai-core/src/features/agent/shared/skills/go-usb-ai-self-manage/SKILL.md .agents/skills/go-usb-ai-agent-instructions-governance/SKILL.md`
+- `pnpm -C packages/go-usb-ai exec eslint scripts/sync-usage-resource.mjs`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths docs/USAGE.md docs/usage/http-webhook-ingress.md packages/go-usb-ai/resources/USAGE.md packages/go-usb-ai/resources/usage/http-webhook-ingress.md packages/go-usb-ai/scripts/sync-usage-resource.mjs packages/go-usb-ai-core/src/features/agent/shared/skills/go-usb-ai-self-manage/SKILL.md .agents/skills/go-usb-ai-agent-instructions-governance/SKILL.md`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
 
 ## 发布/部署方式
 
-未执行发布或部署。本次触达 `@nextclaw/shared`、`@nextclaw/kernel`、`@nextclaw/server` 源码，并在 follow-up 触达 `nextclaw` 包内资源同步脚本与 `@nextclaw/core` 内置 self-management skill，后续应随常规 NPM/桌面发布批次一起发布。
+未执行发布或部署。本次触达 `@go-usb-ai/shared`、`@go-usb-ai/kernel`、`@go-usb-ai/server` 源码，并在 follow-up 触达 `go-usb-ai` 包内资源同步脚本与 `@go-usb-ai/core` 内置 self-management skill，后续应随常规 NPM/桌面发布批次一起发布。
 
 ## 用户/产品视角的验收步骤
 
@@ -49,7 +49,7 @@
 2. 确认接口返回 run handle。
 3. 确认 agent runtime 收到由系统生成的 user message，且 `content` 中的 text/file 等多模态 part 被保留。
 4. 同时传 `message` 与 `content` 时，应返回 `INVALID_BODY`。
-5. 需要从 AI 或脚本调用 webhook 时，先运行 `nextclaw status --json`，使用 `endpoints.uiUrl` 拼接 `/webhook`。
+5. 需要从 AI 或脚本调用 webhook 时，先运行 `go-usb-ai status --json`，使用 `endpoints.uiUrl` 拼接 `/webhook`。
 6. 只需要知道 webhook 存在时读取 `USAGE.md` 索引；需要实现或排障时再读取 `docs/usage/http-webhook-ingress.md`。
 
 ## 可维护性总结汇总
@@ -60,4 +60,4 @@
 
 ## NPM 包发布记录
 
-待统一发布：`@nextclaw/shared`、`@nextclaw/kernel`、`@nextclaw/server`、`@nextclaw/core`、`nextclaw`。
+待统一发布：`@go-usb-ai/shared`、`@go-usb-ai/kernel`、`@go-usb-ai/server`、`@go-usb-ai/core`、`go-usb-ai`。

@@ -1,6 +1,6 @@
-declare global {
+﻿declare global {
   interface Window {
-    nextclawCompanion: {
+    goUsbAiCompanion: {
       open: () => Promise<void>;
       quit: () => Promise<void>;
       getBootstrap: () => Promise<{ baseUrl: string }>;

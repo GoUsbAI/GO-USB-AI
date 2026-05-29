@@ -8,14 +8,14 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui exec eslint src/platforms/desktop/components/desktop-app-shell.tsx src/platforms/mobile/components/mobile-topbar.tsx src/platforms/mobile/components/mobile-app-shell.tsx src/platforms/mobile/index.ts src/app/components/layout/app-layout.tsx src/app/hooks/use-viewport-layout.ts src/platforms/desktop/components/desktop-app-shell.test.tsx src/app/components/layout/app-layout.test.tsx src/platforms/mobile/components/mobile-app-shell.test.tsx`
-- `pnpm --filter @nextclaw/ui test -- src/platforms/desktop/components/desktop-app-shell.test.tsx src/app/components/layout/app-layout.test.tsx src/platforms/mobile/components/mobile-app-shell.test.tsx`
-- `pnpm --filter @nextclaw/ui tsc`
+- `pnpm --filter @go-usb-ai/ui exec eslint src/platforms/desktop/components/desktop-app-shell.tsx src/platforms/mobile/components/mobile-topbar.tsx src/platforms/mobile/components/mobile-app-shell.tsx src/platforms/mobile/index.ts src/app/components/layout/app-layout.tsx src/app/hooks/use-viewport-layout.ts src/platforms/desktop/components/desktop-app-shell.test.tsx src/app/components/layout/app-layout.test.tsx src/platforms/mobile/components/mobile-app-shell.test.tsx`
+- `pnpm --filter @go-usb-ai/ui test -- src/platforms/desktop/components/desktop-app-shell.test.tsx src/app/components/layout/app-layout.test.tsx src/platforms/mobile/components/mobile-app-shell.test.tsx`
+- `pnpm --filter @go-usb-ai/ui tsc`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths ...`
-- Playwright 窄宽冒烟：`420x700` 下分别打开 `?nextclawDesktopPlatform=darwin` 与 `?nextclawDesktopPlatform=win32`，确认 `mobile-bottom-nav` 位于 viewport 底部可见，macOS topbar 内容左侧 padding 为 `88px`，Windows 保留 `desktop-window-chrome`。
-- 已知无关阻塞：`pnpm --filter @nextclaw/ui lint` 仍被既有无关错误阻塞，包括未使用 import、历史 `import()` type annotation 与既有 React refs 规则问题；本次触达文件 targeted ESLint 已通过。
+- Playwright 窄宽冒烟：`420x700` 下分别打开 `?go-usb-aiDesktopPlatform=darwin` 与 `?go-usb-aiDesktopPlatform=win32`，确认 `mobile-bottom-nav` 位于 viewport 底部可见，macOS topbar 内容左侧 padding 为 `88px`，Windows 保留 `desktop-window-chrome`。
+- 已知无关阻塞：`pnpm --filter @go-usb-ai/ui lint` 仍被既有无关错误阻塞，包括未使用 import、历史 `import()` type annotation 与既有 React refs 规则问题；本次触达文件 targeted ESLint 已通过。
 
 ## 发布/部署方式
 

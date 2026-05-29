@@ -19,14 +19,14 @@ const lintText = async (code) => {
           }
         },
         plugins: {
-          nextclaw: {
+          go-usb-ai: {
             rules: {
               "prefer-top-level-context-destructuring": preferTopLevelContextDestructuringRule
             }
           }
         },
         rules: {
-          "nextclaw/prefer-top-level-context-destructuring": [
+          "go-usb-ai/prefer-top-level-context-destructuring": [
             "warn",
             {
               objectNames: ["params", "options", "context"],

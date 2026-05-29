@@ -2,7 +2,7 @@
 
 ## 背景
 
-当前 `@nextclaw/nextclaw-ncp-runtime-stdio-client` 里混入了 Hermes 专属实现：
+当前 `@go-usb-ai/go-usb-ai-ncp-runtime-stdio-client` 里混入了 Hermes 专属实现：
 
 - `hermes-acp-route-bridge.utils.ts`
 - `hermes-acp-route-bridge/sitecustomize.py`
@@ -26,7 +26,7 @@
 
 本次整改后必须满足以下条件：
 
-1. `@nextclaw/nextclaw-ncp-runtime-stdio-client` 内不再出现 Hermes 专属逻辑
+1. `@go-usb-ai/go-usb-ai-ncp-runtime-stdio-client` 内不再出现 Hermes 专属逻辑
 2. `stdio client` 只保留通用能力：
    - 解析 stdio config
    - 启动/探测子进程
@@ -42,19 +42,19 @@
 
 ### 1. 保留的通用层
 
-保留在 `@nextclaw/nextclaw-ncp-runtime-stdio-client`：
+保留在 `@go-usb-ai/go-usb-ai-ncp-runtime-stdio-client`：
 
 - `StdioRuntimeConfigResolver`
 - `StdioRuntimeNcpAgentRuntime`
 - `probeStdioRuntime`
 - 通用 `RuntimeRoute -> env` 注入
 
-这里的通用 env bridge 只负责把 NextClaw 已解析好的路由映射成标准环境变量：
+这里的通用 env bridge 只负责把 GoUsbAi 已解析好的路由映射成标准环境变量：
 
-- `NEXTCLAW_MODEL`
-- `NEXTCLAW_API_BASE`
-- `NEXTCLAW_API_KEY`
-- `NEXTCLAW_HEADERS_JSON`
+- `GOUSB_AI_MODEL`
+- `GOUSB_AI_API_BASE`
+- `GOUSB_AI_API_KEY`
+- `GOUSB_AI_HEADERS_JSON`
 
 这是通用运行时合同的一部分，不属于 Hermes 特供逻辑。
 
@@ -62,7 +62,7 @@
 
 新增包：
 
-- `packages/nextclaw-hermes-acp-bridge`
+- `packages/go-usb-ai-hermes-acp-bridge`
 
 职责仅限于 Hermes ACP 专属适配：
 
@@ -76,7 +76,7 @@
 
 ### 3. Hermes 接入点如何使用 bridge
 
-Hermes bridge 由 NextClaw 的 builtin runtime registration 显式接入：
+Hermes bridge 由 GoUsbAi 的 builtin runtime registration 显式接入：
 
 - 在 builtin `narp-stdio` entry 创建路径中
 - 如果 entry 配置实际启动的是 `hermes acp`
@@ -97,7 +97,7 @@ Hermes bridge 由 NextClaw 的 builtin runtime registration 显式接入：
 
 ## 实施步骤
 
-1. 新增 `@nextclaw/nextclaw-hermes-acp-bridge`
+1. 新增 `@go-usb-ai/go-usb-ai-hermes-acp-bridge`
 2. 把以下内容从 stdio client 搬过去：
    - `hermes-acp-route-bridge.utils.ts`
    - `sitecustomize.py`
@@ -121,9 +121,9 @@ Hermes bridge 由 NextClaw 的 builtin runtime registration 显式接入：
    - `hermes`
    - `sitecustomize`
    - Hermes ACP probe 假路由逻辑
-2. 新包 `nextclaw-hermes-acp-bridge` 自身测试通过
-3. `nextclaw-ncp-runtime-stdio-client` 测试/类型检查通过
-4. `nextclaw` 包类型检查通过
+2. 新包 `go-usb-ai-hermes-acp-bridge` 自身测试通过
+3. `go-usb-ai-ncp-runtime-stdio-client` 测试/类型检查通过
+4. `go-usb-ai` 包类型检查通过
 5. Hermes runtime smoke 继续通过
 6. mock 上游仍能看到：
    - `Authorization`

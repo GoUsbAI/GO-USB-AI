@@ -6,12 +6,12 @@
 
 - 本机已安装 Ollama
 - 本机资源足够运行目标模型
-- NextClaw 已经能启动并打开 UI
+- GoUsbAi 已经能启动并打开 UI
 
 ## 配置步骤
 
 1. 在 Ollama 中拉取并运行模型。
-2. 在 NextClaw 中添加本地 provider。
+2. 在 GoUsbAi 中添加本地 provider。
 3. 指向本地 Ollama 地址。
 4. 选择对应模型。
 5. 发送一条真实消息验证。

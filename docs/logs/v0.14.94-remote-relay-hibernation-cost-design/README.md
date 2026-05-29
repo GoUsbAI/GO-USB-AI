@@ -3,7 +3,7 @@
 ## 迭代完成说明
 
 - 新增 remote relay 成本优化方案文档：
-  - [NextClaw Remote Relay Hibernation Cost Optimization Design](../../plans/2026-03-21-nextclaw-remote-relay-hibernation-cost-optimization-design.md)
+  - [GoUsbAi Remote Relay Hibernation Cost Optimization Design](../../plans/2026-03-21-go-usb-ai-remote-relay-hibernation-cost-optimization-design.md)
 - 本方案明确拒绝“先付费止血、后面再说”的路线，直接收敛到唯一推荐方向：
   - 保留 Durable Objects
   - 改为 WebSocket Hibernation 模式

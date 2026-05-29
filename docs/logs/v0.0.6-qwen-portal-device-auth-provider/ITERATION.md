@@ -10,7 +10,7 @@
   - 授权方式：`chat.qwen.ai` device-code + PKCE。
 
 2. UI Server 接入通用授权链路
-- 新增 Provider Auth 执行模块：`packages/nextclaw-server/src/ui/provider-auth.ts`
+- 新增 Provider Auth 执行模块：`packages/go-usb-ai-server/src/ui/provider-auth.ts`
 - 新增 API：
   - `POST /api/config/providers/:provider/auth/start`
   - `POST /api/config/providers/:provider/auth/poll`
@@ -21,18 +21,18 @@
 - 前端授权轮询成功后自动刷新配置数据。
 
 4. 方案目标达成情况
-- 保持“登录非强制”：未登录仍可使用其它 provider（含内置 NextClaw）。
+- 保持“登录非强制”：未登录仍可使用其它 provider（含内置 GoUsbAi）。
 - `qwen-portal` 以普通 provider 形态接入，满足“通用化 + 解耦”目标。
 
 ## 测试/验证/验收方式
 
 1. 代码验证
-- `pnpm -C packages/nextclaw-core build && pnpm -C packages/nextclaw-server build && pnpm -C packages/nextclaw-ui build`
-- `pnpm -C packages/nextclaw-core tsc && pnpm -C packages/nextclaw-server tsc && pnpm -C packages/nextclaw-ui tsc`
+- `pnpm -C packages/go-usb-ai-core build && pnpm -C packages/go-usb-ai-server build && pnpm -C packages/go-usb-ai-ui build`
+- `pnpm -C packages/go-usb-ai-core tsc && pnpm -C packages/go-usb-ai-server tsc && pnpm -C packages/go-usb-ai-ui tsc`
 - 定向 lint（本次改动文件）通过，历史超长文件规则仅警告。
 
 2. 自动化测试
-- 新增/更新 `packages/nextclaw-server/src/ui/router.provider-test.test.ts`：
+- 新增/更新 `packages/go-usb-ai-server/src/ui/router.provider-test.test.ts`：
   - 校验 `qwen-portal` 元数据包含 `auth.kind=device_code`
   - 校验 `auth/start + auth/poll` 成功后写入 provider key 与默认 apiBase。
 
@@ -40,7 +40,7 @@
 
 1. 本次为本地服务与 UI 功能改动
 - 无需单独 Worker 发布。
-- 按常规包发布流程发版受影响包（core/server/ui/nextclaw）。
+- 按常规包发布流程发版受影响包（core/server/ui/go-usb-ai）。
 
 2. 若联动发布 CLI
 - 保持依赖版本一致后执行统一发布。

@@ -17,7 +17,7 @@
 
 ### 冒烟验证
 
-- 启动本地 UI：`NEXTCLAW_HOME=/tmp/... pnpm -C packages/nextclaw dev:build ui --port 18896`
+- 启动本地 UI：`GOUSB_AI_HOME=/tmp/... pnpm -C packages/go-usb-ai dev:build ui --port 18896`
 - 访问首页：`curl -fsS http://127.0.0.1:18896/`
 - 验收观察点：页面可正常返回 HTML，且无启动报错。
 
@@ -36,5 +36,5 @@
 
 ## 本次执行结果（2026-02-23）
 
-- 已发布 NPM：`nextclaw@0.8.0`、`@nextclaw/ui@0.5.0`
-- 已部署 Docs（Cloudflare Pages）：`https://e18b5498.nextclaw-docs.pages.dev`
+- 已发布 NPM：`go-usb-ai@0.8.0`、`@go-usb-ai/ui@0.5.0`
+- 已部署 Docs（Cloudflare Pages）：`https://e18b5498.go-usb-ai-docs.pages.dev`

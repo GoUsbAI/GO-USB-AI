@@ -3,20 +3,20 @@
 ## 迭代完成说明
 
 - 修复 `ncp` 链路里当前用户消息的图片 part 在上下文构建时丢失的问题，确保用户消息会保留原始 `ncp_parts`，并在送模时转换成可识别的图片输入。
-- 修复 `NextclawAgentSessionStore` 在 save/load 后丢失用户图片 part 的问题，避免图片消息经过会话持久化后退化成纯文本或路径。
+- 修复 `GoUsbAiAgentSessionStore` 在 save/load 后丢失用户图片 part 的问题，避免图片消息经过会话持久化后退化成纯文本或路径。
 - 为 provider 元数据补充 `visionModels`，并让 `ncp` 图片 turn 在默认模型不具备视觉能力时，显式切换到已配置且可用的视觉模型。
 - 去除图片视觉路由对隐式全局 provider registry 安装顺序的依赖；若 registry 尚未安装，显式读取 runtime 内置 provider catalog，保证 `ncp` 主链路行为可预测。
-- 为 `nextclaw-ncp-context-builder` 与 `nextclaw-agent-session-store` 补齐图片相关测试，并把测试运行环境隔离到独立 `NEXTCLAW_HOME`，避免全局 session 污染断言结果。
+- 为 `go-usb-ai-ncp-context-builder` 与 `go-usb-ai-agent-session-store` 补齐图片相关测试，并把测试运行环境隔离到独立 `GOUSB_AI_HOME`，避免全局 session 污染断言结果。
 
 ## 测试/验证/验收方式
 
 - 单测：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm --filter nextclaw test -- --run src/cli/commands/ncp/nextclaw-ncp-context-builder.test.ts src/cli/commands/ncp/nextclaw-agent-session-store.test.ts`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai test -- --run src/cli/commands/ncp/go-usb-ai-ncp-context-builder.test.ts src/cli/commands/ncp/go-usb-ai-agent-session-store.test.ts`
 - 类型检查：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm --filter nextclaw tsc --noEmit`
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/runtime tsc --noEmit`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai tsc --noEmit`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/runtime tsc --noEmit`
 - 可维护性检查：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-current-turn.ts packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-context-builder.ts packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-message-bridge.ts packages/nextclaw/src/cli/commands/ncp/nextclaw-agent-session-store.ts packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-context-builder.test.ts packages/nextclaw/src/cli/commands/ncp/nextclaw-agent-session-store.test.ts packages/nextclaw-core/src/providers/types.ts packages/nextclaw-runtime/src/providers/plugins/builtin.ts`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-current-turn.ts packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-context-builder.ts packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-message-bridge.ts packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-agent-session-store.ts packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-context-builder.test.ts packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-agent-session-store.test.ts packages/go-usb-ai-core/src/providers/types.ts packages/go-usb-ai-runtime/src/providers/plugins/builtin.ts`
   - 结果：`Errors: 0`，仅剩近预算告警，无阻塞项。
 - 本地真实 `ncp` 冒烟：
   - 文本：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm smoke:ncp-chat -- --session-type native --port 18792 --prompt "Reply exactly OK" --json`

@@ -25,8 +25,8 @@ pnpm tsc
 # smoke-check（非仓库目录）
 cd /tmp
 PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" \
-  /Users/peiwang/Projects/nextbot/packages/nextclaw-core/node_modules/.bin/tsx -e \
-  "import { SessionsListTool } from '/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/tools/sessions.ts';\nimport { SessionManager } from '/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/session/manager.ts';\nconst manager = new SessionManager('/tmp/nextclaw-smoke');\nconst session = manager.getOrCreate('cli:direct');\nmanager.save(session);\nconst tool = new SessionsListTool(manager);\ntool.execute({ limit: 1 }).then((out) => {\n  const ok = out.includes('sessions');\n  console.log(ok ? 'smoke-ok' : 'smoke-fail');\n});"
+  /Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/node_modules/.bin/tsx -e \
+  "import { SessionsListTool } from '/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/tools/sessions.ts';\nimport { SessionManager } from '/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/session/manager.ts';\nconst manager = new SessionManager('/tmp/go-usb-ai-smoke');\nconst session = manager.getOrCreate('cli:direct');\nmanager.save(session);\nconst tool = new SessionsListTool(manager);\ntool.execute({ limit: 1 }).then((out) => {\n  const ok = out.includes('sessions');\n  console.log(ok ? 'smoke-ok' : 'smoke-fail');\n});"
 ```
 
 验收点：

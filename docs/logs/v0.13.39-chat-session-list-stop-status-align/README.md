@@ -12,15 +12,15 @@
 ## 测试/验证/验收方式
 
 - 执行命令：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/chat-page-runtime.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/chat-page-runtime.ts`
 - 结果：
   - `tsc` 通过；
   - `build` 通过；
   - 目标文件 lint 通过（仅现有 max-lines 警告，无 error）。
 - 说明：
-  - `packages/nextclaw-ui` 全量 lint 仍受仓库既有 `ChatConversationPanel.tsx` React Compiler 规则错误影响（非本次引入）。
+  - `packages/go-usb-ai-ui` 全量 lint 仍受仓库既有 `ChatConversationPanel.tsx` React Compiler 规则错误影响（非本次引入）。
 
 ## 发布/部署方式
 

@@ -35,7 +35,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 使用打包版 Desktop 启动 NextClaw。
+1. 使用打包版 Desktop 启动 GoUsbAi。
 2. 验证 Desktop 能正常打开本地 UI，而不是因为 updater 元数据缺失直接卡死或报错。
-3. 在 Windows release smoke 中确认 `NextClaw Desktop.exe` 启动后健康检查可达，不再卡在 `Health API did not become ready`。
+3. 在 Windows release smoke 中确认 `GoUsbAi Desktop.exe` 启动后健康检查可达，不再卡在 `Health API did not become ready`。
 4. 重复打开关闭 Desktop，确认生产态仍沿用 `managed-service`，不会额外引入新的运行模式分叉。

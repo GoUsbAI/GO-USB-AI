@@ -1,0 +1,54 @@
+{
+  "name": "@go-usb-ai/client-sdk",
+  "version": "0.1.13",
+  "private": false,
+  "description": "Shared client SDK for GoUsbAi session, agent, and realtime access.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Peiiii/go-usb-ai.git"
+  },
+  "homepage": "https://github.com/Peiiii/go-usb-ai/tree/master/packages/go-usb-ai-client-sdk",
+  "bugs": {
+    "url": "https://github.com/Peiiii/go-usb-ai/issues"
+  },
+  "keywords": [
+    "go-usb-ai",
+    "client-sdk",
+    "session",
+    "realtime"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsdown src/index.ts --dts.sourcemap --clean --target es2022 --no-fixedExtension --unbundle",
+    "prepack": "pnpm run build",
+    "lint": "eslint src --max-warnings=0",
+    "tsc": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "prepublishOnly": "node ../../scripts/release/ensure-pnpm-publish.mjs"
+  },
+  "dependencies": {
+    "@go-usb-ai/shared": "workspace:*",
+    "@go-usb-ai/server": "workspace:*",
+    "@go-usb-ai/ncp": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.2"
+  }
+}

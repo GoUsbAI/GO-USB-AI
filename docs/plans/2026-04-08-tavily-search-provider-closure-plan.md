@@ -2,7 +2,7 @@
 
 ## Goal
 
-Close the existing gap between runtime-only Tavily support and the full product configuration loop so NextClaw can expose Tavily as a first-class search provider in the same unified entry used for Bocha and Brave.
+Close the existing gap between runtime-only Tavily support and the full product configuration loop so GoUsbAi can expose Tavily as a first-class search provider in the same unified entry used for Bocha and Brave.
 
 ## Scope
 
@@ -20,7 +20,7 @@ Close the existing gap between runtime-only Tavily support and the full product 
 
 ## Product Alignment
 
-This work strengthens NextClaw as the unified entry for search-enabled tasks. It improves capability orchestration without pushing users into provider-specific forks or out-of-band patches, which is directly aligned with the product vision of being the natural operating layer over external services.
+This work strengthens GoUsbAi as the unified entry for search-enabled tasks. It improves capability orchestration without pushing users into provider-specific forks or out-of-band patches, which is directly aligned with the product vision of being the natural operating layer over external services.
 
 ## Long-Term Alignment / Maintainability
 

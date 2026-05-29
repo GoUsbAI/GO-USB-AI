@@ -8,8 +8,8 @@
 napp inspect ./apps/examples/workspace-glance
 napp pack ./apps/examples/workspace-glance
 napp install ./apps/examples/workspace-glance
-napp grant nextclaw.workspace-glance --document workspace=/absolute/path/to/workspace
-napp run nextclaw.workspace-glance
+napp grant go-usb-ai.workspace-glance --document workspace=/absolute/path/to/workspace
+napp run go-usb-ai.workspace-glance
 ```
 
 ## Publish workflow

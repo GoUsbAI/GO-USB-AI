@@ -2,17 +2,17 @@
 
 ## 迭代完成说明
 
-- 为 `@nextclaw/channel-plugin-weixin` 补齐微信入站图片/文件附件链路：微信插件继续负责媒体 URL 解析、下载/解密、临时文件落盘，以及 `InboundAttachment[]` 组装；`WeixinChannel` 只把附件交给现有 `BaseChannel.handleMessage()`，不在渠道层读取文件内容。
-- 修复“微信能收到 markdown 文件，但原生 agent 读不到”的根因：此前 `@nextclaw/core` 只会把图片附件转成多模态 user content，非图片附件即使进入 `attachments` 也只剩占位文本。本次为原生 agent 增加统一托管资产接缝，让非图片附件也能变成可导出的 `assetUri`。
-- 在 core 层只增加最小扩展点：`InboundAttachment.assetUri`、入站附件预处理、用户内容构建钩子、附加 tool 注入。结构上不再把业务约束散落在函数拼装里，而是把稳定职责收敛到 `DefaultUserContentBuilder` 与 `NativeManagedAssetSupport` 这两个 class；`AgentLoop` 本身只保留最薄的接线，并通过 `runtime-hooks.ts` 处理机械型 runtime glue。core 仍不依赖 `@nextclaw/ncp-agent-runtime`，避免基础层反向耦合到具体资产实现。
-- 在 `nextclaw` 包新增 `NativeManagedAssetSupport` class，统一负责本地附件资产化、用户内容构建与资产工具暴露；复用现有 `LocalAssetStore`、`buildLegacyUserContent()` 与 NCP 资产工具，把本地附件统一资产化，并为原生 agent 注入 `asset_export` / `asset_stat` / `asset_put` 等资产工具。
+- 为 `@go-usb-ai/channel-plugin-weixin` 补齐微信入站图片/文件附件链路：微信插件继续负责媒体 URL 解析、下载/解密、临时文件落盘，以及 `InboundAttachment[]` 组装；`WeixinChannel` 只把附件交给现有 `BaseChannel.handleMessage()`，不在渠道层读取文件内容。
+- 修复“微信能收到 markdown 文件，但原生 agent 读不到”的根因：此前 `@go-usb-ai/core` 只会把图片附件转成多模态 user content，非图片附件即使进入 `attachments` 也只剩占位文本。本次为原生 agent 增加统一托管资产接缝，让非图片附件也能变成可导出的 `assetUri`。
+- 在 core 层只增加最小扩展点：`InboundAttachment.assetUri`、入站附件预处理、用户内容构建钩子、附加 tool 注入。结构上不再把业务约束散落在函数拼装里，而是把稳定职责收敛到 `DefaultUserContentBuilder` 与 `NativeManagedAssetSupport` 这两个 class；`AgentLoop` 本身只保留最薄的接线，并通过 `runtime-hooks.ts` 处理机械型 runtime glue。core 仍不依赖 `@go-usb-ai/ncp-agent-runtime`，避免基础层反向耦合到具体资产实现。
+- 在 `go-usb-ai` 包新增 `NativeManagedAssetSupport` class，统一负责本地附件资产化、用户内容构建与资产工具暴露；复用现有 `LocalAssetStore`、`buildLegacyUserContent()` 与 NCP 资产工具，把本地附件统一资产化，并为原生 agent 注入 `asset_export` / `asset_stat` / `asset_put` 等资产工具。
 - 服务态 `GatewayAgentRuntimePool` 与 CLI 直连 `AgentLoop` 都接入同一套 native managed asset support，避免“服务里能用、CLI 不能用”的运行时分叉。
 - 微信插件补齐常见文本/源码文件的 MIME 识别，特别是 `.md` 会识别为 `text/markdown`，不再无谓退化成 `application/octet-stream`。
 - 相关方案文档：[Weixin Inbound Attachments Implementation Plan](../../../docs/plans/2026-04-10-weixin-inbound-attachments-implementation-plan.md)
 
 ## 红区触达与减债记录
 
-### packages/nextclaw-core/src/agent/loop.ts
+### packages/go-usb-ai-core/src/agent/loop.ts
 
 - 本次是否减债：是，局部减债。
 - 说明：本次必须触达主循环以加入“附件预处理”和“附加工具注册”接缝，但没有把资产存储、prompt 组装或微信逻辑塞进 `loop.ts`。默认 user content 构建继续下沉到 `DefaultUserContentBuilder` class，而 `AgentLoopRuntimeSupport` 这个过渡类已经被彻底删除，`loop.ts` 只保留最薄接线并回到相对基线净减。
@@ -21,22 +21,22 @@
 ## 测试/验证/验收方式
 
 - core 定向单测：
-  - `pnpm -C packages/nextclaw-core exec vitest run src/agent/tests/context.test.ts src/agent/tests/loop.tool-catalog.test.ts src/agent/tests/loop.additional-tools.test.ts`
+  - `pnpm -C packages/go-usb-ai-core exec vitest run src/agent/tests/context.test.ts src/agent/tests/loop.tool-catalog.test.ts src/agent/tests/loop.additional-tools.test.ts`
   - 结果：通过，`3 passed / 10 passed`
-- nextclaw 定向单测：
-  - `pnpm -C packages/nextclaw exec vitest run src/cli/commands/agent/native-managed-asset-support.test.ts src/cli/commands/agent/agent-runtime-pool.command.test.ts`
+- go-usb-ai 定向单测：
+  - `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/agent/native-managed-asset-support.test.ts src/cli/commands/agent/agent-runtime-pool.command.test.ts`
   - 结果：通过，`2 passed / 10 passed`
 - 微信插件定向单测：
-  - `pnpm -C packages/extensions/nextclaw-channel-plugin-weixin exec vitest run src/tests/weixin-channel-attachments.test.ts src/tests/weixin-channel.test.ts src/tests/index.test.ts src/tests/weixin-api.client.test.ts`
+  - `pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin exec vitest run src/tests/weixin-channel-attachments.test.ts src/tests/weixin-channel.test.ts src/tests/index.test.ts src/tests/weixin-api.client.test.ts`
   - 结果：通过，`4 passed / 10 passed`
 - 类型检查与构建：
-  - `pnpm -C packages/nextclaw-core tsc`：通过
-  - `pnpm -C packages/nextclaw-core build`：通过
-  - `pnpm -C packages/extensions/nextclaw-channel-plugin-weixin tsc && pnpm -C packages/extensions/nextclaw-channel-plugin-weixin lint && pnpm -C packages/extensions/nextclaw-channel-plugin-weixin build`：通过
-  - `pnpm -C packages/nextclaw tsc`：失败，但剩余错误来自未触达文件 `packages/nextclaw-server/src/ui/ui-routes/marketplace/installed.ts` 的 `Set<string | undefined>` 类型问题；本次新增的 `native-managed-asset-support.ts` type-only import 问题已修复
+  - `pnpm -C packages/go-usb-ai-core tsc`：通过
+  - `pnpm -C packages/go-usb-ai-core build`：通过
+  - `pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin tsc && pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin lint && pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin build`：通过
+  - `pnpm -C packages/go-usb-ai tsc`：失败，但剩余错误来自未触达文件 `packages/go-usb-ai-server/src/ui/ui-routes/marketplace/installed.ts` 的 `Set<string | undefined>` 类型问题；本次新增的 `native-managed-asset-support.ts` type-only import 问题已修复
 - lint：
-  - `pnpm -C packages/nextclaw-core lint`：通过，剩余为既有 warning
-  - `pnpm -C packages/nextclaw lint`：失败，但唯一 error 来自未触达文件 `packages/nextclaw/src/cli/commands/ncp/session-request/session-request-delivery.service.test.ts` 的 `require-yield`；本次新增文件无新增 lint error
+  - `pnpm -C packages/go-usb-ai-core lint`：通过，剩余为既有 warning
+  - `pnpm -C packages/go-usb-ai lint`：失败，但唯一 error 来自未触达文件 `packages/go-usb-ai/src/cli/commands/ncp/session-request/session-request-delivery.service.test.ts` 的 `require-yield`；本次新增文件无新增 lint error
 - 可维护性守卫：
   - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths ...`
   - 结果：通过，剩余 warning 为历史热点/目录预算超限但本次未继续恶化；`loop.ts`、`agent-runtime-pool.ts`、`runtime.ts` 已被压到相对基线净减
@@ -45,8 +45,8 @@
 
 - 本次未执行 npm 发布；用户本轮要求先实现与验证，未要求发布闭环。
 - 本地或测试环境部署方式：
-  1. 重新构建受影响包：`pnpm -C packages/nextclaw-core build`、`pnpm -C packages/extensions/nextclaw-channel-plugin-weixin build`
-  2. 重启使用微信插件与原生 agent 的 NextClaw 服务进程
+  1. 重新构建受影响包：`pnpm -C packages/go-usb-ai-core build`、`pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin build`
+  2. 重启使用微信插件与原生 agent 的 GoUsbAi 服务进程
 - 不适用：
   - 远程 migration：不涉及数据库变更
   - 独立前端发布：不涉及 UI 产物变更
@@ -54,7 +54,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 启动带本次代码的 NextClaw 服务，并确认微信渠道已登录。
+1. 启动带本次代码的 GoUsbAi 服务，并确认微信渠道已登录。
 2. 在微信里给机器人发送一个 `notes.md` 文件。
 3. 观察服务侧入站消息是否包含 `attachments[0]`，且 `name` 为 `notes.md`、`mimeType` 为 `text/markdown`、`status` 为 `ready`。
 4. 进入原生 agent 处理时，附件应先被资产化为 `assetUri`，用户内容里应出现类似 `[Asset: notes.md]`、`[Asset URI: asset://store/...]` 的资产引用，而不是只有 `[收到文件: notes.md]` 占位文本。
@@ -64,7 +64,7 @@
 ## 可维护性总结汇总
 
 - 长期目标对齐 / 可维护性推进：
-  - 本次增强的是 NextClaw 作为统一入口的“文件进入后可被 AI 编排处理”的基础能力，不是给微信单独堆一个 markdown 特判。微信、CLI、服务态原生 agent 都被收敛到同一套托管资产语义，符合“统一体验优先”和“NCP 能力复用优先”。
+  - 本次增强的是 GoUsbAi 作为统一入口的“文件进入后可被 AI 编排处理”的基础能力，不是给微信单独堆一个 markdown 特判。微信、CLI、服务态原生 agent 都被收敛到同一套托管资产语义，符合“统一体验优先”和“NCP 能力复用优先”。
 - 可维护性复核结论：通过。
 - 本次顺手减债：是。
 - 代码增减报告：
@@ -89,7 +89,7 @@
   - 是。微信插件只做渠道媒体落盘；`DefaultUserContentBuilder` 负责默认附件内容构建；`NativeManagedAssetSupport` 负责托管资产实现与工具注入；`AgentLoop` 只保留主循环本身，机械型接线落在 `runtime-hooks.ts`；NCP 资产内容构建逻辑继续复用原有 `buildLegacyUserContent()`，没有形成微信专属旁路。
 - 目录结构与文件组织是否满足当前项目治理要求：
   - 满足本次新增文件治理要求。新增源码使用 kebab-case，且 role 边界清晰：`native-managed-asset-support.ts`、`runtime-hooks.ts`、`user-content.ts`。
-  - 仓库仍有既有目录/热点预算 warning，例如 `packages/nextclaw/src/cli`、`packages/nextclaw-core/src/agent/loop.ts`、`packages/nextclaw/src/cli/runtime.ts`；本次已避免继续恶化，并在红区记录里留下下一步拆分缝。
+  - 仓库仍有既有目录/热点预算 warning，例如 `packages/go-usb-ai/src/cli`、`packages/go-usb-ai-core/src/agent/loop.ts`、`packages/go-usb-ai/src/cli/runtime.ts`；本次已避免继续恶化，并在红区记录里留下下一步拆分缝。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写：
   - 是。本节基于定向 guard、包级验证与独立二次复核，不是只复述守卫输出。
 - 还可以继续删除什么：

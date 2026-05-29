@@ -7,7 +7,7 @@
    - 侧边栏不再承载大段说明文案，只保留一级导航
    - 顶部改成经典固定全局栏，页面说明只保留一行
    - 内容区独立滚动，形成稳定控制台骨架
-   - 视觉不再自创，统一回到 NextClaw UI 的暖中性色和 olive brand 语言
+   - 视觉不再自创，统一回到 GoUsbAi UI 的暖中性色和 olive brand 语言
 
 设计文档：
 
@@ -52,13 +52,13 @@
 
 线上验证：
 
-- `curl -I https://platform-admin.nextclaw.io`
-- `PLATFORM_ADMIN_BASE_URL=https://platform-admin.nextclaw.io pnpm smoke:platform:admin`
+- `curl -I https://platform-admin.go-usb-ai.io`
+- `PLATFORM_ADMIN_BASE_URL=https://platform-admin.go-usb-ai.io pnpm smoke:platform:admin`
 
 结果：
 
-- `https://platform-admin.nextclaw.io` 返回 `HTTP/2 200`
-- 线上冒烟返回 `platform-admin smoke ok: https://platform-admin.nextclaw.io`
+- `https://platform-admin.go-usb-ai.io` 返回 `HTTP/2 200`
+- 线上冒烟返回 `platform-admin smoke ok: https://platform-admin.go-usb-ai.io`
 
 治理守卫：
 
@@ -69,10 +69,10 @@
 - 本次 `platform-admin` 相关文件未引入新的维护性守卫错误
 - 当前整条守卫仍为非绿，但阻塞点来自仓库内其它并行改动，而不是本次后台重构本身
 - 目前已观察到的无关阻塞包括：
-  - `packages/nextclaw-core/src/agent` 目录预算越线
-  - `packages/nextclaw-ui/src/components/config/ChannelForm.tsx`
-  - `packages/nextclaw-ui/src/components/config/ProviderForm.tsx`
-  - `packages/nextclaw-ui/src/components/config/SearchConfig.tsx`
+  - `packages/go-usb-ai-core/src/agent` 目录预算越线
+  - `packages/go-usb-ai-ui/src/components/config/ChannelForm.tsx`
+  - `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx`
+  - `packages/go-usb-ai-ui/src/components/config/SearchConfig.tsx`
 
 # 发布/部署方式
 
@@ -85,9 +85,9 @@
 实际发布结果：
 
 - Cloudflare Pages 部署地址：
-  - `https://664a4575.nextclaw-platform-admin.pages.dev`
+  - `https://664a4575.go-usb-ai-platform-admin.pages.dev`
 - 自定义正式域名：
-  - `https://platform-admin.nextclaw.io`
+  - `https://platform-admin.go-usb-ai.io`
 
 说明：
 
@@ -96,7 +96,7 @@
 
 # 用户/产品视角的验收步骤
 
-1. 打开 `https://platform-admin.nextclaw.io`
+1. 打开 `https://platform-admin.go-usb-ai.io`
 2. 确认未登录时显示“登录管理后台”
 3. 使用管理员账号登录
 4. 登录后确认页面已是经典控制台结构：
@@ -133,7 +133,7 @@
 
 长期目标对齐 / 可维护性推进：
 
-- 这次续改顺着 NextClaw “统一入口、统一控制面”的长期目标继续推进了一步，把后台从“能用的治理页集合”收敛成了“正式控制台入口”。
+- 这次续改顺着 GoUsbAi “统一入口、统一控制面”的长期目标继续推进了一步，把后台从“能用的治理页集合”收敛成了“正式控制台入口”。
 - 这次最关键的维护性推进，不是新增花哨能力，而是把后台骨架沉淀成可复用模板，降低后续治理页面继续长歪、继续平铺、继续文案化的概率。
 
 可维护性复核结论：保留债务经说明接受

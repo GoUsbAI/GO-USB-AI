@@ -3,7 +3,7 @@
 ## 迭代完成说明（改了什么）
 
 - 新增企业微信（WeCom）内置渠道支持，贯通 `core schema -> channel runtime -> OpenClaw compat plugin loader -> UI 配置` 全链路。
-- 新增 `@nextclaw/channel-plugin-wecom` 扩展包，采用与其他内置渠道一致的 OpenClaw-compatible 插件结构。
+- 新增 `@go-usb-ai/channel-plugin-wecom` 扩展包，采用与其他内置渠道一致的 OpenClaw-compatible 插件结构。
 - 新增 `WeComChannel`：
   - 支持回调 URL 验证（`GET` 签名校验 + `echostr` 回显）
   - 支持接收入站消息（`POST` 签名校验、消息去重、发布入站总线）
@@ -24,15 +24,15 @@ pnpm tsc
 ```
 
 验收点：
-- `nextclaw-core`、`channel-runtime`、`openclaw-compat`、`nextclaw-ui`、`nextclaw` 均通过构建/静态检查/类型检查。
+- `go-usb-ai-core`、`channel-runtime`、`openclaw-compat`、`go-usb-ai-ui`、`go-usb-ai` 均通过构建/静态检查/类型检查。
 - 新增 `wecom` 字段和渠道 ID 在编译链路中无类型错误。
 
 ### 2) CLI 冒烟（用户可见行为）
 
 ```bash
 # 使用临时 HOME，避免写入仓库目录
-TMP_HOME="$(mktemp -d /tmp/nextclaw-wecom-smoke.XXXXXX)"
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
+TMP_HOME="$(mktemp -d /tmp/go-usb-ai-wecom-smoke.XXXXXX)"
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
 rm -rf "$TMP_HOME"
 ```
 

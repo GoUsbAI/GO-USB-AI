@@ -6,8 +6,8 @@
 - 欢迎页在无会话时保持正常展示，不再被配置引导卡片覆盖。
 
 涉及文件：
-- `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
-- `packages/nextclaw-ui/src/components/chat/ChatConversationPanel.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatConversationPanel.tsx`
 
 ## 2) 测试/验证/验收方式
 执行环境说明：当前 shell 未内置 `pnpm`，使用 `PATH=/opt/homebrew/bin:$PATH` 前缀执行。
@@ -18,7 +18,7 @@
 - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`（通过）
 
 最小冒烟（UI 可访问性）：
-- 命令：启动 `@nextclaw/ui` 预览服务后请求 `http://127.0.0.1:4273/chat`
+- 命令：启动 `@go-usb-ai/ui` 预览服务后请求 `http://127.0.0.1:4273/chat`
 - 观察点：
   - 返回 `HTTP/1.1 200 OK`
   - 返回 HTML 文档头（`<!DOCTYPE html>`）

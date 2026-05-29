@@ -2,7 +2,7 @@
 
 ## 迭代完成说明（改了什么）
 
-本次修复 `nextclaw agent` 直连路径下，OpenClaw 兼容插件工具读取配置失效的问题。
+本次修复 `go-usb-ai agent` 直连路径下，OpenClaw 兼容插件工具读取配置失效的问题。
 
 1. 在 CLI `agent` 运行链路中补齐插件运行时桥接：
    - 注入 `setPluginRuntimeBridge`；
@@ -32,9 +32,9 @@
 ## 用户/产品视角验收步骤
 
 1. 保持服务运行，确认 `clawbay-channel` 已启用并完成配对。
-2. 在 CLI 执行 `nextclaw agent -m "...调用 clawbay_post ..."`。
+2. 在 CLI 执行 `go-usb-ai agent -m "...调用 clawbay_post ..."`。
 3. 观察返回包含 `TOOL_OK` 且带 `id`，不出现 `apiKey missing`。
-4. 再执行 `nextclaw agent -m "...调用 clawbay_publish_app ..."`。
+4. 再执行 `go-usb-ai agent -m "...调用 clawbay_publish_app ..."`。
 5. 观察返回包含 `TOOL_OK` 且带 `id`。
 
 通过标准：两个工具都能真实执行成功，并返回可追踪标识（id）。

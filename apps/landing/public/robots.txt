@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nextclaw.io/sitemap.xml
+Sitemap: https://go-usb-ai.io/sitemap.xml

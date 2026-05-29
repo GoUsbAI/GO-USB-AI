@@ -88,8 +88,8 @@ export async function prepareLocalUpdateChannelArtifacts({
 }) {
   const stableMinimumLauncherVersion = resolveMinimumLauncherVersionForChannel("stable");
   const betaMinimumLauncherVersion = resolveMinimumLauncherVersionForChannel("beta");
-  const stableBundlePath = join(stableRoot, `nextclaw-bundle-${stableVersion}.zip`);
-  const betaBundlePath = join(betaRoot, `nextclaw-bundle-${betaVersion}.zip`);
+  const stableBundlePath = join(stableRoot, `go-usb-ai-bundle-${stableVersion}.zip`);
+  const betaBundlePath = join(betaRoot, `go-usb-ai-bundle-${betaVersion}.zip`);
 
   copyFileSync(stableSeedBundlePath, stableBundlePath);
   await cloneBundleWithVersionAndLauncherFloor({
@@ -105,8 +105,8 @@ export async function prepareLocalUpdateChannelArtifacts({
   const betaReleaseNotesUrl = `${manifestBaseUrl}/beta/release-notes-${betaVersion}.txt`;
   const manifestAssetName = (channel) => `manifest-${channel}-${platform}-${arch}.json`;
 
-  writeFileSync(join(stableRoot, `release-notes-${stableVersion}.txt`), `NextClaw stable ${stableVersion}\n`, "utf8");
-  writeFileSync(join(betaRoot, `release-notes-${betaVersion}.txt`), `NextClaw beta ${betaVersion}\n`, "utf8");
+  writeFileSync(join(stableRoot, `release-notes-${stableVersion}.txt`), `GoUsbAi stable ${stableVersion}\n`, "utf8");
+  writeFileSync(join(betaRoot, `release-notes-${betaVersion}.txt`), `GoUsbAi beta ${betaVersion}\n`, "utf8");
   writeFileSync(
     join(stableRoot, manifestAssetName("stable")),
     `${JSON.stringify(

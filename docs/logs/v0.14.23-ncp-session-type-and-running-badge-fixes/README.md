@@ -11,13 +11,13 @@
 ## 测试/验证/验收方式
 
 - 运行：
-  - `pnpm --filter ./packages/nextclaw-ui test -- --run src/components/chat/useChatSessionTypeState.test.tsx src/components/chat/ncp/ncp-session-adapter.test.ts src/components/chat/ChatSidebar.test.tsx`
+  - `pnpm --filter ./packages/go-usb-ai-ui test -- --run src/components/chat/useChatSessionTypeState.test.tsx src/components/chat/ncp/ncp-session-adapter.test.ts src/components/chat/ChatSidebar.test.tsx`
 - 可维护性自检：
-  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-ui/src/components/chat/useChatSessionTypeState.ts packages/nextclaw-ui/src/components/chat/useChatSessionTypeState.test.tsx packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx packages/nextclaw-ui/src/components/chat/ncp/ncp-session-adapter.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-session-adapter.test.ts packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx packages/nextclaw-ui/src/components/chat/ChatSidebar.test.tsx`
+  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-ui/src/components/chat/useChatSessionTypeState.ts packages/go-usb-ai-ui/src/components/chat/useChatSessionTypeState.test.tsx packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx packages/go-usb-ai-ui/src/components/chat/ncp/ncp-session-adapter.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-session-adapter.test.ts packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx packages/go-usb-ai-ui/src/components/chat/ChatSidebar.test.tsx`
 
 ## 发布/部署方式
 
-- 本次仅涉及 `nextclaw-ui` 前端逻辑，无 migration。
+- 本次仅涉及 `go-usb-ai-ui` 前端逻辑，无 migration。
 - 按常规前端发布流程发布相关 UI 包即可；本地开发可直接通过 `pnpm dev start` 验证。
 
 ## 用户/产品视角的验收步骤

@@ -2,7 +2,7 @@
 
 **Goal:** 把 `nextbot` 的治理视角从“只在文件过长或函数过复杂时报警”升级为“能识别模块结构漂移、默认阻断新增结构债务、对高风险目录建立红区冻结和拆分缝闭环”的长期机制。
 
-**Why Now:** `workers/nextclaw-provider-gateway-api/src` 这次暴露的问题，不只是若干文件放错目录，而是同一模块同时混用了多种组织方式，说明仓库已经出现“结构熵”增长。继续只靠文件级 maintainability 规则，只能看到症状，拦不住同类问题在别的模块重复出现。
+**Why Now:** `workers/go-usb-ai-provider-gateway-api/src` 这次暴露的问题，不只是若干文件放错目录，而是同一模块同时混用了多种组织方式，说明仓库已经出现“结构熵”增长。继续只靠文件级 maintainability 规则，只能看到症状，拦不住同类问题在别的模块重复出现。
 
 **Related Plans And Workflows:**
 
@@ -27,7 +27,7 @@
 
 ## 2. 从镜子样本看到的系统性问题
 
-`workers/nextclaw-provider-gateway-api/src` 之所以有代表性，不在于它有 `utils` 或 `types` 目录，而在于它暴露了这些系统性缺口：
+`workers/go-usb-ai-provider-gateway-api/src` 之所以有代表性，不在于它有 `utils` 或 `types` 目录，而在于它暴露了这些系统性缺口：
 
 ### 2.1 我们有文件级治理，但缺少模块级治理
 
@@ -327,7 +327,7 @@
 ```md
 ## 结构红区触达与减债记录
 
-### workers/nextclaw-provider-gateway-api/src
+### workers/go-usb-ai-provider-gateway-api/src
 - 本次是否减债：否
 - 说明：本次只补设计方案，未直接调整模块拓扑。
 - 当前主要结构风险：路由装配入口并存、共享容器边界模糊、目录组织模型混用。
@@ -428,7 +428,7 @@
 
 ## 11. 对当前样本的示范性结论
 
-以 `workers/nextclaw-provider-gateway-api/src` 为例，本方案会把它识别成一个典型的结构漂移样本，原因不是“有 `utils` 或 `types`”，而是：
+以 `workers/go-usb-ai-provider-gateway-api/src` 为例，本方案会把它识别成一个典型的结构漂移样本，原因不是“有 `utils` 或 `types`”，而是：
 
 - 同一模块出现平行主入口
 - 同一业务域被拆散在多个宽泛技术层目录和根目录散文件之间

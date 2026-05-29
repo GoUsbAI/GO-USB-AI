@@ -2,31 +2,31 @@
 
 ## 迭代完成说明
 
-- 将 `packages/extensions/nextclaw-ncp-runtime-claude-code-sdk` 的 Anthropic 依赖从错误的 `@anthropic-ai/claude-code` 修正为可编程接入的 `@anthropic-ai/claude-agent-sdk`。
+- 将 `packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk` 的 Anthropic 依赖从错误的 `@anthropic-ai/claude-code` 修正为可编程接入的 `@anthropic-ai/claude-agent-sdk`。
 - 调整 `claude-code-loader.cjs` 的动态加载逻辑，校验 `query()` 导出并增加模块缓存，避免 Claude 类型会话在发送消息时因错误入口而报 `Cannot find package ... @anthropic-ai/claude-code/index.js`。
 - 同步更新 Claude NCP runtime 与 runtime plugin 的描述文案，避免继续把当前实现误标为 Claude Code SDK。
-- 在 `packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.test.ts` 增加 Claude 会话真实消息流测试，验证 `session_type=claude` 时会通过配置的 Claude 可执行入口完成回复并持久化 `claude_session_id`。
+- 在 `packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.test.ts` 增加 Claude 会话真实消息流测试，验证 `session_type=claude` 时会通过配置的 Claude 可执行入口完成回复并持久化 `claude_session_id`。
 - 拆分测试文件中的 `describe` 结构，消除新增测试引入的函数级可维护性违规。
 
 ## 测试/验证/验收方式
 
 - 安装依赖：`pnpm install`
 - 运行时包验证：
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk build`
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk lint`
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk tsc`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk build`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk lint`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk tsc`
 - 插件包验证：
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk build`
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk lint`
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk tsc`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk build`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk lint`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk tsc`
 - 端到端冒烟：
-  - `pnpm --filter nextclaw exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
+  - `pnpm --filter go-usb-ai exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
   - 重点观察点：
     - `claude` 会话类型可被列出
     - `runs claude session messages through the configured Claude CLI entrypoint` 用例通过
     - 会话元数据中写入 `claude_session_id`
 - 可维护性闸门：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/nextclaw-ncp-runtime-claude-code-sdk/claude-code-loader.cjs packages/extensions/nextclaw-ncp-runtime-claude-code-sdk/package.json packages/extensions/nextclaw-ncp-runtime-claude-code-sdk/README.md packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/package.json packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/openclaw.plugin.json packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/index.ts packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk/claude-code-loader.cjs packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk/package.json packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk/README.md packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/package.json packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/openclaw.plugin.json packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/index.ts packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
 
 ## 发布/部署方式
 
@@ -36,7 +36,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 在 NextClaw 配置中启用 `nextclaw-ncp-runtime-plugin-claude-code-sdk`。
+1. 在 GoUsbAi 配置中启用 `go-usb-ai-ncp-runtime-plugin-claude-code-sdk`。
 2. 配置 Claude 相关参数，并确保运行时依赖已安装到包含 `@anthropic-ai/claude-agent-sdk` 的当前工作区。
 3. 创建或打开一个 NCP 会话，在会话类型里选择 `Claude`。
 4. 发送一条普通文本消息。

@@ -1,12 +1,12 @@
 # Owner Dependency And Branch Consolidation Implementation Plan
 
-> **For Codex:** REQUIRED SUB-SKILL: Use `executing-plans` style task-by-task execution. Before code changes, also use `nextclaw-clean-implementation`, `classic-software-design-principles`, and `nextclaw-validation-workflow`.
+> **For Codex:** REQUIRED SUB-SKILL: Use `executing-plans` style task-by-task execution. Before code changes, also use `go-usb-ai-clean-implementation`, `classic-software-design-principles`, and `go-usb-ai-validation-workflow`.
 
-**Goal:** 对 NextClaw 当前代码库做一次统一排查与改造，清理“没必要的可选分支”“没必要的回调函数切片”“假 owner / 空心 owner / 双链路 mutation”等结构性问题，让核心链路回到直接 owner 依赖和单一路径。
+**Goal:** 对 GoUsbAi 当前代码库做一次统一排查与改造，清理“没必要的可选分支”“没必要的回调函数切片”“假 owner / 空心 owner / 双链路 mutation”等结构性问题，让核心链路回到直接 owner 依赖和单一路径。
 
 **Architecture:** 以 owner 边界为主线排查，不按单个报错打补丁。真实 owner 直接依赖真实 owner；跨 owner 事实通知走已有 `EventBus` / `Ingress` / 协议事件；配置、session、runtime、metadata、context compaction 等领域只保留一个标准 mutation 链路。
 
-**Tech Stack:** TypeScript monorepo、NCP runtime/session、NextClaw kernel managers、shared `EventBus`、Vitest、ESLint、governance scripts、maintainability guard。
+**Tech Stack:** TypeScript monorepo、NCP runtime/session、GoUsbAi kernel managers、shared `EventBus`、Vitest、ESLint、governance scripts、maintainability guard。
 
 ---
 
@@ -19,7 +19,7 @@
 - metadata 既能由 runtime factory 写，也能由 session manager 写，还能由 live session snapshot 间接覆盖。
 - context compaction 曾经返回一组结果让调用方代写 metadata，而不是自己调用真正 owner 完成领域动作。
 
-这些不是单点代码风格问题，而是系统自感知和自治能力的基础结构问题。NextClaw 要成为统一入口，必须能稳定知道“谁是事实 owner、哪条链路改变了状态、哪个事件代表真实事实”，否则后续自进化、学习、复盘、session continuity 都会被不一致状态拖住。
+这些不是单点代码风格问题，而是系统自感知和自治能力的基础结构问题。GoUsbAi 要成为统一入口，必须能稳定知道“谁是事实 owner、哪条链路改变了状态、哪个事件代表真实事实”，否则后续自进化、学习、复盘、session continuity 都会被不一致状态拖住。
 
 ## 目标原则
 
@@ -44,8 +44,8 @@
 重点搜索：
 
 ```bash
-rg "get[A-Z][A-Za-z0-9]*:|set[A-Z][A-Za-z0-9]*:|update[A-Z][A-Za-z0-9]*:|is[A-Z][A-Za-z0-9]*:|on[A-Z][A-Za-z0-9]*:" packages/nextclaw-kernel/src packages/nextclaw-core/src packages/nextclaw-server/src
-rg "=> this\\.[A-Za-z0-9_]+\\.[A-Za-z0-9_]+\\(" packages/nextclaw-kernel/src packages/nextclaw-server/src
+rg "get[A-Z][A-Za-z0-9]*:|set[A-Z][A-Za-z0-9]*:|update[A-Z][A-Za-z0-9]*:|is[A-Z][A-Za-z0-9]*:|on[A-Z][A-Za-z0-9]*:" packages/go-usb-ai-kernel/src packages/go-usb-ai-core/src packages/go-usb-ai-server/src
+rg "=> this\\.[A-Za-z0-9_]+\\.[A-Za-z0-9_]+\\(" packages/go-usb-ai-kernel/src packages/go-usb-ai-server/src
 ```
 
 分类规则：
@@ -59,7 +59,7 @@ rg "=> this\\.[A-Za-z0-9_]+\\.[A-Za-z0-9_]+\\(" packages/nextclaw-kernel/src pac
 重点搜索：
 
 ```bash
-rg "if \\(this\\.[A-Za-z0-9_]+Manager\\)|if \\(this\\.[A-Za-z0-9_]+Service\\)|\\?\\." packages/nextclaw-kernel/src packages/nextclaw-server/src
+rg "if \\(this\\.[A-Za-z0-9_]+Manager\\)|if \\(this\\.[A-Za-z0-9_]+Service\\)|\\?\\." packages/go-usb-ai-kernel/src packages/go-usb-ai-server/src
 ```
 
 分类规则：
@@ -73,8 +73,8 @@ rg "if \\(this\\.[A-Za-z0-9_]+Manager\\)|if \\(this\\.[A-Za-z0-9_]+Service\\)|\\
 重点搜索：
 
 ```bash
-rg "setSessionMetadata|updateSessionMetadata|patch.*Metadata|metadata.*=" packages/nextclaw-kernel/src packages/ncp-packages
-rg "session\\.metadata|runtimeSessionMetadata|metadataPatch" packages/nextclaw-kernel/src
+rg "setSessionMetadata|updateSessionMetadata|patch.*Metadata|metadata.*=" packages/go-usb-ai-kernel/src packages/ncp-packages
+rg "session\\.metadata|runtimeSessionMetadata|metadataPatch" packages/go-usb-ai-kernel/src
 ```
 
 目标链路：
@@ -90,7 +90,7 @@ rg "session\\.metadata|runtimeSessionMetadata|metadataPatch" packages/nextclaw-k
 重点搜索：
 
 ```bash
-rg "sessionSummaryUpsert|sessionUpdated|sessionMetadataChanged|last_activity_preview|publishSessionChange" packages/nextclaw-kernel/src packages/nextclaw-ui/src
+rg "sessionSummaryUpsert|sessionUpdated|sessionMetadataChanged|last_activity_preview|publishSessionChange" packages/go-usb-ai-kernel/src packages/go-usb-ai-ui/src
 ```
 
 目标链路：
@@ -104,11 +104,11 @@ rg "sessionSummaryUpsert|sessionUpdated|sessionMetadataChanged|last_activity_pre
 ### Task 1: 建立排查基线
 
 **Files:**
-- Read: `packages/nextclaw-kernel/src/app/nextclaw-kernel.ts`
-- Read: `packages/nextclaw-kernel/src/managers/*.ts`
-- Read: `packages/nextclaw-kernel/src/features/**/services/*.ts`
-- Read: `packages/nextclaw-kernel/src/features/**/managers/*.ts`
-- Read: `packages/nextclaw-core/src/features/**/managers/*.ts`
+- Read: `packages/go-usb-ai-kernel/src/app/go-usb-ai-kernel.ts`
+- Read: `packages/go-usb-ai-kernel/src/managers/*.ts`
+- Read: `packages/go-usb-ai-kernel/src/features/**/services/*.ts`
+- Read: `packages/go-usb-ai-kernel/src/features/**/managers/*.ts`
+- Read: `packages/go-usb-ai-core/src/features/**/managers/*.ts`
 
 **Steps:**
 
@@ -129,9 +129,9 @@ Expected: no whitespace errors.
 ### Task 2: 收敛必需 owner 依赖
 
 **Files:**
-- Modify as needed: `packages/nextclaw-kernel/src/app/nextclaw-kernel.ts`
-- Modify as needed: `packages/nextclaw-kernel/src/managers/*.ts`
-- Modify as needed: `packages/nextclaw-kernel/src/features/**/services/*.ts`
+- Modify as needed: `packages/go-usb-ai-kernel/src/app/go-usb-ai-kernel.ts`
+- Modify as needed: `packages/go-usb-ai-kernel/src/managers/*.ts`
+- Modify as needed: `packages/go-usb-ai-kernel/src/features/**/services/*.ts`
 - Test: relevant `__tests__` files beside touched managers.
 
 **Steps:**
@@ -145,8 +145,8 @@ Expected: no whitespace errors.
 **Validation:**
 
 ```bash
-pnpm --filter @nextclaw/kernel tsc
-pnpm --filter @nextclaw/kernel test -- <touched-test-files>
+pnpm --filter @go-usb-ai/kernel tsc
+pnpm --filter @go-usb-ai/kernel test -- <touched-test-files>
 ```
 
 Expected: all pass.
@@ -168,8 +168,8 @@ Expected: all pass.
 **Validation:**
 
 ```bash
-pnpm --filter @nextclaw/kernel tsc
-pnpm --filter @nextclaw/server tsc
+pnpm --filter @go-usb-ai/kernel tsc
+pnpm --filter @go-usb-ai/server tsc
 ```
 
 Expected: all pass.
@@ -177,12 +177,12 @@ Expected: all pass.
 ### Task 4: 统一 metadata mutation 链路
 
 **Files:**
-- Modify as needed: `packages/nextclaw-kernel/src/managers/ncp-session.manager.ts`
-- Modify as needed: `packages/nextclaw-kernel/src/managers/session-run.manager.ts`
-- Modify as needed: `packages/nextclaw-kernel/src/features/runtime-registry/services/agent-runtime-registry.service.ts`
-- Modify as needed: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend.types.ts`
-- Test: `packages/nextclaw-kernel/src/managers/__tests__/session-run.manager.test.ts`
-- Test: `packages/nextclaw-kernel/src/managers/__tests__/ncp-session.manager.test.ts`
+- Modify as needed: `packages/go-usb-ai-kernel/src/managers/ncp-session.manager.ts`
+- Modify as needed: `packages/go-usb-ai-kernel/src/managers/session-run.manager.ts`
+- Modify as needed: `packages/go-usb-ai-kernel/src/features/runtime-registry/services/agent-runtime-registry.service.ts`
+- Modify as needed: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend.types.ts`
+- Test: `packages/go-usb-ai-kernel/src/managers/__tests__/session-run.manager.test.ts`
+- Test: `packages/go-usb-ai-kernel/src/managers/__tests__/ncp-session.manager.test.ts`
 
 **Steps:**
 
@@ -195,8 +195,8 @@ Expected: all pass.
 **Validation:**
 
 ```bash
-pnpm --filter @nextclaw/ncp-toolkit tsc
-pnpm --filter @nextclaw/kernel test -- src/managers/__tests__/session-run.manager.test.ts src/managers/__tests__/ncp-session.manager.test.ts
+pnpm --filter @go-usb-ai/ncp-toolkit tsc
+pnpm --filter @go-usb-ai/kernel test -- src/managers/__tests__/session-run.manager.test.ts src/managers/__tests__/ncp-session.manager.test.ts
 ```
 
 Expected: all pass.
@@ -204,9 +204,9 @@ Expected: all pass.
 ### Task 5: 排查 session preview 闪烁链路
 
 **Files:**
-- Read/Modify as needed: `packages/nextclaw-kernel/src/contributions/session-activity-preview/**`
-- Read/Modify as needed: `packages/nextclaw-kernel/src/managers/session-run.manager.ts`
-- Read/Modify as needed: `packages/nextclaw-kernel/src/managers/ncp-session.manager.ts`
+- Read/Modify as needed: `packages/go-usb-ai-kernel/src/contributions/session-activity-preview/**`
+- Read/Modify as needed: `packages/go-usb-ai-kernel/src/managers/session-run.manager.ts`
+- Read/Modify as needed: `packages/go-usb-ai-kernel/src/managers/ncp-session.manager.ts`
 - Read/Modify as needed: UI session list consumers if backend evidence points there.
 
 **Steps:**
@@ -220,7 +220,7 @@ Expected: all pass.
 **Validation:**
 
 ```bash
-pnpm --filter @nextclaw/kernel test -- src/managers/__tests__/session-run.manager.test.ts src/contributions/session-activity-preview/**/*.test.ts
+pnpm --filter @go-usb-ai/kernel test -- src/managers/__tests__/session-run.manager.test.ts src/contributions/session-activity-preview/**/*.test.ts
 ```
 
 Expected: preview metadata remains stable after run events.
@@ -244,10 +244,10 @@ Expected: preview metadata remains stable after run events.
 **Validation:**
 
 ```bash
-pnpm --filter @nextclaw/shared tsc
-pnpm --filter @nextclaw/core tsc
-pnpm --filter @nextclaw/kernel tsc
-pnpm --filter @nextclaw/server tsc
+pnpm --filter @go-usb-ai/shared tsc
+pnpm --filter @go-usb-ai/core tsc
+pnpm --filter @go-usb-ai/kernel tsc
+pnpm --filter @go-usb-ai/server tsc
 pnpm lint:new-code:governance
 pnpm check:governance-backlog-ratchet
 node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature

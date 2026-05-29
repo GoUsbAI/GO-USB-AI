@@ -12,19 +12,19 @@
 
 结构收敛修正：旧 `SessionManager` 兼容读写已集中收纳到 `NcpAgentLegacySessionStore`，核心 `NcpAgentSessionStoreAdapter` 只保留 journal 优先路由、legacy fallback 编排和新旧 summary 合并，避免不再重要的旧逻辑继续占据核心文件注意力。
 
-本次还记录了用户明确授权的 `@nextclaw/ncp-toolkit` module-structure 临时豁免，并把后续 toolkit/lib 类型目录协议迁移写入 TODO。
+本次还记录了用户明确授权的 `@go-usb-ai/ncp-toolkit` module-structure 临时豁免，并把后续 toolkit/lib 类型目录协议迁移写入 TODO。
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
-- `pnpm -C packages/nextclaw-kernel tsc`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- src/agent/__tests__/agent-backend-append-session-event.test.ts src/agent/in-memory-agent-backend.test.ts`
-- `pnpm -C packages/nextclaw-kernel test -- src/stores/ncp-agent-session-journal.store.test.ts src/services/ncp-session-api.service.test.ts`
-- `pnpm -C packages/nextclaw-kernel test -- src/services/ncp-agent-session-store-adapter.service.test.ts src/stores/ncp-agent-session-journal.store.test.ts src/services/ncp-session-api.service.test.ts`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit build`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit lint`
-- `pnpm -C packages/nextclaw-kernel lint`
-- `node scripts/governance/module-structure/lint-new-code-module-structure.mjs -- packages/ncp-packages/nextclaw-ncp-toolkit packages/nextclaw-kernel docs/TODO.md docs/designs/2026-04-19-module-structure-contracts.md docs/designs/2026-05-14-session-journal-persistence-design.md`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
+- `pnpm -C packages/go-usb-ai-kernel tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- src/agent/__tests__/agent-backend-append-session-event.test.ts src/agent/in-memory-agent-backend.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel test -- src/stores/ncp-agent-session-journal.store.test.ts src/services/ncp-session-api.service.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel test -- src/services/ncp-agent-session-store-adapter.service.test.ts src/stores/ncp-agent-session-journal.store.test.ts src/services/ncp-session-api.service.test.ts`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit build`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit lint`
+- `pnpm -C packages/go-usb-ai-kernel lint`
+- `node scripts/governance/module-structure/lint-new-code-module-structure.mjs -- packages/ncp-packages/go-usb-ai-ncp-toolkit packages/go-usb-ai-kernel docs/TODO.md docs/designs/2026-04-19-module-structure-contracts.md docs/designs/2026-05-14-session-journal-persistence-design.md`
 - `pnpm check:governance-backlog-ratchet`
 - 真实接口复测：`GET http://127.0.0.1:5174/api/ncp/sessions/ncp-mp4alqjo-e3c666c3/messages?limit=300` 返回 `total: 2`，包含历史 user “你好” 与 assistant 回复。
 

@@ -11,8 +11,8 @@
 - 右侧表单主体改为“限高 + 内部滚动”，底部操作区（恢复默认/保存）固定可见。
 
 涉及文件：
-- [`packages/nextclaw-ui/src/components/config/ProvidersList.tsx`](../../../../packages/nextclaw-ui/src/components/config/ProvidersList.tsx)
-- [`packages/nextclaw-ui/src/components/config/ProviderForm.tsx`](../../../../packages/nextclaw-ui/src/components/config/ProviderForm.tsx)
+- [`packages/go-usb-ai-ui/src/components/config/ProvidersList.tsx`](../../../../packages/go-usb-ai-ui/src/components/config/ProvidersList.tsx)
+- [`packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx`](../../../../packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx)
 
 ## 测试 / 验证 / 验收方式
 
@@ -21,11 +21,11 @@
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`
 - UI 包局部验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 - 前端冒烟验证：
-  - 启动：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui preview --host 127.0.0.1 --port 4176`
+  - 启动：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui preview --host 127.0.0.1 --port 4176`
   - 检查：`curl http://127.0.0.1:4176/` 与 `curl http://127.0.0.1:4176/providers`
   - 结果：两个地址均返回 `200`
 

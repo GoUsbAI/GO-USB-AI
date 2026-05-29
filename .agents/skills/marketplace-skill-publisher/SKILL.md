@@ -1,6 +1,6 @@
 ---
 name: marketplace-skill-publisher
-description: 在本仓库将本地 skill 发布或更新到 NextClaw marketplace 时使用。适用于新增 marketplace skill、从 SkillHub 继承 skill 到本项目 marketplace、补齐 marketplace.json 双语元数据、执行发布后远端校验与安装冒烟。
+description: 在本仓库将本地 skill 发布或更新到 GoUsbAi marketplace 时使用。适用于新增 marketplace skill、从 SkillHub 继承 skill 到本项目 marketplace、补齐 marketplace.json 双语元数据、执行发布后远端校验与安装冒烟。
 ---
 
 # Marketplace Skill Publisher
@@ -10,7 +10,7 @@ description: 在本仓库将本地 skill 发布或更新到 NextClaw marketplace
 这个 skill 用于把本地 skill 稳定地发布到本项目的 marketplace，并完成最小闭环验证。默认优先走本仓库已有 CLI：
 
 ```bash
-node packages/nextclaw/dist/cli/index.js skills publish <skill-dir> --meta <skill-dir>/marketplace.json --api-base <marketplace-api>
+node packages/go-usb-ai/dist/cli/index.js skills publish <skill-dir> --meta <skill-dir>/marketplace.json --api-base <marketplace-api>
 ```
 
 不要绕过 CLI 直接手写 admin API payload，除非 CLI 本身有缺陷需要修。
@@ -59,19 +59,19 @@ python3 .agents/skills/marketplace-skill-publisher/scripts/validate_marketplace_
 3. 若 marketplace 中还没有该 skill，执行发布：
 
 ```bash
-node packages/nextclaw/dist/cli/index.js skills publish skills/<slug> --meta skills/<slug>/marketplace.json --api-base https://marketplace-api.nextclaw.io
+node packages/go-usb-ai/dist/cli/index.js skills publish skills/<slug> --meta skills/<slug>/marketplace.json --api-base https://marketplace-api.go-usb-ai.io
 ```
 
 4. 若 skill 已存在，执行更新：
 
 ```bash
-node packages/nextclaw/dist/cli/index.js skills update skills/<slug> --meta skills/<slug>/marketplace.json --api-base https://marketplace-api.nextclaw.io
+node packages/go-usb-ai/dist/cli/index.js skills update skills/<slug> --meta skills/<slug>/marketplace.json --api-base https://marketplace-api.go-usb-ai.io
 ```
 
 5. 发布后做远端校验：
 
 ```bash
-curl -sS https://marketplace-api.nextclaw.io/api/v1/skills/items/<slug>
+curl -sS https://marketplace-api.go-usb-ai.io/api/v1/skills/items/<slug>
 ```
 
 观察点：
@@ -83,8 +83,8 @@ curl -sS https://marketplace-api.nextclaw.io/api/v1/skills/items/<slug>
 6. 发布后做安装冒烟，必须在非仓库目录执行：
 
 ```bash
-tmp_dir=$(mktemp -d /tmp/nextclaw-marketplace-skill.XXXXXX)
-node packages/nextclaw/dist/cli/index.js skills install <slug> --api-base https://marketplace-api.nextclaw.io --workdir "$tmp_dir"
+tmp_dir=$(mktemp -d /tmp/go-usb-ai-marketplace-skill.XXXXXX)
+node packages/go-usb-ai/dist/cli/index.js skills install <slug> --api-base https://marketplace-api.go-usb-ai.io --workdir "$tmp_dir"
 find "$tmp_dir/skills/<slug>" -maxdepth 2 -type f | sort
 rm -rf "$tmp_dir"
 ```
@@ -109,7 +109,7 @@ rm -rf "$tmp_dir"
 ## 注意事项
 
 - 优先使用 `marketplace.json`，不要把 marketplace 多语言元数据继续塞回 CLI 参数。
-- 若当前环境没有 `NEXTCLAW_MARKETPLACE_ADMIN_TOKEN`，也要先尝试发布；只有远端明确拒绝时再报告鉴权阻塞。
+- 若当前环境没有 `GOUSB_AI_MARKETPLACE_ADMIN_TOKEN`，也要先尝试发布；只有远端明确拒绝时再报告鉴权阻塞。
 - 不要在仓库目录内做安装冒烟。
 - 如果这次任务触达项目代码、脚本、测试或运行链路配置，收尾前记得执行 `post-edit-maintainability-guard`。
 

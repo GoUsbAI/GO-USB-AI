@@ -155,15 +155,15 @@ function verifyReleaseAssets(options) {
   }
 
   const expectedAssets = [
-    `NextClaw-Portable-${desktopVersion}-win-x64.zip`,
-    `NextClaw-Portable-${desktopVersion}-win-arm64.zip`,
-    `NextClaw.Desktop-Setup-${desktopVersion}-x64.exe`,
-    `nextclaw-bundle-win32-x64-${runtimeVersion}.zip`,
+    `GoUsbAi-Portable-${desktopVersion}-win-x64.zip`,
+    `GoUsbAi-Portable-${desktopVersion}-win-arm64.zip`,
+    `GoUsbAi.Desktop-Setup-${desktopVersion}-x64.exe`,
+    `go-usb-ai-bundle-win32-x64-${runtimeVersion}.zip`,
     `manifest-${channel}-win32-x64.json`,
     "update-bundle-public.pem"
   ];
   if (channel === "stable") {
-    expectedAssets.push(`nextclaw-desktop_${desktopVersion}_amd64.deb`);
+    expectedAssets.push(`go-usb-ai-desktop_${desktopVersion}_amd64.deb`);
   }
 
   const assetNames = new Set((release.assets ?? []).map((asset) => asset.name));
@@ -205,7 +205,7 @@ async function waitForPublicManifest(options) {
   }
 
   const manifestUrl =
-    `https://peiiii.github.io/nextclaw/desktop-updates/${channel}/manifest-${channel}-win32-x64.json`;
+    `https://peiiii.github.io/go-usb-ai/desktop-updates/${channel}/manifest-${channel}-win32-x64.json`;
   for (let attempt = 1; attempt <= publicAttempts; attempt += 1) {
     const manifest = readJsonCommand("curl", ["-fsSL", `${manifestUrl}?desktopRelease=${Date.now()}-${attempt}`]);
     if (manifest.latestVersion === runtimeVersion) {
@@ -241,7 +241,7 @@ async function waitForPublicStableAptRepo(options) {
   for (let attempt = 1; attempt <= publicAttempts; attempt += 1) {
     const packagesText = run("curl", [
       "-fsSL",
-      `https://peiiii.github.io/nextclaw/apt/dists/stable/main/binary-amd64/Packages?desktopRelease=${Date.now()}-${attempt}`
+      `https://peiiii.github.io/go-usb-ai/apt/dists/stable/main/binary-amd64/Packages?desktopRelease=${Date.now()}-${attempt}`
     ]);
     if (packagesText.includes(`Version: ${desktopVersion}`)) {
       console.log(`[desktop:release] public stable APT repo OK: ${desktopVersion}`);

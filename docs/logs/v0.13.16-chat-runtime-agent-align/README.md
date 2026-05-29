@@ -10,8 +10,8 @@
 
 本次实施范围限定为：
 
-- `@nextclaw/agent-chat` 的通用扩展点
-- `nextclaw-ui` 的流式、消息、history、run lifecycle 核心逻辑
+- `@go-usb-ai/agent-chat` 的通用扩展点
+- `go-usb-ai-ui` 的流式、消息、history、run lifecycle 核心逻辑
 
 明确不优先处理：
 

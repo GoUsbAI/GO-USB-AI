@@ -20,7 +20,7 @@
     - Remote 额度面板
     - 我的实例工作台
     - 用量与充值占位面板
-  - `LoginPage.tsx` 与 `SharePage.tsx` 的视觉统一到 NextClaw 暖中性色 + olive brand 语言
+  - `LoginPage.tsx` 与 `SharePage.tsx` 的视觉统一到 GoUsbAi 暖中性色 + olive brand 语言
   - `button/card/input/table`、`LocaleSwitcher`、`index.css`、`tailwind.config.js` 全部对齐到与 `platform-admin` 同一套基础视觉体系
 - `scripts/smoke/platform-console-smoke.mjs`
   - 将断言更新为新的工作台壳层和新首页结构
@@ -63,13 +63,13 @@
 
 线上验证：
 
-- `curl -I https://platform.nextclaw.io`
-- `PLATFORM_CONSOLE_BASE_URL=https://platform.nextclaw.io pnpm smoke:platform:console`
+- `curl -I https://platform.go-usb-ai.io`
+- `PLATFORM_CONSOLE_BASE_URL=https://platform.go-usb-ai.io pnpm smoke:platform:console`
 
 结果：
 
-- `https://platform.nextclaw.io` 返回 `HTTP/2 200`
-- 线上冒烟返回 `[platform-console-smoke] passed for https://platform.nextclaw.io`
+- `https://platform.go-usb-ai.io` 返回 `HTTP/2 200`
+- 线上冒烟返回 `[platform-console-smoke] passed for https://platform.go-usb-ai.io`
 
 治理守卫：
 
@@ -80,8 +80,8 @@
 - 本次 `platform-console` 改动没有新增维护性守卫错误
 - 当前整条守卫仍为非绿，但阻塞点来自仓库内其它并行改动，而不是本次用户工作台重构或本次 Router 修复本身
 - 当前可见的无关阻塞包括：
-  - `packages/nextclaw-core/src/agent` 目录预算越线
-  - `packages/nextclaw-ui/src/components/config/ProviderForm.tsx` 缺少热点债务记录
+  - `packages/go-usb-ai-core/src/agent` 目录预算越线
+  - `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx` 缺少热点债务记录
 - 本次范围内的关注点是：
   - `apps/platform-console/src/pages/UserDashboardPage.tsx` 仍接近文件预算上限，但已顺手把首页摘要条抽成独立组件，避免继续膨胀
 
@@ -96,9 +96,9 @@
 实际发布结果：
 
 - Cloudflare Pages 部署地址：
-  - `https://92ab660b.nextclaw-platform-console.pages.dev`
+  - `https://92ab660b.go-usb-ai-platform-console.pages.dev`
 - 自定义正式域名：
-  - `https://platform.nextclaw.io`
+  - `https://platform.go-usb-ai.io`
 
 说明：
 
@@ -107,7 +107,7 @@
 
 # 用户/产品视角的验收步骤
 
-1. 打开 `https://platform.nextclaw.io`
+1. 打开 `https://platform.go-usb-ai.io`
 2. 确认未登录时看到的是暖中性色登录页，而不是旧的冷蓝营销感布局
 3. 登录后确认整体结构已变成经典用户工作台：
    - 左侧固定导航
@@ -144,7 +144,7 @@
 
 长期目标对齐 / 可维护性推进：
 
-- 这次改动顺着 NextClaw “统一入口、统一控制面、统一体验”的长期方向推进了一步，让用户平台和管理后台第一次有了清晰的一致性。
+- 这次改动顺着 GoUsbAi “统一入口、统一控制面、统一体验”的长期方向推进了一步，让用户平台和管理后台第一次有了清晰的一致性。
 - 这次最关键的维护性推进，不是新增业务功能，而是把用户平台从“单页拼装 UI”收敛成稳定工作台模板，降低后续继续长歪、继续分裂设计语言的概率。
 
 可维护性复核结论：保留债务经说明接受

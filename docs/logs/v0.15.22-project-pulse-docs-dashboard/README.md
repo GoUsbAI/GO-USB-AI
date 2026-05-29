@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-本次新增了 docs 站公开页面 `Project Pulse`，把 NextClaw 的工程节奏与产品节奏收敛到一个可以对内管理、也可以对外展示的页面里。
+本次新增了 docs 站公开页面 `Project Pulse`，把 GoUsbAi 的工程节奏与产品节奏收敛到一个可以对内管理、也可以对外展示的页面里。
 
 本次完成项：
 
@@ -112,13 +112,13 @@ const { chromium } = require('playwright');
   await browser.close();
 })();
 EOF
-curl -s https://d432c516.nextclaw-docs.pages.dev/en/guide/project-pulse | rg -n "Project Pulse|trend-chart__canvas"
+curl -s https://d432c516.go-usb-ai-docs.pages.dev/en/guide/project-pulse | rg -n "Project Pulse|trend-chart__canvas"
 node - <<'EOF'
 const { chromium } = require('playwright');
 (async () => {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1600 } });
-  await page.goto('https://d432c516.nextclaw-docs.pages.dev/en/guide/project-pulse', { waitUntil: 'networkidle' });
+  await page.goto('https://d432c516.go-usb-ai-docs.pages.dev/en/guide/project-pulse', { waitUntil: 'networkidle' });
   await page.waitForSelector('.trend-chart__canvas svg', { timeout: 20000 });
   console.log(await page.locator('.trend-chart__canvas svg').count());
   await browser.close();
@@ -148,11 +148,11 @@ pnpm deploy:docs
 
 本次已实际执行完成，Cloudflare Pages 返回的部署地址为：
 
-- `https://b95f9e8b.nextclaw-docs.pages.dev`
-- 入口修正续改后的最新部署地址：`https://8c9c2464.nextclaw-docs.pages.dev`
-- 图表体验优化续改后的最新部署地址：`https://d432c516.nextclaw-docs.pages.dev`
-- `Top scopes` 布局溢出修复后的最新部署地址：`https://1513266e.nextclaw-docs.pages.dev`
-- 日级 commit 趋势续改后的最新部署地址：`https://8e170c40.nextclaw-docs.pages.dev`
+- `https://b95f9e8b.go-usb-ai-docs.pages.dev`
+- 入口修正续改后的最新部署地址：`https://8c9c2464.go-usb-ai-docs.pages.dev`
+- 图表体验优化续改后的最新部署地址：`https://d432c516.go-usb-ai-docs.pages.dev`
+- `Top scopes` 布局溢出修复后的最新部署地址：`https://1513266e.go-usb-ai-docs.pages.dev`
+- 日级 commit 趋势续改后的最新部署地址：`https://8e170c40.go-usb-ai-docs.pages.dev`
 
 ## 用户 / 产品视角的验收步骤
 

@@ -18,11 +18,11 @@
 - 将 `chat-stream/controller.ts` 中多个“会修改状态/流程控制”的导出函数收敛到 `ChatStreamFlowController` class，由 `ChatStreamRuntimeController` 通过 class 方法调用，减少函数式工具散落。
 
 ## 测试/验证/验收方式
-- 类型检查：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc --noEmit`
+- 类型检查：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc --noEmit`
 - 受影响文件 lint：
-  `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/ChatPage.tsx src/components/chat/managers/chat-input.manager.ts src/components/chat/managers/chat-session-list.manager.ts src/components/chat/managers/chat-thread.manager.ts src/components/chat/managers/chat-ui.manager.ts src/components/chat/presenter/chat.presenter.ts src/components/chat/stores/chat-input.store.ts src/components/chat/chat-session-route.ts`
+  `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/ChatPage.tsx src/components/chat/managers/chat-input.manager.ts src/components/chat/managers/chat-session-list.manager.ts src/components/chat/managers/chat-thread.manager.ts src/components/chat/managers/chat-ui.manager.ts src/components/chat/presenter/chat.presenter.ts src/components/chat/stores/chat-input.store.ts src/components/chat/chat-session-route.ts`
 - 构建验证：`PATH=/opt/homebrew/bin:$PATH pnpm build:ui`
-- 冒烟（可运行）：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui preview --host 127.0.0.1 --port 4173`，确认可启动后停止。
+- 冒烟（可运行）：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui preview --host 127.0.0.1 --port 4173`，确认可启动后停止。
 
 ## 发布/部署方式
 - 本次为前端结构重构与逻辑下沉，无发布命令变更。

@@ -9,20 +9,20 @@
   - 保留副标题状态信息，但仅作为辅助说明，不再抢占视觉重心。
 - 同步移除了上一轮为单行账号项引入的额外状态文案键。
 - 补充测试，确认账号入口继续存在且使用中性样式：
-  - [`packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx`](../../../packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx)
+  - [`packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx`](../../../packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx)
 
 ## 测试 / 验证 / 验收方式
 
 - 单测：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui test -- src/components/layout/sidebar.layout.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui test -- src/components/layout/sidebar.layout.test.tsx`
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui tsc`
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui build`
 - 定向 lint：
   - `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint src/components/layout/Sidebar.tsx src/components/layout/sidebar.layout.test.tsx src/lib/i18n.remote.ts`
 - 可维护性自检：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/layout/Sidebar.tsx packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx packages/nextclaw-ui/src/lib/i18n.remote.ts`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx packages/go-usb-ai-ui/src/lib/i18n.remote.ts`
 
 ## 发布 / 部署方式
 

@@ -3,7 +3,7 @@
 ## 迭代完成说明（改了什么）
 
 - 完成平台域名配置收敛：
-  - Worker 生产自定义域名写入 `workers/nextclaw-provider-gateway-api/wrangler.toml` 的 `routes`
+  - Worker 生产自定义域名写入 `workers/go-usb-ai-provider-gateway-api/wrangler.toml` 的 `routes`
   - 用户端/管理端生产 API Base 固定在各自 `.env.production`
   - 根目录新增平台发布闭环命令：`deploy:platform:backend`、`deploy:platform:console`、`deploy:platform:admin`、`deploy:platform`
 - 更新内部域名总表，明确“配置事实源”与文件映射。
@@ -30,6 +30,6 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 `platform.nextclaw.io` 与 `platform-admin.nextclaw.io`，确认页面可访问。
-2. 在浏览器网络面板确认前端请求目标为 `ai-gateway-api.nextclaw.io`。
+1. 打开 `platform.go-usb-ai.io` 与 `platform-admin.go-usb-ai.io`，确认页面可访问。
+2. 在浏览器网络面板确认前端请求目标为 `ai-gateway-api.go-usb-ai.io`。
 3. 执行一次登录，确认链路正常；未登录访问受保护接口返回 401。

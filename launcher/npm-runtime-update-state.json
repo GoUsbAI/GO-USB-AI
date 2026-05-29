@@ -1,0 +1,16 @@
+{
+  "channel": "stable",
+  "currentVersion": "0.19.30",
+  "previousVersion": null,
+  "candidateVersion": null,
+  "candidateLaunchCount": 0,
+  "lastKnownGoodVersion": null,
+  "badVersions": [],
+  "lastUpdateCheckAt": "2026-05-29T00:11:50.240Z",
+  "downloadedVersion": null,
+  "downloadedReleaseNotesUrl": null,
+  "updatePreferences": {
+    "automaticChecks": true,
+    "autoDownload": true
+  }
+}

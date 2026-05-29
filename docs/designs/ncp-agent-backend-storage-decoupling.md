@@ -2,7 +2,7 @@
 
 ## Goal
 
-将 `@nextclaw/ncp-toolkit` 里的 agent backend 重构为“通用 backend core + 可插拔存储接口 + 显式组装的 in-memory adapters”。
+将 `@go-usb-ai/ncp-toolkit` 里的 agent backend 重构为“通用 backend core + 可插拔存储接口 + 显式组装的 in-memory adapters”。
 
 核心目标：
 

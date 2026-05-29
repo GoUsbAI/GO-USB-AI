@@ -1,4 +1,4 @@
-# NextClaw Multi-Agent Implementation Plan
+# GoUsbAi Multi-Agent Implementation Plan
 
 ## 背景
 
@@ -59,9 +59,9 @@
 ### 2. CLI
 
 - 新增：
-  - `nextclaw agents list`
-  - `nextclaw agents new <agent-id>`
-  - `nextclaw agents remove <agent-id>`
+  - `go-usb-ai agents list`
+  - `go-usb-ai agents new <agent-id>`
+  - `go-usb-ai agents remove <agent-id>`
 - `agents new` 支持：
   - `--name`
   - `--avatar`
@@ -89,7 +89,7 @@
 
 - 更新主设计文档，使其与最终实现一致
 - 更新 `docs/USAGE.md`
-- 更新 `nextclaw-self-manage` skill 说明
+- 更新 `go-usb-ai-self-manage` skill 说明
 
 ## Avatar v1 规则
 

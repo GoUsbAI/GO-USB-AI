@@ -3,8 +3,8 @@
 ## 迭代完成说明（改了什么）
 
 - 完成 UI 国际化基础设施升级：
-  - `packages/nextclaw-ui/src/lib/i18n.ts` 新增语言状态、浏览器语言识别、localStorage 持久化、日期/数字格式化。
-  - 新增 `packages/nextclaw-ui/src/components/providers/I18nProvider.tsx`，并在 `packages/nextclaw-ui/src/main.tsx` 接入全局 Provider。
+  - `packages/go-usb-ai-ui/src/lib/i18n.ts` 新增语言状态、浏览器语言识别、localStorage 持久化、日期/数字格式化。
+  - 新增 `packages/go-usb-ai-ui/src/components/providers/I18nProvider.tsx`，并在 `packages/go-usb-ai-ui/src/main.tsx` 接入全局 Provider。
 - 在侧边栏新增语言下拉切换器（可扩展多语言），并将导航文案改为动态国际化。
 - 语言切换策略调整为“切换后整页 reload”，确保当前页（含 Marketplace）与未来可能接入的后端语言配置一致生效。
 - 将主要可见页面/弹窗文案统一接入 i18n：
@@ -20,18 +20,18 @@
 ## 测试 / 验证 / 验收方式
 
 - UI 包验证（带 PATH 修正）：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 - 全仓验证（按项目规则执行 build/lint/tsc）：
   - `PATH=/opt/homebrew/bin:$PATH pnpm build`
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`
 - 冒烟测试（UI 可运行与国际化关键产物）：
-  1. `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
-  2. `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui preview --host 127.0.0.1 --port 4174`
+  1. `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
+  2. `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui preview --host 127.0.0.1 --port 4174`
   3. `curl http://127.0.0.1:4174` 返回 `200`
-  4. 校验 `dist/assets/index-*.js` 包含 `nextclaw.ui.language`、`EN`、`中文`
+  4. 校验 `dist/assets/index-*.js` 包含 `go-usb-ai.ui.language`、`EN`、`中文`
 
 ## 发布 / 部署方式
 

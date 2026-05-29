@@ -9,9 +9,9 @@
 
 ## 测试/验证/验收方式
 
-- 类型检查：`pnpm -C packages/nextclaw-openclaw-compat tsc`
-- 单测：`pnpm -C packages/nextclaw-openclaw-compat exec vitest run src/plugins/loader.ncp-agent-runtime.test.ts`
-- 构建：`pnpm -C packages/nextclaw-openclaw-compat build`
+- 类型检查：`pnpm -C packages/go-usb-ai-openclaw-compat tsc`
+- 单测：`pnpm -C packages/go-usb-ai-openclaw-compat exec vitest run src/plugins/loader.ncp-agent-runtime.test.ts`
+- 构建：`pnpm -C packages/go-usb-ai-openclaw-compat build`
 - 冒烟：
   - 对运行中的本地源码服务 `http://127.0.0.1:18792/api/ncp/agent/send` 发送 `session_type=codex` 的 NCP 请求
   - 观察到 `run.started`、`message.text-delta`、tool call 事件正常返回
@@ -20,18 +20,18 @@
 ## 发布/部署方式
 
 - 已完成版本发布：
-  - `@nextclaw/openclaw-compat@0.3.5`
-  - `@nextclaw/server@0.9.4`
-  - `nextclaw@0.12.5`
+  - `@go-usb-ai/openclaw-compat@0.3.5`
+  - `@go-usb-ai/server@0.9.4`
+  - `go-usb-ai@0.12.5`
 - 标准 `pnpm release:publish` 已执行到全量校验阶段，但被仓库内与本次无关的历史 lint warning 阻塞；因此改为：
   - 完成本次受影响包的最小充分校验
   - 执行 `pnpm changeset publish`
   - 执行 `pnpm changeset tag`
-- 用户侧升级到 `nextclaw@0.12.5` 后即可获得该修复。
+- 用户侧升级到 `go-usb-ai@0.12.5` 后即可获得该修复。
 
 ## 用户/产品视角的验收步骤
 
-- 保持 NextClaw 服务运行中安装或升级 Codex runtime 插件。
+- 保持 GoUsbAi 服务运行中安装或升级 Codex runtime 插件。
 - 在 Web UI 新建 Codex 会话并发送一条消息。
 - 预期：
   - 不再出现 trusted directory 报错。

@@ -1,12 +1,12 @@
 # 迭代完成说明
 
-本次迭代围绕 NextClaw 内集成的 Codex 会话链路做了两类修正。
+本次迭代围绕 GoUsbAi 内集成的 Codex 会话链路做了两类修正。
 
-1. 后端 Codex runtime 补齐了对 NextClaw 会话模型选择的真正承接：
+1. 后端 Codex runtime 补齐了对 GoUsbAi 会话模型选择的真正承接：
 - 优先读取会话里传入的 `model / preferred_model`
 - 将 provider 前缀与模型本地名拆开后传给 Codex CLI
-- 同时把 NextClaw 解析出的 provider、API Base、API Key 显式注入给 Codex CLI，避免被本机 `~/.codex/config.toml` 默认 provider 抢占
-- 默认开启 `skipGitRepoCheck`，降低小白用户在 NextClaw 集成场景下的使用门槛
+- 同时把 GoUsbAi 解析出的 provider、API Base、API Key 显式注入给 Codex CLI，避免被本机 `~/.codex/config.toml` 默认 provider 抢占
+- 默认开启 `skipGitRepoCheck`，降低小白用户在 GoUsbAi 集成场景下的使用门槛
 
 2. 前端 NCP 聊天页补了一层 Codex 会话默认模型纠偏：
 - 当用户切到 `codex` 会话类型时，如果当前没有会话级模型偏好，则自动选择更合理的 Codex 默认模型
@@ -17,12 +17,12 @@
 已执行验证：
 
 1. 构建与类型检查
-- `pnpm --filter @nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk build`
-- `pnpm --filter @nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk tsc`
-- `pnpm --filter @nextclaw/nextclaw-ncp-runtime-codex-sdk build`
-- `pnpm --filter @nextclaw/nextclaw-ncp-runtime-codex-sdk tsc`
-- `pnpm --filter @nextclaw/ui tsc`
-- `pnpm --filter @nextclaw/ui build`
+- `pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk build`
+- `pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk tsc`
+- `pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-codex-sdk build`
+- `pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-codex-sdk tsc`
+- `pnpm --filter @go-usb-ai/ui tsc`
+- `pnpm --filter @go-usb-ai/ui build`
 
 2. 本地开发联调
 - 以 `pnpm dev start` 启动本地开发环境

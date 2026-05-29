@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@go-usb-ai/ncp": ["../go-usb-ai-ncp/src/index.ts"],
+      "@go-usb-ai/ncp/*": ["../go-usb-ai-ncp/src/*"],
+      "@go-usb-ai/mcp": ["../../go-usb-ai-mcp/src/index.ts"],
+      "@go-usb-ai/mcp/*": ["../../go-usb-ai-mcp/src/*"],
+      "@go-usb-ai/core": ["../../go-usb-ai-core/src/index.ts"],
+      "@go-usb-ai/core/*": ["../../go-usb-ai-core/src/*"],
+      "@core/*": ["../../go-usb-ai-core/src/*"],
+      "@go-usb-ai/shared": ["../../go-usb-ai-shared/src/index.ts"],
+      "@go-usb-ai/shared/*": ["../../go-usb-ai-shared/src/*"],
+      "@go-usb-ai/ncp-toolkit": ["../go-usb-ai-ncp-toolkit/src/index.ts"],
+      "@go-usb-ai/ncp-toolkit/*": ["../go-usb-ai-ncp-toolkit/src/*"]
+    }
+  },
+  "include": ["src"]
+}

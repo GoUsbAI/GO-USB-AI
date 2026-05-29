@@ -10,15 +10,15 @@ PATH=/opt/homebrew/bin:$PATH pnpm release:frontend
 
 该命令执行内容：
 
-1. 自动创建 UI changeset（`@nextclaw/ui` + `nextclaw`）
+1. 自动创建 UI changeset（`@go-usb-ai/ui` + `go-usb-ai`）
 2. 执行 `pnpm release:version`
 3. 执行 `pnpm release:publish`
 
 ## 发布结果
 
-- Published: `@nextclaw/ui@0.5.37`
-- Published: `nextclaw@0.8.50`
-- Tags: `@nextclaw/ui@0.5.37`, `nextclaw@0.8.50`
+- Published: `@go-usb-ai/ui@0.5.37`
+- Published: `go-usb-ai@0.8.50`
+- Tags: `@go-usb-ai/ui@0.5.37`, `go-usb-ai@0.8.50`
 
 ## 不适用项
 

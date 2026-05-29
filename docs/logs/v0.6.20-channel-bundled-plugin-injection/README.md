@@ -2,32 +2,32 @@
 
 ## 背景 / 问题
 
-- 用户目标：现有 NextClaw channel 不仅“插件风格”，而是实际走插件注册链路，对齐 OpenClaw 的插件组织方式。
+- 用户目标：现有 GoUsbAi channel 不仅“插件风格”，而是实际走插件注册链路，对齐 OpenClaw 的插件组织方式。
 - v0.6.19 后现状：`ChannelManager` 已改成内置插件注册表驱动，但内置渠道仍是 core 内直接注册，不在 compat 插件 registry 中呈现。
 
 ## 决策
 
 - 做什么：
-  - 在 `@nextclaw/openclaw-compat` loader 中注入 bundled 内置 channel 插件记录（每个 channel 一个插件记录）。
-  - `ChannelManager` 改为仅消费 `extensionChannels`，支持 `nextclaw.createChannel` 运行时钩子来创建真实 channel 实例。
-  - 保留 OpenClaw 兼容插件能力不变；仅扩展 NextClaw 自身内置渠道注入路径。
+  - 在 `@go-usb-ai/openclaw-compat` loader 中注入 bundled 内置 channel 插件记录（每个 channel 一个插件记录）。
+  - `ChannelManager` 改为仅消费 `extensionChannels`，支持 `go-usb-ai.createChannel` 运行时钩子来创建真实 channel 实例。
+  - 保留 OpenClaw 兼容插件能力不变；仅扩展 GoUsbAi 自身内置渠道注入路径。
 - 不做什么：
   - 本次不重写 OpenClaw 兼容 API 全量能力（hook/http/cli/service 等仍按现有 compat 范围）。
 
 ## 变更内容
 
 - 关键实现点：
-  - 扩展 channel 注册类型，允许插件注册 `nextclaw` 运行时钩子：
-    - `packages/nextclaw-core/src/extensions/types.ts`
-    - `packages/nextclaw-openclaw-compat/src/plugins/types.ts`
+  - 扩展 channel 注册类型，允许插件注册 `go-usb-ai` 运行时钩子：
+    - `packages/go-usb-ai-core/src/extensions/types.ts`
+    - `packages/go-usb-ai-openclaw-compat/src/plugins/types.ts`
   - `ChannelManager` 从“内置 + 扩展”改为“纯扩展注入”，并支持 `createChannel`：
-    - `packages/nextclaw-core/src/channels/manager.ts`
+    - `packages/go-usb-ai-core/src/channels/manager.ts`
   - compat loader 注入 bundled 内置渠道插件（`builtin-channel-*`）：
-    - `packages/nextclaw-openclaw-compat/src/plugins/loader.ts`
+    - `packages/go-usb-ai-openclaw-compat/src/plugins/loader.ts`
 
 - 用户可见变化：
-  - `nextclaw plugins list --enabled` 会显示内置渠道插件（`builtin-channel-telegram` 等）。
-  - `nextclaw channels status` 在 Plugin Channels 段能看到内置渠道由插件提供。
+  - `go-usb-ai plugins list --enabled` 会显示内置渠道插件（`builtin-channel-telegram` 等）。
+  - `go-usb-ai channels status` 在 Plugin Channels 段能看到内置渠道由插件提供。
 
 ## 验证（怎么确认符合预期）
 
@@ -36,9 +36,9 @@ pnpm build
 pnpm lint
 pnpm tsc
 
-TMP_HOME=$(mktemp -d /tmp/nextclaw-smoke-channels-phase2.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-smoke-channels-phase2.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
 rm -rf "$TMP_HOME"
 ```
 

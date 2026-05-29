@@ -8,9 +8,9 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/agent-chat-ui test -- src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+- `pnpm --filter @go-usb-ai/agent-chat-ui test -- src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
 - 可维护性自检：
-  `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-ui/src/lib/i18n.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+  `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-ui/src/lib/i18n.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
 
 ## 发布/部署方式
 

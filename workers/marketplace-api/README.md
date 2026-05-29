@@ -71,9 +71,9 @@ pnpm -C workers/marketplace-api run deploy
 ## 部署后快速验收
 
 ```bash
-curl -sS https://marketplace-api.nextclaw.io/health
-curl -sS 'https://marketplace-api.nextclaw.io/api/v1/skills/items?page=1&pageSize=50'
-curl -sS 'https://marketplace-api.nextclaw.io/api/v1/skills/scenes'
+curl -sS https://marketplace-api.go-usb-ai.io/health
+curl -sS 'https://marketplace-api.go-usb-ai.io/api/v1/skills/items?page=1&pageSize=50'
+curl -sS 'https://marketplace-api.go-usb-ai.io/api/v1/skills/scenes'
 ```
 
 预期：

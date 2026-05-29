@@ -10,12 +10,12 @@
 
 - 发布前先核对今天最后一个已发布 tag 点为 `2026-03-31 15:38:18 +0800` 的 `04da44c7`，随后确认其后的今日提交仍存在未发布公开包漂移。
 - 已完成与本次渠道问题直接相关的定向验证：
-  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm -C packages/nextclaw test -- --run src/cli/commands/plugin-reload.test.ts`
-  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm -C packages/nextclaw-server test -- --run src/ui/router.weixin-channel-config.test.ts`
-  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm -C packages/nextclaw-ui test -- --run src/components/config/channel-form-fields.test.ts src/components/config/weixin-channel-auth-section.test.tsx`
-  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm -C packages/nextclaw tsc --noEmit`
-  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm -C packages/nextclaw-server tsc -p tsconfig.json --noEmit`
-  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm -C packages/go-usb-ai test -- --run src/cli/commands/plugin-reload.test.ts`
+  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.weixin-channel-config.test.ts`
+  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm -C packages/go-usb-ai-ui test -- --run src/components/config/channel-form-fields.test.ts src/components/config/weixin-channel-auth-section.test.tsx`
+  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm -C packages/go-usb-ai tsc --noEmit`
+  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm -C packages/go-usb-ai-server tsc -p tsconfig.json --noEmit`
+  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm -C packages/go-usb-ai-ui tsc --noEmit`
 - 正式发布前再执行标准发布链路：
   - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" NPM_CONFIG_USERCONFIG=/Users/peiwang/Projects/nextbot/.npmrc pnpm release:version`
   - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" NPM_CONFIG_USERCONFIG=/Users/peiwang/Projects/nextbot/.npmrc pnpm release:publish`
@@ -30,7 +30,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 安装或升级到本次统一补发后的最新 `nextclaw` / `@nextclaw/ui` / `@nextclaw/server` 与相关渠道插件版本。
+1. 安装或升级到本次统一补发后的最新 `go-usb-ai` / `@go-usb-ai/ui` / `@go-usb-ai/server` 与相关渠道插件版本。
 2. 在飞书渠道中关闭 `Enabled` 并保存，确认机器人不再继续回复消息。
 3. 在微信渠道中保持已连接状态，关闭 `Enabled` 并保存，确认 UI 正确显示“已连接但未启用”，且渠道不会继续生效。
 4. 打开渠道配置页，确认微信渠道的启用开关与其它渠道保持一致位置和样式，同时表单布局已经由声明式定义驱动。

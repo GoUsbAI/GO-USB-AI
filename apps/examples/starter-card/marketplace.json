@@ -10,14 +10,14 @@
     "en": "A tiny starter app that demonstrates the default host bridge round-trip without requiring document permissions.",
     "zh": "一个极小的 starter app，用来展示不依赖文档权限的默认宿主 bridge 往返调用。"
   },
-  "author": "NextClaw",
+  "author": "GoUsbAi",
   "tags": ["starter", "official", "local"],
-  "sourceRepo": "https://github.com/Peiiii/nextclaw",
-  "homepage": "https://nextclaw.io",
+  "sourceRepo": "https://github.com/Peiiii/go-usb-ai",
+  "homepage": "https://go-usb-ai.io",
   "featured": true,
   "publisher": {
-    "id": "nextclaw",
-    "name": "NextClaw",
-    "url": "https://nextclaw.io"
+    "id": "go-usb-ai",
+    "name": "GoUsbAi",
+    "url": "https://go-usb-ai.io"
   }
 }

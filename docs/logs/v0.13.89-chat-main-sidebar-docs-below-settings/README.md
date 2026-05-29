@@ -7,13 +7,13 @@
 
 ## 测试/验证/验收方式
 - 代码级验证（受影响包最小充分验证）：
-  - `pnpm -C packages/nextclaw-ui tsc`（通过）
-  - `pnpm -C packages/nextclaw-ui build`（通过）
-- 说明：`pnpm -C packages/nextclaw-ui lint` 在仓库当前基线下存在历史错误（与本次改动无关），因此未作为本次是否可交付的阻断项。
+  - `pnpm -C packages/go-usb-ai-ui tsc`（通过）
+  - `pnpm -C packages/go-usb-ai-ui build`（通过）
+- 说明：`pnpm -C packages/go-usb-ai-ui lint` 在仓库当前基线下存在历史错误（与本次改动无关），因此未作为本次是否可交付的阻断项。
 
 ## 发布/部署方式
 - 本次为前端 UI 调整，按需执行 UI 发布链路：
-  - `pnpm -C packages/nextclaw-ui tsc && pnpm -C packages/nextclaw-ui build`
+  - `pnpm -C packages/go-usb-ai-ui tsc && pnpm -C packages/go-usb-ai-ui build`
   - 如需正式发版，执行项目既有前端发布流程（如 `pnpm release:frontend`）。
 - 不适用项：
   - 远程 migration：不适用（未涉及后端/数据库）。

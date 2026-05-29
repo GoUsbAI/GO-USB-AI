@@ -18,7 +18,7 @@
 - 前端只做轻量分割线式展示，不做普通聊天气泡。
 - 上下文压缩与 context build 解耦：发送前预检负责判断和写入压缩状态，builder 只消费已有 checkpoint 构建模型输入。
 - 上下文窗口占用变化必须通过独立事件实时通知前端，不能依赖工具结果、run metadata 或会话列表刷新间接同步。
-- 支持运行时上下文所有权策略：NextClaw 只管理自己负责模型输入的 runtime；Codex、Claude Code 这类自带上下文管理的 runtime 不做外层二次压缩。
+- 支持运行时上下文所有权策略：GoUsbAi 只管理自己负责模型输入的 runtime；Codex、Claude Code 这类自带上下文管理的 runtime 不做外层二次压缩。
 - 为未来用户手动触发压缩保留同一个后端入口。
 
 ## 非目标
@@ -26,7 +26,7 @@
 - 这次不做异步 LLM 二次摘要任务编排。
 - 这次不做多检查点链式重算优化。
 - 这次不做原始历史展开回放面板。
-- 这次不为 Codex、Claude Code 等 runtime-owned 会话强行注入 NextClaw 压缩。
+- 这次不为 Codex、Claude Code 等 runtime-owned 会话强行注入 GoUsbAi 压缩。
 - 这次不做前端手动压缩按钮，但后端接口边界要能承接未来手动触发。
 
 ## 核心定义
@@ -39,7 +39,7 @@
 {
   role: "service",
   metadata: {
-    nextclaw_timeline_kind: "context_compaction",
+    go-usb-ai_timeline_kind: "context_compaction",
     checkpoint: {
       version: 1,
       id: string,
@@ -117,7 +117,7 @@
    - 负责将可压缩旧历史投影成 checkpoint summary，并产出覆盖消息数与 token 估算。
    - 不关心 UI、runtime、会话存储触发方式。
 
-3. `NextclawNcpContextBuilder`
+3. `GoUsbAiNcpContextBuilder`
    - 只做模型输入构建。
    - 不触发压缩。
    - 不写 session。
@@ -130,18 +130,18 @@
 
 不同 runtime 对上下文的职责不同：
 
-- `nextclaw-managed`：NextClaw 负责构建完整模型输入、估算窗口、触发压缩和最终裁剪。第一版主要对应 native runtime。
+- `go-usb-ai-managed`：GoUsbAi 负责构建完整模型输入、估算窗口、触发压缩和最终裁剪。第一版主要对应 native runtime。
 - `runtime-managed`：runtime 自己负责上下文窗口、压缩、裁剪和缓存策略。Codex、Claude Code 这类专业 agent runtime 属于这一类。
 
 预检规则：
 
-- `nextclaw-managed` 会话：每次发送前执行 NextClaw 压缩预检。
-- `runtime-managed` 会话：跳过 NextClaw 外层压缩，避免二次压缩、缓存破坏和责任冲突。
+- `go-usb-ai-managed` 会话：每次发送前执行 GoUsbAi 压缩预检。
+- `runtime-managed` 会话：跳过 GoUsbAi 外层压缩，避免二次压缩、缓存破坏和责任冲突。
 
 UI 展示规则：
 
-- `nextclaw-managed` 会话可以展示 NextClaw 的压缩 checkpoint。
-- `runtime-managed` 会话如果 runtime 能提供自己的上下文状态，未来接入 runtime-reported metadata；如果不能，只展示轻量说明“上下文由运行时管理”，不伪装成 NextClaw 已压缩。
+- `go-usb-ai-managed` 会话可以展示 GoUsbAi 的压缩 checkpoint。
+- `runtime-managed` 会话如果 runtime 能提供自己的上下文状态，未来接入 runtime-reported metadata；如果不能，只展示轻量说明“上下文由运行时管理”，不伪装成 GoUsbAi 已压缩。
 
 ## 前端展示方案
 
@@ -174,7 +174,7 @@ UI 展示规则：
 - `context-window.updated`：独立 NCP 事件，只携带 `sessionId` 和最新 `contextWindow`；前端输入框圆环优先读取 live snapshot，避免长时间运行时继续展示会话列表里的旧百分比。
 - `message.sent` + `service/context_compaction`：用于把同一条 timeline item 的 `compressing -> compressed` 生命周期送到消息流；前端按消息顺序渲染分割线。
 
-页面刷新或重新进入会话时不依赖历史事件重放，也不读取持久 `last_context_window`。`contextWindow` 由会话摘要生成者在 `getSession()` 的 session view 中实时派生：runtime 未就绪时由 `UiSessionService` 生成，runtime 就绪后由 `DefaultNcpAgentBackend` 生成。`listSessions()` 不计算 `contextWindow`，避免会话列表加载时对所有历史会话做上下文估算。`GET /api/ncp/sessions/:sessionId/messages` 只读取当前会话的 session view 并把它随 messages seed 返回，不再通过 runtime / shell / server / router 逐层传递 callback，也不在 bridge 里手写 `NcpSessionApi` proxy。前端只在 NextClaw UI 的会话 hook 中把该 snapshot 合并为展示状态，不扩展通用 NCP React hydration contract。这样既保持“不落盘”，又保证刷新后能立即显示上下文窗口。
+页面刷新或重新进入会话时不依赖历史事件重放，也不读取持久 `last_context_window`。`contextWindow` 由会话摘要生成者在 `getSession()` 的 session view 中实时派生：runtime 未就绪时由 `UiSessionService` 生成，runtime 就绪后由 `DefaultNcpAgentBackend` 生成。`listSessions()` 不计算 `contextWindow`，避免会话列表加载时对所有历史会话做上下文估算。`GET /api/ncp/sessions/:sessionId/messages` 只读取当前会话的 session view 并把它随 messages seed 返回，不再通过 runtime / shell / server / router 逐层传递 callback，也不在 bridge 里手写 `NcpSessionApi` proxy。前端只在 GoUsbAi UI 的会话 hook 中把该 snapshot 合并为展示状态，不扩展通用 NCP React hydration contract。这样既保持“不落盘”，又保证刷新后能立即显示上下文窗口。
 
 触发来源第一版包含：
 
@@ -190,7 +190,7 @@ UI 展示规则：
 
 ## 模型输入投影
 
-`NextclawNcpContextBuilder` 在构建请求时：
+`GoUsbAiNcpContextBuilder` 在构建请求时：
 
 1. 读取完整历史时间线
 2. 查找消息流中最近一条 `compressed` 的 `context_compaction` checkpoint
@@ -295,7 +295,7 @@ UI 展示规则：
 - 上下文窗口实时快照工具：
   - `context-window-snapshot.utils.ts`
 - builder 投影消费：
-  - `nextclaw-ncp-context-builder.ts`
+  - `go-usb-ai-ncp-context-builder.ts`
 - 前端 timeline 解析：
   - `ncp-session-context-metadata.utils.ts`
 - 前端消息流 divider 渲染：

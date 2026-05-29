@@ -9,13 +9,13 @@
 
 ## 测试/验证/验收方式
 - 执行：
-  - `pnpm --filter @nextclaw/ui tsc`
-  - `pnpm --filter @nextclaw/ui build`
+  - `pnpm --filter @go-usb-ai/ui tsc`
+  - `pnpm --filter @go-usb-ai/ui build`
 - 结果：均通过。
 
 ## 发布/部署方式
 - 本次仅前端逻辑调整，按现有 UI 发布流程：
-  - 合并后执行 `@nextclaw/ui` 构建并走既有部署流程。
+  - 合并后执行 `@go-usb-ai/ui` 构建并走既有部署流程。
 
 ## 用户/产品视角的验收步骤
 1. 在会话内发送首条消息。

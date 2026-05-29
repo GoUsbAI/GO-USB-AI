@@ -8,8 +8,8 @@
 
 核心代码：
 
-- `packages/nextclaw-ui/src/components/config/config-layout.ts`
-- `packages/nextclaw-ui/src/components/config/ChannelsList.tsx`
-- `packages/nextclaw-ui/src/components/config/ChannelForm.tsx`
-- `packages/nextclaw-ui/src/components/config/ProvidersList.tsx`
-- `packages/nextclaw-ui/src/components/config/ProviderForm.tsx`
+- `packages/go-usb-ai-ui/src/components/config/config-layout.ts`
+- `packages/go-usb-ai-ui/src/components/config/ChannelsList.tsx`
+- `packages/go-usb-ai-ui/src/components/config/ChannelForm.tsx`
+- `packages/go-usb-ai-ui/src/components/config/ProvidersList.tsx`
+- `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx`

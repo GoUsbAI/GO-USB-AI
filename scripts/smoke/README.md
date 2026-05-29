@@ -5,11 +5,11 @@
 ## 关键入口
 
 - `pnpm smoke:ncp-chat`
-  - 用于验证运行中的 NextClaw 服务是否能通过指定 `session-type + model` 返回真实回复。
+  - 用于验证运行中的 GoUsbAi 服务是否能通过指定 `session-type + model` 返回真实回复。
 - `pnpm smoke:prompt-cache`
   - 用于验证真实模型的 prompt cache telemetry。
   - `provider-direct` 模式：直连 provider，适合隔离 provider 本身是否吐出 `*_cached_tokens`。
-  - `ncp-chat` 模式：走真实 NCP 产品链路，并从 `~/.nextclaw/logs/llm-usage.jsonl` 判读缓存 telemetry。
+  - `ncp-chat` 模式：走真实 NCP 产品链路，并从 `~/.go-usb-ai/logs/llm-usage.jsonl` 判读缓存 telemetry。
   - 当前 `ncp-chat` 模式默认复用同一个 NCP session 做多轮请求，因为这更接近真实会话使用，也与 MiniMax 在产品链路里出现缓存命中的形态一致。
 
 ## 目录预算豁免

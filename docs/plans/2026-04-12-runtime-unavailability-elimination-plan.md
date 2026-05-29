@@ -2,17 +2,17 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** 系统性消灭 NextClaw 的“正常用着用着就不可用”问题，把“不可用”从一个用户体感现象拆成可归因、可监控、可拦截、可恢复、可持续压低发生率的工程问题。
+**Goal:** 系统性消灭 GoUsbAi 的“正常用着用着就不可用”问题，把“不可用”从一个用户体感现象拆成可归因、可监控、可拦截、可恢复、可持续压低发生率的工程问题。
 
 **Architecture:** 这份方案不再讨论“配置热生效”或“用户确认重启”的交互细节，而是单独聚焦“为什么会不可用，以及怎么把它消灭掉”。核心思路是把不可用拆成四层治理对象：`运行时死亡`、`聊天平面失效`、`事件循环卡死/超时`、`系统主动中断但没有显式建模`。同时把现有日志体系升级成“故障归因系统”，让每一次不可用都能落到明确类别，而不是继续停留在用户侧一个模糊的 `network error`。
 
-**Tech Stack:** Electron、TypeScript、Node.js、Hono、React、Zustand、NextClaw CLI runtime、`@nextclaw/core` logging runtime、桌面 launcher logging、Vitest。
+**Tech Stack:** Electron、TypeScript、Node.js、Hono、React、Zustand、GoUsbAi CLI runtime、`@go-usb-ai/core` logging runtime、桌面 launcher logging、Vitest。
 
 ---
 
 ## 长期目标对齐 / 可维护性推进
 
-- NextClaw 想成为 AI 时代的个人操作层，前提不是“功能很多”，而是“主入口足够可靠”。用户只要形成“这个东西会突然不可用”的心理预期，统一入口地位就立不住。
+- GoUsbAi 想成为 AI 时代的个人操作层，前提不是“功能很多”，而是“主入口足够可靠”。用户只要形成“这个东西会突然不可用”的心理预期，统一入口地位就立不住。
 - 这次工作的核心目标不是“让崩溃之后更会安慰用户”，而是把不可用的真实来源一类一类消灭掉。
 - 这也是一条强可维护性路线，因为它要求把现在分散在桌面、服务、聊天子系统、重启逻辑、日志链路里的隐式行为收敛成清晰边界。
 
@@ -85,9 +85,9 @@
 
 **当前代码证据**
 
-- `packages/nextclaw/src/cli/commands/service-support/session/service-deferred-ncp-agent.ts`
+- `packages/go-usb-ai/src/cli/commands/service-support/session/service-deferred-ncp-agent.ts`
   - 未 ready 时会抛 `ncp agent unavailable during startup`
-- `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-startup.ts`
+- `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-startup.ts`
   - `createUiNcpAgent()` 失败时只打印错误，不把系统切成明确故障态
 
 **用户体感**
@@ -103,7 +103,7 @@
 
 **当前代码风险证据**
 
-- `packages/nextclaw-core/src/config/secrets.ts`
+- `packages/go-usb-ai-core/src/config/secrets.ts`
   - `exec` provider 使用 `spawnSync`
 - 仓库中仍存在部分同步命令与同步文件路径
 
@@ -120,11 +120,11 @@
 
 **当前代码证据**
 
-- `packages/nextclaw/src/cli/gateway/controller.ts`
+- `packages/go-usb-ai/src/cli/gateway/controller.ts`
   - `config.apply` / `config.patch` / `update.run` 仍会请求 restart
-- `packages/nextclaw/src/cli/gateway/controller.ts`
+- `packages/go-usb-ai/src/cli/gateway/controller.ts`
   - 在缺少上层接管时，restart path 甚至可能直接 `process.exit(0)`
-- `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts`
+- `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts`
   - reload 命中 `restartRequired` 也会 request restart
 
 **用户体感**
@@ -139,9 +139,9 @@
 
 **当前代码证据**
 
-- `packages/nextclaw-ui/src/transport/local.transport.ts`
+- `packages/go-usb-ai-ui/src/transport/local.transport.ts`
   - request / stream 失败直接抛异常
-- `packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`
   - sendError 直接取 transport / hydrate 错误
 
 **为什么这本身也是根因**
@@ -154,14 +154,14 @@
 
 ### 已有能力 1：服务日志和 crash 日志
 
-- `packages/nextclaw-core/src/logging/logging-runtime.ts`
+- `packages/go-usb-ai-core/src/logging/logging-runtime.ts`
   - 已支持 `service log` 和 `crash log`
   - 已支持安装 console mirror
   - 已支持 `uncaughtExceptionMonitor`
-- `packages/nextclaw/src/cli/commands/logs.ts`
-  - 已支持 `nextclaw logs path`
-  - 已支持 `nextclaw logs tail`
-  - 已支持 `nextclaw logs tail --crash`
+- `packages/go-usb-ai/src/cli/commands/logs.ts`
+  - 已支持 `go-usb-ai logs path`
+  - 已支持 `go-usb-ai logs tail`
+  - 已支持 `go-usb-ai logs tail --crash`
 
 ### 已有能力 2：桌面 launcher 日志
 
@@ -171,7 +171,7 @@
 
 ### 已有能力 3：managed service 启动日志
 
-- `packages/nextclaw/src/cli/commands/service.ts`
+- `packages/go-usb-ai/src/cli/commands/service.ts`
   - 已记录 startup failure diagnostics
   - 已记录 readiness probe failure
 
@@ -301,8 +301,8 @@
 **Files**
 
 - Create: `apps/desktop/src/runtime/runtime-incident.ts`
-- Create: `packages/nextclaw/src/cli/runtime-state/runtime-incident-store.ts`
-- Modify: `packages/nextclaw-server/src/ui/types.ts`
+- Create: `packages/go-usb-ai/src/cli/runtime-state/runtime-incident-store.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/types.ts`
 
 ### Workstream 2：补齐日志与证据链
 
@@ -312,7 +312,7 @@
 
 **实施方向**
 
-- 服务日志继续使用 `@nextclaw/core` logging runtime
+- 服务日志继续使用 `@go-usb-ai/core` logging runtime
 - 桌面日志继续使用 `main.log`
 - 新增 incident 级关联字段
 - 把 frontend transport 错误也结构化写到服务/桌面事件流
@@ -357,10 +357,10 @@
 
 **Files**
 
-- Modify: `packages/nextclaw-ui/src/transport/local.transport.ts`
-- Modify: `packages/nextclaw-ui/src/api/raw-client.ts`
-- Modify: `packages/nextclaw-ui/src/stores/ui.store.ts`
-- Modify: `packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`
+- Modify: `packages/go-usb-ai-ui/src/transport/local.transport.ts`
+- Modify: `packages/go-usb-ai-ui/src/api/raw-client.ts`
+- Modify: `packages/go-usb-ai-ui/src/stores/ui.store.ts`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`
 
 **分类建议**
 
@@ -379,9 +379,9 @@
 
 **Files**
 
-- Modify: `packages/nextclaw/src/cli/commands/service-support/session/service-deferred-ncp-agent.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-startup.ts`
-- Modify: `packages/nextclaw-server/src/ui/types.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/session/service-deferred-ncp-agent.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-startup.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/types.ts`
 
 **关键行为**
 
@@ -397,10 +397,10 @@
 
 **Files**
 
-- Modify: `packages/nextclaw/src/cli/gateway/controller.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts`
-- Modify: `packages/nextclaw-core/src/config/reload.ts`
-- Modify: `packages/nextclaw/src/cli/config-reloader.ts`
+- Modify: `packages/go-usb-ai/src/cli/gateway/controller.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts`
+- Modify: `packages/go-usb-ai-core/src/config/reload.ts`
+- Modify: `packages/go-usb-ai/src/cli/config-reloader.ts`
 
 **关键行为**
 
@@ -416,9 +416,9 @@
 
 **Files**
 
-- Modify: `packages/nextclaw-core/src/config/secrets.ts`
+- Modify: `packages/go-usb-ai-core/src/config/secrets.ts`
 - Modify: 其它同步阻塞路径
-- Create: `packages/nextclaw/src/cli/runtime-state/event-loop-lag-monitor.ts`
+- Create: `packages/go-usb-ai/src/cli/runtime-state/event-loop-lag-monitor.ts`
 
 **关键行为**
 

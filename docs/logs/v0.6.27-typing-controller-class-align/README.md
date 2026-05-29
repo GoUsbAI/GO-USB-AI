@@ -5,7 +5,7 @@
 - 目标：一次性修复 Discord（并同步 Telegram）在 AI 不回复时 typing 指示可能长期悬挂的问题，并对齐“class 优于 create 函数”的实现偏好。
 - 本次完成：
   - 新增 `ChannelTypingController` class，统一管理 typing 的启动、心跳、自动回收与清理：
-    - `packages/extensions/nextclaw-channel-runtime/src/channels/typing-controller.ts`
+    - `packages/extensions/go-usb-ai-channel-runtime/src/channels/typing-controller.ts`
   - Discord 接入 class 控制器：
     - 统一通过 `ChannelTypingController` 管理 typing 生命周期。
     - AI 不回复场景下由 `autoStop` 自动回收 typing，避免一直显示 `xxx is typing`。
@@ -28,9 +28,9 @@ pnpm tsc
 ### 冒烟验证（隔离目录）
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-typing-class-align.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-typing-class-align.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
 rm -rf "$TMP_HOME"
 ```
 
@@ -57,9 +57,9 @@ pnpm release:publish
 ```
 
 建议发布组件：
-- `@nextclaw/channel-runtime`
-- （如版本变更传导）`@nextclaw/channel-plugin-*`
-- （如依赖范围变化）`@nextclaw/openclaw-compat`
+- `@go-usb-ai/channel-runtime`
+- （如版本变更传导）`@go-usb-ai/channel-plugin-*`
+- （如依赖范围变化）`@go-usb-ai/openclaw-compat`
 
 闭环说明：
 - 远程 migration：不适用（无后端/数据库变更）。

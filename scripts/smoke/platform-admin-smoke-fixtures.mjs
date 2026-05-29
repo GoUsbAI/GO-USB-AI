@@ -94,7 +94,7 @@ export const PLATFORM_ADMIN_SMOKE_FIXTURES = {
         zh: "读取行情源，提炼趋势，并整理成面向决策的简报。"
       },
       sourceRepo: "https://github.com/peiiii/stock-briefing",
-      homepage: "https://nextclaw.io",
+      homepage: "https://go-usb-ai.io",
       install: {
         kind: "git",
         spec: "peiiii/stock-briefing"

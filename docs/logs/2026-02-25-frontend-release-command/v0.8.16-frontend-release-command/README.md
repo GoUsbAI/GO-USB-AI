@@ -14,7 +14,7 @@
 ## 发布 / 部署方式
 
 - 使用 `pnpm release:frontend` 一键发布前端：
-  1. 自动生成 `@nextclaw/ui` + `nextclaw` 的 changeset
+  1. 自动生成 `@go-usb-ai/ui` + `go-usb-ai` 的 changeset
   2. 执行 `pnpm release:version`
   3. 执行 `pnpm release:publish`
 
@@ -22,4 +22,4 @@
 
 1. 仅修改前端后，运行 `pnpm release:frontend`。
 2. 观察输出包含 changeset 生成、version、publish、tag。
-3. 验证 NPM 上 `@nextclaw/ui` 与 `nextclaw` 版本已更新。
+3. 验证 NPM 上 `@go-usb-ai/ui` 与 `go-usb-ai` 版本已更新。

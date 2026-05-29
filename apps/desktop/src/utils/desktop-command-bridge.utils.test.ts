@@ -9,7 +9,7 @@ function createManifest(overrides: Record<string, unknown> = {}): Record<string,
     installationKind: "installed",
     desktopDataDir: "/desktop-data",
     runtimeHome: "/runtime-home",
-    appExecutablePath: "/Applications/NextClaw Desktop.app/Contents/MacOS/NextClaw Desktop",
+    appExecutablePath: "/Applications/GoUsbAi Desktop.app/Contents/MacOS/GoUsbAi Desktop",
     commandBridgeScriptPath: "/bridge.js",
     commandSurfaceBinDir: "/desktop-data/command-surface/bin",
     packagedRuntimeScriptPath: "/packaged/runtime/index.js",
@@ -28,7 +28,7 @@ test("desktop command bridge resolves current bundle runtime and forwards args",
     ]
   ]);
   const existingFiles = new Set<string>([
-    "/Applications/NextClaw Desktop.app/Contents/MacOS/NextClaw Desktop",
+    "/Applications/GoUsbAi Desktop.app/Contents/MacOS/GoUsbAi Desktop",
     "/desktop-data/versions/0.19.26/runtime/dist/cli/app/index.js"
   ]);
   const calls: Array<{ command: string; args: string[]; env: NodeJS.ProcessEnv }> = [];
@@ -37,8 +37,8 @@ test("desktop command bridge resolves current bundle runtime and forwards args",
     argv: ["--manifest", "/surface.json", "--", "status", "--json"],
     env: {
       PATH: "/usr/bin",
-      NEXTCLAW_RUNTIME_BUNDLE_CHILD: "1",
-      NEXTCLAW_DISABLE_RUNTIME_BUNDLE_LAUNCHER: "1"
+      GOUSB_AI_RUNTIME_BUNDLE_CHILD: "1",
+      GOUSB_AI_DISABLE_RUNTIME_BUNDLE_LAUNCHER: "1"
     },
     readTextFile: (path) => {
       const value = files.get(path);
@@ -56,18 +56,18 @@ test("desktop command bridge resolves current bundle runtime and forwards args",
 
   assert.equal(status, 0);
   assert.equal(calls.length, 1);
-  assert.equal(calls[0]?.command, "/Applications/NextClaw Desktop.app/Contents/MacOS/NextClaw Desktop");
+  assert.equal(calls[0]?.command, "/Applications/GoUsbAi Desktop.app/Contents/MacOS/GoUsbAi Desktop");
   assert.deepEqual(calls[0]?.args, [
     join("/desktop-data/versions/0.19.26", "runtime/dist/cli/app/index.js"),
     "status",
     "--json"
   ]);
   assert.equal(calls[0]?.env.ELECTRON_RUN_AS_NODE, "1");
-  assert.equal(calls[0]?.env.NEXTCLAW_HOME, "/runtime-home");
-  assert.equal(calls[0]?.env.NEXTCLAW_COMMAND_SURFACE_BIN, "/desktop-data/command-surface/bin");
-  assert.equal(calls[0]?.env.NEXTCLAW_DESKTOP_COMMAND_SURFACE, "1");
-  assert.equal(calls[0]?.env.NEXTCLAW_RUNTIME_BUNDLE_CHILD, undefined);
-  assert.equal(calls[0]?.env.NEXTCLAW_DISABLE_RUNTIME_BUNDLE_LAUNCHER, undefined);
+  assert.equal(calls[0]?.env.GOUSB_AI_HOME, "/runtime-home");
+  assert.equal(calls[0]?.env.GOUSB_AI_COMMAND_SURFACE_BIN, "/desktop-data/command-surface/bin");
+  assert.equal(calls[0]?.env.GOUSB_AI_DESKTOP_COMMAND_SURFACE, "1");
+  assert.equal(calls[0]?.env.GOUSB_AI_RUNTIME_BUNDLE_CHILD, undefined);
+  assert.equal(calls[0]?.env.GOUSB_AI_DISABLE_RUNTIME_BUNDLE_LAUNCHER, undefined);
 });
 
 test("desktop command bridge falls back to packaged runtime when current pointer is missing", () => {
@@ -75,7 +75,7 @@ test("desktop command bridge falls back to packaged runtime when current pointer
     ["/surface.json", JSON.stringify(createManifest())]
   ]);
   const existingFiles = new Set<string>([
-    "/Applications/NextClaw Desktop.app/Contents/MacOS/NextClaw Desktop",
+    "/Applications/GoUsbAi Desktop.app/Contents/MacOS/GoUsbAi Desktop",
     "/packaged/runtime/index.js"
   ]);
   const calls: string[][] = [];
@@ -120,7 +120,7 @@ test("desktop command bridge fails clearly when current runtime script is missin
         }
         return value;
       },
-      fileExists: (path) => files.has(path) || path === "/Applications/NextClaw Desktop.app/Contents/MacOS/NextClaw Desktop",
+      fileExists: (path) => files.has(path) || path === "/Applications/GoUsbAi Desktop.app/Contents/MacOS/GoUsbAi Desktop",
       spawnCommand: () => ({ status: 0, signal: null, error: undefined })
     }),
     /Current desktop bundle runtime script is missing/

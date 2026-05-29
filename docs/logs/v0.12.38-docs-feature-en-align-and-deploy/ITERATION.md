@@ -29,7 +29,7 @@
 已执行文档站发布：
 
 - `pnpm deploy:docs`
-- 预览地址：`https://8106f02b.nextclaw-docs.pages.dev`
+- 预览地址：`https://8106f02b.go-usb-ai-docs.pages.dev`
 
 ## 4) 用户/产品视角的验收步骤
 

@@ -150,7 +150,7 @@ export class DesktopUpdateManager {
         { role: "unhide" },
         { type: "separator" },
         {
-          label: "Quit NextClaw",
+          label: "Quit GoUsbAi",
           accelerator: "CommandOrControl+Q",
           click: () => {
             this.options.presenceService.requestExplicitQuit();
@@ -200,7 +200,7 @@ export class DesktopUpdateManager {
       if (snapshot.status === "up-to-date") {
         await dialog.showMessageBox({
           type: "info",
-          title: "NextClaw is up to date",
+          title: "GoUsbAi is up to date",
           message: "You already have the latest desktop bundle.",
           buttons: ["OK"]
         });
@@ -209,9 +209,9 @@ export class DesktopUpdateManager {
       if (snapshot.status === "update-available") {
         const response = await dialog.showMessageBox({
           type: "info",
-          title: "NextClaw Update Available",
+          title: "GoUsbAi Update Available",
           message: `Version ${snapshot.availableVersion ?? "new"} is available.`,
-          detail: "Download the update now and install it when you're ready to restart NextClaw.",
+          detail: "Download the update now and install it when you're ready to restart GoUsbAi.",
           buttons: ["Download Now", "Later"],
           defaultId: 0,
           cancelId: 1
@@ -289,9 +289,9 @@ export class DesktopUpdateManager {
 
     const dialogOptions: MessageBoxOptions = {
       type: "info",
-      title: "NextClaw Update Ready",
+      title: "GoUsbAi Update Ready",
       message: `Version ${snapshot.downloadedVersion ?? "new"} has been downloaded and is ready to install.`,
-      detail: "Restart NextClaw now to apply the new bundle. If the new version fails to boot, the launcher will roll back automatically.",
+      detail: "Restart GoUsbAi now to apply the new bundle. If the new version fails to boot, the launcher will roll back automatically.",
       buttons: ["Restart Now", "Later"],
       defaultId: 0,
       cancelId: 1

@@ -3,7 +3,7 @@
 ## 自动验证
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/docs build
+PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/docs build
 ```
 
 结果：
@@ -20,8 +20,8 @@ PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/docs build
 执行命令：
 
 ```bash
-rg -n "前置准备|打开终端|EACCES|nextclaw stop" apps/docs/zh/guide/getting-started.md README.zh-CN.md
-rg -n "Prerequisites|Open a Terminal|EACCES|nextclaw stop" apps/docs/en/guide/getting-started.md README.md
+rg -n "前置准备|打开终端|EACCES|go-usb-ai stop" apps/docs/zh/guide/getting-started.md README.zh-CN.md
+rg -n "Prerequisites|Open a Terminal|EACCES|go-usb-ai stop" apps/docs/en/guide/getting-started.md README.md
 ```
 
 验证点与结果：
@@ -29,4 +29,4 @@ rg -n "Prerequisites|Open a Terminal|EACCES|nextclaw stop" apps/docs/en/guide/ge
 1. 中文 `/zh/guide/getting-started` 页面可见“前置准备/打开终端/常见问题”完整结构。
 2. 英文 `/en/guide/getting-started` 页面结构与中文一致。
 3. README 中快速开始包含 Node.js 前置提示与文档链接。
-4. 文档中示例命令可直接复制执行（`npm i -g nextclaw`、`nextclaw start`、`nextclaw stop`）。
+4. 文档中示例命令可直接复制执行（`npm i -g go-usb-ai`、`go-usb-ai start`、`go-usb-ai stop`）。

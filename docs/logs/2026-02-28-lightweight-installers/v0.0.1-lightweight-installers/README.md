@@ -5,14 +5,14 @@
 - 新增统一安装器构建脚本 `scripts/installer/build-installer.mjs`：
   - 支持 `darwin/win32` + `x64/arm64` 四种目标。
   - 自动下载 Node Runtime（默认 `22.20.0`）。
-  - 打包本地 `nextclaw` 产物，安装依赖后删除 sourcemap 以减小包体。
+  - 打包本地 `go-usb-ai` 产物，安装依赖后删除 sourcemap 以减小包体。
   - 自动写入启动器：
-    - macOS：`Start NextClaw.command` + `nextclaw`
-    - Windows：`Start NextClaw.cmd` + `nextclaw.cmd`
+    - macOS：`Start GoUsbAi.command` + `go-usb-ai`
+    - Windows：`Start GoUsbAi.cmd` + `go-usb-ai.cmd`
   - 自动输出安装器与构建清单（manifest JSON）。
   - 安装器文件名统一增加 `-beta-` 标识，明确当前为 Beta 分发。
 - 新增 Windows NSIS 模板 `scripts/installer/windows-installer.nsi`：
-  - 用户态安装到 `$LOCALAPPDATA\Programs\NextClaw`。
+  - 用户态安装到 `$LOCALAPPDATA\Programs\GoUsbAi`。
   - 自动创建桌面与开始菜单快捷方式。
   - 生成卸载入口并注册到 Windows 卸载列表。
 - 新增 CI 工作流 `.github/workflows/installer-build.yml`：
@@ -44,15 +44,15 @@
 
 安装器脚本冒烟（隔离目录，避免仓库写入）：
 
-- `PATH=/opt/homebrew/bin:$PATH node scripts/installer/build-installer.mjs --platform=darwin --arch=arm64 --output-dir=/tmp/nextclaw-installers-smoke`
+- `PATH=/opt/homebrew/bin:$PATH node scripts/installer/build-installer.mjs --platform=darwin --arch=arm64 --output-dir=/tmp/go-usb-ai-installers-smoke`
 - 观察点：
-  - 成功生成 `NextClaw-0.8.41-beta-macos-arm64-installer.pkg`
+  - 成功生成 `GoUsbAi-0.8.41-beta-macos-arm64-installer.pkg`
   - 成功生成 `manifest-darwin-arm64.json`
   - manifest 中包含 `bundleSizeBytes` 与安装器大小
 
 体积实测（本轮基线）：
 
-- `nextclaw` npm 包：约 `490 KB`
+- `go-usb-ai` npm 包：约 `490 KB`
 - 裁剪 sourcemap 后应用 payload 压缩体积：约 `17 MB`
 - Node Runtime 压缩包：
   - Windows x64：约 `33.9 MB`
@@ -69,10 +69,10 @@
 1. 触发 `installer-build` workflow（`workflow_dispatch` 或打 `v*` tag）。
 2. 等待四个矩阵任务构建完成。
 3. 从 workflow artifacts 下载安装器：
-   - `nextclaw-installer-darwin-arm64`
-   - `nextclaw-installer-darwin-x64`
-   - `nextclaw-installer-win32-x64`
-   - `nextclaw-installer-win32-arm64`
+   - `go-usb-ai-installer-darwin-arm64`
+   - `go-usb-ai-installer-darwin-x64`
+   - `go-usb-ai-installer-win32-x64`
+   - `go-usb-ai-installer-win32-arm64`
 4. 上传到 GitHub Releases 对应版本页面。
 
 本次仅新增安装器构建链路，不涉及后端或数据库改动：
@@ -83,10 +83,10 @@
 
 1. 打开 Releases 页面下载对应系统安装器（mac `.pkg` / win `.exe`）。
 2. 双击安装并完成向导。
-3. 从桌面或开始菜单点击 **Start NextClaw**。
+3. 从桌面或开始菜单点击 **Start GoUsbAi**。
 4. 浏览器自动打开 `http://127.0.0.1:18791`。
 5. 在 UI 中配置一个 Provider + 模型并发送一条消息。
-6. 关闭后执行 `nextclaw stop`（或在命令行中结束服务），确认可正常停止。
+6. 关闭后执行 `go-usb-ai stop`（或在命令行中结束服务），确认可正常停止。
 
 ## 文档影响检查
 

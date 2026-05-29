@@ -9,20 +9,20 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui exec vitest run src/features/account/hooks/use-auth.test.ts src/features/system-status/managers/system-status.manager.bootstrap-polling.test.ts src/features/system-status/managers/system-status.manager.test.ts`
-- `pnpm --filter @nextclaw/ui tsc`
-- `pnpm --filter @nextclaw/client-sdk tsc`
-- `pnpm --filter @nextclaw/ui exec eslint src/features/account/hooks/use-auth.ts src/features/account/hooks/use-auth.test.ts src/features/system-status/hooks/use-system-status.ts src/features/system-status/managers/system-status.manager.ts src/features/system-status/managers/system-status.manager.bootstrap-polling.test.ts src/features/system-status/managers/system-status.manager.test.ts src/features/system-status/index.ts src/shared/lib/api/utils/config.utils.ts src/shared/lib/transport/index.ts src/shared/lib/transport/transport.types.ts --max-warnings=0`
-- `pnpm --filter @nextclaw/client-sdk exec eslint src/services/app.service.ts --max-warnings=0`
-- `pnpm lint:new-code:governance`：代码改动后通过；补迭代记录后复跑时被无关既有改动 `packages/nextclaw-core/src/features/session/stores/session.store.ts` 的 cross-directory import 阻塞。
+- `pnpm --filter @go-usb-ai/ui exec vitest run src/features/account/hooks/use-auth.test.ts src/features/system-status/managers/system-status.manager.bootstrap-polling.test.ts src/features/system-status/managers/system-status.manager.test.ts`
+- `pnpm --filter @go-usb-ai/ui tsc`
+- `pnpm --filter @go-usb-ai/client-sdk tsc`
+- `pnpm --filter @go-usb-ai/ui exec eslint src/features/account/hooks/use-auth.ts src/features/account/hooks/use-auth.test.ts src/features/system-status/hooks/use-system-status.ts src/features/system-status/managers/system-status.manager.ts src/features/system-status/managers/system-status.manager.bootstrap-polling.test.ts src/features/system-status/managers/system-status.manager.test.ts src/features/system-status/index.ts src/shared/lib/api/utils/config.utils.ts src/shared/lib/transport/index.ts src/shared/lib/transport/transport.types.ts --max-warnings=0`
+- `pnpm --filter @go-usb-ai/client-sdk exec eslint src/services/app.service.ts --max-warnings=0`
+- `pnpm lint:new-code:governance`：代码改动后通过；补迭代记录后复跑时被无关既有改动 `packages/go-usb-ai-core/src/features/session/stores/session.store.ts` 的 cross-directory import 阻塞。
 - `pnpm check:governance-backlog-ratchet`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths ...`
 
-全量 `pnpm --filter @nextclaw/ui lint` 被既有无关 lint 债务阻塞；触达文件 targeted ESLint 已通过。全量 `pnpm --filter @nextclaw/client-sdk lint` 被既有 `src/services/request.service.ts` max-statements warning 阻塞；触达文件 targeted ESLint 已通过。
+全量 `pnpm --filter @go-usb-ai/ui lint` 被既有无关 lint 债务阻塞；触达文件 targeted ESLint 已通过。全量 `pnpm --filter @go-usb-ai/client-sdk lint` 被既有 `src/services/request.service.ts` max-statements warning 阻塞；触达文件 targeted ESLint 已通过。
 
 ## 发布/部署方式
 
-本轮未执行发布或部署。变更影响 `@nextclaw/ui` 与 `@nextclaw/client-sdk` 源码，后续随统一版本发布进入用户环境。
+本轮未执行发布或部署。变更影响 `@go-usb-ai/ui` 与 `@go-usb-ai/client-sdk` 源码，后续随统一版本发布进入用户环境。
 
 ## 用户/产品视角的验收步骤
 
@@ -35,7 +35,7 @@
 - 本次是非功能 bugfix，非测试代码增减为 `+85 / -85 / 净增 0`，满足非功能改动门槛。
 - 正向减债动作：简化。删除了 bootstrap pending placeholder、全量 invalidate 与 runtime-control 二次 invalidate，降低 status 链路的自动刷新面。
 - 共享瞬时错误判断后，auth 与 system-status 的错误分类不再平行漂移。
-- `post-edit-maintainability-guard` 已通过；剩余警告为 `packages/nextclaw-client-sdk/src/services` 既有目录预算超限，本轮未新增该目录文件。
+- `post-edit-maintainability-guard` 已通过；剩余警告为 `packages/go-usb-ai-client-sdk/src/services` 既有目录预算超限，本轮未新增该目录文件。
 
 ## NPM 包发布记录
 

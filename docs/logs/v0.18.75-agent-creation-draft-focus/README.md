@@ -9,21 +9,21 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-agent-chat-ui tsc`：通过。
-- `pnpm -C packages/nextclaw-ui tsc`：通过。
-- `pnpm -C packages/nextclaw-agent-chat-ui test src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`：通过，21 个测试通过。
-- `pnpm -C packages/nextclaw-ui test src/features/chat/managers/ncp-chat-input.manager.test.ts src/features/chat/utils/ncp-chat-input-availability.utils.test.ts`：通过，10 个测试通过。
-- `pnpm -C packages/nextclaw-agent-chat-ui build`：通过。
+- `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`：通过。
+- `pnpm -C packages/go-usb-ai-ui tsc`：通过。
+- `pnpm -C packages/go-usb-ai-agent-chat-ui test src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`：通过，21 个测试通过。
+- `pnpm -C packages/go-usb-ai-ui test src/features/chat/managers/ncp-chat-input.manager.test.ts src/features/chat/utils/ncp-chat-input-availability.utils.test.ts`：通过，10 个测试通过。
+- `pnpm -C packages/go-usb-ai-agent-chat-ui build`：通过。
 - targeted ESLint：触达文件无错误；`agent-chat-ui` 保留既有 props destructuring / exhaustive-deps 警告。
 - `pnpm lint:new-code:governance`：通过。
 - `pnpm check:governance-backlog-ratchet`：通过。
 - maintainability guard：通过；保留 `chat-input-bar` 目录预算和 `chat-input-bar.test.tsx` 接近预算的既有警告。
-- `pnpm -C packages/nextclaw-agent-chat-ui lint`：未通过，阻塞来自既有 `chat-composer-plugins.tsx` React hooks immutability 错误，非本次新增。
-- `pnpm -C packages/nextclaw-ui lint`：未通过，阻塞来自既有 UI lint 债务，非本次触达文件。
+- `pnpm -C packages/go-usb-ai-agent-chat-ui lint`：未通过，阻塞来自既有 `chat-composer-plugins.tsx` React hooks immutability 错误，非本次新增。
+- `pnpm -C packages/go-usb-ai-ui lint`：未通过，阻塞来自既有 UI lint 债务，非本次触达文件。
 
 ## 发布/部署方式
 
-未发布。该改动触达 `@nextclaw/agent-chat-ui` 与 `@nextclaw/ui`，需要随下一次前端/桌面或相关 NPM 发布批次带出。
+未发布。该改动触达 `@go-usb-ai/agent-chat-ui` 与 `@go-usb-ai/ui`，需要随下一次前端/桌面或相关 NPM 发布批次带出。
 
 ## 用户/产品视角的验收步骤
 
@@ -40,6 +40,6 @@
 
 ## NPM 包发布记录
 
-- 涉及包：`@nextclaw/agent-chat-ui`、`@nextclaw/ui`。
+- 涉及包：`@go-usb-ai/agent-chat-ui`、`@go-usb-ai/ui`。
 - 当前状态：仅本地源码、构建与定向验证通过，未执行 NPM 发布。
 - 发布判断：需要随下一次统一前端/桌面发布批次评估并带出。

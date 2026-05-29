@@ -12,19 +12,19 @@
 ## 测试/验证/验收方式
 
 - UI 定向单测：
-  - `pnpm -C packages/nextclaw-ui exec vitest run src/App.test.tsx src/hooks/use-auth.test.ts src/api/api-base.test.ts src/components/chat/useHydratedNcpAgent.test.tsx`
+  - `pnpm -C packages/go-usb-ai-ui exec vitest run src/App.test.tsx src/hooks/use-auth.test.ts src/api/api-base.test.ts src/components/chat/useHydratedNcpAgent.test.tsx`
 - UI 类型检查：
-  - `pnpm -C packages/nextclaw-ui tsc -p tsconfig.json`
+  - `pnpm -C packages/go-usb-ai-ui tsc -p tsconfig.json`
 - CLI / compat 类型检查：
-  - `pnpm -C packages/nextclaw tsc`
-  - `pnpm -C packages/nextclaw-openclaw-compat tsc`
+  - `pnpm -C packages/go-usb-ai tsc`
+  - `pnpm -C packages/go-usb-ai-openclaw-compat tsc`
 - 开发态冒烟：
   - `pnpm dev start`
   - 观察点：先出现 backend ready，再出现 Vite ready；前端首屏不再被 auth bootstrap 全屏阻断；初始阶段不再刷 `ECONNREFUSED` 代理报错。
 
 ## 发布/部署方式
 
-- 本次触达 `nextclaw` CLI、`@nextclaw/ui`、`@nextclaw/openclaw-compat` 与仓库级 dev runner。
+- 本次触达 `go-usb-ai` CLI、`@go-usb-ai/ui`、`@go-usb-ai/openclaw-compat` 与仓库级 dev runner。
 - 若要正式发布，按既有 changeset / version / publish 流程同步发出受影响包，并在发布包环境复验 `pnpm dev start` 的启动顺序与首屏行为。
 - 若仅用于本地源码开发验证，无需额外部署远端服务。
 

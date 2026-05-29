@@ -4,7 +4,7 @@
 
 - 本次把 `apps/docs` 从“页面和导航逐步补丁堆叠”的状态，重写为更接近成熟开源/开发者产品文档的结构：用户先跑通，再按任务理解能力，再按教程跑通经典场景，日常使用进入手册，低频查询进入参考，项目信息后置。
 - 中英文公开站最终收敛为 `Get Started / Guides / Tutorials / Manuals / Reference / Project` 六个主模块：
-  - `Get Started / 开始`：解释 NextClaw 是什么、如何完成最小安装、安装后下一步做什么。
+  - `Get Started / 开始`：解释 GoUsbAi 是什么、如何完成最小安装、安装后下一步做什么。
   - `Guides / 指南`：承接用户对能力的理解和选择，例如模型、连接通道、自动化、后台运行、远程访问。
   - `Tutorials / 教程`：承接可照着跑的经典场景，例如 Docker 一键运行、Qwen、Ollama、飞书、MCP Marketplace、远程访问 UI。
   - `Manuals / 手册`：承接稳定机制说明，例如配置、运行时托管、聊天会话、密钥、资源管理。
@@ -22,7 +22,7 @@
 
 - 已通过：`./node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/bin/tsc apps/docs/.vitepress/config.ts --noEmit --module esnext --target es2022 --moduleResolution bundler --allowSyntheticDefaultImports --skipLibCheck`
   - 目的：对本次触达的 VitePress TypeScript 配置入口做定向类型检查。
-- 已通过：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/docs build`
+- 已通过：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/docs build`
   - 结果：VitePress 构建完成，中英文新导航与重写后的文档页全部可渲染。
   - 备注：仅出现既有 chunk size warning，不阻塞发布。
 - maintainability guard：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths apps/docs/.vitepress/config.ts apps/docs/zh apps/docs/en`
@@ -42,13 +42,13 @@
 - 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm deploy:docs`
 - 部署结果：成功
 - Cloudflare Pages 预览地址：
-  - `https://52b9f3a7.nextclaw-docs.pages.dev`
+  - `https://52b9f3a7.go-usb-ai-docs.pages.dev`
 
 本次发布只涉及文档站部署，不涉及后端、数据库、NPM 包或桌面发布闭环。
 
 ## 用户/产品视角的验收步骤
 
-1. 打开中文首页，确认入口优先回答“NextClaw 是什么、怎么跑起来、下一步做什么”，而不是先展示项目新闻或命令大全。
+1. 打开中文首页，确认入口优先回答“GoUsbAi 是什么、怎么跑起来、下一步做什么”，而不是先展示项目新闻或命令大全。
 2. 打开中文导航，确认主结构为 `开始 / 指南 / 教程 / 手册 / 参考 / 项目`。
 3. 打开英文导航，确认主结构同构为 `Get Started / Guides / Tutorials / Manuals / Reference / Project`。
 4. 进入 `Guides / 指南`，确认内容围绕能力理解和任务选择组织，例如模型、通道、定时、自动启动、远程访问。

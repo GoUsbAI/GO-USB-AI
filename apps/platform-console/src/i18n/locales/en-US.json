@@ -13,11 +13,11 @@
     }
   },
   "app": {
-    "brand": "NextClaw Platform",
-    "workbenchTag": "NextClaw Workbench",
-    "loadingAccount": "Loading NextClaw Account...",
-    "accountLoadFailedTitle": "We could not load your NextClaw Account right now.",
-    "accountLoadFailedDescription": "Sign in again to refresh your account session and continue with NextClaw Web.",
+    "brand": "GoUsbAi Platform",
+    "workbenchTag": "GoUsbAi Workbench",
+    "loadingAccount": "Loading GoUsbAi Account...",
+    "accountLoadFailedTitle": "We could not load your GoUsbAi Account right now.",
+    "accountLoadFailedDescription": "Sign in again to refresh your account session and continue with GoUsbAi Web.",
     "accountLoadFailedAction": "Sign in again",
     "navigation": {
       "home": "My Instances",
@@ -42,8 +42,8 @@
     }
   },
   "account": {
-    "title": "NextClaw Account",
-    "description": "This keeps your publishing identity, username readiness, and the canonical NextClaw Web account entry in one place.",
+    "title": "GoUsbAi Account",
+    "description": "This keeps your publishing identity, username readiness, and the canonical GoUsbAi Web account entry in one place.",
     "highlightDescription": "You are on the exact account settings page that publish errors should point to. Set your username here before publishing personal skills.",
     "readiness": {
       "ready": "Ready",
@@ -62,7 +62,7 @@
     },
     "publishScopeMissing": "Set a username to unlock @username/* publishing",
     "missingTitle": "Set your username before publishing personal skills",
-    "missingDescription": "Your account is already signed in, but personal marketplace publishing stays blocked until this username is set. The canonical page is https://platform.nextclaw.io/account, and the CLI fallback is `nextclaw account set-username <username>`.",
+    "missingDescription": "Your account is already signed in, but personal marketplace publishing stays blocked until this username is set. The canonical page is https://platform.go-usb-ai.io/account, and the CLI fallback is `go-usb-ai account set-username <username>`.",
     "usernamePlaceholder": "For example: alice-dev",
     "readyTitle": "Personal publishing is unlocked",
     "readyDescription": "Your personal skills now publish under {scope}.",
@@ -196,13 +196,13 @@
     }
   },
   "login": {
-    "platformTag": "NextClaw Platform",
-    "heroTitle": "Sign in to NextClaw Web and continue your instances and agent workflows.",
-    "heroDescription": "One NextClaw Account brings together web access, remote entry, and future collaboration features in a single experience. Once you sign in, your instances, shares, and account capabilities all meet here.",
+    "platformTag": "GoUsbAi Platform",
+    "heroTitle": "Sign in to GoUsbAi Web and continue your instances and agent workflows.",
+    "heroDescription": "One GoUsbAi Account brings together web access, remote entry, and future collaboration features in a single experience. Once you sign in, your instances, shares, and account capabilities all meet here.",
     "highlights": {
       "password": {
         "title": "One account across every entry point",
-        "description": "Desktop, web, and future account capabilities all use the same NextClaw Account, so you do not have to manage separate identities."
+        "description": "Desktop, web, and future account capabilities all use the same GoUsbAi Account, so you do not have to manage separate identities."
       },
       "register": {
         "title": "Open your instances from the browser",
@@ -213,12 +213,12 @@
         "description": "When collaboration is needed, create revocable share links for specific instances without exposing your primary account."
       }
     },
-    "accountTag": "NextClaw Account",
+    "accountTag": "GoUsbAi Account",
     "modes": {
       "login": {
         "label": "Login",
         "title": "Email + password",
-        "subtitle": "Use your existing NextClaw Account password to sign in. Register and password reset are available in the other tabs."
+        "subtitle": "Use your existing GoUsbAi Account password to sign in. Register and password reset are available in the other tabs."
       },
       "register": {
         "label": "Sign up",
@@ -367,7 +367,7 @@
     "badge": "Coming soon"
   },
   "share": {
-    "tag": "NextClaw Share",
+    "tag": "GoUsbAi Share",
     "title": "Opening shared instance",
     "description": "Each open of a share link creates a new access session. Refreshing this page creates a fresh session and continues the redirect.",
     "loading": "Validating share link and creating access session...",

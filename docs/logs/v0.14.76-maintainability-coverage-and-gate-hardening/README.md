@@ -3,7 +3,7 @@
 ## 迭代完成说明（改了什么）
 
 - 落地仓库可维护性治理方案的 `Phase 0: Coverage Closure` 与 `Phase 1: Gate Hardening`。
-- 为 `apps/landing` 和 10 个 `packages/extensions/nextclaw-channel-plugin-*` workspace 补齐 `lint` 入口，消除代码 workspace 治理盲区。
+- 为 `apps/landing` 和 10 个 `packages/extensions/go-usb-ai-channel-plugin-*` workspace 补齐 `lint` 入口，消除代码 workspace 治理盲区。
 - 扩展根级 `lint` 闭环，使上述 workspace 进入统一日常校验路径。
 - 强化 [`scripts/eslint-maintainability-report.mjs`](../../../scripts/eslint-maintainability-report.mjs)，新增 code workspace coverage 审计与 `--fail-on-coverage-gaps` 阻断能力，避免未来再新增“有代码但未纳管”的 workspace。
 - 调整 [`eslint.config.mjs`](../../../eslint.config.mjs) 的 JS / MJS / CJS 分层配置，补足脚本与配置文件的运行环境 globals，确保全仓 maintainability audit 可用且不会被大量环境假阳性淹没。
@@ -12,16 +12,16 @@
 ## 测试/验证/验收方式
 
 - `pnpm -C apps/landing lint`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-dingtalk lint`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-discord lint`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-email lint`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-feishu lint`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-mochat lint`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-qq lint`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-slack lint`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-telegram lint`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-wecom lint`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-whatsapp lint`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-dingtalk lint`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-discord lint`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-email lint`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-feishu lint`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-mochat lint`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-qq lint`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-slack lint`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-telegram lint`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-wecom lint`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-whatsapp lint`
 - `node scripts/eslint-maintainability-report.mjs --json --fail-on-coverage-gaps`
 - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths eslint.config.mjs scripts/eslint-maintainability-report.mjs`
 

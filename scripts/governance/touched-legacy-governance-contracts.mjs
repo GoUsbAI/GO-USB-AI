@@ -7,8 +7,8 @@ const normalizePath = (value) => value
   .replace(/\/+$/, "");
 
 export const STRICT_TOUCHED_FLAT_DIRECTORY_PATHS = [
-  "packages/nextclaw-ui/src/components/chat",
-  "workers/nextclaw-provider-gateway-api/src"
+  "packages/go-usb-ai-ui/src/components/chat",
+  "workers/go-usb-ai-provider-gateway-api/src"
 ];
 
 export const DOC_NAMING_ROOTS = [

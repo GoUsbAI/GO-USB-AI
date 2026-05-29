@@ -10,8 +10,8 @@
   - 将 `handleIncoming` 中 typing 生命周期改为 `try ... finally`：
     - 无论处理成功、失败、还是 no-reply，都在处理结束后立即执行 `stopTyping`。
   - 修改文件：
-    - `packages/extensions/nextclaw-channel-runtime/src/channels/discord.ts`
-    - `packages/extensions/nextclaw-channel-runtime/src/channels/telegram.ts`
+    - `packages/extensions/go-usb-ai-channel-runtime/src/channels/discord.ts`
+    - `packages/extensions/go-usb-ai-channel-runtime/src/channels/telegram.ts`
 
 ## 测试 / 验证 / 验收方式
 
@@ -40,11 +40,11 @@ cd /tmp && pnpm dlx tsx /tmp/smoke-typing-stop.ts
 2) 发布后 npm 安装冒烟
 
 ```bash
-TMP_DIR=$(mktemp -d /tmp/nextclaw-noreply-release-smoke.XXXXXX)
+TMP_DIR=$(mktemp -d /tmp/go-usb-ai-noreply-release-smoke.XXXXXX)
 cd "$TMP_DIR"
 npm init -y
-npm install nextclaw@0.6.21
-npx --yes nextclaw --version
+npm install go-usb-ai@0.6.21
+npx --yes go-usb-ai --version
 rm -rf "$TMP_DIR"
 ```
 
@@ -61,20 +61,20 @@ pnpm release:publish
 ```
 
 本次联动发布结果：
-- `@nextclaw/channel-runtime@0.1.6`
-- `@nextclaw/openclaw-compat@0.1.13`
-- `nextclaw@0.6.21`
+- `@go-usb-ai/channel-runtime@0.1.6`
+- `@go-usb-ai/openclaw-compat@0.1.13`
+- `go-usb-ai@0.6.21`
 
 远端校验：
 
 ```bash
-npm view @nextclaw/channel-runtime version
-npm view @nextclaw/openclaw-compat version
-npm view nextclaw version
-npm view nextclaw dist-tags --json
+npm view @go-usb-ai/channel-runtime version
+npm view @go-usb-ai/openclaw-compat version
+npm view go-usb-ai version
+npm view go-usb-ai dist-tags --json
 ```
 
-结果：均为最新联动版本，`nextclaw.latest = 0.6.21`。
+结果：均为最新联动版本，`go-usb-ai.latest = 0.6.21`。
 
 ## 文档影响检查
 

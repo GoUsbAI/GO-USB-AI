@@ -34,7 +34,7 @@ type MarketplaceBindings = {
   MARKETPLACE_CACHE_TTL_SECONDS?: string;
   MARKETPLACE_ADMIN_TOKEN?: string;
   MARKETPLACE_SKILL_AUTO_APPROVE?: string;
-  NEXTCLAW_PLATFORM_API_BASE?: string;
+  GOUSB_AI_PLATFORM_API_BASE?: string;
 };
 
 type MarketplaceEnv = {

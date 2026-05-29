@@ -1,6 +1,6 @@
 ---
 title: Blog
-description: Longer posts about product judgment, design trade-offs, and how we think about building NextClaw.
+description: Longer posts about product judgment, design trade-offs, and how we think about building GoUsbAi.
 ---
 
 # Blog

@@ -9,10 +9,10 @@ PATH=/opt/homebrew/bin:$PATH pnpm tsc
 ```
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-smoke-start-msg.XXXXXX)
-PATH=/opt/homebrew/bin:$PATH NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js start --ui-port 19997
-PATH=/opt/homebrew/bin:$PATH NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js status
-PATH=/opt/homebrew/bin:$PATH NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js stop
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-smoke-start-msg.XXXXXX)
+PATH=/opt/homebrew/bin:$PATH GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js start --ui-port 19997
+PATH=/opt/homebrew/bin:$PATH GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js status
+PATH=/opt/homebrew/bin:$PATH GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js stop
 rm -rf "$TMP_HOME"
 ```
 
@@ -22,7 +22,7 @@ rm -rf "$TMP_HOME"
 - Lint 仅有仓库既有 warning，无 error。
 - `start` 输出包含：
   - `Service controls:`
-  - `Check status: nextclaw status`
-  - `Stop later (this command is only a hint): nextclaw stop`
-- `status` 显示 `Process: running`，证明提示中的 `nextclaw stop` 只是后续可执行命令，不代表当前已停止。
-- `stop` 执行后输出 `✓ nextclaw stopped`，服务可正常关闭。
+  - `Check status: go-usb-ai status`
+  - `Stop later (this command is only a hint): go-usb-ai stop`
+- `status` 显示 `Process: running`，证明提示中的 `go-usb-ai stop` 只是后续可执行命令，不代表当前已停止。
+- `stop` 执行后输出 `✓ go-usb-ai stopped`，服务可正常关闭。

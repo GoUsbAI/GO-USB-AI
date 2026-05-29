@@ -12,9 +12,9 @@
   - `wrangler d1 migrations apply MARKETPLACE_SKILLS_DB --remote`
   - `wrangler d1 migrations apply MARKETPLACE_PLUGINS_DB --remote`
 - 线上冒烟（隔离目录 `/tmp`）：
-  - `curl -sS https://marketplace-api.nextclaw.io/health` → `ok=true`，`databases=["skills","plugins"]`
-  - `curl -sS 'https://marketplace-api.nextclaw.io/api/v1/skills/items?page=1&pageSize=5'` → `total=11`
-  - `curl -sS 'https://marketplace-api.nextclaw.io/api/v1/plugins/items?page=1&pageSize=5'` → `total=10`
+  - `curl -sS https://marketplace-api.go-usb-ai.io/health` → `ok=true`，`databases=["skills","plugins"]`
+  - `curl -sS 'https://marketplace-api.go-usb-ai.io/api/v1/skills/items?page=1&pageSize=5'` → `total=11`
+  - `curl -sS 'https://marketplace-api.go-usb-ai.io/api/v1/plugins/items?page=1&pageSize=5'` → `total=10`
 
 ## 发布/部署方式
 - `wrangler d1 migrations apply MARKETPLACE_SKILLS_DB --remote`
@@ -22,6 +22,6 @@
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C workers/marketplace-api run deploy`
 
 ## 用户/产品视角的验收步骤
-1. 打开 `https://marketplace-api.nextclaw.io/health`，确认 `databases` 包含 `skills` 和 `plugins`。
-2. 打开 `https://marketplace-api.nextclaw.io/api/v1/skills/items?page=1&pageSize=5`，确认返回 5 条数据且 `total` > 0。
-3. 打开 `https://marketplace-api.nextclaw.io/api/v1/plugins/items?page=1&pageSize=5`，确认返回 5 条数据且 `total` > 0。
+1. 打开 `https://marketplace-api.go-usb-ai.io/health`，确认 `databases` 包含 `skills` 和 `plugins`。
+2. 打开 `https://marketplace-api.go-usb-ai.io/api/v1/skills/items?page=1&pageSize=5`，确认返回 5 条数据且 `total` > 0。
+3. 打开 `https://marketplace-api.go-usb-ai.io/api/v1/plugins/items?page=1&pageSize=5`，确认返回 5 条数据且 `total` > 0。

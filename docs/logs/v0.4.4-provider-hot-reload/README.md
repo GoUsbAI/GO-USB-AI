@@ -26,7 +26,7 @@ pnpm -C /Users/peiwang/Projects/nextbot lint
 pnpm -C /Users/peiwang/Projects/nextbot tsc
 
 # smoke-check（非仓库目录）
-/Users/peiwang/.nvm/versions/node/v22.16.0/bin/node /tmp/nextclaw-provider-hot-swap.mjs
+/Users/peiwang/.nvm/versions/node/v22.16.0/bin/node /tmp/go-usb-ai-provider-hot-swap.mjs
 ```
 
 验收点：

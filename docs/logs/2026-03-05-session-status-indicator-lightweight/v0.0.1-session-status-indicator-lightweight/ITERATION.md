@@ -2,24 +2,24 @@
 
 ## 迭代完成说明（改了什么）
 - 将会话状态展示从“彩色文本徽标”调整为“轻量加载指示器”：
-  - 修改 `packages/nextclaw-ui/src/components/common/SessionRunBadge.tsx`。
+  - 修改 `packages/go-usb-ai-ui/src/components/common/SessionRunBadge.tsx`。
   - 改为统一小型旋转图标，去掉彩色背景、边框、额外文本。
 - 将状态展示位置固定到稳定槽位（始终预留空间，避免状态出现/消失导致布局抖动）：
-  - 聊天侧边栏：`packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx`
-  - 会话管理页：`packages/nextclaw-ui/src/components/config/SessionsConfig.tsx`
+  - 聊天侧边栏：`packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx`
+  - 会话管理页：`packages/go-usb-ai-ui/src/components/config/SessionsConfig.tsx`
 - 保留原有状态聚合逻辑，不改动后端接口与查询协议。
 
 ## 测试/验证/验收方式
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build` 通过。
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build` 通过。
 - Lint 验证（本次改动文件）：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/ChatPage.tsx src/components/chat/ChatSidebar.tsx src/components/config/SessionsConfig.tsx src/components/common/SessionRunBadge.tsx src/lib/i18n.ts src/lib/session-run-status.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/ChatPage.tsx src/components/chat/ChatSidebar.tsx src/components/config/SessionsConfig.tsx src/components/common/SessionRunBadge.tsx src/lib/i18n.ts src/lib/session-run-status.ts`
   - 结果：无 error，仅 `ChatPage.tsx` 既有 `max-lines-per-function` warning。
 - 类型验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc` 通过。
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc` 通过。
 - 冒烟验证（状态聚合逻辑）：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec tsc -p /tmp/nextclaw-ui-smoke-tsconfig.json`
-  - `PATH=/opt/homebrew/bin:$PATH node --input-type=module -e "...import /tmp/nextclaw-ui-smoke/lib/session-run-status.js 并执行断言..."`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec tsc -p /tmp/go-usb-ai-ui-smoke-tsconfig.json`
+  - `PATH=/opt/homebrew/bin:$PATH node --input-type=module -e "...import /tmp/go-usb-ai-ui-smoke/lib/session-run-status.js 并执行断言..."`
   - 输出：`b running queued`，符合预期。
 
 ## 发布/部署方式

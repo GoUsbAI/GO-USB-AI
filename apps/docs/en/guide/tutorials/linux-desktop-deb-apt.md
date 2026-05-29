@@ -11,7 +11,7 @@ If you are using the NPM CLI path, return to [Quickstart](/en/guide/getting-star
 
 ## After installation
 
-1. Start NextClaw.
+1. Start GoUsbAi.
 2. Open the local UI.
 3. Configure a model provider.
 4. Send the first message.

@@ -3,7 +3,7 @@
 ## 迭代完成说明（改了什么）
 - 新增可复用通用 skill：[`unsigned-desktop-release-playbook`](../../../.codex/skills/unsigned-desktop-release-playbook/SKILL.md)。
 - 更新内部安装文档 [desktop-install-unsigned.md](../../internal/desktop-install-unsigned.md) 的 macOS 小白流程，补充“先点完成，再去隐私与安全性底部点仍要打开”。
-- macOS 兜底命令统一为 `xattr -cr "/Applications/NextClaw Desktop.app"`，与当前发布说明口径一致。
+- macOS 兜底命令统一为 `xattr -cr "/Applications/GoUsbAi Desktop.app"`，与当前发布说明口径一致。
 
 ## 测试/验证/验收方式
 - 结构验证：

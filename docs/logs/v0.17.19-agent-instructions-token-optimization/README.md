@@ -4,9 +4,9 @@
 
 本次把 `AGENTS.md` 从全量规则书收敛为“每轮必读的常驻内核”，同步把 `commands/commands.md` 改成“命令定义 + skill 触发”的短索引，并新增三个场景 skill 承接长流程：
 
-- `.agents/skills/nextclaw-agent-instructions-governance/SKILL.md`
-- `.agents/skills/nextclaw-iteration-log-governance/SKILL.md`
-- `.agents/skills/nextclaw-validation-workflow/SKILL.md`
+- `.agents/skills/go-usb-ai-agent-instructions-governance/SKILL.md`
+- `.agents/skills/go-usb-ai-iteration-log-governance/SKILL.md`
+- `.agents/skills/go-usb-ai-validation-workflow/SKILL.md`
 
 根因：`AGENTS.md` 将常驻硬规则、场景流程、示例、反例、命令细节、迭代模板和可维护性检查清单全部展开在启动上下文中，导致每轮对话都消耗大量 token，且规则越长越容易稀释真正的高优先级约束。
 
@@ -14,7 +14,7 @@
 
 ## 测试/验证/验收方式
 
-- 执行 `wc -c -m -w AGENTS.md commands/commands.md .agents/skills/nextclaw-agent-instructions-governance/SKILL.md .agents/skills/nextclaw-iteration-log-governance/SKILL.md .agents/skills/nextclaw-validation-workflow/SKILL.md`，确认 `AGENTS.md` 与命令索引体积已显著下降。
+- 执行 `wc -c -m -w AGENTS.md commands/commands.md .agents/skills/go-usb-ai-agent-instructions-governance/SKILL.md .agents/skills/go-usb-ai-iteration-log-governance/SKILL.md .agents/skills/go-usb-ai-validation-workflow/SKILL.md`，确认 `AGENTS.md` 与命令索引体积已显著下降。
 - 检查三个新增 skill 的 YAML frontmatter，确认 `description` 覆盖 `/config-meta`、`/check-meta`、`/new-rule`、`/validate`、迭代留痕、NPM 发布记录、工作笔记等触发场景。
 - `build` / `lint` / `tsc` 不适用：本次只修改 `AGENTS.md`、`.agents/skills` 文本和迭代日志，未触达源码、类型声明、导入导出边界或运行链路。
 - 冒烟测试不适用：本次没有用户可运行行为改动。
@@ -27,7 +27,7 @@
 
 1. 打开 `AGENTS.md`，确认它只保留常驻内核，而不是继续承载完整 Rulebook。
 2. 打开 `commands/commands.md`，确认命令不再重复展开长流程，而是指向对应 skill。
-3. 搜索 `nextclaw-agent-instructions-governance`、`nextclaw-iteration-log-governance`、`nextclaw-validation-workflow`，确认对应场景有 skill 触发入口。
+3. 搜索 `go-usb-ai-agent-instructions-governance`、`go-usb-ai-iteration-log-governance`、`go-usb-ai-validation-workflow`，确认对应场景有 skill 触发入口。
 4. 后续让 AI 执行 `/validate`、`/config-meta` 或需要迭代留痕的任务时，观察其是否主动读取对应 skill。
 
 ## 可维护性总结汇总

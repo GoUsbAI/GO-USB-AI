@@ -1,4 +1,4 @@
-# NextClaw Platform
+# GoUsbAi Platform
 
 用户前端站点（独立于管理后台）。
 
@@ -10,7 +10,7 @@
 - 用户侧首批页面：
   - `我的实例`
   - `账号`
-- 登录页与分享页也统一到同一套 NextClaw 暖中性色视觉语言
+- 登录页与分享页也统一到同一套 GoUsbAi 暖中性色视觉语言
 
 技术栈：
 - React + TypeScript
@@ -19,11 +19,11 @@
 - Tailwind（shadcn 风格组件组织）
 
 产品定位：
-- 这是 `NextClaw Account` 的用户入口站点。
+- 这是 `GoUsbAi Account` 的用户入口站点。
 - 用户通过“邮箱 + 密码”登录。
 - 新账号通过邮箱验证码验证后设置密码完成注册。
 - 忘记密码通过邮箱验证码验证后设置新密码。
-- 登录后可以查看设备列表、从网页中打开已连接的 NextClaw 设备，并查看账单能力。
+- 登录后可以查看设备列表、从网页中打开已连接的 GoUsbAi 设备，并查看账单能力。
 
 ## 本地运行
 
@@ -43,7 +43,7 @@ pnpm -C apps/platform-console dev
 VITE_PLATFORM_API_BASE=http://127.0.0.1:8790 pnpm -C apps/platform-console dev
 ```
 
-生产构建默认 API 域名：`https://ai-gateway-api.nextclaw.io`（见 `.env.production`）。
+生产构建默认 API 域名：`https://ai-gateway-api.go-usb-ai.io`（见 `.env.production`）。
 发布命令（根目录）：
 
 ```bash

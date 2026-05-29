@@ -4,21 +4,21 @@
 
 **Goal:** Build a lightweight product-layer `session_search` feature that lets agents keyword-search prior sessions without polluting toolkit/session persistence boundaries.
 
-**Architecture:** Add a self-contained `session-search` feature module under the NextClaw product layer. The module owns a separate SQLite-derived index, exposes a single `session_search` tool, bootstraps itself at agent startup, and incrementally reindexes on `onSessionUpdated` without spreading search logic across existing session or toolkit modules.
+**Architecture:** Add a self-contained `session-search` feature module under the GoUsbAi product layer. The module owns a separate SQLite-derived index, exposes a single `session_search` tool, bootstraps itself at agent startup, and incrementally reindexes on `onSessionUpdated` without spreading search logic across existing session or toolkit modules.
 
-**Tech Stack:** TypeScript, `node:sqlite`, existing `NextclawAgentSessionStore` read model, Vitest
+**Tech Stack:** TypeScript, `node:sqlite`, existing `GoUsbAiAgentSessionStore` read model, Vitest
 
 ---
 
 ### Task 1: Create the feature module skeleton
 
 **Files:**
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search.types.ts`
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-store.service.ts`
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-index.manager.ts`
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-query.service.ts`
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search.tool.ts`
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-feature.service.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search.types.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-store.service.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-index.manager.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-query.service.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search.tool.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-feature.service.ts`
 
 **Step 1: Define the feature-local types**
 
@@ -72,8 +72,8 @@ The tool should delegate all business logic to the query service.
 ### Task 2: Add the feature owner and wire it into agent bootstrap
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts`
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-feature.service.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-feature.service.ts`
 
 **Step 1: Implement the top-level feature owner**
 
@@ -101,8 +101,8 @@ Avoid changing toolkit code, default tool registry logic, or session store respo
 ### Task 3: Add focused tests first around the feature behavior
 
 **Files:**
-- Create: `packages/nextclaw/src/cli/commands/ncp/session-search/session-search-feature.service.test.ts`
-- Modify if needed: `packages/nextclaw/src/cli/commands/ncp/session/nextclaw-ncp-tool-registry.mcp.test.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-feature.service.test.ts`
+- Modify if needed: `packages/go-usb-ai/src/cli/commands/ncp/session/go-usb-ai-ncp-tool-registry.mcp.test.ts`
 
 **Step 1: Cover indexing and search behavior**
 
@@ -132,8 +132,8 @@ Prefer feature-local tests unless a thin integration assertion is needed for wir
 **Step 1: Run focused validation**
 
 Run:
-- `pnpm -C packages/nextclaw test -- --run packages/nextclaw/src/cli/commands/ncp/session-search/session-search-feature.service.test.ts packages/nextclaw/src/cli/commands/ncp/session/nextclaw-ncp-tool-registry.mcp.test.ts`
-- `pnpm -C packages/nextclaw tsc`
+- `pnpm -C packages/go-usb-ai test -- --run packages/go-usb-ai/src/cli/commands/ncp/session-search/session-search-feature.service.test.ts packages/go-usb-ai/src/cli/commands/ncp/session/go-usb-ai-ncp-tool-registry.mcp.test.ts`
+- `pnpm -C packages/go-usb-ai tsc`
 
 Run additional verification only if the implementation touches wider paths.
 

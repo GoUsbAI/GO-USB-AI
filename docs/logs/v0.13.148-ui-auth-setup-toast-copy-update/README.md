@@ -12,14 +12,14 @@
 ## 测试/验证/验收方式
 
 - 定向 lint：
-  - `pnpm --filter @nextclaw/ui exec eslint src/lib/i18n.ts`
+  - `pnpm --filter @go-usb-ai/ui exec eslint src/lib/i18n.ts`
 
 ## 发布/部署方式
 
-- 重新构建并部署 `@nextclaw/ui` 静态资源即可。
-- 若通过 `nextclaw` 内置 UI 分发：
-  - 重新构建 `packages/nextclaw-ui`
-  - 同步到 `nextclaw/ui-dist`
+- 重新构建并部署 `@go-usb-ai/ui` 静态资源即可。
+- 若通过 `go-usb-ai` 内置 UI 分发：
+  - 重新构建 `packages/go-usb-ai-ui`
+  - 同步到 `go-usb-ai/ui-dist`
   - 重启 UI 进程
 
 ## 用户/产品视角的验收步骤

@@ -32,7 +32,7 @@
 ## 3.1 双链路模型
 
 - Legacy Chain（旧链路）：
-  - 保持现有 NextClaw agent 前后端实现不动，作为稳定基线。
+  - 保持现有 GoUsbAi agent 前后端实现不动，作为稳定基线。
 - NCP Chain（新链路）：
   - 使用 NCP 协议、runtime、state、transport、react binding 重新组装完整链路。
   - 通过 storage adapter 对接现有存储层，保证数据一致。
@@ -55,7 +55,7 @@
 
 1. Legacy 与 NCP 各自拥有独立容器层与编排层，禁止在同一个容器文件内用大量 `if/else` 混写双链路逻辑。
 2. 链路开关只存在于入口装配层（router/page entry/provider entry），不下沉到通用展示组件。
-3. `@nextclaw/agent-chat-ui` 作为共享展示层基座，Legacy 与 NCP 默认共用这套 UI 组件、view-model 契约和 UI-owned hooks。
+3. `@go-usb-ai/agent-chat-ui` 作为共享展示层基座，Legacy 与 NCP 默认共用这套 UI 组件、view-model 契约和 UI-owned hooks。
 4. NCP 前端链路不得反向依赖 legacy 业务模块；若存在依赖，视为未完成分离。
 5. 双链路都应先把各自运行时数据适配成统一展示契约，再进入共享 UI；禁止共享业务状态机、会话编排、请求编排。
 6. 代码组织应能一眼识别双链路边界，保证后续可独立删除 NCP 或 Legacy 任一侧；但本方案阶段不预先锁死细分目录。
@@ -120,7 +120,7 @@ Phase 0 已冻结文档：
 ## Phase 2：并行前端链路落地（以切换点为中心）
 
 1. 在前端入口接入链路开关。
-2. 以 `@nextclaw/agent-chat-ui` 作为共享展示层基座，让 Legacy 与 NCP 共用 UI 组件、view-model 契约和 UI-local hooks。
+2. 以 `@go-usb-ai/agent-chat-ui` 作为共享展示层基座，让 Legacy 与 NCP 共用 UI 组件、view-model 契约和 UI-local hooks。
 3. 接入 NCP runtime + 容器链路，打通核心聊天主流程。
 4. 保留 legacy frontend 容器路径，不做硬切。
 
@@ -155,12 +155,12 @@ Phase 0 已冻结文档：
 2. 新链路不反向依赖旧链路业务编排代码。
 3. 旧链路可独立运行，新链路可独立删除。
 4. 前端切换逻辑仅存在于入口装配层，展示层无链路判断分支污染。
-5. `@nextclaw/agent-chat-ui` 继续保持共享展示层定位，不承载 runtime/store/presenter 级业务编排。
+5. `@go-usb-ai/agent-chat-ui` 继续保持共享展示层定位，不承载 runtime/store/presenter 级业务编排。
 
 ## 6.3 质量验收
 
 1. NCP 相关包 lint/tsc/build 通过。
-2. nextclaw-ui 与 nextclaw-server 受影响链路验证通过。
+2. go-usb-ai-ui 与 go-usb-ai-server 受影响链路验证通过。
 3. 新增并维护一条“链路切换冒烟用例”。
 
 ## 7. 风险与防护
@@ -176,8 +176,8 @@ Phase 0 已冻结文档：
 
 - 上位定位：[`NCP 定位与愿景`](../designs/2026-03-17-ncp-positioning-and-vision.md)
 - 后端语义基线：[`NCP Session-Centric Agent Backend Design`](./2026-03-17-ncp-session-centric-agent-backend-design.md)
-- UI 积木基线：[`@nextclaw/ncp-react-ui 设计文档`](./2026-03-17-ncp-react-ui-design.md)
-- 当前共享展示层实现：[`@nextclaw/agent-chat-ui`](../../../packages/nextclaw-agent-chat-ui/README.md)
+- UI 积木基线：[`@go-usb-ai/ncp-react-ui 设计文档`](./2026-03-17-ncp-react-ui-design.md)
+- 当前共享展示层实现：[`@go-usb-ai/agent-chat-ui`](../../../packages/go-usb-ai-agent-chat-ui/README.md)
 - Phase 0 能力冻结：[`NCP Phase 0 能力冻结与切换基线`](./2026-03-17-ncp-phase0-capability-freeze.md)
 - Phase 0 切换 ADR：[`ADR: Chat 前端链路切换点`](../designs/2026-03-17-chat-frontend-chain-switch-adr.md)
 

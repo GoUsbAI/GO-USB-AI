@@ -14,6 +14,6 @@
 
 ## 变更文件
 
-- `packages/nextclaw-core/src/providers/openai_provider.ts`
-- `packages/nextclaw-core/src/providers/chat-completions-normalizer.ts`
-- `packages/nextclaw-core/src/providers/chat-completions-normalizer.test.ts`
+- `packages/go-usb-ai-core/src/providers/openai_provider.ts`
+- `packages/go-usb-ai-core/src/providers/chat-completions-normalizer.ts`
+- `packages/go-usb-ai-core/src/providers/chat-completions-normalizer.test.ts`

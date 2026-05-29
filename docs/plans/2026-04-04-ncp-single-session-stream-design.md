@@ -20,7 +20,7 @@
 
 ## 上位目标对齐
 
-结合 [NextClaw 产品愿景](../VISION.md)，这次架构判断必须服务于以下目标：
+结合 [GoUsbAi 产品愿景](../VISION.md)，这次架构判断必须服务于以下目标：
 
 - 强化统一体验，而不是继续制造“不同来源的事件，要靠不同恢复方式才能看对”的碎片体验。
 - 强化意图到执行的闭环，而不是把实时一致性问题转嫁给前端或用户刷新动作。
@@ -437,7 +437,7 @@ type LiveSessionExecution = {
 
 这一节不是“可能会改到哪里”，而是一次性实现时的硬边界。
 
-### `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend-types.ts`
+### `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend-types.ts`
 
 - 必删：
   - `LiveSessionExecution.publisher`
@@ -447,7 +447,7 @@ type LiveSessionExecution = {
   - `LiveSessionExecution` 只保留 run 内部执行状态
   - `LiveSessionState` 继续作为 session live truth owner
 
-### `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-live-session-registry.ts`
+### `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-live-session-registry.ts`
 
 - 必删：
   - 创建 live session 时“不拥有 session-level publisher”的旧形态
@@ -456,7 +456,7 @@ type LiveSessionExecution = {
 - 保留：
   - registry 只负责 session 生命周期和缓存
 
-### `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend.ts`
+### `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend.ts`
 
 - 必删：
   - `publishLiveEvent(execution, event)` 这种把对外实时流绑在 execution 上的语义
@@ -469,7 +469,7 @@ type LiveSessionExecution = {
   - `appendMessage()` / `updateToolCallResult()` / abort 写回走同一发布路径
   - 如无必要，直接并回 class，减少单用途 helper 文件
 
-### `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend-stream.ts`
+### `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend-stream.ts`
 
 - 目标：
   - 优先删除整个文件
@@ -477,7 +477,7 @@ type LiveSessionExecution = {
   - 该文件当前只是在实现“订阅 active execution.publisher”的旧语义
   - 新语义下 `stream()` 应直接回到 `DefaultNcpAgentBackend` 自己的 session publisher 逻辑
 
-### `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend-append-message.ts`
+### `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend-append-message.ts`
 
 - 目标：
   - 优先删除整个文件
@@ -486,7 +486,7 @@ type LiveSessionExecution = {
   - 当前仍在分叉地向 `publisher` 与 `activeExecution.publisher` 双发
   - 应直接并回 backend class 的统一 publish 路径
 
-### `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend-update-tool-call-result.ts`
+### `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend-update-tool-call-result.ts`
 
 - 目标：
   - 优先删除整个文件
@@ -495,7 +495,7 @@ type LiveSessionExecution = {
   - 当前仍在分叉地向 `publisher` 与 `activeExecution.publisher` 双发
   - 应直接并回 backend class 的统一 publish 路径
 
-### `packages/ncp-packages/nextclaw-ncp-http-agent-server/src/controller.ts`
+### `packages/ncp-packages/go-usb-ai-ncp-http-agent-server/src/controller.ts`
 
 - 必删：
   - `/send` 通过 `createForwardResponse()` 转成 SSE realtime 的语义
@@ -505,7 +505,7 @@ type LiveSessionExecution = {
   - `/stream` 仍走 SSE
   - `/abort` 保持不变
 
-### `packages/ncp-packages/nextclaw-ncp-http-agent-server/src/stream-handlers.ts`
+### `packages/ncp-packages/go-usb-ai-ncp-http-agent-server/src/stream-handlers.ts`
 
 - 必删：
   - 把 terminal event 当作 session stream 生命周期终点的旧语义
@@ -514,7 +514,7 @@ type LiveSessionExecution = {
 - 可删：
   - 如果某些 forward-path 逻辑只因 `/send` SSE 存在，则一并删除
 
-### `packages/ncp-packages/nextclaw-ncp-http-agent-client/src/client.ts`
+### `packages/ncp-packages/go-usb-ai-ncp-http-agent-client/src/client.ts`
 
 - 必删：
   - `send()` 通过 SSE 读取事件并发布给 subscribers 的语义
@@ -525,7 +525,7 @@ type LiveSessionExecution = {
 - 必调：
   - `emit(message.request)` 不再暗含“开始消费实时事件”
 
-### `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-client-from-server.ts`
+### `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-client-from-server.ts`
 
 - 必删：
   - 对“`send()` 一定意味着要消费一条实时事件流”的心智假设
@@ -534,7 +534,7 @@ type LiveSessionExecution = {
 - 调整方向：
   - 只把 `send()` 视为触发执行，不把它视为唯一实时入口
 
-### `packages/ncp-packages/nextclaw-ncp-react/src/hooks/use-hydrated-ncp-agent.ts`
+### `packages/ncp-packages/go-usb-ai-ncp-react/src/hooks/use-hydrated-ncp-agent.ts`
 
 - 必删：
   - `autoResumeRunningSession`
@@ -544,7 +544,7 @@ type LiveSessionExecution = {
 - 保留：
   - hydrate / reset / session 切换主流程
 
-### `packages/ncp-packages/nextclaw-ncp-react/src/hooks/use-ncp-agent-runtime.ts`
+### `packages/ncp-packages/go-usb-ai-ncp-react/src/hooks/use-ncp-agent-runtime.ts`
 
 - 必删：
   - `streamRun()` 作为“补挂当前 run stream”的旧心智
@@ -554,7 +554,7 @@ type LiveSessionExecution = {
 - 可保留：
   - 若 UI 仍需要“resume”动作，可把它降级为“重新建立 session stream 连接”，而不是 resume run
 
-### `packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`
+### `packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`
 
 - 必删：
   - `session.run-status -> attachRealtimeSessionStream`

@@ -8,18 +8,18 @@
   - [`runtime-service.ts`](/Users/peiwang/Projects/nextbot/apps/desktop/src/runtime-service.ts)
   - 现在会复用稳定端口、缓存最近输出、在异常退出后按指数退避自动重启，并把恢复结果写入日志。
 - 前端请求层尽量透出原始错误，不再把底层失败压扁成模糊提示：
-  - [`raw-client.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/api/raw-client.ts)
-  - [`ncp-app-client-fetch.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/components/chat/ncp/ncp-app-client-fetch.ts)
-  - [`local.transport.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/transport/local.transport.ts)
+  - [`raw-client.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/api/raw-client.ts)
+  - [`ncp-app-client-fetch.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/components/chat/ncp/ncp-app-client-fetch.ts)
+  - [`local.transport.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/transport/local.transport.ts)
   - 现在会尽量保留 `method`、`url/path`、原始错误名、原始错误消息，以及可用时的 HTTP 信息。
 - crash log 补齐 `unhandledRejection`：
-  - [`logging-runtime.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/logging/logging-runtime.ts)
+  - [`logging-runtime.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/logging/logging-runtime.ts)
   - 这样“进程没直接崩，但 promise 未处理导致链路坏掉”的情况也能进 crash log。
 - 补齐对应测试：
   - [`runtime-service.test.ts`](/Users/peiwang/Projects/nextbot/apps/desktop/src/runtime-service.test.ts)
-  - [`logging-runtime.test.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/logging/logging-runtime.test.ts)
-  - [`raw-client.test.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/api/raw-client.test.ts)
-  - [`ncp-app-client-fetch.test.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/components/chat/ncp/ncp-app-client-fetch.test.ts)
+  - [`logging-runtime.test.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/logging/logging-runtime.test.ts)
+  - [`raw-client.test.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/api/raw-client.test.ts)
+  - [`ncp-app-client-fetch.test.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/components/chat/ncp/ncp-app-client-fetch.test.ts)
 
 这次没有把问题误缩成 “skills 会不会触发重启”。从代码和链路看，`skills` 变动本身不是自动重启源头；更深层的问题是 runtime 可用性治理不足，以及错误透出太差。
 
@@ -33,11 +33,11 @@
 
 已执行：
 
-- `pnpm -C packages/nextclaw-ui exec vitest run src/api/raw-client.test.ts src/components/chat/ncp/ncp-app-client-fetch.test.ts`
-- `pnpm -C packages/nextclaw-core exec vitest run src/logging/logging-runtime.test.ts`
-- `pnpm -C packages/nextclaw-core exec tsx --test ../../apps/desktop/src/runtime-service.test.ts`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-core tsc`
+- `pnpm -C packages/go-usb-ai-ui exec vitest run src/api/raw-client.test.ts src/components/chat/ncp/ncp-app-client-fetch.test.ts`
+- `pnpm -C packages/go-usb-ai-core exec vitest run src/logging/logging-runtime.test.ts`
+- `pnpm -C packages/go-usb-ai-core exec tsx --test ../../apps/desktop/src/runtime-service.test.ts`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-core tsc`
 - `pnpm -C apps/desktop tsc`
 - `pnpm lint:maintainability:guard`
 - `pnpm -C apps/desktop smoke`
@@ -74,7 +74,7 @@
 
 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：更清晰。桌面恢复职责仍在 [`runtime-service.ts`](/Users/peiwang/Projects/nextbot/apps/desktop/src/runtime-service.ts) 这个单一 owner 内，前端错误透传分别留在各自 transport/client 边界，没有再加一个“万能错误翻译层”制造隐藏耦合。
 
-目录结构与文件组织是否满足当前项目治理要求：满足。本次新增文件 [`raw-client.test.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/api/raw-client.test.ts) 命名合规；其余均为在原有 owner 文件内扩展。仓库里仍有既有目录预算 warning，但不属于本次新增问题。
+目录结构与文件组织是否满足当前项目治理要求：满足。本次新增文件 [`raw-client.test.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/api/raw-client.test.ts) 命名合规；其余均为在原有 owner 文件内扩展。仓库里仍有既有目录预算 warning，但不属于本次新增问题。
 
 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：已基于独立复核填写。
 

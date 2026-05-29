@@ -11,8 +11,8 @@ function readArgValue(name) {
   return process.argv[index + 1]?.trim() ?? "";
 }
 
-function runNextclaw(binDir, args, options = {}) {
-  const command = process.platform === "win32" ? "nextclaw.cmd" : "nextclaw";
+function runGoUsbAi(binDir, args, options = {}) {
+  const command = process.platform === "win32" ? "go-usb-ai.cmd" : "go-usb-ai";
   return spawnSync(command, args, {
     cwd: process.cwd(),
     env: {
@@ -32,7 +32,7 @@ function assertStatus(result, args, allowedStatuses = [0]) {
   }
   throw new Error(
     [
-      `nextclaw ${args.join(" ")} failed with exit ${String(result.status ?? 1)}`,
+      `go-usb-ai ${args.join(" ")} failed with exit ${String(result.status ?? 1)}`,
       result.stdout.trim(),
       result.stderr.trim()
     ].filter(Boolean).join("\n")
@@ -43,7 +43,7 @@ function parseJsonOutput(result, args) {
   try {
     return JSON.parse(result.stdout);
   } catch (error) {
-    throw new Error(`nextclaw ${args.join(" ")} did not print valid JSON: ${String(error)}\n${result.stdout}`);
+    throw new Error(`go-usb-ai ${args.join(" ")} did not print valid JSON: ${String(error)}\n${result.stdout}`);
   }
 }
 
@@ -52,32 +52,32 @@ function main() {
   if (!binDir) {
     throw new Error("--bin-dir is required.");
   }
-  const commandPath = resolve(binDir, process.platform === "win32" ? "nextclaw.cmd" : "nextclaw");
+  const commandPath = resolve(binDir, process.platform === "win32" ? "go-usb-ai.cmd" : "go-usb-ai");
   if (!existsSync(commandPath)) {
-    throw new Error(`nextclaw command surface entry is missing: ${commandPath}`);
+    throw new Error(`go-usb-ai command surface entry is missing: ${commandPath}`);
   }
 
-  const versionResult = runNextclaw(binDir, ["--version"]);
+  const versionResult = runGoUsbAi(binDir, ["--version"]);
   assertStatus(versionResult, ["--version"]);
   const version = versionResult.stdout.trim();
   if (!version) {
-    throw new Error("nextclaw --version printed empty output.");
+    throw new Error("go-usb-ai --version printed empty output.");
   }
 
   const statusArgs = ["status", "--json"];
-  const statusResult = runNextclaw(binDir, statusArgs);
+  const statusResult = runGoUsbAi(binDir, statusArgs);
   assertStatus(statusResult, statusArgs);
   const status = parseJsonOutput(statusResult, statusArgs);
   if (!status?.generatedAt || !status?.endpoints) {
-    throw new Error("nextclaw status --json returned an invalid status report.");
+    throw new Error("go-usb-ai status --json returned an invalid status report.");
   }
 
   const doctorArgs = ["doctor", "--json"];
-  const doctorResult = runNextclaw(binDir, doctorArgs);
+  const doctorResult = runGoUsbAi(binDir, doctorArgs);
   assertStatus(doctorResult, doctorArgs, [0, 1]);
   const doctor = parseJsonOutput(doctorResult, doctorArgs);
   if (!doctor?.generatedAt || !Array.isArray(doctor.checks)) {
-    throw new Error("nextclaw doctor --json returned an invalid doctor report.");
+    throw new Error("go-usb-ai doctor --json returned an invalid doctor report.");
   }
 
   console.log(

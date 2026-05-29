@@ -10,17 +10,17 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui exec vitest run src/features/chat/components/conversation/chat-conversation-header.test.tsx`：通过，2 个测试通过。
-- `pnpm --filter @nextclaw/ui exec vitest run src/features/chat/components/conversation/chat-conversation-panel.test.tsx`：通过，19 个测试通过。
-- `pnpm --filter @nextclaw/ui exec eslint src/features/chat/components/conversation/chat-conversation-header.tsx src/features/chat/components/conversation/chat-conversation-header.test.tsx`：通过。
-- `pnpm --filter @nextclaw/ui exec eslint src/features/chat/components/conversation/chat-conversation-panel.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx`：通过。
-- `pnpm --filter @nextclaw/ui tsc`：通过。
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-header.tsx packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-header.test.tsx`：通过，No maintainability findings。
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx`：通过，非测试代码净增 0；提示 `chat-conversation-panel.tsx` 接近文件预算。
-- `pnpm lint:new-code:governance -- --files packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-header.tsx packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-header.test.tsx`：通过。
-- `pnpm lint:new-code:governance -- --files packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx`：通过。
+- `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/components/conversation/chat-conversation-header.test.tsx`：通过，2 个测试通过。
+- `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/components/conversation/chat-conversation-panel.test.tsx`：通过，19 个测试通过。
+- `pnpm --filter @go-usb-ai/ui exec eslint src/features/chat/components/conversation/chat-conversation-header.tsx src/features/chat/components/conversation/chat-conversation-header.test.tsx`：通过。
+- `pnpm --filter @go-usb-ai/ui exec eslint src/features/chat/components/conversation/chat-conversation-panel.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx`：通过。
+- `pnpm --filter @go-usb-ai/ui tsc`：通过。
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-header.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-header.test.tsx`：通过，No maintainability findings。
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx`：通过，非测试代码净增 0；提示 `chat-conversation-panel.tsx` 接近文件预算。
+- `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-header.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-header.test.tsx`：通过。
+- `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx`：通过。
 - `pnpm check:governance-backlog-ratchet`：通过。
-- `pnpm --filter @nextclaw/ui lint`：未通过，阻塞来自既有无关 lint 债务；触达文件 targeted ESLint 已通过。
+- `pnpm --filter @go-usb-ai/ui lint`：未通过，阻塞来自既有无关 lint 债务；触达文件 targeted ESLint 已通过。
 
 ## 发布/部署方式
 

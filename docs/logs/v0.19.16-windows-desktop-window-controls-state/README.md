@@ -10,15 +10,15 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui tsc`：通过。
+- `pnpm -C packages/go-usb-ai-ui tsc`：通过。
 - `pnpm -C apps/desktop tsc`：通过。
-- `pnpm -C packages/nextclaw-ui test -- src/platforms/desktop/components/desktop-app-shell.test.tsx`：通过，覆盖 maximized 后按钮切换为 `Restore`。
-- `pnpm -C packages/nextclaw-ui build`：通过。
+- `pnpm -C packages/go-usb-ai-ui test -- src/platforms/desktop/components/desktop-app-shell.test.tsx`：通过，覆盖 maximized 后按钮切换为 `Restore`。
+- `pnpm -C packages/go-usb-ai-ui build`：通过。
 - `pnpm -C apps/desktop build:main`：通过。
 - `pnpm -C apps/desktop lint`：通过。
-- `pnpm -C packages/nextclaw-ui lint`：未通过，阻塞点为既有无关 lint 错误，涉及未触达的 chat / marketplace / system-status / i18n 等文件。
+- `pnpm -C packages/go-usb-ai-ui lint`：未通过，阻塞点为既有无关 lint 错误，涉及未触达的 chat / marketplace / system-status / i18n 等文件。
 - `pnpm -C apps/desktop exec eslint src/main.ts src/preload.ts src/services/desktop-window-control.service.ts src/utils/desktop-ipc.utils.ts src/utils/window-diagnostics.utils.ts`：通过。
-- `pnpm -C packages/nextclaw-ui exec eslint src/platforms/desktop/components/desktop-app-shell.test.tsx src/platforms/desktop/components/desktop-window-chrome.tsx src/platforms/desktop/types/desktop-update.types.ts`：通过。
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/platforms/desktop/components/desktop-app-shell.test.tsx src/platforms/desktop/components/desktop-window-chrome.tsx src/platforms/desktop/types/desktop-update.types.ts`：通过。
 - `pnpm lint:new-code:governance`：通过。
 - `pnpm check:governance-backlog-ratchet`：通过。
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths ...`：通过。

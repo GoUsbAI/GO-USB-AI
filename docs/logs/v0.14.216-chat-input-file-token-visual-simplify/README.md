@@ -11,16 +11,16 @@
 ## 测试/验证/验收方式
 
 - 单测：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui exec vitest run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui exec vitest run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
 - 类型验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui build`
 - Lint 验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui lint`
-  - 结果：通过；存在仓库既有 warning，位于 `packages/nextclaw-agent-chat-ui/src/components/chat/utils/copy-text.ts:22`，与本次改动无关。
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui lint`
+  - 结果：通过；存在仓库既有 warning，位于 `packages/go-usb-ai-agent-chat-ui/src/components/chat/utils/copy-text.ts:22`，与本次改动无关。
 - 可维护性自检：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-surface-renderer.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-surface-renderer.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
 
 ## 发布/部署方式
 

@@ -2,7 +2,7 @@
 
 ## 目标
 
-把 `packages/nextclaw/src/cli` 从“历史平铺根目录”逐步收敛到已经确定的 command-first 目标结构，并且在尽量少的批次里完成。
+把 `packages/go-usb-ai/src/cli` 从“历史平铺根目录”逐步收敛到已经确定的 command-first 目标结构，并且在尽量少的批次里完成。
 
 目标结构：
 

@@ -108,7 +108,7 @@
 
 ### 示例 1：好例子
 
-修复 `packages/nextclaw-core/src/agent/loop.ts` 某个分支 bug 时，顺手把消息归一化逻辑提取到独立 pure helper，并让 `processMessage` 少一个分支块。
+修复 `packages/go-usb-ai-core/src/agent/loop.ts` 某个分支 bug 时，顺手把消息归一化逻辑提取到独立 pure helper，并让 `processMessage` 少一个分支块。
 
 这属于合格的增量减债，因为：
 
@@ -119,7 +119,7 @@
 
 ### 示例 2：也算合格
 
-修改 `packages/nextclaw-ui/src/components/chat` 下某个组件时，发现目录已接近预算线，本次顺手把一个纯展示 helper 下沉到 `ui/` 子目录，避免继续堆在顶层。
+修改 `packages/go-usb-ai-ui/src/components/chat` 下某个组件时，发现目录已接近预算线，本次顺手把一个纯展示 helper 下沉到 `ui/` 子目录，避免继续堆在顶层。
 
 ### 示例 3：坏例子
 

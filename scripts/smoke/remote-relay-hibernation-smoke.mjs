@@ -11,7 +11,7 @@ import {
   extractCookie,
   fetchWithRetry,
   findFreePort,
-  nextclawCli,
+  go-usb-aiCli,
   queryLocalD1,
   requestJson,
   rootDir,
@@ -21,15 +21,15 @@ import {
   wranglerBin,
 } from "./remote-relay-smoke-support.mjs";
 
-const workerDir = resolve(rootDir, "workers/nextclaw-provider-gateway-api");
+const workerDir = resolve(rootDir, "workers/go-usb-ai-provider-gateway-api");
 const workerConfig = resolve(
   workerDir,
   "wrangler.toml"
 );
 
 async function main() {
-  const persistDir = mkdtempSync(resolve(tmpdir(), "nextclaw-remote-relay-smoke-"));
-  const nextclawHome = mkdtempSync(resolve(tmpdir(), "nextclaw-remote-home-"));
+  const persistDir = mkdtempSync(resolve(tmpdir(), "go-usb-ai-remote-relay-smoke-"));
+  const go-usb-aiHome = mkdtempSync(resolve(tmpdir(), "go-usb-ai-remote-home-"));
   const envFile = resolve(persistDir, ".smoke.env");
   const backendPort = await findFreePort();
   const uiPort = await findFreePort();
@@ -55,7 +55,7 @@ async function main() {
       res.end(JSON.stringify({
         ok: true,
         data: {
-          cookie: "nextclaw_ui_bridge=smoke-bridge"
+          cookie: "go-usb-ai_ui_bridge=smoke-bridge"
         }
       }));
       return;
@@ -122,7 +122,7 @@ async function main() {
       "d1",
       "migrations",
       "apply",
-      "NEXTCLAW_PLATFORM_DB",
+      "GOUSB_AI_PLATFORM_DB",
       "--local",
       "--config",
       workerConfig,
@@ -161,7 +161,7 @@ async function main() {
     await waitForHealth(`${base}/health`);
 
     console.log("[remote-relay-smoke] build affected CLI...");
-    runOrThrow("pnpm", ["-C", "packages/nextclaw", "build"]);
+    runOrThrow("pnpm", ["-C", "packages/go-usb-ai", "build"]);
 
     console.log("[remote-relay-smoke] register smoke user via platform auth API...");
     const registerCode = await requestJson({
@@ -189,9 +189,9 @@ async function main() {
       throw new Error("Missing user token after registration.");
     }
 
-    console.log("[remote-relay-smoke] login via nextclaw CLI...");
+    console.log("[remote-relay-smoke] login via go-usb-ai CLI...");
     runOrThrow("node", [
-      nextclawCli,
+      go-usb-aiCli,
       "login",
       "--api-base",
       apiBase,
@@ -202,7 +202,7 @@ async function main() {
     ], {
       env: {
         ...process.env,
-        NEXTCLAW_HOME: nextclawHome
+        GOUSB_AI_HOME: go-usb-aiHome
       }
     });
 
@@ -210,7 +210,7 @@ async function main() {
     connectorProcess = spawn(
       "node",
       [
-        nextclawCli,
+        go-usb-aiCli,
         "remote",
         "connect",
         "--api-base",
@@ -225,7 +225,7 @@ async function main() {
         cwd: rootDir,
         env: {
           ...process.env,
-          NEXTCLAW_HOME: nextclawHome
+          GOUSB_AI_HOME: go-usb-aiHome
         },
         stdio: ["ignore", "pipe", "pipe"]
       }
@@ -318,7 +318,7 @@ async function main() {
       expectedStatus: 200,
       headers: { cookie: remoteSessionCookie }
     });
-    if (!String(proxiedProbe.body?.cookie ?? "").includes("nextclaw_ui_bridge=smoke-bridge")) {
+    if (!String(proxiedProbe.body?.cookie ?? "").includes("go-usb-ai_ui_bridge=smoke-bridge")) {
       throw new Error(`Expected bridged local auth cookie, got ${JSON.stringify(proxiedProbe.body)}`);
     }
 
@@ -361,8 +361,8 @@ async function main() {
       throw new Error(`Missing share grant payload: ${JSON.stringify(createdShare.body)}`);
     }
     const parsedShareUrl = new URL(shareUrl);
-    if (parsedShareUrl.origin !== "https://platform.nextclaw.io" || !parsedShareUrl.pathname.startsWith("/share/")) {
-      throw new Error(`Share URL must stay on platform.nextclaw.io/share/<token>, got ${shareUrl}`);
+    if (parsedShareUrl.origin !== "https://platform.go-usb-ai.io" || !parsedShareUrl.pathname.startsWith("/share/")) {
+      throw new Error(`Share URL must stay on platform.go-usb-ai.io/share/<token>, got ${shareUrl}`);
     }
     const sharePath = parsedShareUrl.pathname;
     const grantToken = sharePath.split("/").filter(Boolean).at(-1);
@@ -405,7 +405,7 @@ async function main() {
       expectedStatus: 200,
       headers: { cookie: sharedSessionCookie }
     });
-    if (!String(sharedProbe.body?.cookie ?? "").includes("nextclaw_ui_bridge=smoke-bridge")) {
+    if (!String(sharedProbe.body?.cookie ?? "").includes("go-usb-ai_ui_bridge=smoke-bridge")) {
       throw new Error(`Expected bridged cookie for shared probe, got ${JSON.stringify(sharedProbe.body)}`);
     }
     await requestJson({
@@ -475,7 +475,7 @@ async function main() {
     localUiWss.close();
     await new Promise((resolveClose) => localUiServer.close(() => resolveClose()));
     rmSync(persistDir, { recursive: true, force: true });
-    rmSync(nextclawHome, { recursive: true, force: true });
+    rmSync(go-usb-aiHome, { recursive: true, force: true });
   }
 }
 

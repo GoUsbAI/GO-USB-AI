@@ -6,9 +6,9 @@
 - 新增稳定排序策略：按分数降序，再按名称自然排序（`Intl.Collator`），最后按原始顺序兜底，避免抖动。
 
 ## 测试/验证/验收方式
-- `pnpm -C packages/nextclaw-ui tsc`：通过。
-- `pnpm -C packages/nextclaw-ui build`：通过。
-- `pnpm -C packages/nextclaw-ui lint`：未通过；存在仓库已有错误（`useChatStreamController.ts`、`MaskedInput.tsx`），非本次引入。
+- `pnpm -C packages/go-usb-ai-ui tsc`：通过。
+- `pnpm -C packages/go-usb-ai-ui build`：通过。
+- `pnpm -C packages/go-usb-ai-ui lint`：未通过；存在仓库已有错误（`useChatStreamController.ts`、`MaskedInput.tsx`），非本次引入。
 
 ## 发布/部署方式
 - 本次为 UI 逻辑优化，按既有前端发布流程执行（changeset/version/publish 或项目内统一发布流程）。

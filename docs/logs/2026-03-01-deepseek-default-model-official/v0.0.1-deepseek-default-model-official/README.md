@@ -8,8 +8,8 @@
 - 同步修正服务端连接测试回退模型：
   - `deepseek-chat`
 - 变更文件：
-  - `packages/nextclaw-core/src/providers/registry.ts`
-  - `packages/nextclaw-server/src/ui/config.ts`
+  - `packages/go-usb-ai-core/src/providers/registry.ts`
+  - `packages/go-usb-ai-server/src/ui/config.ts`
 
 ## 测试 / 验证 / 验收方式
 
@@ -17,7 +17,7 @@
 PATH=/opt/homebrew/bin:$PATH pnpm build
 PATH=/opt/homebrew/bin:$PATH pnpm lint
 PATH=/opt/homebrew/bin:$PATH pnpm tsc
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server exec vitest run src/ui/router.provider-test.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server exec vitest run src/ui/router.provider-test.test.ts
 ```
 
 验证观察点：
@@ -29,8 +29,8 @@ PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server exec vitest run sr
 
 - 本次仅涉及配置默认值与服务端回退模型，无数据库/后端迁移。
 - 按常规包发布流程发布相关包：
-  - `@nextclaw/core`
-  - `@nextclaw/server`
+  - `@go-usb-ai/core`
+  - `@go-usb-ai/server`
 
 ## 用户 / 产品视角的验收步骤
 

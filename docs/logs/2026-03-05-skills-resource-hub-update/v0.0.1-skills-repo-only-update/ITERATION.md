@@ -25,7 +25,7 @@
 1. `pnpm build`
 2. `pnpm lint`
 3. `pnpm tsc`
-4. `pnpm --filter @nextclaw/docs build`
+4. `pnpm --filter @go-usb-ai/docs build`
 
 本地结果：
 
@@ -51,7 +51,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开资源页，确认不再出现 nextclaw/openclaw 主仓库。
+1. 打开资源页，确认不再出现 go-usb-ai/openclaw 主仓库。
 2. 确认存在 Anthropic / Vercel / OpenAI / OpenClaw 四个 skills 仓库。
 3. 确认存在 `awesome-openclaw-usecases`。
 4. 确认存在高赞 agent skills 集合仓库。

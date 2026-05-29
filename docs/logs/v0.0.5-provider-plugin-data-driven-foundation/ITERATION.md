@@ -5,8 +5,8 @@
 本迭代先记录方案与讨论成果，作为后续实现与验收基线：
 
 1. 产品目标与边界
-- 项目名称统一为 NextClaw（目录名 nextbot 仅为仓库路径）。
-- NextClaw 需要“开箱即用”默认可用的内置 Provider（NextClaw Provider + Cloudflare Worker 网关）。
+- 项目名称统一为 GoUsbAi（目录名 nextbot 仅为仓库路径）。
+- GoUsbAi 需要“开箱即用”默认可用的内置 Provider（GoUsbAi Provider + Cloudflare Worker 网关）。
 - 登录不是强制选项；不登录不能影响产品本身使用。
 - 长期目标是演进为类似 OpenRouter/中转站能力（登录、API Key、用量统计、额度管理）。
 
@@ -23,8 +23,8 @@
 
 4. qwen.chat.ai 方向
 - 优先参考 OpenClaw 的 qwen portal OAuth/device-code 思路。
-- 在 NextClaw 中以通用 Provider 能力实现，qwen.chat.ai 只是一个 Provider 实例。
-- OpenClaw CLI 交互需改造为 NextClaw UI 授权交互。
+- 在 GoUsbAi 中以通用 Provider 能力实现，qwen.chat.ai 只是一个 Provider 实例。
+- OpenClaw CLI 交互需改造为 GoUsbAi UI 授权交互。
 
 5. 本次后续开发顺序（已确认）
 - 先重构 Provider 架构为“纯数据驱动”。
@@ -46,24 +46,24 @@
 - `pnpm -r tsc`
 - 关键路径冒烟：
   - UI Provider 列表/编辑/测试连接
-  - 内置 NextClaw Provider 请求链路
+  - 内置 GoUsbAi Provider 请求链路
   - Worker `/health`、`/v1/models`、`/v1/usage`、`/v1/chat/completions`
 
 ## 发布/部署方式
 
 1. Worker 部署
 - 使用一键命令：`pnpm deploy:llm-api-worker`
-- 部署域名：`https://ai-gateway-api.nextclaw.io`
+- 部署域名：`https://ai-gateway-api.go-usb-ai.io`
 
 2. 包发布（按变更范围）
-- 至少覆盖受影响包：`@nextclaw/core`、`@nextclaw/server`、`nextclaw-ui`、`nextclaw`
+- 至少覆盖受影响包：`@go-usb-ai/core`、`@go-usb-ai/server`、`go-usb-ai-ui`、`go-usb-ai`
 - 若有联动依赖升级，按同一轮发布保持版本一致。
 
 ## 用户/产品视角的验收步骤
 
 1. 默认体验路径（无需登录）
-- 全新安装/初始化 NextClaw。
-- 打开 Provider 配置，确认内置 NextClaw Provider 可直接可用。
+- 全新安装/初始化 GoUsbAi。
+- 打开 Provider 配置，确认内置 GoUsbAi Provider 可直接可用。
 - 发送一条消息并得到模型回复。
 - 查看用量接口，确认 USD 成本口径计入且额度生效。
 

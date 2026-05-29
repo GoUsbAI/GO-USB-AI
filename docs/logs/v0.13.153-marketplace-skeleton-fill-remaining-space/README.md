@@ -7,9 +7,9 @@
 
 ## 测试/验证/验收方式
 
-- 通过：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui test -- src/components/marketplace/MarketplacePage.test.tsx`
-- 通过：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui build`
-- 通过（含 1 条既有 warning）：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui exec eslint src/components/marketplace/MarketplacePage.tsx src/components/marketplace/MarketplacePage.test.tsx`
+- 通过：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui test -- src/components/marketplace/MarketplacePage.test.tsx`
+- 通过：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui build`
+- 通过（含 1 条既有 warning）：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui exec eslint src/components/marketplace/MarketplacePage.tsx src/components/marketplace/MarketplacePage.test.tsx`
 
 ## 发布/部署方式
 

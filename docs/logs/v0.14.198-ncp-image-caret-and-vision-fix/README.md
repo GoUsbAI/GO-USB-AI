@@ -14,17 +14,17 @@
 ## 测试/验证/验收方式
 
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
 - 单元测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui test`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui test`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test`
 - Lint：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui lint`
   - 结果：通过；仓库中已有 `copy-text.ts` 的历史 warning 仍存在，但本次无新增 lint error。
 - 构建：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
   - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo/frontend build`
 - 冒烟：
   - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo exec node scripts/smoke-ui.mjs`
@@ -40,7 +40,7 @@
 
 - 本轮为代码修复与验证闭环，尚未执行发包或正式发布。
 - 若需要发布，按受影响包重新执行版本提升与发布闭环，并至少包含：
-  - 重新构建 `@nextclaw/agent-chat-ui` 与 `@nextclaw/ui`
+  - 重新构建 `@go-usb-ai/agent-chat-ui` 与 `@go-usb-ai/ui`
   - 重新执行上述类型检查、测试、构建与 `smoke-ui.mjs`
   - 发布后再次验证图片粘贴、token 光标位置与 assistant 图片识别
 

@@ -6,9 +6,9 @@
 - 调整 dismiss 复位逻辑：只有当输入不再以 `/` 开头时，才复位 `dismissedSlashPanel`，从而保证同一条 slash 输入链路中的关闭状态持续有效。
 
 ## 测试/验证/验收方式
-- `pnpm -C packages/nextclaw-ui tsc`：通过。
-- `pnpm -C packages/nextclaw-ui build`：通过。
-- `pnpm -C packages/nextclaw-ui lint`：未通过；存在仓库既有错误（`useChatStreamController.ts`、`MaskedInput.tsx`），非本次改动引入。
+- `pnpm -C packages/go-usb-ai-ui tsc`：通过。
+- `pnpm -C packages/go-usb-ai-ui build`：通过。
+- `pnpm -C packages/go-usb-ai-ui lint`：未通过；存在仓库既有错误（`useChatStreamController.ts`、`MaskedInput.tsx`），非本次改动引入。
 
 ## 发布/部署方式
 - 本次为聊天输入交互逻辑修复，按既有前端发布流程发布即可。

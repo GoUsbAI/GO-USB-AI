@@ -7,7 +7,7 @@ if (root) {
     <div class="max-w-5xl mx-auto px-6 py-12">
       <header class="mb-12 border-b border-gray-200 dark:border-gray-800 pb-6 flex items-center justify-between">
         <div>
-          <h1 class="text-3xl font-bold font-sans">NextClaw Logo & Typography Playground</h1>
+          <h1 class="text-3xl font-bold font-sans">GoUsbAi Logo & Typography Playground</h1>
           <p class="text-gray-500 dark:text-gray-400 mt-2">Explore different visual identities and text arrangements for the landing page header.</p>
         </div>
         <a href="/" class="text-sm border border-gray-300 dark:border-gray-600 rounded-md px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
@@ -27,7 +27,7 @@ if (root) {
                 <rect width="24" height="24" rx="6" fill="currentColor" fill-opacity="0.1" />
                 <path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <span class="text-2xl font-black tracking-tight text-gray-900 dark:text-white">NextClaw</span>
+              <span class="text-2xl font-black tracking-tight text-gray-900 dark:text-white">GoUsbAi</span>
             </div>
           </div>
         </section>
@@ -42,7 +42,7 @@ if (root) {
                 <i data-lucide="cpu" class="w-5 h-5"></i>
               </div>
               <span class="text-[28px] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-600 tracking-tight">
-                NextClaw
+                GoUsbAi
               </span>
             </div>
           </div>
@@ -103,7 +103,7 @@ if (root) {
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-black"><path d="m15 18-6-6 6-6"/></svg>
               </div>
               <span class="text-3xl font-black text-black tracking-tighter uppercase" style="font-family: system-ui, -apple-system, sans-serif;">
-                NextClaw
+                GoUsbAi
               </span>
             </div>
           </div>

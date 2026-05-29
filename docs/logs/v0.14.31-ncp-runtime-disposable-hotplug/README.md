@@ -4,13 +4,13 @@
 
 本次把 NCP runtime 的热插拔链路收敛成更轻的实现：
 
-- 新增放在 `@nextclaw/core` 的公共 `Disposable` / `DisposableStore`
+- 新增放在 `@go-usb-ai/core` 的公共 `Disposable` / `DisposableStore`
 - `UiNcpRuntimeRegistry.register()` 现在返回可撤销句柄
 - `createUiNcpAgent` 改为维护 live runtime registry，并支持对插件 runtime 做显式 apply/dispose
 - 运行中的 `ServiceCommands` 在 marketplace 安装、启用、禁用、卸载插件后，会立即在当前进程内触发一次 config reload
 - `uninstall` 现在内含 disable/teardown 语义，用户直接卸载已启用插件时，不需要先手动禁用
 - plugin reload 完成后，NCP session types 会同步到当前 live runtime registry，不再只依赖 watcher 的异步收敛窗口
-- `pnpm dev start` 修复了自定义 `NEXTCLAW_HOME` 指向 `/tmp` 时的 realpath 排除问题，卸载插件不再触发 `tsx watch` 重启
+- `pnpm dev start` 修复了自定义 `GOUSB_AI_HOME` 指向 `/tmp` 时的 realpath 排除问题，卸载插件不再触发 `tsx watch` 重启
 
 相关方案文档：
 
@@ -20,17 +20,17 @@
 
 已执行：
 
-- `pnpm --filter nextclaw test -- --run src/cli/commands/ncp/create-ui-ncp-agent.test.ts src/cli/commands/service.marketplace-plugin-management.test.ts`
-- `pnpm --filter nextclaw tsc`
-- `pnpm --filter @nextclaw/core tsc`
-- `pnpm --filter @nextclaw/openclaw-compat tsc`
-- `pnpm --filter @nextclaw/server tsc`
+- `pnpm --filter go-usb-ai test -- --run src/cli/commands/ncp/create-ui-ncp-agent.test.ts src/cli/commands/service.marketplace-plugin-management.test.ts`
+- `pnpm --filter go-usb-ai tsc`
+- `pnpm --filter @go-usb-ai/core tsc`
+- `pnpm --filter @go-usb-ai/openclaw-compat tsc`
+- `pnpm --filter @go-usb-ai/server tsc`
 - `node --check scripts/dev-runner.mjs`
-- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-core/src/utils/disposable.ts packages/nextclaw/src/cli/commands/ncp/ui-ncp-runtime-registry.ts packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts packages/nextclaw/src/cli/commands/service.ts packages/nextclaw/src/cli/commands/service.marketplace-plugin-management.test.ts packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
+- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-core/src/utils/disposable.ts packages/go-usb-ai/src/cli/commands/ncp/ui-ncp-runtime-registry.ts packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts packages/go-usb-ai/src/cli/commands/service.ts packages/go-usb-ai/src/cli/commands/service.marketplace-plugin-management.test.ts packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
 
 真实 dev 验证：
 
-- 在隔离 `NEXTCLAW_HOME` 下启动 `pnpm dev start`
+- 在隔离 `GOUSB_AI_HOME` 下启动 `pnpm dev start`
 - 初始 `/api/ncp/session-types` 只有 `native`
 - marketplace 安装 codex runtime 后，`/api/ncp/session-types` 立即变成 `native + codex`
 - 直接禁用 codex runtime 后，`/api/ncp/session-types` 立即恢复为只有 `native`

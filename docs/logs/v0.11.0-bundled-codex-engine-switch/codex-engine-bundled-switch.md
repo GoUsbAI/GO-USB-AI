@@ -2,7 +2,7 @@
 
 ## 迭代完成说明（改了什么）
 
-- 保持 `@nextclaw/nextclaw-engine-codex-sdk` 为独立插件包（TypeScript + `src` + 独立构建）。
+- 保持 `@go-usb-ai/go-usb-ai-engine-codex-sdk` 为独立插件包（TypeScript + `src` + 独立构建）。
 - 在 OpenClaw 兼容层加入 bundled runtime plugin 注入，`codex-sdk` 可像内置插件一样自动加载，无需手工 `plugins.load.paths`。
 - 保持核心解耦：Codex SDK 逻辑仅在独立插件包内实现，`core/openclaw-compat` 不包含 Codex 专有业务实现。
 - 完成运行时引擎切换闭环：
@@ -29,10 +29,10 @@ PATH=/opt/homebrew/bin:$PATH pnpm tsc
 
 端到端冒烟（隔离目录，不写入仓库）：
 
-1. 使用隔离 `NEXTCLAW_HOME`，复制用户现有 `~/.nextclaw/config.json`，并将 workspace 指向临时目录。
+1. 使用隔离 `GOUSB_AI_HOME`，复制用户现有 `~/.go-usb-ai/config.json`，并将 workspace 指向临时目录。
 2. 验证 bundled 插件可见：
-   - `nextclaw plugins info nextclaw-engine-codex-sdk`
-   - `nextclaw plugins list --json`
+   - `go-usb-ai plugins info go-usb-ai-engine-codex-sdk`
+   - `go-usb-ai plugins list --json`
    - 验证 `origin=bundled`、`engines=["codex-sdk"]`。
 3. 验证 Codex 引擎能力：
    - 调用 `/api/chat/turn` 让 agent 创建 `a.txt/b.txt/c.txt`，检查文件真实存在。

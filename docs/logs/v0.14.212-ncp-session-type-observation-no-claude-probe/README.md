@@ -11,13 +11,13 @@
 ## 测试/验证/验收方式
 
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
 - 测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/claude-session-type-describe.test.ts`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server test -- --run src/ui/router.ncp-agent.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/claude-session-type-describe.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.ncp-agent.test.ts`
 - 可维护性检查：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/index.ts packages/nextclaw-openclaw-compat/src/plugins/types.ts packages/nextclaw-server/src/ui/router.ncp-agent.test.ts packages/nextclaw-server/src/ui/router/ncp-session.controller.ts packages/nextclaw-server/src/ui/types.ts packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts packages/nextclaw/src/cli/commands/ncp/ui-ncp-runtime-registry.ts packages/nextclaw/src/cli/commands/ncp/claude-session-type-describe.test.ts packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.claude.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/index.ts packages/go-usb-ai-openclaw-compat/src/plugins/types.ts packages/go-usb-ai-server/src/ui/router.ncp-agent.test.ts packages/go-usb-ai-server/src/ui/router/ncp-session.controller.ts packages/go-usb-ai-server/src/ui/types.ts packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts packages/go-usb-ai/src/cli/commands/ncp/ui-ncp-runtime-registry.ts packages/go-usb-ai/src/cli/commands/ncp/claude-session-type-describe.test.ts packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.claude.test.ts`
 - 验收重点：
   - 请求 `/api/ncp/session-types` 时，不应因读接口自动触发 Claude 外部探测。
   - Claude session type 在 observation 模式仍能给出本地配置层面的可用状态。
@@ -27,11 +27,11 @@
 
 - 本次为服务端与 CLI 代码修正，无单独前端静态资源发布步骤。
 - 合并后按常规工程发布流程执行受影响包的版本管理、构建与发布。
-- 若仅在本地验证，可直接重启当前 NextClaw 服务进程，使新的 `/api/ncp/session-types` 行为生效。
+- 若仅在本地验证，可直接重启当前 GoUsbAi 服务进程，使新的 `/api/ncp/session-types` 行为生效。
 
 ## 用户/产品视角的验收步骤
 
-1. 启动包含 Claude NCP runtime 插件的 NextClaw 实例。
+1. 启动包含 Claude NCP runtime 插件的 GoUsbAi 实例。
 2. 打开前端聊天页或任何会自动请求 NCP session type 的页面。
 3. 观察日志或外部依赖侧，不应在页面初始加载时出现 Claude capability probe / 外部探测动作。
 4. 在 UI 中仍能看到 Claude 作为 session type 出现，且本地缺配置时仍会展示 setup 提示。

@@ -12,9 +12,9 @@ import {
 
 const desktopDir = resolve(fileURLToPath(new URL("../../..", import.meta.url)));
 const workspaceRoot = resolve(desktopDir, "..", "..");
-const nextclawCorePackageRoot = resolve(workspaceRoot, "packages", "nextclaw-core");
-const nextclawPackageRoot = resolve(workspaceRoot, "packages", "nextclaw");
-const nextclawPackageJsonPath = resolve(nextclawPackageRoot, "package.json");
+const goUsbAiCorePackageRoot = resolve(workspaceRoot, "packages", "go-usb-ai-core");
+const goUsbAiPackageRoot = resolve(workspaceRoot, "packages", "go-usb-ai");
+const goUsbAiPackageJsonPath = resolve(goUsbAiPackageRoot, "package.json");
 const RUNTIME_BUNDLE_FILE_BUDGET = 400;
 const RUNTIME_ENTRYPOINT = "runtime/dist/cli/app/index.js";
 const SESSION_SEARCH_WORKER_RELATIVE_PATH = "features/session-search/worker/session-search-worker-host.utils.js";
@@ -64,13 +64,13 @@ function runCommand(command, args, cwd) {
 }
 
 function ensureFreshRuntimeArtifacts() {
-  runCommand("pnpm", ["--filter", "nextclaw...", "build"], workspaceRoot);
+  runCommand("pnpm", ["--filter", "go-usb-ai...", "build"], workspaceRoot);
 }
 
 function createWorkspaceTempRoot() {
   const tempParent = resolve(workspaceRoot, "tmp");
   mkdirSync(tempParent, { recursive: true });
-  return mkdtempSync(join(tempParent, "nextclaw-product-bundle-"));
+  return mkdtempSync(join(tempParent, "go-usb-ai-product-bundle-"));
 }
 
 async function addDirectoryToZip(zip, sourceDir, zipRoot) {
@@ -94,10 +94,10 @@ async function addDirectoryToZip(zip, sourceDir, zipRoot) {
 }
 
 function resolveBundleBuildOptions(args) {
-  const nextclawPackage = readJson(nextclawPackageJsonPath);
+  const goUsbAiPackage = readJson(goUsbAiPackageJsonPath);
   const channel = normalizeDesktopUpdateChannel(args.channel);
   return {
-    bundleVersion: readRequiredOption(args, "version", nextclawPackage.version),
+    bundleVersion: readRequiredOption(args, "version", goUsbAiPackage.version),
     platform: readRequiredOption(args, "platform", process.platform),
     arch: readRequiredOption(args, "arch", process.arch),
     channel,
@@ -131,7 +131,7 @@ function bundleRuntimeEntrypoint(workspace) {
     [
       "exec",
       "tsdown",
-      "packages/nextclaw/src/cli/app/index.ts",
+      "packages/go-usb-ai/src/cli/app/index.ts",
       "--no-config",
       "--format",
       "esm",
@@ -152,17 +152,17 @@ function bundleRuntimeEntrypoint(workspace) {
 async function copyRuntimeAssets(workspace) {
   await mkdir(workspace.runtimeRoot, { recursive: true });
   await Promise.all([
-    cp(join(nextclawPackageRoot, "ui-dist"), join(workspace.runtimeRoot, "ui-dist"), { recursive: true }),
-    cp(join(nextclawPackageRoot, "ui-dist"), workspace.uiRoot, { recursive: true }),
-    cp(join(nextclawPackageRoot, "templates"), join(workspace.runtimeRoot, "templates"), { recursive: true }),
-    cp(join(nextclawPackageRoot, "resources"), join(workspace.runtimeRoot, "resources"), { recursive: true }),
-    cp(join(nextclawPackageRoot, "bridge"), join(workspace.runtimeRoot, "bridge"), { recursive: true }),
-    writeFile(join(workspace.runtimeRoot, "package.json"), readFileSync(nextclawPackageJsonPath, "utf8"), "utf8")
+    cp(join(goUsbAiPackageRoot, "ui-dist"), join(workspace.runtimeRoot, "ui-dist"), { recursive: true }),
+    cp(join(goUsbAiPackageRoot, "ui-dist"), workspace.uiRoot, { recursive: true }),
+    cp(join(goUsbAiPackageRoot, "templates"), join(workspace.runtimeRoot, "templates"), { recursive: true }),
+    cp(join(goUsbAiPackageRoot, "resources"), join(workspace.runtimeRoot, "resources"), { recursive: true }),
+    cp(join(goUsbAiPackageRoot, "bridge"), join(workspace.runtimeRoot, "bridge"), { recursive: true }),
+    writeFile(join(workspace.runtimeRoot, "package.json"), readFileSync(goUsbAiPackageJsonPath, "utf8"), "utf8")
   ]);
 }
 
 async function copySessionSearchWorkerAssets(workspace) {
-  const coreDistRoot = join(nextclawCorePackageRoot, "dist");
+  const coreDistRoot = join(goUsbAiCorePackageRoot, "dist");
   const workerSourcePath = join(coreDistRoot, SESSION_SEARCH_WORKER_RELATIVE_PATH);
   const workerTargetPath = join(workspace.runtimeEntrypointDir, SESSION_SEARCH_WORKER_RELATIVE_PATH);
   if (!existsSync(workerSourcePath)) {
@@ -221,7 +221,7 @@ function assertRuntimeBundleContract(runtimeRoot) {
     "dist/cli/app/index.js",
     "dist/cli/app/index.mjs",
     `dist/cli/app/${SESSION_SEARCH_WORKER_RELATIVE_PATH}`,
-    "dist/cli/app/skills/nextclaw-self-manage/SKILL.md",
+    "dist/cli/app/skills/go-usb-ai-self-manage/SKILL.md",
     "package.json",
     "ui-dist/index.html"
   ];
@@ -258,7 +258,7 @@ async function writeBundleArchive(bundleRoot, options) {
   const { platform, arch, bundleVersion, outputDir } = options;
   const zip = new JSZip();
   await addDirectoryToZip(zip, bundleRoot, basename(bundleRoot));
-  const archiveName = `nextclaw-bundle-${platform}-${arch}-${bundleVersion}.zip`;
+  const archiveName = `go-usb-ai-bundle-${platform}-${arch}-${bundleVersion}.zip`;
   const archivePath = resolve(outputDir, archiveName);
   await mkdir(dirname(archivePath), { recursive: true });
   await writeFile(archivePath, await zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" }));

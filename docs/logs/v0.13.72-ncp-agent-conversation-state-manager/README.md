@@ -1,20 +1,20 @@
 # v0.13.72-ncp-agent-conversation-state-manager
 
 ## 迭代完成说明（改了什么）
-- 在 `packages/nextclaw-ncp/src/toolkit/agent/agent-conversation-state-manager.ts` 增加 `DefaultNcpAgentConversationStateManager` 默认实现。
+- 在 `packages/go-usb-ai-ncp/src/toolkit/agent/agent-conversation-state-manager.ts` 增加 `DefaultNcpAgentConversationStateManager` 默认实现。
 - 实现了 `dispatch(event)` 到各 `handleXxx` 的分发，覆盖 `message.*`、`run.*`、`endpoint.error` 等 agent 场景事件。
 - 完成流式会话状态管理：`messages`、`streamingMessage`、`error` 的更新与订阅通知。
 - 增加文本流、reasoning 流、tool call 生命周期（start/args/args-delta/end/result）状态聚合逻辑。
-- 更新导出入口：`packages/nextclaw-ncp/src/toolkit/agent/index.ts`、`packages/nextclaw-ncp/src/toolkit/index.ts`。
-- 新增单元测试文件：`packages/nextclaw-ncp/src/toolkit/agent/agent-conversation-state-manager.test.ts`。
-- 为 `@nextclaw/ncp` 增加 `test` 脚本并接入 `vitest` 开发依赖。
+- 更新导出入口：`packages/go-usb-ai-ncp/src/toolkit/agent/index.ts`、`packages/go-usb-ai-ncp/src/toolkit/index.ts`。
+- 新增单元测试文件：`packages/go-usb-ai-ncp/src/toolkit/agent/agent-conversation-state-manager.test.ts`。
+- 为 `@go-usb-ai/ncp` 增加 `test` 脚本并接入 `vitest` 开发依赖。
 
 ## 测试/验证/验收方式
 - 包级单元测试：
-  - `pnpm -C packages/nextclaw-ncp test`
+  - `pnpm -C packages/go-usb-ai-ncp test`
 - 包级静态检查：
-  - `pnpm -C packages/nextclaw-ncp lint`
-  - `pnpm -C packages/nextclaw-ncp tsc`
+  - `pnpm -C packages/go-usb-ai-ncp lint`
+  - `pnpm -C packages/go-usb-ai-ncp tsc`
 - 验证结果：以上命令均通过。
 
 ## 发布/部署方式

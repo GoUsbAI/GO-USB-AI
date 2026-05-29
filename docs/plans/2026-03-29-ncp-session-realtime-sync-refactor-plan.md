@@ -5,7 +5,7 @@
 相关文档：
 
 - [ChatPage 重构两条原则](../designs/chat-page-refactor-two-principles.md)
-- [NextClaw AppClient Full Request Unification Design](./2026-03-23-nextclaw-appclient-full-request-unification-design.md)
+- [GoUsbAi AppClient Full Request Unification Design](./2026-03-23-go-usb-ai-appclient-full-request-unification-design.md)
 
 ## 1. 目标
 
@@ -238,8 +238,8 @@ type SessionRealtimeEnvelope = {
 
 新增一个纯模块，负责把 session 数据转换成统一 summary，并生成 realtime event。建议形态：
 
-- `packages/nextclaw/src/cli/commands/ncp/ncp-session-summary.ts`
-- `packages/nextclaw/src/cli/commands/ncp/ncp-session-summary-change.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/ncp-session-summary.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/ncp-session-summary-change.ts`
 
 职责：
 
@@ -267,7 +267,7 @@ type SessionSummaryChange =
   | { kind: 'delete'; sessionKey: string };
 ```
 
-`NextclawAgentSessionStore`、`UiSessionService`、`service.ts`、`service-gateway-startup.ts` 统一透传这个 change，而不是只透传 key。
+`GoUsbAiAgentSessionStore`、`UiSessionService`、`service.ts`、`service-gateway-startup.ts` 统一透传这个 change，而不是只透传 key。
 
 #### 6.1.3 清理混用的 config 事件
 
@@ -283,7 +283,7 @@ session 变化只走 session changefeed。
 
 新增一个纯模块，专门负责把 realtime event 应用到 `ncp-sessions` query cache。建议形态：
 
-- `packages/nextclaw-ui/src/api/ncp-session-query-cache.ts`
+- `packages/go-usb-ai-ui/src/api/ncp-session-query-cache.ts`
 
 提供纯函数：
 
@@ -472,8 +472,8 @@ session 变化只走 session changefeed。
 
 ### 11.4 验证层
 
-- `pnpm --filter @nextclaw/ui exec vitest run ...`
-- `pnpm --filter @nextclaw/ui exec tsc --noEmit`
+- `pnpm --filter @go-usb-ai/ui exec vitest run ...`
+- `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
 - 受影响服务端单测
 - NCP 聊天冒烟：
   - 打开一个长会话并持续 streaming

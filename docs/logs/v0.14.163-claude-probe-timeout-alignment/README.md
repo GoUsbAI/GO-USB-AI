@@ -8,19 +8,19 @@
 # 测试/验证/验收方式
 
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk tsc`
 - 构建：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk build`
 - 回归测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/claude-session-type-probe-defaults.test.ts src/cli/commands/ncp/create-ui-ncp-agent.claude.test.ts`
-- 真实 Claude 会话验证（隔离 `NEXTCLAW_HOME`，复制现有 provider 配置到临时目录）：
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/claude-session-type-probe-defaults.test.ts src/cli/commands/ncp/create-ui-ncp-agent.claude.test.ts`
+- 真实 Claude 会话验证（隔离 `GOUSB_AI_HOME`，复制现有 provider 配置到临时目录）：
   - 服务启动：
-    - `NEXTCLAW_HOME=/tmp/nextclaw-claude-verify.EDLqTy`
-    - `NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=1`
-    - `NEXTCLAW_DEV_FIRST_PARTY_PLUGIN_DIR=/Users/peiwang/Projects/nextbot/packages/extensions`
-    - `pnpm -C packages/nextclaw exec nextclaw serve --ui-port 18894`
+    - `GOUSB_AI_HOME=/tmp/go-usb-ai-claude-verify.EDLqTy`
+    - `GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=1`
+    - `GOUSB_AI_DEV_FIRST_PARTY_PLUGIN_DIR=/Users/peiwang/Projects/nextbot/packages/extensions`
+    - `pnpm -C packages/go-usb-ai exec go-usb-ai serve --ui-port 18894`
   - 模型列表接口：
     - `curl -sS http://127.0.0.1:18894/api/ncp/session-types`
     - Claude `supportedModels` 返回：
@@ -53,8 +53,8 @@
 # 发布/部署方式
 
 - 至少同步构建并发布：
-  - `@nextclaw/nextclaw-ncp-runtime-claude-code-sdk`
-  - `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk`
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-claude-code-sdk`
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk`
 - 升级目标环境中的 Claude runtime plugin 到包含本次超时对齐修复的版本，否则目标环境仍可能因为探测窗口过短而低估可用模型集合。
 - 发布后建议在目标环境执行最小验收：
   - `pnpm smoke:ncp-chat -- --session-type claude --model dashscope/qwen3-coder-next --port <port> --json`
@@ -63,7 +63,7 @@
 
 # 用户/产品视角的验收步骤
 
-1. 启动包含本次修复的 NextClaw 与 Claude runtime plugin。
+1. 启动包含本次修复的 GoUsbAi 与 Claude runtime plugin。
 2. 新建一个 `Claude` 会话。
 3. 打开模型下拉，确认不再空白，也不再只显示极少数快模型。
 4. 确认下拉中可见 `openai/gpt-5.4`、`dashscope/qwen3-coder-next`、`dashscope/qwen3.5-plus`、`minimax/MiniMax-M2.5`、`minimax/MiniMax-M2.7`、`minimax-portal/MiniMax-M2.5` 等模型。

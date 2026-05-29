@@ -16,7 +16,7 @@
 - `pnpm lint`
 - `pnpm tsc`
 - 冒烟（非仓库目录执行）：
-  - `cd /tmp && LOG=/tmp/nextbot-dev-start-smoke.log && rm -f "$LOG" && NEXTCLAW_HOME=/tmp/nextclaw-dev-smoke pnpm --dir /Users/peiwang/Projects/nextbot dev start >"$LOG" 2>&1 & RUNPID=$!; sleep 10; kill -INT "$RUNPID" 2>/dev/null || true; sleep 2; pkill -f 'scripts/dev-runner.mjs "start"' 2>/dev/null || true; pkill -f 'tsx watch --tsconfig tsconfig.json src/cli/index.ts serve --ui-port 18792' 2>/dev/null || true; pkill -f 'vite --host 127.0.0.1 --port 5174 --strictPort' 2>/dev/null || true; rg -n "unknown option '--ui-host'|VITE v6.4.1|Local:   http://127.0.0.1:5174/" "$LOG"`
+  - `cd /tmp && LOG=/tmp/nextbot-dev-start-smoke.log && rm -f "$LOG" && GOUSB_AI_HOME=/tmp/go-usb-ai-dev-smoke pnpm --dir /Users/peiwang/Projects/nextbot dev start >"$LOG" 2>&1 & RUNPID=$!; sleep 10; kill -INT "$RUNPID" 2>/dev/null || true; sleep 2; pkill -f 'scripts/dev-runner.mjs "start"' 2>/dev/null || true; pkill -f 'tsx watch --tsconfig tsconfig.json src/cli/index.ts serve --ui-port 18792' 2>/dev/null || true; pkill -f 'vite --host 127.0.0.1 --port 5174 --strictPort' 2>/dev/null || true; rg -n "unknown option '--ui-host'|VITE v6.4.1|Local:   http://127.0.0.1:5174/" "$LOG"`
 
 验收点：
 

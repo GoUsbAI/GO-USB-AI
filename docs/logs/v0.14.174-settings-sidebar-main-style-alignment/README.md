@@ -8,13 +8,13 @@
 
 ## 测试/验证/验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- --run src/components/layout/sidebar.layout.test.tsx`
-- `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint packages/nextclaw-ui/src/components/layout/Sidebar.tsx packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx packages/nextclaw-ui/src/lib/i18n.remote.ts`
-- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/layout/Sidebar.tsx packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx packages/nextclaw-ui/src/lib/i18n.remote.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- --run src/components/layout/sidebar.layout.test.tsx`
+- `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx packages/go-usb-ai-ui/src/lib/i18n.remote.ts`
+- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx packages/go-usb-ai-ui/src/lib/i18n.remote.ts`
 
 ## 发布/部署方式
 
-- 本次为前端 UI 样式与测试调整，按常规前端发布流程随下一次 `nextclaw-ui` 相关发布一并进入构建产物即可。
+- 本次为前端 UI 样式与测试调整，按常规前端发布流程随下一次 `go-usb-ai-ui` 相关发布一并进入构建产物即可。
 - 若需要单独发布前端变更，执行项目既有前端发布流程，并在发布后重点回归主界面与设置界面的左侧边栏一致性。
 
 ## 用户/产品视角的验收步骤

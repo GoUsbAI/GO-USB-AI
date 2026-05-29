@@ -28,8 +28,8 @@
 1. 本次无额外服务部署动作
 2. 合并代码后，后续在本仓库执行 marketplace skill 上架时，优先调用该 skill
 3. 标准发布命令仍为：
-   - `node packages/nextclaw/dist/cli/index.js skills publish skills/<slug> --meta skills/<slug>/marketplace.json --api-base https://marketplace-api.nextclaw.io`
-   - `node packages/nextclaw/dist/cli/index.js skills update skills/<slug> --meta skills/<slug>/marketplace.json --api-base https://marketplace-api.nextclaw.io`
+   - `node packages/go-usb-ai/dist/cli/index.js skills publish skills/<slug> --meta skills/<slug>/marketplace.json --api-base https://marketplace-api.go-usb-ai.io`
+   - `node packages/go-usb-ai/dist/cli/index.js skills update skills/<slug> --meta skills/<slug>/marketplace.json --api-base https://marketplace-api.go-usb-ai.io`
 
 ## 用户/产品视角的验收步骤
 

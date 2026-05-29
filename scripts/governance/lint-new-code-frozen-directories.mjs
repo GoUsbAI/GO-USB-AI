@@ -14,7 +14,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-frozen-directories.mjs
   node scripts/governance/lint-new-code-frozen-directories.mjs --staged
   node scripts/governance/lint-new-code-frozen-directories.mjs --base origin/main
-  node scripts/governance/lint-new-code-frozen-directories.mjs -- packages/nextclaw-core/src/agent
+  node scripts/governance/lint-new-code-frozen-directories.mjs -- packages/go-usb-ai-core/src/agent
 
 Blocks changes under explicitly frozen directories while they still exceed their direct-file budget.`;
 
@@ -22,7 +22,7 @@ const CODE_EXTENSIONS = new Set([".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", "
 
 export const FROZEN_DIRECTORY_RULES = [
   {
-    directoryPath: "packages/nextclaw-core/src/agent",
+    directoryPath: "packages/go-usb-ai-core/src/agent",
     maxDirectCodeFiles: 12,
     reason: "agent 根目录已经堆到 24 个直接代码文件，后续改动必须先把职责拆进子树，而不是继续在扁平根目录里演进。"
   }

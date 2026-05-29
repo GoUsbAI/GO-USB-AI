@@ -9,24 +9,24 @@
   - 账号入口改为更短的单行紧凑结构，保留入口名称与当前账号状态，但减少垂直占用。
   - 主题、语言、文档入口跟随使用同一套 compact 间距与字号，和主界面底部工具区保持一致的视觉密度。
 - 补充回归测试，确保设置侧栏头部与底部入口继续保持 compact 样式，不会再次回退到更松散的版本：
-  - [`packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx`](../../../packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx)
+  - [`packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx`](../../../packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx)
 
 ## 测试 / 验证 / 验收方式
 
 - 定向单测：
-  - `pnpm --filter @nextclaw/ui test -- src/components/layout/sidebar.layout.test.tsx`
+  - `pnpm --filter @go-usb-ai/ui test -- src/components/layout/sidebar.layout.test.tsx`
 - 定向 lint：
-  - `pnpm exec eslint packages/nextclaw-ui/src/components/layout/Sidebar.tsx packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx`
+  - `pnpm exec eslint packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx`
 - 类型检查：
-  - `pnpm --filter @nextclaw/ui tsc`
+  - `pnpm --filter @go-usb-ai/ui tsc`
 - 构建验证：
-  - `pnpm --filter @nextclaw/ui build`
+  - `pnpm --filter @go-usb-ai/ui build`
 - UI 冒烟（服务级）：
-  - `pnpm --filter @nextclaw/ui preview -- --host 127.0.0.1 --port 4173 --strictPort`
+  - `pnpm --filter @go-usb-ai/ui preview -- --host 127.0.0.1 --port 4173 --strictPort`
   - `curl -I http://127.0.0.1:4173/`
   - `curl -I http://127.0.0.1:4173/model`
 - 可维护性自检：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/layout/Sidebar.tsx packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx`
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx`
 
 ## 发布 / 部署方式
 

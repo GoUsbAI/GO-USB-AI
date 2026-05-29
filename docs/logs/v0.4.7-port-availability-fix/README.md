@@ -10,7 +10,7 @@
 
 ## 变更内容
 
-- 用户可见变化：`pnpm nextclaw start` 在端口被占用时会正确切换到可用端口。
+- 用户可见变化：`pnpm go-usb-ai start` 在端口被占用时会正确切换到可用端口。
 - 关键实现点：
   - 修复 `isPortAvailable`，移除对另一个 host 的“或”判断。
 
@@ -24,7 +24,7 @@ env PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C /Users/pei
 
 # smoke-check（非仓库目录）
 cd /tmp
-/Users/peiwang/.nvm/versions/node/v22.16.0/bin/node -e 'const { createServer } = require("node:net");const { spawn } = require("node:child_process");const server=createServer();server.listen({host:"127.0.0.1",port:19001},()=>{const child=spawn(process.execPath,["/Users/peiwang/Projects/nextbot/packages/nextclaw/dist/cli/index.js","serve","--ui-port","19001"],{env:{...process.env,NEXTCLAW_DEV:"1"}});let out="";const done=(ok)=>{child.kill("SIGTERM");server.close();process.exit(ok?0:1);};child.stdout.on("data",d=>{out+=d.toString();if(out.includes("switched to")){console.log(out);done(true);}});child.stderr.on("data",d=>{out+=d.toString();if(out.includes("switched to")){console.log(out);done(true);}});setTimeout(()=>{console.error(out||"timeout");done(false);},5000);});'
+/Users/peiwang/.nvm/versions/node/v22.16.0/bin/node -e 'const { createServer } = require("node:net");const { spawn } = require("node:child_process");const server=createServer();server.listen({host:"127.0.0.1",port:19001},()=>{const child=spawn(process.execPath,["/Users/peiwang/Projects/nextbot/packages/go-usb-ai/dist/cli/index.js","serve","--ui-port","19001"],{env:{...process.env,GOUSB_AI_DEV:"1"}});let out="";const done=(ok)=>{child.kill("SIGTERM");server.close();process.exit(ok?0:1);};child.stdout.on("data",d=>{out+=d.toString();if(out.includes("switched to")){console.log(out);done(true);}});child.stderr.on("data",d=>{out+=d.toString();if(out.includes("switched to")){console.log(out);done(true);}});setTimeout(()=>{console.error(out||"timeout");done(false);},5000);});'
 ```
 
 验收点：

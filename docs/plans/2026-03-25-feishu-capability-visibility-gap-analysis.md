@@ -1,12 +1,12 @@
-# NextClaw 飞书能力可见性缺口分析
+# GoUsbAi 飞书能力可见性缺口分析
 
 ## 背景
 
 这份文档记录一次围绕以下问题的排查结论：
 
-- NextClaw 的飞书插件是否已经集成了 `docs / wiki / 多维表格(bitables)` 等能力
-- 如果已经集成，为什么用户在 NextClaw 中“不容易看到”，以及为什么模型经常“不知道自己可以这样用”
-- 相比 `larksuite/openclaw-lark` 上游插件，NextClaw 目前还缺哪些关键闭环
+- GoUsbAi 的飞书插件是否已经集成了 `docs / wiki / 多维表格(bitables)` 等能力
+- 如果已经集成，为什么用户在 GoUsbAi 中“不容易看到”，以及为什么模型经常“不知道自己可以这样用”
+- 相比 `larksuite/openclaw-lark` 上游插件，GoUsbAi 目前还缺哪些关键闭环
 
 用户原始关注点不是“有没有源码”，而是：
 
@@ -16,10 +16,10 @@
 
 结论很明确：
 
-1. NextClaw 当前仓库里，飞书 `doc / wiki / drive / bitable` 能力已经存在于代码层。
+1. GoUsbAi 当前仓库里，飞书 `doc / wiki / drive / bitable` 能力已经存在于代码层。
 2. 问题不在“完全没集成”，而在“没有形成模型可感知、用户可理解、文档可发现的完整闭环”。
 3. 当前最关键的断点不是 API 能力缺失，而是：
-   - 插件自带 `skills` 没有进入 NextClaw 的技能发现链路
+   - 插件自带 `skills` 没有进入 GoUsbAi 的技能发现链路
    - 飞书工作面能力没有被充分注入到模型提示中
    - `bitable` 缺少对应的技能说明文件
    - 用户文档对这些能力几乎没有显式展开
@@ -43,9 +43,9 @@
 
 对应代码：
 
-- `packages/extensions/nextclaw-channel-plugin-feishu/index.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-feishu/index.ts`
 
-这说明从插件注册层看，NextClaw 并不只有消息通道，已经把飞书工作面能力接了进来。
+这说明从插件注册层看，GoUsbAi 并不只有消息通道，已经把飞书工作面能力接了进来。
 
 ### 默认启用状态
 
@@ -60,7 +60,7 @@
 
 对应代码：
 
-- `packages/extensions/nextclaw-channel-plugin-feishu/src/tools-config.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-feishu/src/tools-config.ts`
 
 这意味着只要飞书账号配置正确，`doc/wiki/drive` 默认本来就应该是可用的。
 
@@ -93,7 +93,7 @@
 
 对应代码：
 
-- `packages/extensions/nextclaw-channel-plugin-feishu/src/docx.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-feishu/src/docx.ts`
 
 #### Wiki
 
@@ -108,7 +108,7 @@
 
 对应代码：
 
-- `packages/extensions/nextclaw-channel-plugin-feishu/src/wiki.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-feishu/src/wiki.ts`
 
 #### 多维表格
 
@@ -125,7 +125,7 @@
 
 对应代码：
 
-- `packages/extensions/nextclaw-channel-plugin-feishu/src/bitable.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-feishu/src/bitable.ts`
 
 #### 云盘 / 权限
 
@@ -136,12 +136,12 @@
 
 对应代码：
 
-- `packages/extensions/nextclaw-channel-plugin-feishu/src/drive.ts`
-- `packages/extensions/nextclaw-channel-plugin-feishu/src/perm.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-feishu/src/drive.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-feishu/src/perm.ts`
 
-## 在 NextClaw 里“本来应该如何使用”
+## 在 GoUsbAi 里“本来应该如何使用”
 
-如果能力链路完整，用户在 NextClaw 里本来应该可以直接这样用：
+如果能力链路完整，用户在 GoUsbAi 里本来应该可以直接这样用：
 
 - “读取这个飞书文档并总结第三节”
 - “找到这个 wiki 页面对应的对象并帮我改标题”
@@ -157,7 +157,7 @@
 
 这是本次排查最关键的结论。
 
-### 根因 1：插件 skills 没进入 NextClaw 的技能发现链路
+### 根因 1：插件 skills 没进入 GoUsbAi 的技能发现链路
 
 飞书插件 manifest 已声明：
 
@@ -165,16 +165,16 @@
 
 对应文件：
 
-- `packages/extensions/nextclaw-channel-plugin-feishu/openclaw.plugin.json`
+- `packages/extensions/go-usb-ai-channel-plugin-feishu/openclaw.plugin.json`
 
-但 NextClaw 当前的 `SkillsLoader` 只扫描两类目录：
+但 GoUsbAi 当前的 `SkillsLoader` 只扫描两类目录：
 
 - 工作区 `skills/`
 - core 内建 `skills/`
 
 对应代码：
 
-- `packages/nextclaw-core/src/agent/skills.ts`
+- `packages/go-usb-ai-core/src/agent/skills.ts`
 
 它并不会扫描插件目录里的 `skills/`。这意味着：
 
@@ -197,7 +197,7 @@
 
 目录：
 
-- `packages/extensions/nextclaw-channel-plugin-feishu/skills`
+- `packages/extensions/go-usb-ai-channel-plugin-feishu/skills`
 
 其中没有 `feishu-bitable`。这意味着：
 
@@ -215,7 +215,7 @@
 
 对应代码：
 
-- `packages/extensions/nextclaw-channel-plugin-feishu/src/channel.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-feishu/src/channel.ts`
 
 但它没有告诉模型：
 
@@ -285,7 +285,7 @@
 - task / calendar 等工作面
 - 更完整的 OpenClaw skill / tool 使用链路
 
-## NextClaw 当前最真实的问题定义
+## GoUsbAi 当前最真实的问题定义
 
 当前不应把问题定义为：
 
@@ -305,7 +305,7 @@
 
 目标：
 
-- 让插件 manifest 里声明的 `skills` 能被 NextClaw 技能发现机制扫描到
+- 让插件 manifest 里声明的 `skills` 能被 GoUsbAi 技能发现机制扫描到
 - 让这些 skill 出现在模型的 `<available_skills>` 中
 - 让模型在飞书相关任务上能读到对应 `SKILL.md`
 
@@ -358,7 +358,7 @@
 
 从 AgentOS 视角，这个问题非常重要。
 
-因为飞书对 NextClaw 来说不应该只是一条消息入口，而应该是：
+因为飞书对 GoUsbAi 来说不应该只是一条消息入口，而应该是：
 
 - 消息入口
 - 文档入口
@@ -366,11 +366,11 @@
 - 多维表格入口
 - 工作协作入口
 
-如果模型只能“会回飞书消息”，但不会自然使用飞书文档、wiki、bitable，那 NextClaw 就仍然停留在“聊天壳层”，而不是“工作入口”。
+如果模型只能“会回飞书消息”，但不会自然使用飞书文档、wiki、bitable，那 GoUsbAi 就仍然停留在“聊天壳层”，而不是“工作入口”。
 
 所以这次问题的本质，不是某个 API 有没有注册成功，而是：
 
-`NextClaw 是否真的把飞书能力做成了 Agent 可稳定调用的产品能力。`
+`GoUsbAi 是否真的把飞书能力做成了 Agent 可稳定调用的产品能力。`
 
 当前答案是：
 
@@ -390,6 +390,6 @@
 
 一句话总结：
 
-`NextClaw 的飞书 docs/wiki/bitable 不是“没做”，而是“做了能力层，但还没做完模型可见性和产品可用性闭环”。`
+`GoUsbAi 的飞书 docs/wiki/bitable 不是“没做”，而是“做了能力层，但还没做完模型可见性和产品可用性闭环”。`
 
 这也是后续改进的正确方向。

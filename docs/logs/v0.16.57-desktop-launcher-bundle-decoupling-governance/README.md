@@ -45,9 +45,9 @@
   - beta floor：`0.0.143`
 - 未通过但确认与本次桌面链路改动无关：
   - `pnpm lint:new-code:governance`
-    - 仍被当前工作区其它并行改动挡住，失败文件集中在 `packages/ncp-packages/*`、`packages/nextclaw-core/*`、`packages/nextclaw-hermes-acp-bridge/*` 等非本次桌面发布链路文件。
+    - 仍被当前工作区其它并行改动挡住，失败文件集中在 `packages/ncp-packages/*`、`packages/go-usb-ai-core/*`、`packages/go-usb-ai-hermes-acp-bridge/*` 等非本次桌面发布链路文件。
   - `pnpm lint:maintainability:guard`
-    - 仍被当前工作区其它并行改动挡住，包含 `packages/ncp-packages/nextclaw-ncp-react/src/hooks/use-hydrated-ncp-agent.ts`、`packages/nextclaw-core/src/agent` 等非本次桌面改动。
+    - 仍被当前工作区其它并行改动挡住，包含 `packages/ncp-packages/go-usb-ai-ncp-react/src/hooks/use-hydrated-ncp-agent.ts`、`packages/go-usb-ai-core/src/agent` 等非本次桌面改动。
 - 已额外执行本次改动的定向 maintainability guard：
   - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths ...`
   - 结果：`Errors: 0`，仅剩 `apps/desktop/scripts` 目录预算历史 warning 与 `smoke-product-update.mjs` 接近预算 warning。

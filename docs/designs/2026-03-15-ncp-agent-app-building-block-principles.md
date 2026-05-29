@@ -31,19 +31,19 @@
 
 ## 3. 推荐分层（从底到上）
 
-1. `@nextclaw/ncp`
+1. `@go-usb-ai/ncp`
 - 只放协议契约（types/interfaces/constants/errors）。
 - 不放具象业务实现。
 
-2. `@nextclaw/ncp-http-agent-client` / `@nextclaw/ncp-http-agent-server`
+2. `@go-usb-ai/ncp-http-agent-client` / `@go-usb-ai/ncp-http-agent-server`
 - 只放传输协议边界实现。
 - 不放 React/UI 逻辑。
 
-3. `@nextclaw/ncp-toolkit`
+3. `@go-usb-ai/ncp-toolkit`
 - 放可复用实现：runtime 编排、state manager、helper adapter。
 - 允许有状态 class，但必须通用、可替换。
 
-4. `@nextclaw/ncp-react`（以及未来 `ncp-vue`）
+4. `@go-usb-ai/ncp-react`（以及未来 `ncp-vue`）
 - 只放框架绑定：context/provider/hooks。
 - 依赖 toolkit runtime，但不重复实现 runtime。
 

@@ -20,10 +20,10 @@
   - CLI 的 `start/restart/serve` 参数收敛，移除 `--frontend` 与 `--frontend-port`。
 - 关键实现点：
   - 新增 `scripts/dev-runner.mjs`：并行启动 backend(`tsx watch`) + frontend(`vite`)。
-  - `packages/nextclaw-ui/vite.config.ts`：改为 `host=127.0.0.1`、`port=5174`、`strictPort=true`，并支持 `VITE_API_BASE`。
-  - `packages/nextclaw/src/cli/runtime.ts`：移除 dev 分支编排逻辑，仅保留生产启动路径。
-  - `packages/nextclaw/src/cli/index.ts`：移除 `--frontend`/`--frontend-port`。
-  - `packages/nextclaw/src/cli/utils.ts`：移除 dev 专用前端/端口探测工具函数，`buildServeArgs` 回归生产参数。
+  - `packages/go-usb-ai-ui/vite.config.ts`：改为 `host=127.0.0.1`、`port=5174`、`strictPort=true`，并支持 `VITE_API_BASE`。
+  - `packages/go-usb-ai/src/cli/runtime.ts`：移除 dev 分支编排逻辑，仅保留生产启动路径。
+  - `packages/go-usb-ai/src/cli/index.ts`：移除 `--frontend`/`--frontend-port`。
+  - `packages/go-usb-ai/src/cli/utils.ts`：移除 dev 专用前端/端口探测工具函数，`buildServeArgs` 回归生产参数。
 
 ## 验证（怎么确认符合预期）
 
@@ -32,20 +32,20 @@
 pnpm release:check
 
 # 开发态冒烟（非仓库数据路径）
-NEXTCLAW_HOME=/tmp/nextclaw-dev-decouple-smoke pnpm dev start
+GOUSB_AI_HOME=/tmp/go-usb-ai-dev-decouple-smoke pnpm dev start
 ```
 
 验收点：
 
 - `pnpm dev start` 启动后前端固定在 `http://127.0.0.1:5174`。
 - 修改 backend 代码触发重启后，前端端口不漂移。
-- `nextclaw start/restart/serve --help` 不再出现 `--frontend`、`--frontend-port`。
+- `go-usb-ai start/restart/serve --help` 不再出现 `--frontend`、`--frontend-port`。
 
 ## 发布 / 部署
 
 - 已按发布流程执行并发布：
-  - `nextclaw@0.4.17`
-  - `@nextclaw/ui@0.3.7`
+  - `go-usb-ai@0.4.17`
+  - `@go-usb-ai/ui@0.3.7`
 - 参考流程文档：`docs/workflows/npm-release-process.md`。
 
 ## 影响范围 / 风险

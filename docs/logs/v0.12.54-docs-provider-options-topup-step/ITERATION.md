@@ -13,7 +13,7 @@
 ## 测试/验证/验收方式
 
 - 文档双语镜像校验：`pnpm docs:i18n:check`
-- 文档构建验证：`pnpm --filter @nextclaw/docs build`
+- 文档构建验证：`pnpm --filter @go-usb-ai/docs build`
 - 重点验收：
   - MiniMax 路径包含“创建 key -> 充值/余额确认 -> 回填配置 -> 测试连接 -> 对话验证”完整闭环。
 
@@ -26,5 +26,5 @@
 
 1. 打开“安装后第一步：选择模型接入方式”页面。
 2. 进入 API Key（MiniMax 示例）路径，按步骤完成 key 创建与充值。
-3. 在 NextClaw 中完成 Provider 测试连接与保存。
+3. 在 GoUsbAi 中完成 Provider 测试连接与保存。
 4. 发送验证消息并收到预期回复。

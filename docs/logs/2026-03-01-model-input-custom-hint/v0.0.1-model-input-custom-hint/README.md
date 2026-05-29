@@ -10,9 +10,9 @@
   - `providerModelInputHint`
   - `providerModelInputPlaceholder`（增强描述）
 - 变更文件：
-  - `packages/nextclaw-ui/src/components/config/ModelConfig.tsx`
-  - `packages/nextclaw-ui/src/components/config/ProviderForm.tsx`
-  - `packages/nextclaw-ui/src/lib/i18n.ts`
+  - `packages/go-usb-ai-ui/src/components/config/ModelConfig.tsx`
+  - `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx`
+  - `packages/go-usb-ai-ui/src/lib/i18n.ts`
 
 ## 测试 / 验证 / 验收方式
 

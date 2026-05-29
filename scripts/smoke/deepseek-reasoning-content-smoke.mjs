@@ -215,7 +215,7 @@ function parseArgs(argv) {
   return {
     configPath: configPath
       ? resolve(configPath)
-      : resolve(homedir(), ".nextclaw", "config.json"),
+      : resolve(homedir(), ".go-usb-ai", "config.json"),
   };
 }
 

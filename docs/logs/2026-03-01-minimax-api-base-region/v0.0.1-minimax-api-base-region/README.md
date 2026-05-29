@@ -8,9 +8,9 @@
   - 中国区：`https://api.minimaxi.com/v1`
   - 海外：`https://api.minimax.io/v1`
 - 变更文件：
-  - `packages/nextclaw-core/src/providers/registry.ts`
-  - `packages/nextclaw-ui/src/components/config/ProviderForm.tsx`
-  - `packages/nextclaw-ui/src/lib/i18n.ts`
+  - `packages/go-usb-ai-core/src/providers/registry.ts`
+  - `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx`
+  - `packages/go-usb-ai-ui/src/lib/i18n.ts`
 
 ## 测试 / 验证 / 验收方式
 
@@ -23,7 +23,7 @@ PATH=/opt/homebrew/bin:$PATH pnpm tsc
 最小冒烟检查：
 
 ```bash
-rg -n "defaultApiBase: \"https://api.minimaxi.com/v1\"|providerApiBaseHelpMinimax|api.minimax.io/v1" packages/nextclaw-core/src/providers/registry.ts packages/nextclaw-ui/src/lib/i18n.ts packages/nextclaw-ui/src/components/config/ProviderForm.tsx -S
+rg -n "defaultApiBase: \"https://api.minimaxi.com/v1\"|providerApiBaseHelpMinimax|api.minimax.io/v1" packages/go-usb-ai-core/src/providers/registry.ts packages/go-usb-ai-ui/src/lib/i18n.ts packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx -S
 ```
 
 观察点：

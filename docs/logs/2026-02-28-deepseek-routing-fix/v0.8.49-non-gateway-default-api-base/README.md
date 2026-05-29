@@ -2,7 +2,7 @@
 
 ## 迭代完成说明（改了什么）
 
-修复本地 Nextclaw 在 DeepSeek 场景下错误回落到 OpenAI Base URL 的问题。
+修复本地 GoUsbAi 在 DeepSeek 场景下错误回落到 OpenAI Base URL 的问题。
 
 根因：
 - `getApiBase()` 仅对 `isGateway` provider 回退 `defaultApiBase`。
@@ -15,19 +15,19 @@
   - 显式设置自定义 `apiBase` 时优先使用自定义值。
 
 涉及文件：
-- [`packages/nextclaw-core/src/config/schema.ts`](../../../../packages/nextclaw-core/src/config/schema.ts)
-- [`packages/nextclaw-core/src/config/schema.provider-routing.test.ts`](../../../../packages/nextclaw-core/src/config/schema.provider-routing.test.ts)
+- [`packages/go-usb-ai-core/src/config/schema.ts`](../../../../packages/go-usb-ai-core/src/config/schema.ts)
+- [`packages/go-usb-ai-core/src/config/schema.provider-routing.test.ts`](../../../../packages/go-usb-ai-core/src/config/schema.provider-routing.test.ts)
 
 ## 测试 / 验证 / 验收方式
 
 - 单测：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core test -- --run src/config/schema.provider-routing.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core test -- --run src/config/schema.provider-routing.test.ts`
 - 工程验证：
   - `PATH=/opt/homebrew/bin:$PATH pnpm build`
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`
 - 规则化冒烟：
-  - `PATH=/opt/homebrew/bin:$PATH node -e "import { ConfigSchema, getApiBase } from './packages/nextclaw-core/dist/index.js'; const cfg=ConfigSchema.parse({providers:{deepseek:{apiKey:'sk-demo'}}}); console.log(getApiBase(cfg,'deepseek-chat'));"`
+  - `PATH=/opt/homebrew/bin:$PATH node -e "import { ConfigSchema, getApiBase } from './packages/go-usb-ai-core/dist/index.js'; const cfg=ConfigSchema.parse({providers:{deepseek:{apiKey:'sk-demo'}}}); console.log(getApiBase(cfg,'deepseek-chat'));"`
   - 预期输出：`https://api.deepseek.com`
 
 ## 发布 / 部署方式

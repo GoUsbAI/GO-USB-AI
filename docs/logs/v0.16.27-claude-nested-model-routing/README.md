@@ -11,19 +11,19 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk build`：通过。
-- `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk tsc`：通过。
-- `pnpm -C packages/nextclaw tsc`：通过。
-- `pnpm -C packages/nextclaw test -- --testTimeout=60000 src/cli/commands/ncp/runtime/create-ui-ncp-agent.claude.test.ts`：通过，`8 passed`。
-- `pnpm -C packages/nextclaw test -- src/cli/commands/ncp/compat/claude-session-type-describe.test.ts src/cli/commands/ncp/compat/claude-session-type-probe-defaults.test.ts`：通过，`3 passed`。
+- `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk build`：通过。
+- `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk tsc`：通过。
+- `pnpm -C packages/go-usb-ai tsc`：通过。
+- `pnpm -C packages/go-usb-ai test -- --testTimeout=60000 src/cli/commands/ncp/runtime/create-ui-ncp-agent.claude.test.ts`：通过，`8 passed`。
+- `pnpm -C packages/go-usb-ai test -- src/cli/commands/ncp/compat/claude-session-type-describe.test.ts src/cli/commands/ncp/compat/claude-session-type-probe-defaults.test.ts`：通过，`3 passed`。
 - `pnpm smoke:ncp-chat -- --session-type claude --model minimax/MiniMax-M2.7 --port 55667 --timeout-ms 180000 --json`：通过，`ok: true`，真实返回 Claude 会话回复并收到 `message.completed`、`run.finished`。
 - `pnpm smoke:ncp-chat -- --session-type native --model minimax/MiniMax-M2.7 --port 55667 --prompt 'Reply exactly NATIVE_SMOKE_OK' --timeout-ms 180000 --json`：通过，`assistantText: NATIVE_SMOKE_OK`。
 - `pnpm smoke:ncp-chat -- --session-type claude --model idealap/pai/glm-5 --port 18792 --timeout-ms 180000 --json`：当前本地环境无法完成真实验收。`/api/config` 中未配置 `idealap` provider，因此该链路的真实外部可用性无法在本机直接证明；嵌套模型名保留逻辑由新增回归测试覆盖。
-- `pnpm lint:maintainability:guard`：`check-maintainability` 阶段已无 error；`scripts/smoke` 与 `packages/nextclaw/src/cli/commands/ncp/runtime` 的目录预算越界均已通过 `README.md` 显式记录豁免。完整命令仍退出 `1`，阻断点在当前工作区其它已触达文件的 `file-role-boundaries` 命名治理债，不是本次 Claude routing 或 smoke 脚本修正新增的问题。
+- `pnpm lint:maintainability:guard`：`check-maintainability` 阶段已无 error；`scripts/smoke` 与 `packages/go-usb-ai/src/cli/commands/ncp/runtime` 的目录预算越界均已通过 `README.md` 显式记录豁免。完整命令仍退出 `1`，阻断点在当前工作区其它已触达文件的 `file-role-boundaries` 命名治理债，不是本次 Claude routing 或 smoke 脚本修正新增的问题。
 
 ## 发布/部署方式
 
-- 本次改动位于 `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk` 源码与 `packages/nextclaw` 回归测试。
+- 本次改动位于 `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk` 源码与 `packages/go-usb-ai` 回归测试。
 - 发布前需要确保插件包构建产物来自最新源码；本次已执行插件包 build。
 - 若进入 npm 发布批次，按现有 release 流程发布相关包即可。
 - 若只需本地验收，可直接对运行中的服务执行 `pnpm smoke:ncp-chat -- --session-type claude --model minimax/MiniMax-M2.7 --port 55667 --json`。

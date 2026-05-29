@@ -4,11 +4,11 @@
 
 - 按项目发布流程执行 `changeset -> version -> publish -> tag`。
 - 本次实际发布包：
-  - `nextclaw@0.6.0`
-  - `@nextclaw/core@0.6.0`
-  - `@nextclaw/server@0.4.0`
+  - `go-usb-ai@0.6.0`
+  - `@go-usb-ai/core@0.6.0`
+  - `@go-usb-ai/server@0.4.0`
 - 未发布包：
-  - `@nextclaw/ui@0.3.8`（npm 已存在同版本，changeset 自动跳过）
+  - `@go-usb-ai/ui@0.3.8`（npm 已存在同版本，changeset 自动跳过）
 - 发布内容覆盖：
   - 移除 OpenClaw plugin 兼容系统（CLI/运行时/配置链路）。
   - UI 配置 API 返回脱敏（不再返回 `token/secret/password/apiKey` 与授权类 header）。
@@ -22,17 +22,17 @@ export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
 pnpm release:check
 ```
 
-结果：通过（仅仓库既有 lint warning：`packages/nextclaw-core/src/channels/mochat.ts` 行数告警）。
+结果：通过（仅仓库既有 lint warning：`packages/go-usb-ai-core/src/channels/mochat.ts` 行数告警）。
 
 ### 冒烟测试（隔离目录）
 
 ```bash
 export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
-TMP_HOME=$(mktemp -d /tmp/nextclaw-release-smoke.XXXXXX)
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-release-smoke.XXXXXX)
 
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js --help
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels --help
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins --help
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js --help
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels --help
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins --help
 
 # API 脱敏冒烟（临时配置文件）
 node --input-type=module <<'EOF'
@@ -51,19 +51,19 @@ rm -rf "$TMP_HOME"
 ### 发布后验收
 
 ```bash
-npm view nextclaw@0.6.0 version
-npm view @nextclaw/core@0.6.0 version
-npm view @nextclaw/server@0.4.0 version
+npm view go-usb-ai@0.6.0 version
+npm view @go-usb-ai/core@0.6.0 version
+npm view @go-usb-ai/server@0.4.0 version
 
-npm view nextclaw dist-tags --json
-npm view @nextclaw/core dist-tags --json
-npm view @nextclaw/server dist-tags --json
+npm view go-usb-ai dist-tags --json
+npm view @go-usb-ai/core dist-tags --json
+npm view @go-usb-ai/server dist-tags --json
 ```
 
 结果：
 
 - 版本可查：`0.6.0 / 0.6.0 / 0.4.0`。
-- `dist-tags.latest` 分别为：`nextclaw=0.6.0`、`@nextclaw/core=0.6.0`、`@nextclaw/server=0.4.0`。
+- `dist-tags.latest` 分别为：`go-usb-ai=0.6.0`、`@go-usb-ai/core=0.6.0`、`@go-usb-ai/server=0.4.0`。
 
 ## 发布 / 部署方式
 
@@ -71,9 +71,9 @@ npm view @nextclaw/server dist-tags --json
   1. `pnpm release:version`
   2. `pnpm release:publish`
 - 自动创建 tag：
-  - `nextclaw@0.6.0`
-  - `@nextclaw/core@0.6.0`
-  - `@nextclaw/server@0.4.0`
+  - `go-usb-ai@0.6.0`
+  - `@go-usb-ai/core@0.6.0`
+  - `@go-usb-ai/server@0.4.0`
 - 本次仅 NPM 包发布：
   - 远程 migration：不适用（无数据库变更）
   - 服务部署：不适用（无线上服务部署动作）

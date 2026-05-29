@@ -25,7 +25,7 @@
   - 文件工具卡片现在明确区分 `preview` 与 `diff` 两种展示模式，不再把纯内容预览硬塞进双栏 diff 网格里。
   - `write_file` 与 `read_file` 统一使用单栏预览布局：只保留一列行号，把内容放回主体，去掉此前不必要的第二列行号和过大的左侧留白。
   - 单文件卡片在 header 已经展示路径时，预览区域不再重复再画一层路径头，信息层次更接近顶级产品常见的“header 承担定位、正文承载内容”。
-  - 文件面板的内层视觉进一步参考了 Cursor 一类产品的文件 diff 体验，但保留 NextClaw 的亮色风格：代码区域改为更中性的浅色面板，新增/删除行用更明确的绿/红层次表达，而不是继续让整个预览被 amber 容器色干扰。
+  - 文件面板的内层视觉进一步参考了 Cursor 一类产品的文件 diff 体验，但保留 GoUsbAi 的亮色风格：代码区域改为更中性的浅色面板，新增/删除行用更明确的绿/红层次表达，而不是继续让整个预览被 amber 容器色干扰。
   - 文件预览区进一步改成更接近 IDE 的结构：代码行不再自动换行，横向滚动仅作用在代码区，左侧 gutter 行号列与代码横向滚动彻底解耦，不再依赖 sticky 假装固定，也不会在拖到边界时被浏览器的横向回弹带一下。
   - `+N / -N` 的统计语义也统一回归纯文本：新增统一用绿色、删除统一用红色，不再额外包成 tag，减少视觉噪音。
   - 外层文件卡片布局进一步收敛为“更轻的工具外壳 + 更主导的编辑器面板”：减弱外层 amber 背景和阴影存在感，把视觉焦点重新交给内部的代码/差异面板，整体层级更接近 Cursor 一类产品常见的简约布局。
@@ -42,7 +42,7 @@
   - 文件工具正文内部的滚动区接入和聊天消息列表一致的 sticky-bottom 机制：当用户停留在底部阈值内时，新增内容会继续贴底跟随；一旦用户主动上滑离开阈值，就停止强制回到底部。
   - `write_file` 的运行中与完成态都改为完整预览模式，不再显示 `Preview truncated for streaming performance.` 这类为内部实现让位的提示；性能控制收敛为“大内容运行中默认不自动展开”，而不是直接裁内容。
   - 仍需截断的真正 diff 预览，提示文案改为更准确的 `Showing a shortened diff preview.`，避免把历史性能策略错误暴露给用户。
-  - 为了避免这轮续改把文件操作适配层重新堆成更大的平铺目录，`chat-message.file-operation-*` 相关实现进一步收敛到 `packages/nextclaw-ui/src/components/chat/adapters/file-operation/` 子目录，并拆出 `line-builder` 与 `record-readers` 两个职责单元，最终通过目录预算与文件预算闸门。
+  - 为了避免这轮续改把文件操作适配层重新堆成更大的平铺目录，`chat-message.file-operation-*` 相关实现进一步收敛到 `packages/go-usb-ai-ui/src/components/chat/adapters/file-operation/` 子目录，并拆出 `line-builder` 与 `record-readers` 两个职责单元，最终通过目录预算与文件预算闸门。
 - 同批次继续修正终端工具卡片，解决“结果区显示 JSON 对象而不是终端输出”的问题：
   - 终端卡片继续保留“上方命令、下方输出”的结构，但在展示层专门解析结构化结果，优先提取 `aggregated_output / stdout / stderr / output`，避免把整个结果对象直接渲染成 JSON。
   - 终端输出在展示层顺手去掉 ANSI 颜色控制字符，确保卡片里看到的是干净的人类可读终端文本，而不是终端协议残留。
@@ -87,62 +87,62 @@
   - 历史会话恢复时，不会再让重复的 legacy `tool.result` JSON 覆盖已有的结构化工具结果
 
 ## 测试/验证/验收方式
-- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui test -- src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx`
-- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts`
-- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-core test -- src/agent/tests/filesystem.tool.test.ts`
-- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-core tsc`
-- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui tsc`
-- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-core build`
-- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui build`
-- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-ui build`
+- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui test -- src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx`
+- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts`
+- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-core test -- src/agent/tests/filesystem.tool.test.ts`
+- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-core tsc`
+- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-core build`
+- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui build`
+- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 - 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainability:guard`
   - 结果：通过；warning 仅剩
-    - `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx` 本轮增长较多，后续可把 fixture / builder 再下切
-    - `packages/nextclaw-core/src/agent/tools` 目录仍是历史高密度目录，本次未继续恶化，但后续应按职责继续拆子树
-    - `packages/nextclaw-ui/src/components/chat/adapters/chat-message-part.adapter.ts` 接近文件预算
-    - `packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.test.ts` 接近文件预算
-- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui lint`
+    - `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx` 本轮增长较多，后续可把 fixture / builder 再下切
+    - `packages/go-usb-ai-core/src/agent/tools` 目录仍是历史高密度目录，本次未继续恶化，但后续应按职责继续拆子树
+    - `packages/go-usb-ai-ui/src/components/chat/adapters/chat-message-part.adapter.ts` 接近文件预算
+    - `packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.test.ts` 接近文件预算
+- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui lint`
   - 结果：仅历史 warning，无新增 error。
-- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-  - 结果：被既有无关问题阻断，失败点为 `packages/nextclaw-ui/src/components/path-picker/server-path-picker-dialog.test.tsx` 中未使用的 `container`；本次未顺手改动该历史文件。
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec vitest run src/components/chat/adapters/chat-message.adapter.test.ts`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.terminal.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.generic-tool.test.tsx`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw exec vitest run src/cli/commands/ncp/nextclaw-agent-session-store.test.ts`
+- 已执行：`PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+  - 结果：被既有无关问题阻断，失败点为 `packages/go-usb-ai-ui/src/components/path-picker/server-path-picker-dialog.test.tsx` 中未使用的 `container`；本次未顺手改动该历史文件。
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec vitest run src/components/chat/adapters/chat-message.adapter.test.ts`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.terminal.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.generic-tool.test.tsx`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/ncp/go-usb-ai-agent-session-store.test.ts`
 - 已执行：`curl -s "http://127.0.0.1:5174/api/ncp/sessions/ncp-mng3yilf-ikyeqi9s/messages?limit=5"`，确认本地开发页实际 API 已返回结构化 `tool-invocation.result`，问题点不在“后端没发”，而在前端适配/展示链路
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui tsc`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/adapters/chat-message.file-operation-card.ts src/components/chat/adapters/chat-message.file-operation-diff.ts src/components/chat/adapters/chat-message-part.adapter.ts src/components/chat/adapters/chat-message.adapter.test.ts`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui exec eslint src/components/chat/view-models/chat-ui.types.ts src/components/chat/index.ts src/components/chat/ui/chat-message-list/chat-tool-card.tsx src/components/chat/ui/chat-message-list/tool-card/tool-card-views.tsx src/components/chat/ui/chat-message-list/tool-card/tool-card-file-operation.tsx src/components/chat/ui/chat-message-list/chat-message-list.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/adapters/chat-message-part.adapter.ts src/components/chat/adapters/chat-message.adapter.test.ts src/components/chat/containers/chat-message-list.container.tsx src/components/chat/ncp/ncp-session-adapter.test.ts src/lib/i18n.chat.ts`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui exec eslint src/components/chat/ui/chat-message-list/tool-card/tool-card-views.tsx src/components/chat/ui/chat-message-list/chat-message-list.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.terminal.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.generic-tool.test.tsx src/components/chat/view-models/chat-ui.types.ts`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw test -- src/cli/commands/ncp/stream-encoder-order.test.ts`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- src/components/chat/ncp/ncp-session-adapter.test.ts`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- src/components/chat/useNcpAgentRuntime.test.tsx src/components/chat/ncp/ncp-session-adapter.test.ts`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts src/components/chat/ncp/ncp-session-adapter.test.ts`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec vitest run src/components/chat/adapters/chat-message.adapter.test.ts`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui test -- src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- src/agent/agent-conversation-state-manager.test.ts src/agent/__tests__/agent-conversation-state-manager.batch.test.ts`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-agent-runtime tsc`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp tsc`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-react tsc`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui tsc`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/adapters/chat-message.file-operation-card.ts src/components/chat/adapters/chat-message.file-operation-diff.ts src/components/chat/adapters/chat-message-part.adapter.ts src/components/chat/adapters/chat-message.adapter.test.ts`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui exec eslint src/components/chat/view-models/chat-ui.types.ts src/components/chat/index.ts src/components/chat/ui/chat-message-list/chat-tool-card.tsx src/components/chat/ui/chat-message-list/tool-card/tool-card-views.tsx src/components/chat/ui/chat-message-list/tool-card/tool-card-file-operation.tsx src/components/chat/ui/chat-message-list/chat-message-list.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/adapters/chat-message-part.adapter.ts src/components/chat/adapters/chat-message.adapter.test.ts src/components/chat/containers/chat-message-list.container.tsx src/components/chat/ncp/ncp-session-adapter.test.ts src/lib/i18n.chat.ts`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui exec eslint src/components/chat/ui/chat-message-list/tool-card/tool-card-views.tsx src/components/chat/ui/chat-message-list/chat-message-list.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.terminal.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.generic-tool.test.tsx src/components/chat/view-models/chat-ui.types.ts`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai test -- src/cli/commands/ncp/stream-encoder-order.test.ts`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- src/components/chat/ncp/ncp-session-adapter.test.ts`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- src/components/chat/useNcpAgentRuntime.test.tsx src/components/chat/ncp/ncp-session-adapter.test.ts`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts src/components/chat/ncp/ncp-session-adapter.test.ts`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec vitest run src/components/chat/adapters/chat-message.adapter.test.ts`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui test -- src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- src/agent/agent-conversation-state-manager.test.ts src/agent/__tests__/agent-conversation-state-manager.batch.test.ts`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-agent-runtime tsc`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp tsc`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-react tsc`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
 - 已执行：`PATH=/opt/homebrew/bin:$PATH node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths ...`
   - 结果：本次改动文件无 error，保留 3 条 warning：
-    - `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list` 目录历史上仍在预算线以上
-    - `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx` 接近测试文件预算
-    - `packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.test.ts` 本次增长较明显，后续可再拆 fixture / builder
+    - `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list` 目录历史上仍在预算线以上
+    - `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx` 接近测试文件预算
+    - `packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.test.ts` 本次增长较明显，后续可再拆 fixture / builder
 - 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard`
   - 结果：通过；当前仅保留 warning，不阻塞本次交付：
-    - `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent` 中的 `agent-conversation-state-manager.ts` 仍是历史超预算文件，但本次已较上一版缩小 1 行，未继续膨胀
-    - `packages/nextclaw-ui/src/components/chat` 目录有既有 exception，仍提示目录偏平
-    - `packages/nextclaw-ui/src/components/chat/adapters/chat-message-part.adapter.ts` 接近预算线
-    - `packages/nextclaw-ui/src/components/chat/adapters/chat-message.file-operation-card.ts` 接近预算线，但已较上一版减少 18 行
+    - `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent` 中的 `agent-conversation-state-manager.ts` 仍是历史超预算文件，但本次已较上一版缩小 1 行，未继续膨胀
+    - `packages/go-usb-ai-ui/src/components/chat` 目录有既有 exception，仍提示目录偏平
+    - `packages/go-usb-ai-ui/src/components/chat/adapters/chat-message-part.adapter.ts` 接近预算线
+    - `packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.file-operation-card.ts` 接近预算线，但已较上一版减少 18 行
 
 ## 发布/部署方式
 - 本次仅涉及聊天前端工具卡片与适配层体验升级，未执行发布。
@@ -168,4 +168,4 @@
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。关键决策不是继续在 UI 层猜行号，也不是继续保留双行号 gutter，而是停止伪造未知行号、删除预览场景里不必要的 `+/-` 列、在无行号时取消空白宽列，并把重复 JSX 收敛成一套复用组件。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：是。虽然为职责拆分新增了一个最小必要的行渲染组件文件和一个核心工具测试文件，但主展示文件同步瘦身，且问题不再靠前端补丁兜底，而是由工具层直接提供真实起始行号。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：是。文件工具链路现在分成“展示层文件卡片”“展示层复用行组件”“文件操作卡片数据提取”“行级构造与 hunk 行号解析”“记录字段读取”几层，边界比此前更清楚，没有再新增一层临时兜底抽象。
-- 目录结构与文件组织是否满足当前项目治理要求：是。本次新增的文件操作辅助模块已经下沉到 `packages/nextclaw-ui/src/components/chat/adapters/file-operation/`，展示层复用行组件也独立成文件；当前仅剩两个 warning：一个是文件预览测试文件本轮增长较多，后续可把 fixture / builder 再下切；另一个是 `chat-message-part.adapter.ts` 仍接近预算线，后续若该链路继续增长，应优先沿现有拆分缝继续下切。
+- 目录结构与文件组织是否满足当前项目治理要求：是。本次新增的文件操作辅助模块已经下沉到 `packages/go-usb-ai-ui/src/components/chat/adapters/file-operation/`，展示层复用行组件也独立成文件；当前仅剩两个 warning：一个是文件预览测试文件本轮增长较多，后续可把 fixture / builder 再下切；另一个是 `chat-message-part.adapter.ts` 仍接近预算线，后续若该链路继续增长，应优先沿现有拆分缝继续下切。

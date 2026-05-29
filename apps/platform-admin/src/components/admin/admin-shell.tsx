@@ -22,7 +22,7 @@ export function AdminShell({
     <div className="flex h-[calc(100vh-32px)] min-h-[720px] overflow-hidden rounded-[24px] border border-[#e4e0d7] bg-white shadow-[0_20px_60px_rgba(31,31,29,0.08)]">
       <aside className="flex w-[248px] shrink-0 flex-col border-r border-[#e4e0d7] bg-[#f3f2ee]">
         <div className="shrink-0 border-b border-[#e4e0d7] px-5 py-5">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8f8a7d]">NextClaw</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8f8a7d]">GoUsbAi</p>
           <h1 className="mt-2 text-[17px] font-semibold tracking-[-0.01em] text-[#1f1f1d]">Platform Admin</h1>
         </div>
 

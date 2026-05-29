@@ -2,7 +2,7 @@
 
 ## 背景
 
-本地首屏进入 NextClaw 时，`GET /api/ncp/sessions` 是几个初始接口里最慢的接口。实测环境中：
+本地首屏进入 GoUsbAi 时，`GET /api/ncp/sessions` 是几个初始接口里最慢的接口。实测环境中：
 
 - 本地 session 文件数：2491 个。
 - session 目录大小：约 253 MB。
@@ -15,7 +15,7 @@
 
 ### 1. UI transport 丢失 query
 
-`@nextclaw/client-sdk` 已经为 `sessions.list({ limit })` 构造 query，但 `packages/nextclaw-ui` 的 transport bridge 只传了 `method/path/body/signal/timeoutMs`，没有把 `query` 带给实际请求。结果前端首屏声明请求 `limit=200`，真实请求却退化成 `/api/ncp/sessions` 全量列表。
+`@go-usb-ai/client-sdk` 已经为 `sessions.list({ limit })` 构造 query，但 `packages/go-usb-ai-ui` 的 transport bridge 只传了 `method/path/body/signal/timeoutMs`，没有把 `query` 带给实际请求。结果前端首屏声明请求 `limit=200`，真实请求却退化成 `/api/ncp/sessions` 全量列表。
 
 ### 2. SessionStore metadata 读取过重
 

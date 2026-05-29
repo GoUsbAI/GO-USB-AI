@@ -15,7 +15,7 @@
 这次方案针对的不是单点坏文件，而是仓库已经出现的三类系统性结构退化：
 
 1. 目录组织继续发散  
-   核心目录如 `packages/nextclaw-server/src/ui`、`packages/nextclaw-ui/src/components/chat`、`packages/nextclaw-ui/src/components/config`、`workers/nextclaw-provider-gateway-api/src` 已经表现出“根目录过宽 + 多种组织模型并存 + shared 容器边界变弱”的趋势。
+   核心目录如 `packages/go-usb-ai-server/src/ui`、`packages/go-usb-ai-ui/src/components/chat`、`packages/go-usb-ai-ui/src/components/config`、`workers/go-usb-ai-provider-gateway-api/src` 已经表现出“根目录过宽 + 多种组织模型并存 + shared 容器边界变弱”的趋势。
 
 2. 本该有 owner abstraction 的逻辑仍以函数堆叠形式继续增长  
    问题不在于“函数不好”，而在于有状态、跨阶段、带生命周期或跨副作用编排的逻辑，没有稳定收敛到 class / manager / service / controller / presenter 这种 owner abstraction 中。
@@ -23,7 +23,7 @@
 3. 治理机制已有基础，但还没有形成真正的默认主链路  
    仓库里已经有 `lint:maintainability:guard`、`lint:new-code:governance`、`check:topology`、hotspot freeze、incremental paydown 等机制，但它们还没有被统一为“默认收尾必须过、CI 必须过、目录契约必须解释”的一条闭环。
 
-如果继续维持现状，结果不会只是“代码看起来乱一点”，而会直接伤害 NextClaw 作为统一入口产品的长期演进能力：
+如果继续维持现状，结果不会只是“代码看起来乱一点”，而会直接伤害 GoUsbAi 作为统一入口产品的长期演进能力：
 
 - 新能力越来越难找到正确落点
 - 边界继续模糊，review 成本持续升高
@@ -149,18 +149,18 @@
 
 本次机制硬化后，首批应纳入结构契约或冻结治理的目录：
 
-- `packages/nextclaw-server/src/ui`
-- `packages/nextclaw-ui/src/components/chat`
-- `packages/nextclaw-ui/src/components/config`
-- `workers/nextclaw-provider-gateway-api/src`
+- `packages/go-usb-ai-server/src/ui`
+- `packages/go-usb-ai-ui/src/components/chat`
+- `packages/go-usb-ai-ui/src/components/config`
+- `workers/go-usb-ai-provider-gateway-api/src`
 - `apps/platform-admin/src`
 - `apps/platform-console/src`
 
 其中优先级最高的是前三类：
 
-- `packages/nextclaw-server/src/ui`
-- `packages/nextclaw-ui/src/components/chat`
-- `workers/nextclaw-provider-gateway-api/src`
+- `packages/go-usb-ai-server/src/ui`
+- `packages/go-usb-ai-ui/src/components/chat`
+- `workers/go-usb-ai-provider-gateway-api/src`
 
 原因：
 
@@ -286,7 +286,7 @@ Markdown 可以解释背景，`contract data source` 才能成为脚本的单一
 
 ## 10. 目录级冻结策略
 
-`scripts/lint-new-code-frozen-directories.mjs` 当前只冻结了 `packages/nextclaw-core/src/agent`，这远远不够。
+`scripts/lint-new-code-frozen-directories.mjs` 当前只冻结了 `packages/go-usb-ai-core/src/agent`，这远远不够。
 
 建议首批扩展为：
 
@@ -294,9 +294,9 @@ Markdown 可以解释背景，`contract data source` 才能成为脚本的单一
 
 新增或评估冻结：
 
-- `packages/nextclaw-server/src/ui`
-- `workers/nextclaw-provider-gateway-api/src`
-- `packages/nextclaw-ui/src/components/config`
+- `packages/go-usb-ai-server/src/ui`
+- `workers/go-usb-ai-provider-gateway-api/src`
+- `packages/go-usb-ai-ui/src/components/config`
 
 冻结策略不是“一刀切禁止修改”，而是：
 

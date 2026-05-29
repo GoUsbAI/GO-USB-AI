@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-- 修复 dev/runtime 后台异步任务在 Node 22 下因未处理 Promise 拒绝直接打死 `nextclaw serve` 进程的问题。
+- 修复 dev/runtime 后台异步任务在 Node 22 下因未处理 Promise 拒绝直接打死 `go-usb-ai serve` 进程的问题。
 - 为 `HeartbeatService` 增加后台 tick 安全包装：heartbeat 调用模型失败时改为记录明确日志，不再让未处理拒绝直接退出进程。
 - 为 `CronService` 增加后台定时器安全包装：定时执行链路出现意外异常时记录日志并继续重挂定时器，避免 scheduler 因一次后台异常停摆。
 - 为 session realtime bridge 增加 fire-and-forget 发布失败日志：会话变更的后台推送失败时改为显式记录 `[session-realtime] ...`，不再把异常悬空到进程级。
@@ -11,20 +11,20 @@
 ## 测试/验证/验收方式
 
 - 定向测试：
-  - `pnpm -C packages/nextclaw-core exec vitest run src/heartbeat/service.test.ts src/cron/service.test.ts`
-  - `pnpm -C packages/nextclaw exec vitest run src/cli/commands/service-support/session/tests/service-ncp-session-realtime-bridge.test.ts src/cli/commands/service-support/session/tests/service-ncp-session-realtime-bridge.fire-and-forget.test.ts`
+  - `pnpm -C packages/go-usb-ai-core exec vitest run src/heartbeat/service.test.ts src/cron/service.test.ts`
+  - `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/service-support/session/tests/service-ncp-session-realtime-bridge.test.ts src/cli/commands/service-support/session/tests/service-ncp-session-realtime-bridge.fire-and-forget.test.ts`
 - 类型检查：
-  - `pnpm -C packages/nextclaw-core tsc -p tsconfig.json`
-  - `pnpm -C packages/nextclaw tsc -p tsconfig.json`
-    - 命中仓库既有无关失败：`packages/nextclaw-server/src/ui/ui-routes/marketplace/installed.ts` 中 `Set<string | undefined>` 到 `Set<string>` 的类型不兼容，本次未改该文件。
+  - `pnpm -C packages/go-usb-ai-core tsc -p tsconfig.json`
+  - `pnpm -C packages/go-usb-ai tsc -p tsconfig.json`
+    - 命中仓库既有无关失败：`packages/go-usb-ai-server/src/ui/ui-routes/marketplace/installed.ts` 中 `Set<string | undefined>` 到 `Set<string>` 的类型不兼容，本次未改该文件。
 - 可维护性守卫：
   - `pnpm lint:maintainability:guard`
     - 本次新增/修改文件相关治理规则通过。
-    - 命中工作区既有无关失败：`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/legacy/chat-composer-view-controller.ts` 的 `context-destructuring` 治理问题，不在本次改动文件内。
+    - 命中工作区既有无关失败：`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/legacy/chat-composer-view-controller.ts` 的 `context-destructuring` 治理问题，不在本次改动文件内。
 
 ## 发布/部署方式
 
-- 本次触达 `@nextclaw/core` 与 `nextclaw` 开发态/运行态链路。
+- 本次触达 `@go-usb-ai/core` 与 `go-usb-ai` 开发态/运行态链路。
 - 若正式发布，按常规 changeset / version / publish 闭环发出受影响包，并在发布包环境复验：
   - 后台 heartbeat 出错时服务进程仍存活。
   - cron 定时执行异常时后续调度仍继续。
@@ -64,7 +64,7 @@
   - 更清晰。错误边界仍留在各自后台入口处，heartbeat 负责 heartbeat，cron 负责 cron，session realtime bridge 负责 fire-and-forget 发布，不把复杂度转移到全局 runtime。
 - 目录结构与文件组织是否满足当前项目治理要求：
   - 本次新增文件组织满足当前命名与分层要求。
-  - 仓库内仍有既有治理债务：`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar` 目录预算超限，且存在无关的 `context-destructuring` 治理失败；已在守卫中记录，但不属于本次问题域。
+  - 仓库内仍有既有治理债务：`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar` 目录预算超限，且存在无关的 `context-destructuring` 治理失败；已在守卫中记录，但不属于本次问题域。
 - 基于独立 `post-edit-maintainability-review` 的复核结论：
   - 可维护性复核结论：通过
   - 本次顺手减债：是

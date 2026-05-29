@@ -5,11 +5,11 @@
 - 新判定条件：仅当 `/api/health` 响应满足 `payload.ok === true && payload.data.status === "ok"` 时，才视为健康并展示连接态。
 
 ## 测试/验证/验收方式
-- `pnpm -C packages/nextclaw-ui tsc`（通过）
-- `pnpm -C packages/nextclaw-ui build`（通过）
+- `pnpm -C packages/go-usb-ai-ui tsc`（通过）
+- `pnpm -C packages/go-usb-ai-ui build`（通过）
 
 ## 发布/部署方式
-- 发布前执行：`pnpm -C packages/nextclaw-ui tsc && pnpm -C packages/nextclaw-ui build`
+- 发布前执行：`pnpm -C packages/go-usb-ai-ui tsc && pnpm -C packages/go-usb-ai-ui build`
 - 正式发布按仓库既有 release/changeset 流程。
 - 不适用项：远程 migration（未涉及数据库变更）。
 

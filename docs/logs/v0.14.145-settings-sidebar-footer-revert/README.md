@@ -9,20 +9,20 @@
   - 主题与语言恢复为下拉选择。
   - 帮助文档入口恢复为原先的一行按钮样式。
 - 同步将测试回退到与当前设计一致的结构断言，仅保留滚动适配相关验证：
-  - [`packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx`](../../../packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx)
+  - [`packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx`](../../../packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx)
 
 ## 测试 / 验证 / 验收方式
 
 - 单测：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui test -- src/components/layout/sidebar.layout.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui test -- src/components/layout/sidebar.layout.test.tsx`
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui tsc`
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui build`
 - 定向 lint：
   - `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint src/components/layout/Sidebar.tsx src/components/layout/sidebar.layout.test.tsx`
 - 可维护性自检：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/layout/Sidebar.tsx packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx`
 
 ## 发布 / 部署方式
 

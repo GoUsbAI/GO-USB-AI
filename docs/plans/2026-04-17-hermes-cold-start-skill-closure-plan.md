@@ -3,8 +3,8 @@
 > This closure plan is subordinate to and constrained by [2026-04-17-hermes-acp-runtime-route-bridge-design.md](/Users/peiwang/Projects/nextbot/docs/plans/2026-04-17-hermes-acp-runtime-route-bridge-design.md). If any sentence below conflicts with that design doc, the design doc wins.
 
 **Goal:** 把 `hermes-runtime` skill 收口成“能指导 AI 为零预设新用户完成 Hermes 安装、接入、验证”的执行方案，并且主链严格使用 `hermes acp`，而不是 API server/connector 叙事。  
-**Architecture:** `Hermes install -> hermes acp -> NextClaw runtime entry -> readiness -> real smoke`。  
-**Tech Stack:** Hermes 官方 installer、`hermes acp`、NextClaw `narp-stdio` runtime entry、真实 chat smoke。
+**Architecture:** `Hermes install -> hermes acp -> GoUsbAi runtime entry -> readiness -> real smoke`。  
+**Tech Stack:** Hermes 官方 installer、`hermes acp`、GoUsbAi `narp-stdio` runtime entry、真实 chat smoke。
 
 ---
 
@@ -29,7 +29,7 @@
 
 - `Hermes API server`
 - `stdio connector`
-- `nextclaw-hermes-stdio-connector`
+- `go-usb-ai-hermes-stdio-connector`
 - “先配 API server 再接 runtime entry”
 
 这些内容若仍出现在 skill 或 AI 的默认执行剧本中，都属于需要修正的偏差。
@@ -55,7 +55,7 @@ skill 必须明确执行：
 3. `hermes --help`
 4. `hermes acp --help`
 5. 若 ACP extra 缺失，则补 `hermes-agent[acp]`
-6. 写 NextClaw runtime entry
+6. 写 GoUsbAi runtime entry
 7. 查 `/api/ncp/session-types`
 8. 跑真实 smoke
 9. 必要时复测或二次验证
@@ -74,10 +74,10 @@ skill 必须明确执行：
 
 ### 4.2 隔离冷启动环境验证
 
-使用临时 `HOME` / `NEXTCLAW_HOME`：
+使用临时 `HOME` / `GOUSB_AI_HOME`：
 
 - 不复用用户原本的 Hermes home
-- 不复用用户原本的 NextClaw home
+- 不复用用户原本的 GoUsbAi home
 
 验证顺序：
 

@@ -1,6 +1,6 @@
 # 迭代完成说明
 
-- 修复 `@nextclaw/openclaw-compat` 的 plugin runtime 契约缺口，补上飞书插件当前消息主链会直接调用的能力面：
+- 修复 `@go-usb-ai/openclaw-compat` 的 plugin runtime 契约缺口，补上飞书插件当前消息主链会直接调用的能力面：
   - `channel.debounce`
   - `channel.text`
   - `channel.reply`
@@ -16,11 +16,11 @@
 
 # 测试 / 验证 / 验收方式
 
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-openclaw-compat exec vitest run src/plugins/runtime.test.ts`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-openclaw-compat tsc`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-openclaw-compat build`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw tsc`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw build`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-openclaw-compat exec vitest run src/plugins/runtime.test.ts`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-openclaw-compat tsc`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-openclaw-compat build`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai tsc`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai build`
 - 真实启动链验证：
   - 用当前本地配置只启动飞书 plugin gateway
   - 观察到日志已从原来的 `Cannot read properties of undefined (reading 'resolveInboundDebounceMs')` 前进到：
@@ -33,13 +33,13 @@
 - 本次仅完成代码修复与本地验证，未执行新的 npm 发布。
 - 若后续需要发布，按项目既有流程执行：
   - 更新版本 / changeset
-  - 发布 `@nextclaw/openclaw-compat`
-  - 联动发布依赖该包且受影响的 `nextclaw`
+  - 发布 `@go-usb-ai/openclaw-compat`
+  - 联动发布依赖该包且受影响的 `go-usb-ai`
   - 发布后再次做本地和真实配置冒烟
 
 # 用户 / 产品视角的验收步骤
 
-1. 使用当前仓库代码重新启动本地 `nextclaw` 服务。
+1. 使用当前仓库代码重新启动本地 `go-usb-ai` 服务。
 2. 查看本地日志，确认不再出现：
    - `failed to start channel gateway for feishu/default: TypeError: Cannot read properties of undefined (reading 'resolveInboundDebounceMs')`
 3. 给飞书 bot 发送一条普通文本消息。

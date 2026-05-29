@@ -25,17 +25,17 @@
 
 已执行验证：
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/core build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ncp build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ncp-agent-runtime build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts src/cli/commands/ncp/stream-encoder-order.test.ts src/cli/commands/ncp/nextclaw-agent-session-store.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/core build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ncp build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ncp-agent-runtime build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts src/cli/commands/ncp/stream-encoder-order.test.ts src/cli/commands/ncp/go-usb-ai-agent-session-store.test.ts`
 
 本次新增回归点：
 
 - `stream-encoder-order.test.ts`
   - 验证 reasoning 与 text 同 chunk 时，NCP 事件顺序为 reasoning 在前。
-- `nextclaw-agent-session-store.test.ts`
+- `go-usb-ai-agent-session-store.test.ts`
   - 验证 assistant part 顺序在 save/load 后保持不变。
 - `create-ui-ncp-agent.test.ts`
   - 验证 tool round 续跑时会把 `reasoning_content` 带进 assistant(tool_calls) 历史消息。
@@ -46,9 +46,9 @@
 
 为了让当前工作区运行时实际吃到修复后的内部包实现，已在本地重新构建：
 
-- `@nextclaw/core`
-- `@nextclaw/ncp`
-- `@nextclaw/ncp-agent-runtime`
+- `@go-usb-ai/core`
+- `@go-usb-ai/ncp`
+- `@go-usb-ai/ncp-agent-runtime`
 
 如果后续需要正式发布，应继续按既有版本与发布流程处理。
 

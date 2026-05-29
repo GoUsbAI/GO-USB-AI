@@ -6,14 +6,14 @@
 
 **Architecture:** 不新增第二套 project context 框架，也不继续在各 runtime 上散落补丁；直接升级既有 `SkillsLoader`、`session/project-root`、`runtime-context` 与 UI server skill 暴露链路。最终形成一条单一主链路：`session.metadata.project_root -> resolved session context -> bootstrap/skills snapshot -> prompt/UI consumption`，并删除旧的分叉加载逻辑。skill 不再按名字去重或覆盖，而是允许同名并存，统一通过唯一 `skillRef` 传递和解析。
 
-**Tech Stack:** TypeScript, NextClaw core runtime-context, existing `SkillsLoader`, session metadata pipeline, Hono UI router, React Query, Zustand, Vitest
+**Tech Stack:** TypeScript, GoUsbAi core runtime-context, existing `SkillsLoader`, session metadata pipeline, Hono UI router, React Query, Zustand, Vitest
 
 ---
 
 ## 0. 相关文档
 
 - [Chat Session Project Root Design](./2026-04-01-chat-session-project-root-design.md)
-- [NextClaw 产品愿景](../VISION.md)
+- [GoUsbAi 产品愿景](../VISION.md)
 
 这份文档不是替代 `2026-04-01` 的 project root 设计，而是承接它的下一步：把已经成立的 `project_root` 产品抽象，升级为真正统一、可维护、可复用的 session-scoped project context 实现方案。
 
@@ -32,7 +32,7 @@
 1. 同一会话在 UI 看到的 skill、prompt 中暴露的 skill、runtime 真正能读取的 skill 可能不一致。
 2. 再继续修只会演化成更多 `if (projectRoot)` 和更多 runtime 特判。
 3. 当前 skill 仍然默认按 `name` 思维建模，无法正确表达“同名但不同来源”的并存能力。
-4. `project_root` 被降格成“只影响 cwd 的字段”，而不是 NextClaw 作为统一入口所需要的“项目上下文锚点”。
+4. `project_root` 被降格成“只影响 cwd 的字段”，而不是 GoUsbAi 作为统一入口所需要的“项目上下文锚点”。
 
 因此，这次不是补一条扫描逻辑，而是要把 `project_root` 升级为 session-scoped project context 的主语。
 
@@ -151,16 +151,16 @@ Prompt 必须显式区分：
 
 以下抽象保留，但需要升级：
 
-- [`packages/nextclaw-core/src/agent/skills.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/skills.ts)
-- [`packages/nextclaw-core/src/session/project-root.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/session/project-root.ts)
-- [`packages/nextclaw-core/src/runtime-context/bootstrap-context.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/runtime-context/bootstrap-context.ts)
-- [`packages/nextclaw-core/src/runtime-context/runtime-user-prompt.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/runtime-context/runtime-user-prompt.ts)
+- [`packages/go-usb-ai-core/src/agent/skills.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/skills.ts)
+- [`packages/go-usb-ai-core/src/session/project-root.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/session/project-root.ts)
+- [`packages/go-usb-ai-core/src/runtime-context/bootstrap-context.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/runtime-context/bootstrap-context.ts)
+- [`packages/go-usb-ai-core/src/runtime-context/runtime-user-prompt.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/runtime-context/runtime-user-prompt.ts)
 
 ### 4.2 兼容壳后续删除
 
 以下抽象不应继续扩张，完成迁移后应删除或退化：
 
-- [`packages/nextclaw-core/src/runtime-context/layered-skills-loader.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/runtime-context/layered-skills-loader.ts)
+- [`packages/go-usb-ai-core/src/runtime-context/layered-skills-loader.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/runtime-context/layered-skills-loader.ts)
 
 原因：
 
@@ -171,9 +171,9 @@ Prompt 必须显式区分：
 
 以下逻辑必须迁移到统一抽象上：
 
-- [`packages/extensions/nextclaw-engine-plugin-codex-sdk/src/index.ts`](/Users/peiwang/Projects/nextbot/packages/extensions/nextclaw-engine-plugin-codex-sdk/src/index.ts)
-- [`packages/extensions/nextclaw-engine-plugin-claude-agent-sdk/src/index.ts`](/Users/peiwang/Projects/nextbot/packages/extensions/nextclaw-engine-plugin-claude-agent-sdk/src/index.ts)
-- [`packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/claude-runtime-context.ts`](/Users/peiwang/Projects/nextbot/packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/claude-runtime-context.ts)
+- [`packages/extensions/go-usb-ai-engine-plugin-codex-sdk/src/index.ts`](/Users/peiwang/Projects/nextbot/packages/extensions/go-usb-ai-engine-plugin-codex-sdk/src/index.ts)
+- [`packages/extensions/go-usb-ai-engine-plugin-claude-agent-sdk/src/index.ts`](/Users/peiwang/Projects/nextbot/packages/extensions/go-usb-ai-engine-plugin-claude-agent-sdk/src/index.ts)
+- [`packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/claude-runtime-context.ts`](/Users/peiwang/Projects/nextbot/packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/claude-runtime-context.ts)
 - UI server 的 skill 暴露与 installed/available list 逻辑
 
 ## 5. 目标结构
@@ -184,7 +184,7 @@ Prompt 必须显式区分：
 
 建议目录：
 
-- `packages/nextclaw-core/src/session/session-project-context.ts`
+- `packages/go-usb-ai-core/src/session/session-project-context.ts`
 
 输出类型建议：
 
@@ -387,9 +387,9 @@ UI server 不再只按 host workspace 视角返回 skills。
 ### Task 1: 升级 session project context 解析入口
 
 **Files:**
-- Modify: [`packages/nextclaw-core/src/session/project-root.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/session/project-root.ts)
-- Create: [`packages/nextclaw-core/src/session/session-project-context.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/session/session-project-context.ts)
-- Test: `packages/nextclaw-core/src/session/project-root.test.ts`
+- Modify: [`packages/go-usb-ai-core/src/session/project-root.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/session/project-root.ts)
+- Create: [`packages/go-usb-ai-core/src/session/session-project-context.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/session/session-project-context.ts)
+- Test: `packages/go-usb-ai-core/src/session/project-root.test.ts`
 
 **Steps:**
 1. 把现有 `readSessionProjectRoot/resolveSessionWorkspacePath` 保留为兼容入口。
@@ -404,9 +404,9 @@ UI server 不再只按 host workspace 视角返回 skills。
 ### Task 2: 升级 `SkillsLoader` 为多 scope loader
 
 **Files:**
-- Modify: [`packages/nextclaw-core/src/agent/skills.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/skills.ts)
-- Modify/Delete: [`packages/nextclaw-core/src/runtime-context/layered-skills-loader.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/runtime-context/layered-skills-loader.ts)
-- Test: `packages/nextclaw-core/src/agent/tests/context.test.ts`
+- Modify: [`packages/go-usb-ai-core/src/agent/skills.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/skills.ts)
+- Modify/Delete: [`packages/go-usb-ai-core/src/runtime-context/layered-skills-loader.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/runtime-context/layered-skills-loader.ts)
+- Test: `packages/go-usb-ai-core/src/agent/tests/context.test.ts`
 
 **Steps:**
 1. 把构造器改为支持 `projectRoot` 或显式 project skills path。
@@ -421,9 +421,9 @@ UI server 不再只按 host workspace 视角返回 skills。
 ### Task 3: 升级 runtime prompt 的 project context 分块
 
 **Files:**
-- Modify: [`packages/nextclaw-core/src/runtime-context/bootstrap-context.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/runtime-context/bootstrap-context.ts)
-- Modify: [`packages/nextclaw-core/src/runtime-context/runtime-user-prompt.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/runtime-context/runtime-user-prompt.ts)
-- Test: [`packages/nextclaw-core/src/agent/tests/runtime-user-prompt.test.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/tests/runtime-user-prompt.test.ts)
+- Modify: [`packages/go-usb-ai-core/src/runtime-context/bootstrap-context.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/runtime-context/bootstrap-context.ts)
+- Modify: [`packages/go-usb-ai-core/src/runtime-context/runtime-user-prompt.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/runtime-context/runtime-user-prompt.ts)
+- Test: [`packages/go-usb-ai-core/src/agent/tests/runtime-user-prompt.test.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/tests/runtime-user-prompt.test.ts)
 
 **Steps:**
 1. 用 `resolveSessionProjectContext(...)` 取代散落的 `projectRoot/hostWorkspace` 读法。
@@ -437,9 +437,9 @@ UI server 不再只按 host workspace 视角返回 skills。
 ### Task 4: 替换 runtime 私有 skills 装配
 
 **Files:**
-- Modify: [`packages/extensions/nextclaw-engine-plugin-codex-sdk/src/index.ts`](/Users/peiwang/Projects/nextbot/packages/extensions/nextclaw-engine-plugin-codex-sdk/src/index.ts)
-- Modify: [`packages/extensions/nextclaw-engine-plugin-claude-agent-sdk/src/index.ts`](/Users/peiwang/Projects/nextbot/packages/extensions/nextclaw-engine-plugin-claude-agent-sdk/src/index.ts)
-- Modify: [`packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/claude-runtime-context.ts`](/Users/peiwang/Projects/nextbot/packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/claude-runtime-context.ts)
+- Modify: [`packages/extensions/go-usb-ai-engine-plugin-codex-sdk/src/index.ts`](/Users/peiwang/Projects/nextbot/packages/extensions/go-usb-ai-engine-plugin-codex-sdk/src/index.ts)
+- Modify: [`packages/extensions/go-usb-ai-engine-plugin-claude-agent-sdk/src/index.ts`](/Users/peiwang/Projects/nextbot/packages/extensions/go-usb-ai-engine-plugin-claude-agent-sdk/src/index.ts)
+- Modify: [`packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/claude-runtime-context.ts`](/Users/peiwang/Projects/nextbot/packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/claude-runtime-context.ts)
 - Modify: 相关 runtime tests
 
 **Steps:**
@@ -454,8 +454,8 @@ UI server 不再只按 host workspace 视角返回 skills。
 ### Task 5: 暴露 session-aware skill list API
 
 **Files:**
-- Modify: [`packages/nextclaw-server/src/ui/router/types.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-server/src/ui/router/types.ts)
-- Modify: [`packages/nextclaw-server/src/ui/router/marketplace/installed.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-server/src/ui/router/marketplace/installed.ts)
+- Modify: [`packages/go-usb-ai-server/src/ui/router/types.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-server/src/ui/router/types.ts)
+- Modify: [`packages/go-usb-ai-server/src/ui/router/marketplace/installed.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-server/src/ui/router/marketplace/installed.ts)
 - Create/Modify: session-scoped skill list route/controller
 - Test: server route tests
 
@@ -539,25 +539,25 @@ UI server 不再只按 host workspace 视角返回 skills。
 ### Phase 1
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core test -- --run src/session/project-root.test.ts src/agent/tests/context.test.ts
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core exec tsc -p tsconfig.json --noEmit
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core test -- --run src/session/project-root.test.ts src/agent/tests/context.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core exec tsc -p tsconfig.json --noEmit
 ```
 
 ### Phase 2
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core test -- --run src/agent/tests/runtime-user-prompt.test.ts
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-engine-plugin-codex-sdk exec tsc -p tsconfig.json --noEmit
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-engine-plugin-claude-agent-sdk exec tsc -p tsconfig.json --noEmit
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk exec tsc -p tsconfig.json --noEmit
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core test -- --run src/agent/tests/runtime-user-prompt.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-engine-plugin-codex-sdk exec tsc -p tsconfig.json --noEmit
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-engine-plugin-claude-agent-sdk exec tsc -p tsconfig.json --noEmit
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk exec tsc -p tsconfig.json --noEmit
 ```
 
 ### Phase 3
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server test -- --run src/ui/router.marketplace-manage.test.ts src/ui/router.marketplace-content.test.ts
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- --run src/components/chat/**/*.test.tsx src/components/chat/**/*.test.ts
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec tsc -p tsconfig.json --noEmit
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.marketplace-manage.test.ts src/ui/router.marketplace-content.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- --run src/components/chat/**/*.test.tsx src/components/chat/**/*.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec tsc -p tsconfig.json --noEmit
 ```
 
 ### 全阶段收尾

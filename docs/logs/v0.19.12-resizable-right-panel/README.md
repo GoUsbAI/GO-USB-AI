@@ -11,13 +11,13 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui test -- src/shared/components/resizable-right-panel/resizable-right-panel.test.tsx src/shared/components/doc-browser/doc-browser.test.tsx src/shared/components/doc-browser/doc-browser-context.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/managers/chat-session-list.manager.test.ts`
+- `pnpm --filter @go-usb-ai/ui test -- src/shared/components/resizable-right-panel/resizable-right-panel.test.tsx src/shared/components/doc-browser/doc-browser.test.tsx src/shared/components/doc-browser/doc-browser-context.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/managers/chat-session-list.manager.test.ts`
   - 通过，5 个测试文件、36 个测试用例通过。
-- `pnpm --filter @nextclaw/ui tsc`
+- `pnpm --filter @go-usb-ai/ui tsc`
   - 通过。
-- `pnpm --filter @nextclaw/ui exec eslint src/shared/components/resizable-right-panel/resizable-right-panel.tsx src/shared/components/resizable-right-panel/resizable-right-panel.test.tsx src/shared/components/doc-browser/doc-browser.tsx src/shared/components/doc-browser/doc-browser.test.tsx src/shared/components/doc-browser/doc-browser-context.tsx src/shared/components/doc-browser/doc-browser-context.test.tsx src/features/chat/components/chat-session-workspace-panel.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/managers/chat-session-list.manager.ts src/features/chat/managers/chat-session-list.manager.test.ts`
+- `pnpm --filter @go-usb-ai/ui exec eslint src/shared/components/resizable-right-panel/resizable-right-panel.tsx src/shared/components/resizable-right-panel/resizable-right-panel.test.tsx src/shared/components/doc-browser/doc-browser.tsx src/shared/components/doc-browser/doc-browser.test.tsx src/shared/components/doc-browser/doc-browser-context.tsx src/shared/components/doc-browser/doc-browser-context.test.tsx src/features/chat/components/chat-session-workspace-panel.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/managers/chat-session-list.manager.ts src/features/chat/managers/chat-session-list.manager.test.ts`
   - 通过，无 errors；剩余 3 个既有 warning，集中在 `DocBrowser` / `DocBrowserProvider` 超长函数和 context destructuring。
-- `pnpm --filter @nextclaw/ui lint`
+- `pnpm --filter @go-usb-ai/ui lint`
   - 未通过，阻塞来自本次未触达的既有 lint errors；本次触达文件已使用 targeted ESLint 验证。
 - `pnpm lint:new-code:governance`
   - 通过。
@@ -26,8 +26,8 @@
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths ...`
   - 通过，无 errors；非测试代码新增 137 行、删除 147 行、净减 10 行。提示 `DocBrowser` / `DocBrowserProvider` 接近文件预算，但本次二者均减少行数。
 - 本地 Vite 冒烟：
-  - `pnpm --filter @nextclaw/ui exec vite --host 127.0.0.1 --port 5184`
-  - Playwright 打开 `http://127.0.0.1:5184/`，页面标题为 `NextClaw - Chat`，无 page error，并确认新增 `ResizableRightPanel` 模块可由 Vite 正常转换加载。
+  - `pnpm --filter @go-usb-ai/ui exec vite --host 127.0.0.1 --port 5184`
+  - Playwright 打开 `http://127.0.0.1:5184/`，页面标题为 `GoUsbAi - Chat`，无 page error，并确认新增 `ResizableRightPanel` 模块可由 Vite 正常转换加载。
 
 ## 发布/部署方式
 
@@ -36,7 +36,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 NextClaw UI 桌面宽度页面。
+1. 打开 GoUsbAi UI 桌面宽度页面。
 2. 打开内嵌文档浏览器并保持 docked 侧栏模式，拖拽左侧边缘，确认右侧文档面板宽度变化且不会小于最小宽度。
 3. 在 chat 会话中打开子会话/文件预览/session cron 右侧 workspace 面板，拖拽左侧边缘，确认右侧 workspace 面板宽度变化。
 4. 缩到移动布局时，workspace 面板仍使用 overlay，不显示 resize handle。

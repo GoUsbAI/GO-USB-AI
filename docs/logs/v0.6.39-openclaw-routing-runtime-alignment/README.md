@@ -28,7 +28,7 @@
 
 ### 1) 单元验证
 
-- `pnpm -C packages/nextclaw-core test -- --run`
+- `pnpm -C packages/go-usb-ai-core test -- --run`
   - `src/agent/route-resolver.test.ts`（bindings + dmScope + session key）
   - `src/agent/tools/sessions-send.test.ts`（ping-pong 限制与跨 Agent handoff）
 
@@ -43,7 +43,7 @@
 ### 3) 冒烟验证（非仓库目录）
 
 - 执行环境：`/tmp`
-- 命令：`node /tmp/nextclaw-smoke.mts`
+- 命令：`node /tmp/go-usb-ai-smoke.mts`
 - 观察点：
   - bindings 命中 `engineer`
   - Discord `requireMention` 生效（未提及不入站，提及后入站）
@@ -67,19 +67,19 @@
 已执行发布闭环：
 
 1. 生成 changeset（覆盖受影响包联动发布）：
-   - `@nextclaw/core`
-   - `@nextclaw/channel-runtime`
-   - `@nextclaw/openclaw-compat`
-   - `@nextclaw/server`
-   - `nextclaw`
+   - `@go-usb-ai/core`
+   - `@go-usb-ai/channel-runtime`
+   - `@go-usb-ai/openclaw-compat`
+   - `@go-usb-ai/server`
+   - `go-usb-ai`
 2. 执行版本提升：`pnpm changeset version`
 3. 执行发布：`pnpm changeset publish`
 4. 发布后回归：最小路由冒烟 + Discord/Telegram mention gate 冒烟
 
 已发布版本：
 
-- `@nextclaw/core@0.6.22`
-- `@nextclaw/channel-runtime@0.1.8`
-- `@nextclaw/openclaw-compat@0.1.15`
-- `@nextclaw/server@0.4.7`
-- `nextclaw@0.6.23`
+- `@go-usb-ai/core@0.6.22`
+- `@go-usb-ai/channel-runtime@0.1.8`
+- `@go-usb-ai/openclaw-compat@0.1.15`
+- `@go-usb-ai/server@0.4.7`
+- `go-usb-ai@0.6.23`

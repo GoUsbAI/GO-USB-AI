@@ -1,21 +1,21 @@
-# NextClaw User Guide
+# GoUsbAi User Guide
 
-This guide covers installation, configuration, channels, tools, automation, and troubleshooting for NextClaw.
+This guide covers installation, configuration, channels, tools, automation, and troubleshooting for GoUsbAi.
 
 ---
 
 ## AI Self-Management Contract
 
-When NextClaw AI needs to operate the product itself (version/status/doctor/service/plugins/channels/config/agents/cron/remote/update), follow these rules:
+When GoUsbAi AI needs to operate the product itself (version/status/doctor/service/plugins/channels/config/agents/cron/remote/update), follow these rules:
 
-1. **Read the built-in self-management guide first**. The packaged runtime copy lives at `packages/nextclaw/resources/USAGE.md`, and this repo page is kept aligned with it.
-2. **Use the exact command for the intent**: use `nextclaw --version` for version lookup; do not infer version from `status`.
+1. **Read the built-in self-management guide first**. The packaged runtime copy lives at `packages/go-usb-ai/resources/USAGE.md`, and this repo page is kept aligned with it.
+2. **Use the exact command for the intent**: use `go-usb-ai --version` for version lookup; do not infer version from `status`.
 3. **Prefer machine-readable output** (`--json`) whenever available.
-4. **Discover runtime HTTP addresses from `nextclaw status --json`** before calling local APIs or `/webhook`; use `endpoints.uiUrl` and `endpoints.apiUrl` instead of guessing ports.
-5. **Close the loop after changes** with `nextclaw status --json` (and `nextclaw doctor --json` when needed).
+4. **Discover runtime HTTP addresses from `go-usb-ai status --json`** before calling local APIs or `/webhook`; use `endpoints.uiUrl` and `endpoints.apiUrl` instead of guessing ports.
+5. **Close the loop after changes** with `go-usb-ai status --json` (and `go-usb-ai doctor --json` when needed).
 6. **Be explicit about restart semantics** (hot-apply, auto-restart, or manual restart required).
-7. **Never invent commands**; use documented commands or `nextclaw --help` / `nextclaw <subcommand> --help`.
-8. **Desktop-installed AI uses the same command names**. When NextClaw Desktop launches the runtime, it exposes a managed `nextclaw` command surface to AI command tools, so self-management commands keep using `nextclaw ...` without requiring a global NPM install.
+7. **Never invent commands**; use documented commands or `go-usb-ai --help` / `go-usb-ai <subcommand> --help`.
+8. **Desktop-installed AI uses the same command names**. When GoUsbAi Desktop launches the runtime, it exposes a managed `go-usb-ai` command surface to AI command tools, so self-management commands keep using `go-usb-ai ...` without requiring a global NPM install.
 
 ---
 
@@ -43,41 +43,41 @@ When NextClaw AI needs to operate the product itself (version/status/doctor/serv
 1. Install with npm:
 
    ```bash
-   npm i -g nextclaw
+   npm i -g go-usb-ai
    ```
 
 2. Start the service (gateway + config UI in the background):
 
    ```bash
-   nextclaw start
+   go-usb-ai start
    ```
 
 3. Open **http://127.0.0.1:55667** in your browser. Set a provider (e.g. OpenRouter) and model in the UI.
 
-4. Optionally run `nextclaw init` to create a workspace with agent templates, or chat from the CLI:
+4. Optionally run `go-usb-ai init` to create a workspace with agent templates, or chat from the CLI:
 
    ```bash
-   nextclaw agent -m "Hello!"
+   go-usb-ai agent -m "Hello!"
    ```
 
 5. Stop the service when done:
 
    ```bash
-   nextclaw stop
+   go-usb-ai stop
    ```
 
 For internet access on a VPS:
 
-- NextClaw itself serves plain HTTP on port `55667`.
+- GoUsbAi itself serves plain HTTP on port `55667`.
 - Direct access is `http://<server-ip>:55667`.
 - If you want `https://` or standard `80/443`, put Nginx/Caddy in front and proxy to `http://127.0.0.1:55667`.
-- Do not point a reverse proxy upstream to `https://127.0.0.1:55667`; NextClaw does not terminate TLS itself.
+- Do not point a reverse proxy upstream to `https://127.0.0.1:55667`; GoUsbAi does not terminate TLS itself.
 
 ---
 
 ## Public Server Deployment
 
-NextClaw binds the UI to `0.0.0.0` by default, but the built-in server is still an HTTP server. For a public VPS, use one of these two patterns:
+GoUsbAi binds the UI to `0.0.0.0` by default, but the built-in server is still an HTTP server. For a public VPS, use one of these two patterns:
 
 1. Direct HTTP for quick validation:
 
@@ -85,7 +85,7 @@ NextClaw binds the UI to `0.0.0.0` by default, but the built-in server is still 
    http://<server-ip>:55667
    ```
 
-2. Recommended: terminate TLS in Nginx/Caddy and proxy to local NextClaw HTTP:
+2. Recommended: terminate TLS in Nginx/Caddy and proxy to local GoUsbAi HTTP:
 
    ```nginx
    server {
@@ -106,8 +106,8 @@ NextClaw binds the UI to `0.0.0.0` by default, but the built-in server is still 
 
 Important rules:
 
-- NextClaw upstream must stay `http://127.0.0.1:55667`.
-- `443` belongs to Nginx/Caddy plus your certificate, not to NextClaw directly.
+- GoUsbAi upstream must stay `http://127.0.0.1:55667`.
+- `443` belongs to Nginx/Caddy plus your certificate, not to GoUsbAi directly.
 - If you later add HTTPS, keep TLS termination in the reverse proxy, then forward to `http://127.0.0.1:55667`.
 
 Minimal verification sequence:
@@ -118,13 +118,13 @@ curl -I http://127.0.0.1:55667/
 curl -I http://<server-ip>/
 ```
 
-If `127.0.0.1:55667` is healthy but the public entry returns `502`, the problem is in your reverse proxy, firewall, or upstream target, not in the NextClaw HTTP server.
+If `127.0.0.1:55667` is healthy but the public entry returns `502`, the problem is in your reverse proxy, firewall, or upstream target, not in the GoUsbAi HTTP server.
 
 ---
 
 ## HTTP Webhook Ingress
 
-NextClaw exposes a generic webhook ingress for external systems and small local tools that need to trigger NextClaw work:
+GoUsbAi exposes a generic webhook ingress for external systems and small local tools that need to trigger GoUsbAi work:
 
 ```text
 POST /webhook
@@ -137,7 +137,7 @@ This section is intentionally only an index. Read the focused guide only when yo
 For AI or scripts, do not guess the port. Discover the running service first:
 
 ```bash
-nextclaw status --json
+go-usb-ai status --json
 ```
 
 Read these fields:
@@ -171,8 +171,8 @@ Unknown ingress types are rejected instead of being turned into chat messages. U
 
 ## Configuration
 
-- **Config file:** `~/.nextclaw/config.json`
-- **Data directory:** Override with `NEXTCLAW_HOME=/path/to/dir` (config path becomes `$NEXTCLAW_HOME/config.json`).
+- **Config file:** `~/.go-usb-ai/config.json`
+- **Data directory:** Override with `GOUSB_AI_HOME=/path/to/dir` (config path becomes `$GOUSB_AI_HOME/config.json`).
 
 ### Minimal config
 
@@ -230,7 +230,7 @@ Supported providers include OpenRouter, OpenAI, Anthropic, MiniMax, Moonshot, Ge
 
 ### Runtime config apply behavior (no restart)
 
-When the gateway is already running, config changes from the UI or `nextclaw config set` are hot-applied for these paths:
+When the gateway is already running, config changes from the UI or `go-usb-ai config set` are hot-applied for these paths:
 
 - `providers.*`
 - `channels.*`
@@ -244,9 +244,9 @@ Restart is still required for:
 
 - UI bind port (`--port` / `--ui-port`)
 
-To confirm hot reload succeeded, check gateway console logs or `${NEXTCLAW_HOME:-~/.nextclaw}/logs/service.log` for messages like `Config reload: plugins reloaded.` / `Config reload: plugin channel gateways restarted.` / `Config reload: channels restarted.`
+To confirm hot reload succeeded, check gateway console logs or `${GOUSB_AI_HOME:-~/.go-usb-ai}/logs/service.log` for messages like `Config reload: plugins reloaded.` / `Config reload: plugin channel gateways restarted.` / `Config reload: channels restarted.`
 
-Runtime logs live under `${NEXTCLAW_HOME:-~/.nextclaw}/logs/`:
+Runtime logs live under `${GOUSB_AI_HOME:-~/.go-usb-ai}/logs/`:
 
 - `service.log`: current runtime log
 - `crash.log`: fatal / startup / uncaught crash log
@@ -254,9 +254,9 @@ Runtime logs live under `${NEXTCLAW_HOME:-~/.nextclaw}/logs/`:
 
 Useful commands:
 
-- `nextclaw logs path`
-- `nextclaw logs tail`
-- `nextclaw logs tail --crash`
+- `go-usb-ai logs path`
+- `go-usb-ai logs tail`
+- `go-usb-ai logs tail --crash`
 
 UI note: **Model** page save persists `agents.defaults.model` only.
 
@@ -266,7 +266,7 @@ For agent identities themselves, do **not** create them through `Routing & Runti
 Use one of these two entry points instead:
 
 - `Agents` page in the chat workspace
-- CLI: `nextclaw agents new <agent-id>`
+- CLI: `go-usb-ai agents new <agent-id>`
 
 `Routing & Runtime` is only for routing/runtime policy after agents already exist:
 
@@ -276,7 +276,7 @@ Use one of these two entry points instead:
 > ⚠️ **Strict enum guard (OpenClaw-aligned):** `session.dmScope` accepts **only** these 4 values: `main`, `per-peer`, `per-channel-peer`, `per-account-channel-peer`.
 > Any other value (for example `per-account-channel-peer-agent`) is invalid and must not be written.
 
-See full architecture details in [Multi-Agent Architecture](https://docs.nextclaw.io/en/guide/multi-agent).
+See full architecture details in [Multi-Agent Architecture](https://docs.go-usb-ai.io/en/guide/multi-agent).
 
 Example:
 
@@ -301,9 +301,9 @@ Example:
 CLI equivalents:
 
 ```bash
-nextclaw agents new engineer --json
-nextclaw config set bindings '[{"agentId":"engineer","match":{"channel":"discord","accountId":"zongzhihui"}}]' --json
-nextclaw config set session.dmScope '"per-account-channel-peer"' --json
+go-usb-ai agents new engineer --json
+go-usb-ai config set bindings '[{"agentId":"engineer","match":{"channel":"discord","accountId":"zongzhihui"}}]' --json
+go-usb-ai config set session.dmScope '"per-account-channel-peer"' --json
 ```
 
 ### Multi-agent collaboration playbook (recommended)
@@ -311,7 +311,7 @@ nextclaw config set session.dmScope '"per-account-channel-peer"' --json
 Use this baseline for predictable team-style collaboration:
 
 1. Keep `main` as the default fallback role.
-2. Create specialist agents through the `Agents` page or `nextclaw agents new` (for example `engineer`, `ops`, `support`).
+2. Create specialist agents through the `Agents` page or `go-usb-ai agents new` (for example `engineer`, `ops`, `support`).
 3. Route stable traffic classes with `bindings` (channel/account/peer based).
 4. Use `session.dmScope="per-account-channel-peer"` for multi-account + multi-channel isolation.
 
@@ -363,22 +363,22 @@ Example with explicit precedence (more specific rule first):
 Recipe A — default + specialist routing:
 
 ```bash
-nextclaw agents new engineer --json
-nextclaw config set bindings '[{"agentId":"engineer","match":{"channel":"discord","accountId":"zongzhihui","peer":{"kind":"channel","id":"dev-room"}}}]' --json
+go-usb-ai agents new engineer --json
+go-usb-ai config set bindings '[{"agentId":"engineer","match":{"channel":"discord","accountId":"zongzhihui","peer":{"kind":"channel","id":"dev-room"}}}]' --json
 ```
 
 Recipe B — multi-account safe isolation:
 
 ```bash
-nextclaw config set session.dmScope '"per-account-channel-peer"' --json
+go-usb-ai config set session.dmScope '"per-account-channel-peer"' --json
 ```
 
 Recipe C — reduce noisy group triggering:
 
 ```bash
-nextclaw config set channels.discord.requireMention true --json
-nextclaw config set channels.discord.groupPolicy '"allowlist"' --json
-nextclaw config set channels.discord.groupAllowFrom '["dev-room"]' --json
+go-usb-ai config set channels.discord.requireMention true --json
+go-usb-ai config set channels.discord.groupPolicy '"allowlist"' --json
+go-usb-ai config set channels.discord.groupAllowFrom '["dev-room"]' --json
 ```
 
 ### Multi-agent acceptance checklist
@@ -397,7 +397,7 @@ Pass criteria: stable routing, no cross-session context leakage, predictable gro
   - confirm `match.accountId` and `match.peer` actually match inbound metadata
 - Always falls back to `main`:
   - verify `bindings` is not empty and `match.channel` is correct
-  - verify target `agentId` exists in `nextclaw agents list --json` or the `Agents` page
+  - verify target `agentId` exists in `go-usb-ai agents list --json` or the `Agents` page
 - Group messages not triggering:
   - check `groupPolicy`, `groupAllowFrom`, and `requireMention`
   - confirm message text matches configured `mentionPatterns` if enabled
@@ -420,7 +420,7 @@ For internal AI operations (same as other built-in capabilities):
 
 ## Session management (UI)
 
-NextClaw UI now provides an OpenClaw-aligned session operations panel (**Sessions** tab) with additional runtime controls:
+GoUsbAi UI now provides an OpenClaw-aligned session operations panel (**Sessions** tab) with additional runtime controls:
 
 - list sessions with search + active window filters
 - switch grouping mode: all sessions (no grouping) or grouped by channel
@@ -434,7 +434,7 @@ This is useful when running multi-agent routing and channel operations long term
 
 ## Agent chat in UI
 
-NextClaw UI includes a first-class **Chat** tab so you can talk to your agent directly from browser:
+GoUsbAi UI includes a first-class **Chat** tab so you can talk to your agent directly from browser:
 
 - create/switch/delete sessions from the left panel
 - filter session list by channel in the left panel
@@ -457,22 +457,22 @@ Notes:
 
 ## Workspace
 
-- **Default path:** `~/.nextclaw/workspace`
+- **Default path:** `~/.go-usb-ai/workspace`
 - Override in config:
 
   ```json
   {
-    "agents": { "defaults": { "workspace": "~/my-nextclaw" } }
+    "agents": { "defaults": { "workspace": "~/my-go-usb-ai" } }
   }
   ```
 
 Initialize the workspace (creates template files if missing):
 
 ```bash
-nextclaw init
+go-usb-ai init
 ```
 
-Use `nextclaw init --force` to overwrite existing template files.
+Use `go-usb-ai init --force` to overwrite existing template files.
 
 Created under the workspace:
 
@@ -487,21 +487,21 @@ Created under the workspace:
 | `memory/MEMORY.md` | Long-term notes                |
 | `skills/`       | Custom skills                     |
 
-NextClaw's AI self-management guide is built into the app package and is not written into each workspace anymore.
+GoUsbAi's AI self-management guide is built into the app package and is not written into each workspace anymore.
 
 Skill loading contract:
 
-- NextClaw ships with built-in skills and auto-loads them directly from the app package.
+- GoUsbAi ships with built-in skills and auto-loads them directly from the app package.
 - `<workspace>/skills/` is for custom skills and marketplace-installed skills.
-- With the default workspace, the default skill directory is `~/.nextclaw/workspace/skills/`.
-- Use `nextclaw skills installed` / `nextclaw skills info <selector>` for the **installed/local domain**.
-- Use `nextclaw marketplace skills search|info|recommend|install` for the **marketplace/catalog domain**.
-- `nextclaw skills install <slug>` remains available as a compatibility shortcut for marketplace installation into that directory.
+- With the default workspace, the default skill directory is `~/.go-usb-ai/workspace/skills/`.
+- Use `go-usb-ai skills installed` / `go-usb-ai skills info <selector>` for the **installed/local domain**.
+- Use `go-usb-ai marketplace skills search|info|recommend|install` for the **marketplace/catalog domain**.
+- `go-usb-ai skills install <slug>` remains available as a compatibility shortcut for marketplace installation into that directory.
 - Built-in marketplace skills are already available by default; marketplace install does not copy them into the workspace when the target skill is built-in.
 - Historical copied built-in skills under `<workspace>/skills/` are deprecated artifacts.
-- If a built-in skill and a workspace skill share the same name, NextClaw ignores the workspace copy and uses the built-in definition as the source of truth.
+- If a built-in skill and a workspace skill share the same name, GoUsbAi ignores the workspace copy and uses the built-in definition as the source of truth.
 - If you want to install into a specific project workspace, pass `--workdir <workspace>`.
-- Upstream commands such as `npx skills add ... -g` do not install a skill into NextClaw's workspace and do not make it selectable in NextClaw by themselves.
+- Upstream commands such as `npx skills add ... -g` do not install a skill into GoUsbAi's workspace and do not make it selectable in GoUsbAi by themselves.
 
 
 ---
@@ -510,131 +510,131 @@ Skill loading contract:
 
 | Command | Description |
 |---------|-------------|
-| `nextclaw start` | Start gateway + UI in the background |
-| `nextclaw restart` | Restart the background service with optional start flags |
-| `nextclaw stop` | Stop the background service |
-| `nextclaw service install-systemd --user` | Install a user-level Linux `systemd` service for NextClaw |
-| `sudo nextclaw service install-systemd --system` | Install a system-wide Linux `systemd` service for NextClaw |
-| `nextclaw service uninstall-systemd --user` | Remove a user-level Linux `systemd` service |
-| `sudo nextclaw service uninstall-systemd --system` | Remove a system-wide Linux `systemd` service |
-| `nextclaw service install-launch-agent` | Install a managed macOS LaunchAgent for NextClaw |
-| `nextclaw service uninstall-launch-agent` | Remove a managed macOS LaunchAgent |
-| `nextclaw service install-task` | Install a managed Windows Scheduled Task for NextClaw |
-| `nextclaw service uninstall-task` | Remove a managed Windows Scheduled Task |
-| `nextclaw service autostart status` | Show host autostart status |
-| `nextclaw service autostart doctor` | Diagnose host autostart setup |
-| `nextclaw ui` | Start UI and gateway in the foreground |
-| `nextclaw gateway` | Start gateway only (for channels) |
-| `nextclaw serve` | Run gateway + UI in the foreground (no background) |
-| `nextclaw --version` | Show the installed NextClaw version |
-| `nextclaw agent -m "message"` | Send a one-off message to the agent |
-| `nextclaw agent` | Interactive chat in the terminal |
-| `nextclaw agent --session <id> --model <model>` | Use a session-specific model/provider route (sticky for that session) |
-| `nextclaw status` | Show runtime process/health/config status (`--json`, `--verbose`, `--fix`) |
-| `nextclaw usage` | Show the latest observed LLM usage snapshot; add `--history`, `--stats`, `--limit <n>`, or `--json` for local usage history and prompt cache stats |
-| `nextclaw init` | Initialize workspace and template files |
-| `nextclaw init --force` | Re-run init and overwrite templates |
-| `nextclaw agents list` | List built-in and created agents |
-| `nextclaw agents runtimes` | List installed agent runtimes (`--json`, `--probe`) |
-| `nextclaw agents new <agent-id>` | Create a new agent with default home/template/avatar |
-| `nextclaw agents update <agent-id>` | Update an existing agent's display metadata |
-| `nextclaw agents remove <agent-id>` | Remove an extra agent (built-in `main` cannot be removed) |
-| `nextclaw login --api-base <url>` | Start browser sign-in for NextClaw Platform and save the platform token locally (`--no-open` for headless servers, `--email/--password` for direct fallback) |
-| `nextclaw remote enable` | Enable service-managed remote access |
-| `nextclaw remote disable` | Disable service-managed remote access |
-| `nextclaw remote status` | Show remote runtime/config status |
-| `nextclaw remote doctor` | Diagnose remote readiness |
-| `nextclaw remote connect` | Foreground debug mode: register this machine and keep the connector online |
-| `nextclaw update` | Self-update the CLI |
-| `nextclaw plugins list` | List discovered OpenClaw-compatible plugins |
-| `nextclaw plugins info <id>` | Show plugin details |
-| `nextclaw plugins install <path-or-spec>` | Install plugin from local path/archive or npm spec |
-| `nextclaw plugins uninstall <id>` | Uninstall plugin (with optional `--dry-run`) |
-| `nextclaw plugins enable <id>` | Enable plugin in config |
-| `nextclaw plugins disable <id>` | Disable plugin in config |
-| `nextclaw plugins doctor` | Diagnose plugin loading issues |
-| `nextclaw channels list --json` | List plugin channels for automation and agent channel discovery |
-| `nextclaw channels status` | Show enabled channels and status |
-| `nextclaw doctor` | Run runtime diagnostics (`--json`, `--verbose`, `--fix`) |
-| `nextclaw channels login` | Open QR login for supported channels |
-| `nextclaw channels add --channel <id> ...` | Configure plugin channel via setup adapter |
-| `nextclaw cron list` | List all scheduled jobs, including disabled ones |
-| `nextclaw cron add ...` | Add a cron job (see [Cron](#cron)) |
-| `nextclaw cron remove <jobId>` | Remove a job |
-| `nextclaw cron enable <jobId>` | Enable a disabled job |
-| `nextclaw cron disable <jobId>` | Disable a job without deleting it |
-| `nextclaw cron run <jobId>` | Run a job once (optionally with `--force` if disabled) |
-| `nextclaw skills installed` | List installed skills from the local runtime (`--json`, `--scope`, `--query`) |
-| `nextclaw skills info <selector>` | Show installed skill details from the local runtime (`--json`) |
-| `nextclaw skills install <slug>` | Compatibility shortcut: install a marketplace skill into `<workspace>/skills/<slug>` |
-| `nextclaw skills publish <dir>` | Upload/create a skill to marketplace |
-| `nextclaw skills update <dir>` | Update an existing marketplace skill |
-| `nextclaw marketplace skills search` | Search marketplace skills (`--json`, `--query`, `--tag`, `--sort`, `--page`, `--page-size`) |
-| `nextclaw marketplace skills info <slug>` | Show marketplace skill details (`--json`) |
-| `nextclaw marketplace skills recommend` | List recommended marketplace skills (`--json`, `--scene`, `--limit`) |
-| `nextclaw marketplace skills install <slug>` | Install a marketplace skill using the explicit marketplace domain |
-| `nextclaw config get <path>` | Get config value by path (use `--json` for structured output) |
-| `nextclaw config set <path> <value>` | Set config value by path (use `--json` to parse value as JSON) |
-| `nextclaw config unset <path>` | Remove config value by path |
+| `go-usb-ai start` | Start gateway + UI in the background |
+| `go-usb-ai restart` | Restart the background service with optional start flags |
+| `go-usb-ai stop` | Stop the background service |
+| `go-usb-ai service install-systemd --user` | Install a user-level Linux `systemd` service for GoUsbAi |
+| `sudo go-usb-ai service install-systemd --system` | Install a system-wide Linux `systemd` service for GoUsbAi |
+| `go-usb-ai service uninstall-systemd --user` | Remove a user-level Linux `systemd` service |
+| `sudo go-usb-ai service uninstall-systemd --system` | Remove a system-wide Linux `systemd` service |
+| `go-usb-ai service install-launch-agent` | Install a managed macOS LaunchAgent for GoUsbAi |
+| `go-usb-ai service uninstall-launch-agent` | Remove a managed macOS LaunchAgent |
+| `go-usb-ai service install-task` | Install a managed Windows Scheduled Task for GoUsbAi |
+| `go-usb-ai service uninstall-task` | Remove a managed Windows Scheduled Task |
+| `go-usb-ai service autostart status` | Show host autostart status |
+| `go-usb-ai service autostart doctor` | Diagnose host autostart setup |
+| `go-usb-ai ui` | Start UI and gateway in the foreground |
+| `go-usb-ai gateway` | Start gateway only (for channels) |
+| `go-usb-ai serve` | Run gateway + UI in the foreground (no background) |
+| `go-usb-ai --version` | Show the installed GoUsbAi version |
+| `go-usb-ai agent -m "message"` | Send a one-off message to the agent |
+| `go-usb-ai agent` | Interactive chat in the terminal |
+| `go-usb-ai agent --session <id> --model <model>` | Use a session-specific model/provider route (sticky for that session) |
+| `go-usb-ai status` | Show runtime process/health/config status (`--json`, `--verbose`, `--fix`) |
+| `go-usb-ai usage` | Show the latest observed LLM usage snapshot; add `--history`, `--stats`, `--limit <n>`, or `--json` for local usage history and prompt cache stats |
+| `go-usb-ai init` | Initialize workspace and template files |
+| `go-usb-ai init --force` | Re-run init and overwrite templates |
+| `go-usb-ai agents list` | List built-in and created agents |
+| `go-usb-ai agents runtimes` | List installed agent runtimes (`--json`, `--probe`) |
+| `go-usb-ai agents new <agent-id>` | Create a new agent with default home/template/avatar |
+| `go-usb-ai agents update <agent-id>` | Update an existing agent's display metadata |
+| `go-usb-ai agents remove <agent-id>` | Remove an extra agent (built-in `main` cannot be removed) |
+| `go-usb-ai login --api-base <url>` | Start browser sign-in for GoUsbAi Platform and save the platform token locally (`--no-open` for headless servers, `--email/--password` for direct fallback) |
+| `go-usb-ai remote enable` | Enable service-managed remote access |
+| `go-usb-ai remote disable` | Disable service-managed remote access |
+| `go-usb-ai remote status` | Show remote runtime/config status |
+| `go-usb-ai remote doctor` | Diagnose remote readiness |
+| `go-usb-ai remote connect` | Foreground debug mode: register this machine and keep the connector online |
+| `go-usb-ai update` | Self-update the CLI |
+| `go-usb-ai plugins list` | List discovered OpenClaw-compatible plugins |
+| `go-usb-ai plugins info <id>` | Show plugin details |
+| `go-usb-ai plugins install <path-or-spec>` | Install plugin from local path/archive or npm spec |
+| `go-usb-ai plugins uninstall <id>` | Uninstall plugin (with optional `--dry-run`) |
+| `go-usb-ai plugins enable <id>` | Enable plugin in config |
+| `go-usb-ai plugins disable <id>` | Disable plugin in config |
+| `go-usb-ai plugins doctor` | Diagnose plugin loading issues |
+| `go-usb-ai channels list --json` | List plugin channels for automation and agent channel discovery |
+| `go-usb-ai channels status` | Show enabled channels and status |
+| `go-usb-ai doctor` | Run runtime diagnostics (`--json`, `--verbose`, `--fix`) |
+| `go-usb-ai channels login` | Open QR login for supported channels |
+| `go-usb-ai channels add --channel <id> ...` | Configure plugin channel via setup adapter |
+| `go-usb-ai cron list` | List all scheduled jobs, including disabled ones |
+| `go-usb-ai cron add ...` | Add a cron job (see [Cron](#cron)) |
+| `go-usb-ai cron remove <jobId>` | Remove a job |
+| `go-usb-ai cron enable <jobId>` | Enable a disabled job |
+| `go-usb-ai cron disable <jobId>` | Disable a job without deleting it |
+| `go-usb-ai cron run <jobId>` | Run a job once (optionally with `--force` if disabled) |
+| `go-usb-ai skills installed` | List installed skills from the local runtime (`--json`, `--scope`, `--query`) |
+| `go-usb-ai skills info <selector>` | Show installed skill details from the local runtime (`--json`) |
+| `go-usb-ai skills install <slug>` | Compatibility shortcut: install a marketplace skill into `<workspace>/skills/<slug>` |
+| `go-usb-ai skills publish <dir>` | Upload/create a skill to marketplace |
+| `go-usb-ai skills update <dir>` | Update an existing marketplace skill |
+| `go-usb-ai marketplace skills search` | Search marketplace skills (`--json`, `--query`, `--tag`, `--sort`, `--page`, `--page-size`) |
+| `go-usb-ai marketplace skills info <slug>` | Show marketplace skill details (`--json`) |
+| `go-usb-ai marketplace skills recommend` | List recommended marketplace skills (`--json`, `--scene`, `--limit`) |
+| `go-usb-ai marketplace skills install <slug>` | Install a marketplace skill using the explicit marketplace domain |
+| `go-usb-ai config get <path>` | Get config value by path (use `--json` for structured output) |
+| `go-usb-ai config set <path> <value>` | Set config value by path (use `--json` to parse value as JSON) |
+| `go-usb-ai config unset <path>` | Remove config value by path |
 
 Autostart notes:
 
-- `npm i -g nextclaw` installs the CLI only. It does not register host autostart by itself.
-- On Linux, use `nextclaw service install-systemd --user` for a user-level login autostart path.
-- On macOS, use `nextclaw service install-launch-agent` for a LaunchAgent-based login autostart path. The agent runs once at login and does not supervise retries after the runtime exits.
-- On Windows, use `nextclaw service install-task` for a Scheduled Task based login autostart path.
-- For machine-wide Linux startup after boot, use `sudo nextclaw service install-systemd --system`.
-- `nextclaw service autostart status` and `nextclaw service autostart doctor` are read-only inspection commands; add `--user` or `--system` only when you need an explicit Linux `systemd` scope.
+- `npm i -g go-usb-ai` installs the CLI only. It does not register host autostart by itself.
+- On Linux, use `go-usb-ai service install-systemd --user` for a user-level login autostart path.
+- On macOS, use `go-usb-ai service install-launch-agent` for a LaunchAgent-based login autostart path. The agent runs once at login and does not supervise retries after the runtime exits.
+- On Windows, use `go-usb-ai service install-task` for a Scheduled Task based login autostart path.
+- For machine-wide Linux startup after boot, use `sudo go-usb-ai service install-systemd --system`.
+- `go-usb-ai service autostart status` and `go-usb-ai service autostart doctor` are read-only inspection commands; add `--user` or `--system` only when you need an explicit Linux `systemd` scope.
 
 Agent management notes:
 
-- `nextclaw agents runtimes` accepts:
+- `go-usb-ai agents runtimes` accepts:
   - `--json`
   - `--probe` to actively check runtime readiness instead of only reporting lightweight observations
-- `nextclaw agents new <agent-id>` accepts:
+- `go-usb-ai agents new <agent-id>` accepts:
   - `--name <display-name>`
   - `--description <description>`
   - `--avatar <http-url-or-local-file>`
   - `--home <path>`
   - `--runtime <runtime-kind>`
   - `--json`
-- `nextclaw agents update <agent-id>` accepts:
+- `go-usb-ai agents update <agent-id>` accepts:
   - `--name <display-name>`
   - `--description <description>`
   - `--avatar <http-url-or-local-file>`
   - `--runtime <runtime-kind>`
   - `--json`
 - `runtime` defaults to `native`.
-- Use `nextclaw agents runtimes --json` before setting a non-default `runtime`; it returns the actual installed runtime kinds instead of requiring guesswork.
+- Use `go-usb-ai agents runtimes --json` before setting a non-default `runtime`; it returns the actual installed runtime kinds instead of requiring guesswork.
 - The same runtime kinds are also what NCP `sessions_spawn` expects in its optional `runtime` field.
-- `nextclaw agents update` allows updating the built-in `main` agent.
-- For `nextclaw agents update`, passing an empty string to `--name`, `--description`, or `--avatar` clears the stored override for that field.
-- If `--avatar` is a local file path, NextClaw copies it into the Agent Home Directory and stores it as `home://avatar.<ext>`.
-- If `--avatar` is omitted, NextClaw generates a local default `avatar.svg`.
-- `nextclaw agents new/update/remove --json` returns machine-readable output with the resulting Agent payload.
+- `go-usb-ai agents update` allows updating the built-in `main` agent.
+- For `go-usb-ai agents update`, passing an empty string to `--name`, `--description`, or `--avatar` clears the stored override for that field.
+- If `--avatar` is a local file path, GoUsbAi copies it into the Agent Home Directory and stores it as `home://avatar.<ext>`.
+- If `--avatar` is omitted, GoUsbAi generates a local default `avatar.svg`.
+- `go-usb-ai agents new/update/remove --json` returns machine-readable output with the resulting Agent payload.
 
 ### Agent CRUD flow for AI self-management
 
-When NextClaw AI is asked to create, update, or remove an Agent, use this exact flow instead of inventing config edits:
+When GoUsbAi AI is asked to create, update, or remove an Agent, use this exact flow instead of inventing config edits:
 
 1. Inspect current agents when needed:
 
    ```bash
-   nextclaw agents list --json
+   go-usb-ai agents list --json
    ```
 
 2. If you plan to set a non-default runtime, inspect installed runtime kinds first:
 
    ```bash
-   nextclaw agents runtimes --json
+   go-usb-ai agents runtimes --json
    ```
 
 3. Execute the dedicated command instead of editing config directly:
 
    ```bash
-   nextclaw agents new <agent-id> --json [--name <display-name>] [--description <description>] [--avatar <url-or-local-file>] [--home <path>] [--runtime <runtime-kind>]
-   nextclaw agents update <agent-id> --json [--name <display-name>] [--description <description>] [--avatar <url-or-local-file>] [--runtime <runtime-kind>]
-   nextclaw agents remove <agent-id> --json
+   go-usb-ai agents new <agent-id> --json [--name <display-name>] [--description <description>] [--avatar <url-or-local-file>] [--home <path>] [--runtime <runtime-kind>]
+   go-usb-ai agents update <agent-id> --json [--name <display-name>] [--description <description>] [--avatar <url-or-local-file>] [--runtime <runtime-kind>]
+   go-usb-ai agents remove <agent-id> --json
    ```
 
 4. Treat the JSON output as the source of truth:
@@ -644,17 +644,17 @@ When NextClaw AI is asked to create, update, or remove an Agent, use this exact 
 5. Close the loop:
 
    ```bash
-   nextclaw agents list --json
-   nextclaw status --json
+   go-usb-ai agents list --json
+   go-usb-ai status --json
    ```
 
 6. Do not invent a restart step for normal Agent CRUD. Running services hot-apply `agents.list` changes through config reload, and subsequent requests should observe the updated Agent state directly.
 
 Rules:
 
-- Do not try to create or remove the built-in `main` agent. `nextclaw agents update main` is allowed.
-- For normal Agent management, prefer `nextclaw agents list|new|update|remove --json` over direct `config.json` or `agents.list` edits.
-- For runtime discovery, prefer `nextclaw agents runtimes --json` over guessing enum values from memory or stale examples.
+- Do not try to create or remove the built-in `main` agent. `go-usb-ai agents update main` is allowed.
+- For normal Agent management, prefer `go-usb-ai agents list|new|update|remove --json` over direct `config.json` or `agents.list` edits.
+- For runtime discovery, prefer `go-usb-ai agents runtimes --json` over guessing enum values from memory or stale examples.
 - Direct `config.json` / `agents.list` edits are recovery-only: use them only for explicit operator-led disaster recovery, or when a documented CLI path still cannot express the requested change.
 - Humans should use the `Agents` page or the CLI for Agent identities. `Routing & Runtime` is not the identity-management entry point.
 - If the user asked AI to perform Agent CRUD, AI should run the command, not only describe it.
@@ -666,7 +666,7 @@ Rules:
   - Concrete example:
 
     ```bash
-    nextclaw agents new researcher --json --name "Researcher" --avatar "https://api.dicebear.com/9.x/identicon/svg?seed=researcher"
+    go-usb-ai agents new researcher --json --name "Researcher" --avatar "https://api.dicebear.com/9.x/identicon/svg?seed=researcher"
     ```
 
   - If you want a different stable avatar, keep the same URL pattern but replace the seed with the final `agent-id` or display name.
@@ -674,56 +674,56 @@ Rules:
   - If the user prefers local-only assets, offline behavior, or does not want third-party avatar URLs, prefer passing a local image file path with `--avatar`.
   - Omit `--avatar` only as a last-resort fallback. The generated local `avatar.svg` is acceptable as a fallback, but it is not the preferred default for AI-created Agents.
 
-Gateway options (when running `nextclaw gateway` or `nextclaw start`):
+Gateway options (when running `go-usb-ai gateway` or `go-usb-ai start`):
 
 - `--ui` — enable the UI server with the gateway
 - `--ui-port <port>` — UI port (default 55667 for start)
 - `--ui-open` — open the browser when the UI starts
 
-If service is already running, new UI port flags do not hot-apply; use `nextclaw restart ...` to apply them.
+If service is already running, new UI port flags do not hot-apply; use `go-usb-ai restart ...` to apply them.
 
 Remote access quick start:
 
-1. Login once on that device: `nextclaw login --api-base https://ai-gateway-api.nextclaw.io/v1`.
+1. Login once on that device: `go-usb-ai login --api-base https://ai-gateway-api.go-usb-ai.io/v1`.
    On a headless server, add `--no-open` and open the printed link from another device/browser.
-2. Enable service-managed remote access: `nextclaw remote enable`.
-3. Start your local NextClaw service: `nextclaw start`.
-4. Check status if needed: `nextclaw remote status`.
-5. Open the same account in NextClaw Platform, find the device under "我的设备", then click `Open`.
+2. Enable service-managed remote access: `go-usb-ai remote enable`.
+3. Start your local GoUsbAi service: `go-usb-ai start`.
+4. Check status if needed: `go-usb-ai remote status`.
+5. Open the same account in GoUsbAi Platform, find the device under "我的设备", then click `Open`.
 
 Notes:
 
-- `nextclaw remote connect` is now the foreground debug path. It is useful for troubleshooting, but it is no longer the recommended daily workflow.
-- `nextclaw status` now includes remote state summary, and `nextclaw remote doctor` focuses on remote-specific checks.
+- `go-usb-ai remote connect` is now the foreground debug path. It is useful for troubleshooting, but it is no longer the recommended daily workflow.
+- `go-usb-ai status` now includes remote state summary, and `go-usb-ai remote doctor` focuses on remote-specific checks.
 
 Status/diagnostics tips:
 
-- `nextclaw --version` is the only supported way to query the installed CLI version.
-- `nextclaw status` shows runtime truth (process + health + config summary).
-- `nextclaw status --json` outputs machine-readable status and exits `0` when the command itself succeeds; use the JSON `level` field (`healthy` / `degraded` / `stopped`) to interpret runtime state.
-- Use `nextclaw status --json` as the source of truth for local HTTP addresses. `endpoints.uiUrl` is the base for `/webhook`; `endpoints.apiUrl` is the base for `/api/*` calls.
-- `nextclaw status --fix` safely clears stale service state if PID is dead.
-- `nextclaw doctor` runs additional checks (state coherence, health, port availability, provider readiness).
-- `nextclaw usage` shows the latest observed LLM usage snapshot from recent CLI agent runs or the local UI/NCP runtime.
-- `nextclaw usage --history --limit 20` shows recent local usage records in reverse chronological order.
-- `nextclaw usage --stats` aggregates the current local usage history into quick CLI-readable totals and cache-hit counts.
-- `nextclaw usage --json` is the preferred machine-readable entry when an AI or script needs to inspect prompt cache usage fields such as `*_cached_tokens`; combine it with `--history` or `--stats` when needed.
-- The latest snapshot is stored at `${NEXTCLAW_HOME:-~/.nextclaw}/run/llm-usage.json`.
-- The local usage history is stored at `${NEXTCLAW_HOME:-~/.nextclaw}/logs/llm-usage.jsonl`.
+- `go-usb-ai --version` is the only supported way to query the installed CLI version.
+- `go-usb-ai status` shows runtime truth (process + health + config summary).
+- `go-usb-ai status --json` outputs machine-readable status and exits `0` when the command itself succeeds; use the JSON `level` field (`healthy` / `degraded` / `stopped`) to interpret runtime state.
+- Use `go-usb-ai status --json` as the source of truth for local HTTP addresses. `endpoints.uiUrl` is the base for `/webhook`; `endpoints.apiUrl` is the base for `/api/*` calls.
+- `go-usb-ai status --fix` safely clears stale service state if PID is dead.
+- `go-usb-ai doctor` runs additional checks (state coherence, health, port availability, provider readiness).
+- `go-usb-ai usage` shows the latest observed LLM usage snapshot from recent CLI agent runs or the local UI/NCP runtime.
+- `go-usb-ai usage --history --limit 20` shows recent local usage records in reverse chronological order.
+- `go-usb-ai usage --stats` aggregates the current local usage history into quick CLI-readable totals and cache-hit counts.
+- `go-usb-ai usage --json` is the preferred machine-readable entry when an AI or script needs to inspect prompt cache usage fields such as `*_cached_tokens`; combine it with `--history` or `--stats` when needed.
+- The latest snapshot is stored at `${GOUSB_AI_HOME:-~/.go-usb-ai}/run/llm-usage.json`.
+- The local usage history is stored at `${GOUSB_AI_HOME:-~/.go-usb-ai}/logs/llm-usage.jsonl`.
 - Current scope is intentionally lightweight: this local history file is not a full project-wide logging module yet.
 
 OpenClaw-compatible plugin discovery paths:
 
-- `${NEXTCLAW_HOME:-~/.nextclaw}/extensions`
-- `<workspace>/.nextclaw/extensions`
+- `${GOUSB_AI_HOME:-~/.go-usb-ai}/extensions`
+- `<workspace>/.go-usb-ai/extensions`
 - `plugins.load.paths` entries in config
 
 Legacy OpenClaw directories are not scanned by default (`~/.openclaw/extensions`, `<workspace>/.openclaw/extensions`).
 
 Silent reply behavior:
 
-- If the model contains `<noreply/>`, NextClaw does not send any channel reply.
-- If the final normalized reply is empty/whitespace, NextClaw also keeps silent (no fallback text).
+- If the model contains `<noreply/>`, GoUsbAi does not send any channel reply.
+- If the final normalized reply is empty/whitespace, GoUsbAi also keeps silent (no fallback text).
 - This matches OpenClaw's core no-reply expectation while keeping logic minimal.
 
 ---
@@ -733,18 +733,18 @@ Silent reply behavior:
 Use the built-in updater:
 
 ```bash
-nextclaw update
+go-usb-ai update
 ```
 
 Behavior:
 
-- If `NEXTCLAW_UPDATE_COMMAND` is set, the CLI executes it (useful for custom update flows).
-- Otherwise `nextclaw update` checks the runtime update channel, downloads the latest compatible runtime bundle, and applies it.
-- Use `nextclaw update --check` to check without downloading or applying.
-- Use `nextclaw update --download-only` to stage an update without switching the active runtime. `nextclaw update --apply` applies an already staged runtime update.
-- If the background service is running, restart it after `nextclaw update` reports that the runtime update was applied.
-- When update is triggered from the running gateway (agent `update.run`), NextClaw arms a self-relaunch helper before exiting, so the service comes back automatically (like an OS reboot flow).
-- After restart, NextClaw automatically pings the last active session with restart/update status (including note when provided).
+- If `GOUSB_AI_UPDATE_COMMAND` is set, the CLI executes it (useful for custom update flows).
+- Otherwise `go-usb-ai update` checks the runtime update channel, downloads the latest compatible runtime bundle, and applies it.
+- Use `go-usb-ai update --check` to check without downloading or applying.
+- Use `go-usb-ai update --download-only` to stage an update without switching the active runtime. `go-usb-ai update --apply` applies an already staged runtime update.
+- If the background service is running, restart it after `go-usb-ai update` reports that the runtime update was applied.
+- When update is triggered from the running gateway (agent `update.run`), GoUsbAi arms a self-relaunch helper before exiting, so the service comes back automatically (like an OS reboot flow).
+- After restart, GoUsbAi automatically pings the last active session with restart/update status (including note when provided).
 
 If the gateway is running, you can also ask the agent to update; the agent will call the gateway update tool only when you explicitly request it, and restart/relaunch will be scheduled afterward.
 
@@ -757,9 +757,9 @@ All message channels use a common **allowFrom** rule:
 - **Empty `allowFrom`** (`[]`): allow all senders.
 - **Non-empty `allowFrom`**: only messages from the listed user IDs are accepted.
 
-Configure channels in the UI at http://127.0.0.1:55667 or in `~/.nextclaw/config.json` under `channels`.
+Configure channels in the UI at http://127.0.0.1:55667 or in `~/.go-usb-ai/config.json` under `channels`.
 
-Use `nextclaw channels list --json` when an automation or AI agent needs exact runtime channel ids, default accounts, and bound user ids before calling messaging tools. Treat returned `channels[].id` values as authoritative; do not guess aliases such as `wechat` for the Weixin channel.
+Use `go-usb-ai channels list --json` when an automation or AI agent needs exact runtime channel ids, default accounts, and bound user ids before calling messaging tools. Treat returned `channels[].id` values as authoritative; do not guess aliases such as `wechat` for the Weixin channel.
 
 ### Discord
 
@@ -853,7 +853,7 @@ Telegram ack reaction defaults:
 Telegram Bot API behavior note:
 
 - In **groups**, bots generally do **not** receive messages from other bots.
-- For bot-to-bot scenarios, prefer **Telegram channels**. NextClaw now processes `channel_post` updates as inbound messages.
+- For bot-to-bot scenarios, prefer **Telegram channels**. GoUsbAi now processes `channel_post` updates as inbound messages.
 
 ### Slack
 
@@ -958,7 +958,7 @@ WhatsApp typically requires a bridge (e.g. a companion service). Configure the b
 }
 ```
 
-Use `nextclaw channels login` when the bridge supports QR-based linking.
+Use `go-usb-ai channels login` when the bridge supports QR-based linking.
 
 ### Email
 
@@ -1010,7 +1010,7 @@ Use the QQ open platform app credentials.
 }
 ```
 
-After changing channel config, NextClaw hot-reloads channel runtime automatically when the gateway is running.
+After changing channel config, GoUsbAi hot-reloads channel runtime automatically when the gateway is running.
 
 ---
 
@@ -1074,58 +1074,58 @@ Schedule one-off or recurring tasks. The agent receives the message at the sched
 List jobs:
 
 ```bash
-nextclaw cron list
+go-usb-ai cron list
 ```
 
 Add a one-time job (run at a specific time, ISO format):
 
 ```bash
-nextclaw cron add -n "reminder" -m "Stand up and stretch" --at "2026-02-15T09:00:00"
+go-usb-ai cron add -n "reminder" -m "Stand up and stretch" --at "2026-02-15T09:00:00"
 ```
 
 Add a recurring job (cron expression):
 
 ```bash
-nextclaw cron add -n "daily-summary" -m "Summarize yesterday" -c "0 9 * * *"
+go-usb-ai cron add -n "daily-summary" -m "Summarize yesterday" -c "0 9 * * *"
 ```
 
 Add a job that runs every N seconds:
 
 ```bash
-nextclaw cron add -n "ping" -m "Ping" -e 3600
+go-usb-ai cron add -n "ping" -m "Ping" -e 3600
 ```
 
 Optional: run the job in a specific NCP session:
 
 ```bash
-nextclaw cron add -n "follow-up" -m "Continue the existing work" -e 3600 --session <session-id>
+go-usb-ai cron add -n "follow-up" -m "Continue the existing work" -e 3600 --session <session-id>
 ```
 
 Optional: deliver the agent’s reply to a channel:
 
 ```bash
-nextclaw cron add -n "daily" -m "Daily briefing" -c "0 9 * * *" --deliver --to <recipient> --channel <channel>
+go-usb-ai cron add -n "daily" -m "Daily briefing" -c "0 9 * * *" --deliver --to <recipient> --channel <channel>
 ```
 
 List all jobs by default, or only enabled ones if needed:
 
 ```bash
-nextclaw cron list
-nextclaw cron list --enabled-only
+go-usb-ai cron list
+go-usb-ai cron list --enabled-only
 ```
 
 Remove or change a job's enabled state:
 
 ```bash
-nextclaw cron remove <jobId>
-nextclaw cron enable <jobId>
-nextclaw cron disable <jobId>
+go-usb-ai cron remove <jobId>
+go-usb-ai cron enable <jobId>
+go-usb-ai cron disable <jobId>
 ```
 
 Run a job once (e.g. for testing):
 
 ```bash
-nextclaw cron run <jobId>
+go-usb-ai cron run <jobId>
 ```
 
 ### Session-Bound Follow-Up
@@ -1135,7 +1135,7 @@ If you want a scheduled task to continue an existing investigation or conversati
 Example:
 
 ```bash
-nextclaw cron add -n "follow-up" -m "Continue the existing work and report only meaningful changes" -e 1800 --session <session-id>
+go-usb-ai cron add -n "follow-up" -m "Continue the existing work and report only meaningful changes" -e 1800 --session <session-id>
 ```
 
 ---
@@ -1155,13 +1155,13 @@ You can tune the UI server in config:
 }
 ```
 
-- `enabled`: whether the UI server is started with the gateway (e.g. when using `nextclaw start`).
+- `enabled`: whether the UI server is started with the gateway (e.g. when using `go-usb-ai start`).
 - `host` / `port`: bind address and port; `ui.host` is read-only in practice (CLI start paths always enforce `0.0.0.0`).
 - `open`: open the default browser when the UI starts.
 
-Default URL when using `nextclaw start`: **http://127.0.0.1:55667**.
+Default URL when using `go-usb-ai start`: **http://127.0.0.1:55667**.
 
-NextClaw binds UI to `0.0.0.0` by default and attempts to detect/print a public IP-based URL at startup.
+GoUsbAi binds UI to `0.0.0.0` by default and attempts to detect/print a public IP-based URL at startup.
 
 ---
 
@@ -1171,11 +1171,11 @@ NextClaw binds UI to `0.0.0.0` by default and attempts to detect/print a public 
 |-------|----------------|
 | **401 / invalid API key** | Verify the provider `apiKey` and `apiBase` in config or UI. Ensure no extra spaces or wrong key. |
 | **Unknown model** | Confirm the model ID is supported by your provider (e.g. OpenRouter model list). |
-| **No replies on a channel** | Ensure the channel is `enabled`, `allowFrom` includes your user ID if set, and the gateway is running (`nextclaw start` or `nextclaw gateway`). Run `nextclaw channels status` to see channel status. |
+| **No replies on a channel** | Ensure the channel is `enabled`, `allowFrom` includes your user ID if set, and the gateway is running (`go-usb-ai start` or `go-usb-ai gateway`). Run `go-usb-ai channels status` to see channel status. |
 | **Port already in use** | Change `ui.port` in config or use `--ui-port` when starting. Default UI port is 55667, gateway 18790. |
-| **Port connects but the UI never responds** | This usually means the target port is occupied by a stale or wrong listener instead of a healthy NextClaw HTTP server. Newer `nextclaw start` now preflights the UI port and fails fast with diagnostics. On the server, run `ss -ltnp | grep 55667` or `lsof -iTCP:55667 -sTCP:LISTEN -n -P`, then free the port or restart with `--ui-port <port>`. |
-| **Public browser access returns 502** | First verify `curl http://127.0.0.1:55667/api/health` on the server. If it is `200`, your reverse proxy is misconfigured. Make sure it proxies to `http://127.0.0.1:55667` instead of `https://127.0.0.1:55667`, and that `443` is terminated by Nginx/Caddy rather than NextClaw itself. |
-| **Config not loading** | Ensure `NEXTCLAW_HOME` (if set) points to the directory that contains `config.json`. Run `nextclaw status` to see which config file is used. |
-| **Agent not responding in CLI** | Run `nextclaw init` if you have not yet; ensure a provider and model are set and the provider key is valid. |
+| **Port connects but the UI never responds** | This usually means the target port is occupied by a stale or wrong listener instead of a healthy GoUsbAi HTTP server. Newer `go-usb-ai start` now preflights the UI port and fails fast with diagnostics. On the server, run `ss -ltnp | grep 55667` or `lsof -iTCP:55667 -sTCP:LISTEN -n -P`, then free the port or restart with `--ui-port <port>`. |
+| **Public browser access returns 502** | First verify `curl http://127.0.0.1:55667/api/health` on the server. If it is `200`, your reverse proxy is misconfigured. Make sure it proxies to `http://127.0.0.1:55667` instead of `https://127.0.0.1:55667`, and that `443` is terminated by Nginx/Caddy rather than GoUsbAi itself. |
+| **Config not loading** | Ensure `GOUSB_AI_HOME` (if set) points to the directory that contains `config.json`. Run `go-usb-ai status` to see which config file is used. |
+| **Agent not responding in CLI** | Run `go-usb-ai init` if you have not yet; ensure a provider and model are set and the provider key is valid. |
 
 ---

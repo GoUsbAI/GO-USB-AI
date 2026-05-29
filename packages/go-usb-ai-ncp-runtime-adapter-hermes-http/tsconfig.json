@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@go-usb-ai/ncp": ["../ncp-packages/go-usb-ai-ncp/src/index.ts"],
+      "@go-usb-ai/ncp-agent-runtime": ["../ncp-packages/go-usb-ai-ncp-agent-runtime/src/index.ts"],
+      "@go-usb-ai/ncp-http-agent-client": ["../ncp-packages/go-usb-ai-ncp-http-agent-client/src/index.ts"]
+    }
+  },
+  "include": ["src"]
+}

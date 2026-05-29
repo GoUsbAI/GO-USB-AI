@@ -4,20 +4,20 @@
 
 <div align="center">
 
-<img src="images/marketing/nextclaw-omni-assistant-en.jpg" alt="NextClaw — Powerful AI Assistant for Your Computer" width="720" />
+<img src="images/marketing/go-usb-ai-omni-assistant-en.jpg" alt="GoUsbAi — Powerful AI Assistant for Your Computer" width="720" />
 
 <br /><br />
 
-# NextClaw
+# GoUsbAi
 
 **Turn your computer into a powerful AI assistant that coordinates agents, skills, CLI tools, automations, and messaging apps.**
 
-[![npm](https://img.shields.io/npm/v/nextclaw)](https://www.npmjs.com/package/nextclaw)
+[![npm](https://img.shields.io/npm/v/go-usb-ai)](https://www.npmjs.com/package/go-usb-ai)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D18-blue)](https://nodejs.org)
-[![Discord](https://img.shields.io/badge/Discord-NextClaw-5865F2?logo=discord&logoColor=white)](https://discord.gg/j4Skbgye)
+[![Discord](https://img.shields.io/badge/Discord-GoUsbAi-5865F2?logo=discord&logoColor=white)](https://discord.gg/j4Skbgye)
 
-[Documentation](https://docs.nextclaw.io/en/) · [Planning](docs/ROADMAP.md) · [Discord](https://discord.gg/j4Skbgye) · [Issues](https://github.com/Peiiii/nextclaw/issues) · [Roadmap](https://docs.nextclaw.io/en/guide/roadmap)
+[Documentation](https://docs.go-usb-ai.io/en/) · [Planning](docs/ROADMAP.md) · [Discord](https://discord.gg/j4Skbgye) · [Issues](https://github.com/Peiiii/go-usb-ai/issues) · [Roadmap](https://docs.go-usb-ai.io/en/guide/roadmap)
 
 <p>
   <img src="https://img.shields.io/badge/Windows-0078D6?style=flat-square&logo=windows&logoColor=white" alt="Windows" />
@@ -31,9 +31,9 @@
 
 ---
 
-NextClaw runs on your machine and brings agents, skills, CLI tools, scheduled automations, and messaging app integrations into one controllable assistant workspace.
+GoUsbAi runs on your machine and brings agents, skills, CLI tools, scheduled automations, and messaging app integrations into one controllable assistant workspace.
 
-- **One-command startup** — `nextclaw start`, then configure everything in the browser UI
+- **One-command startup** — `go-usb-ai start`, then configure everything in the browser UI
 - **12+ AI providers** — OpenRouter, OpenAI, Anthropic, Gemini, DeepSeek, Groq, MiniMax, and more
   <br /><img src="https://img.shields.io/badge/OpenRouter-6366F1?style=flat-square" alt="OpenRouter" /> <img src="https://img.shields.io/badge/OpenAI-412991?style=flat-square&logo=openai&logoColor=white" alt="OpenAI" /> <img src="https://img.shields.io/badge/Anthropic-D4A27F?style=flat-square&logo=anthropic&logoColor=white" alt="Anthropic" /> <img src="https://img.shields.io/badge/Gemini-8E75B2?style=flat-square&logo=googlegemini&logoColor=white" alt="Gemini" /> <img src="https://img.shields.io/badge/DeepSeek-0066FF?style=flat-square" alt="DeepSeek" /> <img src="https://img.shields.io/badge/Groq-F55036?style=flat-square" alt="Groq" /> <img src="https://img.shields.io/badge/MiniMax-FF6B35?style=flat-square" alt="MiniMax" /> <img src="https://img.shields.io/badge/Moonshot-1A1A2E?style=flat-square" alt="Moonshot" /> <img src="https://img.shields.io/badge/DashScope-FF6A00?style=flat-square" alt="DashScope" /> <img src="https://img.shields.io/badge/Zhipu-0052CC?style=flat-square" alt="Zhipu" /> <img src="https://img.shields.io/badge/AiHubMix-00B4D8?style=flat-square" alt="AiHubMix" /> <img src="https://img.shields.io/badge/vLLM-FF4500?style=flat-square" alt="vLLM" />
 - **10+ message channels** — Discord, Telegram, Slack, WhatsApp, Feishu, DingTalk, WeCom, QQ, Weixin, Email
@@ -44,10 +44,10 @@ NextClaw runs on your machine and brings agents, skills, CLI tools, scheduled au
 
 ## Community
 
-- **Discord** — [NextClaw / OpenClaw](https://discord.gg/j4Skbgye)
+- **Discord** — [GoUsbAi / OpenClaw](https://discord.gg/j4Skbgye)
 - **WeChat Group** — Scan to join:
 
-  <img src="images/contact/nextclaw-contact-wechat-group.png" width="180" alt="WeChat Group QR" />
+  <img src="images/contact/go-usb-ai-contact-wechat-group.png" width="180" alt="WeChat Group QR" />
 
 ## Quick Start
 
@@ -67,16 +67,16 @@ npm -v
 ```
 
 ```bash
-npm i -g nextclaw
-nextclaw start
+npm i -g go-usb-ai
+go-usb-ai start
 ```
 
 Open **http://127.0.0.1:55667** → set your provider and model → start chatting.
 
-On a VPS, NextClaw serves plain HTTP on `55667`. Use `http://<server-ip>:55667` directly for a quick check, or put Nginx/Caddy in front for `80/443`. `https://` must be terminated by the reverse proxy, not by NextClaw itself.
+On a VPS, GoUsbAi serves plain HTTP on `55667`. Use `http://<server-ip>:55667` directly for a quick check, or put Nginx/Caddy in front for `80/443`. `https://` must be terminated by the reverse proxy, not by GoUsbAi itself.
 
 ```bash
-nextclaw stop    # stop the service
+go-usb-ai stop    # stop the service
 ```
 
 If `npm` is not found, install/reinstall Node.js and reopen your terminal.
@@ -90,8 +90,8 @@ pnpm install
 pnpm dev
 ```
 
-This starts the NextClaw development stack and prints the local URLs in the terminal.
-By default it uses `~/.nextclaw`, the same data directory as the normal local app. Set `NEXTCLAW_HOME=/path/to/home` if you want development to run against a different data directory.
+This starts the GoUsbAi development stack and prints the local URLs in the terminal.
+By default it uses `~/.go-usb-ai`, the same data directory as the normal local app. Set `GOUSB_AI_HOME=/path/to/home` if you want development to run against a different data directory.
 
 `pnpm dev start` intentionally disables the runtime update host so development builds do not show a false "Update Issue" state before a release manifest exists.
 
@@ -102,9 +102,9 @@ pnpm dev:backend   # backend on 127.0.0.1:18792
 pnpm dev:frontend  # frontend on 127.0.0.1:5174
 ```
 
-> Full configuration guide: [docs.nextclaw.io](https://docs.nextclaw.io/en/guide/configuration)
+> Full configuration guide: [docs.go-usb-ai.io](https://docs.go-usb-ai.io/en/guide/configuration)
 >
-> Beginner step-by-step guide (with troubleshooting): [Getting Started](https://docs.nextclaw.io/en/guide/getting-started)
+> Beginner step-by-step guide (with troubleshooting): [Getting Started](https://docs.go-usb-ai.io/en/guide/getting-started)
 
 ## Screenshots
 
@@ -116,24 +116,24 @@ pnpm screenshots:refresh
 
 **Agent Chat** — send tasks and review multi-turn conversations in one place:
 
-![Agent Chat](images/screenshots/nextclaw-chat-page-en.png)
+![Agent Chat](images/screenshots/go-usb-ai-chat-page-en.png)
 
 **AI Providers** — configure and switch between providers in the UI:
 
-![AI Providers](images/screenshots/nextclaw-providers-page-en.png)
+![AI Providers](images/screenshots/go-usb-ai-providers-page-en.png)
 
 **Message Channels** — enable Discord, Telegram, Feishu, QQ, and more:
 
-![Message Channels](images/screenshots/nextclaw-channels-page-en.png)
+![Message Channels](images/screenshots/go-usb-ai-channels-page-en.png)
 
 ## Documentation
 
-Visit **[docs.nextclaw.io](https://docs.nextclaw.io/en/)** for the full documentation, including:
+Visit **[docs.go-usb-ai.io](https://docs.go-usb-ai.io/en/)** for the full documentation, including:
 
-- [Model Selection](https://docs.nextclaw.io/en/guide/model-selection)
-- [Commands](https://docs.nextclaw.io/en/guide/commands)
-- [Vision & Roadmap](https://docs.nextclaw.io/en/guide/vision)
-- [Feishu Setup Tutorial](https://docs.nextclaw.io/en/guide/tutorials/feishu)
+- [Model Selection](https://docs.go-usb-ai.io/en/guide/model-selection)
+- [Commands](https://docs.go-usb-ai.io/en/guide/commands)
+- [Vision & Roadmap](https://docs.go-usb-ai.io/en/guide/vision)
+- [Feishu Setup Tutorial](https://docs.go-usb-ai.io/en/guide/tutorials/feishu)
 - GitHub planning docs: [Roadmap](docs/ROADMAP.md) · [TODO Backlog](docs/TODO.md) · [File Naming Convention](docs/workflows/file-naming-convention.md)
 
 ## Contributing
@@ -142,9 +142,9 @@ Contributions are welcome! Please open an issue or submit a pull request.
 
 ## Acknowledgements
 
-NextClaw is inspired by and built upon the shoulders of these great projects:
+GoUsbAi is inspired by and built upon the shoulders of these great projects:
 
-- [OpenClaw](https://github.com/openclaw/openclaw) — The full-stack AI assistant platform that inspired NextClaw's early exploration.
+- [OpenClaw](https://github.com/openclaw/openclaw) — The full-stack AI assistant platform that inspired GoUsbAi's early exploration.
 - [NanoBot](https://github.com/nicepkg/gpt-runner) — A lightweight Python agent framework that demonstrated how simplicity and power can coexist.
 
 ## License
@@ -155,6 +155,6 @@ NextClaw is inspired by and built upon the shoulders of these great projects:
 
 <div align="center">
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Peiiii/nextclaw&type=Date)](https://star-history.com/#Peiiii/nextclaw&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=Peiiii/go-usb-ai&type=Date)](https://star-history.com/#Peiiii/go-usb-ai&Date)
 
 </div>

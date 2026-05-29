@@ -13,20 +13,20 @@
 
 ## 测试/验证/验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core test -- --run src/config/schema.plugin-channels.test.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-openclaw-compat test -- --run src/plugins/channel-runtime.test.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw test -- --run src/cli/commands/channel-config-view.test.ts src/cli/commands/config.test.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server test -- --run src/ui/router.weixin-channel-auth.test.ts src/ui/router.weixin-channel-config.test.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-openclaw-compat tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core test -- --run src/config/schema.plugin-channels.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-openclaw-compat test -- --run src/plugins/channel-runtime.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai test -- --run src/cli/commands/channel-config-view.test.ts src/cli/commands/config.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.weixin-channel-auth.test.ts src/ui/router.weixin-channel-config.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-openclaw-compat tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
 - 隔离 home 冒烟：
-  - `NEXTCLAW_HOME=/tmp/nextclaw-channel-smoke-5C2XyP NEXTCLAW_DEV_FIRST_PARTY_PLUGIN_DIR=/Users/peiwang/Projects/nextbot/packages/extensions PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw dev:build serve --ui-port 19097`
+  - `GOUSB_AI_HOME=/tmp/go-usb-ai-channel-smoke-5C2XyP GOUSB_AI_DEV_FIRST_PARTY_PLUGIN_DIR=/Users/peiwang/Projects/nextbot/packages/extensions PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai dev:build serve --ui-port 19097`
   - `curl -sf http://127.0.0.1:19097/api/health`
   - `curl -sf http://127.0.0.1:19097/api/config | jq '.data.channels | {discord,qq,feishu,weixin}'`
   - 观察日志：`QQ bot connected`、`Discord bot connected`、`Discord slash commands registered for 2 guild(s)` 已出现；不再出现 `Feishu ... reading 'channels'` 启动错误；`channels.feishu.enabled=false` 时不再误启动 Feishu gateway
-- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/nextclaw-channel-plugin-weixin/src/index.ts packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-config.ts packages/nextclaw-core/src/config/schema.ts packages/nextclaw-core/src/config/schema.plugin-channels.test.ts packages/nextclaw-openclaw-compat/src/plugins/channel-runtime.ts packages/nextclaw-openclaw-compat/src/plugins/channel-runtime.test.ts packages/nextclaw-openclaw-compat/src/plugins/types.ts packages/nextclaw-server/src/ui/channel-auth.ts packages/nextclaw-server/src/ui/router.weixin-channel-auth.test.ts packages/nextclaw-server/src/ui/router.weixin-channel-config.test.ts packages/nextclaw/src/cli/commands/channels.ts packages/nextclaw/src/cli/commands/config.ts packages/nextclaw/src/cli/commands/config.test.ts packages/nextclaw/src/cli/commands/channel-config-view.ts packages/nextclaw/src/cli/commands/channel-config-view.test.ts packages/nextclaw/src/cli/commands/service.ts packages/nextclaw/src/cli/config-reloader.ts`
+- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/go-usb-ai-channel-plugin-weixin/src/index.ts packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-config.ts packages/go-usb-ai-core/src/config/schema.ts packages/go-usb-ai-core/src/config/schema.plugin-channels.test.ts packages/go-usb-ai-openclaw-compat/src/plugins/channel-runtime.ts packages/go-usb-ai-openclaw-compat/src/plugins/channel-runtime.test.ts packages/go-usb-ai-openclaw-compat/src/plugins/types.ts packages/go-usb-ai-server/src/ui/channel-auth.ts packages/go-usb-ai-server/src/ui/router.weixin-channel-auth.test.ts packages/go-usb-ai-server/src/ui/router.weixin-channel-config.test.ts packages/go-usb-ai/src/cli/commands/channels.ts packages/go-usb-ai/src/cli/commands/config.ts packages/go-usb-ai/src/cli/commands/config.test.ts packages/go-usb-ai/src/cli/commands/channel-config-view.ts packages/go-usb-ai/src/cli/commands/channel-config-view.test.ts packages/go-usb-ai/src/cli/commands/service.ts packages/go-usb-ai/src/cli/config-reloader.ts`
 
 ## 发布/部署方式
 
@@ -36,7 +36,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开配置文件或使用 `nextclaw config get channels.<channel>`，确认渠道配置内容位于 `channels.<channel>`
+1. 打开配置文件或使用 `go-usb-ai config get channels.<channel>`，确认渠道配置内容位于 `channels.<channel>`
 2. 在 UI 中修改 Weixin/Discord 等渠道配置并保存，确认保存后刷新页面仍能看到相同配置
 3. 触发渠道授权或登录流程，确认授权成功后配置写入 `channels.<channel>`，而不是只出现在 `plugins.entries.*.config`
 4. 重启或热重载服务，确认渠道仍能按保存后的配置正常启动与响应

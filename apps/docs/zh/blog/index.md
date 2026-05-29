@@ -1,6 +1,6 @@
 ---
 title: 博客
-description: 用更长的篇幅解释产品判断、设计取舍与 NextClaw 的构建思路。
+description: 用更长的篇幅解释产品判断、设计取舍与 GoUsbAi 的构建思路。
 ---
 
 # 博客

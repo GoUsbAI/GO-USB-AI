@@ -1,12 +1,12 @@
 # v0.13.103-ncp-runtime-stream-encoder-stabilization
 
 ## 迭代完成说明（改了什么）
-- 将 `@nextclaw/ncp-agent-runtime` 的流编码逻辑从 [`stream-encoder.ts`](../../../packages/nextclaw-ncp-agent-runtime/src/stream-encoder.ts) 拆分到 [`stream-encoder.utils.ts`](../../../packages/nextclaw-ncp-agent-runtime/src/stream-encoder.utils.ts)，把文本增量、reasoning 增量、tool call 增量和收尾刷出逻辑独立出来，降低主编码器复杂度。
+- 将 `@go-usb-ai/ncp-agent-runtime` 的流编码逻辑从 [`stream-encoder.ts`](../../../packages/go-usb-ai-ncp-agent-runtime/src/stream-encoder.ts) 拆分到 [`stream-encoder.utils.ts`](../../../packages/go-usb-ai-ncp-agent-runtime/src/stream-encoder.utils.ts)，把文本增量、reasoning 增量、tool call 增量和收尾刷出逻辑独立出来，降低主编码器复杂度。
 - 保持 NCP 事件语义不变：
   - 文本首包时发出 `message.text.start`
   - reasoning 按 chunk 持续发出 `message.reasoning.delta`
   - tool call 在拿到 `id + name` 后发出 `message.tool-call-start`，结束时统一刷出 `message.tool-call-args` 与 `message.tool-call-end`
-- 调整 [`runtime.ts`](../../../packages/nextclaw-ncp-agent-runtime/src/runtime.ts)：用户输入消息仍会写入状态管理器，但不再从 `run()` 额外向外层重复 `yield message.sent`，避免上层消费链路收到重复发送事件。
+- 调整 [`runtime.ts`](../../../packages/go-usb-ai-ncp-agent-runtime/src/runtime.ts)：用户输入消息仍会写入状态管理器，但不再从 `run()` 额外向外层重复 `yield message.sent`，避免上层消费链路收到重复发送事件。
 - 相关联提交同时纳入已有迭代日志：
   - [v0.13.92-ncp-smoke-workflow-and-local-verification](../v0.13.92-ncp-smoke-workflow-and-local-verification/README.md)
   - [v0.13.93-ui-backend-health-status-visibility](../v0.13.93-ui-backend-health-status-visibility/README.md)
@@ -15,20 +15,20 @@
 
 ## 测试/验证/验收方式
 - 受影响包最小充分验证：
-  - `pnpm -C packages/nextclaw-ncp-agent-runtime lint`
-  - `pnpm -C packages/nextclaw-ncp-agent-runtime tsc`
-  - `pnpm -C packages/nextclaw-ncp-agent-runtime build`
-  - `pnpm -C packages/nextclaw-ui tsc`
-  - `pnpm -C packages/nextclaw-ui build`
-  - `pnpm -C packages/nextclaw-server lint`
-  - `pnpm -C packages/nextclaw-server tsc`
-  - `pnpm -C packages/nextclaw-server build`
+  - `pnpm -C packages/go-usb-ai-ncp-agent-runtime lint`
+  - `pnpm -C packages/go-usb-ai-ncp-agent-runtime tsc`
+  - `pnpm -C packages/go-usb-ai-ncp-agent-runtime build`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
+  - `pnpm -C packages/go-usb-ai-ui build`
+  - `pnpm -C packages/go-usb-ai-server lint`
+  - `pnpm -C packages/go-usb-ai-server tsc`
+  - `pnpm -C packages/go-usb-ai-server build`
 - 冒烟验证：
   - 执行 NCP 相关最小链路，确认流式响应仍按 `run.started -> message.* -> run.finished` 顺序输出。
   - 刷新聊天页面，确认顶部状态点能快速收敛到 `connected` 或 `disconnected`。
 
 ## 发布/部署方式
-- 本次改动涉及 `@nextclaw/ncp-agent-runtime`、`@nextclaw/ui`、`@nextclaw/server`。
+- 本次改动涉及 `@go-usb-ai/ncp-agent-runtime`、`@go-usb-ai/ui`、`@go-usb-ai/server`。
 - 发布前执行对应包的 `lint`/`tsc`/`build`，再按仓库既有 release 流程进行版本与发布。
 - 不适用项：
   - 远程 migration 不适用（未涉及数据库 schema 或后端持久化变更）。

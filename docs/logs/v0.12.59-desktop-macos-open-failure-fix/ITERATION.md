@@ -10,8 +10,8 @@
 - 已验证：
   - `pnpm -C apps/desktop smoke` 通过。
   - 使用打包产物中的可执行文件执行 runtime CLI：
-    - `ELECTRON_RUN_AS_NODE <AppBinary> <.../node_modules/nextclaw/dist/cli/index.js> --version` 返回正常版本号。
-    - `init` 与 `serve --ui-port 18791` 在隔离 `NEXTCLAW_HOME` 下可运行并返回健康检查 `{"ok":true,...}`。
+    - `ELECTRON_RUN_AS_NODE <AppBinary> <.../node_modules/go-usb-ai/dist/cli/index.js> --version` 返回正常版本号。
+    - `init` 与 `serve --ui-port 18791` 在隔离 `GOUSB_AI_HOME` 下可运行并返回健康检查 `{"ok":true,...}`。
 - 仍需线上/用户侧确认：
   - Finder 双击启动在真实下载分发场景下受 Gatekeeper/签名与公证策略影响，需结合证书与 notarization 完整链路验证。
 

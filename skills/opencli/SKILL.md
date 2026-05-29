@@ -7,7 +7,7 @@ description: Use when the user wants to use websites, browser login sessions, El
 
 ## Overview
 
-Use this skill to help the user work through a local `opencli` installation from inside NextClaw.
+Use this skill to help the user work through a local `opencli` installation from inside GoUsbAi.
 
 This skill is intentionally decoupled:
 
@@ -37,7 +37,7 @@ Do not pretend the environment is ready when it is not.
 - claiming support for a site or app that `opencli` does not actually expose,
 - silently bypassing missing setup,
 - silently triggering destructive or write actions,
-- treating third-party runtime behavior as native NextClaw behavior.
+- treating third-party runtime behavior as native GoUsbAi behavior.
 
 ## First-Use Workflow
 

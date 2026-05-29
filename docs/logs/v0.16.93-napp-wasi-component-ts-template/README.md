@@ -35,46 +35,46 @@
 - 新增 Wasmtime WASI HTTP component runner，启动 `wasmtime serve` 并启用 WASI CLI/HTTP/network 能力
 - NApp host 把 `/api/*` 代理给 WASM 后端，其它路径继续服务 UI 和 `__napp/*`
 - 保留默认 `starter` 行为不变，避免影响当前 demo
-- 更新 `skills/nextclaw-app-runtime`，把它从旧的 napp 说明升级为普通用户端到端 workflow：创建、构建预览、发布、安装运行、排障
-- 进一步收口 `skills/nextclaw-app-runtime`：创建时显式推荐 `ts-http` / `ts-http-lite`，发布前强制先走 `napp validate-publish`，并把失败提示改成普通用户语言
+- 更新 `skills/go-usb-ai-app-runtime`，把它从旧的 napp 说明升级为普通用户端到端 workflow：创建、构建预览、发布、安装运行、排障
+- 进一步收口 `skills/go-usb-ai-app-runtime`：创建时显式推荐 `ts-http` / `ts-http-lite`，发布前强制先走 `napp validate-publish`，并把失败提示改成普通用户语言
 
 ## 测试/验证/验收方式
 
 已执行：
 
-- `pnpm -C packages/nextclaw-app-runtime tsc`
-- `pnpm -C packages/nextclaw-app-runtime test`
-- `pnpm -C packages/nextclaw-app-runtime lint`
-- `pnpm -C packages/nextclaw-app-runtime build`
-- `node packages/nextclaw-app-runtime/dist/main.js create "$tmpdir/lite-app" --template ts-http-lite --json`
-- `node packages/nextclaw-app-runtime/dist/main.js build "$lite_appdir" --install --json`
-- `node packages/nextclaw-app-runtime/dist/main.js pack "$lite_appdir" --out "$lite_bundle" --json`
-- `node packages/nextclaw-app-runtime/dist/main.js create "$tmpdir/todo-app" --template ts-http --json`
-- `node packages/nextclaw-app-runtime/dist/main.js doctor --json`
-- `node packages/nextclaw-app-runtime/dist/main.js build "$appdir" --install --json`
-- `node packages/nextclaw-app-runtime/dist/main.js run "$appdir" --port 0 --data "$datadir" --json`
+- `pnpm -C packages/go-usb-ai-app-runtime tsc`
+- `pnpm -C packages/go-usb-ai-app-runtime test`
+- `pnpm -C packages/go-usb-ai-app-runtime lint`
+- `pnpm -C packages/go-usb-ai-app-runtime build`
+- `node packages/go-usb-ai-app-runtime/dist/main.js create "$tmpdir/lite-app" --template ts-http-lite --json`
+- `node packages/go-usb-ai-app-runtime/dist/main.js build "$lite_appdir" --install --json`
+- `node packages/go-usb-ai-app-runtime/dist/main.js pack "$lite_appdir" --out "$lite_bundle" --json`
+- `node packages/go-usb-ai-app-runtime/dist/main.js create "$tmpdir/todo-app" --template ts-http --json`
+- `node packages/go-usb-ai-app-runtime/dist/main.js doctor --json`
+- `node packages/go-usb-ai-app-runtime/dist/main.js build "$appdir" --install --json`
+- `node packages/go-usb-ai-app-runtime/dist/main.js run "$appdir" --port 0 --data "$datadir" --json`
 - `curl "$url/api/todos"`
 - `curl -X POST "$url/api/todos" -H 'content-type: application/json' --data '{"title":"Buy milk"}'`
 - 检查 `$datadir/todos.json`
-- `node packages/nextclaw-app-runtime/dist/main.js pack "$appdir" --out "$bundle" --json`
-- `NEXTCLAW_APP_HOME="$apphome" node packages/nextclaw-app-runtime/dist/main.js install "$bundle" --json`
-- `NEXTCLAW_APP_HOME="$apphome" node packages/nextclaw-app-runtime/dist/main.js run nextclaw.user-todo --port 0 --json`
-- `python3 .agents/skills/marketplace-skill-publisher/scripts/validate_marketplace_skill.py --skill-dir skills/nextclaw-app-runtime`
-- `npm view @nextclaw/app-runtime version`
-- `pnpm publish --access public --no-git-checks`（在 `packages/nextclaw-app-runtime` 下执行）
-- `node packages/nextclaw/dist/cli/app/index.js skills update skills/nextclaw-app-runtime --meta skills/nextclaw-app-runtime/marketplace.json --api-base https://marketplace-api.nextclaw.io`
-- `python3 .agents/skills/marketplace-skill-publisher/scripts/validate_marketplace_skill.py --skill-dir skills/nextclaw-app-runtime`（phase 3 收口后复跑）
-- `node packages/nextclaw/dist/cli/app/index.js skills update skills/nextclaw-app-runtime --meta skills/nextclaw-app-runtime/marketplace.json --api-base https://marketplace-api.nextclaw.io`（phase 3 收口后复发）
-- `curl -sS https://marketplace-api.nextclaw.io/api/v1/skills/items/nextclaw-app-runtime`
-- `node packages/nextclaw/dist/cli/app/index.js skills install nextclaw-app-runtime --api-base https://marketplace-api.nextclaw.io --workdir "$tmp_dir"`
+- `node packages/go-usb-ai-app-runtime/dist/main.js pack "$appdir" --out "$bundle" --json`
+- `GOUSB_AI_APP_HOME="$apphome" node packages/go-usb-ai-app-runtime/dist/main.js install "$bundle" --json`
+- `GOUSB_AI_APP_HOME="$apphome" node packages/go-usb-ai-app-runtime/dist/main.js run go-usb-ai.user-todo --port 0 --json`
+- `python3 .agents/skills/marketplace-skill-publisher/scripts/validate_marketplace_skill.py --skill-dir skills/go-usb-ai-app-runtime`
+- `npm view @go-usb-ai/app-runtime version`
+- `pnpm publish --access public --no-git-checks`（在 `packages/go-usb-ai-app-runtime` 下执行）
+- `node packages/go-usb-ai/dist/cli/app/index.js skills update skills/go-usb-ai-app-runtime --meta skills/go-usb-ai-app-runtime/marketplace.json --api-base https://marketplace-api.go-usb-ai.io`
+- `python3 .agents/skills/marketplace-skill-publisher/scripts/validate_marketplace_skill.py --skill-dir skills/go-usb-ai-app-runtime`（phase 3 收口后复跑）
+- `node packages/go-usb-ai/dist/cli/app/index.js skills update skills/go-usb-ai-app-runtime --meta skills/go-usb-ai-app-runtime/marketplace.json --api-base https://marketplace-api.go-usb-ai.io`（phase 3 收口后复发）
+- `curl -sS https://marketplace-api.go-usb-ai.io/api/v1/skills/items/go-usb-ai-app-runtime`
+- `node packages/go-usb-ai/dist/cli/app/index.js skills install go-usb-ai-app-runtime --api-base https://marketplace-api.go-usb-ai.io --workdir "$tmp_dir"`
 - `pnpm -C workers/marketplace-api tsc`
-- `node packages/nextclaw-app-runtime/dist/main.js validate-publish "$appdir" --json`
-- `node packages/nextclaw-app-runtime/dist/main.js pack "$appdir" --out "$bundle" --json`
+- `node packages/go-usb-ai-app-runtime/dist/main.js validate-publish "$appdir" --json`
+- `node packages/go-usb-ai-app-runtime/dist/main.js pack "$appdir" --out "$bundle" --json`
 - `unzip -l "$bundle"`
-- `node packages/nextclaw-app-runtime/dist/main.js validate-publish "$appdir" --mode source --json`
-- `node packages/nextclaw-app-runtime/dist/main.js pack "$appdir" --mode source --out "$bundle" --json`
-- `NEXTCLAW_APP_HOME="$apphome" node packages/nextclaw-app-runtime/dist/main.js install "$bundle" --json`
-- `NEXTCLAW_APP_HOME="$apphome" node packages/nextclaw-app-runtime/dist/main.js run nextclaw.todo-app --port 0`
+- `node packages/go-usb-ai-app-runtime/dist/main.js validate-publish "$appdir" --mode source --json`
+- `node packages/go-usb-ai-app-runtime/dist/main.js pack "$appdir" --mode source --out "$bundle" --json`
+- `GOUSB_AI_APP_HOME="$apphome" node packages/go-usb-ai-app-runtime/dist/main.js install "$bundle" --json`
+- `GOUSB_AI_APP_HOME="$apphome" node packages/go-usb-ai-app-runtime/dist/main.js run go-usb-ai.todo-app --port 0`
 - `curl "$url/api/todos"`
 - `pnpm lint:maintainability:guard`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths <本次触达 app-runtime 文件>`
@@ -93,14 +93,14 @@
 - 真实端到端冒烟通过：`GET /api/todos` 初始返回 `[]`
 - 真实端到端冒烟通过：`POST /api/todos` 返回包含 `Buy milk` 的 Todo
 - 真实端到端冒烟通过：数据写入 `--data` 指定目录下的 `todos.json`
-- 安装态冒烟通过：本地 `.napp` bundle 可安装到隔离 `NEXTCLAW_APP_HOME`，再通过 app id 运行，并自动使用安装态私有数据目录
+- 安装态冒烟通过：本地 `.napp` bundle 可安装到隔离 `GOUSB_AI_APP_HOME`，再通过 app id 运行，并自动使用安装态私有数据目录
 - UI 首页可从同一个 NApp host 访问
-- `skills/nextclaw-app-runtime` marketplace 校验通过：0 error、0 warning
-- `@nextclaw/app-runtime@0.5.0` 已发布到 npm latest
-- `@nextclaw/app-runtime@0.6.0` 已发布到 npm latest
-- `@nextclaw/app-runtime@0.7.0` 已发布到 npm latest
-- `skills/nextclaw-app-runtime` 已更新到 NextClaw marketplace，远端 metadata 与安装文件校验通过
-- `skills/nextclaw-app-runtime` 已按 phase 3 新工作流再次更新到 NextClaw marketplace
+- `skills/go-usb-ai-app-runtime` marketplace 校验通过：0 error、0 warning
+- `@go-usb-ai/app-runtime@0.5.0` 已发布到 npm latest
+- `@go-usb-ai/app-runtime@0.6.0` 已发布到 npm latest
+- `@go-usb-ai/app-runtime@0.7.0` 已发布到 npm latest
+- `skills/go-usb-ai-app-runtime` 已更新到 GoUsbAi marketplace，远端 metadata 与安装文件校验通过
+- `skills/go-usb-ai-app-runtime` 已按 phase 3 新工作流再次更新到 GoUsbAi marketplace
 - marketplace skill 安装冒烟通过：非仓库临时目录可安装出 `SKILL.md` 与 `marketplace.json`
 - marketplace worker 类型检查通过，`wasi-http-component` app manifest 能通过新的发布协议编译约束
 - 真实 ts-http 打包 smoke 显示：构建后的 `main/app.wasm` 约 13.3 MB，但最终 `.napp` 约 4.2 MB，archive 内只有 7 个运行时文件，不再包含 `main/node_modules`
@@ -112,25 +112,25 @@
 - `wkg wit fetch` 在当前环境出现 OCI token warning，但不阻塞构建
 - `jco componentize` 出现 componentize-js 0.19.3 fallback warning，原因是当前 WIT 使用 WASI Preview 2 旧于 0.2.10 的包；不阻塞本次验收，后续可升级 WIT 版本处理
 - Scoped 治理检查有效覆盖 21 个本次触达文件，0 error
-- 仓库级 `pnpm lint:maintainability:guard` 被本次范围外的 `packages/nextclaw/src/cli/shared/services/gateway/...` 既有脏文件阻塞；本次未修改该无关路径
-- 可维护性 guard 有 2 个 warning：`packages/nextclaw-app-runtime/src/commands` 为历史超预算目录；新增模板文件 517 行，接近 600 行预算
+- 仓库级 `pnpm lint:maintainability:guard` 被本次范围外的 `packages/go-usb-ai/src/cli/shared/services/gateway/...` 既有脏文件阻塞；本次未修改该无关路径
+- 可维护性 guard 有 2 个 warning：`packages/go-usb-ai-app-runtime/src/commands` 为历史超预算目录；新增模板文件 517 行，接近 600 行预算
 
 ## 发布/部署方式
 
 已执行发布：
 
-- NPM：`@nextclaw/app-runtime@0.5.0`、`@nextclaw/app-runtime@0.6.0`、`@nextclaw/app-runtime@0.7.0`
-- NextClaw marketplace skill：`nextclaw-app-runtime`
-- Marketplace API worker：已执行远端 D1 migration `0009_marketplace_app_distribution_mode_20260424.sql` 并部署到 `marketplace-api.nextclaw.io` / `apps-registry.nextclaw.io`
+- NPM：`@go-usb-ai/app-runtime@0.5.0`、`@go-usb-ai/app-runtime@0.6.0`、`@go-usb-ai/app-runtime@0.7.0`
+- GoUsbAi marketplace skill：`go-usb-ai-app-runtime`
+- Marketplace API worker：已执行远端 D1 migration `0009_marketplace_app_distribution_mode_20260424.sql` 并部署到 `marketplace-api.go-usb-ai.io` / `apps-registry.go-usb-ai.io`
 
 本地体验方式：
 
 ```bash
-pnpm -C packages/nextclaw-app-runtime build
-node packages/nextclaw-app-runtime/dist/main.js create /tmp/todo-app --template ts-http
-node packages/nextclaw-app-runtime/dist/main.js doctor
-node packages/nextclaw-app-runtime/dist/main.js build /tmp/todo-app --install
-node packages/nextclaw-app-runtime/dist/main.js run /tmp/todo-app --data /tmp/todo-app/.napp/data
+pnpm -C packages/go-usb-ai-app-runtime build
+node packages/go-usb-ai-app-runtime/dist/main.js create /tmp/todo-app --template ts-http
+node packages/go-usb-ai-app-runtime/dist/main.js doctor
+node packages/go-usb-ai-app-runtime/dist/main.js build /tmp/todo-app --install
+node packages/go-usb-ai-app-runtime/dist/main.js run /tmp/todo-app --data /tmp/todo-app/.napp/data
 ```
 
 ## 用户/产品视角的验收步骤
@@ -169,21 +169,21 @@ node packages/nextclaw-app-runtime/dist/main.js run /tmp/todo-app --data /tmp/to
 - 本次顺着“统一入口 + 能力编排 + 生态扩展”的长期方向推进了一步，把 NApp 从 action demo 变成可承载普通全栈应用的轻量运行容器。
 - 这次是新增用户能力，因此非测试代码净增为正是必要的；增长集中在分发合同、安装物化、registry 协议和 worker 持久化，没有把平台扩展成远端构建系统。
 - 主路径保持显式：只有 `main.kind=wasi-http-component` 才启动 Wasmtime runner，缺少 `--data` 直接失败，不做隐藏 fallback 或环境猜测。
-- 普通用户入口由现有 `nextclaw-app-runtime` skill 承接，skill 负责工作流和排障，runtime 负责执行，避免把 AI 指令和执行逻辑混在一起。
+- 普通用户入口由现有 `go-usb-ai-app-runtime` skill 承接，skill 负责工作流和排障，runtime 负责执行，避免把 AI 指令和执行逻辑混在一起。
 
 独立可维护性复核：
 
 - no maintainability findings
-- 当前保留三个 watchpoint：`packages/nextclaw-app-runtime/src/commands` 是历史超预算目录；`workers/marketplace-api/src/infrastructure/apps/marketplace-app-record.repository.ts` 接近 400 行预算；`ts-http-lite` 当前只带来小幅体积下降，后续若继续追求数量级缩减，应优先研究 componentize/JCO 产物而不是继续替换上层路由
+- 当前保留三个 watchpoint：`packages/go-usb-ai-app-runtime/src/commands` 是历史超预算目录；`workers/marketplace-api/src/infrastructure/apps/marketplace-app-record.repository.ts` 接近 400 行预算；`ts-http-lite` 当前只带来小幅体积下降，后续若继续追求数量级缩减，应优先研究 componentize/JCO 产物而不是继续替换上层路由
 - phase 3 的 skill 收口刻意只改用户路径文案与执行顺序，没有再改 runtime 协议、模板合同或本地运行链路，避免体验层与底层机制继续耦合
 - `pnpm lint:maintainability:guard` 与 `pnpm lint:new-code:governance` 均通过；`pnpm check:governance-backlog-ratchet` 因仓库范围外的既有文档 `docs/logs/v0.16.96-unified-release-0-18-4/github-release.md` 仍是 tracked legacy violation 而失败，本次未触碰该无关路径
 
 ## NPM 包发布记录
 
-本次涉及 NPM 包：`@nextclaw/app-runtime`
+本次涉及 NPM 包：`@go-usb-ai/app-runtime`
 
 - 本次是否需要发包：需要，因为 `napp create`、`napp run/dev` 命令面、manifest 类型和运行链路都发生变化
-- 当前是否已发布：phase 1 已发布 `@nextclaw/app-runtime@0.5.0`；phase 2 已发布 `@nextclaw/app-runtime@0.6.0`；本次 source-first 双模式分发已发布 `@nextclaw/app-runtime@0.7.0`
-- marketplace skill：已更新 `nextclaw-app-runtime`，并在 phase 3 收口后再次更新
+- 当前是否已发布：phase 1 已发布 `@go-usb-ai/app-runtime@0.5.0`；phase 2 已发布 `@go-usb-ai/app-runtime@0.6.0`；本次 source-first 双模式分发已发布 `@go-usb-ai/app-runtime@0.7.0`
+- marketplace skill：已更新 `go-usb-ai-app-runtime`，并在 phase 3 收口后再次更新
 - 后续状态：不需要待统一发布
 - 触发条件：无

@@ -2,11 +2,11 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** 为 NextClaw 增加一套面向 MCP server 的 marketplace 与管理能力，覆盖 catalog 发现、安装、配置、启停、诊断与前端管理，同时保持 MCP 作为独立平台域，不把现有 plugin/skill 体系继续搅成一个更大的泛型泥球。
+**Goal:** 为 GoUsbAi 增加一套面向 MCP server 的 marketplace 与管理能力，覆盖 catalog 发现、安装、配置、启停、诊断与前端管理，同时保持 MCP 作为独立平台域，不把现有 plugin/skill 体系继续搅成一个更大的泛型泥球。
 
-**Architecture:** 复用现有 marketplace 的边界形状，而不是复用它的全部类型分支。MCP 作为与 plugin、skill 平行的第三个域存在：catalog 走 marketplace worker，安装/管理走 server controller，真正的配置写入、diagnostics、hot reload、installed view 聚合统一下沉到 `@nextclaw/mcp` 域服务，CLI 和前端都只做 adapter。
+**Architecture:** 复用现有 marketplace 的边界形状，而不是复用它的全部类型分支。MCP 作为与 plugin、skill 平行的第三个域存在：catalog 走 marketplace worker，安装/管理走 server controller，真正的配置写入、diagnostics、hot reload、installed view 聚合统一下沉到 `@go-usb-ai/mcp` 域服务，CLI 和前端都只做 adapter。
 
-**Tech Stack:** `@nextclaw/mcp`、`@nextclaw/core`、`nextclaw` CLI、`nextclaw-server` UI router、`nextclaw-ui` React + React Query、marketplace worker（D1 + R2/对象存储元数据流）、现有 MCP hotplug/reload 基础设施。
+**Tech Stack:** `@go-usb-ai/mcp`、`@go-usb-ai/core`、`go-usb-ai` CLI、`go-usb-ai-server` UI router、`go-usb-ai-ui` React + React Query、marketplace worker（D1 + R2/对象存储元数据流）、现有 MCP hotplug/reload 基础设施。
 
 ---
 
@@ -35,12 +35,12 @@
 
 1. **Plugin / Skill marketplace 链路**
    - worker 已有 `plugins` / `skills` catalog 与 detail/recommendation 数据
-   - `nextclaw-server` 已有 `/api/marketplace/plugins/*` 与 `/api/marketplace/skills/*`
-   - `nextclaw-ui` 已有 marketplace 页面、installed 视图、install/manage mutation、详情面板
+   - `go-usb-ai-server` 已有 `/api/marketplace/plugins/*` 与 `/api/marketplace/skills/*`
+   - `go-usb-ai-ui` 已有 marketplace 页面、installed 视图、install/manage mutation、详情面板
 
 2. **MCP 平台基础设施**
-   - `@nextclaw/mcp` 已有 registry、doctor、lifecycle、hot reconcile
-   - `nextclaw mcp add/remove/enable/disable/doctor/list` 已可用
+   - `@go-usb-ai/mcp` 已有 registry、doctor、lifecycle、hot reconcile
+   - `go-usb-ai mcp add/remove/enable/disable/doctor/list` 已可用
    - 常驻 service 与 native NCP runtime 已支持 MCP hot reload / hot unplug
 
 因此 MCP marketplace 不应该重复发明：
@@ -121,7 +121,7 @@ MCP 的核心管理动作应该是：
 - server controller 再自己改一套 config
 - 前端又拼一套 install body
 
-推荐把真正的 MCP mutation / installed view / marketplace install materialization 下沉到 `@nextclaw/mcp`，由：
+推荐把真正的 MCP mutation / installed view / marketplace install materialization 下沉到 `@go-usb-ai/mcp`，由：
 
 - CLI 调用
 - server controller 调用
@@ -178,18 +178,18 @@ MCP 的核心管理动作应该是：
 
 保留现有低层命令：
 
-- `nextclaw mcp add`
-- `nextclaw mcp list`
-- `nextclaw mcp doctor`
-- `nextclaw mcp enable`
-- `nextclaw mcp disable`
-- `nextclaw mcp remove`
+- `go-usb-ai mcp add`
+- `go-usb-ai mcp list`
+- `go-usb-ai mcp doctor`
+- `go-usb-ai mcp enable`
+- `go-usb-ai mcp disable`
+- `go-usb-ai mcp remove`
 
 后续可选补齐 marketplace-aware CLI：
 
-- `nextclaw mcp install <slug>`
-- `nextclaw mcp search <query>`
-- `nextclaw mcp info <slug>`
+- `go-usb-ai mcp install <slug>`
+- `go-usb-ai mcp search <query>`
+- `go-usb-ai mcp info <slug>`
 
 但 P1 不强依赖 CLI marketplace 命令，避免把范围做爆。
 
@@ -338,7 +338,7 @@ metadata?: {
 - 结构化 summary / tags / install template 等放 D1
 - 长文档 content / README 放对象存储
 
-### 7.2 nextclaw-server
+### 7.2 go-usb-ai-server
 
 新增平行 MCP route family：
 
@@ -357,7 +357,7 @@ metadata?: {
 - `manage`：enable / disable / remove / update / duplicate / rename
 - `doctor`：返回诊断详情，供 UI 展示
 
-### 7.3 @nextclaw/mcp 域服务
+### 7.3 @go-usb-ai/mcp 域服务
 
 推荐新增的核心服务：
 
@@ -378,9 +378,9 @@ CLI 只保留 adapter 责任：
 
 - 参数解析
 - JSON / human-readable 输出
-- 调用 `@nextclaw/mcp` 域服务
+- 调用 `@go-usb-ai/mcp` 域服务
 
-避免继续把 config write 逻辑留在 `packages/nextclaw/src/cli/commands/mcp.ts`。
+避免继续把 config write 逻辑留在 `packages/go-usb-ai/src/cli/commands/mcp.ts`。
 
 ## 8. 前端方案
 
@@ -490,7 +490,7 @@ MCP marketplace install 的真实含义是：
 
 ### 9.2 Manual entry 兼容
 
-用户通过 CLI 手工 `nextclaw mcp add ...` 创建的 server 也必须在前端管理页可见。
+用户通过 CLI 手工 `go-usb-ai mcp add ...` 创建的 server 也必须在前端管理页可见。
 
 但这类记录可能：
 
@@ -558,54 +558,54 @@ marketplace 安装后的 policy 默认：
 - `workers/marketplace-api/src/.../mcp-*`
 - 新增 `mcp` catalog schema / route / repository
 
-### 11.2 @nextclaw/mcp
+### 11.2 @go-usb-ai/mcp
 
-- `packages/nextclaw-mcp/src/catalog/*`
-- `packages/nextclaw-mcp/src/install/*`
-- `packages/nextclaw-mcp/src/manage/*`
-- `packages/nextclaw-mcp/src/view/*`
+- `packages/go-usb-ai-mcp/src/catalog/*`
+- `packages/go-usb-ai-mcp/src/install/*`
+- `packages/go-usb-ai-mcp/src/manage/*`
+- `packages/go-usb-ai-mcp/src/view/*`
 
 ### 11.3 server
 
-- `packages/nextclaw-server/src/ui/router/marketplace/mcp.controller.ts`
-- `packages/nextclaw-server/src/ui/router/marketplace/mcp.installed.ts`
-- `packages/nextclaw-server/src/ui/router/marketplace/index.ts`
-- `packages/nextclaw-server/src/ui/types.ts`
+- `packages/go-usb-ai-server/src/ui/router/marketplace/mcp.controller.ts`
+- `packages/go-usb-ai-server/src/ui/router/marketplace/mcp.installed.ts`
+- `packages/go-usb-ai-server/src/ui/router/marketplace/index.ts`
+- `packages/go-usb-ai-server/src/ui/types.ts`
 
 ### 11.4 frontend
 
-- `packages/nextclaw-ui/src/api/mcp-marketplace.ts`
-- `packages/nextclaw-ui/src/api/types.ts`
-- `packages/nextclaw-ui/src/hooks/useMcpMarketplace.ts`
-- `packages/nextclaw-ui/src/components/marketplace/mcp/McpMarketplacePage.tsx`
-- `packages/nextclaw-ui/src/components/marketplace/mcp/*`
-- `packages/nextclaw-ui/src/App.tsx`
+- `packages/go-usb-ai-ui/src/api/mcp-marketplace.ts`
+- `packages/go-usb-ai-ui/src/api/types.ts`
+- `packages/go-usb-ai-ui/src/hooks/useMcpMarketplace.ts`
+- `packages/go-usb-ai-ui/src/components/marketplace/mcp/McpMarketplacePage.tsx`
+- `packages/go-usb-ai-ui/src/components/marketplace/mcp/*`
+- `packages/go-usb-ai-ui/src/App.tsx`
 
 ### 11.5 CLI
 
-- `packages/nextclaw/src/cli/commands/mcp.ts`
-- 可选补充 `packages/nextclaw/src/cli/runtime.ts`
+- `packages/go-usb-ai/src/cli/commands/mcp.ts`
+- 可选补充 `packages/go-usb-ai/src/cli/runtime.ts`
 
 ## 12. 分阶段落地计划
 
 ### Task 1: 收口 MCP 域服务
 
 **Files:**
-- Modify: `packages/nextclaw-mcp/src/**`
-- Modify: `packages/nextclaw/src/cli/commands/mcp.ts`
-- Test: `packages/nextclaw-mcp/tests/**`
+- Modify: `packages/go-usb-ai-mcp/src/**`
+- Modify: `packages/go-usb-ai/src/cli/commands/mcp.ts`
+- Test: `packages/go-usb-ai-mcp/tests/**`
 
 **目标：**
 
-- 把 registry mutation / installed view / doctor facade 从 CLI 适配层收口到 `@nextclaw/mcp`
+- 把 registry mutation / installed view / doctor facade 从 CLI 适配层收口到 `@go-usb-ai/mcp`
 - 为 server/UI 复用做好基础
 
 ### Task 2: 定义 MCP catalog contract
 
 **Files:**
 - Modify: `workers/marketplace-api/src/**`
-- Modify: `packages/nextclaw-server/src/ui/types.ts`
-- Modify: `packages/nextclaw-ui/src/api/types.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/types.ts`
+- Modify: `packages/go-usb-ai-ui/src/api/types.ts`
 
 **目标：**
 
@@ -615,10 +615,10 @@ marketplace 安装后的 policy 默认：
 ### Task 3: 打通 worker 与 server controller
 
 **Files:**
-- Create: `packages/nextclaw-server/src/ui/router/marketplace/mcp.controller.ts`
-- Modify: `packages/nextclaw-server/src/ui/router.ts`
-- Modify: `packages/nextclaw-server/src/ui/router/marketplace/index.ts`
-- Test: `packages/nextclaw-server/src/ui/router.marketplace-*.test.ts`
+- Create: `packages/go-usb-ai-server/src/ui/router/marketplace/mcp.controller.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/router.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/router/marketplace/index.ts`
+- Test: `packages/go-usb-ai-server/src/ui/router.marketplace-*.test.ts`
 
 **目标：**
 
@@ -628,11 +628,11 @@ marketplace 安装后的 policy 默认：
 ### Task 4: 做 MCP 前端页面
 
 **Files:**
-- Create: `packages/nextclaw-ui/src/components/marketplace/mcp/*`
-- Create: `packages/nextclaw-ui/src/hooks/useMcpMarketplace.ts`
-- Create: `packages/nextclaw-ui/src/api/mcp-marketplace.ts`
-- Modify: `packages/nextclaw-ui/src/App.tsx`
-- Test: `packages/nextclaw-ui/src/components/marketplace/mcp/*.test.tsx`
+- Create: `packages/go-usb-ai-ui/src/components/marketplace/mcp/*`
+- Create: `packages/go-usb-ai-ui/src/hooks/useMcpMarketplace.ts`
+- Create: `packages/go-usb-ai-ui/src/api/mcp-marketplace.ts`
+- Modify: `packages/go-usb-ai-ui/src/App.tsx`
+- Test: `packages/go-usb-ai-ui/src/components/marketplace/mcp/*.test.tsx`
 
 **目标：**
 
@@ -642,9 +642,9 @@ marketplace 安装后的 policy 默认：
 ### Task 5: 补 CLI marketplace 能力（可选 P2）
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/mcp.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/mcp.ts`
 - Modify: `docs/USAGE.md`
-- Test: `packages/nextclaw/src/cli/**/*.test.ts`
+- Test: `packages/go-usb-ai/src/cli/**/*.test.ts`
 
 **目标：**
 
@@ -670,7 +670,7 @@ marketplace 安装后的 policy 默认：
 
 - worker contract tests
 - server route tests
-- `@nextclaw/mcp` domain unit tests
+- `@go-usb-ai/mcp` domain unit tests
 - UI page tests
 - CLI smoke tests
 
@@ -735,7 +735,7 @@ marketplace 安装后的 policy 默认：
 
 对内：
 
-- `@nextclaw/mcp` 成为 MCP 的唯一业务核心
+- `@go-usb-ai/mcp` 成为 MCP 的唯一业务核心
 - server / CLI / UI 只是适配层
 - 不通过扩张旧泛型页面来获得表面统一
 

@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "lib": ["ES2022", "DOM"],
+    "baseUrl": ".",
+    "paths": {
+      "@go-usb-ai/extension-sdk": ["../../go-usb-ai-extension-sdk/src/index.ts"],
+      "@go-usb-ai/shared": ["../../go-usb-ai-shared/src/index.ts"],
+      "@go-usb-ai/ncp": ["../../ncp-packages/go-usb-ai-ncp/src/index.ts"]
+    }
+  },
+  "include": ["src"]
+}

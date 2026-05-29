@@ -7,8 +7,8 @@
   - 这条文案继续保留给运行时控制等明确需要诊断的场景，但不再作为聊天主路径里的默认干扰提示。
   - 根因已进一步确认：`RuntimeLifecycleManager.getDisplayMessage()` 与 `resolveChatRuntimeMessage()` 把内部恢复超时态直接映射成聊天可见文案，导致系统内部恢复噪音被前端主入口放大展示。
   - 本次修复命中根因而不是只改表象：直接删掉聊天链路里对 `stalled -> timeout banner` 的派生映射，同时保留 `stalled` 状态本身，因此发送 gate、连接状态、运行时控制诊断能力都不受影响。
-- 本次没有继续在旧的 `runtime-recovery` 上补条件，而是把 NextClaw UI 的运行时启动、可用、短暂断开恢复、恢复超时、启动失败统一收敛成一个生命周期 owner：`packages/nextclaw-ui/src/runtime-lifecycle/runtime-lifecycle.manager.ts`。
-- 新增统一 feature root：`packages/nextclaw-ui/src/runtime-lifecycle/`。
+- 本次没有继续在旧的 `runtime-recovery` 上补条件，而是把 GoUsbAi UI 的运行时启动、可用、短暂断开恢复、恢复超时、启动失败统一收敛成一个生命周期 owner：`packages/go-usb-ai-ui/src/runtime-lifecycle/runtime-lifecycle.manager.ts`。
+- 新增统一 feature root：`packages/go-usb-ai-ui/src/runtime-lifecycle/`。
   - `runtime-lifecycle.manager.ts`：唯一业务 owner，统一解释 lifecycle 语义
   - `runtime-lifecycle.store.ts` / `runtime-lifecycle.types.ts`：生命周期快照与状态模型
   - `hooks/use-runtime-bootstrap-status.ts`：只负责 bootstrap query 与 polling
@@ -20,18 +20,18 @@
   - `stalled`
   - `startup-failed`
 - 关键行为变化：
-  - 冷启动期间即使遇到传输层短暂失败，也保持 `cold-starting`，不再误报“正在等待 NextClaw 恢复”
+  - 冷启动期间即使遇到传输层短暂失败，也保持 `cold-starting`，不再误报“正在等待 GoUsbAi 恢复”
   - 冷启动期间聊天输入框保持可编辑，只禁止发送动作；回车发送和发送按钮统一走同一条 gate，不再出现“提示说可输入，但输入框实际被锁死”的分裂行为
   - 只有页面曾进入过 `ready` 之后，后续断开才允许进入 `recovering`
   - 恢复超时后进入 `stalled`
   - 聊天页、输入栏、侧边栏统一消费 lifecycle 派生状态，不再各自拼接 bootstrap + recovery + connection status
-  - 全局“正在等待 NextClaw 恢复”横幅本次已移除，不再闪烁；恢复提示只留在更贴近聊天上下文的位置
+  - 全局“正在等待 GoUsbAi 恢复”横幅本次已移除，不再闪烁；恢复提示只留在更贴近聊天上下文的位置
   - 启动阶段如果会话 hydrate 撞上后端占位错误 `ncp agent unavailable during startup`，前端会在 lifecycle 回到 `ready` 后主动重试并抑制该占位错误，不再出现“初始化提示消失后，输入区突然冒出启动错误”的跳变
 - 目录与命名治理同步完成：
-  - 删除旧的 `packages/nextclaw-ui/src/runtime-recovery/`
+  - 删除旧的 `packages/go-usb-ai-ui/src/runtime-recovery/`
   - 删除旧的 `chat-runtime-bootstrap-state.ts`
-  - `ChatSidebar.tsx` 收敛到 `packages/nextclaw-ui/src/components/chat/containers/chat-sidebar.tsx`
-  - sidebar 标签编辑逻辑下沉到 `packages/nextclaw-ui/src/components/chat/hooks/use-chat-sidebar-session-label-editor.ts`
+  - `ChatSidebar.tsx` 收敛到 `packages/go-usb-ai-ui/src/components/chat/containers/chat-sidebar.tsx`
+  - sidebar 标签编辑逻辑下沉到 `packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-sidebar-session-label-editor.ts`
   - `raw-client.ts` 收敛为 `raw-client.utils.ts`
   - `app-client.ts` / `local.transport.ts` 收敛为 `app-client.service.ts` / `local-transport.service.ts`
 - 根因已明确：
@@ -49,19 +49,19 @@
 ## 测试/验证/验收方式
 
 - 已执行：
-  - `pnpm -C packages/nextclaw-ui test -- src/runtime-lifecycle/runtime-lifecycle.manager.test.ts src/runtime-lifecycle/use-runtime-lifecycle-status.test.ts`
-  - `pnpm -C packages/nextclaw-ui exec eslint src/runtime-lifecycle/runtime-lifecycle.manager.ts src/runtime-lifecycle/hooks/use-runtime-lifecycle-status.ts src/runtime-lifecycle/runtime-lifecycle.manager.test.ts src/runtime-lifecycle/use-runtime-lifecycle-status.test.ts`
-  - `pnpm -C packages/nextclaw-ui tsc`
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/runtime-lifecycle/runtime-lifecycle.manager.ts packages/nextclaw-ui/src/runtime-lifecycle/hooks/use-runtime-lifecycle-status.ts packages/nextclaw-ui/src/runtime-lifecycle/use-runtime-lifecycle-status.test.ts packages/nextclaw-ui/src/runtime-lifecycle/runtime-lifecycle.manager.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui test -- src/runtime-lifecycle/runtime-lifecycle.manager.test.ts src/runtime-lifecycle/use-runtime-lifecycle-status.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui exec eslint src/runtime-lifecycle/runtime-lifecycle.manager.ts src/runtime-lifecycle/hooks/use-runtime-lifecycle-status.ts src/runtime-lifecycle/runtime-lifecycle.manager.test.ts src/runtime-lifecycle/use-runtime-lifecycle-status.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/runtime-lifecycle/runtime-lifecycle.manager.ts packages/go-usb-ai-ui/src/runtime-lifecycle/hooks/use-runtime-lifecycle-status.ts packages/go-usb-ai-ui/src/runtime-lifecycle/use-runtime-lifecycle-status.test.ts packages/go-usb-ai-ui/src/runtime-lifecycle/runtime-lifecycle.manager.test.ts`
   - `pnpm lint:new-code:governance`
   - `pnpm check:governance-backlog-ratchet`
-  - `pnpm -C packages/nextclaw-ui tsc`
-  - `pnpm -C packages/nextclaw-ui exec vitest run src/runtime-lifecycle/runtime-lifecycle.manager.test.ts src/runtime-lifecycle/use-runtime-lifecycle-status.test.ts src/runtime-lifecycle/use-runtime-bootstrap-status.test.ts src/components/chat/containers/chat-sidebar.test.tsx src/api/raw-client.test.ts src/transport/app-client.test.ts src/components/chat/ncp/ncp-app-client-fetch.test.ts`
-  - `pnpm -C packages/nextclaw-ui exec vitest run src/components/chat/chat-input/ncp-chat-input-availability.utils.test.ts src/components/chat/ncp/session-conversation/use-ncp-session-conversation.test.tsx src/components/chat/ncp/tests/ncp-chat-input.manager.test.ts`
-  - `pnpm -C packages/nextclaw-ui exec eslint src/app.tsx src/api/raw-client.utils.ts src/api/raw-client.test.ts src/components/chat/chat-page-shell.tsx src/components/chat/containers/chat-sidebar.tsx src/components/chat/containers/chat-sidebar.test.tsx src/components/chat/containers/chat-input-bar.container.tsx src/components/chat/hooks/use-chat-sidebar-session-label-editor.ts src/components/chat/ncp/ncp-app-client-fetch.ts src/components/chat/ncp/ncp-chat-page.tsx src/hooks/use-realtime-query-bridge.ts src/runtime-lifecycle/runtime-lifecycle.manager.ts src/runtime-lifecycle/runtime-lifecycle.manager.test.ts src/runtime-lifecycle/runtime-lifecycle.store.ts src/runtime-lifecycle/runtime-lifecycle.types.ts src/runtime-lifecycle/hooks/use-runtime-bootstrap-status.ts src/runtime-lifecycle/use-runtime-bootstrap-status.test.ts src/runtime-lifecycle/hooks/use-runtime-lifecycle-status.ts src/runtime-lifecycle/use-runtime-lifecycle-status.test.ts src/stores/ui.store.ts src/transport/app-client.service.ts src/transport/app-client.test.ts src/transport/index.ts src/transport/local-transport.service.ts`
-  - `pnpm -C packages/nextclaw-ui exec eslint packages/nextclaw-ui/src/components/chat/containers/chat-input-bar.container.tsx packages/nextclaw-ui/src/components/chat/chat-input/ncp-chat-input-availability.utils.ts packages/nextclaw-ui/src/components/chat/chat-input/ncp-chat-input-availability.utils.test.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-input.manager.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page.tsx packages/nextclaw-ui/src/components/chat/ncp/session-conversation/use-ncp-session-conversation.ts packages/nextclaw-ui/src/components/chat/ncp/session-conversation/use-ncp-session-conversation.test.tsx packages/nextclaw-ui/src/components/chat/ncp/tests/ncp-chat-input.manager.test.ts`
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/app.tsx packages/nextclaw-ui/src/api/raw-client.utils.ts packages/nextclaw-ui/src/api/raw-client.test.ts packages/nextclaw-ui/src/components/chat/chat-page-shell.tsx packages/nextclaw-ui/src/components/chat/containers/chat-sidebar.tsx packages/nextclaw-ui/src/components/chat/containers/chat-sidebar.test.tsx packages/nextclaw-ui/src/components/chat/containers/chat-input-bar.container.tsx packages/nextclaw-ui/src/components/chat/hooks/use-chat-sidebar-session-label-editor.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-app-client-fetch.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page.tsx packages/nextclaw-ui/src/hooks/use-realtime-query-bridge.ts packages/nextclaw-ui/src/runtime-lifecycle/runtime-lifecycle.manager.ts packages/nextclaw-ui/src/runtime-lifecycle/runtime-lifecycle.manager.test.ts packages/nextclaw-ui/src/runtime-lifecycle/runtime-lifecycle.store.ts packages/nextclaw-ui/src/runtime-lifecycle/runtime-lifecycle.types.ts packages/nextclaw-ui/src/runtime-lifecycle/hooks/use-runtime-bootstrap-status.ts packages/nextclaw-ui/src/runtime-lifecycle/use-runtime-bootstrap-status.test.ts packages/nextclaw-ui/src/runtime-lifecycle/hooks/use-runtime-lifecycle-status.ts packages/nextclaw-ui/src/runtime-lifecycle/use-runtime-lifecycle-status.test.ts packages/nextclaw-ui/src/stores/ui.store.ts packages/nextclaw-ui/src/transport/app-client.service.ts packages/nextclaw-ui/src/transport/app-client.test.ts packages/nextclaw-ui/src/transport/index.ts packages/nextclaw-ui/src/transport/local-transport.service.ts`
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/components/chat/containers/chat-input-bar.container.tsx packages/nextclaw-ui/src/components/chat/chat-input/ncp-chat-input-availability.utils.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-input.manager.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page.tsx packages/nextclaw-ui/src/components/chat/ncp/session-conversation/use-ncp-session-conversation.ts`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
+  - `pnpm -C packages/go-usb-ai-ui exec vitest run src/runtime-lifecycle/runtime-lifecycle.manager.test.ts src/runtime-lifecycle/use-runtime-lifecycle-status.test.ts src/runtime-lifecycle/use-runtime-bootstrap-status.test.ts src/components/chat/containers/chat-sidebar.test.tsx src/api/raw-client.test.ts src/transport/app-client.test.ts src/components/chat/ncp/ncp-app-client-fetch.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui exec vitest run src/components/chat/chat-input/ncp-chat-input-availability.utils.test.ts src/components/chat/ncp/session-conversation/use-ncp-session-conversation.test.tsx src/components/chat/ncp/tests/ncp-chat-input.manager.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui exec eslint src/app.tsx src/api/raw-client.utils.ts src/api/raw-client.test.ts src/components/chat/chat-page-shell.tsx src/components/chat/containers/chat-sidebar.tsx src/components/chat/containers/chat-sidebar.test.tsx src/components/chat/containers/chat-input-bar.container.tsx src/components/chat/hooks/use-chat-sidebar-session-label-editor.ts src/components/chat/ncp/ncp-app-client-fetch.ts src/components/chat/ncp/ncp-chat-page.tsx src/hooks/use-realtime-query-bridge.ts src/runtime-lifecycle/runtime-lifecycle.manager.ts src/runtime-lifecycle/runtime-lifecycle.manager.test.ts src/runtime-lifecycle/runtime-lifecycle.store.ts src/runtime-lifecycle/runtime-lifecycle.types.ts src/runtime-lifecycle/hooks/use-runtime-bootstrap-status.ts src/runtime-lifecycle/use-runtime-bootstrap-status.test.ts src/runtime-lifecycle/hooks/use-runtime-lifecycle-status.ts src/runtime-lifecycle/use-runtime-lifecycle-status.test.ts src/stores/ui.store.ts src/transport/app-client.service.ts src/transport/app-client.test.ts src/transport/index.ts src/transport/local-transport.service.ts`
+  - `pnpm -C packages/go-usb-ai-ui exec eslint packages/go-usb-ai-ui/src/components/chat/containers/chat-input-bar.container.tsx packages/go-usb-ai-ui/src/components/chat/chat-input/ncp-chat-input-availability.utils.ts packages/go-usb-ai-ui/src/components/chat/chat-input/ncp-chat-input-availability.utils.test.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-input.manager.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page.tsx packages/go-usb-ai-ui/src/components/chat/ncp/session-conversation/use-ncp-session-conversation.ts packages/go-usb-ai-ui/src/components/chat/ncp/session-conversation/use-ncp-session-conversation.test.tsx packages/go-usb-ai-ui/src/components/chat/ncp/tests/ncp-chat-input.manager.test.ts`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/app.tsx packages/go-usb-ai-ui/src/api/raw-client.utils.ts packages/go-usb-ai-ui/src/api/raw-client.test.ts packages/go-usb-ai-ui/src/components/chat/chat-page-shell.tsx packages/go-usb-ai-ui/src/components/chat/containers/chat-sidebar.tsx packages/go-usb-ai-ui/src/components/chat/containers/chat-sidebar.test.tsx packages/go-usb-ai-ui/src/components/chat/containers/chat-input-bar.container.tsx packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-sidebar-session-label-editor.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-app-client-fetch.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page.tsx packages/go-usb-ai-ui/src/hooks/use-realtime-query-bridge.ts packages/go-usb-ai-ui/src/runtime-lifecycle/runtime-lifecycle.manager.ts packages/go-usb-ai-ui/src/runtime-lifecycle/runtime-lifecycle.manager.test.ts packages/go-usb-ai-ui/src/runtime-lifecycle/runtime-lifecycle.store.ts packages/go-usb-ai-ui/src/runtime-lifecycle/runtime-lifecycle.types.ts packages/go-usb-ai-ui/src/runtime-lifecycle/hooks/use-runtime-bootstrap-status.ts packages/go-usb-ai-ui/src/runtime-lifecycle/use-runtime-bootstrap-status.test.ts packages/go-usb-ai-ui/src/runtime-lifecycle/hooks/use-runtime-lifecycle-status.ts packages/go-usb-ai-ui/src/runtime-lifecycle/use-runtime-lifecycle-status.test.ts packages/go-usb-ai-ui/src/stores/ui.store.ts packages/go-usb-ai-ui/src/transport/app-client.service.ts packages/go-usb-ai-ui/src/transport/app-client.test.ts packages/go-usb-ai-ui/src/transport/index.ts packages/go-usb-ai-ui/src/transport/local-transport.service.ts`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/chat/containers/chat-input-bar.container.tsx packages/go-usb-ai-ui/src/components/chat/chat-input/ncp-chat-input-availability.utils.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-input.manager.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page.tsx packages/go-usb-ai-ui/src/components/chat/ncp/session-conversation/use-ncp-session-conversation.ts`
   - `pnpm lint:new-code:governance`
   - `pnpm check:governance-backlog-ratchet`
 - 结果：
@@ -74,25 +74,25 @@
   - `tsc` 通过
   - 定向 vitest 通过，`37` 个测试通过
   - 启动期输入/发送合同与 ready 后自动重试的定向 vitest 通过，新增 `10` 个测试通过
-  - 定向 ESLint 无 error，仅保留 `packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-input.manager.ts` 中已有的 `prefer-destructuring` warning
+  - 定向 ESLint 无 error，仅保留 `packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-input.manager.ts` 中已有的 `prefer-destructuring` warning
   - `lint:new-code:governance` 通过
   - `check:governance-backlog-ratchet` 通过
   - 本次追加的 `--non-feature --paths ...` maintainability guard 通过，无新增阻塞项
   - maintainability guard 无阻塞项，仅保留历史目录预算警告与 `chat-sidebar.tsx` 逼近预算线的提醒
 - 未执行：
-  - `pnpm -C packages/nextclaw-ui build`
+  - `pnpm -C packages/go-usb-ai-ui build`
   - 原因：本次定向修复和结构治理已由 `tsc + vitest + eslint + governance` 覆盖主要风险，未额外跑整包构建
 
 ## 发布/部署方式
 
-- 合入后按现有前端发布链路重新构建 `@nextclaw/ui` 即可。
+- 合入后按现有前端发布链路重新构建 `@go-usb-ai/ui` 即可。
 - 若桌面端或其它宿主消费 UI 产物，需要在下一次统一前端发布批次中带上新的 UI 构建结果。
 - 本次不涉及额外后端协议迁移，不需要单独变更服务端部署步骤。
 
 ## 用户/产品视角的验收步骤
 
-1. 启动 NextClaw，并在服务仍处于冷启动时直接进入聊天页。
-2. 确认页面显示的是初始化中的聊天态，而不是“正在等待 NextClaw 恢复”。
+1. 启动 GoUsbAi，并在服务仍处于冷启动时直接进入聊天页。
+2. 确认页面显示的是初始化中的聊天态，而不是“正在等待 GoUsbAi 恢复”。
 3. 确认冷启动提示期间输入框可以直接输入文本，但回车不会发送、发送按钮不可点击。
 4. 等待初始化完成后，确认发送能力自动恢复，不会先消掉提示、再在输入区冒出 `ncp agent unavailable during startup`。
 5. 在 UI 已经正常可用后，触发一次本地服务重启或模拟短暂断线。
@@ -150,9 +150,9 @@
 
 - 本次是否需要发包：需要。
 - 需要发布哪些包：
-  - `@nextclaw/ui`
+  - `@go-usb-ai/ui`
 - 每个包当前是否已经发布：
-  - `@nextclaw/ui`：未发布，待统一发布
+  - `@go-usb-ai/ui`：未发布，待统一发布
 - 未发布原因：
   - 本次完成的是源码实现与验证，尚未进入下一次统一前端发布批次
 - 阻塞或触发条件：

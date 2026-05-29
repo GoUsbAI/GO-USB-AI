@@ -1,15 +1,15 @@
 services:
-  nextclaw:
+  go-usb-ai:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    container_name: ${NEXTCLAW_DOCKER_CONTAINER_NAME:-nextclaw}
+    container_name: ${GOUSB_AI_DOCKER_CONTAINER_NAME:-go-usb-ai}
     environment:
-      NEXTCLAW_HOME: /data
-      NEXTCLAW_UI_PORT: ${NEXTCLAW_DOCKER_UI_PORT:-55667}
+      GOUSB_AI_HOME: /data
+      GOUSB_AI_UI_PORT: ${GOUSB_AI_DOCKER_UI_PORT:-55667}
     ports:
-      - "${NEXTCLAW_DOCKER_UI_PORT:-55667}:${NEXTCLAW_DOCKER_UI_PORT:-55667}"
-      - "${NEXTCLAW_DOCKER_API_PORT:-18790}:18790"
+      - "${GOUSB_AI_DOCKER_UI_PORT:-55667}:${GOUSB_AI_DOCKER_UI_PORT:-55667}"
+      - "${GOUSB_AI_DOCKER_API_PORT:-18790}:18790"
     volumes:
-      - "${NEXTCLAW_DOCKER_DATA_DIR:-./.nextclaw-docker}:/data"
+      - "${GOUSB_AI_DOCKER_DATA_DIR:-./.go-usb-ai-docker}:/data"
     restart: unless-stopped

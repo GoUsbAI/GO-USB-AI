@@ -2,9 +2,9 @@
 
 相关方案：
 
-- [账号登录与远程访问产品设计](../../plans/2026-03-21-nextclaw-account-and-remote-access-product-design.md)
-- [远程中继休眠与成本优化设计](../../plans/2026-03-21-nextclaw-remote-relay-hibernation-cost-optimization-design.md)
-- [远程访问整体执行计划](../../plans/2026-03-21-nextclaw-remote-access-overall-execution-plan.md)
+- [账号登录与远程访问产品设计](../../plans/2026-03-21-go-usb-ai-account-and-remote-access-product-design.md)
+- [远程中继休眠与成本优化设计](../../plans/2026-03-21-go-usb-ai-remote-relay-hibernation-cost-optimization-design.md)
+- [远程访问整体执行计划](../../plans/2026-03-21-go-usb-ai-remote-access-overall-execution-plan.md)
 - [上一轮 UI 收口修复](../v0.14.99-remote-access-ui-alignment-fix/README.md)
 
 ## 迭代完成说明
@@ -17,34 +17,34 @@
 ## 测试/验证/验收方式
 
 - 代码验证：
-  - `pnpm -C packages/nextclaw-remote tsc`
-  - `pnpm -C packages/nextclaw tsc`
-  - `pnpm -C packages/nextclaw test remote-access-host.test.ts`
-  - `pnpm -C packages/nextclaw-remote build`
-  - `pnpm -C packages/nextclaw build`
+  - `pnpm -C packages/go-usb-ai-remote tsc`
+  - `pnpm -C packages/go-usb-ai tsc`
+  - `pnpm -C packages/go-usb-ai test remote-access-host.test.ts`
+  - `pnpm -C packages/go-usb-ai-remote build`
+  - `pnpm -C packages/go-usb-ai build`
 - 可维护性检查：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw/src/cli/commands/remote-runtime-support.ts packages/nextclaw-remote/src/remote-service-module.ts packages/nextclaw/src/cli/commands/service-remote-runtime.ts packages/nextclaw/src/cli/commands/remote.ts packages/nextclaw/src/cli/commands/remote-access-host.ts packages/nextclaw/src/cli/commands/service-remote-access.ts packages/nextclaw/src/cli/commands/service.ts`
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai/src/cli/commands/remote-runtime-support.ts packages/go-usb-ai-remote/src/remote-service-module.ts packages/go-usb-ai/src/cli/commands/service-remote-runtime.ts packages/go-usb-ai/src/cli/commands/remote.ts packages/go-usb-ai/src/cli/commands/remote-access-host.ts packages/go-usb-ai/src/cli/commands/service-remote-access.ts packages/go-usb-ai/src/cli/commands/service.ts`
 - dev 冒烟：
-  - `NEXTCLAW_HOME=/tmp/nextclaw-dev-remote-smoke NEXTCLAW_DEV_BACKEND_PORT=18896 NEXTCLAW_DEV_FRONTEND_PORT=5196 pnpm dev start`
+  - `GOUSB_AI_HOME=/tmp/go-usb-ai-dev-remote-smoke GOUSB_AI_DEV_BACKEND_PORT=18896 GOUSB_AI_DEV_FRONTEND_PORT=5196 pnpm dev start`
   - 验证 `http://127.0.0.1:18896/api/remote/status` 返回 `runtime.state=connected`、`service.currentProcess=true`、`localOrigin=http://127.0.0.1:18896`
   - 验证 `http://127.0.0.1:18896/api/remote/doctor` 中 `service-runtime` 为 `ok=true`
   - 验证平台设备列表出现 `http://127.0.0.1:18896` 对应设备
 - 生产版冒烟：
-  - `NEXTCLAW_HOME=/tmp/nextclaw-prod-remote-smoke node packages/nextclaw/dist/cli/index.js serve --ui-port 18897`
+  - `GOUSB_AI_HOME=/tmp/go-usb-ai-prod-remote-smoke node packages/go-usb-ai/dist/cli/index.js serve --ui-port 18897`
   - 验证 `http://127.0.0.1:18897/api/remote/status` 返回 `runtime.state=connected`、`service.currentProcess=true`、`localOrigin=http://127.0.0.1:18897`
   - 验证 `http://127.0.0.1:18897/api/remote/doctor` 中 `service-runtime` 为 `ok=true`
   - 验证平台设备列表出现 `http://127.0.0.1:18897` 对应设备
 
 ## 发布/部署方式
 
-- 新增 changeset，覆盖 `@nextclaw/remote`、`@nextclaw/mcp`、`@nextclaw/server`、`nextclaw`
+- 新增 changeset，覆盖 `@go-usb-ai/remote`、`@go-usb-ai/mcp`、`@go-usb-ai/server`、`go-usb-ai`
 - 执行 `pnpm release:version`
 - 执行 `pnpm release:publish`
 - 发布后校验：
-  - `npm view @nextclaw/remote version`
-  - `npm view @nextclaw/mcp version`
-  - `npm view @nextclaw/server version`
-  - `npm view nextclaw version`
+  - `npm view @go-usb-ai/remote version`
+  - `npm view @go-usb-ai/mcp version`
+  - `npm view @go-usb-ai/server version`
+  - `npm view go-usb-ai version`
 - 本次未触达 Cloudflare 平台前端/后端代码，不需要额外执行 `deploy:platform`
 
 ## 用户/产品视角的验收步骤
@@ -53,4 +53,4 @@
 2. 开启远程访问后，页面不应再长期显示“已断开”；连接成功时应显示已连接或在线状态。
 3. 点击“查看我的设备”进入平台设备列表，应能看到当前这个本地实例，而不是看不到设备或只出现其它旧端口设备。
 4. 在平台设备列表点击打开后，进入的设备页面应对应当前本地实例。
-5. 使用生产版 `nextclaw serve --ui-port <port>` 重复上述流程，结果应与 dev 场景一致。
+5. 使用生产版 `go-usb-ai serve --ui-port <port>` 重复上述流程，结果应与 dev 场景一致。

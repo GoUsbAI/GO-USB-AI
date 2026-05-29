@@ -6,10 +6,10 @@
 
 本次新增内容主要包括：
 
-- 明确推荐新增独立平台包 `packages/nextclaw-mcp`，作为 MCP 领域能力的唯一拥有者。
-- 明确 `nextclaw-core`、`nextclaw-mcp`、`nextclaw` CLI、未来 runtime consumer 的职责边界。
-- 明确依赖方向必须为 `nextclaw-core -> schema only`、`nextclaw-mcp -> depends on core`、`app/runtime -> depends on nextclaw-mcp`，禁止反向依赖。
-- 补充 `packages/nextclaw-mcp` 的建议目录结构、最小公开接口以及对现有仓库的最小接入点。
+- 明确推荐新增独立平台包 `packages/go-usb-ai-mcp`，作为 MCP 领域能力的唯一拥有者。
+- 明确 `go-usb-ai-core`、`go-usb-ai-mcp`、`go-usb-ai` CLI、未来 runtime consumer 的职责边界。
+- 明确依赖方向必须为 `go-usb-ai-core -> schema only`、`go-usb-ai-mcp -> depends on core`、`app/runtime -> depends on go-usb-ai-mcp`，禁止反向依赖。
+- 补充 `packages/go-usb-ai-mcp` 的建议目录结构、最小公开接口以及对现有仓库的最小接入点。
 - 把实施阶段进一步拆成 `schema/types`、`registry/service`、`CLI`、`lifecycle/doctor`、`consumer` 五个代码写集，降低后续实现复杂度。
 
 相关方案文档：
@@ -47,6 +47,6 @@
 ## 用户 / 产品视角的验收步骤
 
 1. 打开方案文档，确认已经不止描述“做什么”，还明确说明“代码应该放哪里”。
-2. 确认文档中已明确推荐新增独立的 `packages/nextclaw-mcp` 包，而不是把 MCP 复杂度塞进现有模块。
+2. 确认文档中已明确推荐新增独立的 `packages/go-usb-ai-mcp` 包，而不是把 MCP 复杂度塞进现有模块。
 3. 确认文档中已明确写出依赖方向、最小接入点与禁止的反向依赖。
 4. 确认文档中已把后续实施拆成多个互不污染的代码写集。

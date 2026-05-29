@@ -1,6 +1,6 @@
 # Quickstart
 
-This page has one job: help you prove that NextClaw can run, open, and return one useful reply.
+This page has one job: help you prove that GoUsbAi can run, open, and return one useful reply.
 
 ## 1. Prepare Node.js
 
@@ -13,10 +13,10 @@ npm -v
 
 If either command is missing, install the Node.js LTS release and reopen your terminal.
 
-## 2. Install NextClaw
+## 2. Install GoUsbAi
 
 ```bash
-npm i -g nextclaw
+npm i -g go-usb-ai
 ```
 
 This installs the CLI. It does not automatically register a login or boot-time autostart entry.
@@ -24,7 +24,7 @@ This installs the CLI. It does not automatically register a login or boot-time a
 ## 3. Start the service
 
 ```bash
-nextclaw start
+go-usb-ai start
 ```
 
 Then open:
@@ -56,9 +56,9 @@ If you get a normal reply, the minimum setup is complete.
 ## Useful checks
 
 ```bash
-nextclaw status
-nextclaw doctor
-nextclaw stop
+go-usb-ai status
+go-usb-ai doctor
+go-usb-ai stop
 ```
 
 For the complete command surface, see [Command Index](/en/guide/commands).

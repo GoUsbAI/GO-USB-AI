@@ -19,10 +19,10 @@
 ## 测试 / 验证 / 验收方式
 
 - 构建与类型检查：
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/landing build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/landing tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/landing build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/landing tsc`
 - 冒烟验证（用户可见）：
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/landing preview --host 127.0.0.1 --port 4173`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/landing preview --host 127.0.0.1 --port 4173`
 - `curl -s http://127.0.0.1:4173/ | rg -n "canonical|og:title|twitter:card|application/ld\\+json|robots|theme-color|keywords"`
 - `curl -s http://127.0.0.1:4173/ | rg -n "twitter:url|twitter:image:alt|og:image:secure_url|og:image:type|og:image:width|og:image:height"`
 - `curl -s http://127.0.0.1:4173/robots.txt`
@@ -33,7 +33,7 @@
 - 首页 HTML 包含 X 分享关键字段（`twitter:url`、`twitter:image:alt`、`og:image:*` 尺寸/类型）。
 - `robots.txt` 与 `sitemap.xml` 可直接访问且内容正确。
 - `llm.txt` 可直接访问，包含官网、文档、仓库、NPM 与关键导航链接。
-- 说明：`@nextclaw/landing` 当前未配置独立 lint 脚本，本次按包级可用校验执行 `build + tsc + 冒烟`。
+- 说明：`@go-usb-ai/landing` 当前未配置独立 lint 脚本，本次按包级可用校验执行 `build + tsc + 冒烟`。
 
 ## 发布 / 部署方式
 
@@ -47,8 +47,8 @@
 
 ## 用户 / 产品视角的验收步骤
 
-1. 打开 `https://nextclaw.io/`，查看页面源码，确认存在 canonical、OpenGraph、Twitter Card、JSON-LD 标签。
-2. 打开 `https://nextclaw.io/robots.txt`，确认可访问且包含 sitemap 地址。
-3. 打开 `https://nextclaw.io/sitemap.xml`，确认首页 URL 被收录。
-4. 打开 `https://nextclaw.io/llm.txt`，确认可访问并包含项目核心信息。
+1. 打开 `https://go-usb-ai.io/`，查看页面源码，确认存在 canonical、OpenGraph、Twitter Card、JSON-LD 标签。
+2. 打开 `https://go-usb-ai.io/robots.txt`，确认可访问且包含 sitemap 地址。
+3. 打开 `https://go-usb-ai.io/sitemap.xml`，确认首页 URL 被收录。
+4. 打开 `https://go-usb-ai.io/llm.txt`，确认可访问并包含项目核心信息。
 5. 在社交平台链接预览工具中粘贴首页 URL，确认标题、描述、预览图展示正常。

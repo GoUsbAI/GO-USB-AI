@@ -8,15 +8,15 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui exec vitest run src/shared/lib/provider-models/index.test.ts`
-- `pnpm --filter @nextclaw/ui exec vitest run src/shared/components/model-config.test.tsx src/shared/lib/provider-models/index.test.ts`
-- `pnpm --filter @nextclaw/server exec vitest run src/features/config/stores/server-config.store.runtime.test.ts`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-server tsc`
-- `pnpm -C packages/nextclaw-server lint`
+- `pnpm --filter @go-usb-ai/ui exec vitest run src/shared/lib/provider-models/index.test.ts`
+- `pnpm --filter @go-usb-ai/ui exec vitest run src/shared/components/model-config.test.tsx src/shared/lib/provider-models/index.test.ts`
+- `pnpm --filter @go-usb-ai/server exec vitest run src/features/config/stores/server-config.store.runtime.test.ts`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-server tsc`
+- `pnpm -C packages/go-usb-ai-server lint`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
-- `pnpm -C packages/nextclaw-ui lint` 未通过，失败项是本次触达范围外的既有 UI lint error；本次触达 UI 文件定向 ESLint 通过，仅保留既有 warning。
+- `pnpm -C packages/go-usb-ai-ui lint` 未通过，失败项是本次触达范围外的既有 UI lint error；本次触达 UI 文件定向 ESLint 通过，仅保留既有 warning。
 
 ## 发布/部署方式
 
@@ -40,7 +40,7 @@
 
 ## 红区触达与减债记录
 
-### packages/nextclaw-server/src/features/config/stores/server-config.store.ts
+### packages/go-usb-ai-server/src/features/config/stores/server-config.store.ts
 
 - 本次是否减债：是。
 - 说明：只保留 provider 配置创建入口负责初始化默认模型，运行期展示路径不再从 provider spec 回填模型，配置 store 的职责更接近“写入配置事实源”。

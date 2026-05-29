@@ -5,10 +5,10 @@
 - 存储层继续完整保留原始消息，不做删除式压缩；只有在构建模型输入时，才会用 checkpoint 摘要临时替换更早历史。
 - 压缩摘要已从确定性摘录改为 LLM 生成：发送前预检先判断是否达到阈值，只有需要压缩时才调用当前 Agent 模型生成结构化 summary，再把 summary 写入 checkpoint。
 - `usedContextTokens` 和 `totalContextTokens` 继续保持为独立字段，压缩检查点没有和上下文窗口统计绑死。上下文占用圆环改为读取实时 `context-window.updated` live snapshot，消息流分割线则读特殊 timeline item。
-- 上下文压缩触发从 `NextclawNcpContextBuilder` 移到发送前预检：`ContextCompactionPreflightService` 负责判断是否压缩、写入 timeline checkpoint、发布实时 context window snapshot；builder 只消费已有 checkpoint 来投影模型输入，不再写 session。
-- 增加 runtime context ownership：native runtime 属于 `nextclaw` 管理，发送前执行 NextClaw 压缩预检；Codex、Claude Code 这类 runtime-owned 会话不做 NextClaw 外层二次压缩，避免破坏其内部上下文管理与缓存策略。
+- 上下文压缩触发从 `GoUsbAiNcpContextBuilder` 移到发送前预检：`ContextCompactionPreflightService` 负责判断是否压缩、写入 timeline checkpoint、发布实时 context window snapshot；builder 只消费已有 checkpoint 来投影模型输入，不再写 session。
+- 增加 runtime context ownership：native runtime 属于 `go-usb-ai` 管理，发送前执行 GoUsbAi 压缩预检；Codex、Claude Code 这类 runtime-owned 会话不做 GoUsbAi 外层二次压缩，避免破坏其内部上下文管理与缓存策略。
 - 修复上下文占用圆环在继续对话后停留在旧百分比的问题：上下文窗口统计由发送前预检实时计算并通过 `context-window.updated` 写入 live snapshot，不再作为 `last_context_window` 落盘持久化。
-- 修复页面刷新后上下文圆环消失的问题：`contextWindow` 现在由会话摘要生成者的 `getSession()` 实时派生为 session view 字段；runtime 未就绪时由 `UiSessionService` 生成，runtime 就绪后由 `DefaultNcpAgentBackend` 生成。`listSessions()` 不计算 `contextWindow`，避免会话列表加载时对所有历史会话做上下文估算；messages seed 只读取当前会话视图并随 messages 一起返回。前端只在 NextClaw UI 的会话 hook 中把它合并为展示状态。这不是落盘 metadata，也不扩展通用 NCP React hydration contract。
+- 修复页面刷新后上下文圆环消失的问题：`contextWindow` 现在由会话摘要生成者的 `getSession()` 实时派生为 session view 字段；runtime 未就绪时由 `UiSessionService` 生成，runtime 就绪后由 `DefaultNcpAgentBackend` 生成。`listSessions()` 不计算 `contextWindow`，避免会话列表加载时对所有历史会话做上下文估算；messages seed 只读取当前会话视图并随 messages 一起返回。前端只在 GoUsbAi UI 的会话 hook 中把它合并为展示状态。这不是落盘 metadata，也不扩展通用 NCP React hydration contract。
 - 统一上下文窗口占用语义：主圆环的 `usedContextTokens` 表示“如果此刻立刻发起模型请求，当前会话会形成的有效模型输入占用”，不是已经实际发给模型的 token，也不是压缩前原始历史总量。
 - 优化上下文窗口 hover 明细：`已占用` 文案改为 `预计占用`；当安全裁剪后的 token 数和预计占用相同，不再展示重复的 `安全裁剪后` 明细；已丢弃历史和已截断工具结果仅在非零时展示。
 - 根因说明：
@@ -30,61 +30,61 @@
 ## 测试/验证/验收方式
 
 - 已通过：
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc -p tsconfig.json --pretty false`
-  - `pnpm -C packages/nextclaw tsc -p tsconfig.json --pretty false`
-  - `pnpm -C packages/nextclaw-server tsc -p tsconfig.json --pretty false`
-  - `pnpm -C packages/nextclaw-ui tsc -p tsconfig.json --pretty false`
-  - `pnpm -C packages/nextclaw-server test -- --run src/ui/router.ncp-agent.test.ts`
-  - `pnpm -C packages/nextclaw test -- --run src/cli/shared/services/session/tests/service-ncp-session-realtime-bridge.fire-and-forget.service.test.ts src/cli/commands/ncp/context/context-compaction-preflight.service.test.ts src/cli/commands/ncp/features/runtime/create-ui-ncp-agent-context-compaction.test.ts`
-  - `pnpm -C packages/nextclaw-ui test -- --run src/features/chat/hooks/use-ncp-session-conversation.test.tsx src/features/chat/utils/ncp-session-adapter.utils.test.ts src/features/chat/components/conversation/chat-message-list.container.test.tsx`
-  - `pnpm -C packages/nextclaw exec eslint src/cli/commands/ncp/ui-session-service.ts src/cli/commands/ncp/session/ncp-session-summary.ts src/cli/shared/services/session/service-ncp-session-realtime-bridge.service.ts src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts src/cli/commands/ncp/context/context-compaction-preflight.service.ts`
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit exec eslint src/agent/agent-backend/agent-backend.ts src/agent/agent-backend/agent-backend-session-utils.ts`
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend.ts packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend-session-utils.ts packages/nextclaw/src/cli/commands/ncp/ui-session-service.ts packages/nextclaw/src/cli/shared/services/session/service-ncp-session-realtime-bridge.service.ts packages/nextclaw/src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts`
-  - `pnpm -C packages/nextclaw-ui test -- --run src/features/chat/utils/ncp-session-adapter.utils.test.ts src/features/chat/components/conversation/chat-message-list.container.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/context/nextclaw-ncp-context-builder.test.ts`
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/context/nextclaw-ncp-context-builder.test.ts src/cli/commands/ncp/session/nextclaw-agent-session-store.test.ts`
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/context/context-compaction-preflight.service.test.ts src/cli/commands/ncp/context/nextclaw-ncp-context-builder.test.ts`
-  - `NEXTCLAW_HOME="$(mktemp -d)" pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/features/runtime/create-ui-ncp-agent-context-compaction.test.ts`
-  - `pnpm -C packages/nextclaw-ui test -- --run src/features/chat/components/conversation/chat-message-list.container.test.tsx`
-  - `pnpm -C packages/nextclaw tsc -p tsconfig.json --pretty false`
-  - `pnpm -C packages/nextclaw-ui tsc -p tsconfig.json --pretty false`
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp tsc -p tsconfig.json --pretty false`
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc -p tsconfig.json --pretty false`
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/context/context-compaction-preflight.service.test.ts src/cli/commands/ncp/features/runtime/create-ui-ncp-agent-context-compaction.test.ts`
-  - `pnpm -C packages/nextclaw-ui test -- --run src/features/chat/utils/ncp-session-adapter.utils.test.ts src/features/chat/components/conversation/chat-message-list.container.test.tsx`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc -p tsconfig.json --pretty false`
+  - `pnpm -C packages/go-usb-ai tsc -p tsconfig.json --pretty false`
+  - `pnpm -C packages/go-usb-ai-server tsc -p tsconfig.json --pretty false`
+  - `pnpm -C packages/go-usb-ai-ui tsc -p tsconfig.json --pretty false`
+  - `pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.ncp-agent.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/shared/services/session/tests/service-ncp-session-realtime-bridge.fire-and-forget.service.test.ts src/cli/commands/ncp/context/context-compaction-preflight.service.test.ts src/cli/commands/ncp/features/runtime/create-ui-ncp-agent-context-compaction.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui test -- --run src/features/chat/hooks/use-ncp-session-conversation.test.tsx src/features/chat/utils/ncp-session-adapter.utils.test.ts src/features/chat/components/conversation/chat-message-list.container.test.tsx`
+  - `pnpm -C packages/go-usb-ai exec eslint src/cli/commands/ncp/ui-session-service.ts src/cli/commands/ncp/session/ncp-session-summary.ts src/cli/shared/services/session/service-ncp-session-realtime-bridge.service.ts src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts src/cli/commands/ncp/context/context-compaction-preflight.service.ts`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit exec eslint src/agent/agent-backend/agent-backend.ts src/agent/agent-backend/agent-backend-session-utils.ts`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend.ts packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend-session-utils.ts packages/go-usb-ai/src/cli/commands/ncp/ui-session-service.ts packages/go-usb-ai/src/cli/shared/services/session/service-ncp-session-realtime-bridge.service.ts packages/go-usb-ai/src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts`
+  - `pnpm -C packages/go-usb-ai-ui test -- --run src/features/chat/utils/ncp-session-adapter.utils.test.ts src/features/chat/components/conversation/chat-message-list.container.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/context/go-usb-ai-ncp-context-builder.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/context/go-usb-ai-ncp-context-builder.test.ts src/cli/commands/ncp/session/go-usb-ai-agent-session-store.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/context/context-compaction-preflight.service.test.ts src/cli/commands/ncp/context/go-usb-ai-ncp-context-builder.test.ts`
+  - `GOUSB_AI_HOME="$(mktemp -d)" pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/features/runtime/create-ui-ncp-agent-context-compaction.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui test -- --run src/features/chat/components/conversation/chat-message-list.container.test.tsx`
+  - `pnpm -C packages/go-usb-ai tsc -p tsconfig.json --pretty false`
+  - `pnpm -C packages/go-usb-ai-ui tsc -p tsconfig.json --pretty false`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp tsc -p tsconfig.json --pretty false`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc -p tsconfig.json --pretty false`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/context/context-compaction-preflight.service.test.ts src/cli/commands/ncp/features/runtime/create-ui-ncp-agent-context-compaction.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui test -- --run src/features/chat/utils/ncp-session-adapter.utils.test.ts src/features/chat/components/conversation/chat-message-list.container.test.tsx`
   - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths ...`
-  - `pnpm -C packages/nextclaw exec eslint src/cli/commands/ncp/context/context-compaction-preflight.service.ts src/cli/commands/ncp/context/context-compaction-preflight.service.test.ts src/cli/commands/ncp/context/context-compaction-projection.utils.ts src/cli/commands/ncp/context/context-compaction.service.ts src/cli/commands/ncp/context/context-compaction-timeline-message.utils.ts src/cli/commands/ncp/nextclaw-ncp-context-builder.ts src/cli/commands/ncp/context/nextclaw-ncp-context-builder.test.ts src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts`
+  - `pnpm -C packages/go-usb-ai exec eslint src/cli/commands/ncp/context/context-compaction-preflight.service.ts src/cli/commands/ncp/context/context-compaction-preflight.service.test.ts src/cli/commands/ncp/context/context-compaction-projection.utils.ts src/cli/commands/ncp/context/context-compaction.service.ts src/cli/commands/ncp/context/context-compaction-timeline-message.utils.ts src/cli/commands/ncp/go-usb-ai-ncp-context-builder.ts src/cli/commands/ncp/context/go-usb-ai-ncp-context-builder.test.ts src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts`
   - `pnpm lint:new-code:governance`
-  - `pnpm -C packages/nextclaw exec eslint src/cli/commands/ncp/nextclaw-ncp-context-builder.ts src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts src/cli/commands/ncp/context/nextclaw-ncp-context-builder.test.ts src/cli/commands/ncp/session/nextclaw-agent-session-store.test.ts`
+  - `pnpm -C packages/go-usb-ai exec eslint src/cli/commands/ncp/go-usb-ai-ncp-context-builder.ts src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts src/cli/commands/ncp/context/go-usb-ai-ncp-context-builder.test.ts src/cli/commands/ncp/session/go-usb-ai-agent-session-store.test.ts`
   - `pnpm lint:new-code:governance`
 - 本次流程补正：
-  - 初版收尾时漏跑了 `pnpm -C packages/nextclaw tsc -p tsconfig.json --pretty false`，导致两处纯类型错误没有被拦住。
+  - 初版收尾时漏跑了 `pnpm -C packages/go-usb-ai tsc -p tsconfig.json --pretty false`，导致两处纯类型错误没有被拦住。
   - 本次已补跑 `tsc` 并修复对应错误，同时把 `/validate` 与 `post-dev-stage-validation` 规则进一步写死为“TypeScript 改动不可用测试 / eslint / governance 替代 `tsc`”。
 - 本次定向验证重点：
   - 验证压缩检查点不会替代或删除已存储原始消息
   - 验证压缩条目会以消息流 divider 方式出现在正确物理位置
   - 验证特殊 timeline message 不会被原样送给上游模型输入
   - 验证未触发压缩时，也会发布当前实时 context window snapshot，避免前端圆环继续展示旧占比
-  - 验证 native runtime 发送前预检会创建 checkpoint，runtime-owned 策略会跳过 NextClaw 外层压缩
+  - 验证 native runtime 发送前预检会创建 checkpoint，runtime-owned 策略会跳过 GoUsbAi 外层压缩
   - 验证 builder 只消费已有 checkpoint 做模型输入投影，不再写入 session metadata 或新增 timeline message
   - 验证真实 native 发送链路会触发压缩，并确认 provider 收到的模型输入包含 checkpoint summary、不再包含被覆盖的最早历史
   - 验证真实 native 发送链路中 provider 调用顺序为 `chat` 摘要请求在前、`chatStream` 业务请求在后，避免把裁剪冒充压缩
   - 验证真实 native 发送链路会先发 `context-window.updated`，并在同一次发送中依次发出 `compressing` 和 `compressed` 两个 timeline 更新
-  - 验证刷新/重新进入会话时，会话摘要生成者的 `getSession()` 会返回实时派生的 `contextWindow`，messages seed 会携带该 session view 字段，前端会把它作为 NextClaw UI 展示状态接入，而不改通用 NCP React hydration contract
+  - 验证刷新/重新进入会话时，会话摘要生成者的 `getSession()` 会返回实时派生的 `contextWindow`，messages seed 会携带该 session view 字段，前端会把它作为 GoUsbAi UI 展示状态接入，而不改通用 NCP React hydration contract
   - 验证压缩完成后的实时 `contextWindow.usedContextTokens` 不再读取压缩前原始估算，而是与有效模型输入占用一致，并且不会超过 `totalContextTokens`
   - 验证 hover 明细不再默认同时展示同值的“预计占用”和“安全裁剪后”，避免用户看到两个语义重复的数字。
   - 验证前端消息流会按 checkpoint 的物理位置渲染 divider，而不是从 metadata 猜边界
 - 上下文圆环不更新修复的补充验证：
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/context/nextclaw-ncp-context-builder.test.ts src/cli/commands/ncp/session/nextclaw-agent-session-store.test.ts`
-  - `pnpm -C packages/nextclaw tsc -p tsconfig.json --pretty false`
-  - `pnpm -C packages/nextclaw exec eslint src/cli/commands/ncp/nextclaw-ncp-context-builder.ts src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts src/cli/commands/ncp/context/nextclaw-ncp-context-builder.test.ts src/cli/commands/ncp/session/nextclaw-agent-session-store.test.ts`
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-context-builder.ts packages/nextclaw/src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts packages/nextclaw/src/cli/commands/ncp/context/nextclaw-ncp-context-builder.test.ts packages/nextclaw/src/cli/commands/ncp/session/nextclaw-agent-session-store.test.ts docs/logs/v0.17.15-context-compaction-checkpoints/README.md`
-  - `pnpm lint:new-code:governance` 本轮受工作区内其它未提交改动阻断，阻断文件为 `packages/nextclaw-core/src/agent/context.ts`、`packages/nextclaw-core/src/agent/tools/sessions.ts`、`packages/nextclaw-core/src/config/schema.help.ts`、`packages/nextclaw-core/src/config/schema.labels.ts`、`packages/nextclaw-core/src/config/schema.ts`、`packages/nextclaw/src/cli/shared/services/gateway/service-startup-support.ts`；这些文件不属于本次上下文圆环修复范围。
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/context/go-usb-ai-ncp-context-builder.test.ts src/cli/commands/ncp/session/go-usb-ai-agent-session-store.test.ts`
+  - `pnpm -C packages/go-usb-ai tsc -p tsconfig.json --pretty false`
+  - `pnpm -C packages/go-usb-ai exec eslint src/cli/commands/ncp/go-usb-ai-ncp-context-builder.ts src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts src/cli/commands/ncp/context/go-usb-ai-ncp-context-builder.test.ts src/cli/commands/ncp/session/go-usb-ai-agent-session-store.test.ts`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-context-builder.ts packages/go-usb-ai/src/cli/commands/ncp/features/runtime/create-ui-ncp-agent.service.ts packages/go-usb-ai/src/cli/commands/ncp/context/go-usb-ai-ncp-context-builder.test.ts packages/go-usb-ai/src/cli/commands/ncp/session/go-usb-ai-agent-session-store.test.ts docs/logs/v0.17.15-context-compaction-checkpoints/README.md`
+  - `pnpm lint:new-code:governance` 本轮受工作区内其它未提交改动阻断，阻断文件为 `packages/go-usb-ai-core/src/agent/context.ts`、`packages/go-usb-ai-core/src/agent/tools/sessions.ts`、`packages/go-usb-ai-core/src/config/schema.help.ts`、`packages/go-usb-ai-core/src/config/schema.labels.ts`、`packages/go-usb-ai-core/src/config/schema.ts`、`packages/go-usb-ai/src/cli/shared/services/gateway/service-startup-support.ts`；这些文件不属于本次上下文圆环修复范围。
 - 发送前预检重构的维护性验证：
   - `pnpm lint:new-code:governance` 通过。
   - `pnpm lint:maintainability:guard` 中维护性检查无 error，但命令最终被 `check:governance-backlog-ratchet` 阻断：当前工作区 doc 文件命名历史债务计数为 `13`，超过 baseline `11`。该阻断不来自本次新增的 `context-compaction-preflight.service.ts`、`context-compaction-projection.utils.ts`、`create-ui-ncp-agent-context-compaction.test.ts` 或相关 UI 文件。
 - 实时事件补充验证的治理状态：
-  - `pnpm lint:new-code:governance` 未通过，阻断原因是本轮必须触达的既有 NCP 协议文件命名不满足当前新增治理规则：`packages/ncp-packages/nextclaw-ncp/src/types/events.ts`、`packages/ncp-packages/nextclaw-ncp/src/toolkit/conversation-state.ts`、`packages/ncp-packages/nextclaw-ncp/src/toolkit/agent/agent-conversation-state-manager.ts`、`packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-conversation-state-manager.ts`。本次未做协议包文件重命名，避免把一个事件修复扩大成跨包 API 路径迁移。
+  - `pnpm lint:new-code:governance` 未通过，阻断原因是本轮必须触达的既有 NCP 协议文件命名不满足当前新增治理规则：`packages/ncp-packages/go-usb-ai-ncp/src/types/events.ts`、`packages/ncp-packages/go-usb-ai-ncp/src/toolkit/conversation-state.ts`、`packages/ncp-packages/go-usb-ai-ncp/src/toolkit/agent/agent-conversation-state-manager.ts`、`packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-conversation-state-manager.ts`。本次未做协议包文件重命名，避免把一个事件修复扩大成跨包 API 路径迁移。
   - `pnpm check:governance-backlog-ratchet` 未通过，阻断原因为 doc 文件命名历史债务计数 `13` 高于 baseline `11`，不是本次实时事件实现新增的代码路径错误。
   - 维护性 guard 通过但保留警告：`agent-conversation-state-manager.ts` 仍超过文件预算，不过本轮通过压缩局部格式使该文件相对基线减少 `29` 行，没有继续恶化；`create-ui-ncp-agent.service.ts` 接近文件预算，后续若继续增长应优先拆 runtime preflight 发布辅助逻辑。
   - 会话视图字段收敛补充验证：
@@ -95,7 +95,7 @@
 
 ## 发布/部署方式
 
-- 本次能力随常规 `nextclaw` / `@nextclaw/ui` 构建产物发布，无需额外部署步骤。
+- 本次能力随常规 `go-usb-ai` / `@go-usb-ai/ui` 构建产物发布，无需额外部署步骤。
 - 若进入发版批次，需要同步发布包含本次 NCP builder 与聊天前端改动的相关包。
 
 ## 用户/产品视角的验收步骤
@@ -117,7 +117,7 @@
   - 没有把压缩结果伪装成普通 `system message`，避免后续协议分支继续膨胀。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：
   - 本次是新增用户能力，非测试代码净增为正，属于必要增长。
-  - 本轮发送前预检重构删除了 builder 内的压缩触发和 session 写入分支，`nextclaw-ncp-context-builder.ts` 减少约 67 行；新增代码主要集中在一个 preflight owner、一个纯 projection 工具和对应定向测试。没有并行引入第二套压缩路径。
+  - 本轮发送前预检重构删除了 builder 内的压缩触发和 session 写入分支，`go-usb-ai-ncp-context-builder.ts` 减少约 67 行；新增代码主要集中在一个 preflight owner、一个纯 projection 工具和对应定向测试。没有并行引入第二套压缩路径。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：
   - 是。触发时机归 `ContextCompactionPreflightService`，压缩策略归 `ContextCompactionService`，builder 只负责模型输入投影，timeline message 与 context window metadata 各自落在小型 utils 中，前端只负责读取与渲染。
   - 实时刷新没有复用 `run.metadata` 或工具结果事件，而是新增一个语义明确的 `context-window.updated` 事件；这让上下文窗口占用成为独立状态，不和工具调用、模型输出或会话列表刷新绑死。
@@ -133,7 +133,7 @@
 本次顺手减债：是
 
 长期目标对齐 / 可维护性推进：
-- 这次改动顺着“让 NextClaw 成为连续、统一、可长期依赖的个人操作层”往前推进了一小步。长会话不再只能依赖隐式裁剪，而是开始具备对自身上下文管理动作的可感知能力。
+- 这次改动顺着“让 GoUsbAi 成为连续、统一、可长期依赖的个人操作层”往前推进了一小步。长会话不再只能依赖隐式裁剪，而是开始具备对自身上下文管理动作的可感知能力。
 - 在可维护性上，这次也避免了把连续性治理做成隐藏 fallback，而是显式沉淀成可观察、可定位、可扩展的时间线条目。
 
 代码增减报告：
@@ -155,11 +155,11 @@
 
 - 本次是否需要发包：待统一发布。
 - 需要发布哪些包：
-  - `nextclaw`
-  - `@nextclaw/ui`
+  - `go-usb-ai`
+  - `@go-usb-ai/ui`
 - 每个包当前是否已经发布：
-  - `nextclaw`：未发布，待统一发布
-  - `@nextclaw/ui`：未发布，待统一发布
+  - `go-usb-ai`：未发布，待统一发布
+  - `@go-usb-ai/ui`：未发布，待统一发布
 - 未发布原因：
   - 当前改动已完成实现与定向验证，但尚未进入统一 release 批次。
 - 后续触发条件：

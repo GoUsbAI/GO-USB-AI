@@ -6,11 +6,11 @@
 
 # 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui test -- ChatSidebar`
+- `pnpm --filter @go-usb-ai/ui test -- ChatSidebar`
   - 结果：通过（7/7）。
-- `pnpm --filter @nextclaw/ui lint`
+- `pnpm --filter @go-usb-ai/ui lint`
   - 结果：通过（仅仓库既有 warning，无新增 lint error）。
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx packages/nextclaw-ui/src/components/chat/chat-sidebar-session-item.tsx packages/nextclaw-ui/src/components/chat/chat-session-context.utils.tsx packages/nextclaw-ui/src/components/chat/ncp/ncp-session-adapter.ts packages/nextclaw-ui/src/api/types.ts packages/nextclaw-ui/src/lib/i18n.chat.ts`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx packages/go-usb-ai-ui/src/components/chat/chat-sidebar-session-item.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-context.utils.tsx packages/go-usb-ai-ui/src/components/chat/ncp/ncp-session-adapter.ts packages/go-usb-ai-ui/src/api/types.ts packages/go-usb-ai-ui/src/lib/i18n.chat.ts`
   - 结果：通过，出现 4 条既有 maintainability warning（目录/文件预算临界或超限，均为历史状态）。
 
 # 发布/部署方式

@@ -13,7 +13,7 @@
 - 切换通道时会清理旧通道遗留的“已下载待应用”状态，避免把错误通道的更新继续应用
 - 新增 `apps/desktop/scripts/smoke-product-update.mjs`，可在本地真实完成“检查更新 -> 下载更新 -> 应用更新 -> 重启后确认版本变化 -> 切回 stable 验证不降级”的整链路 smoke
 - 新增 `apps/desktop/scripts/prepare-manual-update-validation.mjs` 与 `apps/desktop/scripts/run-local-update-server.mjs`，可生成一套给人工验收用的本地验证目录，里面直接包含验证版 `.app`、本地更新源、启动脚本与重置脚本
-- 更新源额外支持 `NEXTCLAW_DESKTOP_UPDATE_MANIFEST_BASE_URL`，用于本地 channel-aware 更新源与真实冒烟
+- 更新源额外支持 `GOUSB_AI_DESKTOP_UPDATE_MANIFEST_BASE_URL`，用于本地 channel-aware 更新源与真实冒烟
 - 为了让真实 Electron 运行时的 preload bridge 可用，本次窗口配置暂时改为 `sandbox: false`
 
 ## 测试/验证/验收方式
@@ -23,8 +23,8 @@
 - `pnpm -C apps/desktop smoke:update`
 - `pnpm -C apps/desktop validation:prepare-manual-update`
 - `pnpm -C apps/desktop tsc`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui exec vitest run src/components/config/desktop-update-config.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui exec vitest run src/components/config/desktop-update-config.test.tsx`
 - `node --test apps/desktop/dist/src/services/desktop-update-source.service.test.js apps/desktop/dist/src/launcher/__tests__/update-coordinator.service.test.js`
 
 其中最关键的真实升级冒烟结果如下：
@@ -40,7 +40,7 @@
 
 - 本次真实验证不是只切换通道，而是完整跑通了“检查、下载、应用、重启后确认版本”的真实桌面升级链路
 - `validation:prepare-manual-update` 已真实生成本地人工验收目录：`apps/desktop/.local/manual-update-validation`
-- 生成目录中包含 `1-start-local-update-server.command`、`2-open-validation-app.command`、`3-reset-validation-state.command` 与验证版 `NextClaw Desktop.app`，可供产品/用户本人亲手点击验证
+- 生成目录中包含 `1-start-local-update-server.command`、`2-open-validation-app.command`、`3-reset-validation-state.command` 与验证版 `GoUsbAi Desktop.app`，可供产品/用户本人亲手点击验证
 - `pnpm lint:maintainability:guard` 本次尝试执行，但当前仓库的 `lint:new-code:governance` 仍指向缺失的 `scripts/lint-new-code-governance.mjs`；这是工作区现存治理脚本断链，不是本次桌面更新链路的真实升级失败
 
 ## 发布/部署方式
@@ -49,7 +49,7 @@
 
 如需随桌面端版本发布，按现有标准流程执行：
 
-- `pnpm -C packages/nextclaw-ui build`
+- `pnpm -C packages/go-usb-ai-ui build`
 - `pnpm -C apps/desktop dist`
 
 如需本地复验真实更新链路，可直接执行：
@@ -59,7 +59,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 NextClaw Desktop，进入“设置 > 桌面端更新”。
+1. 打开 GoUsbAi Desktop，进入“设置 > 桌面端更新”。
 2. 确认页面展示“当前更新通道”与 `Release channel` 选择器。
 3. 保持 `Stable`，执行“检查更新”，确认当前版本保持稳定版且结果为“已是最新”。
 4. 切换到 `Beta`，再次执行“检查更新”，确认页面出现新的可用 Beta 版本。

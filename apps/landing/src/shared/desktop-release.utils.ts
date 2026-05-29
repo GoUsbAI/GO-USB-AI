@@ -10,32 +10,32 @@ export type DesktopReleaseInfo = {
 
 const STABLE_DESKTOP_RELEASE_TAG = 'v0.19.26-desktop.1';
 const STABLE_DESKTOP_VERSION = '0.0.189';
-const STABLE_DESKTOP_RELEASE_URL = `https://github.com/Peiiii/nextclaw/releases/tag/${STABLE_DESKTOP_RELEASE_TAG}`;
-const STABLE_DESKTOP_ASSET_BASE_URL = `https://github.com/Peiiii/nextclaw/releases/download/${STABLE_DESKTOP_RELEASE_TAG}`;
+const STABLE_DESKTOP_RELEASE_URL = `https://github.com/Peiiii/go-usb-ai/releases/tag/${STABLE_DESKTOP_RELEASE_TAG}`;
+const STABLE_DESKTOP_ASSET_BASE_URL = `https://github.com/Peiiii/go-usb-ai/releases/download/${STABLE_DESKTOP_RELEASE_TAG}`;
 
 export const DESKTOP_RELEASE_FALLBACK: DesktopReleaseInfo = {
   tag: STABLE_DESKTOP_RELEASE_TAG,
   version: STABLE_DESKTOP_VERSION,
   url: STABLE_DESKTOP_RELEASE_URL,
   assets: {
-    macArm64Dmg: `${STABLE_DESKTOP_ASSET_BASE_URL}/NextClaw.Desktop-${STABLE_DESKTOP_VERSION}-arm64.dmg`,
-    macX64Dmg: `${STABLE_DESKTOP_ASSET_BASE_URL}/NextClaw.Desktop-${STABLE_DESKTOP_VERSION}-x64.dmg`,
-    windowsX64Installer: `${STABLE_DESKTOP_ASSET_BASE_URL}/NextClaw.Desktop-Setup-${STABLE_DESKTOP_VERSION}-x64.exe`,
-    linuxX64AppImage: `${STABLE_DESKTOP_ASSET_BASE_URL}/NextClaw.Desktop-${STABLE_DESKTOP_VERSION}-linux-x64.AppImage`
+    macArm64Dmg: `${STABLE_DESKTOP_ASSET_BASE_URL}/GoUsbAi.Desktop-${STABLE_DESKTOP_VERSION}-arm64.dmg`,
+    macX64Dmg: `${STABLE_DESKTOP_ASSET_BASE_URL}/GoUsbAi.Desktop-${STABLE_DESKTOP_VERSION}-x64.dmg`,
+    windowsX64Installer: `${STABLE_DESKTOP_ASSET_BASE_URL}/GoUsbAi.Desktop-Setup-${STABLE_DESKTOP_VERSION}-x64.exe`,
+    linuxX64AppImage: `${STABLE_DESKTOP_ASSET_BASE_URL}/GoUsbAi.Desktop-${STABLE_DESKTOP_VERSION}-linux-x64.AppImage`
   },
-  windowsPortableZipUrl: `${STABLE_DESKTOP_ASSET_BASE_URL}/NextClaw.Desktop-${STABLE_DESKTOP_VERSION}-win32-x64-unpacked.zip`
+  windowsPortableZipUrl: `${STABLE_DESKTOP_ASSET_BASE_URL}/GoUsbAi.Desktop-${STABLE_DESKTOP_VERSION}-win32-x64-unpacked.zip`
 };
 
-const GITHUB_RELEASES_API = 'https://api.github.com/repos/Peiiii/nextclaw/releases?per_page=20';
+const GITHUB_RELEASES_API = 'https://api.github.com/repos/Peiiii/go-usb-ai/releases?per_page=20';
 
 const DESKTOP_ASSET_PATTERNS: Record<DownloadAssetKey, RegExp> = {
-  macArm64Dmg: /NextClaw\.Desktop-(\d+\.\d+\.\d+)-arm64\.dmg$/,
-  macX64Dmg: /NextClaw\.Desktop-(\d+\.\d+\.\d+)(?:-x64)?\.dmg$/,
-  windowsX64Installer: /NextClaw\.Desktop-Setup-(\d+\.\d+\.\d+)-x64\.exe$/,
-  linuxX64AppImage: /NextClaw(?:\.Desktop| Desktop)-(\d+\.\d+\.\d+)(?:-linux-x64)?\.AppImage$/i
+  macArm64Dmg: /GoUsbAi\.Desktop-(\d+\.\d+\.\d+)-arm64\.dmg$/,
+  macX64Dmg: /GoUsbAi\.Desktop-(\d+\.\d+\.\d+)(?:-x64)?\.dmg$/,
+  windowsX64Installer: /GoUsbAi\.Desktop-Setup-(\d+\.\d+\.\d+)-x64\.exe$/,
+  linuxX64AppImage: /GoUsbAi(?:\.Desktop| Desktop)-(\d+\.\d+\.\d+)(?:-linux-x64)?\.AppImage$/i
 };
 
-const WINDOWS_PORTABLE_ZIP_PATTERN = /NextClaw\.Desktop(?:-(\d+\.\d+\.\d+))?-win32-x64-unpacked\.zip$/;
+const WINDOWS_PORTABLE_ZIP_PATTERN = /GoUsbAi\.Desktop(?:-(\d+\.\d+\.\d+))?-win32-x64-unpacked\.zip$/;
 
 function inferDesktopVersionFromAssetName(assetName: string): string | null {
   const match = assetName.match(DESKTOP_ASSET_PATTERNS.macArm64Dmg) ?? assetName.match(DESKTOP_ASSET_PATTERNS.macX64Dmg);
@@ -91,7 +91,7 @@ function resolveDesktopReleaseInfo(input: unknown): DesktopReleaseInfo | null {
   return {
     tag: release.tag_name,
     version,
-    url: release.html_url ?? `https://github.com/Peiiii/nextclaw/releases/tag/${release.tag_name}`,
+    url: release.html_url ?? `https://github.com/Peiiii/go-usb-ai/releases/tag/${release.tag_name}`,
     assets: {
       macArm64Dmg: macArmAsset.browser_download_url,
       macX64Dmg: macX64Asset.browser_download_url,

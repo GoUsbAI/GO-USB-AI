@@ -9,15 +9,15 @@
   - `appendEvents` -> `appendRunEvents`
   - `streamEvents` -> `readRunEvents`
   - `deleteSessionRuns` -> `deleteRunsForSession`
-- 同步更新 `@nextclaw/ncp-toolkit` 内部调用点与 in-memory 实现。
+- 同步更新 `@go-usb-ai/ncp-toolkit` 内部调用点与 in-memory 实现。
 - 同步更新 `apps/ncp-demo/backend` 中的文件版 run store 实现。
 
 ## 测试/验证/验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit lint`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit build`
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo/backend lint`
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo/backend tsc`
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo/backend build`
@@ -25,7 +25,7 @@
 ## 发布/部署方式
 
 - 本次为无行为变化的接口命名调整。
-- 若对外发布 `@nextclaw/ncp-toolkit`，需要在 release notes 明确说明 `AgentRunStore` 方法名有 breaking change，上层自定义 store 实现需同步重命名。
+- 若对外发布 `@go-usb-ai/ncp-toolkit`，需要在 release notes 明确说明 `AgentRunStore` 方法名有 breaking change，上层自定义 store 实现需同步重命名。
 - `apps/ncp-demo/backend` 无额外部署动作，按现有方式启动即可。
 
 ## 用户/产品视角的验收步骤

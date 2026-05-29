@@ -10,21 +10,21 @@
 ## 测试/验证/验收方式
 
 - 定向单测
-  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-core exec vitest run src/agent/tools/cron.test.ts`
-  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw exec vitest run src/cli/commands/cron/cron-job.utils.test.ts`
-  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-server exec vitest run src/ui/router.cron.test.ts`
+  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-core exec vitest run src/agent/tools/cron.test.ts`
+  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/cron/cron-job.utils.test.ts`
+  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-server exec vitest run src/ui/router.cron.test.ts`
 - 类型检查
-  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-core tsc`
-  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw tsc`
-  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-server tsc`
+  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-core tsc`
+  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai tsc`
+  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-server tsc`
 - 冒烟验证
-  - CLI 隔离 `NEXTCLAW_HOME` 下执行：
-    - `nextclaw cron add ... -e 60`
-    - `nextclaw cron add ... --at 2035-01-01T10:05:00+08:00`
-    - `nextclaw cron disable <jobId>`
-    - `nextclaw cron list`
-    - `nextclaw cron list --enabled-only`
-    - `nextclaw cron remove <jobId>`
+  - CLI 隔离 `GOUSB_AI_HOME` 下执行：
+    - `go-usb-ai cron add ... -e 60`
+    - `go-usb-ai cron add ... --at 2035-01-01T10:05:00+08:00`
+    - `go-usb-ai cron disable <jobId>`
+    - `go-usb-ai cron list`
+    - `go-usb-ai cron list --enabled-only`
+    - `go-usb-ai cron remove <jobId>`
   - 观察点：
     - 默认 `cron list` 能看到 disabled 任务并显示状态标签
     - `--enabled-only` 会排除 disabled 任务
@@ -43,7 +43,7 @@
 
 - 本次为 NPM 包发布，无远程 migration、无服务端部署步骤。
 - 按项目标准发布流程执行：
-  - 新建 changeset，覆盖 `@nextclaw/core`、`@nextclaw/server`、`nextclaw`
+  - 新建 changeset，覆盖 `@go-usb-ai/core`、`@go-usb-ai/server`、`go-usb-ai`
   - `pnpm release:version`
   - `pnpm release:publish`
 - 若在隔离 worktree 外发布，需确保使用项目根 `.npmrc` 凭据。
@@ -51,8 +51,8 @@
 ## 用户/产品视角的验收步骤
 
 1. 在 UI 中查看 cron 列表，确认启用与禁用任务都能出现，且状态清晰。
-2. 在 CLI 中执行 `nextclaw cron list`，确认结果与 UI 一致，并能看到 `[enabled]` / `[disabled]`。
-3. 执行 `nextclaw cron disable <jobId>` 后重新 `list`，确认任务仍存在但状态变为 disabled。
-4. 执行 `nextclaw cron remove <jobId>` 后重新 `list`，确认该任务被彻底删除。
+2. 在 CLI 中执行 `go-usb-ai cron list`，确认结果与 UI 一致，并能看到 `[enabled]` / `[disabled]`。
+3. 执行 `go-usb-ai cron disable <jobId>` 后重新 `list`，确认任务仍存在但状态变为 disabled。
+4. 执行 `go-usb-ai cron remove <jobId>` 后重新 `list`，确认该任务被彻底删除。
 5. 让 AI 创建一个“一次性”任务，例如“5 分钟后给微信发一条消息”，确认其使用单次 `at` 调度而不是 `every` 周期任务。
 6. 让 AI 创建一个“渠道发送”任务，确认写入的是执行指令，例如“到时给当前微信会话发送这条文案”，而不是只把文案正文裸写进 `message`。

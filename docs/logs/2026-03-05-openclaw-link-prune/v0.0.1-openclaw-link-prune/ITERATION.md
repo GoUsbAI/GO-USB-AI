@@ -22,14 +22,14 @@
 1. `pnpm build`
 2. `pnpm lint`
 3. `pnpm tsc`
-4. `pnpm --filter @nextclaw/docs build`
+4. `pnpm --filter @go-usb-ai/docs build`
 
 本地结果（2026-03-05）：
 
 1. `pnpm build`：通过
 2. `pnpm lint`：通过（仅存在历史 warning，无 error）
 3. `pnpm tsc`：通过
-4. `pnpm --filter @nextclaw/docs build`：通过
+4. `pnpm --filter @go-usb-ai/docs build`：通过
 
 验收点：
 

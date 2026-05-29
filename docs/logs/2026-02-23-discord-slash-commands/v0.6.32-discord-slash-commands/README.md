@@ -5,7 +5,7 @@
 - 新增通用 CommandRegistry，集中维护 Discord Slash 命令与执行逻辑。
 - Discord 渠道自动注册原生 Slash 命令，支持小规模 guild 级快速生效，超过阈值自动切到 global。
 - 新增命令：`/help`/`/commands`、`/whoami`/`/id`、`/status`、`/reset`/`/new`、`/model`。
-- 同步文档与依赖版本：`@nextclaw/core@0.6.32`、`@nextclaw/channel-runtime@0.1.17`、`@nextclaw/openclaw-compat@0.1.25`、`@nextclaw/server@0.5.8`、`nextclaw@0.8.13`。
+- 同步文档与依赖版本：`@go-usb-ai/core@0.6.32`、`@go-usb-ai/channel-runtime@0.1.17`、`@go-usb-ai/openclaw-compat@0.1.25`、`@go-usb-ai/server@0.5.8`、`go-usb-ai@0.8.13`。
 
 ## 测试 / 验证 / 验收方式
 
@@ -16,8 +16,8 @@ PATH=/opt/homebrew/bin:$PATH pnpm lint
 PATH=/opt/homebrew/bin:$PATH pnpm tsc
 
 # smoke-check（避免写入仓库目录）
-TMP_HOME=$(mktemp -d /tmp/nextclaw-discord-slash-smoke.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node --input-type=module -e "import { CommandRegistry, ConfigSchema, SessionManager } from './packages/nextclaw-core/dist/index.js';
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-discord-slash-smoke.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node --input-type=module -e "import { CommandRegistry, ConfigSchema, SessionManager } from './packages/go-usb-ai-core/dist/index.js';
 const config = ConfigSchema.parse({});
 const sessions = new SessionManager(config.agents.defaults.workspace);
 const registry = new CommandRegistry(config, sessions);
@@ -33,9 +33,9 @@ shutil.rmtree(os.environ["TMP_HOME"], ignore_errors=True)
 PY
 
 # Discord 实际验证（本机 token）
-TMP_HOME=$(mktemp -d /tmp/nextclaw-discord-slash-live.XXXXXX)
-TMP_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH node -e "const fs=require('fs'); const path=require('path'); const cfg=require(process.env.HOME+'/.nextclaw/config.json'); const token=cfg.channels?.discord?.token; if(!token){console.error('NO_TOKEN'); process.exit(1);} const out={ agents: cfg.agents ?? undefined, providers: cfg.providers ?? undefined, channels: { discord: { ...(cfg.channels?.discord||{}), enabled: true } } }; fs.writeFileSync(path.join(process.env.TMP_HOME,'config.json'), JSON.stringify(out, null, 2));"
-PATH=/opt/homebrew/bin:$PATH NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js gateway
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-discord-slash-live.XXXXXX)
+TMP_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH node -e "const fs=require('fs'); const path=require('path'); const cfg=require(process.env.HOME+'/.go-usb-ai/config.json'); const token=cfg.channels?.discord?.token; if(!token){console.error('NO_TOKEN'); process.exit(1);} const out={ agents: cfg.agents ?? undefined, providers: cfg.providers ?? undefined, channels: { discord: { ...(cfg.channels?.discord||{}), enabled: true } } }; fs.writeFileSync(path.join(process.env.TMP_HOME,'config.json'), JSON.stringify(out, null, 2));"
+PATH=/opt/homebrew/bin:$PATH GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js gateway
 # 等待日志出现 "Discord bot connected" 与 "Discord slash commands registered ..."
 PATH=/opt/homebrew/bin:$PATH node <<'NODE'
 const cfg = require(process.env.TMP_HOME + '/config.json');

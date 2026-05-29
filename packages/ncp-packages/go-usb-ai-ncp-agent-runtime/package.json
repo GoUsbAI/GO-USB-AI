@@ -1,0 +1,35 @@
+{
+  "name": "@go-usb-ai/ncp-agent-runtime",
+  "version": "0.3.28",
+  "private": false,
+  "description": "Default agent runtime implementation built on NCP interfaces.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown src/index.ts --dts.sourcemap --clean --target es2022 --no-fixedExtension",
+    "prepack": "pnpm run build",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "tsc": "tsc -p tsconfig.json",
+    "prepublishOnly": "node ../../../scripts/release/ensure-pnpm-publish.mjs"
+  },
+  "dependencies": {
+    "@go-usb-ai/ncp": "workspace:*",
+    "ajv": "^8.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.2"
+  }
+}

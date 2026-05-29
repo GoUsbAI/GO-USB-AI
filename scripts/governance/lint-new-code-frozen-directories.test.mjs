@@ -6,13 +6,13 @@ import { evaluateFrozenDirectoryViolation } from "./lint-new-code-frozen-directo
 test("returns an error when a changed file touches a still-frozen directory", () => {
   const violation = evaluateFrozenDirectoryViolation({
     rule: {
-      directoryPath: "packages/nextclaw-core/src/agent",
+      directoryPath: "packages/go-usb-ai-core/src/agent",
       maxDirectCodeFiles: 12,
       reason: "agent 根目录仍然过于拥挤"
     },
     changedFiles: [
-      "packages/nextclaw-core/src/agent/subagent.ts",
-      "packages/nextclaw-core/src/agent/tools/spawn.ts"
+      "packages/go-usb-ai-core/src/agent/subagent.ts",
+      "packages/go-usb-ai-core/src/agent/tools/spawn.ts"
     ],
     currentDirectCodeFileCount: 24
   });
@@ -20,19 +20,19 @@ test("returns an error when a changed file touches a still-frozen directory", ()
   assert.equal(violation?.level, "error");
   assert.match(violation?.message ?? "", /still has 24 direct code files/);
   assert.deepEqual(violation?.touchedFiles, [
-    "packages/nextclaw-core/src/agent/subagent.ts",
-    "packages/nextclaw-core/src/agent/tools/spawn.ts"
+    "packages/go-usb-ai-core/src/agent/subagent.ts",
+    "packages/go-usb-ai-core/src/agent/tools/spawn.ts"
   ]);
 });
 
 test("does not report a violation once the frozen directory has been reduced below budget", () => {
   const violation = evaluateFrozenDirectoryViolation({
     rule: {
-      directoryPath: "packages/nextclaw-core/src/agent",
+      directoryPath: "packages/go-usb-ai-core/src/agent",
       maxDirectCodeFiles: 12,
       reason: "agent 根目录仍然过于拥挤"
     },
-    changedFiles: ["packages/nextclaw-core/src/agent/subagent.ts"],
+    changedFiles: ["packages/go-usb-ai-core/src/agent/subagent.ts"],
     currentDirectCodeFileCount: 11
   });
 
@@ -42,11 +42,11 @@ test("does not report a violation once the frozen directory has been reduced bel
 test("ignores changes outside of the frozen directory", () => {
   const violation = evaluateFrozenDirectoryViolation({
     rule: {
-      directoryPath: "packages/nextclaw-core/src/agent",
+      directoryPath: "packages/go-usb-ai-core/src/agent",
       maxDirectCodeFiles: 12,
       reason: "agent 根目录仍然过于拥挤"
     },
-    changedFiles: ["packages/nextclaw-core/src/config/index.ts"],
+    changedFiles: ["packages/go-usb-ai-core/src/config/index.ts"],
     currentDirectCodeFileCount: 24
   });
 

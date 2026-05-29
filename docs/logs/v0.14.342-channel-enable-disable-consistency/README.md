@@ -9,14 +9,14 @@
 
 # 测试 / 验证 / 验收方式
 
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw test -- --run src/cli/commands/plugin-reload.test.ts`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server test -- --run src/ui/router.weixin-channel-config.test.ts`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- --run src/components/config/weixin-channel-auth-section.test.tsx`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc --noEmit`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server tsc -p tsconfig.json --noEmit`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai test -- --run src/cli/commands/plugin-reload.test.ts`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.weixin-channel-config.test.ts`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- --run src/components/config/weixin-channel-auth-section.test.tsx`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc --noEmit`
 - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard`
-  - 本次命令失败，但失败来源是仓库里已有的无关脏改动：`packages/extensions/nextclaw-channel-plugin-feishu/src/bot.ts` 与 `packages/extensions/nextclaw-channel-plugin-feishu/src/bot.test.ts` 继续超出维护性预算。
+  - 本次命令失败，但失败来源是仓库里已有的无关脏改动：`packages/extensions/go-usb-ai-channel-plugin-feishu/src/bot.ts` 与 `packages/extensions/go-usb-ai-channel-plugin-feishu/src/bot.test.ts` 继续超出维护性预算。
 
 # 发布 / 部署方式
 

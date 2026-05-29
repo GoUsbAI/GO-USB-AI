@@ -6,9 +6,9 @@
 - 增加针对回归场景的测试，覆盖“工具调用后新的 reasoning 段应独立追加”的行为。
 
 ## 测试/验证/验收方式
-- 单测：`pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- agent-conversation-state-manager.test.ts`
-- 代码质量：`pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit lint`
-- 类型检查：`pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
+- 单测：`pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- agent-conversation-state-manager.test.ts`
+- 代码质量：`pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit lint`
+- 类型检查：`pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
 
 ## 发布/部署方式
 - 本次为内部修复，按常规包发布流程处理：

@@ -27,7 +27,7 @@ export function attachWindowDiagnostics(window: BrowserWindow, logger: DesktopLo
     logInfo("did-finish-load");
   });
   webContents.on("dom-ready", () => {
-    if (process.platform === "win32" && process.env.NEXTCLAW_DESKTOP_SMOKE_TITLEBAR_HIT_TEST === "1") {
+    if (process.platform === "win32" && process.env.GOUSB_AI_DESKTOP_SMOKE_TITLEBAR_HIT_TEST === "1") {
       void webContents
         .executeJavaScript(DESKTOP_TITLEBAR_HIT_TEST_SCRIPT, true)
         .then((result) => logInfo(`titlebar-hit-test ${JSON.stringify(result)}`))

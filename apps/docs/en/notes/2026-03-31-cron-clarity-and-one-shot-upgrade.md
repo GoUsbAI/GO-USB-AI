@@ -35,31 +35,31 @@ Tags: `improvement` `quality of life`
 1. Show all jobs:
 
 ```bash
-nextclaw cron list
+go-usb-ai cron list
 ```
 
 2. Show only enabled jobs:
 
 ```bash
-nextclaw cron list --enabled-only
+go-usb-ai cron list --enabled-only
 ```
 
 3. Disable without deleting:
 
 ```bash
-nextclaw cron disable <jobId>
+go-usb-ai cron disable <jobId>
 ```
 
 4. Remove permanently:
 
 ```bash
-nextclaw cron remove <jobId>
+go-usb-ai cron remove <jobId>
 ```
 
 5. Create a one-shot task:
 
 ```bash
-nextclaw cron add -n "one-shot-wechat" -m 'At the scheduled time, send a WeChat message to the current chat saying: "Meeting starts in 5 minutes."' --at 2035-01-01T10:05:00+08:00
+go-usb-ai cron add -n "one-shot-wechat" -m 'At the scheduled time, send a WeChat message to the current chat saying: "Meeting starts in 5 minutes."' --at 2035-01-01T10:05:00+08:00
 ```
 
 ## Links

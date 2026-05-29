@@ -10,17 +10,17 @@
   - Codex SDK / Claude Agent SDK / ACP 三条接入路线
   - 推荐目标架构、切换策略、实施里程碑与风险控制
 - 已完成 Phase 1 最小落地（行为不变）：
-  - 新增 `AgentEngine` 接口类型：`packages/nextclaw-core/src/engine/types.ts`
-  - 新增 `NativeAgentEngine` 包装：`packages/nextclaw-core/src/engine/native.ts`
+  - 新增 `AgentEngine` 接口类型：`packages/go-usb-ai-core/src/engine/types.ts`
+  - 新增 `NativeAgentEngine` 包装：`packages/go-usb-ai-core/src/engine/native.ts`
   - Runtime Pool 从 `AgentLoop` 直接依赖改为 `AgentEngine` 依赖：
-    `packages/nextclaw/src/cli/commands/agent-runtime-pool.ts`
-  - core 导出新增 `engine` 模块：`packages/nextclaw-core/src/index.ts`
+    `packages/go-usb-ai/src/cli/commands/agent-runtime-pool.ts`
+  - core 导出新增 `engine` 模块：`packages/go-usb-ai-core/src/index.ts`
 
 ## 背景与目标
 
 ### 背景
 
-当前 Nextbot（NextClaw）已经具备多渠道、会话隔离、工具调用、配置热重载等能力，但 Agent 运行核心仍以 `AgentLoop` 为中心，尚未抽象为可插拔“引擎层”。
+当前 Nextbot（GoUsbAi）已经具备多渠道、会话隔离、工具调用、配置热重载等能力，但 Agent 运行核心仍以 `AgentLoop` 为中心，尚未抽象为可插拔“引擎层”。
 
 ### 目标
 
@@ -144,7 +144,7 @@
 PATH=/opt/homebrew/bin:$PATH pnpm build
 PATH=/opt/homebrew/bin:$PATH pnpm lint
 PATH=/opt/homebrew/bin:$PATH pnpm tsc
-PATH=/opt/homebrew/bin:$PATH node packages/nextclaw/dist/cli/index.js --help
+PATH=/opt/homebrew/bin:$PATH node packages/go-usb-ai/dist/cli/index.js --help
 ```
 
 验收点：
@@ -152,7 +152,7 @@ PATH=/opt/homebrew/bin:$PATH node packages/nextclaw/dist/cli/index.js --help
 - `build` 通过（全工作区包构建成功）。
 - `lint` 通过（仅存在仓库既有 max-lines 警告，无新增 error）。
 - `tsc` 通过（全工作区类型检查通过）。
-- CLI 冒烟通过（`nextclaw --help` 正常输出命令列表）。
+- CLI 冒烟通过（`go-usb-ai --help` 正常输出命令列表）。
 
 ## 发布 / 部署方式
 
@@ -177,8 +177,8 @@ PATH=/opt/homebrew/bin:$PATH node packages/nextclaw/dist/cli/index.js --help
 
 ## 附：后续实施入口建议（文件级）
 
-- `packages/nextclaw-core/src/engine/`（新增引擎接口与实现）
-- `packages/nextclaw/src/cli/commands/agent-runtime-pool.ts`（改为 EngineFactory）
-- `packages/nextclaw-core/src/config/schema.ts`（新增 engine 配置）
-- `packages/nextclaw-core/src/config/reload.ts`（新增 engine 变更策略）
-- `packages/nextclaw-core/src/agent/loop.ts`（包装为 NativeEngine）
+- `packages/go-usb-ai-core/src/engine/`（新增引擎接口与实现）
+- `packages/go-usb-ai/src/cli/commands/agent-runtime-pool.ts`（改为 EngineFactory）
+- `packages/go-usb-ai-core/src/config/schema.ts`（新增 engine 配置）
+- `packages/go-usb-ai-core/src/config/reload.ts`（新增 engine 变更策略）
+- `packages/go-usb-ai-core/src/agent/loop.ts`（包装为 NativeEngine）

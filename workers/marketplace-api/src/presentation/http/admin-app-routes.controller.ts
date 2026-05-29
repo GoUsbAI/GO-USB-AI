@@ -11,7 +11,7 @@ type AdminAppRouteBindings = {
   MARKETPLACE_SKILLS_FILES: R2Bucket;
   MARKETPLACE_CACHE_TTL_SECONDS?: string;
   MARKETPLACE_ADMIN_TOKEN?: string;
-  NEXTCLAW_PLATFORM_API_BASE?: string;
+  GOUSB_AI_PLATFORM_API_BASE?: string;
 };
 
 type AdminAppRouteRuntime = {

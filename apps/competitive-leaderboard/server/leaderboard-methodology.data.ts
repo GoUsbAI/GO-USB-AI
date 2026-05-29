@@ -8,7 +8,7 @@ export const LEADERBOARD_GENERATED_AT = "2026-04-14T23:05:00+08:00";
 export const LEADERBOARD_METHODOLOGY_VERSION = "2026.04.14-universe-tightened";
 
 export const DISCLOSURES: string[] = [
-  "This index is maintained by the NextClaw team. NextClaw is one of the evaluated products.",
+  "This index is maintained by the GoUsbAi team. GoUsbAi is one of the evaluated products.",
   "Only core comparable products enter the unified overall ranking.",
   "All inclusion and capability statements in this app are derived from official public sources checked on 2026-04-14.",
   "Products that are clearly not lobster-class are excluded from this app instead of being shown as if they belong to the same product universe.",

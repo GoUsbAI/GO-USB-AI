@@ -2,12 +2,12 @@
 
 ## 背景 / 问题
 
-- 需要 nextclaw 提供 UI 配置后端，并复用 gateway 进程
+- 需要 go-usb-ai 提供 UI 配置后端，并复用 gateway 进程
 
 ## 决策
 
 - 使用 Hono 搭建 UI REST + WS 服务
-- `nextclaw ui` 命令启动 gateway + UI server
+- `go-usb-ai ui` 命令启动 gateway + UI server
 - UI 配置写入 config 文件，热重载接口保留为 best-effort
 
 ## 变更内容
@@ -25,10 +25,10 @@ pnpm -C /Users/peiwang/Projects/nextbot lint
 pnpm -C /Users/peiwang/Projects/nextbot tsc
 
 # smoke-check（非仓库目录）
-NEXTCLAW_HOME=/tmp/nextclaw-ui-smoke-3 pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw dev ui --no-open --port 18803 &
+GOUSB_AI_HOME=/tmp/go-usb-ai-ui-smoke-3 pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai dev ui --no-open --port 18803 &
 sleep 2
 curl -s http://127.0.0.1:18803/api/health
-pkill -f "nextclaw.*ui" || true
+pkill -f "go-usb-ai.*ui" || true
 ```
 
 验收点：

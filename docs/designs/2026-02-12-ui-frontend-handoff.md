@@ -1,4 +1,4 @@
-# NextClaw UI 前端交接文档（Phase 1）
+# GoUsbAi UI 前端交接文档（Phase 1）
 
 目标：让前端团队/模型直接据此实现“系统配置界面”。
 
@@ -70,7 +70,7 @@
 
 ### 4.5 Channel 字段清单（建议 UI 呈现）
 
-说明：字段来源 `packages/nextclaw/src/config/schema.ts`。
+说明：字段来源 `packages/go-usb-ai/src/config/schema.ts`。
 
 - WhatsApp: `enabled`, `bridgeUrl`, `allowFrom`
 - Telegram: `enabled`, `token`, `allowFrom`, `proxy`

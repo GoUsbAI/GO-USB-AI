@@ -14,13 +14,13 @@
 ## 测试/验证/验收方式
 
 - 执行命令：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai build`
 - 结果：全部通过。
 - 说明：
-  - `nextclaw-ui lint` 仍受仓库既有 `ChatConversationPanel.tsx` React Compiler 规则错误影响（非本次引入）。
+  - `go-usb-ai-ui lint` 仍受仓库既有 `ChatConversationPanel.tsx` React Compiler 规则错误影响（非本次引入）。
 
 ## 发布/部署方式
 
@@ -29,7 +29,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 重启当前 `nextclaw` 服务进程（确保加载本次代码）。
+1. 重启当前 `go-usb-ai` 服务进程（确保加载本次代码）。
 2. 在 `native` 会话发送消息后立即点击终止（尽量在首个 token 附近）。
 3. 预期：
    - 会话列表 running 转圈不再长时间回弹；

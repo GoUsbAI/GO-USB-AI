@@ -11,7 +11,7 @@
 - Web UI 更接近直接消费 NCP session / realtime event。
 - 微信、Telegram 等传统渠道仍主要依赖 `MessageBus outbound`、私有 control message 和最终字符串。
 - 飞书插件内部已经有 reply dispatcher，但上游仍通过 `dispatchPrompt(): Promise<string>` 获得最终字符串。
-- `message-channel` 抽象已经在 `@nextclaw/ncp-toolkit` 中出现，但目前还没有成为主链。
+- `message-channel` 抽象已经在 `@go-usb-ai/ncp-toolkit` 中出现，但目前还没有成为主链。
 
 这导致同一次 Agent 回复在系统里有多套表达方式：NCP event、最终字符串、control message、插件 reply dispatcher。它们描述的是同一件事，却分散成多条合同，维护成本高，也让“边说边做”“块级快发”“工具过程展示”“卡片增量更新”变得困难。
 
@@ -96,7 +96,7 @@ export interface ChannelReplyConsumer {
 
 ### 4. Toolkit 辅助，不绑死实现
 
-`@nextclaw/ncp-toolkit/message-channel` 的定位应从“强制 runtime layer”收敛为“channel 插件工具包”。
+`@go-usb-ai/ncp-toolkit/message-channel` 的定位应从“强制 runtime layer”收敛为“channel 插件工具包”。
 
 插件可以选择：
 
@@ -124,7 +124,7 @@ export interface ChannelReplyConsumer {
 
 这套设计不应再引入一套新的“reply consumer 注册机制”。
 
-NextClaw 当前已经有稳定的 channel 插件生命周期：
+GoUsbAi 当前已经有稳定的 channel 插件生命周期：
 
 - 插件通过 `register(api)` 进入系统。
 - 插件调用 `api.registerChannel(...)` 注册 channel。
@@ -277,7 +277,7 @@ register(api) {
   api.registerChannel({
     plugin: {
       id: "weixin",
-      nextclaw: {
+      go-usb-ai: {
         isEnabled: (config) => ...,
         createChannel: (ctx) => new WeixinChannel(...),
       },
@@ -306,7 +306,7 @@ class WeixinChannel extends BaseChannel<Record<string, unknown>>
 
 ### ExtensionChannel 类型演化
 
-当前 `ExtensionChannel.nextclaw.createChannel(...)` 返回的是普通 `BaseChannel`。
+当前 `ExtensionChannel.go-usb-ai.createChannel(...)` 返回的是普通 `BaseChannel`。
 
 目标态应把它收敛为可以返回支持 reply 能力的 channel instance：
 
@@ -315,7 +315,7 @@ export type ExtensionChannel = {
   id: string;
   meta?: Record<string, unknown>;
   capabilities?: Record<string, unknown>;
-  nextclaw?: {
+  go-usb-ai?: {
     isEnabled?: (cfg: Config) => boolean;
     createChannel?: (ctx: {
       config: Config;
@@ -551,7 +551,7 @@ NCP EventStream -> ChannelReplyConsumer -> external chat system
 
 ### Phase 2：平台路由接入
 
-- 在 NextClaw 应用层建立 `ChannelReplyRouter`。
+- 在 GoUsbAi 应用层建立 `ChannelReplyRouter`。
 - 将 channel inbound 触发的 run 改成 `streamPromptOverNcp()`。
 - 平台创建 `ChannelRunBinding`，将 event stream 交给对应 consumer。
 - 保留旧 `runPromptOverNcp()` 仅用于 CLI/direct fallback 或迁移桥。
@@ -650,4 +650,4 @@ await channelReplyRouter.dispatch({
 2. 平台负责把本次 run 定向路由到正确 channel consumer。
 3. channel 插件负责把这条属于自己的 event stream 发到自己的聊天世界。
 
-这是更符合 NextClaw “统一入口、能力编排、生态扩展、统一体验”长期愿景的通信输出模型。
+这是更符合 GoUsbAi “统一入口、能力编排、生态扩展、统一体验”长期愿景的通信输出模型。

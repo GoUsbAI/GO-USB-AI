@@ -2,17 +2,17 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**目标：** 彻底移除 `AgentLoop` 与 `NativeAgentEngine`，让 NextClaw 的 UI Chat、CLI agent、gateway/channel inbound、plugin runtime bridge、后台自动执行全部收敛到 NCP 这一套唯一执行核心。
+**目标：** 彻底移除 `AgentLoop` 与 `NativeAgentEngine`，让 GoUsbAi 的 UI Chat、CLI agent、gateway/channel inbound、plugin runtime bridge、后台自动执行全部收敛到 NCP 这一套唯一执行核心。
 
 **架构方案：** 保留已经成立的 NCP-native UI/session backend 作为唯一执行真相源，把仍然停留在 direct-exec / native engine / loop 语义上的入口逐个切到统一的 `session + run + event stream` 合同；不保留双轨执行，不保留隐藏 fallback，不保留“先试 NCP，失败再掉回 AgentLoop”的兼容路径。等最后一个 live caller 迁走后，成批删除 `AgentLoop`、`NativeAgentEngine`、旧导出、旧测试、旧架构描述。
 
-**技术栈：** TypeScript、Vitest、NextClaw core/runtime/service packages、NCP runtime/backend/toolkit、Markdown 文档。
+**技术栈：** TypeScript、Vitest、GoUsbAi core/runtime/service packages、NCP runtime/backend/toolkit、Markdown 文档。
 
 ---
 
 ## 长期目标对齐 / 可维护性推进
 
-这次工作的根目标不是“把一段旧代码换个入口继续活着”，而是彻底消灭双执行核心。只要 `AgentLoop` 和 NCP 继续并存，NextClaw 就会长期处在：
+这次工作的根目标不是“把一段旧代码换个入口继续活着”，而是彻底消灭双执行核心。只要 `AgentLoop` 和 NCP 继续并存，GoUsbAi 就会长期处在：
 
 - 产品主语不统一
 - 执行合同不统一
@@ -61,7 +61,7 @@
 
 ### 唯一执行合同
 
-NextClaw 的执行合同统一为：
+GoUsbAi 的执行合同统一为：
 
 - 输入：`sessionId + NcpMessage + metadata`
 - 执行：`runApi.send(...)` 或等价的 NCP agent endpoint `send/stream`
@@ -84,23 +84,23 @@ NextClaw 的执行合同统一为：
 
 当前真正阻止删除 `AgentLoop` 的 live callers：
 
-- [`packages/nextclaw/src/cli/runtime.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/runtime.ts)
-  - `nextclaw agent` / 交互 CLI 仍直接 `agentLoop.processDirect(...)`
-- [`packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.ts)
+- [`packages/go-usb-ai/src/cli/runtime.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/runtime.ts)
+  - `go-usb-ai agent` / 交互 CLI 仍直接 `agentLoop.processDirect(...)`
+- [`packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.ts)
   - gateway/channel inbound 仍走 `NativeAgentEngine -> AgentLoop`
-- [`packages/nextclaw/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts)
+- [`packages/go-usb-ai/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts)
   - plugin runtime bridge 仍调用 `runtimePool.processDirect(...)`
-- [`packages/nextclaw-core/src/engine/native.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/engine/native.ts)
+- [`packages/go-usb-ai-core/src/engine/native.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/engine/native.ts)
   - `NativeAgentEngine` 本体直接包装 `AgentLoop`
-- [`packages/nextclaw-core/src/index.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/index.ts)
+- [`packages/go-usb-ai-core/src/index.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/index.ts)
   - 仍对外导出 `AgentLoop` 与 native engine
 
 ## 不是阻塞项的内容
 
 这些内容不是删 `AgentLoop` 的 blocker，可以后置：
 
-- [`packages/nextclaw/src/cli/commands/ncp/nextclaw-agent-session-store.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/ncp/nextclaw-agent-session-store.ts)
-- [`packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-message-bridge.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-message-bridge.ts)
+- [`packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-agent-session-store.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-agent-session-store.ts)
+- [`packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-message-bridge.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-message-bridge.ts)
 
 原因：它们依赖的是 `SessionManager` 与消息格式适配，不是 `AgentLoop` 本体。
 
@@ -108,15 +108,15 @@ NextClaw 的执行合同统一为：
 
 只要迁移完成，就应该直接瞄准以下删除：
 
-- Delete: `packages/nextclaw-core/src/agent/loop.ts`
-- Delete: `packages/nextclaw-core/src/engine/native.ts`
-- Modify: `packages/nextclaw-core/src/index.ts`
-- Modify: `packages/nextclaw-core/src/engine/types.ts`
+- Delete: `packages/go-usb-ai-core/src/agent/loop.ts`
+- Delete: `packages/go-usb-ai-core/src/engine/native.ts`
+- Modify: `packages/go-usb-ai-core/src/index.ts`
+- Modify: `packages/go-usb-ai-core/src/engine/types.ts`
 - Delete or rewrite:
-  - `packages/nextclaw-core/src/agent/tests/loop.additional-tools.test.ts`
-  - `packages/nextclaw-core/src/agent/tests/loop.inbound-stream.test.ts`
-  - `packages/nextclaw-core/src/agent/tests/loop.system-message.test.ts`
-  - `packages/nextclaw-core/src/agent/tests/loop.tool-catalog.test.ts`
+  - `packages/go-usb-ai-core/src/agent/tests/loop.additional-tools.test.ts`
+  - `packages/go-usb-ai-core/src/agent/tests/loop.inbound-stream.test.ts`
+  - `packages/go-usb-ai-core/src/agent/tests/loop.system-message.test.ts`
+  - `packages/go-usb-ai-core/src/agent/tests/loop.tool-catalog.test.ts`
 - Rewrite:
   - `docs/ARCHITECTURE.md`
   - `docs/USAGE.md`
@@ -137,7 +137,7 @@ NextClaw 的执行合同统一为：
 | 功能域 | 受影响原因 | 需要验证的核心事实 |
 | --- | --- | --- |
 | UI Chat | 已是 NCP 主链，但会受共享 runner / 执行合同调整影响 | 发送、流式回复、停止、附件、session 切换都正常 |
-| CLI 单轮对话 | 当前直接走 `AgentLoop.processDirect()` | `nextclaw agent -m` 改走 NCP 后仍能得到正确回复 |
+| CLI 单轮对话 | 当前直接走 `AgentLoop.processDirect()` | `go-usb-ai agent -m` 改走 NCP 后仍能得到正确回复 |
 | CLI 交互式对话 | 当前直接 new `AgentLoop` | 多轮会话、复用 session、退出行为正常 |
 | gateway/channel inbound | 当前走 `NativeAgentEngine -> AgentLoop` | 入站消息仍能路由到正确 agent / session 并正常回复 |
 | plugin runtime bridge | 当前调 `runtimePool.processDirect(...)` | 插件桥仍能把文本和附件送进统一 NCP 执行链 |
@@ -167,24 +167,24 @@ NextClaw 的执行合同统一为：
 这些测试是本次最小充分自动化验证集：
 
 - plugin runtime bridge
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/service-support/plugin/tests/service-plugin-runtime-bridge.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/service-support/plugin/tests/service-plugin-runtime-bridge.test.ts`
 - gateway runtime / routing
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/agent/agent-runtime-pool.command.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/agent/agent-runtime-pool.command.test.ts`
 - service startup / deferred NCP runtime
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/service-support/gateway/tests/service-gateway-bootstrap.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts src/cli/commands/service-support/session/tests/service-deferred-ncp-agent.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/service-support/gateway/tests/service-gateway-bootstrap.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts src/cli/commands/service-support/session/tests/service-deferred-ncp-agent.test.ts`
 - NCP runtime 主链
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.claude.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.reasoning-normalization.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.child-session-request.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.subagent-completion.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.claude.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.reasoning-normalization.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.child-session-request.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.subagent-completion.test.ts`
 - session store / 历史兼容桥
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/session/nextclaw-agent-session-store.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/session/go-usb-ai-agent-session-store.test.ts`
 - 新增 CLI NCP agent mode 测试
-  - `pnpm -C packages/nextclaw test -- --run src/cli/runtime.agent-mode.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/runtime.agent-mode.test.ts`
 
 ### B. 类型检查
 
-- `pnpm -C packages/nextclaw-core tsc`
-- `pnpm -C packages/nextclaw tsc`
+- `pnpm -C packages/go-usb-ai-core tsc`
+- `pnpm -C packages/go-usb-ai tsc`
 - 必要时补：
-  - `pnpm -C packages/nextclaw-server tsc`
+  - `pnpm -C packages/go-usb-ai-server tsc`
 
 ### C. 维护性守卫
 
@@ -228,11 +228,11 @@ NextClaw 的执行合同统一为：
 
 ### 2. CLI 单轮对话
 
-目标：确认 `nextclaw agent -m` 已从 `AgentLoop` 切到 NCP，但用户体验不坏。
+目标：确认 `go-usb-ai agent -m` 已从 `AgentLoop` 切到 NCP，但用户体验不坏。
 
 建议命令：
 
-- `NEXTCLAW_HOME=$(mktemp -d /tmp/nextclaw-agentloop-remove-cli-once.XXXXXX) pnpm -C packages/nextclaw dev:build agent -m "Reply exactly OK" --session cli:remove-loop-once`
+- `GOUSB_AI_HOME=$(mktemp -d /tmp/go-usb-ai-agentloop-remove-cli-once.XXXXXX) pnpm -C packages/go-usb-ai dev:build agent -m "Reply exactly OK" --session cli:remove-loop-once`
 
 观察点：
 
@@ -246,7 +246,7 @@ NextClaw 的执行合同统一为：
 
 建议步骤：
 
-1. 启动：`NEXTCLAW_HOME=$(mktemp -d /tmp/nextclaw-agentloop-remove-cli-chat.XXXXXX) pnpm -C packages/nextclaw dev:build agent --session cli:remove-loop-chat`
+1. 启动：`GOUSB_AI_HOME=$(mktemp -d /tmp/go-usb-ai-agentloop-remove-cli-chat.XXXXXX) pnpm -C packages/go-usb-ai dev:build agent --session cli:remove-loop-chat`
 2. 输入第一句，确认有回复。
 3. 输入第二句追问，确认上下文延续。
 4. 输入 `exit`，确认正常退出。
@@ -264,7 +264,7 @@ NextClaw 的执行合同统一为：
 建议步骤：
 
 1. 启动隔离环境 service：
-   - `NEXTCLAW_HOME=$(mktemp -d /tmp/nextclaw-agentloop-remove-serve.XXXXXX) pnpm -C packages/nextclaw dev serve --ui-port 19421`
+   - `GOUSB_AI_HOME=$(mktemp -d /tmp/go-usb-ai-agentloop-remove-serve.XXXXXX) pnpm -C packages/go-usb-ai dev serve --ui-port 19421`
 2. 等待日志中出现 NCP agent ready。
 3. 通过已有最小可行方式触发一条入站消息，或调用对应 API/bridge。
 
@@ -342,10 +342,10 @@ NextClaw 的执行合同统一为：
 
 **文件：**
 - Modify: `docs/plans/2026-04-11-agent-loop-removal-implementation-plan.md`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/plugin/tests/service-plugin-runtime-bridge.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.command.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/tests/service-gateway-bootstrap.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/plugin/tests/service-plugin-runtime-bridge.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.command.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/tests/service-gateway-bootstrap.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts`
 
 **动作：**
 1. 先把测试目标改成“所有执行入口都必须走 NCP 合同，而不是 `AgentLoop` / `processDirect` 合同”。
@@ -354,10 +354,10 @@ NextClaw 的执行合同统一为：
 ### 任务 2：抽出共享 NCP runner，禁止继续扩散 direct-exec
 
 **文件：**
-- Create: `packages/nextclaw/src/cli/commands/ncp/runtime/nextclaw-ncp-runner.ts`
-- Create: `packages/nextclaw/src/cli/commands/ncp/runtime/nextclaw-ncp-runner.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/ncp/runtime/ui-ncp-agent-handle.ts`
-- Modify: `packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/runtime/go-usb-ai-ncp-runner.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/runtime/go-usb-ai-ncp-runner.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/runtime/ui-ncp-agent-handle.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts`
 
 **动作：**
 1. 新建最薄共享 runner。
@@ -367,9 +367,9 @@ NextClaw 的执行合同统一为：
 ### 任务 3：切 plugin runtime bridge
 
 **文件：**
-- Modify: `packages/nextclaw/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/plugin/tests/service-plugin-runtime-bridge.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-bootstrap.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/plugin/tests/service-plugin-runtime-bridge.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-bootstrap.ts`
 
 **动作：**
 1. 让 plugin bridge 改依赖 live NCP runner 或 live `UiNcpAgentHandle`。
@@ -379,9 +379,9 @@ NextClaw 的执行合同统一为：
 ### 任务 4：切 CLI agent
 
 **文件：**
-- Modify: `packages/nextclaw/src/cli/runtime.ts`
-- Create: `packages/nextclaw/src/cli/runtime.agent-mode.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/ncp/runtime/nextclaw-ncp-runner.ts`
+- Modify: `packages/go-usb-ai/src/cli/runtime.ts`
+- Create: `packages/go-usb-ai/src/cli/runtime.agent-mode.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/runtime/go-usb-ai-ncp-runner.ts`
 
 **动作：**
 1. 删除 CLI 直接 new `AgentLoop(...)` 的路径。
@@ -390,11 +390,11 @@ NextClaw 的执行合同统一为：
 ### 任务 5：切 gateway/channel inbound
 
 **文件：**
-- Modify: `packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.ts`
-- Modify: `packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.command.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-startup.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/session/service-deferred-ncp-agent.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.command.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-startup.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/session/service-deferred-ncp-agent.ts`
 
 **动作：**
 1. 把 `GatewayAgentRuntimePool` 从 engine owner 收缩成 routing + NCP dispatch owner。
@@ -403,10 +403,10 @@ NextClaw 的执行合同统一为：
 ### 任务 6：成批删除 `AgentLoop` 与 `NativeAgentEngine`
 
 **文件：**
-- Delete: `packages/nextclaw-core/src/agent/loop.ts`
-- Delete: `packages/nextclaw-core/src/engine/native.ts`
-- Modify: `packages/nextclaw-core/src/index.ts`
-- Modify: `packages/nextclaw-core/src/engine/types.ts`
+- Delete: `packages/go-usb-ai-core/src/agent/loop.ts`
+- Delete: `packages/go-usb-ai-core/src/engine/native.ts`
+- Modify: `packages/go-usb-ai-core/src/index.ts`
+- Modify: `packages/go-usb-ai-core/src/engine/types.ts`
 - Delete or rewrite loop-centric tests
 - Modify: `docs/ARCHITECTURE.md`
 - Modify: `docs/USAGE.md`

@@ -88,7 +88,7 @@ apps/desktop/src/managers/desktop-command-surface.manager.ts
 
 ```bash
 PATH=/opt/homebrew/bin:$PATH pnpm -C apps/desktop tsc
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core exec tsx --test ../../apps/desktop/src/managers/desktop-command-surface.manager.test.ts ../../apps/desktop/src/utils/desktop-command-bridge.utils.test.ts ../../apps/desktop/src/services/runtime-process.service.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core exec tsx --test ../../apps/desktop/src/managers/desktop-command-surface.manager.test.ts ../../apps/desktop/src/utils/desktop-command-bridge.utils.test.ts ../../apps/desktop/src/services/runtime-process.service.test.ts
 PATH=/opt/homebrew/bin:$PATH pnpm -C apps/desktop lint
 PATH=/opt/homebrew/bin:$PATH pnpm lint:new-code:governance
 PATH=/opt/homebrew/bin:$PATH pnpm check:governance-backlog-ratchet

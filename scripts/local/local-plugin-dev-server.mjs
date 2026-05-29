@@ -9,7 +9,7 @@ import { resolveRepoPath } from "../shared/repo-paths.mjs";
 const DEFAULT_TIMEOUT_MS = 180_000;
 const DEFAULT_UI_PORT = 18834;
 const DEFAULT_FRONTEND_PORT = 5174;
-const CONFIG_SOURCE_ENV = "NEXTCLAW_LOCAL_PLUGIN_SOURCE_CONFIG";
+const CONFIG_SOURCE_ENV = "GOUSB_AI_LOCAL_PLUGIN_SOURCE_CONFIG";
 const READY_SERVICE_LOG = "✓ UI NCP agent: ready";
 const READY_FRONTEND_LOG = "Local:";
 const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
@@ -33,10 +33,10 @@ function printHelp() {
 Options:
   --plugin-path <path>     Local plugin directory in this repo or on disk.
   --plugin-id <id>         Plugin id override. Defaults to openclaw.plugin.json id.
-  --source-config <path>   Config copied into the temporary NEXTCLAW_HOME.
-                           Defaults to $${CONFIG_SOURCE_ENV} or ~/.nextclaw/config.json
+  --source-config <path>   Config copied into the temporary GOUSB_AI_HOME.
+                           Defaults to $${CONFIG_SOURCE_ENV} or ~/.go-usb-ai/config.json
   --ui-port <port>         Local backend/UI port. Defaults to the first free port starting from ${DEFAULT_UI_PORT}.
-  --frontend               Also start packages/nextclaw-ui dev server and proxy it to the local backend.
+  --frontend               Also start packages/go-usb-ai-ui dev server and proxy it to the local backend.
   --frontend-port <port>   Frontend dev server port. Defaults to the first free port starting from ${DEFAULT_FRONTEND_PORT}.
   --timeout-ms <ms>        Startup timeout in milliseconds (default: ${DEFAULT_TIMEOUT_MS})
   --no-keep-running        Stop the started processes after readiness is confirmed.
@@ -117,7 +117,7 @@ function parseArgs(argv) {
 }
 
 function resolveSourceConfigPath(rawPath) {
-  return rawPath.trim() ? path.resolve(rawPath) : path.join(homedir(), ".nextclaw", "config.json");
+  return rawPath.trim() ? path.resolve(rawPath) : path.join(homedir(), ".go-usb-ai", "config.json");
 }
 
 function ensureFileExists(filePath, label) {
@@ -152,8 +152,8 @@ function resolvePluginMetadata(pluginPath, pluginIdOverride) {
 }
 
 function prepareLocalHome(sourceConfigPath) {
-  ensureFileExists(sourceConfigPath, "Source config. Create ~/.nextclaw/config.json first or pass --source-config");
-  const homeDir = path.join(tmpdir(), `nextclaw-local-plugin-dev-${Date.now().toString(36)}`);
+  ensureFileExists(sourceConfigPath, "Source config. Create ~/.go-usb-ai/config.json first or pass --source-config");
+  const homeDir = path.join(tmpdir(), `go-usb-ai-local-plugin-dev-${Date.now().toString(36)}`);
   mkdirSync(homeDir, { recursive: true });
   copyFileSync(sourceConfigPath, path.join(homeDir, "config.json"));
   return homeDir;
@@ -181,12 +181,12 @@ function configurePlugin({ env, pluginPath, pluginId, sourceMode, jsonOutput }) 
     console.log(`[local-plugin-dev] linking ${pluginId} from ${pluginPath}...`);
   }
   runCommand(
-    ["-C", "packages/nextclaw", "dev:build", "plugins", "install", pluginPath, "--link"],
+    ["-C", "packages/go-usb-ai", "dev:build", "plugins", "install", pluginPath, "--link"],
     env,
     "Link local plugin",
   );
   runCommand(
-    ["-C", "packages/nextclaw", "dev:build", "config", "set", `plugins.entries.${pluginId}.source`, sourceMode],
+    ["-C", "packages/go-usb-ai", "dev:build", "config", "set", `plugins.entries.${pluginId}.source`, sourceMode],
     env,
     `Set plugin source=${sourceMode}`,
   );
@@ -363,7 +363,7 @@ async function startFrontendDevServer({
   const frontendPid = await startReadyProcess({
     label: "frontend dev server",
     command: pnpmCommand,
-    args: ["-C", "packages/nextclaw-ui", "dev", "--host", "127.0.0.1", "--port", String(frontendPort), "--strictPort"],
+    args: ["-C", "packages/go-usb-ai-ui", "dev", "--host", "127.0.0.1", "--port", String(frontendPort), "--strictPort"],
     env: { ...process.env, VITE_DEV_PROXY_API_BASE: baseUrl },
     logPath: frontendLogPath,
     timeoutMs,
@@ -389,9 +389,9 @@ async function main() {
   const sourceConfigPath = resolveSourceConfigPath(options.sourceConfig);
   const metadata = resolvePluginMetadata(pluginPath, options.pluginId);
   const homeDir = prepareLocalHome(sourceConfigPath);
-  const env = { ...process.env, NEXTCLAW_HOME: homeDir };
+  const env = { ...process.env, GOUSB_AI_HOME: homeDir };
 
-  logWhenEnabled(options.json, `[local-plugin-dev] NEXTCLAW_HOME=${homeDir}`);
+  logWhenEnabled(options.json, `[local-plugin-dev] GOUSB_AI_HOME=${homeDir}`);
   configurePlugin({
     env,
     pluginPath,
@@ -408,7 +408,7 @@ async function main() {
   const servicePid = await startReadyProcess({
     label: "local service",
     command: pnpmCommand,
-    args: ["-C", "packages/nextclaw", "dev:build", "serve", "--ui-port", String(uiPort)],
+    args: ["-C", "packages/go-usb-ai", "dev:build", "serve", "--ui-port", String(uiPort)],
     env,
     logPath: serviceLogPath,
     timeoutMs: options.timeoutMs,

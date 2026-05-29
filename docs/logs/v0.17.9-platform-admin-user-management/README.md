@@ -4,7 +4,7 @@
 
 本次改动包含：
 
-- `workers/nextclaw-provider-gateway-api/src/controllers/admin.controller.ts`
+- `workers/go-usb-ai-provider-gateway-api/src/controllers/admin.controller.ts`
   - 用户列表接口新增 `total` 与 `pageSize` 返回值，支持前端显示分页摘要。
   - 搜索条件从“邮箱/用户名”扩展到“邮箱/用户名/用户 ID”，更符合后台管理场景。
 - `apps/platform-admin/src/pages/admin-user-quota-page.tsx`
@@ -35,9 +35,9 @@
 - `pnpm -C apps/platform-admin lint`
 - `pnpm -C apps/platform-admin tsc`
 - `pnpm -C apps/platform-admin build`
-- `pnpm -C workers/nextclaw-provider-gateway-api lint`
-- `pnpm -C workers/nextclaw-provider-gateway-api tsc`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths apps/platform-admin/src/pages/admin-user-quota-page.tsx apps/platform-admin/src/api/client.ts apps/platform-admin/src/api/types.ts apps/platform-admin/src/lib/utils.ts apps/platform-console/src/api/client.ts apps/platform-console/src/api/types.ts workers/nextclaw-provider-gateway-api/src/controllers/admin.controller.ts scripts/smoke/platform-admin-smoke.mjs scripts/smoke/platform-admin-smoke-fixtures.mjs`
+- `pnpm -C workers/go-usb-ai-provider-gateway-api lint`
+- `pnpm -C workers/go-usb-ai-provider-gateway-api tsc`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths apps/platform-admin/src/pages/admin-user-quota-page.tsx apps/platform-admin/src/api/client.ts apps/platform-admin/src/api/types.ts apps/platform-admin/src/lib/utils.ts apps/platform-console/src/api/client.ts apps/platform-console/src/api/types.ts workers/go-usb-ai-provider-gateway-api/src/controllers/admin.controller.ts scripts/smoke/platform-admin-smoke.mjs scripts/smoke/platform-admin-smoke-fixtures.mjs`
 
 本地 UI 冒烟：
 
@@ -57,7 +57,7 @@
 - 前端站点：
   - `pnpm deploy:platform:admin`
 - 平台接口：
-  - 按 `workers/nextclaw-provider-gateway-api` 既有发布流程部署对应 worker
+  - 按 `workers/go-usb-ai-provider-gateway-api` 既有发布流程部署对应 worker
 
 本次交付中未直接执行线上发布。
 
@@ -101,7 +101,7 @@
 
 长期目标对齐 / 可维护性推进：
 
-- 这次改动顺着 NextClaw “统一控制面、统一治理入口”的长期方向前进了一步，让管理员在一个稳定入口里直接理解用户状态并操作额度，而不是再依赖外部信息拼凑判断。
+- 这次改动顺着 GoUsbAi “统一控制面、统一治理入口”的长期方向前进了一步，让管理员在一个稳定入口里直接理解用户状态并操作额度，而不是再依赖外部信息拼凑判断。
 - 维护性上，这次的正向动作主要是简化和职责收敛：把分页信息、资料信息、搜索能力都收回同一用户管理页与同一列表接口合同，避免后续再生出补充弹窗或旁路页面。
 
 可维护性复核结论：通过

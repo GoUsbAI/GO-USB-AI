@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-本次新增了一份聚焦方案文档，用于明确 Nextclaw 在 NCP 主体系下支持多种 agent runtime 的长期结构。
+本次新增了一份聚焦方案文档，用于明确 GoUsbAi 在 NCP 主体系下支持多种 agent runtime 的长期结构。
 
 新增文档：
 

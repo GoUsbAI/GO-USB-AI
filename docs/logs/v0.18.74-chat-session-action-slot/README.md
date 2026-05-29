@@ -8,13 +8,13 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui tsc`：通过。
-- `pnpm --filter @nextclaw/ui test -- src/features/chat/components/layout/chat-sidebar.test.tsx`：通过，21 个测试通过。
-- `pnpm exec eslint packages/nextclaw-ui/src/features/chat/components/chat-sidebar-session-item.tsx`：通过。
-- `pnpm --filter @nextclaw/ui lint`：未通过，阻塞来自既有无关 lint 债务；触达文件 targeted ESLint 已通过。
+- `pnpm --filter @go-usb-ai/ui tsc`：通过。
+- `pnpm --filter @go-usb-ai/ui test -- src/features/chat/components/layout/chat-sidebar.test.tsx`：通过，21 个测试通过。
+- `pnpm exec eslint packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-session-item.tsx`：通过。
+- `pnpm --filter @go-usb-ai/ui lint`：未通过，阻塞来自既有无关 lint 债务；触达文件 targeted ESLint 已通过。
 - `pnpm lint:new-code:governance`：通过。
 - `pnpm check:governance-backlog-ratchet`：通过。
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/chat/components/chat-sidebar-session-item.tsx`：通过。
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-session-item.tsx`：通过。
 - Playwright 冒烟访问 `http://127.0.0.1:5175/`：页面加载成功，无 pageerror。
 
 ## 发布/部署方式

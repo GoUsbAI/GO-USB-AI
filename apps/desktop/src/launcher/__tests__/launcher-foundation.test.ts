@@ -22,14 +22,14 @@ import {
 } from "./launcher-test.utils";
 
 test("returns default launcher state when state file is missing", () =>
-  withTempDir("nextclaw-desktop-state-", (rootDir) => {
+  withTempDir("go-usb-ai-desktop-state-", (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     const store = new DesktopLauncherStateStore(layout.getLauncherStatePath());
     assert.deepEqual(store.read(), createLauncherState());
   }));
 
 test("persists launcher state updates", async () =>
-  await withTempDir("nextclaw-desktop-state-", async (rootDir) => {
+  await withTempDir("go-usb-ai-desktop-state-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     const store = new DesktopLauncherStateStore(layout.getLauncherStatePath());
     await store.write(
@@ -141,7 +141,7 @@ test("rejects a manifest with a missing runtime entrypoint", () => {
 
 test("returns launcher-update-required when manifest needs a newer launcher", async () => {
   const updateClient = new DesktopUpdateService({
-    layout: new DesktopBundleLayoutStore("/tmp/nextclaw-update-client"),
+    layout: new DesktopBundleLayoutStore("/tmp/go-usb-ai-update-client"),
     launcherVersion: "0.1.0",
     bundlePublicKey,
     platform: "darwin",
@@ -178,7 +178,7 @@ test("returns launcher-update-required when manifest needs a newer launcher", as
 });
 
 test("skips a remote version that has already been quarantined as bad", async () =>
-  await withTempDir("nextclaw-update-bad-version-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-bad-version-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     await new DesktopLauncherStateStore(layout.getLauncherStatePath()).write(
@@ -219,7 +219,7 @@ test("skips a remote version that has already been quarantined as bad", async ()
   }));
 
 test("downloads a bundle archive after verifying sha256", async () =>
-  await withTempDir("nextclaw-update-download-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-download-", async (rootDir) => {
     const bytes = Buffer.from("bundle-archive");
     const sha256 = "28b25d7d2c26ab59d838b53fd534a32a3cb60f2b6dc7f7a92075ba06817dba82";
     const bundleSignature = signBundleArchive(bytes);
@@ -260,7 +260,7 @@ test("downloads a bundle archive after verifying sha256", async () =>
   }));
 
 test("rejects a bundle archive with an invalid signature", async () =>
-  await withTempDir("nextclaw-update-signature-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-signature-", async (rootDir) => {
     const bytes = Buffer.from("bundle-archive");
     const sha256 = createHash("sha256").update(bytes).digest("hex");
     const updateClient = new DesktopUpdateService({
@@ -285,7 +285,7 @@ test("rejects a bundle archive with an invalid signature", async () =>
   }));
 
 test("rejects an update manifest with an invalid signature", async () =>
-  await withTempDir("nextclaw-update-manifest-signature-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-manifest-signature-", async (rootDir) => {
     const updateClient = new DesktopUpdateService({
       layout: new DesktopBundleLayoutStore(rootDir),
       launcherVersion: "0.1.0",
@@ -314,7 +314,7 @@ test("rejects an update manifest with an invalid signature", async () =>
   }));
 
 test("downloads, extracts, installs, and stages a bundle update candidate", async () =>
-  await withTempDir("nextclaw-update-stage-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-stage-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
@@ -389,7 +389,7 @@ test("downloads, extracts, installs, and stages a bundle update candidate", asyn
   }));
 
 test("stages the first remote bundle when no current version exists", async () =>
-  await withTempDir("nextclaw-update-initial-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-initial-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     const archiveBytes = await createBundleArchive({
       rootDir: join(rootDir, "source"),
@@ -448,7 +448,7 @@ test("stages the first remote bundle when no current version exists", async () =
   }));
 
 test("resolves the runtime script from the active bundle", async () =>
-  await withTempDir("nextclaw-bundle-resolver-", async (rootDir) => {
+  await withTempDir("go-usb-ai-bundle-resolver-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const store = new DesktopLauncherStateStore(layout.getLauncherStatePath());
@@ -477,7 +477,7 @@ test("resolves the runtime script from the active bundle", async () =>
   }));
 
 test("rejects current bundle when pointer and state disagree", async () =>
-  await withTempDir("nextclaw-bundle-resolver-mismatch-", async (rootDir) => {
+  await withTempDir("go-usb-ai-bundle-resolver-mismatch-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const store = new DesktopLauncherStateStore(layout.getLauncherStatePath());
@@ -500,7 +500,7 @@ test("rejects current bundle when pointer and state disagree", async () =>
   }));
 
 test("installer copies a verified bundle into the version store", async () =>
-  await withTempDir("nextclaw-bundle-installer-", async (rootDir) => {
+  await withTempDir("go-usb-ai-bundle-installer-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     const sourceRoot = join(rootDir, "source");
     const sourceBundleDir = writeBundleFixture({
@@ -520,7 +520,7 @@ test("installer copies a verified bundle into the version store", async () =>
   }));
 
 test("installer replaces a partial existing bundle for the same version", async () =>
-  await withTempDir("nextclaw-bundle-installer-partial-", async (rootDir) => {
+  await withTempDir("go-usb-ai-bundle-installer-partial-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     const sourceRoot = join(rootDir, "source");
     const sourceBundleDir = writeBundleFixture({
@@ -552,7 +552,7 @@ test("installer replaces a partial existing bundle for the same version", async 
   }));
 
 test("bundle storage pruning keeps only retained versions and clears staging leftovers", async () =>
-  await withTempDir("nextclaw-bundle-prune-", async (rootDir) => {
+  await withTempDir("go-usb-ai-bundle-prune-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
@@ -607,7 +607,7 @@ test("bundle storage pruning keeps only retained versions and clears staging lef
   }));
 
 test("installer rejects a bundle that is missing the ui directory", async () =>
-  await withTempDir("nextclaw-bundle-invalid-", async (rootDir) => {
+  await withTempDir("go-usb-ai-bundle-invalid-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     const sourceRoot = join(rootDir, "source");
     const sourceBundleDir = writeBundleFixture({
@@ -624,7 +624,7 @@ test("installer rejects a bundle that is missing the ui directory", async () =>
   }));
 
 test("marks an activated bundle healthy after bootstrap succeeds", async () =>
-  await withTempDir("nextclaw-bundle-healthy-", async (rootDir) => {
+  await withTempDir("go-usb-ai-bundle-healthy-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const store = new DesktopLauncherStateStore(layout.getLauncherStatePath());
@@ -664,7 +664,7 @@ test("marks an activated bundle healthy after bootstrap succeeds", async () =>
   }));
 
 test("allows one startup attempt for a freshly activated candidate bundle", async () =>
-  await withTempDir("nextclaw-bundle-candidate-", async (rootDir) => {
+  await withTempDir("go-usb-ai-bundle-candidate-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const store = new DesktopLauncherStateStore(layout.getLauncherStatePath());
@@ -695,7 +695,7 @@ test("allows one startup attempt for a freshly activated candidate bundle", asyn
   }));
 
 test("rolls back an unconfirmed candidate to the last healthy bundle", async () =>
-  await withTempDir("nextclaw-bundle-rollback-", async (rootDir) => {
+  await withTempDir("go-usb-ai-bundle-rollback-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const store = new DesktopLauncherStateStore(layout.getLauncherStatePath());

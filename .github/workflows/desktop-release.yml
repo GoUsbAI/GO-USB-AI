@@ -63,7 +63,7 @@ jobs:
 
       - name: Write bundled update public key
         env:
-          NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY: ${{ secrets.NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY }}
+          GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY: ${{ secrets.GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY }}
         run: pnpm -C apps/desktop bundle:public-key -- --output build/update-bundle-public.pem
 
       - name: Write desktop release metadata
@@ -74,7 +74,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          pnpm -r --filter @nextclaw/desktop... build
+          pnpm -r --filter @go-usb-ai/desktop... build
           pnpm -C apps/desktop bundle:seed -- --channel "$DESKTOP_UPDATE_CHANNEL" --platform ${{ matrix.platform }} --arch ${{ matrix.arch }}
           CSC_IDENTITY_AUTO_DISCOVERY=false pnpm -C apps/desktop build:main
           CSC_IDENTITY_AUTO_DISCOVERY=false pnpm -C apps/desktop exec electron-builder --mac dmg zip --${{ matrix.arch }} --publish never
@@ -133,7 +133,7 @@ jobs:
           $ErrorActionPreference = "Stop"
           $PSNativeCommandUseErrorActionPreference = $true
           $env:CSC_IDENTITY_AUTO_DISCOVERY = "false"
-          pnpm -r --filter @nextclaw/desktop... build
+          pnpm -r --filter @go-usb-ai/desktop... build
           pnpm -C apps/desktop bundle:seed -- --channel $env:DESKTOP_UPDATE_CHANNEL --platform ${{ matrix.platform }} --arch ${{ matrix.arch }}
           pnpm -C apps/desktop build:main
           pnpm -C apps/desktop exec electron-builder --win dir --${{ matrix.arch }} --publish never
@@ -144,7 +144,7 @@ jobs:
         run: |
           set -euo pipefail
           export CSC_IDENTITY_AUTO_DISCOVERY=false
-          pnpm -r --filter @nextclaw/desktop... build
+          pnpm -r --filter @go-usb-ai/desktop... build
           pnpm -C apps/desktop bundle:seed -- --channel "$DESKTOP_UPDATE_CHANNEL" --platform ${{ matrix.platform }} --arch ${{ matrix.arch }}
           pnpm -C apps/desktop build:main
           pnpm -C apps/desktop exec electron-builder --linux AppImage deb --x64 --publish never
@@ -161,10 +161,10 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          if (-not (Test-Path "apps/desktop/release/win-unpacked/NextClaw Desktop.exe")) {
+          if (-not (Test-Path "apps/desktop/release/win-unpacked/GoUsbAi Desktop.exe")) {
             throw "Windows desktop executable not found in apps/desktop/release/win-unpacked"
           }
-          $desktopExe = (Resolve-Path "apps/desktop/release/win-unpacked/NextClaw Desktop.exe").Path
+          $desktopExe = (Resolve-Path "apps/desktop/release/win-unpacked/GoUsbAi Desktop.exe").Path
           & "apps/desktop/scripts/smoke-windows-desktop.ps1" -DesktopExePath $desktopExe -StartupTimeoutSec 180 -MaxReadySec 20 -SeedStaleSameVersionBundle
 
       - name: Build Windows Portable archive
@@ -189,22 +189,22 @@ jobs:
         run: |
           $ErrorActionPreference = "Stop"
           $desktopVersion = (Get-Content "apps/desktop/package.json" | ConvertFrom-Json).version
-          $zipPath = "apps/desktop/release/NextClaw-Portable-$desktopVersion-win-${{ matrix.arch }}.zip"
+          $zipPath = "apps/desktop/release/GoUsbAi-Portable-$desktopVersion-win-${{ matrix.arch }}.zip"
           if (-not (Test-Path $zipPath)) {
             throw "Windows Portable archive not found: $zipPath"
           }
-          $inspectRoot = Join-Path $env:RUNNER_TEMP "nextclaw-portable-${{ matrix.arch }}-inspect"
+          $inspectRoot = Join-Path $env:RUNNER_TEMP "go-usb-ai-portable-${{ matrix.arch }}-inspect"
           if (Test-Path $inspectRoot) {
             Remove-Item -Recurse -Force $inspectRoot
           }
           New-Item -ItemType Directory -Path $inspectRoot | Out-Null
           Expand-Archive -Path $zipPath -DestinationPath $inspectRoot -Force
-          $portableRoot = Join-Path $inspectRoot "NextClaw-Portable"
-          if (-not (Test-Path (Join-Path $portableRoot "NextClaw Desktop.exe"))) {
+          $portableRoot = Join-Path $inspectRoot "GoUsbAi-Portable"
+          if (-not (Test-Path (Join-Path $portableRoot "GoUsbAi Desktop.exe"))) {
             throw "Portable executable missing from $zipPath"
           }
-          $marker = Get-Content (Join-Path $portableRoot "nextclaw-portable.json") | ConvertFrom-Json
-          if ($marker.kind -ne "nextclaw-portable" -or $marker.version -ne 1) {
+          $marker = Get-Content (Join-Path $portableRoot "go-usb-ai-portable.json") | ConvertFrom-Json
+          if ($marker.kind -ne "go-usb-ai-portable" -or $marker.version -ne 1) {
             throw "Invalid portable marker in $zipPath"
           }
 
@@ -213,7 +213,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          APPIMAGE_PATH="$(find apps/desktop/release -maxdepth 1 -type f -name 'NextClaw.Desktop-*-linux-x64.AppImage' | head -n 1)"
+          APPIMAGE_PATH="$(find apps/desktop/release -maxdepth 1 -type f -name 'GoUsbAi.Desktop-*-linux-x64.AppImage' | head -n 1)"
           if [ -z "${APPIMAGE_PATH}" ]; then
             echo "Linux AppImage not found in apps/desktop/release"
             exit 1
@@ -225,7 +225,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          DEB_PATH="$(find apps/desktop/release -maxdepth 1 -type f -name 'nextclaw-desktop_*.deb' | head -n 1)"
+          DEB_PATH="$(find apps/desktop/release -maxdepth 1 -type f -name 'go-usb-ai-desktop_*.deb' | head -n 1)"
           if [ -z "${DEB_PATH}" ]; then
             echo "Linux deb not found in apps/desktop/release"
             exit 1
@@ -236,10 +236,10 @@ jobs:
         if: matrix.platform != 'win32'
         shell: bash
         env:
-          NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY: ${{ secrets.NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY }}
+          GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY: ${{ secrets.GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY }}
         run: |
           set -euo pipefail
-          BUNDLE_VERSION="$(node -p "require('./packages/nextclaw/package.json').version")"
+          BUNDLE_VERSION="$(node -p "require('./packages/go-usb-ai/package.json').version")"
           MINIMUM_LAUNCHER_VERSION="$(node apps/desktop/scripts/update/services/print-minimum-launcher-version.service.mjs --channel "$DESKTOP_UPDATE_CHANNEL")"
 
           pnpm -C apps/desktop bundle:build -- \
@@ -250,7 +250,7 @@ jobs:
             --minimum-launcher-version "$MINIMUM_LAUNCHER_VERSION" \
             --output-dir dist-bundles
 
-          BUNDLE_PATH="dist-bundles/nextclaw-bundle-${{ matrix.platform }}-${{ matrix.arch }}-${BUNDLE_VERSION}.zip"
+          BUNDLE_PATH="dist-bundles/go-usb-ai-bundle-${{ matrix.platform }}-${{ matrix.arch }}-${BUNDLE_VERSION}.zip"
           MANIFEST_PATH="release-manifests/manifest-${DESKTOP_UPDATE_CHANNEL}-${{ matrix.platform }}-${{ matrix.arch }}.json"
 
           pnpm -C apps/desktop bundle:manifest -- \
@@ -271,11 +271,11 @@ jobs:
         if: matrix.platform == 'win32'
         shell: pwsh
         env:
-          NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY: ${{ secrets.NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY }}
+          GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY: ${{ secrets.GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY }}
         run: |
           $ErrorActionPreference = "Stop"
           $PSNativeCommandUseErrorActionPreference = $true
-          $bundleVersion = node -p "require('./packages/nextclaw/package.json').version"
+          $bundleVersion = node -p "require('./packages/go-usb-ai/package.json').version"
           $minimumLauncherVersion = node apps/desktop/scripts/update/services/print-minimum-launcher-version.service.mjs --channel $env:DESKTOP_UPDATE_CHANNEL
 
           pnpm -C apps/desktop bundle:build -- `
@@ -286,7 +286,7 @@ jobs:
             --minimum-launcher-version $minimumLauncherVersion `
             --output-dir dist-bundles
 
-          $bundlePath = "dist-bundles/nextclaw-bundle-${{ matrix.platform }}-${{ matrix.arch }}-$bundleVersion.zip"
+          $bundlePath = "dist-bundles/go-usb-ai-bundle-${{ matrix.platform }}-${{ matrix.arch }}-$bundleVersion.zip"
           $manifestPath = "release-manifests/manifest-$env:DESKTOP_UPDATE_CHANNEL-${{ matrix.platform }}-${{ matrix.arch }}.json"
           $bundleFileName = Split-Path $bundlePath -Leaf
 
@@ -333,7 +333,7 @@ jobs:
           if ([string]::IsNullOrWhiteSpace($desktopVersion)) {
             throw "Desktop package version is missing in apps/desktop/package.json"
           }
-          $zipFileName = "NextClaw.Desktop-$desktopVersion-win32-${{ matrix.arch }}-unpacked.zip"
+          $zipFileName = "GoUsbAi.Desktop-$desktopVersion-win32-${{ matrix.arch }}-unpacked.zip"
           $zipPath = Join-Path "apps/desktop/release" $zipFileName
           if (Test-Path $zipPath) {
             Remove-Item -Force $zipPath
@@ -376,12 +376,12 @@ jobs:
           }
           New-Item -ItemType Directory -Path $stagingRoot | Out-Null
 
-          $homeLogs = Join-Path $env:RUNNER_TEMP "nextclaw-desktop-smoke-home/logs"
+          $homeLogs = Join-Path $env:RUNNER_TEMP "go-usb-ai-desktop-smoke-home/logs"
           if (Test-Path $homeLogs) {
             Copy-Item -Recurse -Force $homeLogs (Join-Path $stagingRoot "home-logs")
           }
 
-          $appLogs = Join-Path $env:APPDATA "NextClaw Desktop/logs"
+          $appLogs = Join-Path $env:APPDATA "GoUsbAi Desktop/logs"
           if (Test-Path $appLogs) {
             Copy-Item -Recurse -Force $appLogs (Join-Path $stagingRoot "app-logs")
           }
@@ -393,9 +393,9 @@ jobs:
           name: desktop-smoke-logs-darwin-${{ matrix.arch }}
           if-no-files-found: warn
           path: |
-            ${{ runner.temp }}/nextclaw-desktop-smoke-home/logs/**
-            ${{ runner.temp }}/nextclaw-desktop-smoke-logs/**
-            ~/Library/Logs/NextClaw Desktop/**
+            ${{ runner.temp }}/go-usb-ai-desktop-smoke-home/logs/**
+            ${{ runner.temp }}/go-usb-ai-desktop-smoke-logs/**
+            ~/Library/Logs/GoUsbAi Desktop/**
 
       - name: Upload Smoke Logs (Windows)
         if: matrix.platform == 'win32' && always()
@@ -405,7 +405,7 @@ jobs:
           if-no-files-found: warn
           path: |
             apps/desktop/release/windows-smoke-logs/**
-            ${{ runner.temp }}/nextclaw-desktop-smoke-logs/**
+            ${{ runner.temp }}/go-usb-ai-desktop-smoke-logs/**
 
       - name: Upload Smoke Logs (Linux)
         if: matrix.platform == 'linux' && always()
@@ -414,8 +414,8 @@ jobs:
           name: desktop-smoke-logs-linux-x64
           if-no-files-found: warn
           path: |
-            ${{ runner.temp }}/nextclaw-desktop-smoke-home/logs/**
-            ${{ runner.temp }}/nextclaw-desktop-smoke-logs/**
+            ${{ runner.temp }}/go-usb-ai-desktop-smoke-home/logs/**
+            ${{ runner.temp }}/go-usb-ai-desktop-smoke-logs/**
 
       - name: Upload desktop artifacts (macOS)
         if: matrix.platform == 'darwin'
@@ -428,7 +428,7 @@ jobs:
             apps/desktop/release/*-mac.zip
             apps/desktop/release/latest-mac-${{ matrix.arch }}.yml
             apps/desktop/release/*.blockmap
-            apps/desktop/dist-bundles/nextclaw-bundle-${{ matrix.platform }}-${{ matrix.arch }}-*.zip
+            apps/desktop/dist-bundles/go-usb-ai-bundle-${{ matrix.platform }}-${{ matrix.arch }}-*.zip
             apps/desktop/release-manifests/manifest-${{ env.DESKTOP_UPDATE_CHANNEL }}-${{ matrix.platform }}-${{ matrix.arch }}.json
 
       - name: Upload desktop artifacts (Windows)
@@ -438,12 +438,12 @@ jobs:
           if-no-files-found: warn
           name: desktop-release-${{ matrix.platform }}-${{ matrix.arch }}
           path: |
-            apps/desktop/release/NextClaw.Desktop-*-win32-${{ matrix.arch }}-unpacked.zip
-            apps/desktop/release/NextClaw-Portable-*-win-${{ matrix.arch }}.zip
+            apps/desktop/release/GoUsbAi.Desktop-*-win32-${{ matrix.arch }}-unpacked.zip
+            apps/desktop/release/GoUsbAi-Portable-*-win-${{ matrix.arch }}.zip
             apps/desktop/release/*Setup*.exe
             apps/desktop/release/latest.yml
             apps/desktop/release/*.exe.blockmap
-            apps/desktop/dist-bundles/nextclaw-bundle-${{ matrix.platform }}-${{ matrix.arch }}-*.zip
+            apps/desktop/dist-bundles/go-usb-ai-bundle-${{ matrix.platform }}-${{ matrix.arch }}-*.zip
             apps/desktop/release-manifests/manifest-${{ env.DESKTOP_UPDATE_CHANNEL }}-${{ matrix.platform }}-${{ matrix.arch }}.json
 
       - name: Upload desktop artifacts (Linux)
@@ -453,10 +453,10 @@ jobs:
           name: desktop-release-${{ matrix.platform }}-${{ matrix.arch }}
           if-no-files-found: warn
           path: |
-            apps/desktop/release/NextClaw.Desktop-*-linux-x64.AppImage
-            apps/desktop/release/NextClaw.Desktop-*-linux-x64.AppImage.blockmap
-            apps/desktop/release/nextclaw-desktop_*.deb
-            apps/desktop/dist-bundles/nextclaw-bundle-${{ matrix.platform }}-${{ matrix.arch }}-*.zip
+            apps/desktop/release/GoUsbAi.Desktop-*-linux-x64.AppImage
+            apps/desktop/release/GoUsbAi.Desktop-*-linux-x64.AppImage.blockmap
+            apps/desktop/release/go-usb-ai-desktop_*.deb
+            apps/desktop/dist-bundles/go-usb-ai-bundle-${{ matrix.platform }}-${{ matrix.arch }}-*.zip
             apps/desktop/release-manifests/manifest-${{ env.DESKTOP_UPDATE_CHANNEL }}-${{ matrix.platform }}-${{ matrix.arch }}.json
 
       - name: Upload bundle update public key
@@ -490,12 +490,12 @@ jobs:
             dist/desktop-release/**/*.dmg
             dist/desktop-release/**/*-mac.zip
             dist/desktop-release/**/*-win32-*-unpacked.zip
-            dist/desktop-release/**/NextClaw-Portable-*-win-*.zip
+            dist/desktop-release/**/GoUsbAi-Portable-*-win-*.zip
             dist/desktop-release/**/*Setup*.exe
             dist/desktop-release/**/*.AppImage
             dist/desktop-release/**/*.deb
             dist/desktop-release/**/*.blockmap
-            dist/desktop-release/**/nextclaw-bundle-*.zip
+            dist/desktop-release/**/go-usb-ai-bundle-*.zip
             dist/desktop-release/**/manifest-*.json
             dist/desktop-release/**/latest*.yml
             dist/desktop-release/**/update-bundle-public.pem
@@ -650,9 +650,9 @@ jobs:
       - name: Build signed Linux APT repo
         shell: bash
         env:
-          NEXTCLAW_APT_GPG_PRIVATE_KEY: ${{ secrets.NEXTCLAW_APT_GPG_PRIVATE_KEY }}
-          NEXTCLAW_APT_GPG_PASSPHRASE: ${{ secrets.NEXTCLAW_APT_GPG_PASSPHRASE }}
-          NEXTCLAW_APT_GPG_KEY_ID: ${{ secrets.NEXTCLAW_APT_GPG_KEY_ID }}
+          GOUSB_AI_APT_GPG_PRIVATE_KEY: ${{ secrets.GOUSB_AI_APT_GPG_PRIVATE_KEY }}
+          GOUSB_AI_APT_GPG_PASSPHRASE: ${{ secrets.GOUSB_AI_APT_GPG_PASSPHRASE }}
+          GOUSB_AI_APT_GPG_KEY_ID: ${{ secrets.GOUSB_AI_APT_GPG_KEY_ID }}
         run: |
           set -euo pipefail
           node scripts/desktop/build-linux-apt-repo.mjs --input-dir dist/linux-apt-input --output-dir dist/linux-apt-repo --signing-mode env

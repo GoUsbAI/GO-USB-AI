@@ -1,20 +1,20 @@
 ---
 name: integrating-http-agent-runtime
-description: Use when connecting Hermes or another external HTTP-backed agent runtime into NextClaw, especially when the AI must wire agents.runtimes.entries config, expose a selectable session type, validate end-to-end runtime behavior, and debug readiness, streaming, or adapter issues.
+description: Use when connecting Hermes or another external HTTP-backed agent runtime into GoUsbAi, especially when the AI must wire agents.runtimes.entries config, expose a selectable session type, validate end-to-end runtime behavior, and debug readiness, streaming, or adapter issues.
 ---
 
 # Integrating HTTP Agent Runtime
 
 ## Overview
 
-Use this skill to connect an external agent runtime into NextClaw through the generic `narp-http` path.
+Use this skill to connect an external agent runtime into GoUsbAi through the generic `narp-http` path.
 
 Default architecture:
 
-- Keep NextClaw core generic.
+- Keep GoUsbAi core generic.
 - Reuse the existing builtin `narp-http` runtime provider and HTTP client.
 - Treat Hermes or any other backend as an external runtime behind an HTTP adapter.
-- End with a real selectable session type in NextClaw, not just a design note.
+- End with a real selectable session type in GoUsbAi, not just a design note.
 
 Read these first when the task is non-trivial:
 
@@ -26,7 +26,7 @@ Read these first when the task is non-trivial:
 
 Use this skill when any of these are true:
 
-- The user wants Hermes to appear as a NextClaw session type.
+- The user wants Hermes to appear as a GoUsbAi session type.
 - The user wants to connect an external agent runtime by HTTP address.
 - The user wants “just configure it” runtime onboarding instead of hard-coding a new runtime.
 - The user wants the AI to debug why an HTTP runtime is not ready, not visible, not streaming, or returning errors.
@@ -41,7 +41,7 @@ Do not use this skill for:
 
 Prefer this split unless the user explicitly asks for something else:
 
-- NextClaw owns the generic `narp-http` provider and session-type experience.
+- GoUsbAi owns the generic `narp-http` provider and session-type experience.
 - The external runtime owns its private protocol.
 - An adapter server translates the private protocol into the shared HTTP/SSE contract.
 
@@ -71,16 +71,16 @@ Choose this when the target runtime only exposes:
 - CLI commands
 - ACP or another private wire protocol
 
-In this path, the AI should first add or update an adapter server, then wire NextClaw to the adapter URL.
+In this path, the AI should first add or update an adapter server, then wire GoUsbAi to the adapter URL.
 
 ## Files To Reuse
 
 Start from the existing implementation before inventing new structure:
 
-- `packages/nextclaw-ncp-runtime-http-client`
-- `packages/nextclaw-ncp-runtime-adapter-hermes-http`
-- `packages/nextclaw/src/cli/commands/ncp/runtime/create-ui-ncp-agent.http-runtime.test.ts`
-- `packages/nextclaw/src/cli/commands/ncp/runtime/create-ui-ncp-agent.hermes-http-runtime.test.ts`
+- `packages/go-usb-ai-ncp-runtime-http-client`
+- `packages/go-usb-ai-ncp-runtime-adapter-hermes-http`
+- `packages/go-usb-ai/src/cli/commands/ncp/runtime/create-ui-ncp-agent.http-runtime.test.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/runtime/create-ui-ncp-agent.hermes-http-runtime.test.ts`
 
 Important current boundary:
 
@@ -132,7 +132,7 @@ Example config:
 
 When an adapter is needed:
 
-1. Keep NextClaw side generic.
+1. Keep GoUsbAi side generic.
 2. Add or update a standalone adapter package under `packages/extensions/`.
 3. Make the adapter expose the shared HTTP/SSE contract.
 4. Keep target-runtime-specific translation inside the adapter package.
@@ -175,13 +175,13 @@ Do not stop after editing files. Run the smallest sufficient end-to-end checks.
 Prefer these validations when relevant:
 
 ```bash
-pnpm -C packages/nextclaw-ncp-runtime-http-client test
-pnpm -C packages/nextclaw-ncp-runtime-adapter-hermes-http test
-pnpm -C packages/nextclaw-ncp-runtime-adapter-hermes-http lint
-pnpm -C packages/nextclaw-ncp-runtime-adapter-hermes-http tsc
-pnpm -C packages/nextclaw-ncp-runtime-adapter-hermes-http build
-pnpm -C packages/nextclaw test -- create-ui-ncp-agent.http-runtime.test.ts
-pnpm -C packages/nextclaw test -- create-ui-ncp-agent.hermes-http-runtime.test.ts
+pnpm -C packages/go-usb-ai-ncp-runtime-http-client test
+pnpm -C packages/go-usb-ai-ncp-runtime-adapter-hermes-http test
+pnpm -C packages/go-usb-ai-ncp-runtime-adapter-hermes-http lint
+pnpm -C packages/go-usb-ai-ncp-runtime-adapter-hermes-http tsc
+pnpm -C packages/go-usb-ai-ncp-runtime-adapter-hermes-http build
+pnpm -C packages/go-usb-ai test -- create-ui-ncp-agent.http-runtime.test.ts
+pnpm -C packages/go-usb-ai test -- create-ui-ncp-agent.hermes-http-runtime.test.ts
 ```
 
 When the user asks for real verification, use an isolated temp home instead of writing smoke data into the repo.
@@ -192,22 +192,22 @@ When Hermes local source is available, the AI may use this pattern:
 
 1. start Hermes API server with isolated `HERMES_HOME`
 2. confirm `/health` and `/v1/models`
-3. start `packages/extensions/nextclaw-ncp-runtime-adapter-hermes-http/dist/cli.js`
-4. point NextClaw `narp-http` config at the adapter URL
+3. start `packages/extensions/go-usb-ai-ncp-runtime-adapter-hermes-http/dist/cli.js`
+4. point GoUsbAi `narp-http` config at the adapter URL
 5. send a real message and inspect returned event types and text deltas
 
-If the bridge works but the provider rejects the call, report that explicitly as an upstream credential or permission issue, not as a broken NextClaw integration.
+If the bridge works but the provider rejects the call, report that explicitly as an upstream credential or permission issue, not as a broken GoUsbAi integration.
 
 ## Output Contract
 
 When finishing this task, the AI should report:
 
 - which path it used: Path A or Path B
-- which URL NextClaw should point to
+- which URL GoUsbAi should point to
 - whether the session type is visible and ready
 - whether automated tests passed
 - whether real smoke passed
-- if real smoke failed, whether the failure is in NextClaw, adapter, or upstream provider
+- if real smoke failed, whether the failure is in GoUsbAi, adapter, or upstream provider
 
 ## Common Mistakes
 
@@ -215,4 +215,4 @@ When finishing this task, the AI should report:
 - treating a skill as if it can replace the runtime contract
 - wiring config but skipping real send/stream verification
 - reporting “integration complete” when only `/health` works
-- blaming NextClaw for upstream provider auth failures
+- blaming GoUsbAi for upstream provider auth failures

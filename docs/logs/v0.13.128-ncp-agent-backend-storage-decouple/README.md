@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-- 将 `@nextclaw/ncp-toolkit` 的 agent backend 重构为通用 `DefaultNcpAgentBackend`，支持注入 `sessionStore`、`runStore`、`controllerRegistry`
+- 将 `@go-usb-ai/ncp-toolkit` 的 agent backend 重构为通用 `DefaultNcpAgentBackend`，支持注入 `sessionStore`、`runStore`、`controllerRegistry`
 - 新增默认 in-memory 适配器：`InMemoryAgentSessionStore`、`InMemoryAgentRunStore`、`InMemoryRunControllerRegistry`
 - 保留 `DefaultNcpInMemoryAgentBackend` 作为开箱即用预设，但其底层已改为组合通用 core
 - 调整 `src/agent/index.ts` 导出面，公开新的 backend core 与存储接口类型
@@ -11,10 +11,10 @@
 
 ## 测试/验证/验收方式
 
-- `cd packages/ncp-packages/nextclaw-ncp-toolkit && pnpm test`
-- `cd packages/ncp-packages/nextclaw-ncp-toolkit && pnpm tsc`
-- `cd packages/ncp-packages/nextclaw-ncp-toolkit && pnpm lint`
-- `cd packages/ncp-packages/nextclaw-ncp-toolkit && pnpm build`
+- `cd packages/ncp-packages/go-usb-ai-ncp-toolkit && pnpm test`
+- `cd packages/ncp-packages/go-usb-ai-ncp-toolkit && pnpm tsc`
+- `cd packages/ncp-packages/go-usb-ai-ncp-toolkit && pnpm lint`
+- `cd packages/ncp-packages/go-usb-ai-ncp-toolkit && pnpm build`
 
 验收重点：
 
@@ -25,7 +25,7 @@
 ## 发布/部署方式
 
 - 本次为库内模块重构，默认按常规包发布流程处理
-- 若需要对外发布 `@nextclaw/ncp-toolkit`，按项目既有 NPM 发布闭环执行
+- 若需要对外发布 `@go-usb-ai/ncp-toolkit`，按项目既有 NPM 发布闭环执行
 - 本次未执行发布，远程 migration 不适用，因为未涉及后端数据库 schema
 
 ## 用户/产品视角的验收步骤

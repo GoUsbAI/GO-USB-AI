@@ -15,32 +15,32 @@
 - 发布流程文档新增“自动发布 shortcut”说明，明确先同步“已发但缺本地 tag”的历史版本，再只为真正有 post-version drift 的包自动生成 changeset：
   - [`docs/workflows/npm-release-process.md`](../../workflows/npm-release-process.md)
 - 本轮真实执行了统一 npm 发布闭环，并成功把昨天到今天未完整闭环的改动一次性发出。实际新发布的 public package 共 26 个：
-  - `@nextclaw/agent-chat@0.1.7`
-  - `@nextclaw/channel-plugin-dingtalk@0.2.32`
-  - `@nextclaw/channel-plugin-discord@0.2.32`
-  - `@nextclaw/channel-plugin-email@0.2.32`
-  - `@nextclaw/channel-plugin-mochat@0.2.32`
-  - `@nextclaw/channel-plugin-qq@0.2.32`
-  - `@nextclaw/channel-plugin-slack@0.2.32`
-  - `@nextclaw/channel-plugin-telegram@0.2.32`
-  - `@nextclaw/channel-plugin-wecom@0.2.32`
-  - `@nextclaw/channel-plugin-weixin@0.1.26`
-  - `@nextclaw/channel-plugin-whatsapp@0.2.32`
-  - `@nextclaw/channel-runtime@0.4.18`
-  - `@nextclaw/core@0.12.1`
-  - `@nextclaw/feishu-core@0.2.3`
-  - `@nextclaw/mcp@0.1.66`
-  - `@nextclaw/ncp-mcp@0.1.68`
-  - `@nextclaw/ncp-react@0.4.16`
-  - `@nextclaw/ncp-toolkit@0.5.1`
-  - `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk@0.1.45`
-  - `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk@0.1.45`
-  - `@nextclaw/openclaw-compat@1.0.1`
-  - `@nextclaw/remote@0.1.78`
-  - `@nextclaw/runtime@0.2.33`
-  - `@nextclaw/server@0.12.1`
-  - `@nextclaw/ui@0.12.1`
-  - `nextclaw@0.17.2`
+  - `@go-usb-ai/agent-chat@0.1.7`
+  - `@go-usb-ai/channel-plugin-dingtalk@0.2.32`
+  - `@go-usb-ai/channel-plugin-discord@0.2.32`
+  - `@go-usb-ai/channel-plugin-email@0.2.32`
+  - `@go-usb-ai/channel-plugin-mochat@0.2.32`
+  - `@go-usb-ai/channel-plugin-qq@0.2.32`
+  - `@go-usb-ai/channel-plugin-slack@0.2.32`
+  - `@go-usb-ai/channel-plugin-telegram@0.2.32`
+  - `@go-usb-ai/channel-plugin-wecom@0.2.32`
+  - `@go-usb-ai/channel-plugin-weixin@0.1.26`
+  - `@go-usb-ai/channel-plugin-whatsapp@0.2.32`
+  - `@go-usb-ai/channel-runtime@0.4.18`
+  - `@go-usb-ai/core@0.12.1`
+  - `@go-usb-ai/feishu-core@0.2.3`
+  - `@go-usb-ai/mcp@0.1.66`
+  - `@go-usb-ai/ncp-mcp@0.1.68`
+  - `@go-usb-ai/ncp-react@0.4.16`
+  - `@go-usb-ai/ncp-toolkit@0.5.1`
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk@0.1.45`
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk@0.1.45`
+  - `@go-usb-ai/openclaw-compat@1.0.1`
+  - `@go-usb-ai/remote@0.1.78`
+  - `@go-usb-ai/runtime@0.2.33`
+  - `@go-usb-ai/server@0.12.1`
+  - `@go-usb-ai/ui@0.12.1`
+  - `go-usb-ai@0.17.2`
 - 在真实发布过程中顺手修复了一个发布链 bug：[`scripts/verify-release-published.mjs`](../../../scripts/verify-release-published.mjs) 的轮询会复用第一次失败时缓存下来的 `null` 结果，导致 npm 已可查询到版本后仍误报缺失。本次通过在每轮轮询前清空 registry cache 收敛了这个误报。
 - 本次方案沉淀见 [`2026-04-08-auto-release-batch-plan.md`](../../plans/2026-04-08-auto-release-batch-plan.md)。
 
@@ -71,13 +71,13 @@
   - `PATH=/opt/homebrew/bin:/opt/homebrew/Cellar/node/25.6.1/bin:$PATH pnpm release:report:health`
   - 结果：`Repository release health is clean.`
 - 冒烟：
-  - `PATH=/opt/homebrew/bin:/opt/homebrew/Cellar/node/25.6.1/bin:$PATH node packages/nextclaw/dist/cli/index.js --version`
+  - `PATH=/opt/homebrew/bin:/opt/homebrew/Cellar/node/25.6.1/bin:$PATH node packages/go-usb-ai/dist/cli/index.js --version`
   - 结果：`0.17.2`
-  - `PATH=/opt/homebrew/bin:/opt/homebrew/Cellar/node/25.6.1/bin:$PATH npm view nextclaw version --userconfig /Users/peiwang/Projects/nextbot/.npmrc`
+  - `PATH=/opt/homebrew/bin:/opt/homebrew/Cellar/node/25.6.1/bin:$PATH npm view go-usb-ai version --userconfig /Users/peiwang/Projects/nextbot/.npmrc`
   - 结果：`0.17.2`
-  - `PATH=/opt/homebrew/bin:/opt/homebrew/Cellar/node/25.6.1/bin:$PATH npm view @nextclaw/core version --userconfig /Users/peiwang/Projects/nextbot/.npmrc`
+  - `PATH=/opt/homebrew/bin:/opt/homebrew/Cellar/node/25.6.1/bin:$PATH npm view @go-usb-ai/core version --userconfig /Users/peiwang/Projects/nextbot/.npmrc`
   - 结果：`0.12.1`
-  - `PATH=/opt/homebrew/bin:/opt/homebrew/Cellar/node/25.6.1/bin:$PATH npm view @nextclaw/ui version --userconfig /Users/peiwang/Projects/nextbot/.npmrc`
+  - `PATH=/opt/homebrew/bin:/opt/homebrew/Cellar/node/25.6.1/bin:$PATH npm view @go-usb-ai/ui version --userconfig /Users/peiwang/Projects/nextbot/.npmrc`
   - 结果：`0.12.1`
 - Maintainability guard：
   - `PATH=/opt/homebrew/bin:/opt/homebrew/Cellar/node/25.6.1/bin:$PATH pnpm lint:maintainability:guard`
@@ -106,9 +106,9 @@
 
 1. 在仓库根执行 `pnpm release:auto`，确认不再需要人工逐个包核对 tag / registry / drift。
 2. 观察输出，确认它会先同步“已发但缺 tag”的历史版本，再只为真正有 publish drift 的包自动生成 changeset。
-3. 执行 `npm view nextclaw version`，确认线上版本为 `0.17.2`。
-4. 执行 `npm view @nextclaw/core version` 与 `npm view @nextclaw/ui version`，确认线上版本分别为 `0.12.1` 与 `0.12.1`。
-5. 在本地运行 `node packages/nextclaw/dist/cli/index.js --version`，确认构建产物可正常输出 `0.17.2`。
+3. 执行 `npm view go-usb-ai version`，确认线上版本为 `0.17.2`。
+4. 执行 `npm view @go-usb-ai/core version` 与 `npm view @go-usb-ai/ui version`，确认线上版本分别为 `0.12.1` 与 `0.12.1`。
+5. 在本地运行 `node packages/go-usb-ai/dist/cli/index.js --version`，确认构建产物可正常输出 `0.17.2`。
 6. 执行 `pnpm release:report:health`，确认仓库输出 `Repository release health is clean.`
 
 ## 可维护性总结汇总

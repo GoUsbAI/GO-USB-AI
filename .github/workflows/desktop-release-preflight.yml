@@ -15,7 +15,7 @@ on:
         required: true
         type: string
       runtime_version:
-        description: "Expected nextclaw runtime bundle version"
+        description: "Expected go-usb-ai runtime bundle version"
         required: true
         type: string
       minimum_launcher_version:
@@ -58,7 +58,7 @@ jobs:
           node <<'NODE'
           const { readFileSync } = require('node:fs');
           const desktopVersion = JSON.parse(readFileSync('apps/desktop/package.json', 'utf8')).version;
-          const runtimeVersion = JSON.parse(readFileSync('packages/nextclaw/package.json', 'utf8')).version;
+          const runtimeVersion = JSON.parse(readFileSync('packages/go-usb-ai/package.json', 'utf8')).version;
           const compatibility = JSON.parse(readFileSync('apps/desktop/desktop-launcher-compatibility.json', 'utf8'));
           const channel = process.env.CHANNEL;
           const expected = {
@@ -81,19 +81,19 @@ jobs:
       - name: Validate desktop bundle signing secret
         shell: bash
         env:
-          NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY: ${{ secrets.NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY }}
+          GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY: ${{ secrets.GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY }}
         run: |
           set -euo pipefail
           node <<'NODE'
           const { createPrivateKey, createPublicKey, sign, verify } = require('node:crypto');
           const { writeFileSync } = require('node:fs');
-          const privateKeyPem = process.env.NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY?.trim();
+          const privateKeyPem = process.env.GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY?.trim();
           if (!privateKeyPem) {
-            throw new Error('NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY is missing.');
+            throw new Error('GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY is missing.');
           }
           const privateKey = createPrivateKey(privateKeyPem.replaceAll('\\n', '\n'));
           const publicKeyPem = createPublicKey(privateKey).export({ type: 'spki', format: 'pem' }).toString();
-          const payload = Buffer.from(`nextclaw-desktop-release-preflight:${Date.now()}`);
+          const payload = Buffer.from(`go-usb-ai-desktop-release-preflight:${Date.now()}`);
           const signature = sign(null, payload, privateKey);
           if (!verify(null, payload, createPublicKey(publicKeyPem), signature)) {
             throw new Error('Signing secret could not round-trip sign and verify a payload.');
@@ -105,7 +105,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          curl -fsSL "https://peiiii.github.io/nextclaw/desktop-updates/update-bundle-public.pem?preflight=${GITHUB_RUN_ID}" \
+          curl -fsSL "https://peiiii.github.io/go-usb-ai/desktop-updates/update-bundle-public.pem?preflight=${GITHUB_RUN_ID}" \
             -o /tmp/published-update-bundle-public.pem
           node <<'NODE'
           const { createPublicKey } = require('node:crypto');

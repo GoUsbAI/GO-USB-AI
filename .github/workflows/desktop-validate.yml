@@ -4,12 +4,12 @@ on:
   pull_request:
     paths:
       - "apps/desktop/**"
-      - "packages/nextclaw/**"
-      - "packages/nextclaw-ui/**"
-      - "packages/nextclaw-server/**"
-      - "packages/nextclaw-openclaw-compat/**"
-      - "packages/nextclaw-core/**"
-      - "packages/nextclaw-runtime/**"
+      - "packages/go-usb-ai/**"
+      - "packages/go-usb-ai-ui/**"
+      - "packages/go-usb-ai-server/**"
+      - "packages/go-usb-ai-openclaw-compat/**"
+      - "packages/go-usb-ai-core/**"
+      - "packages/go-usb-ai-runtime/**"
       - "packages/ncp-packages/**"
       - "packages/extensions/**"
       - "pnpm-lock.yaml"
@@ -23,12 +23,12 @@ on:
       - main
     paths:
       - "apps/desktop/**"
-      - "packages/nextclaw/**"
-      - "packages/nextclaw-ui/**"
-      - "packages/nextclaw-server/**"
-      - "packages/nextclaw-openclaw-compat/**"
-      - "packages/nextclaw-core/**"
-      - "packages/nextclaw-runtime/**"
+      - "packages/go-usb-ai/**"
+      - "packages/go-usb-ai-ui/**"
+      - "packages/go-usb-ai-server/**"
+      - "packages/go-usb-ai-openclaw-compat/**"
+      - "packages/go-usb-ai-core/**"
+      - "packages/go-usb-ai-runtime/**"
       - "packages/ncp-packages/**"
       - "packages/extensions/**"
       - "pnpm-lock.yaml"
@@ -69,7 +69,7 @@ jobs:
 
       - name: Lint / Typecheck / Runtime Smoke
         run: |
-          pnpm -r --filter @nextclaw/desktop... build
+          pnpm -r --filter @go-usb-ai/desktop... build
           pnpm -C apps/desktop lint
           pnpm -C apps/desktop tsc
           pnpm -C apps/desktop smoke
@@ -92,7 +92,7 @@ jobs:
             --minimum-launcher-version "$MINIMUM_LAUNCHER_VERSION" \
             --output-dir "$OUTPUT_DIR"
 
-          BUNDLE_PATH="$(find "$OUTPUT_DIR" -maxdepth 1 -type f -name 'nextclaw-bundle-*.zip' | head -n 1)"
+          BUNDLE_PATH="$(find "$OUTPUT_DIR" -maxdepth 1 -type f -name 'go-usb-ai-bundle-*.zip' | head -n 1)"
           if [ -z "$BUNDLE_PATH" ]; then
             echo "bundle archive not found"
             exit 1
@@ -183,7 +183,7 @@ jobs:
         run: |
           set -euo pipefail
           export CSC_IDENTITY_AUTO_DISCOVERY=false
-          pnpm -r --filter @nextclaw/desktop... build
+          pnpm -r --filter @go-usb-ai/desktop... build
           pnpm -C apps/desktop bundle:seed -- --channel stable --platform darwin --arch arm64
           pnpm -C apps/desktop lint
           pnpm -C apps/desktop tsc
@@ -207,9 +207,9 @@ jobs:
           name: desktop-validate-smoke-logs-macos-arm64
           if-no-files-found: warn
           path: |
-            ${{ runner.temp }}/nextclaw-desktop-smoke-home/logs/**
-            ${{ runner.temp }}/nextclaw-desktop-smoke-logs/**
-            ~/Library/Logs/NextClaw Desktop/**
+            ${{ runner.temp }}/go-usb-ai-desktop-smoke-home/logs/**
+            ${{ runner.temp }}/go-usb-ai-desktop-smoke-logs/**
+            ~/Library/Logs/GoUsbAi Desktop/**
 
       - name: Upload macOS DMG artifact
         if: always()
@@ -248,7 +248,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          pnpm -r --filter @nextclaw/desktop... build
+          pnpm -r --filter @go-usb-ai/desktop... build
 
       - name: Minimal Electron app-region smoke
         shell: pwsh
@@ -271,10 +271,10 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          if (-not (Test-Path "apps/desktop/release/win-unpacked/NextClaw Desktop.exe")) {
+          if (-not (Test-Path "apps/desktop/release/win-unpacked/GoUsbAi Desktop.exe")) {
             throw "Windows desktop executable not found in apps/desktop/release/win-unpacked"
           }
-          $desktopExe = (Resolve-Path "apps/desktop/release/win-unpacked/NextClaw Desktop.exe").Path
+          $desktopExe = (Resolve-Path "apps/desktop/release/win-unpacked/GoUsbAi Desktop.exe").Path
           & "apps/desktop/scripts/smoke-windows-desktop.ps1" -DesktopExePath $desktopExe -StartupTimeoutSec 120 -MaxReadySec 20 -SeedStaleSameVersionBundle
 
       - name: Smoke test Windows Portable archive
@@ -295,17 +295,17 @@ jobs:
           }
           New-Item -ItemType Directory -Path $stagingRoot | Out-Null
 
-          $homeLogs = Join-Path $env:RUNNER_TEMP "nextclaw-desktop-smoke-home/logs"
+          $homeLogs = Join-Path $env:RUNNER_TEMP "go-usb-ai-desktop-smoke-home/logs"
           if (Test-Path $homeLogs) {
             Copy-Item -Recurse -Force $homeLogs (Join-Path $stagingRoot "home-logs")
           }
 
-          $smokeLogs = Join-Path $env:RUNNER_TEMP "nextclaw-desktop-smoke-logs"
+          $smokeLogs = Join-Path $env:RUNNER_TEMP "go-usb-ai-desktop-smoke-logs"
           if (Test-Path $smokeLogs) {
             Copy-Item -Recurse -Force $smokeLogs (Join-Path $stagingRoot "smoke-logs")
           }
 
-          $appLogs = Join-Path $env:APPDATA "NextClaw Desktop/logs"
+          $appLogs = Join-Path $env:APPDATA "GoUsbAi Desktop/logs"
           if (Test-Path $appLogs) {
             Copy-Item -Recurse -Force $appLogs (Join-Path $stagingRoot "app-logs")
           }
@@ -327,7 +327,7 @@ jobs:
           if-no-files-found: warn
           path: |
             apps/desktop/release/win-unpacked/**
-            apps/desktop/release/NextClaw-Portable-*-win-x64.zip
+            apps/desktop/release/GoUsbAi-Portable-*-win-x64.zip
 
   desktop-windows-installer-smoke:
     name: desktop-windows-installer-smoke
@@ -355,7 +355,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = "Stop"
-          pnpm -r --filter @nextclaw/desktop... build
+          pnpm -r --filter @go-usb-ai/desktop... build
 
       - name: Build Windows desktop installer
         shell: pwsh
@@ -389,12 +389,12 @@ jobs:
           }
           New-Item -ItemType Directory -Path $stagingRoot | Out-Null
 
-          $homeLogs = Join-Path $env:RUNNER_TEMP "nextclaw-desktop-smoke-home/logs"
+          $homeLogs = Join-Path $env:RUNNER_TEMP "go-usb-ai-desktop-smoke-home/logs"
           if (Test-Path $homeLogs) {
             Copy-Item -Recurse -Force $homeLogs (Join-Path $stagingRoot "home-logs")
           }
 
-          $appLogs = Join-Path $env:APPDATA "NextClaw Desktop/logs"
+          $appLogs = Join-Path $env:APPDATA "GoUsbAi Desktop/logs"
           if (Test-Path $appLogs) {
             Copy-Item -Recurse -Force $appLogs (Join-Path $stagingRoot "app-logs")
           }
@@ -407,7 +407,7 @@ jobs:
           if-no-files-found: warn
           path: |
             apps/desktop/release/windows-installer-smoke-logs/**
-            ${{ runner.temp }}/nextclaw-desktop-smoke-logs/**
+            ${{ runner.temp }}/go-usb-ai-desktop-smoke-logs/**
 
       - name: Upload Windows desktop installer artifact
         if: always()
@@ -450,7 +450,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          pnpm -r --filter @nextclaw/desktop... build
+          pnpm -r --filter @go-usb-ai/desktop... build
 
       - name: Build Linux AppImage + deb
         shell: bash
@@ -472,7 +472,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          APPIMAGE_PATH="$(find apps/desktop/release -maxdepth 1 -type f -name 'NextClaw.Desktop-*-linux-x64.AppImage' | head -n 1)"
+          APPIMAGE_PATH="$(find apps/desktop/release -maxdepth 1 -type f -name 'GoUsbAi.Desktop-*-linux-x64.AppImage' | head -n 1)"
           if [ -z "${APPIMAGE_PATH}" ]; then
             echo "Linux AppImage not found in apps/desktop/release"
             exit 1
@@ -483,7 +483,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          DEB_PATH="$(find apps/desktop/release -maxdepth 1 -type f -name 'nextclaw-desktop_*.deb' | head -n 1)"
+          DEB_PATH="$(find apps/desktop/release -maxdepth 1 -type f -name 'go-usb-ai-desktop_*.deb' | head -n 1)"
           if [ -z "${DEB_PATH}" ]; then
             echo "Linux deb not found in apps/desktop/release"
             exit 1
@@ -509,8 +509,8 @@ jobs:
           name: desktop-validate-smoke-logs-linux-x64
           if-no-files-found: warn
           path: |
-            ${{ runner.temp }}/nextclaw-desktop-smoke-home/logs/**
-            ${{ runner.temp }}/nextclaw-desktop-smoke-logs/**
+            ${{ runner.temp }}/go-usb-ai-desktop-smoke-home/logs/**
+            ${{ runner.temp }}/go-usb-ai-desktop-smoke-logs/**
 
       - name: Upload Linux package artifacts
         if: always()
@@ -519,7 +519,7 @@ jobs:
           name: desktop-validate-linux-x64-packages
           if-no-files-found: warn
           path: |
-            apps/desktop/release/NextClaw.Desktop-*-linux-x64.AppImage
-            apps/desktop/release/NextClaw.Desktop-*-linux-x64.AppImage.blockmap
-            apps/desktop/release/nextclaw-desktop_*.deb
+            apps/desktop/release/GoUsbAi.Desktop-*-linux-x64.AppImage
+            apps/desktop/release/GoUsbAi.Desktop-*-linux-x64.AppImage.blockmap
+            apps/desktop/release/go-usb-ai-desktop_*.deb
             dist/linux-apt-repo/**

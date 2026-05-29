@@ -42,7 +42,7 @@ function extractZip(zipPath, outputDir) {
 }
 
 function ensurePortableZip(arch) {
-  const zipPath = resolve(releaseDir, `NextClaw-Portable-${version}-win-${arch}.zip`);
+  const zipPath = resolve(releaseDir, `GoUsbAi-Portable-${version}-win-${arch}.zip`);
   if (existsSync(zipPath)) {
     return zipPath;
   }
@@ -58,12 +58,12 @@ async function verifyPortableZip(arch) {
     throw new Error("Desktop package version is missing.");
   }
   const zipPath = ensurePortableZip(arch);
-  const tempRoot = mkdtempSync(join(tmpdir(), `nextclaw-portable-${arch}-`));
+  const tempRoot = mkdtempSync(join(tmpdir(), `go-usb-ai-portable-${arch}-`));
   try {
     extractZip(zipPath, tempRoot);
-    const portableRoot = resolve(tempRoot, "NextClaw-Portable");
-    const markerPath = resolve(portableRoot, "nextclaw-portable.json");
-    const exePath = resolve(portableRoot, "NextClaw Desktop.exe");
+    const portableRoot = resolve(tempRoot, "GoUsbAi-Portable");
+    const markerPath = resolve(portableRoot, "go-usb-ai-portable.json");
+    const exePath = resolve(portableRoot, "GoUsbAi Desktop.exe");
     if (!existsSync(markerPath)) {
       throw new Error(`Portable marker missing after extraction: ${markerPath}`);
     }

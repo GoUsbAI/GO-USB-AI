@@ -8,7 +8,7 @@
 napp inspect ./apps/examples/starter-card
 napp pack ./apps/examples/starter-card
 napp install ./apps/examples/starter-card
-napp run nextclaw.starter-card
+napp run go-usb-ai.starter-card
 ```
 
 ## Publish workflow

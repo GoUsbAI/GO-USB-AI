@@ -235,8 +235,8 @@ export class D1MarketplaceSkillOwnerSupport {
     return {
       id: row.id,
       slug: row.slug,
-      packageName: row.package_name ?? `@nextclaw/${row.slug}`,
-      ownerScope: row.owner_scope ?? "nextclaw",
+      packageName: row.package_name ?? `@go-usb-ai/${row.slug}`,
+      ownerScope: row.owner_scope ?? "go-usb-ai",
       skillName: row.skill_name ?? row.slug,
       name: row.name,
       summary: row.summary,

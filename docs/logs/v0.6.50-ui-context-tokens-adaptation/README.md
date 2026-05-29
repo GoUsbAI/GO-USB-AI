@@ -5,15 +5,15 @@
 本次补齐了 `contextTokens` 的前端配置能力，做到“默认预算 + 每个 Agent 覆盖”都可在 UI 完成。
 
 - Runtime 页面新增默认输入预算编辑：`agents.defaults.contextTokens`
-  - [`packages/nextclaw-ui/src/components/config/RuntimeConfig.tsx`](../../../packages/nextclaw-ui/src/components/config/RuntimeConfig.tsx)
+  - [`packages/go-usb-ai-ui/src/components/config/RuntimeConfig.tsx`](../../../packages/go-usb-ai-ui/src/components/config/RuntimeConfig.tsx)
 - Runtime 页面 Agent 卡片新增每 Agent 输入预算编辑：`agents.list[*].contextTokens`
-  - [`packages/nextclaw-ui/src/components/config/RuntimeConfig.tsx`](../../../packages/nextclaw-ui/src/components/config/RuntimeConfig.tsx)
+  - [`packages/go-usb-ai-ui/src/components/config/RuntimeConfig.tsx`](../../../packages/go-usb-ai-ui/src/components/config/RuntimeConfig.tsx)
 - 前后端 UI 类型补齐 `contextTokens` 字段，避免类型层丢失
-  - [`packages/nextclaw-ui/src/api/types.ts`](../../../packages/nextclaw-ui/src/api/types.ts)
-  - [`packages/nextclaw-server/src/ui/types.ts`](../../../packages/nextclaw-server/src/ui/types.ts)
+  - [`packages/go-usb-ai-ui/src/api/types.ts`](../../../packages/go-usb-ai-ui/src/api/types.ts)
+  - [`packages/go-usb-ai-server/src/ui/types.ts`](../../../packages/go-usb-ai-server/src/ui/types.ts)
 - Runtime API 支持更新 `agents.defaults.contextTokens` 并发布对应更新事件
-  - [`packages/nextclaw-server/src/ui/config.ts`](../../../packages/nextclaw-server/src/ui/config.ts)
-  - [`packages/nextclaw-server/src/ui/router.ts`](../../../packages/nextclaw-server/src/ui/router.ts)
+  - [`packages/go-usb-ai-server/src/ui/config.ts`](../../../packages/go-usb-ai-server/src/ui/config.ts)
+  - [`packages/go-usb-ai-server/src/ui/router.ts`](../../../packages/go-usb-ai-server/src/ui/router.ts)
 
 ## 测试 / 验证 / 验收方式
 
@@ -25,7 +25,7 @@
   1. 打开 `Routing & Runtime` 页面，设置 Default Context Tokens 并保存。
   2. 在某个 Agent 行设置 Context Tokens Override 并保存。
   3. 刷新页面后确认值回显一致。
-  4. 查看 `~/.nextclaw/config.json`，确认 `agents.defaults.contextTokens` 与 `agents.list[*].contextTokens` 已落盘。
+  4. 查看 `~/.go-usb-ai/config.json`，确认 `agents.defaults.contextTokens` 与 `agents.list[*].contextTokens` 已落盘。
 
 ### 用户/产品视角验收步骤
 

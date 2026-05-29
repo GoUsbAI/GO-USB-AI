@@ -13,11 +13,11 @@
 ## 测试/验证/验收方式
 
 - 运行：
-  - `pnpm --filter ./packages/ncp-packages/nextclaw-ncp-toolkit test -- --run src/agent/agent-conversation-state-manager.test.ts`
+  - `pnpm --filter ./packages/ncp-packages/go-usb-ai-ncp-toolkit test -- --run src/agent/agent-conversation-state-manager.test.ts`
 - 可维护性自检：
-  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-conversation-state-manager.ts packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-conversation-state-manager.utils.ts packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-conversation-state-manager.test.ts`
+  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-conversation-state-manager.ts packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-conversation-state-manager.utils.ts packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-conversation-state-manager.test.ts`
 - 额外本地核验：
-  - 直接通过 `POST /api/ncp/agent/send` 创建新的 `codex` 会话，并确认 `~/.nextclaw/sessions/*.jsonl` 与 `/api/ncp/sessions/:id/messages` 都能看到 assistant 历史。
+  - 直接通过 `POST /api/ncp/agent/send` 创建新的 `codex` 会话，并确认 `~/.go-usb-ai/sessions/*.jsonl` 与 `/api/ncp/sessions/:id/messages` 都能看到 assistant 历史。
 
 ## 发布/部署方式
 

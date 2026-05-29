@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: Documentation
-    url: https://docs.nextclaw.io/en/
+    url: https://docs.go-usb-ai.io/en/
     about: Check setup and usage docs before opening an issue.
   - name: Discord Community
     url: https://discord.gg/j4Skbgye

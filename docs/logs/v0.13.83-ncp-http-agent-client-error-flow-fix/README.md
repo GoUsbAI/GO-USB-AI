@@ -2,7 +2,7 @@
 
 ## 迭代完成说明（改了什么）
 
-- 修复 `@nextclaw/ncp-http-agent-client` 的错误流重复上报问题：
+- 修复 `@go-usb-ai/ncp-http-agent-client` 的错误流重复上报问题：
   - SSE `error` 帧触发的 `endpoint.error` 只发布一次，不再在外层 catch 中重复发布。
   - 保留 SSE 错误的原始 NCP 错误码（如 `timeout-error`），避免被二次转换成 `runtime-error`。
 - 修复 `abort()` 在 `stop()` 主动中断场景下的误报：
@@ -16,10 +16,10 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ncp-http-agent-client lint`
-- `pnpm -C packages/nextclaw-ncp-http-agent-client tsc`
-- `pnpm -C packages/nextclaw-ncp-http-agent-client test`
-- `pnpm -C packages/nextclaw-ncp-http-agent-client build`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-client lint`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-client tsc`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-client test`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-client build`
 - 结果：上述命令全部通过，测试共 5 条通过。
 
 ## 发布/部署方式

@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/auth';
 
-const NEXTCLAW_WEB_ACCOUNT_URL = 'https://platform.nextclaw.io/account';
+const GOUSB_AI_WEB_ACCOUNT_URL = 'https://platform.go-usb-ai.io/account';
 
 type Translate = (key: string, params?: Record<string, string | number>) => string;
 
@@ -102,8 +102,8 @@ export function AccountSummaryCard({ token, user, t, highlight }: Props): JSX.El
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
-        <AccountMetaRow label={t('account.fields.webAddress')} value={NEXTCLAW_WEB_ACCOUNT_URL} />
-        <AccountMetaRow label={t('account.fields.cliFallback')} value="nextclaw account set-username <username>" />
+        <AccountMetaRow label={t('account.fields.webAddress')} value={GOUSB_AI_WEB_ACCOUNT_URL} />
+        <AccountMetaRow label={t('account.fields.cliFallback')} value="go-usb-ai account set-username <username>" />
       </div>
 
       {!hasUsername ? (

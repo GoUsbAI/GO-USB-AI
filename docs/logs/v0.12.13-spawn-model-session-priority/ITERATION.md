@@ -16,7 +16,7 @@
 
 ## 测试/验证/验收方式
 - 单测（新增能力覆盖）：
-  - `pnpm -C packages/nextclaw-core exec vitest run src/agent/tools/spawn.test.ts src/agent/subagent-model.test.ts`
+  - `pnpm -C packages/go-usb-ai-core exec vitest run src/agent/tools/spawn.test.ts src/agent/subagent-model.test.ts`
 - 项目级验证：
   - `pnpm build`
   - `pnpm lint`
@@ -31,7 +31,7 @@
 - 本次不涉及数据库/后端 migration。
 
 ## 用户/产品视角的验收步骤
-1. 启动 nextclaw 服务并进入可触发 agent 工具调用的会话。
+1. 启动 go-usb-ai 服务并进入可触发 agent 工具调用的会话。
 2. 在当前会话先设置/确认会话模型（例如 UI 传入 `model` 或会话元数据已有 `preferred_model`）。
 3. 让主代理执行 `spawn`，并显式传入 `model`（例如 `anthropic/claude-sonnet-4-5`）。
 4. 观察子代理运行：应优先使用 `spawn.model`。

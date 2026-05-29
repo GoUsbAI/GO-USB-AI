@@ -4,12 +4,12 @@
 
 相关文档：
 
-- [NextClaw 产品愿景](../VISION.md)
-- [chat-session-display.ts](../../packages/nextclaw-ui/src/components/chat/chat-session-display.ts)
-- [use-ncp-session-list-view.ts](../../packages/nextclaw-ui/src/components/chat/ncp/use-ncp-session-list-view.ts)
-- [ncp-chat-page-data.ts](../../packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page-data.ts)
-- [ncp-session.ts](../../packages/nextclaw-ui/src/api/ncp-session.ts)
-- [ui-session-service.ts](../../packages/nextclaw/src/cli/commands/ncp/ui-session-service.ts)
+- [GoUsbAi 产品愿景](../VISION.md)
+- [chat-session-display.ts](../../packages/go-usb-ai-ui/src/components/chat/chat-session-display.ts)
+- [use-ncp-session-list-view.ts](../../packages/go-usb-ai-ui/src/components/chat/ncp/use-ncp-session-list-view.ts)
+- [ncp-chat-page-data.ts](../../packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page-data.ts)
+- [ncp-session.ts](../../packages/go-usb-ai-ui/src/api/ncp-session.ts)
+- [ui-session-service.ts](../../packages/go-usb-ai/src/cli/commands/ncp/ui-session-service.ts)
 
 ## 1. 背景
 
@@ -21,7 +21,7 @@
 - 搜索匹配字段目前主要是 `session key / label / projectRoot / projectName`。
 - 聊天内部的用户消息、assistant 文本回复、绘画 prompt 文本，并不会进入当前搜索结果。
 
-因此，用户现在说“我记得聊过这个内容，但忘了在哪个会话里”，NextClaw 还不能像 ChatGPT 那样直接靠全文检索把相关对话找出来。
+因此，用户现在说“我记得聊过这个内容，但忘了在哪个会话里”，GoUsbAi 还不能像 ChatGPT 那样直接靠全文检索把相关对话找出来。
 
 ## 2. 这次要回答的真实问题
 
@@ -33,7 +33,7 @@
 
 结论先写在前面：
 
-- 值得做，因为它会直接增强 NextClaw 作为统一工作台入口的检索能力。
+- 值得做，因为它会直接增强 GoUsbAi 作为统一工作台入口的检索能力。
 - 但它不是前端小修，需要后端索引、结果建模和跳转定位能力配套。
 - 当前可以先不做，实现上应明确走“后端索引驱动的全局内容搜索”，而不是临时前端扫消息。
 
@@ -66,7 +66,7 @@
 
 ## 4. 产品目标
 
-未来若做，这个能力应该服务于 NextClaw 的统一入口定位，而不是新增一个零散功能点。
+未来若做，这个能力应该服务于 GoUsbAi 的统一入口定位，而不是新增一个零散功能点。
 
 目标应收敛为：
 

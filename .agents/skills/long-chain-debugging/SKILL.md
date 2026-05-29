@@ -209,11 +209,11 @@ description: Use when a bug spans multiple hops, layers, runtimes, transports, o
 - `旁路验证`：跳过下游表面，用更早的真相源确认问题是否已存在
 - `阴影断言`：在不改变主逻辑的前提下加临时 invariant 检查，尽快暴露违约边界
 
-## NextClaw 场景提示
+## GoUsbAi 场景提示
 
 在本仓库里做长链路排查时，优先注意这些冻结项：
 
-- 隔离 `NEXTCLAW_HOME=/tmp/...`
+- 隔离 `GOUSB_AI_HOME=/tmp/...`
 - 固定 `session id`
 - 固定 `project root`
 - 固定 `provider / model / runtime`

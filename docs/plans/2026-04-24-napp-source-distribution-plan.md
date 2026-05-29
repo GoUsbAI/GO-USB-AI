@@ -27,7 +27,7 @@
 
 - 归档内保留用户源码、`ui/`、`assets/`、`manifest.json`、构建配置、锁文件等
 - 对 `wasi-http-component` 应用，`main/app.wasm` 在 source 归档中只保留一个占位物，而不是上传真实大 wasm
-- 安装时由 NextClaw 在本地物化并构建，生成真正可运行的 `main/app.wasm`
+- 安装时由 GoUsbAi 在本地物化并构建，生成真正可运行的 `main/app.wasm`
 
 ### `bundle`
 

@@ -11,30 +11,30 @@
 
 涉及文件：
 
-- `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
 
 ## 测试/验证/验收方式
 
 ### 执行命令
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 
 ### 结果
 
 - `lint`：`ChatPage` 的 `max-lines-per-function` 警告已消失。
 - `lint` 仍有仓库既有问题（非本次引入）：
-  - `packages/nextclaw-ui/src/components/common/MaskedInput.tsx` 未使用参数。
-  - `packages/nextclaw-ui/src/components/config/ProviderForm.tsx` 未使用变量。
+  - `packages/go-usb-ai-ui/src/components/common/MaskedInput.tsx` 未使用参数。
+  - `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx` 未使用变量。
   - 其余为既有 `max-lines` 警告。
 - `tsc`：通过。
 - `build`：通过。
 
 ## 发布/部署方式
 
-1. 发布 `@nextclaw/ui`。
-2. 发布包含 UI 资源的 `nextclaw`。
+1. 发布 `@go-usb-ai/ui`。
+2. 发布包含 UI 资源的 `go-usb-ai`。
 3. 重启服务并刷新前端缓存。
 
 ## 用户/产品视角的验收步骤

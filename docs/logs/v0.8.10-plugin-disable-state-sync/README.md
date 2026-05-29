@@ -8,26 +8,26 @@
 
 ## 迭代完成说明（改了什么）
 
-- `packages/nextclaw-openclaw-compat/src/plugins/loader.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/loader.ts`
   - 修复 bundled channel plugins（含 Discord）未读取 `plugins.entries.*.enabled` 的问题。
   - bundled 插件现在与外部插件一致，统一通过 `resolveEnableState(...)` 判定启用状态（含 `allow/deny/enabled` 规则）。
   - 当配置为禁用时，插件记录状态标记为 `disabled` 并跳过注册，不再启动对应运行时通道。
-- `packages/nextclaw-server/src/ui/router.ts`
-  - 新增插件管理目标 ID 归一化：当 UI 传入 `spec`（如 `@nextclaw/channel-plugin-discord`）时，先映射到真实插件 ID（如 `builtin-channel-discord`）再执行 enable/disable/uninstall。
+- `packages/go-usb-ai-server/src/ui/router.ts`
+  - 新增插件管理目标 ID 归一化：当 UI 传入 `spec`（如 `@go-usb-ai/channel-plugin-discord`）时，先映射到真实插件 ID（如 `builtin-channel-discord`）再执行 enable/disable/uninstall。
   - 避免写入错误配置键导致“UI 看起来没变化”。
-- `packages/nextclaw/src/cli/commands/service.ts`
+- `packages/go-usb-ai/src/cli/commands/service.ts`
   - 修复热重载监听隐患：从“直接监听 config 文件”改为“监听 config 所在目录并精确过滤到目标 config 文件路径”。
   - 解决配置文件初始不存在时，首轮 `plugins disable/enable` 可能不触发热重载的问题。
 
 ## 自动化回归测试（新增）
 
-- `packages/nextclaw-openclaw-compat/src/plugins/loader.bundled-enable-state.test.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/loader.bundled-enable-state.test.ts`
   - 覆盖 bundled Discord 插件在以下场景的启停判定：
     - `plugins.entries.*.enabled=false`
     - `denylist`
     - `allowlist`
     - 重新 enable 后恢复 loaded 与 channel 注册
-- `packages/nextclaw-server/src/ui/router.marketplace-manage.test.ts`
+- `packages/go-usb-ai-server/src/ui/router.marketplace-manage.test.ts`
   - 覆盖 `/api/marketplace/manage` 使用 canonical spec 时的目标 ID 归一化，确保最终执行目标为 `builtin-channel-discord`。
 
 ## 测试 / 验证 / 验收方式
@@ -36,8 +36,8 @@
 
 ```bash
 # 新增回归测试
-pnpm -C packages/nextclaw-openclaw-compat test -- --run src/plugins/loader.bundled-enable-state.test.ts
-pnpm -C packages/nextclaw-server test -- --run src/ui/router.marketplace-manage.test.ts
+pnpm -C packages/go-usb-ai-openclaw-compat test -- --run src/plugins/loader.bundled-enable-state.test.ts
+pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.marketplace-manage.test.ts
 
 # 全量工程验证
 pnpm build
@@ -53,7 +53,7 @@ pnpm tsc
 
 关键观察点（两轮均满足）：
 
-- `POST /api/marketplace/manage` 传 `id/spec=@nextclaw/channel-plugin-discord`，返回 `data.id=builtin-channel-discord`。
+- `POST /api/marketplace/manage` 传 `id/spec=@go-usb-ai/channel-plugin-discord`，返回 `data.id=builtin-channel-discord`。
 - `GET /api/marketplace/installed` 中 Discord 记录在 disable/enable 时可来回切换：
   - `enabled: true, runtimeStatus: loaded`
   - `enabled: false, runtimeStatus: disabled`
@@ -99,7 +99,7 @@ pnpm tsc
 
 ## 影响范围 / 风险
 
-- 影响范围：`@nextclaw/openclaw-compat`、`@nextclaw/server`、`nextclaw`。
+- 影响范围：`@go-usb-ai/openclaw-compat`、`@go-usb-ai/server`、`go-usb-ai`。
 - Breaking change：否。
 - 风险点：文件监听改为目录监听后，若未来对 data 目录写入策略有变更，需要继续保持“按目标 config 路径精确过滤”。
 - 回滚方式：回退上述三个文件改动并重新构建。

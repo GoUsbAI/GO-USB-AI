@@ -12,29 +12,29 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui test -- src/components/chat/managers/chat-session-list.manager.test.ts src/components/chat/ChatSidebar.test.tsx src/components/chat/ChatConversationPanel.test.tsx src/components/chat/ncp/ncp-session-adapter.test.ts`
-- `pnpm -C packages/nextclaw-server test -- src/ui/router.ncp-agent.test.ts`
-- `pnpm -C packages/nextclaw test -- src/cli/commands/ncp/session/ui-session-service.test.ts`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-server tsc`
-- `pnpm -C packages/nextclaw tsc`
+- `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/managers/chat-session-list.manager.test.ts src/components/chat/ChatSidebar.test.tsx src/components/chat/ChatConversationPanel.test.tsx src/components/chat/ncp/ncp-session-adapter.test.ts`
+- `pnpm -C packages/go-usb-ai-server test -- src/ui/router.ncp-agent.test.ts`
+- `pnpm -C packages/go-usb-ai test -- src/cli/commands/ncp/session/ui-session-service.test.ts`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-server tsc`
+- `pnpm -C packages/go-usb-ai tsc`
 - `pnpm lint:maintainability:guard`
 
 结果：
 
 - 以上命令均已通过。
-- `lint:maintainability:guard` 通过，但仍报告若干存量 warning：`packages/nextclaw-ui/src/api`、`packages/nextclaw-ui/src/components/chat`、`packages/nextclaw-server/src/ui` 等目录/文件接近或超过维护性预算；本次未新增阻断错误。
+- `lint:maintainability:guard` 通过，但仍报告若干存量 warning：`packages/go-usb-ai-ui/src/api`、`packages/go-usb-ai-ui/src/components/chat`、`packages/go-usb-ai-server/src/ui` 等目录/文件接近或超过维护性预算；本次未新增阻断错误。
 - 2026-04-13 验收修正补充验证：
-  `pnpm -C packages/nextclaw-ui test -- src/components/chat/ChatSidebar.test.tsx src/components/chat/ChatConversationPanel.test.tsx`
-  `pnpm -C packages/nextclaw-ui tsc`
+  `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/ChatSidebar.test.tsx src/components/chat/ChatConversationPanel.test.tsx`
+  `pnpm -C packages/go-usb-ai-ui tsc`
   `pnpm lint:maintainability:guard`
   均已通过；守卫仅剩仓库存量 directory/file-name warning，无新增阻断错误。
 
 ## 发布/部署方式
 
 - 无额外迁移脚本、无数据库变更、无独立发布步骤。
-- 按常规 NextClaw 发布链路发布前后端即可；该改动随常规构建产物进入发布包。
-- 若只做本地验证，重新启动承载 UI API 的 NextClaw 服务与前端页面即可生效。
+- 按常规 GoUsbAi 发布链路发布前后端即可；该改动随常规构建产物进入发布包。
+- 若只做本地验证，重新启动承载 UI API 的 GoUsbAi 服务与前端页面即可生效。
 
 ## 用户/产品视角的验收步骤
 
@@ -74,7 +74,7 @@
 说明：
 
 - 本次属于真实用户可见能力修正，不是纯重构；后端持久化读水位、NCP summary 补字段、前端 optimistic read overlay 都是最小必要新增。
-- 在接受增长前，已经先删除了前端本地 unread baseline/hydration 逻辑，并把无关的 `packages/nextclaw-server/src/ui/config.ts` 触达回撤，避免把改动扩散到非 NCP 链路。
+- 在接受增长前，已经先删除了前端本地 unread baseline/hydration 逻辑，并把无关的 `packages/go-usb-ai-server/src/ui/config.ts` 触达回撤，避免把改动扩散到非 NCP 链路。
 
 ### 结构与边界判断
 
@@ -94,16 +94,16 @@
 - 本次没有新增文件，目录平铺度没有继续恶化。
 - 已同步偿还的维护性债务：
   删除了旧的 unread hydration 分支；
-  删除了对无关热点文件 `packages/nextclaw-server/src/ui/config.ts` 的触达；
+  删除了对无关热点文件 `packages/go-usb-ai-server/src/ui/config.ts` 的触达；
   避免了再引入一套独立 read-state 表或额外同步层。
 
 ### 目录结构与文件组织判断
 
 - 部分满足，存在存量治理 warning，但本次未继续恶化。
 - 当前仍接近预算的入口：
-  `packages/nextclaw-ui/src/api/types.ts`
-  `packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx`
-  `packages/nextclaw-server/src/ui/types.ts`
+  `packages/go-usb-ai-ui/src/api/types.ts`
+  `packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx`
+  `packages/go-usb-ai-server/src/ui/types.ts`
 - 本次未继续拆分这些文件的原因：
   当前需求核心是修正 unread 真相源，继续拆分会扩大改动面并拉长交付链路；
   其中 `ChatSidebar.tsx` 本次已净减 7 行，说明没有继续膨胀。

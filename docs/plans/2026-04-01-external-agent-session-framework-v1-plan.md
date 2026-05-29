@@ -1,10 +1,10 @@
 # External Agent Session Framework V1 Design And Execution Plan
 
-**Goal:** 把 NextClaw 从“已经支持多种可插拔 runtime”升级成“拥有统一外部 Agent Session 框架的产品与平台”，并在不被 `acpx` 或任何单一协议反向塑形的前提下，为 `Codex SDK`、`Claude Code SDK`、未来 `acpx/ACP`、以及更后续的协议型 backend 提供统一接入路径。
+**Goal:** 把 GoUsbAi 从“已经支持多种可插拔 runtime”升级成“拥有统一外部 Agent Session 框架的产品与平台”，并在不被 `acpx` 或任何单一协议反向塑形的前提下，为 `Codex SDK`、`Claude Code SDK`、未来 `acpx/ACP`、以及更后续的协议型 backend 提供统一接入路径。
 
 **Architecture:** 先建立 `session framework`，再接协议/SDK adapter。产品主语始终是 `session`，不是 `sdk`、不是 `protocol`、不是 `backend`。`native`、`codex`、`claude`、未来 `acpx` 都通过同一个会话建模、绑定模型、状态模型和生命周期 contract 接入。v1 先解决最小正确架构，不追求协议终局统一。
 
-**Tech Stack:** TypeScript, NCP packages, NextClaw plugin/runtime registry, Hono UI router, React Query, existing `Codex SDK` / `Claude Agent SDK` runtime adapters
+**Tech Stack:** TypeScript, NCP packages, GoUsbAi plugin/runtime registry, Hono UI router, React Query, existing `Codex SDK` / `Claude Agent SDK` runtime adapters
 
 ---
 
@@ -24,9 +24,9 @@
 
 ## 2. 一句话结论
 
-**最终建议：先做 `External Agent Session Framework v1`，后做 `acpx/ACP adapter`，不先做“大一统协议层”，不把 NextClaw 做成任何单一 backend 的 UI 壳。**
+**最终建议：先做 `External Agent Session Framework v1`，后做 `acpx/ACP adapter`，不先做“大一统协议层”，不把 GoUsbAi 做成任何单一 backend 的 UI 壳。**
 
-换句话说，NextClaw v1 应先拥有：
+换句话说，GoUsbAi v1 应先拥有：
 
 - 自己的 `session` 产品语义
 - 自己的 `external session` lifecycle contract
@@ -47,8 +47,8 @@
 
 ### 3.1 CEO 视角
 
-如果只继续“多接几个 runtime”，NextClaw 还是一个“支持多个外部能力的产品”。  
-如果把这件事做成统一外部 Agent Session 框架，NextClaw 会升级成：
+如果只继续“多接几个 runtime”，GoUsbAi 还是一个“支持多个外部能力的产品”。  
+如果把这件事做成统一外部 Agent Session 框架，GoUsbAi 会升级成：
 
 - 一个外部 agent 的产品化托管壳
 - 一个 session 级别的 agent orchestration 产品
@@ -173,7 +173,7 @@ v1 明确删除：
 v1 的 primary contract 不是 `acpx contract`，也不是 `Codex SDK API`。  
 v1 的 primary contract 是：
 
-**NextClaw 的统一外部 Agent Session 产品契约。**
+**GoUsbAi 的统一外部 Agent Session 产品契约。**
 
 它包括：
 
@@ -235,7 +235,7 @@ v1 禁止以下设计：
 
 v1 目标必须收敛为下面这句话：
 
-**让 NextClaw 拥有自己的统一 external session framework，并让现有 native/codex/claude 在这个框架内成立。**
+**让 GoUsbAi 拥有自己的统一 external session framework，并让现有 native/codex/claude 在这个框架内成立。**
 
 v1 完成标准：
 
@@ -515,14 +515,14 @@ export class RunOnlySessionController implements NcpSessionController {
 - 现在新增顶层分类会放大迁移成本
 - v1 最重要的是 contract 和 ownership，不是目录换血
 
-### 13.2 `@nextclaw/ncp`
+### 13.2 `@go-usb-ai/ncp`
 
 职责：只放纯 contract/type，不放产品组装，不放插件逻辑。
 
 推荐新增：
 
 ```text
-packages/ncp-packages/nextclaw-ncp/src/session-contract/
+packages/ncp-packages/go-usb-ai-ncp/src/session-contract/
   session-binding.ts
   session-capability.ts
   session-status.ts
@@ -532,18 +532,18 @@ packages/ncp-packages/nextclaw-ncp/src/session-contract/
 
 推荐修改：
 
-- `packages/ncp-packages/nextclaw-ncp/src/index.ts`
-- `packages/ncp-packages/nextclaw-ncp/src/types/index.ts`
-- `packages/ncp-packages/nextclaw-ncp/src/types/session.ts`
+- `packages/ncp-packages/go-usb-ai-ncp/src/index.ts`
+- `packages/ncp-packages/go-usb-ai-ncp/src/types/index.ts`
+- `packages/ncp-packages/go-usb-ai-ncp/src/types/session.ts`
 
-### 13.3 `@nextclaw/ncp-toolkit`
+### 13.3 `@go-usb-ai/ncp-toolkit`
 
 职责：实现 session framework、registry、backend orchestration、兼容 wrapper。
 
 推荐新增：
 
 ```text
-packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/session-framework/
+packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/session-framework/
   session-controller-factory.ts
   session-runtime-registry.ts
   session-binding-codec.ts
@@ -554,29 +554,29 @@ packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/session-framework/
 
 推荐修改：
 
-- `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend-types.ts`
-- `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-live-session-registry.ts`
-- `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-run-executor.ts`
-- `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend.ts`
-- `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/index.ts`
+- `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend-types.ts`
+- `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-live-session-registry.ts`
+- `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-run-executor.ts`
+- `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend.ts`
+- `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/index.ts`
 
-### 13.4 `@nextclaw/openclaw-compat`
+### 13.4 `@go-usb-ai/openclaw-compat`
 
 职责：继续做 plugin registration bridge，但不承担 session framework 业务。
 
 推荐新增：
 
 ```text
-packages/nextclaw-openclaw-compat/src/plugins/ncp-session-runtime-registration.ts
-packages/nextclaw-openclaw-compat/src/plugins/ncp-session-runtime-normalizer.ts
+packages/go-usb-ai-openclaw-compat/src/plugins/ncp-session-runtime-registration.ts
+packages/go-usb-ai-openclaw-compat/src/plugins/ncp-session-runtime-normalizer.ts
 ```
 
 推荐修改：
 
-- `packages/nextclaw-openclaw-compat/src/plugins/types.ts`
-- `packages/nextclaw-openclaw-compat/src/plugins/plugin-capability-registration.ts`
-- `packages/nextclaw-openclaw-compat/src/plugins/registry.ts`
-- `packages/nextclaw-openclaw-compat/src/plugins/loader.ncp-agent-runtime.test.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/types.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/plugin-capability-registration.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/registry.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/loader.ncp-agent-runtime.test.ts`
 
 ### 13.5 `packages/extensions/*`
 
@@ -590,36 +590,36 @@ packages/nextclaw-openclaw-compat/src/plugins/ncp-session-runtime-normalizer.ts
 推荐继续沿用：
 
 ```text
-packages/extensions/nextclaw-ncp-runtime-codex-sdk/
-packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/
-packages/extensions/nextclaw-ncp-runtime-claude-code-sdk/
-packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/
+packages/extensions/go-usb-ai-ncp-runtime-codex-sdk/
+packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/
+packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk/
+packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/
 ```
 
 未来新增：
 
 ```text
-packages/extensions/nextclaw-ncp-runtime-acpx/
-packages/extensions/nextclaw-ncp-runtime-plugin-acpx/
+packages/extensions/go-usb-ai-ncp-runtime-acpx/
+packages/extensions/go-usb-ai-ncp-runtime-plugin-acpx/
 ```
 
 注意：
 
 - 若 v1 只实现 `acpx`，包名就写 `acpx`
-- 不要提前起名 `nextclaw-ncp-runtime-acp`，否则会对未来所有 ACP backend 做过度承诺
+- 不要提前起名 `go-usb-ai-ncp-runtime-acp`，否则会对未来所有 ACP backend 做过度承诺
 
-### 13.6 `nextclaw-server` 与 `nextclaw-ui`
+### 13.6 `go-usb-ai-server` 与 `go-usb-ai-ui`
 
 服务端与前端不拥有 session framework，只消费 descriptor/status/action contract。
 
 推荐修改：
 
-- `packages/nextclaw-server/src/ui/router/ncp-session.controller.ts`
-- `packages/nextclaw-server/src/ui/chat-session-type.types.ts`
-- `packages/nextclaw-server/src/ui/router.ncp-agent.test.ts`
-- `packages/nextclaw-ui/src/api/config.ts`
-- `packages/nextclaw-ui/src/api/types.ts`
-- `packages/nextclaw-ui/src/hooks/use-ncp-chat-session-types.ts`
+- `packages/go-usb-ai-server/src/ui/router/ncp-session.controller.ts`
+- `packages/go-usb-ai-server/src/ui/chat-session-type.types.ts`
+- `packages/go-usb-ai-server/src/ui/router.ncp-agent.test.ts`
+- `packages/go-usb-ai-ui/src/api/config.ts`
+- `packages/go-usb-ai-ui/src/api/types.ts`
+- `packages/go-usb-ai-ui/src/hooks/use-ncp-chat-session-types.ts`
 - 相关 ChatSidebar / session menu / setup CTA 消费组件
 
 ## 14. 插件注册接口的演进
@@ -831,11 +831,11 @@ Phase 3:
 
 **Files:**
 
-- Create: `packages/ncp-packages/nextclaw-ncp/src/session-contract/session-binding.ts`
-- Create: `packages/ncp-packages/nextclaw-ncp/src/session-contract/session-status.ts`
-- Create: `packages/ncp-packages/nextclaw-ncp/src/session-contract/session-capability.ts`
-- Create: `packages/ncp-packages/nextclaw-ncp/src/session-contract/session-controller.ts`
-- Modify: `packages/ncp-packages/nextclaw-ncp/src/index.ts`
+- Create: `packages/ncp-packages/go-usb-ai-ncp/src/session-contract/session-binding.ts`
+- Create: `packages/ncp-packages/go-usb-ai-ncp/src/session-contract/session-status.ts`
+- Create: `packages/ncp-packages/go-usb-ai-ncp/src/session-contract/session-capability.ts`
+- Create: `packages/ncp-packages/go-usb-ai-ncp/src/session-contract/session-controller.ts`
+- Modify: `packages/ncp-packages/go-usb-ai-ncp/src/index.ts`
 
 **Validation:**
 
@@ -852,12 +852,12 @@ Phase 3:
 
 **Files:**
 
-- Create: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/session-framework/run-only-session-controller.ts`
-- Create: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/session-framework/session-runtime-registry.ts`
-- Create: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/session-framework/session-binding-codec.ts`
-- Modify: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend-types.ts`
-- Modify: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-live-session-registry.ts`
-- Modify: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-run-executor.ts`
+- Create: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/session-framework/run-only-session-controller.ts`
+- Create: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/session-framework/session-runtime-registry.ts`
+- Create: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/session-framework/session-binding-codec.ts`
+- Modify: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend-types.ts`
+- Modify: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-live-session-registry.ts`
+- Modify: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-run-executor.ts`
 
 **Validation:**
 
@@ -873,11 +873,11 @@ Phase 3:
 
 **Files:**
 
-- Create: `packages/nextclaw-openclaw-compat/src/plugins/ncp-session-runtime-registration.ts`
-- Create: `packages/nextclaw-openclaw-compat/src/plugins/ncp-session-runtime-normalizer.ts`
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/types.ts`
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/plugin-capability-registration.ts`
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/registry.ts`
+- Create: `packages/go-usb-ai-openclaw-compat/src/plugins/ncp-session-runtime-registration.ts`
+- Create: `packages/go-usb-ai-openclaw-compat/src/plugins/ncp-session-runtime-normalizer.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/types.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/plugin-capability-registration.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/registry.ts`
 
 **Validation:**
 
@@ -892,10 +892,10 @@ Phase 3:
 
 **Files:**
 
-- Modify: `packages/extensions/nextclaw-ncp-runtime-codex-sdk/src/index.ts`
-- Modify: `packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/index.ts`
-- Modify: `packages/extensions/nextclaw-ncp-runtime-claude-code-sdk/src/index.ts`
-- Modify: `packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/index.ts`
+- Modify: `packages/extensions/go-usb-ai-ncp-runtime-codex-sdk/src/index.ts`
+- Modify: `packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/index.ts`
+- Modify: `packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk/src/index.ts`
+- Modify: `packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/index.ts`
 
 **Validation:**
 
@@ -911,12 +911,12 @@ Phase 3:
 
 **Files:**
 
-- Modify: `packages/nextclaw-server/src/ui/chat-session-type.types.ts`
-- Modify: `packages/nextclaw-server/src/ui/router/ncp-session.controller.ts`
-- Modify: `packages/nextclaw-server/src/ui/router.ncp-agent.test.ts`
-- Modify: `packages/nextclaw-ui/src/api/config.ts`
-- Modify: `packages/nextclaw-ui/src/api/types.ts`
-- Modify: `packages/nextclaw-ui/src/hooks/use-ncp-chat-session-types.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/chat-session-type.types.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/router/ncp-session.controller.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/router.ncp-agent.test.ts`
+- Modify: `packages/go-usb-ai-ui/src/api/config.ts`
+- Modify: `packages/go-usb-ai-ui/src/api/types.ts`
+- Modify: `packages/go-usb-ai-ui/src/hooks/use-ncp-chat-session-types.ts`
 - Modify: session type and sidebar consumer components
 
 **Validation:**
@@ -938,8 +938,8 @@ Phase 3:
 
 **Files:**
 
-- Create: `packages/extensions/nextclaw-ncp-runtime-acpx/*`
-- Create: `packages/extensions/nextclaw-ncp-runtime-plugin-acpx/*`
+- Create: `packages/extensions/go-usb-ai-ncp-runtime-acpx/*`
+- Create: `packages/extensions/go-usb-ai-ncp-runtime-plugin-acpx/*`
 - Add: plugin tests and smoke tests
 
 ## 19. 风险与控制策略
@@ -1014,14 +1014,14 @@ Phase 3:
 
 当前最清楚、最可验证的问题是：
 
-**NextClaw 是否已经拥有统一 external session framework？**
+**GoUsbAi 是否已经拥有统一 external session framework？**
 
 只要这个问题没解决，协议总线就没有坚实 consumer。
 
 ## 22. 最终推荐的最小架构图
 
 ```text
-NextClaw Product Session Layer
+GoUsbAi Product Session Layer
   -> session type / list / create / restore / close / CTA / status
   -> consumes
 
@@ -1052,7 +1052,7 @@ Adapter / Backend Layer
 
 一句话总结：
 
-**先让 NextClaw 拥有自己的会话框架，再让外部协议来适配它。**
+**先让 GoUsbAi 拥有自己的会话框架，再让外部协议来适配它。**
 
 ## 24. 相关文档
 

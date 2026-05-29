@@ -2,11 +2,11 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** 把 NextClaw 桌面端从“本地运行时一掉线，用户只看到一个普通 network error”的脆弱模型，升级为“运行时尽量不中断、异常可自愈、必要重启需用户确认、对话连续性优先”的产品级可靠性模型。
+**Goal:** 把 GoUsbAi 桌面端从“本地运行时一掉线，用户只看到一个普通 network error”的脆弱模型，升级为“运行时尽量不中断、异常可自愈、必要重启需用户确认、对话连续性优先”的产品级可靠性模型。
 
 **Architecture:** 这次不把问题定义成 `skills`、`config`、`remote` 或某个单独功能的补丁，而是把桌面壳、嵌入式本地服务、前端传输层、配置热生效、危险任务执行隔离、用户提示与恢复入口，统一视为一个运行时可靠性系统。整体方向分成两条主线：一条是“减少必须重启的场景”，另一条是“即使运行时异常退出，桌面也能识别、恢复、诚实提示，而不是把进程死亡伪装成普通请求失败”。
 
-**Tech Stack:** Electron、TypeScript、Node.js、Hono、React、Zustand、NextClaw CLI runtime、`@nextclaw/core` 配置热重载、`@nextclaw/remote` 远程模块、Vitest。
+**Tech Stack:** Electron、TypeScript、Node.js、Hono、React、Zustand、GoUsbAi CLI runtime、`@go-usb-ai/core` 配置热重载、`@go-usb-ai/remote` 远程模块、Vitest。
 
 ---
 
@@ -47,44 +47,44 @@
 
 ### 2. 前端只把 websocket 连接建模成简单 connected/disconnected，没有把运行时可用性建模成产品态
 
-- `packages/nextclaw-ui/src/stores/ui.store.ts`
+- `packages/go-usb-ai-ui/src/stores/ui.store.ts`
   - 当前只有 `connected | disconnected | connecting` 三态。
-- `packages/nextclaw-ui/src/hooks/use-realtime-query-bridge.ts`
+- `packages/go-usb-ai-ui/src/hooks/use-realtime-query-bridge.ts`
   - websocket 断开时只把状态改成 `disconnected`。
   - 没有区分“瞬时断网”“本地服务已死”“正在恢复”“需要用户确认重启”。
-- `packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx`
   - 目前只是状态徽标，没有恢复引导、不可用说明、重试策略、恢复进度。
 
 ### 3. 普通 HTTP / SSE 请求失败会直接冒成请求错误，没有和运行时生命周期打通
 
-- `packages/nextclaw-ui/src/transport/local.transport.ts`
+- `packages/go-usb-ai-ui/src/transport/local.transport.ts`
   - `request()` 失败时直接抛异常。
   - `openStream()` 的 `fetch()` 失败也直接抛异常。
   - 没有把“服务不可达”翻译成统一的 `runtime unavailable` / `recovering` / `restart required` 领域错误。
-- `packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`
   - `lastSendError` 直接来自 `agent.hydrateError` 或 `agent.snapshot.error`。
   - 于是用户输入框附近只会看到一个普通错误，而不是“本地运行时已断开，正在恢复”。
 
 ### 4. `skills` 变更不会自动触发重启
 
-- `packages/nextclaw-server/src/ui/ui-routes/marketplace/skill.controller.ts`
+- `packages/go-usb-ai-server/src/ui/ui-routes/marketplace/skill.controller.ts`
   - 安装/卸载 skill 后只发布 `config.updated`，路径是 `"skills"`。
-- `packages/nextclaw-ui/src/hooks/use-realtime-query-bridge.ts`
+- `packages/go-usb-ai-ui/src/hooks/use-realtime-query-bridge.ts`
   - `skills` 和 `plugins` 变更甚至不会触发主配置查询失效。
-- `packages/nextclaw-core/src/agent/skills-loader.ts`
+- `packages/go-usb-ai-core/src/agent/skills-loader.ts`
   - `SkillsLoader` 是按需扫盘和读文件，不存在“skill 改了就自动重启服务”的 watcher 逻辑。
 
 ### 5. 系统里确实还存在多条“重启/重拉起”语义，但它们彼此分散
 
-- `packages/nextclaw-core/src/config/reload.ts`
+- `packages/go-usb-ai-core/src/config/reload.ts`
   - 运行时热生效判定存在，但规则并不完整，且 `ui` 仍被记为 `none`。
-- `packages/nextclaw/src/cli/config-reloader.ts`
+- `packages/go-usb-ai/src/cli/config-reloader.ts`
   - 已有很多热重载能力，但命中 `restartRequired` 时只会回调上层处理。
-- `packages/nextclaw/src/cli/runtime.ts`
+- `packages/go-usb-ai/src/cli/runtime.ts`
   - 仍集中挂着 `requestRestart()`、background service restart、self relaunch 等语义。
-- `packages/nextclaw/src/cli/restart-coordinator.ts`
+- `packages/go-usb-ai/src/cli/restart-coordinator.ts`
   - 协调的是“要不要重启、怎么重启”，不是“如何避免主入口被中断”。
-- `packages/nextclaw/src/cli/update/runner.ts`
+- `packages/go-usb-ai/src/cli/update/runner.ts`
   - `update.run` 明确属于中断性路径。
 
 ## 深层问题是什么
@@ -141,10 +141,10 @@
 
 **代码证据**
 
-- `packages/nextclaw/src/cli/gateway/controller.ts`
+- `packages/go-usb-ai/src/cli/gateway/controller.ts`
   - `requestRestart()` 在没有上层接管时会直接 `process.exit(0)`。
   - `config.apply` / `config.patch` / `update.run` 当前仍会在写完后调用 `requestRestart()`。
-- `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts`
+- `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts`
   - config reload 命中 `restartRequired` 时，仍会请求 restart。
 
 **为什么会让用户误以为是崩溃**
@@ -196,9 +196,9 @@
 
 **代码证据**
 
-- `packages/nextclaw/src/cli/commands/service-support/session/service-deferred-ncp-agent.ts`
+- `packages/go-usb-ai/src/cli/commands/service-support/session/service-deferred-ncp-agent.ts`
   - 当 active agent 不存在时，直接抛 `ncp agent unavailable during startup`。
-- `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-startup.ts`
+- `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-startup.ts`
   - `createUiNcpAgent()` 失败时只打印错误，不会让整个壳进入明确故障态。
 
 **为什么这也会被用户感知成“不可用”**
@@ -221,7 +221,7 @@
 **代码证据与风险点**
 
 - 仓库里仍存在一些同步阻塞路径，比如 `spawnSync`、同步文件操作等。
-- 例如 `packages/nextclaw-core/src/config/secrets.ts` 的 exec provider 使用 `spawnSync`。
+- 例如 `packages/go-usb-ai-core/src/config/secrets.ts` 的 exec provider 使用 `spawnSync`。
 - 这不一定就是当前主因，但它代表服务线程仍可能被重活或外部命令卡住。
 
 **为什么这类问题难查**
@@ -260,9 +260,9 @@
 
 **代码证据**
 
-- `packages/nextclaw-ui/src/transport/local.transport.ts`
+- `packages/go-usb-ai-ui/src/transport/local.transport.ts`
   - fetch 失败直接抛异常。
-- `packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`
   - 直接把 transport error 映射成 sendError。
 
 **为什么这本身也是根因的一部分**
@@ -459,15 +459,15 @@
 
 **关键改造**
 
-- `packages/nextclaw-ui/src/transport/local.transport.ts`
+- `packages/go-usb-ai-ui/src/transport/local.transport.ts`
   - 为本地服务不可达、超时、连接拒绝、被 supervisor 标记为恢复中，定义统一错误类型。
-- `packages/nextclaw-ui/src/stores/ui.store.ts`
+- `packages/go-usb-ai-ui/src/stores/ui.store.ts`
   - 从单一 `connectionStatus` 升级为 `runtimeStatus + connectionStatus` 双层状态。
-- `packages/nextclaw-ui/src/hooks/use-realtime-query-bridge.ts`
+- `packages/go-usb-ai-ui/src/hooks/use-realtime-query-bridge.ts`
   - 连接断开后不只改徽标，还要驱动全局运行时状态与数据恢复策略。
-- `packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`
   - 发送失败时，优先展示“本地运行时不可用/正在恢复/需要重启确认”。
-- `packages/nextclaw-ui/src/components/chat/containers/chat-input-bar.container.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/containers/chat-input-bar.container.tsx`
   - 输入区需要承载运行时级错误与恢复 CTA，而不只是普通 sendError。
 
 **产品行为**
@@ -505,9 +505,9 @@
 
 **关键方向**
 
-- 扩展 `packages/nextclaw-core/src/config/reload.ts`
+- 扩展 `packages/go-usb-ai-core/src/config/reload.ts`
   - 修正 reload plan 分类。
-- 扩展 `packages/nextclaw/src/cli/config-reloader.ts`
+- 扩展 `packages/go-usb-ai/src/cli/config-reloader.ts`
   - 把 `restartRequired` 改成上报 `pending restart`，而不是直接打断。
 - 引入统一 `RuntimeChangeCoordinator`
   - 让 `config`、`remote`、`gateway tool`、UI 配置页、CLI 配置命令共享语义。
@@ -540,12 +540,12 @@
 
 **Files**
 
-- Modify: `packages/nextclaw-server/src/ui/types.ts`
-- Modify: `packages/nextclaw-ui/src/stores/ui.store.ts`
-- Modify: `packages/nextclaw-ui/src/hooks/use-realtime-query-bridge.ts`
-- Create: `packages/nextclaw-server/src/ui/ui-routes/runtime.controller.ts`
-- Modify: `packages/nextclaw-server/src/ui/router.ts`
-- Test: `packages/nextclaw-server/src/ui/router.*.test.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/types.ts`
+- Modify: `packages/go-usb-ai-ui/src/stores/ui.store.ts`
+- Modify: `packages/go-usb-ai-ui/src/hooks/use-realtime-query-bridge.ts`
+- Create: `packages/go-usb-ai-server/src/ui/ui-routes/runtime.controller.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/router.ts`
+- Test: `packages/go-usb-ai-server/src/ui/router.*.test.ts`
 
 **交付标准**
 
@@ -570,12 +570,12 @@
 
 **Files**
 
-- Modify: `packages/nextclaw-ui/src/transport/local.transport.ts`
-- Modify: `packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`
-- Modify: `packages/nextclaw-ui/src/components/chat/containers/chat-input-bar.container.tsx`
-- Modify: `packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx`
-- Create: `packages/nextclaw-ui/src/components/runtime/runtime-status-banner.tsx`
-- Test: `packages/nextclaw-ui/src/components/chat/**/*.test.tsx`
+- Modify: `packages/go-usb-ai-ui/src/transport/local.transport.ts`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/containers/chat-input-bar.container.tsx`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx`
+- Create: `packages/go-usb-ai-ui/src/components/runtime/runtime-status-banner.tsx`
+- Test: `packages/go-usb-ai-ui/src/components/chat/**/*.test.tsx`
 
 **交付标准**
 
@@ -586,13 +586,13 @@
 
 **Files**
 
-- Modify: `packages/nextclaw-core/src/config/reload.ts`
-- Modify: `packages/nextclaw/src/cli/config-reloader.ts`
-- Modify: `packages/nextclaw/src/cli/runtime.ts`
-- Create: `packages/nextclaw/src/cli/runtime-change/runtime-change-coordinator.ts`
-- Create: `packages/nextclaw/src/cli/runtime-change/pending-restart-state.store.ts`
-- Test: `packages/nextclaw-core/src/config/reload.test.ts`
-- Test: `packages/nextclaw/src/cli/runtime-change/*.test.ts`
+- Modify: `packages/go-usb-ai-core/src/config/reload.ts`
+- Modify: `packages/go-usb-ai/src/cli/config-reloader.ts`
+- Modify: `packages/go-usb-ai/src/cli/runtime.ts`
+- Create: `packages/go-usb-ai/src/cli/runtime-change/runtime-change-coordinator.ts`
+- Create: `packages/go-usb-ai/src/cli/runtime-change/pending-restart-state.store.ts`
+- Test: `packages/go-usb-ai-core/src/config/reload.test.ts`
+- Test: `packages/go-usb-ai/src/cli/runtime-change/*.test.ts`
 
 **交付标准**
 
@@ -603,8 +603,8 @@
 
 **Files**
 
-- Modify: `packages/nextclaw/src/cli/runtime.ts`
-- Modify: `packages/nextclaw-server/src/ui/server.ts`
+- Modify: `packages/go-usb-ai/src/cli/runtime.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/server.ts`
 - Modify: 相关 agent/tool 执行 owner
 - Test: 以执行链路为中心的新冒烟与故障注入测试
 
@@ -616,9 +616,9 @@
 
 **Files**
 
-- Modify: `packages/nextclaw-ui/src/components/...`
-- Modify: `packages/nextclaw-server/src/ui/types.ts`
-- Modify: `packages/nextclaw/src/cli/restart-coordinator.ts`
+- Modify: `packages/go-usb-ai-ui/src/components/...`
+- Modify: `packages/go-usb-ai-server/src/ui/types.ts`
+- Modify: `packages/go-usb-ai/src/cli/restart-coordinator.ts`
 - Test: UI + CLI restart consent 流程
 
 **交付标准**
@@ -630,10 +630,10 @@
 ### Task 1: 定义统一 runtime status 合同
 
 **Files:**
-- Modify: `packages/nextclaw-server/src/ui/types.ts`
-- Modify: `packages/nextclaw-ui/src/api/types.ts`
-- Create: `packages/nextclaw-server/src/ui/ui-routes/runtime.controller.ts`
-- Modify: `packages/nextclaw-server/src/ui/router.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/types.ts`
+- Modify: `packages/go-usb-ai-ui/src/api/types.ts`
+- Create: `packages/go-usb-ai-server/src/ui/ui-routes/runtime.controller.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/router.ts`
 
 **Step 1: 增加 runtime status 类型**
 
@@ -684,10 +684,10 @@
 ### Task 3: 前端把 runtime unavailable 从 sendError 中剥离出来
 
 **Files:**
-- Modify: `packages/nextclaw-ui/src/transport/local.transport.ts`
-- Modify: `packages/nextclaw-ui/src/stores/ui.store.ts`
-- Modify: `packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`
-- Modify: `packages/nextclaw-ui/src/components/chat/containers/chat-input-bar.container.tsx`
+- Modify: `packages/go-usb-ai-ui/src/transport/local.transport.ts`
+- Modify: `packages/go-usb-ai-ui/src/stores/ui.store.ts`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/containers/chat-input-bar.container.tsx`
 
 **Step 1: 定义本地运行时领域错误**
 
@@ -714,10 +714,10 @@
 ### Task 4: 把热生效与待重启合并成统一 owner
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/config/reload.ts`
-- Modify: `packages/nextclaw/src/cli/config-reloader.ts`
-- Modify: `packages/nextclaw/src/cli/runtime.ts`
-- Create: `packages/nextclaw/src/cli/runtime-change/runtime-change-coordinator.ts`
+- Modify: `packages/go-usb-ai-core/src/config/reload.ts`
+- Modify: `packages/go-usb-ai/src/cli/config-reloader.ts`
+- Modify: `packages/go-usb-ai/src/cli/runtime.ts`
+- Create: `packages/go-usb-ai/src/cli/runtime-change/runtime-change-coordinator.ts`
 
 **Step 1: 修正 reload plan 的分类精度**
 
@@ -741,7 +741,7 @@
 ### Task 5: 危险任务执行隔离与故障注入测试
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/runtime.ts`
+- Modify: `packages/go-usb-ai/src/cli/runtime.ts`
 - Modify: 相关执行 owner
 - Create: `tests` 下的故障注入用例
 
@@ -810,5 +810,5 @@
 
 - `skills` 更像触发现场里的一个表面动作，不是最核心根因。
 - 真正的问题是：当前产品还没有把“本地运行时死亡或不可达”吸收成一个可恢复、可理解、可诊断的产品态。
-- 这件事之所以严重，是因为它直接破坏 NextClaw 作为“统一入口”的可信度。
+- 这件事之所以严重，是因为它直接破坏 GoUsbAi 作为“统一入口”的可信度。
 - 所以这次不应该再做局部补丁，而应该按这份文档推进一轮面向产品可靠性的系统治理。

@@ -15,38 +15,38 @@
 
 关键文件：
 
-- `packages/nextclaw-core/src/session/manager.ts`
-- `packages/nextclaw-core/src/agent/loop.ts`
-- `packages/nextclaw/src/cli/commands/agent-runtime-pool.ts`
-- `packages/nextclaw/src/cli/commands/service.ts`
-- `packages/nextclaw-server/src/ui/types.ts`
-- `packages/nextclaw-server/src/ui/router.ts`
-- `packages/nextclaw-server/src/ui/config.ts`
-- `packages/nextclaw-ui/src/api/types.ts`
-- `packages/nextclaw-ui/src/api/config.ts`
-- `packages/nextclaw-ui/src/lib/chat-message.ts`
-- `packages/nextclaw-ui/src/components/chat/ChatThread.tsx`
-- `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
+- `packages/go-usb-ai-core/src/session/manager.ts`
+- `packages/go-usb-ai-core/src/agent/loop.ts`
+- `packages/go-usb-ai/src/cli/commands/agent-runtime-pool.ts`
+- `packages/go-usb-ai/src/cli/commands/service.ts`
+- `packages/go-usb-ai-server/src/ui/types.ts`
+- `packages/go-usb-ai-server/src/ui/router.ts`
+- `packages/go-usb-ai-server/src/ui/config.ts`
+- `packages/go-usb-ai-ui/src/api/types.ts`
+- `packages/go-usb-ai-ui/src/api/config.ts`
+- `packages/go-usb-ai-ui/src/lib/chat-message.ts`
+- `packages/go-usb-ai-ui/src/components/chat/ChatThread.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
 
 ## 测试 / 验证 / 验收方式
 
 已执行：
 
 - 定向 TypeScript 验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
 - 定向 lint：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai lint`
 - 定向 build：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai build`
 - 全量发布前校验：
   - `PATH=/opt/homebrew/bin:$PATH pnpm build`
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
@@ -54,14 +54,14 @@
 
 冒烟（非仓库目录/隔离数据）：
 
-- 事件存储冒烟（`NEXTCLAW_HOME=/tmp/...`）：
+- 事件存储冒烟（`GOUSB_AI_HOME=/tmp/...`）：
   - 用 `SessionManager` 写入 user / assistant(tool_call) / tool(result) / assistant(final)。
   - 验证：events=4、messages 投影=4、seq 连续为 `1,2,3,4`、session 文件存在 `_type:event` 记录。
 - 前端时间线合并冒烟：
   - 用 `buildChatTimeline` 输入 tool_call -> tool_result -> followup assistant 样例。
   - 验证：时间线长度为 2（user + assistant_flow）、tool result 合并到同卡、followup 文本并入同卡。
 - 路由测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server test src/ui/router.chat.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server test src/ui/router.chat.test.ts`
   - 结果：5/5 通过。
 
 ## 发布 / 部署方式
@@ -73,14 +73,14 @@
 
 本轮发布结果：
 
-- `nextclaw@0.8.40`
-- `@nextclaw/core@0.6.37`
-- `@nextclaw/server@0.5.20`
-- `@nextclaw/ui@0.5.28`
+- `go-usb-ai@0.8.40`
+- `@go-usb-ai/core@0.6.37`
+- `@go-usb-ai/server@0.5.20`
+- `@go-usb-ai/ui@0.5.28`
 
 ## 用户 / 产品视角的验收步骤
 
-1. 启动：`nextclaw start`
+1. 启动：`go-usb-ai start`
 2. 打开 UI Chat 页面并发起会触发工具调用的请求。
 3. 观察回答流：
    - 工具调用与结果在同一卡片内。

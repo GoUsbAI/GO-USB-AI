@@ -49,7 +49,7 @@ export class CompanionRuntimeClientService {
     if (this.client) {
       return;
     }
-    const sdkModule = await import("@nextclaw/client-sdk");
-    this.client = new sdkModule.NextClawClient({ baseUrl: this.baseUrl }) as CompanionSdkClient;
+    const sdkModule = await import("@go-usb-ai/client-sdk");
+    this.client = new sdkModule.GoUsbAiClient({ baseUrl: this.baseUrl }) as CompanionSdkClient;
   };
 }

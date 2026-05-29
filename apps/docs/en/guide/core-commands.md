@@ -5,37 +5,37 @@ This page lists only the few commands most users need. For the full surface, see
 ## Start and stop
 
 ```bash
-nextclaw start
-nextclaw restart
-nextclaw stop
+go-usb-ai start
+go-usb-ai restart
+go-usb-ai stop
 ```
 
 ## Status and diagnostics
 
 ```bash
-nextclaw status
-nextclaw doctor
+go-usb-ai status
+go-usb-ai doctor
 ```
 
 ## Version and update
 
 ```bash
-nextclaw --version
-nextclaw update
+go-usb-ai --version
+go-usb-ai update
 ```
 
 ## Autostart checks
 
 ```bash
-nextclaw service autostart status
-nextclaw service autostart doctor
+go-usb-ai service autostart status
+go-usb-ai service autostart doctor
 ```
 
 ## Remote access checks
 
 ```bash
-nextclaw remote status
-nextclaw remote doctor
+go-usb-ai remote status
+go-usb-ai remote doctor
 ```
 
 ## Usage principle

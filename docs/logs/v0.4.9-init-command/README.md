@@ -6,15 +6,15 @@
 
 ## 决策
 
-- 新增 `nextclaw init` 命令用于初始化。
-- `nextclaw start` 自动运行 init，并提示用户。
+- 新增 `go-usb-ai init` 命令用于初始化。
+- `go-usb-ai start` 自动运行 init，并提示用户。
 - `onboard` 保留但提示弃用。
 
 ## 变更内容
 
 - 用户可见变化：
-  - 新命令 `nextclaw init`。
-  - `nextclaw start` 会自动补齐配置/模板（不覆盖已有文件）。
+  - 新命令 `go-usb-ai init`。
+  - `go-usb-ai start` 会自动补齐配置/模板（不覆盖已有文件）。
 - 关键实现点：
   - 将初始化逻辑收敛到 `runtime.init`。
   - `start` 入口调用自动初始化。
@@ -29,8 +29,8 @@ env PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C /Users/pei
 
 # smoke-check（非仓库目录）
 cd /tmp
-NEXTCLAW_HOME=/tmp/nextclaw-init-test /Users/peiwang/.nvm/versions/node/v22.16.0/bin/node /Users/peiwang/Projects/nextbot/packages/nextclaw/dist/cli/index.js init
-test -f /tmp/nextclaw-init-test/workspace/AGENTS.md
+GOUSB_AI_HOME=/tmp/go-usb-ai-init-test /Users/peiwang/.nvm/versions/node/v22.16.0/bin/node /Users/peiwang/Projects/nextbot/packages/go-usb-ai/dist/cli/index.js init
+test -f /tmp/go-usb-ai-init-test/workspace/AGENTS.md
 ```
 
 验收点：

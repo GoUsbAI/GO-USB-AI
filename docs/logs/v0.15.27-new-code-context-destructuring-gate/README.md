@@ -22,7 +22,7 @@
 - 定向 lint：
   - `pnpm eslint scripts/lint-new-code-context-destructuring.mjs scripts/lint-new-code-context-destructuring.test.mjs scripts/lint-new-code-governance.mjs`
 - 真实命中验证：
-  - `node scripts/lint-new-code-context-destructuring.mjs -- packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-context-builder.ts`
+  - `node scripts/lint-new-code-context-destructuring.mjs -- packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-context-builder.ts`
   - 结果：按预期非零退出，并报出 `resolveAgentProfile` 对 `params.*` 的 `12` 次重复读取
 - 可维护性守卫：
   - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths package.json scripts/lint-new-code-context-destructuring.mjs scripts/lint-new-code-context-destructuring.test.mjs scripts/lint-new-code-governance.mjs`

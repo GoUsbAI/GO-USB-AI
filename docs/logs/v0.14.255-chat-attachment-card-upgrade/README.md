@@ -9,11 +9,11 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
-- `pnpm -C packages/nextclaw-ui exec vitest run src/components/chat/adapters/chat-message.adapter.test.ts`
-- `pnpm -C packages/nextclaw-agent-chat-ui tsc`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/meta.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message.tsx packages/nextclaw-agent-chat-ui/src/components/chat/view-models/chat-ui.types.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.ts packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.test.ts`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui exec vitest run src/components/chat/adapters/chat-message.adapter.test.ts`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/meta.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/view-models/chat-ui.types.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.ts packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.test.ts`
 
 ## 发布/部署方式
 

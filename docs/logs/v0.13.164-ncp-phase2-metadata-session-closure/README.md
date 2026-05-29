@@ -6,8 +6,8 @@
 
 - 让 NCP request metadata 从前端发送入口一路贯通到 NCP runtime / context builder / LLM input，模型与 thinking 选择不再只停留在 UI 表面。
 - 让 NCP session summary 带上 metadata，并在前端适配为共享展示层可理解的 `label`、`preferredModel`、`sessionType`、thinking 恢复信息。
-- 让 `nextclaw` 的 NCP session store 持久化并保留这批 session-level metadata，保证刷新、重进会话后状态仍可恢复。
-- 扩展 `@nextclaw/ncp-react` 的发送能力，支持直接发送原生 `NcpRequestEnvelope`，避免前端再次造一层伪 runtime。
+- 让 `go-usb-ai` 的 NCP session store 持久化并保留这批 session-level metadata，保证刷新、重进会话后状态仍可恢复。
+- 扩展 `@go-usb-ai/ncp-react` 的发送能力，支持直接发送原生 `NcpRequestEnvelope`，避免前端再次造一层伪 runtime。
 - 收口 NCP Chat 页面发送失败时的 draft 恢复、会话重进时的 thinking hydration，以及新旧共享 UI 下的状态一致性。
 - 补充 NCP session adapter 单测，锁住 metadata 到共享会话展示模型的适配行为。
 
@@ -20,22 +20,22 @@
 
 已执行：
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ncp build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ncp-toolkit build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ncp-agent-runtime build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ncp-react build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ncp-toolkit tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui test -- src/components/chat/ncp/ncp-session-adapter.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ncp build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ncp-toolkit build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ncp-agent-runtime build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ncp-react build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ncp-toolkit tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui test -- src/components/chat/ncp/ncp-session-adapter.test.ts`
 
 结果：
 
 - NCP core/runtime/react/toolkit 的 build 通过。
-- `nextclaw`、`@nextclaw/server`、`@nextclaw/ui` 的类型检查通过。
-- `@nextclaw/ui` build 通过。
+- `go-usb-ai`、`@go-usb-ai/server`、`@go-usb-ai/ui` 的类型检查通过。
+- `@go-usb-ai/ui` build 通过。
 - 新增的 NCP session adapter 单测通过。
 
 # 发布/部署方式
@@ -52,7 +52,7 @@
 
 # 用户/产品视角的验收步骤
 
-1. 启动 nextclaw UI 服务端，并确保 `/api/ncp/agent` 与 `/api/ncp/sessions` 可用。
+1. 启动 go-usb-ai UI 服务端，并确保 `/api/ncp/agent` 与 `/api/ncp/sessions` 可用。
 2. 打开 chat 页面，使用 `?chatChain=ncp` 切到 NCP 链路。
 3. 在新会话里选择模型、thinking，发送消息，确认回复正常产生。
 4. 刷新页面后重新进入该会话，确认历史消息仍在，且模型 / thinking 的会话级恢复表现正常。

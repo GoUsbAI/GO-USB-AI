@@ -13,7 +13,7 @@ export function createDesktopWindowOptions(preloadPath: string): BrowserWindowCo
     minWidth: desktopWindowMinWidth,
     minHeight: desktopWindowMinHeight,
     ...createPlatformWindowChromeOptions(),
-    title: "NextClaw Desktop",
+    title: "GoUsbAi Desktop",
     webPreferences: {
       preload: preloadPath,
       nodeIntegration: false,

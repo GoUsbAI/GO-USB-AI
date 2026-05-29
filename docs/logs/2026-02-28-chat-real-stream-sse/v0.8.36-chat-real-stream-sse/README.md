@@ -9,41 +9,41 @@
   - UI Server 新增 `POST /api/chat/turn/stream`（SSE），输出 `ready/delta/final/error/done` 事件。
   - 前端 Chat 页面改为消费 SSE 真实流，不再使用任何“字符渐进模拟”。
 - openclaw 对照结论：
-  - openclaw 已有真实流式机制（通过网关事件 `delta/final` 驱动 UI），本次 nextclaw 在 UI API 侧采用 SSE 实现同等级真实流式。
+  - openclaw 已有真实流式机制（通过网关事件 `delta/final` 驱动 UI），本次 go-usb-ai 在 UI API 侧采用 SSE 实现同等级真实流式。
 
 关键文件：
 
-- `packages/nextclaw-core/src/providers/base.ts`
-- `packages/nextclaw-core/src/providers/openai_provider.ts`
-- `packages/nextclaw-core/src/providers/litellm_provider.ts`
-- `packages/nextclaw-core/src/providers/provider_manager.ts`
-- `packages/nextclaw-core/src/agent/loop.ts`
-- `packages/nextclaw/src/cli/commands/agent-runtime-pool.ts`
-- `packages/nextclaw/src/cli/commands/service.ts`
-- `packages/nextclaw-server/src/ui/router.ts`
-- `packages/nextclaw-ui/src/api/config.ts`
-- `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
+- `packages/go-usb-ai-core/src/providers/base.ts`
+- `packages/go-usb-ai-core/src/providers/openai_provider.ts`
+- `packages/go-usb-ai-core/src/providers/litellm_provider.ts`
+- `packages/go-usb-ai-core/src/providers/provider_manager.ts`
+- `packages/go-usb-ai-core/src/agent/loop.ts`
+- `packages/go-usb-ai/src/cli/commands/agent-runtime-pool.ts`
+- `packages/go-usb-ai/src/cli/commands/service.ts`
+- `packages/go-usb-ai-server/src/ui/router.ts`
+- `packages/go-usb-ai-ui/src/api/config.ts`
+- `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
 
 ## 测试 / 验证 / 验收方式
 
 已执行：
 
 - 定向类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
 - 定向 lint：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
 - 定向测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server exec vitest run src/ui/router.chat.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server exec vitest run src/ui/router.chat.test.ts`
 - 全量验证：
   - `PATH=/opt/homebrew/bin:$PATH pnpm build`
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`
 - 运行态冒烟（隔离目录，避免写入仓库）：
-  - `NEXTCLAW_HOME=/tmp/... node packages/nextclaw/dist/cli/index.js ui --port 18766 --no-open`
+  - `GOUSB_AI_HOME=/tmp/... node packages/go-usb-ai/dist/cli/index.js ui --port 18766 --no-open`
   - `GET /api/health` 返回 `{"ok":true,"data":{"status":"ok"}}`
   - `POST /api/chat/turn/stream` 返回 `event: ready`，在未配置 provider 时返回 `event: error`（预期行为，证明 SSE 链路可用）
 
@@ -56,21 +56,21 @@
 
 实际发布结果：
 
-- `nextclaw@0.8.36`
-- `@nextclaw/core@0.6.36`
-- `@nextclaw/server@0.5.19`
-- `@nextclaw/ui@0.5.24`
+- `go-usb-ai@0.8.36`
+- `@go-usb-ai/core@0.6.36`
+- `@go-usb-ai/server@0.5.19`
+- `@go-usb-ai/ui@0.5.24`
 
 生成标签：
 
-- `nextclaw@0.8.36`
-- `@nextclaw/core@0.6.36`
-- `@nextclaw/server@0.5.19`
-- `@nextclaw/ui@0.5.24`
+- `go-usb-ai@0.8.36`
+- `@go-usb-ai/core@0.6.36`
+- `@go-usb-ai/server@0.5.19`
+- `@go-usb-ai/ui@0.5.24`
 
 ## 用户 / 产品视角的验收步骤
 
-1. 启动：`nextclaw start`
+1. 启动：`go-usb-ai start`
 2. 打开 UI：`http://127.0.0.1:18791`
 3. 进入 Chat，发送一条普通问题
 4. 观察助手回复是否“边生成边显示”（而非等待整段结束）

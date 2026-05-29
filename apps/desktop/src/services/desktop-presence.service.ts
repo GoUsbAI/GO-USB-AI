@@ -107,7 +107,7 @@ export class DesktopPresenceService {
 
     const trayIcon = this.resolveTrayImage();
     this.tray = new Tray(trayIcon);
-    this.tray.setToolTip("NextClaw");
+    this.tray.setToolTip("GoUsbAi");
     this.tray.on("click", this.showMainWindow);
     this.refreshTrayMenu();
     this.cleanups.push(() => {
@@ -204,7 +204,7 @@ export class DesktopPresenceService {
     const snapshot = this.getSnapshot();
     const template: MenuItemConstructorOptions[] = [
       {
-        label: "Open NextClaw",
+        label: "Open GoUsbAi",
         click: this.showMainWindow
       },
       {
@@ -231,7 +231,7 @@ export class DesktopPresenceService {
         : []),
       { type: "separator" },
       {
-        label: "Quit NextClaw",
+        label: "Quit GoUsbAi",
         click: () => {
           this.requestExplicitQuit();
         }

@@ -4,15 +4,15 @@
 
 - 在根 ESLint 配置中新增仓库级自定义规则，约束 React 组件不要在组件体内持续读取 `props.xxx`，而是优先在参数边界完成 props 解构。
 - 规则只针对高置信度组件场景生效：PascalCase 组件名、函数体内存在 JSX、且首个参数仍是未解构的 `props` 标识符。
-- 将该规则接入 `packages/nextclaw-ui` 与 `packages/nextclaw-agent-chat-ui` 的 UI lint 配置，当前先以 `warn` 形式落地，避免一次性打爆历史债务。
-- 同步把 [chat-reasoning-block.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-reasoning-block.tsx) 改成参数解构写法，作为首个落地点。
+- 将该规则接入 `packages/go-usb-ai-ui` 与 `packages/go-usb-ai-agent-chat-ui` 的 UI lint 配置，当前先以 `warn` 形式落地，避免一次性打爆历史债务。
+- 同步把 [chat-reasoning-block.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-reasoning-block.tsx) 改成参数解构写法，作为首个落地点。
 
 ## 测试/验证/验收方式
 
 - 运行：
   - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node --test scripts/eslint-rules/react-component-props-destructuring-rule.test.mjs`
 - 运行：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm exec eslint packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-reasoning-block.tsx`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm exec eslint packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-reasoning-block.tsx`
 - 验证点：
   - JSX 组件若使用 `props.xxx`，会收到新的 lint 提示。
   - 已在参数边界解构 props 的组件不会触发该规则。

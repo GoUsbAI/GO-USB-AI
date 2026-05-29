@@ -3,11 +3,11 @@
 ## 迭代完成说明（改了什么）
 - 修复聊天消息气泡“短文本仍占用很宽区域”的样式问题。
 - 将消息项容器从固定最小宽度 `min-w-[280px]` 改为内容自适应 `w-fit`，保留 `max-w-[92%]` 上限。
-- 变更位置：`packages/nextclaw-ui/src/components/chat/ChatThread.tsx`。
+- 变更位置：`packages/go-usb-ai-ui/src/components/chat/ChatThread.tsx`。
 
 ## 测试/验证/验收方式
 - 执行类型检查：
-  - `pnpm --filter @nextclaw/ui tsc`
+  - `pnpm --filter @go-usb-ai/ui tsc`
 - 结果：通过。
 - UI 冒烟：
   - 在聊天页发送短文本（如“你好”），观察气泡宽度应随内容收缩，不再出现大段空白。

@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-- 在根目录 [README.md](C:\Users\com01\Desktop\VIVYCORE\nextclaw\README.md) 的 Quick Start 区域新增 “Run The Development Server” 小节。
+- 在根目录 [README.md](C:\Users\com01\Desktop\VIVYCORE\go-usb-ai\README.md) 的 Quick Start 区域新增 “Run The Development Server” 小节。
 - 补充仓库开发态启动方式：`pnpm install`、`pnpm dev`，以及按需单独启动的 `pnpm dev:backend`、`pnpm dev:frontend`。
 - 明确开发启动应在仓库根目录执行，并说明终端会输出本地访问地址。
 

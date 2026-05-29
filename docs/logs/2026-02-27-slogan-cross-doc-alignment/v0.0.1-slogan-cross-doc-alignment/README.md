@@ -7,15 +7,15 @@
 - `README.md` / `README.zh-CN.md` 顶部口号与首段定位描述
 - docs 站首页中英文 tagline：`apps/docs/en/index.md`、`apps/docs/zh/index.md`
 - docs 站 introduction 中英文开场定位：`apps/docs/en/guide/introduction.md`、`apps/docs/zh/guide/introduction.md`
-- npm readme 源文案：`docs/npm-readmes/nextclaw.md`
+- npm readme 源文案：`docs/npm-readmes/go-usb-ai.md`
 - 项目定位文档一句话描述：`docs/feature-universe.md`
-- 执行 `release:sync-readmes`，同步更新 `packages/nextclaw/README.md`，避免 npm 包文案滞后。
+- 执行 `release:sync-readmes`，同步更新 `packages/go-usb-ai/README.md`，避免 npm 包文案滞后。
 
 ### 2026-05-24 追加对齐
 
 - 将对外主 slogan 更新为：`Turn your computer into a powerful AI assistant that coordinates agents, skills, CLI tools, automations, and messaging apps.`
 - 中文口径更新为：`把你的电脑变成一个强大的 AI 助手，协调 Agent、技能、CLI 工具、自动化和消息应用。`
-- 同步根 README、中文 README、docs 首页、landing hero/SEO、npm README 源与 `packages/nextclaw` 包描述。
+- 同步根 README、中文 README、docs 首页、landing hero/SEO、npm README 源与 `packages/go-usb-ai` 包描述。
 - 清理同一批对外短文案里的 `OpenClaw-compatible` / `完全兼容其插件生态` 旧口径，避免继续暗示当前产品是 OpenClaw 兼容层。
 
 ## 测试 / 验证 / 验收方式
@@ -43,7 +43,7 @@
 1. 打开仓库根 README，确认顶部口号与首段定位已对齐新版 slogan。
 2. 打开 docs 首页中英文版本，确认 hero tagline 已对齐新版 slogan 语义。
 3. 打开 docs introduction 中英文，确认开场定位与新版 slogan 一致。
-4. 打开 `packages/nextclaw/README.md`，确认 npm 包 readme 已同步最新描述。
+4. 打开 `packages/go-usb-ai/README.md`，确认 npm 包 readme 已同步最新描述。
 5. 2026-05-24 追加：打开 landing 中英文首页，确认 hero 与 SEO metadata 不再使用旧的 “omnipotent / 全能管家 / OpenClaw-compatible” 口径。
 
 ## 可维护性总结汇总
@@ -56,4 +56,4 @@
 ## NPM 包发布记录
 
 - 不涉及 NPM 包发布。
-- 2026-05-24 仅更新 `packages/nextclaw/package.json` description 与 npm README 文案；是否发布交由后续统一 release 流程判断。
+- 2026-05-24 仅更新 `packages/go-usb-ai/package.json` description 与 npm README 文案；是否发布交由后续统一 release 流程判断。

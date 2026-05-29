@@ -17,19 +17,19 @@
 - 用户可见变化：
   - 在支持/要求最小 `max_output_tokens=16` 的中转站中，连接测试不再因默认 `8` 报 400。
 - 关键实现点：
-  - `packages/nextclaw-server/src/ui/config.ts`
+  - `packages/go-usb-ai-server/src/ui/config.ts`
     - 新增 `PROVIDER_TEST_MAX_TOKENS = 16`
     - 连接测试探测请求使用该常量。
-  - `packages/nextclaw-server/src/ui/router.provider-test.test.ts`
+  - `packages/go-usb-ai-server/src/ui/router.provider-test.test.ts`
     - 新增回归测试：断言探测请求 `maxTokens >= 16`。
 
 ## 测试 / 验证 / 验收方式
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server test -- run src/ui/router.provider-test.test.ts
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server build
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server lint
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server tsc
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server test -- run src/ui/router.provider-test.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server build
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server lint
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server tsc
 ```
 
 验收点：
@@ -45,7 +45,7 @@ PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server tsc
 
 ## 发布 / 部署方式
 
-- 本次变更影响 `@nextclaw/server`（及联动发布 `nextclaw`）。
+- 本次变更影响 `@go-usb-ai/server`（及联动发布 `go-usb-ai`）。
 - 按发布流程执行：`docs/workflows/npm-release-process.md`。
 
 ## 影响范围 / 风险

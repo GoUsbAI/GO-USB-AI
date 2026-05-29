@@ -7,20 +7,20 @@
 - `ConfigManager` 承接 gateway config snapshot、schema、apply、patch 的领域规则。
 - hash 校验、JSON 解析、inline secret ref normalization、schema 校验、deep merge、reload plan、redacted mutation result 都收敛到 kernel。
 - `GatewayControllerImpl` 删除 config 读写/patch/merge/reload plan 逻辑，只保留 gateway status、reload、restart、update、restart sentinel 等 service host 行为。
-- `NextclawGatewayRuntime` 不再给 controller 注入 `saveConfig`；配置保存由 kernel `ConfigManager` 使用自身 `configPath` 完成。
+- `GoUsbAiGatewayRuntime` 不再给 controller 注入 `saveConfig`；配置保存由 kernel `ConfigManager` 使用自身 `configPath` 完成。
 
 根因：gateway controller 同时持有配置领域规则与 service host 行为，导致 gateway tool 的 config mutation 语义长期依赖 service。`ConfigManager` 已是配置事实 owner，因此本轮不新增平行 service，而是把 mutation 读写规则收回已有 owner。
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-kernel tsc`
-- `pnpm -C packages/nextclaw-kernel build`
-- `pnpm -C packages/nextclaw-service tsc`
-- `pnpm -C packages/nextclaw-service test -- --run src/shared/controllers/gateway.controller.test.ts src/commands/service/gateway-manual-restart-contract.controller.test.ts`
-- `pnpm -C packages/nextclaw-kernel exec eslint src/managers/config.manager.ts`
-- `pnpm -C packages/nextclaw-service exec eslint src/shared/controllers/gateway.controller.ts src/shared/controllers/gateway.controller.test.ts src/commands/service/gateway-manual-restart-contract.controller.test.ts src/shared/services/gateway/nextclaw-gateway-runtime.service.ts`
-- `pnpm -C packages/nextclaw-kernel lint`
-- `pnpm -C packages/nextclaw-service lint`（通过，保留 19 个既存 warning）
+- `pnpm -C packages/go-usb-ai-kernel tsc`
+- `pnpm -C packages/go-usb-ai-kernel build`
+- `pnpm -C packages/go-usb-ai-service tsc`
+- `pnpm -C packages/go-usb-ai-service test -- --run src/shared/controllers/gateway.controller.test.ts src/commands/service/gateway-manual-restart-contract.controller.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel exec eslint src/managers/config.manager.ts`
+- `pnpm -C packages/go-usb-ai-service exec eslint src/shared/controllers/gateway.controller.ts src/shared/controllers/gateway.controller.test.ts src/commands/service/gateway-manual-restart-contract.controller.test.ts src/shared/services/gateway/go-usb-ai-gateway-runtime.service.ts`
+- `pnpm -C packages/go-usb-ai-kernel lint`
+- `pnpm -C packages/go-usb-ai-service lint`（通过，保留 19 个既存 warning）
 - `node scripts/governance/lint-new-code-governance.mjs -- <本轮文件>`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths <本轮文件>`
 - `pnpm check:governance-backlog-ratchet`

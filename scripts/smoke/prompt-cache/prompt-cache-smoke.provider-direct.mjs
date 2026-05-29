@@ -5,7 +5,7 @@ import {
   ProviderManager,
   loadConfig,
   resolveConfigSecrets,
-} from "../../../packages/nextclaw-core/src/index.ts";
+} from "../../../packages/go-usb-ai-core/src/index.ts";
 import {
   buildStablePrompt,
   DEFAULT_EXPECTED_REPLY,

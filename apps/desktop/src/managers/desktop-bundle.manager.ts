@@ -98,7 +98,7 @@ export class DesktopBundleManager {
     await this.bootstrap.repairPackagedSeedBundle(failedBundleVersion);
 
   private resolveBundlePublicKey = (): string | undefined => {
-    const publicKey = process.env.NEXTCLAW_DESKTOP_BUNDLE_PUBLIC_KEY?.trim();
+    const publicKey = process.env.GOUSB_AI_DESKTOP_BUNDLE_PUBLIC_KEY?.trim();
     if (publicKey) {
       return publicKey;
     }

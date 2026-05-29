@@ -6,8 +6,8 @@
 
 # 测试/验证/验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-surface-renderer.ts`
-- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-surface-renderer.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-surface-renderer.ts`
+- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-surface-renderer.ts`
 
 # 发布/部署方式
 

@@ -12,7 +12,7 @@
 
 - 脚本语法检查：`bash -n apps/desktop/scripts/smoke-macos-dmg.sh`
 - macOS 安装后烟测（单独脚本）：
-  - `bash apps/desktop/scripts/smoke-macos-dmg.sh "apps/desktop/release/NextClaw Desktop-0.0.21-arm64.dmg" 120`
+  - `bash apps/desktop/scripts/smoke-macos-dmg.sh "apps/desktop/release/GoUsbAi Desktop-0.0.21-arm64.dmg" 120`
   - 结果：通过（触发 fallback 后 `/api/health` 返回 ok）。
 - 根目录一键打包验证：`pnpm desktop:package:verify`
   - 结果：通过（产出 DMG + 安装后健康检查通过）。

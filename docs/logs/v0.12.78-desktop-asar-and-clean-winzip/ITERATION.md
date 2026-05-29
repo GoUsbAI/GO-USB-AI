@@ -8,7 +8,7 @@
 ## 测试/验证/验收方式
 - Windows 打包与可用性（macOS 主机交叉构建 + wine 冒烟）：
   - `pnpm -C apps/desktop exec electron-builder --win dir --x64 --publish never`
-  - `wine64 apps/desktop/release/win-unpacked/NextClaw Desktop.exe` 后轮询 `http://127.0.0.1:18791/api/health`
+  - `wine64 apps/desktop/release/win-unpacked/GoUsbAi Desktop.exe` 后轮询 `http://127.0.0.1:18791/api/health`
   - 结果：返回 `{"ok":true,"data":{"status":"ok"}}`。
 - macOS 打包与可用性：
   - `pnpm -C apps/desktop exec electron-builder --mac dmg --arm64 --publish never`
@@ -21,11 +21,11 @@
 ## 发布/部署方式
 - 代码改动提交后，沿用现有桌面构建流程。
 - 内部验证包通过 GitHub Draft Release 上传，不对外宣传。
-- Windows 验证包文件名：`NextClaw-Desktop-win32-x64-unpacked-51614a3-asar-clean.zip`。
+- Windows 验证包文件名：`GoUsbAi-Desktop-win32-x64-unpacked-51614a3-asar-clean.zip`。
 
 ## 用户/产品视角的验收步骤
-1. 在 GitHub Draft Release 下载 `NextClaw-Desktop-win32-x64-unpacked-51614a3-asar-clean.zip`。
+1. 在 GitHub Draft Release 下载 `GoUsbAi-Desktop-win32-x64-unpacked-51614a3-asar-clean.zip`。
 2. 在 Windows 资源管理器中解压压缩包。
-3. 双击 `NextClaw Desktop.exe` 启动（无需命令行）。
+3. 双击 `GoUsbAi Desktop.exe` 启动（无需命令行）。
 4. 如遇 SmartScreen，点击 `More info -> Run anyway`。
 5. 进入主界面后确认可交互并可正常使用。

@@ -1,6 +1,6 @@
 # Docker 部署
 
-Docker 适合把 NextClaw 放到服务器或长期运行环境里。  
+Docker 适合把 GoUsbAi 放到服务器或长期运行环境里。  
 如果你只是第一次试用，先用 [快速开始](/zh/guide/getting-started)。
 
 ## 适合场景
@@ -19,8 +19,8 @@ Docker 适合把 NextClaw 放到服务器或长期运行环境里。
 ## 部署后检查
 
 ```bash
-nextclaw status
-nextclaw doctor
+go-usb-ai status
+go-usb-ai doctor
 ```
 
 如果容器内没有 CLI，请用容器日志和健康检查确认服务状态。

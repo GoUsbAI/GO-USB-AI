@@ -3,17 +3,17 @@
 ## 迭代完成说明
 
 - 修复桌面端 UI 语言在完整重启后回退为英文的问题：桌面端改为通过 Electron preload / IPC 把语言偏好读写到 launcher state，浏览器端与 PWA 仍继续使用 `localStorage`。
-- 根因已确认，不是表象修补。原来的语言持久化逻辑只写浏览器 `localStorage`，键为 `nextclaw.ui.language`。这条路径在浏览器里成立，但桌面端 UI 实际运行在本地 runtime 提供的 `http://127.0.0.1:<port>` 页面上，完整重启应用后 runtime 端口可能变化，导致 origin 变化，旧 origin 下的 `localStorage` 对新启动的桌面页面不可见。
-- 根因确认方式：对比了 [`packages/nextclaw-ui/src/shared/lib/i18n/runtime/i18n-language-owner.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/shared/lib/i18n/runtime/i18n-language-owner.ts) 的持久化路径与 [`apps/desktop/src/main.ts`](/Users/peiwang/Projects/nextbot/apps/desktop/src/main.ts) 的桌面 runtime 加载方式，确认语言偏好此前被绑在“页面 origin”上，而不是“桌面应用实例”上；这正好解释了“系统语言英文、桌面端切中文、重启后又回英文”的用户反馈。
+- 根因已确认，不是表象修补。原来的语言持久化逻辑只写浏览器 `localStorage`，键为 `go-usb-ai.ui.language`。这条路径在浏览器里成立，但桌面端 UI 实际运行在本地 runtime 提供的 `http://127.0.0.1:<port>` 页面上，完整重启应用后 runtime 端口可能变化，导致 origin 变化，旧 origin 下的 `localStorage` 对新启动的桌面页面不可见。
+- 根因确认方式：对比了 [`packages/go-usb-ai-ui/src/shared/lib/i18n/runtime/i18n-language-owner.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/shared/lib/i18n/runtime/i18n-language-owner.ts) 的持久化路径与 [`apps/desktop/src/main.ts`](/Users/peiwang/Projects/nextbot/apps/desktop/src/main.ts) 的桌面 runtime 加载方式，确认语言偏好此前被绑在“页面 origin”上，而不是“桌面应用实例”上；这正好解释了“系统语言英文、桌面端切中文、重启后又回英文”的用户反馈。
 - 本次修复命中根因的原因：桌面端不再依赖会随 runtime origin 漂移的 `localStorage`，而是改为依赖 launcher 级别的持久状态 [`apps/desktop/src/launcher/stores/launcher-state.store.ts`](/Users/peiwang/Projects/nextbot/apps/desktop/src/launcher/stores/launcher-state.store.ts)；浏览器端仍保留原来的 `localStorage` 路径，因此没有把两个运行环境硬揉成同一套存储策略。
 
 ## 测试/验证/验收方式
 
 - `pnpm -C apps/desktop exec tsc --noEmit`
-- `pnpm -C packages/nextclaw-ui exec tsc --noEmit`
-- `pnpm -C packages/nextclaw-ui exec vitest run src/shared/lib/i18n/runtime/i18n-language-owner.test.ts`
+- `pnpm -C packages/go-usb-ai-ui exec tsc --noEmit`
+- `pnpm -C packages/go-usb-ai-ui exec vitest run src/shared/lib/i18n/runtime/i18n-language-owner.test.ts`
 - 桌面 backend 冒烟：将 [`apps/desktop/src/launcher/stores/launcher-state.store.ts`](/Users/peiwang/Projects/nextbot/apps/desktop/src/launcher/stores/launcher-state.store.ts) 单独编译到临时目录后执行真实读写，确认 `languagePreference` 写入 `launcher-state.json` 后可稳定回读为 `zh`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths apps/desktop/src/launcher/stores/launcher-state.store.ts apps/desktop/src/main.ts apps/desktop/src/preload.ts apps/desktop/src/utils/desktop-ipc.utils.ts apps/desktop/src/services/desktop-presence.service.ts packages/nextclaw-ui/src/platforms/desktop/types/desktop-update.types.ts packages/nextclaw-ui/src/shared/lib/i18n/runtime/i18n-language-owner.ts packages/nextclaw-ui/src/shared/lib/i18n/runtime/i18n-language-owner.test.ts`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths apps/desktop/src/launcher/stores/launcher-state.store.ts apps/desktop/src/main.ts apps/desktop/src/preload.ts apps/desktop/src/utils/desktop-ipc.utils.ts apps/desktop/src/services/desktop-presence.service.ts packages/go-usb-ai-ui/src/platforms/desktop/types/desktop-update.types.ts packages/go-usb-ai-ui/src/shared/lib/i18n/runtime/i18n-language-owner.ts packages/go-usb-ai-ui/src/shared/lib/i18n/runtime/i18n-language-owner.test.ts`
 - 验证结果：
   - 桌面端 TypeScript 检查通过。
   - UI 包 TypeScript 检查通过。
@@ -30,7 +30,7 @@
 ## 用户/产品视角的验收步骤
 
 1. 将系统语言保持为英文。
-2. 启动桌面版 NextClaw，并把应用内语言切换为中文。
+2. 启动桌面版 GoUsbAi，并把应用内语言切换为中文。
 3. 完整退出桌面应用，而不是仅关闭窗口到后台。
 4. 重新启动桌面应用。
 5. 确认应用仍保持中文，而不是回退到英文。

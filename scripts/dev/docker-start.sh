@@ -5,10 +5,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 COMPOSE_FILE="${ROOT_DIR}/docker/compose.yml"
 
-UI_PORT="${NEXTCLAW_DOCKER_UI_PORT:-55667}"
-API_PORT="${NEXTCLAW_DOCKER_API_PORT:-18790}"
-DATA_DIR="${NEXTCLAW_DOCKER_DATA_DIR:-${HOME}/.nextclaw-docker}"
-CONTAINER_NAME="${NEXTCLAW_DOCKER_CONTAINER_NAME:-nextclaw}"
+UI_PORT="${GOUSB_AI_DOCKER_UI_PORT:-55667}"
+API_PORT="${GOUSB_AI_DOCKER_API_PORT:-18790}"
+DATA_DIR="${GOUSB_AI_DOCKER_DATA_DIR:-${HOME}/.go-usb-ai-docker}"
+CONTAINER_NAME="${GOUSB_AI_DOCKER_CONTAINER_NAME:-go-usb-ai}"
 DRY_RUN=0
 WAIT_TIMEOUT_SECONDS=60
 
@@ -19,8 +19,8 @@ Usage: scripts/dev/docker-start.sh [options]
 Options:
   --ui-port <port>          Host/UI port (default: 55667)
   --api-port <port>         Host gateway API port (default: 18790)
-  --data-dir <path>         Data directory mounted to /data (default: ~/.nextclaw-docker)
-  --container-name <name>   Docker container name (default: nextclaw)
+  --data-dir <path>         Data directory mounted to /data (default: ~/.go-usb-ai-docker)
+  --container-name <name>   Docker container name (default: go-usb-ai)
   --dry-run                 Print compose command and environment only
   -h, --help                Show help
 EOF
@@ -132,19 +132,19 @@ fi
 
 DATA_DIR="$(resolve_abs_path "${DATA_DIR}")"
 
-export NEXTCLAW_DOCKER_UI_PORT="${UI_PORT}"
-export NEXTCLAW_DOCKER_API_PORT="${API_PORT}"
-export NEXTCLAW_DOCKER_DATA_DIR="${DATA_DIR}"
-export NEXTCLAW_DOCKER_CONTAINER_NAME="${CONTAINER_NAME}"
+export GOUSB_AI_DOCKER_UI_PORT="${UI_PORT}"
+export GOUSB_AI_DOCKER_API_PORT="${API_PORT}"
+export GOUSB_AI_DOCKER_DATA_DIR="${DATA_DIR}"
+export GOUSB_AI_DOCKER_CONTAINER_NAME="${CONTAINER_NAME}"
 
 compose_cmd=(docker compose -f "${COMPOSE_FILE}")
 
 if (( DRY_RUN == 1 )); then
   echo "Dry run enabled."
-  echo "NEXTCLAW_DOCKER_UI_PORT=${NEXTCLAW_DOCKER_UI_PORT}"
-  echo "NEXTCLAW_DOCKER_API_PORT=${NEXTCLAW_DOCKER_API_PORT}"
-  echo "NEXTCLAW_DOCKER_DATA_DIR=${NEXTCLAW_DOCKER_DATA_DIR}"
-  echo "NEXTCLAW_DOCKER_CONTAINER_NAME=${NEXTCLAW_DOCKER_CONTAINER_NAME}"
+  echo "GOUSB_AI_DOCKER_UI_PORT=${GOUSB_AI_DOCKER_UI_PORT}"
+  echo "GOUSB_AI_DOCKER_API_PORT=${GOUSB_AI_DOCKER_API_PORT}"
+  echo "GOUSB_AI_DOCKER_DATA_DIR=${GOUSB_AI_DOCKER_DATA_DIR}"
+  echo "GOUSB_AI_DOCKER_CONTAINER_NAME=${GOUSB_AI_DOCKER_CONTAINER_NAME}"
   echo
   echo "Command:"
   printf '  %q' "${compose_cmd[@]}"
@@ -166,14 +166,14 @@ fi
 "${compose_cmd[@]}" up -d --build
 wait_for_ui_health
 
-echo "✓ NextClaw docker service started."
+echo "✓ GoUsbAi docker service started."
 echo "UI: http://127.0.0.1:${UI_PORT}"
 echo "API: http://127.0.0.1:${UI_PORT}/api"
 echo "Gateway (direct): http://127.0.0.1:${API_PORT}"
 echo "Data dir: ${DATA_DIR}"
 echo "Container: ${CONTAINER_NAME}"
 echo
-runtime_urls="$("${compose_cmd[@]}" logs --tail=80 nextclaw 2>/dev/null | grep -E 'UI: |API: |Public UI|Public API' || true)"
+runtime_urls="$("${compose_cmd[@]}" logs --tail=80 go-usb-ai 2>/dev/null | grep -E 'UI: |API: |Public UI|Public API' || true)"
 if [[ -n "${runtime_urls}" ]]; then
   echo "Runtime output snapshot:"
   echo "${runtime_urls}"
@@ -182,7 +182,7 @@ fi
 
 echo "Useful commands:"
 printf '  %q' "${compose_cmd[@]}"
-printf ' %q' logs -f nextclaw
+printf ' %q' logs -f go-usb-ai
 echo
 printf '  %q' "${compose_cmd[@]}"
 printf ' %q' down

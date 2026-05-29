@@ -60,7 +60,7 @@ register(api) {
   api.registerChannel({
     plugin: {
       id: "weixin",
-      nextclaw: {
+      go-usb-ai: {
         createChannel: (ctx) => new WeixinChannel(...),
       },
     },
@@ -292,7 +292,7 @@ register(api) {
   api.registerChannel({
     plugin: {
       id: "weixin",
-      nextclaw: {
+      go-usb-ai: {
         createChannel: ({ config, bus }) =>
           new WeixinChannel(
             readWeixinPluginConfigFromConfig(config, pluginId),

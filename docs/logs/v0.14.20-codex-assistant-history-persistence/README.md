@@ -20,10 +20,10 @@
 已执行验证：
 
 1. 构建与类型检查
-- `pnpm --filter @nextclaw/nextclaw-ncp-runtime-codex-sdk build`
-- `pnpm --filter @nextclaw/nextclaw-ncp-runtime-codex-sdk tsc`
-- `pnpm --filter @nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk build`
-- `pnpm --filter @nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk tsc`
+- `pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-codex-sdk build`
+- `pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-codex-sdk tsc`
+- `pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk build`
+- `pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk tsc`
 
 2. 本地开发联调
 - 使用 `pnpm dev start` 启动本地开发环境

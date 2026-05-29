@@ -9,11 +9,11 @@
 
 ## 测试 / 验证 / 验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- --run src/remote/remote-access-feedback.service.test.ts src/components/remote/RemoteAccessPage.test.tsx`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/remote/RemoteAccessPage.tsx packages/nextclaw-ui/src/components/remote/RemoteAccessPage.test.tsx packages/nextclaw-ui/src/remote/remote-access-feedback.service.ts packages/nextclaw-ui/src/remote/remote-access-feedback.service.test.ts packages/nextclaw-ui/src/remote/managers/remote-access.manager.ts packages/nextclaw-ui/src/account/managers/account.manager.ts packages/nextclaw-ui/src/account/stores/account.store.ts packages/nextclaw-ui/src/lib/i18n.remote.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- --run src/remote/remote-access-feedback.service.test.ts src/components/remote/RemoteAccessPage.test.tsx`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/remote/RemoteAccessPage.tsx packages/go-usb-ai-ui/src/components/remote/RemoteAccessPage.test.tsx packages/go-usb-ai-ui/src/remote/remote-access-feedback.service.ts packages/go-usb-ai-ui/src/remote/remote-access-feedback.service.test.ts packages/go-usb-ai-ui/src/remote/managers/remote-access.manager.ts packages/go-usb-ai-ui/src/account/managers/account.manager.ts packages/go-usb-ai-ui/src/account/stores/account.store.ts packages/go-usb-ai-ui/src/lib/i18n.remote.ts`
 
 ## 发布 / 部署方式
 
@@ -23,7 +23,7 @@
 ## 用户 / 产品视角的验收步骤
 
 1. 保持 remote access 为已开启状态，并让平台登录态失效。
-2. 打开 NextClaw 本地 UI 的 Remote Access 页面。
-3. 确认页面标题显示“登录已过期，请重新登录 NextClaw”，而不是 raw token 错误。
+2. 打开 GoUsbAi 本地 UI 的 Remote Access 页面。
+3. 确认页面标题显示“登录已过期，请重新登录 GoUsbAi”，而不是 raw token 错误。
 4. 确认主按钮显示“重新登录并恢复远程访问”。
 5. 点击主按钮后，浏览器登录页被拉起；完成登录后，页面自动恢复 remote access，而不是要求用户手动排查 token 或重配设备。

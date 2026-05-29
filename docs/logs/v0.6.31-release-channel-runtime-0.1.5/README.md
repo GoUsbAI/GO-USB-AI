@@ -4,11 +4,11 @@
 
 - 发布目标：将 Discord 长文本分片发送修复正式发布到 npm。
 - 本次发布产物：
-  - `@nextclaw/channel-runtime@0.1.5`
+  - `@go-usb-ai/channel-runtime@0.1.5`
 - 关联代码：
-  - `packages/extensions/nextclaw-channel-runtime/src/channels/discord.ts`
-  - `packages/extensions/nextclaw-channel-runtime/package.json`
-  - `packages/extensions/nextclaw-channel-runtime/CHANGELOG.md`
+  - `packages/extensions/go-usb-ai-channel-runtime/src/channels/discord.ts`
+  - `packages/extensions/go-usb-ai-channel-runtime/package.json`
+  - `packages/extensions/go-usb-ai-channel-runtime/CHANGELOG.md`
 
 ## 测试 / 验证 / 验收方式
 
@@ -25,24 +25,24 @@ pnpm tsc
 ### 发布结果核验
 
 ```bash
-npm view @nextclaw/channel-runtime version
-npm view @nextclaw/channel-runtime dist-tags --json
-git tag --list '@nextclaw/channel-runtime@0.1.5'
+npm view @go-usb-ai/channel-runtime version
+npm view @go-usb-ai/channel-runtime dist-tags --json
+git tag --list '@go-usb-ai/channel-runtime@0.1.5'
 ```
 
 验收点：
 - `version` 返回 `0.1.5`
 - `dist-tags.latest` 为 `0.1.5`
-- 本地存在 tag：`@nextclaw/channel-runtime@0.1.5`
+- 本地存在 tag：`@go-usb-ai/channel-runtime@0.1.5`
 
 ### 发布后冒烟（隔离目录）
 
 ```bash
-TMP_DIR=$(mktemp -d /tmp/nextclaw-channel-runtime-release-smoke.XXXXXX)
+TMP_DIR=$(mktemp -d /tmp/go-usb-ai-channel-runtime-release-smoke.XXXXXX)
 cd "$TMP_DIR"
 npm init -y
-npm install @nextclaw/channel-runtime@0.1.5
-node --input-type=module -e "import('@nextclaw/channel-runtime').then((m)=>{console.log('IMPORT_OK', Object.keys(m).slice(0,5).join(','))})"
+npm install @go-usb-ai/channel-runtime@0.1.5
+node --input-type=module -e "import('@go-usb-ai/channel-runtime').then((m)=>{console.log('IMPORT_OK', Object.keys(m).slice(0,5).join(','))})"
 rm -rf "$TMP_DIR"
 ```
 
@@ -59,8 +59,8 @@ pnpm release:publish
 ```
 
 本次执行结果：
-- 发布成功：`@nextclaw/channel-runtime@0.1.5`
-- 自动 tag：`@nextclaw/channel-runtime@0.1.5`
+- 发布成功：`@go-usb-ai/channel-runtime@0.1.5`
+- 自动 tag：`@go-usb-ai/channel-runtime@0.1.5`
 
 闭环说明：
 - 远程 migration：不适用（无后端/数据库变更）。

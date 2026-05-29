@@ -3,9 +3,9 @@
 ## 自动验证
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc
 PATH=/opt/homebrew/bin:$PATH pnpm release:frontend
 ```
 
@@ -19,15 +19,15 @@ PATH=/opt/homebrew/bin:$PATH pnpm release:frontend
 ## 冒烟测试（隔离目录，避免写入仓库）
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-ui-layout-smoke.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw dev:build start --ui-port 19181
-curl -sf http://127.0.0.1:19181/ > /tmp/nextclaw-ui-layout-smoke-ui.html
-NEXTCLAW_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw dev:build stop
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-ui-layout-smoke.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai dev:build start --ui-port 19181
+curl -sf http://127.0.0.1:19181/ > /tmp/go-usb-ai-ui-layout-smoke-ui.html
+GOUSB_AI_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai dev:build stop
 
-TMP_HOME=$(mktemp -d /tmp/nextclaw-ui-layout-smoke-meta.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw dev:build start --ui-port 19182
-curl -sf http://127.0.0.1:19182/api/config/meta > /tmp/nextclaw-ui-layout-smoke-meta.json
-NEXTCLAW_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw dev:build stop
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-ui-layout-smoke-meta.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai dev:build start --ui-port 19182
+curl -sf http://127.0.0.1:19182/api/config/meta > /tmp/go-usb-ai-ui-layout-smoke-meta.json
+GOUSB_AI_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai dev:build stop
 ```
 
 观察点：

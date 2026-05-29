@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import process from "node:process";
 
-const modulePath = new URL("../workers/nextclaw-provider-gateway-api/dist/services/remote-access-session-binding.js", import.meta.url);
+const modulePath = new URL("../workers/go-usb-ai-provider-gateway-api/dist/services/remote-access-session-binding.js", import.meta.url);
 const { resolveHostBoundRemoteAccessSession } = await import(modulePath);
 
 function assert(condition, message) {

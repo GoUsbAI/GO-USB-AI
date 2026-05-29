@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-本次迭代修复了 NextClaw macOS 桌面端图标“看起来不是圆角 app icon”的问题。
+本次迭代修复了 GoUsbAi macOS 桌面端图标“看起来不是圆角 app icon”的问题。
 
 本次实际落地内容：
 
@@ -25,10 +25,10 @@
   - 观察点：`(0,0) / (10,10) / (40,40) / (511,511)` alpha 均为 `0`，确认四角透明
 - `CSC_IDENTITY_AUTO_DISCOVERY=false pnpm -C apps/desktop exec electron-builder --mac dir --publish never`
   - 结果：通过
-  - 观察点：成功产出 `apps/desktop/release/mac-arm64/NextClaw Desktop.app`
+  - 观察点：成功产出 `apps/desktop/release/mac-arm64/GoUsbAi Desktop.app`
 - 从打包产物反解图标并做像素校验
   - 结果：通过
-  - 观察点：[`apps/desktop/release/mac-arm64/NextClaw Desktop.app/Contents/Resources/icon.icns`](/Users/peiwang/Projects/nextbot/apps/desktop/release/mac-arm64/NextClaw%20Desktop.app/Contents/Resources/icon.icns) 解出的 `icon_512x512.png` 四角同样透明；打包产物内 `icon.icns` 与源码生成的 `icon.icns` MD5 一致
+  - 观察点：[`apps/desktop/release/mac-arm64/GoUsbAi Desktop.app/Contents/Resources/icon.icns`](/Users/peiwang/Projects/nextbot/apps/desktop/release/mac-arm64/GoUsbAi%20Desktop.app/Contents/Resources/icon.icns) 解出的 `icon_512x512.png` 四角同样透明；打包产物内 `icon.icns` 与源码生成的 `icon.icns` MD5 一致
 - `PATH=/opt/homebrew/bin:$PATH pnpm lint:new-code:governance -- apps/desktop/scripts/generate-icons.mjs`
   - 结果：通过
 
@@ -36,7 +36,7 @@
 
 - `PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard`
   - 结果：未通过
-  - 判断：当前 error 全部来自 [`packages/nextclaw-core/src/providers/openai_provider.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/providers/openai_provider.ts) 的另一批进行中改动，与本次桌面端图标链路无关；本次触达的 `apps/desktop/scripts/generate-icons.mjs` 已通过单文件增量治理检查
+  - 判断：当前 error 全部来自 [`packages/go-usb-ai-core/src/providers/openai_provider.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/providers/openai_provider.ts) 的另一批进行中改动，与本次桌面端图标链路无关；本次触达的 `apps/desktop/scripts/generate-icons.mjs` 已通过单文件增量治理检查
 
 ## 发布/部署方式
 
@@ -53,7 +53,7 @@
 ## 用户/产品视角的验收步骤
 
 1. 在 macOS 上安装最新桌面端构建产物。
-2. 打开 `Applications` 或桌面，观察 NextClaw Desktop 图标。
+2. 打开 `Applications` 或桌面，观察 GoUsbAi Desktop 图标。
 3. 预期：图标外层不再带白色方形底板，而是只显示品牌主体，整体呈干净的圆角观感。
 4. 打开 App 后再看 Dock 图标。
 5. 预期：Dock 中的图标与桌面图标一致，不再出现白底方块感。

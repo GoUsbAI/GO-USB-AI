@@ -7,16 +7,16 @@ import { resolveRepoPath } from "../shared/repo-paths.mjs";
 const rootDir = resolveRepoPath(import.meta.url);
 const releaseDir = resolve(rootDir, "apps/desktop/release");
 const channelExtensionPackages = [
-  "nextclaw-channel-extension-feishu",
-  "nextclaw-channel-extension-weixin",
-  "nextclaw-channel-extension-qq",
-  "nextclaw-channel-extension-dingtalk",
-  "nextclaw-channel-extension-telegram",
-  "nextclaw-channel-extension-discord",
-  "nextclaw-channel-extension-email",
-  "nextclaw-channel-extension-slack",
-  "nextclaw-channel-extension-wecom",
-  "nextclaw-channel-extension-whatsapp"
+  "go-usb-ai-channel-extension-feishu",
+  "go-usb-ai-channel-extension-weixin",
+  "go-usb-ai-channel-extension-qq",
+  "go-usb-ai-channel-extension-dingtalk",
+  "go-usb-ai-channel-extension-telegram",
+  "go-usb-ai-channel-extension-discord",
+  "go-usb-ai-channel-extension-email",
+  "go-usb-ai-channel-extension-slack",
+  "go-usb-ai-channel-extension-wecom",
+  "go-usb-ai-channel-extension-whatsapp"
 ];
 
 function binName(name) {
@@ -94,15 +94,15 @@ function buildWindowsArtifacts(arch, env) {
 }
 
 function runSharedBuildSteps(env) {
-  run(binName("pnpm"), ["-C", "packages/nextclaw-core", "build"]);
-  run(binName("pnpm"), ["-C", "packages/nextclaw-runtime", "build"]);
+  run(binName("pnpm"), ["-C", "packages/go-usb-ai-core", "build"]);
+  run(binName("pnpm"), ["-C", "packages/go-usb-ai-runtime", "build"]);
   for (const packageName of channelExtensionPackages) {
     run(binName("pnpm"), ["-C", `packages/extensions/${packageName}`, "build"]);
   }
-  run(binName("pnpm"), ["-C", "packages/nextclaw-ui", "build"]);
-  run(binName("pnpm"), ["-C", "packages/nextclaw-openclaw-compat", "build"]);
-  run(binName("pnpm"), ["-C", "packages/nextclaw-server", "build"]);
-  run(binName("pnpm"), ["-C", "packages/nextclaw", "build"]);
+  run(binName("pnpm"), ["-C", "packages/go-usb-ai-ui", "build"]);
+  run(binName("pnpm"), ["-C", "packages/go-usb-ai-openclaw-compat", "build"]);
+  run(binName("pnpm"), ["-C", "packages/go-usb-ai-server", "build"]);
+  run(binName("pnpm"), ["-C", "packages/go-usb-ai", "build"]);
   run(binName("pnpm"), ["-C", "apps/desktop", "bundle:public-key:ensure"]);
   run(binName("pnpm"), ["-C", "apps/desktop", "bundle:seed", "--", "--channel", "stable"]);
   run(binName("pnpm"), ["-C", "apps/desktop", "build:main"], { env });
@@ -143,7 +143,7 @@ function packageForCurrentPlatform() {
   if (process.platform === "win32") {
     buildWindowsArtifacts(arch, env);
     const unpackedDirName = arch === "arm64" ? "win-arm64-unpacked" : "win-unpacked";
-    const unpackedExe = resolve(releaseDir, unpackedDirName, "NextClaw Desktop.exe");
+    const unpackedExe = resolve(releaseDir, unpackedDirName, "GoUsbAi Desktop.exe");
     printArtifacts(
       [
         unpackedExe,
@@ -151,7 +151,7 @@ function packageForCurrentPlatform() {
           const name = basename(path);
           return (
             path.endsWith(unpackedDirName) ||
-            name.startsWith("NextClaw-Portable-") ||
+            name.startsWith("GoUsbAi-Portable-") ||
             (name.endsWith(".exe") && name.includes("Setup")) ||
             name === "latest.yml" ||
             name.endsWith(".exe.blockmap")

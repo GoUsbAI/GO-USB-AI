@@ -17,7 +17,7 @@ PATH=/opt/homebrew/bin:$PATH pnpm tsc
 ## 冒烟测试
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-channel-runtime exec tsx --eval "import { QQChannel } from './src/channels/qq.ts'; const bus={publishInbound: async ()=>{}} as any; const c = new QQChannel({ appId:'a', secret:'b', markdownSupport:true } as any, bus); const out = (c as any).toQqSafeText('Source: USER.md\\n详情见 https://example.com', new Error('code(40034028): 请求参数不允许包含url USER.md')); console.log(out);"
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-channel-runtime exec tsx --eval "import { QQChannel } from './src/channels/qq.ts'; const bus={publishInbound: async ()=>{}} as any; const c = new QQChannel({ appId:'a', secret:'b', markdownSupport:true } as any, bus); const out = (c as any).toQqSafeText('Source: USER.md\\n详情见 https://example.com', new Error('code(40034028): 请求参数不允许包含url USER.md')); console.log(out);"
 ```
 
 验收点：

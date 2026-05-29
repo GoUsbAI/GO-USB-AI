@@ -13,11 +13,11 @@
     }
   },
   "app": {
-    "brand": "NextClaw Platform",
-    "workbenchTag": "NextClaw 工作台",
-    "loadingAccount": "加载 NextClaw Account...",
-    "accountLoadFailedTitle": "暂时无法加载你的 NextClaw 账号。",
-    "accountLoadFailedDescription": "请重新登录，刷新账号会话后再继续使用网页版 NextClaw。",
+    "brand": "GoUsbAi Platform",
+    "workbenchTag": "GoUsbAi 工作台",
+    "loadingAccount": "加载 GoUsbAi Account...",
+    "accountLoadFailedTitle": "暂时无法加载你的 GoUsbAi 账号。",
+    "accountLoadFailedDescription": "请重新登录，刷新账号会话后再继续使用网页版 GoUsbAi。",
     "accountLoadFailedAction": "重新登录",
     "navigation": {
       "home": "我的实例",
@@ -42,8 +42,8 @@
     }
   },
   "account": {
-    "title": "NextClaw 账号",
-    "description": "这里把发布身份、用户名准备状态，以及网页版 NextClaw 的标准账号入口收敛到同一个地方。",
+    "title": "GoUsbAi 账号",
+    "description": "这里把发布身份、用户名准备状态，以及网页版 GoUsbAi 的标准账号入口收敛到同一个地方。",
     "highlightDescription": "你现在所在的就是发布报错应该指向的那个账号设置页。发布个人 skill 之前，先在这里把用户名设好。",
     "readiness": {
       "ready": "已就绪",
@@ -62,7 +62,7 @@
     },
     "publishScopeMissing": "先设置用户名，才能启用 @username/* 个人发布",
     "missingTitle": "发布个人 skill 之前需要先设置用户名",
-    "missingDescription": "你的账号已经登录，但个人 marketplace 发布还会被用户名缺失卡住。标准页面就是 https://platform.nextclaw.io/account，CLI 兜底命令是 `nextclaw account set-username <username>`。",
+    "missingDescription": "你的账号已经登录，但个人 marketplace 发布还会被用户名缺失卡住。标准页面就是 https://platform.go-usb-ai.io/account，CLI 兜底命令是 `go-usb-ai account set-username <username>`。",
     "usernamePlaceholder": "例如：alice-dev",
     "readyTitle": "个人发布已经解锁",
     "readyDescription": "你的个人 skill 现在会以 {scope} 发布。",
@@ -196,13 +196,13 @@
     }
   },
   "login": {
-    "platformTag": "NextClaw Platform",
-    "heroTitle": "登录 NextClaw Web，继续你的实例与 Agent 工作流。",
-    "heroDescription": "一个 NextClaw Account，把网页入口、远程访问和后续协作能力连成一套体验。登录之后，你的实例、分享和账号能力都会在这里汇合。",
+    "platformTag": "GoUsbAi Platform",
+    "heroTitle": "登录 GoUsbAi Web，继续你的实例与 Agent 工作流。",
+    "heroDescription": "一个 GoUsbAi Account，把网页入口、远程访问和后续协作能力连成一套体验。登录之后，你的实例、分享和账号能力都会在这里汇合。",
     "highlights": {
       "password": {
         "title": "一个账号，连接所有入口",
-        "description": "桌面端、网页端和后续账号能力共享同一个 NextClaw Account，不需要记两套身份。"
+        "description": "桌面端、网页端和后续账号能力共享同一个 GoUsbAi Account，不需要记两套身份。"
       },
       "register": {
         "title": "从网页直接进入你的实例",
@@ -213,12 +213,12 @@
         "description": "需要协作时可以生成可撤销的分享链接，让他人访问指定实例，而不用暴露你的主账号。"
       }
     },
-    "accountTag": "NextClaw Account",
+    "accountTag": "GoUsbAi Account",
     "modes": {
       "login": {
         "label": "登录",
         "title": "邮箱 + 密码登录",
-        "subtitle": "已有 NextClaw Account 直接用密码登录。注册和找回密码在旁边两个入口。"
+        "subtitle": "已有 GoUsbAi Account 直接用密码登录。注册和找回密码在旁边两个入口。"
       },
       "register": {
         "label": "注册",
@@ -271,7 +271,7 @@
   },
   "remote": {
     "title": "我的实例",
-    "description": "在桌面端登录 NextClaw Account 并开启远程访问后，实例会出现在这里。你可以直接在网页里打开它，也可以生成可撤销的分享链接给其他人访问。",
+    "description": "在桌面端登录 GoUsbAi Account 并开启远程访问后，实例会出现在这里。你可以直接在网页里打开它，也可以生成可撤销的分享链接给其他人访问。",
     "table": {
       "instance": "实例",
       "platform": "平台",
@@ -298,7 +298,7 @@
     "shareExpired": "已过期分享"
   },
   "messages": {
-      "empty": "还没有可用实例。先回到桌面端登录 NextClaw 并开启远程访问。",
+      "empty": "还没有可用实例。先回到桌面端登录 GoUsbAi 并开启远程访问。",
       "loadingShares": "加载分享链接中...",
       "loadInstancesFailed": "实例加载失败",
       "openInstanceFailed": "打开实例失败",
@@ -367,7 +367,7 @@
     "badge": "即将上线"
   },
   "share": {
-    "tag": "NextClaw Share",
+    "tag": "GoUsbAi Share",
     "title": "正在打开共享实例",
     "description": "分享链接每次打开都会创建一个新的访问会话。刷新当前页面后，系统会重新创建会话并继续跳转。",
     "loading": "正在校验分享链接并建立访问会话...",

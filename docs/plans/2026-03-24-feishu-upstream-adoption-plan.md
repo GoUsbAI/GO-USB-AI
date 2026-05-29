@@ -1,19 +1,19 @@
-# NextClaw 飞书 Upstream 吸收执行计划
+# GoUsbAi 飞书 Upstream 吸收执行计划
 
 ## 目标
 
 把飞书官方插件的可迁移能力，收敛成一个本次可以一次性实现、验证、发布的 Phase 1 闭环。
 
-这次不追求“对齐全部飞书官方能力”，而是优先完成后续所有飞书能力扩展都要依赖的底座，并让现有 NextClaw 飞书通道先获得一轮结构性升级。
+这次不追求“对齐全部飞书官方能力”，而是优先完成后续所有飞书能力扩展都要依赖的底座，并让现有 GoUsbAi 飞书通道先获得一轮结构性升级。
 
 ## Phase 1 交付边界
 
 本次发布只做以下内容：
 
-1. 新建 `@nextclaw/feishu-core`
+1. 新建 `@go-usb-ai/feishu-core`
 2. 吸收飞书配置模型、账号解析、SDK client 管理、基础 probe、基础消息内容转换
-3. 让 `@nextclaw/core` 使用新的飞书配置模型
-4. 让 `@nextclaw/channel-runtime` 的 Feishu runtime 改为基于 `@nextclaw/feishu-core`
+3. 让 `@go-usb-ai/core` 使用新的飞书配置模型
+4. 让 `@go-usb-ai/channel-runtime` 的 Feishu runtime 改为基于 `@go-usb-ai/feishu-core`
 5. 让当前 Feishu 通道获得以下首批能力：
    - `accountId` 路由
    - 多账号配置基础设施
@@ -49,7 +49,7 @@
 
 - `src/core/config-schema.js`
   - 吸收其字段设计与 cross-field 约束思路
-  - 落地为 NextClaw TypeScript 版本，避免直接保留 compiled JS
+  - 落地为 GoUsbAi TypeScript 版本，避免直接保留 compiled JS
 - `src/core/accounts.js`
   - 吸收多账号合并与 `domain/brand` 解析逻辑
 - `src/core/lark-client.js`
@@ -91,7 +91,7 @@
 
 新增目录：
 
-- `packages/extensions/nextclaw-feishu-core`
+- `packages/extensions/go-usb-ai-feishu-core`
 
 首批文件结构：
 
@@ -110,28 +110,28 @@
 
 ### 现有包改动
 
-- `packages/nextclaw-core/src/config/schema.ts`
+- `packages/go-usb-ai-core/src/config/schema.ts`
   - 切到新的 Feishu schema
-- `packages/nextclaw-core/src/config/schema.labels.ts`
+- `packages/go-usb-ai-core/src/config/schema.labels.ts`
   - 补充本次真正支持的新字段文案
-- `packages/nextclaw-core/src/config/schema.help.ts`
+- `packages/go-usb-ai-core/src/config/schema.help.ts`
   - 补充说明
-- `packages/nextclaw-core/src/channels/feishu-probe.ts`
-  - 改为复用 `@nextclaw/feishu-core`
-- `packages/extensions/nextclaw-channel-runtime/src/channels/feishu.ts`
-  - 切到 `@nextclaw/feishu-core`
-- `packages/extensions/nextclaw-channel-runtime/package.json`
-  - 增加 `@nextclaw/feishu-core`
-- `packages/nextclaw-ui/src/components/config/channel-form-fields.ts`
+- `packages/go-usb-ai-core/src/channels/feishu-probe.ts`
+  - 改为复用 `@go-usb-ai/feishu-core`
+- `packages/extensions/go-usb-ai-channel-runtime/src/channels/feishu.ts`
+  - 切到 `@go-usb-ai/feishu-core`
+- `packages/extensions/go-usb-ai-channel-runtime/package.json`
+  - 增加 `@go-usb-ai/feishu-core`
+- `packages/go-usb-ai-ui/src/components/config/channel-form-fields.ts`
   - 补齐当前已支持字段
-- `packages/nextclaw-ui/src/lib/i18n.ts`
-- `packages/nextclaw-ui/src/lib/i18n.channels.ts`
+- `packages/go-usb-ai-ui/src/lib/i18n.ts`
+- `packages/go-usb-ai-ui/src/lib/i18n.channels.ts`
 - 根目录 `package.json`
   - 把新包纳入 `build/lint/tsc`
 
 ## Phase 1 的产品定义
 
-本次发布后，NextClaw 对飞书的产品定义从：
+本次发布后，GoUsbAi 对飞书的产品定义从：
 
 - “一个基础消息通道”
 
@@ -151,14 +151,14 @@
 
 本次 changeset 预计至少覆盖：
 
-- `@nextclaw/feishu-core`
-- `@nextclaw/core`
-- `@nextclaw/channel-runtime`
+- `@go-usb-ai/feishu-core`
+- `@go-usb-ai/core`
+- `@go-usb-ai/channel-runtime`
 
 若 UI 改动进入 npm 打包链路，则视验证结果决定是否同时纳入：
 
-- `nextclaw`
-- `@nextclaw/server`
+- `go-usb-ai`
+- `@go-usb-ai/server`
 
 判断原则：
 
@@ -169,12 +169,12 @@
 
 本次至少完成：
 
-1. `@nextclaw/feishu-core` 单测
-2. `@nextclaw/feishu-core` build / lint / tsc
-3. `@nextclaw/core` build / lint / tsc
-4. `@nextclaw/channel-runtime` build / lint / tsc
+1. `@go-usb-ai/feishu-core` 单测
+2. `@go-usb-ai/feishu-core` build / lint / tsc
+3. `@go-usb-ai/core` build / lint / tsc
+4. `@go-usb-ai/channel-runtime` build / lint / tsc
 5. 若改 UI：
-   - `@nextclaw/ui` lint / tsc
+   - `@go-usb-ai/ui` lint / tsc
 6. maintainability guard
 
 本次不做真实飞书线上 OAuth / 工作面冒烟，因为未引入 OAuth 与 OAPI tools 执行入口；但会对 config、route metadata、converter 行为做可自动验证的覆盖。
@@ -191,6 +191,6 @@ Phase 1 发完后，按优先级推进：
 ## 本次执行原则
 
 - 不把官方飞书插件作为运行时依赖
-- 不把 OpenClaw 壳层复制进 NextClaw
-- 允许复制纯飞书层逻辑，但进入仓库后立刻转为 NextClaw 自维护资产
+- 不把 OpenClaw 壳层复制进 GoUsbAi
+- 允许复制纯飞书层逻辑，但进入仓库后立刻转为 GoUsbAi 自维护资产
 - 一切以“结构更清晰、复杂度更低、后续可持续扩展”为优先

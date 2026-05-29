@@ -10,26 +10,26 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-agent-chat-ui test -- src/components/chat/ui/chat-message-list/__tests__/chat-message-markdown.test.tsx src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`：通过，2 个测试文件 / 23 个测试通过。
-- `pnpm -C packages/nextclaw-agent-chat-ui tsc`：通过。
-- `pnpm exec eslint packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-code-block.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/code-block/chat-code-syntax-highlighter.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/chat-message-markdown.test.tsx`：通过。
-- `pnpm -C packages/nextclaw-agent-chat-ui build`：通过。
-- `pnpm -C packages/nextclaw-ui tsc`：通过。
-- `pnpm -C packages/nextclaw-ui build`：通过；保留既有 Vite 动态导入与 chunk size 警告。
-- `pnpm lint:maintainability:guard`：未通过，原因是当前工作区已有其它未收尾改动被纳入全量 diff，包括 `packages/nextclaw-ui/src/shared/lib/i18n/chat.ts` 的既有治理命名错误，以及 chat-input-bar 目录/测试文件预算警告。
+- `pnpm -C packages/go-usb-ai-agent-chat-ui test -- src/components/chat/ui/chat-message-list/__tests__/chat-message-markdown.test.tsx src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`：通过，2 个测试文件 / 23 个测试通过。
+- `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`：通过。
+- `pnpm exec eslint packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-code-block.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/code-block/chat-code-syntax-highlighter.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/chat-message-markdown.test.tsx`：通过。
+- `pnpm -C packages/go-usb-ai-agent-chat-ui build`：通过。
+- `pnpm -C packages/go-usb-ai-ui tsc`：通过。
+- `pnpm -C packages/go-usb-ai-ui build`：通过；保留既有 Vite 动态导入与 chunk size 警告。
+- `pnpm lint:maintainability:guard`：未通过，原因是当前工作区已有其它未收尾改动被纳入全量 diff，包括 `packages/go-usb-ai-ui/src/shared/lib/i18n/chat.ts` 的既有治理命名错误，以及 chat-input-bar 目录/测试文件预算警告。
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths ...`：通过但有 1 个历史警告，`chat-message-list` 父目录仍超过直接文件数预算；本次通过 `code-block/` 子目录放置新增高亮 owner，没有增加父目录直接文件数。
 - `node scripts/governance/lint-new-code-governance.mjs -- ...`：通过。
 - `node scripts/governance/check-governance-backlog-ratchet.mjs`：未通过，原因是当前仓库 doc file-name 违规计数 `13` 超过 baseline `11`，与本次代码块改动无直接关系。
 
 ## 发布/部署方式
 
-- 本次改动影响 `@nextclaw/agent-chat-ui` 和 `@nextclaw/ui` 的前端会话体验。
+- 本次改动影响 `@go-usb-ai/agent-chat-ui` 和 `@go-usb-ai/ui` 的前端会话体验。
 - 已完成本地构建验证，尚未执行发布、提交或推送。
-- 后续发布时应走现有统一 NPM/frontend release 流程，并确保 `highlight.js` 依赖随 `@nextclaw/agent-chat-ui` 一起进入发布包。
+- 后续发布时应走现有统一 NPM/frontend release 流程，并确保 `highlight.js` 依赖随 `@go-usb-ai/agent-chat-ui` 一起进入发布包。
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 NextClaw 会话页。
+1. 打开 GoUsbAi 会话页。
 2. 让助手返回包含代码块的 Markdown，例如：
 
    ````
@@ -53,9 +53,9 @@
 
 ## NPM 包发布记录
 
-- 本次是否需要发包：需要。改动触达可发布包 `@nextclaw/agent-chat-ui` 的运行代码与依赖，同时 `@nextclaw/ui` 的全局样式也影响前端展示。
+- 本次是否需要发包：需要。改动触达可发布包 `@go-usb-ai/agent-chat-ui` 的运行代码与依赖，同时 `@go-usb-ai/ui` 的全局样式也影响前端展示。
 - 需要发布的包：
-  - `@nextclaw/agent-chat-ui`：未发布；本次新增 `highlight.js` 依赖与代码块高亮能力，待统一发布。
-  - `@nextclaw/ui`：未发布；本次调整会话 Markdown 代码块样式，待统一发布。
+  - `@go-usb-ai/agent-chat-ui`：未发布；本次新增 `highlight.js` 依赖与代码块高亮能力，待统一发布。
+  - `@go-usb-ai/ui`：未发布；本次调整会话 Markdown 代码块样式，待统一发布。
 - 当前发布状态：未执行 NPM 发布。
 - 阻塞或触发条件：等待后续统一 release 流程执行版本、构建、发布与发布后校验。

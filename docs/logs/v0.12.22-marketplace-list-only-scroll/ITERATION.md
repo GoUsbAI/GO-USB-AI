@@ -9,10 +9,10 @@
 ## 测试/验证/验收方式
 
 - 编译与类型检查：
-  - `pnpm -C packages/nextclaw-ui build`
-  - `pnpm -C packages/nextclaw-ui tsc`
+  - `pnpm -C packages/go-usb-ai-ui build`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
 - 冒烟（预览路由可访问）：
-  - `pnpm -C packages/nextclaw-ui preview --host 127.0.0.1 --port 4179`
+  - `pnpm -C packages/go-usb-ai-ui preview --host 127.0.0.1 --port 4179`
   - `curl -fsS http://127.0.0.1:4179/skills`
   - 观察到页面 `title` 与 `#root` 正常返回。
 

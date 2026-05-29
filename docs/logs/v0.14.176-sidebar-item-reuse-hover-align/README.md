@@ -3,7 +3,7 @@
 ## 迭代完成说明
 
 - 把主界面左侧边栏中已经验证稳定的 item 结构抽成共享组件，新增：
-  - [`packages/nextclaw-ui/src/components/layout/sidebar-items.tsx`](../../../packages/nextclaw-ui/src/components/layout/sidebar-items.tsx)
+  - [`packages/go-usb-ai-ui/src/components/layout/sidebar-items.tsx`](../../../packages/go-usb-ai-ui/src/components/layout/sidebar-items.tsx)
 - 共享组件覆盖三类左栏条目：
   - 导航链接项 `SidebarNavLinkItem`
   - 操作按钮项 `SidebarActionItem`
@@ -19,25 +19,25 @@
   - 共享 sidebar item 统一使用 `hover:bg-gray-200/60`
   - 设置页顶部“返回主界面”入口也同步对齐到同一 hover 背景反馈
 - 回归测试同步更新，确保设置页顶部结构保持原样，同时底部工具项继续保持 compact 且 hover token 一致：
-  - [`packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx`](../../../packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx)
-  - [`packages/nextclaw-ui/src/components/chat/ChatSidebar.test.tsx`](../../../packages/nextclaw-ui/src/components/chat/ChatSidebar.test.tsx)
+  - [`packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx`](../../../packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx)
+  - [`packages/go-usb-ai-ui/src/components/chat/ChatSidebar.test.tsx`](../../../packages/go-usb-ai-ui/src/components/chat/ChatSidebar.test.tsx)
 
 ## 测试 / 验证 / 验收方式
 
 - 定向单测：
-  - `pnpm --filter @nextclaw/ui test -- src/components/layout/sidebar.layout.test.tsx src/components/chat/ChatSidebar.test.tsx`
+  - `pnpm --filter @go-usb-ai/ui test -- src/components/layout/sidebar.layout.test.tsx src/components/chat/ChatSidebar.test.tsx`
 - 定向 lint：
-  - `pnpm exec eslint packages/nextclaw-ui/src/components/layout/sidebar-items.tsx packages/nextclaw-ui/src/components/layout/Sidebar.tsx packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx packages/nextclaw-ui/src/components/chat/ChatSidebar.test.tsx`
+  - `pnpm exec eslint packages/go-usb-ai-ui/src/components/layout/sidebar-items.tsx packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx packages/go-usb-ai-ui/src/components/chat/ChatSidebar.test.tsx`
 - 类型检查：
-  - `pnpm --filter @nextclaw/ui tsc`
+  - `pnpm --filter @go-usb-ai/ui tsc`
 - 构建验证：
-  - `pnpm --filter @nextclaw/ui build`
+  - `pnpm --filter @go-usb-ai/ui build`
 - UI 冒烟（服务级）：
-  - `pnpm --filter @nextclaw/ui preview -- --host 127.0.0.1 --port 4173 --strictPort`
+  - `pnpm --filter @go-usb-ai/ui preview -- --host 127.0.0.1 --port 4173 --strictPort`
   - `curl -I http://127.0.0.1:4173/`
   - `curl -I http://127.0.0.1:4173/model`
 - 可维护性自检：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/layout/sidebar-items.tsx packages/nextclaw-ui/src/components/layout/Sidebar.tsx packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx packages/nextclaw-ui/src/components/chat/ChatSidebar.test.tsx`
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/layout/sidebar-items.tsx packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx packages/go-usb-ai-ui/src/components/chat/ChatSidebar.test.tsx`
 
 ## 发布 / 部署方式
 

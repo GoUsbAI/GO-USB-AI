@@ -1,6 +1,6 @@
 ---
 title: Release Notes
-description: Read public NextClaw updates from user value first, not from raw implementation details.
+description: Read public GoUsbAi updates from user value first, not from raw implementation details.
 ---
 
 # Release Notes

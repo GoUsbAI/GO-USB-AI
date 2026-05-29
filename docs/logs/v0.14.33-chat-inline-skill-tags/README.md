@@ -10,17 +10,17 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-agent-chat-ui test`
-- `pnpm -C packages/nextclaw-agent-chat-ui tsc`
-- `pnpm -C packages/nextclaw-agent-chat-ui build`
-- `pnpm -C packages/nextclaw-agent-chat-ui lint`
-- `pnpm -C packages/nextclaw-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
-- `pnpm -C packages/nextclaw-ui build`
-- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-textarea.tsx`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui test`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui build`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui lint`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-textarea.tsx`
 - 组件级冒烟观察点：
   - 已选 skill 以图标化 chip 形式出现在输入框内部，而不是输入框外。
   - 点击内联 chip 仍可移除对应 skill。
-  - 构建后的 `@nextclaw/ui` 可正常通过集成构建。
+  - 构建后的 `@go-usb-ai/ui` 可正常通过集成构建。
 
 ## 发布/部署方式
 
@@ -32,7 +32,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 nextclaw 聊天页，在输入框中输入 `/` 并选择一个 skill。
+1. 打开 go-usb-ai 聊天页，在输入框中输入 `/` 并选择一个 skill。
 2. 确认选中的 skill 以紧凑的图标化标签形式直接出现在输入框内部，而不是独立悬浮在输入框外。
 3. 连续选择 2 到 3 个 skill，确认标签间距紧凑、整体不显臃肿，输入光标仍自然接在标签后方。
 4. 输入多行内容，确认输入框高度会随内容增长，不会把 skill 标签和正文挤压错位。

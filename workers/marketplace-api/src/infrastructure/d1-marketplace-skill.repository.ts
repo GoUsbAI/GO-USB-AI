@@ -208,22 +208,22 @@ export class D1MarketplaceSkillDataSource extends D1MarketplaceSectionDataSource
     const itemId = existing?.id ?? input.id ?? `skill-${identity.ownerScope}-${identity.skillName}`;
     const publishedAt = input.publishedAt ?? existing?.published_at ?? nowIso;
     const updatedAt = input.updatedAt ?? nowIso;
-    const shouldAutoApprove = identity.ownerScope === "nextclaw" || this.autoApprovalMode === "all";
-    const userAutoApproved = shouldAutoApprove && identity.ownerScope !== "nextclaw";
+    const shouldAutoApprove = identity.ownerScope === "go-usb-ai" || this.autoApprovalMode === "all";
+    const userAutoApproved = shouldAutoApprove && identity.ownerScope !== "go-usb-ai";
     return {
       existing: existing ?? null,
       itemId,
       publishedAt,
       updatedAt,
       publishStatus: shouldAutoApprove ? "published" : "pending",
-      publishedByType: identity.ownerScope === "nextclaw" ? "admin" : "user",
+      publishedByType: identity.ownerScope === "go-usb-ai" ? "admin" : "user",
       reviewNote: userAutoApproved ? AUTO_APPROVED_REVIEW_NOTE : null,
       reviewedAt: userAutoApproved ? updatedAt : null,
-      authorLabel: identity.ownerScope === "nextclaw" ? "NextClaw" : (actor.username ?? "unknown"),
+      authorLabel: identity.ownerScope === "go-usb-ai" ? "GoUsbAi" : (actor.username ?? "unknown"),
       install: {
         kind: "marketplace",
         spec: identity.packageName,
-        command: `nextclaw skills install ${identity.packageName}`
+        command: `go-usb-ai skills install ${identity.packageName}`
       }
     };
   };

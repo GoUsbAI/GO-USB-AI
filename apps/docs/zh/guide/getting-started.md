@@ -1,10 +1,10 @@
 # 快速开始
 
-这一页只做一件事：让你用最短路径确认 NextClaw 能跑、能打开、能得到一次可用回复。
+这一页只做一件事：让你用最短路径确认 GoUsbAi 能跑、能打开、能得到一次可用回复。
 
 ## 1. 准备 Node.js
 
-NextClaw 的 NPM 安装方式需要 Node.js 和 npm。
+GoUsbAi 的 NPM 安装方式需要 Node.js 和 npm。
 
 ```bash
 node -v
@@ -13,10 +13,10 @@ npm -v
 
 如果命令不存在，先安装 Node.js LTS 版本，然后重新打开终端。
 
-## 2. 安装 NextClaw
+## 2. 安装 GoUsbAi
 
 ```bash
-npm i -g nextclaw
+npm i -g go-usb-ai
 ```
 
 这一步只安装 CLI，不会自动注册开机自启动。
@@ -24,7 +24,7 @@ npm i -g nextclaw
 ## 3. 启动服务
 
 ```bash
-nextclaw start
+go-usb-ai start
 ```
 
 启动后打开：
@@ -56,9 +56,9 @@ http://127.0.0.1:55667
 ## 常用检查命令
 
 ```bash
-nextclaw status
-nextclaw doctor
-nextclaw stop
+go-usb-ai status
+go-usb-ai doctor
+go-usb-ai stop
 ```
 
 更完整的命令说明见 [命令索引](/zh/guide/commands)。

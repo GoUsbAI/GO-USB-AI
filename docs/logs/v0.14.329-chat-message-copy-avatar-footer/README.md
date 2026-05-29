@@ -9,9 +9,9 @@
 
 ## 测试/验证/验收方式
 
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui test -- chat-message-list.test.tsx`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui tsc`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui lint`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui test -- chat-message-list.test.tsx`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui tsc`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui lint`
 
 ## 发布/部署方式
 

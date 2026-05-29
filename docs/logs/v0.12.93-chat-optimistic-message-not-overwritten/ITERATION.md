@@ -8,8 +8,8 @@
   - `chat-page-runtime.ts` 的 `useMergedEvents`：同样加入“message 优先”合并策略，防止 optimistic user event 被无消息事件顶掉。
 
 ## 测试/验证/验收方式
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc --noEmit`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/chat-stream/stream-run-controller.ts src/components/chat/chat-page-runtime.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc --noEmit`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/chat-stream/stream-run-controller.ts src/components/chat/chat-page-runtime.ts`
 - `PATH=/opt/homebrew/bin:$PATH pnpm build:ui`
 
 ## 发布/部署方式

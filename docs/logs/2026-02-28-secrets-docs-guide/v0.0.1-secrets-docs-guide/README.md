@@ -21,7 +21,7 @@
 PATH=/opt/homebrew/bin:$PATH pnpm build
 PATH=/opt/homebrew/bin:$PATH pnpm lint
 PATH=/opt/homebrew/bin:$PATH pnpm tsc
-PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/docs build
+PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/docs build
 ```
 
 文档冒烟检查：

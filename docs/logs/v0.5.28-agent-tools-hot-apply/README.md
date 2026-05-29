@@ -20,16 +20,16 @@
   - 运行中的网关在修改 `agents.defaults.maxTokens` / `agents.defaults.temperature` 后会立即生效，无需重启。
   - 运行中的网关在修改 `tools.web.search.*`、`tools.exec.*`、`tools.restrictToWorkspace` 后会立即生效，无需重启。
 - 关键实现点：
-  - `packages/nextclaw-core/src/config/reload.ts`
+  - `packages/go-usb-ai-core/src/config/reload.ts`
     - 将 `agents.defaults.maxTokens`、`agents.defaults.temperature`、`tools` 从 `restart-required` 调整为 `reload-agent`。
-  - `packages/nextclaw-core/src/agent/loop.ts`
+  - `packages/go-usb-ai-core/src/agent/loop.ts`
     - `applyRuntimeConfig` 增加 `maxTokens/temperature` 运行时更新。
     - 新增 `refreshRuntimeTools()`，在 tools 配置更新后重建默认工具与扩展工具注册。
     - 主 agent 的 provider `chat(...)` 请求增加 `maxTokens/temperature` 透传。
-  - `packages/nextclaw-core/src/agent/subagent.ts`
+  - `packages/go-usb-ai-core/src/agent/subagent.ts`
     - 子代理运行时选项增加 `maxTokens/temperature`。
     - 子代理 provider `chat(...)` 请求增加 `maxTokens/temperature` 透传。
-  - `packages/nextclaw/src/cli/runtime.ts`
+  - `packages/go-usb-ai/src/cli/runtime.ts`
     - 创建 `AgentLoop` 时补齐 `model/maxIterations/maxTokens/temperature` 初始化参数。
     - `config set/unset` 改为按 `diffConfigPaths + buildReloadPlan` 判定，仅在命中 `restart-required` 时才触发重启。
 
@@ -42,20 +42,20 @@ export NVM_DIR="$HOME/.nvm"
 nvm use default
 
 # 静态验证
-pnpm -C packages/nextclaw-core build
-pnpm -C packages/nextclaw-core lint
-pnpm -C packages/nextclaw-core tsc
-pnpm -C packages/nextclaw build
-pnpm -C packages/nextclaw lint
-pnpm -C packages/nextclaw tsc
+pnpm -C packages/go-usb-ai-core build
+pnpm -C packages/go-usb-ai-core lint
+pnpm -C packages/go-usb-ai-core tsc
+pnpm -C packages/go-usb-ai build
+pnpm -C packages/go-usb-ai lint
+pnpm -C packages/go-usb-ai tsc
 ```
 
 建议冒烟（隔离目录）：
 
 ```bash
-export NEXTCLAW_HOME="$(mktemp -d /tmp/nextclaw-smoke-XXXXXX)"
-node packages/nextclaw/dist/cli/index.js init --force
-node packages/nextclaw/dist/cli/index.js start --ui-host 127.0.0.1 --ui-port 19891
+export GOUSB_AI_HOME="$(mktemp -d /tmp/go-usb-ai-smoke-XXXXXX)"
+node packages/go-usb-ai/dist/cli/index.js init --force
+node packages/go-usb-ai/dist/cli/index.js start --ui-host 127.0.0.1 --ui-port 19891
 
 # 通过 UI 或 config set 修改：
 # 1) agents.defaults.maxTokens
@@ -63,7 +63,7 @@ node packages/nextclaw/dist/cli/index.js start --ui-host 127.0.0.1 --ui-port 198
 # 3) tools.web.search.apiKey / tools.exec.timeout / tools.restrictToWorkspace
 # 观察日志出现：Config reload: agent defaults applied.
 
-node packages/nextclaw/dist/cli/index.js stop
+node packages/go-usb-ai/dist/cli/index.js stop
 ```
 
 验收点：

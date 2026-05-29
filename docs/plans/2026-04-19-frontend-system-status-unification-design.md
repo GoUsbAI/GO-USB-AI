@@ -1,6 +1,6 @@
 # 前端系统状态统一收口设计
 
-**Goal:** 为 `packages/nextclaw-ui` 建立一个唯一的“系统状态” owner，把前端与后端交互相关的全局运行状态统一收口到同一个 `manager + store` 中，避免聊天页、布局入口、runtime control、传输层与查询层各自持有一份局部解释。
+**Goal:** 为 `packages/go-usb-ai-ui` 建立一个唯一的“系统状态” owner，把前端与后端交互相关的全局运行状态统一收口到同一个 `manager + store` 中，避免聊天页、布局入口、runtime control、传输层与查询层各自持有一份局部解释。
 
 **Scope:** 本次设计只覆盖“前端与后端交互所形成的系统级状态”，包括 runtime bootstrap、连接与恢复、传输失败、服务管理状态、全局可用性与面向用户的系统状态文案。聊天输入草稿、局部 loading、hover、popover 开关、某个卡片的局部 busy 态、消息列表滚动位置等纯 UI/局部业务状态，不属于本次统一范围。
 
@@ -12,7 +12,7 @@
 
 ## 与产品愿景的关系
 
-这次整改不是单纯的前端整理，而是在补 NextClaw 作为“个人操作层”的一个基础能力：系统必须先知道自己当前是否可用、卡在哪里、是否正在恢复、服务是否需要管理动作，用户才能通过统一入口自然地理解并掌控系统。
+这次整改不是单纯的前端整理，而是在补 GoUsbAi 作为“个人操作层”的一个基础能力：系统必须先知道自己当前是否可用、卡在哪里、是否正在恢复、服务是否需要管理动作，用户才能通过统一入口自然地理解并掌控系统。
 
 如果系统状态散落在聊天页、配置页、布局入口和底层 transport 各处，那么：
 
@@ -30,9 +30,9 @@
 
 当前 `runtime-lifecycle/` 已经具备一个较清晰的 manager/store 雏形：
 
-- `packages/nextclaw-ui/src/runtime-lifecycle/runtime-lifecycle.manager.ts`
-- `packages/nextclaw-ui/src/runtime-lifecycle/runtime-lifecycle.store.ts`
-- `packages/nextclaw-ui/src/runtime-lifecycle/hooks/use-runtime-lifecycle-status.ts`
+- `packages/go-usb-ai-ui/src/runtime-lifecycle/runtime-lifecycle.manager.ts`
+- `packages/go-usb-ai-ui/src/runtime-lifecycle/runtime-lifecycle.store.ts`
+- `packages/go-usb-ai-ui/src/runtime-lifecycle/hooks/use-runtime-lifecycle-status.ts`
 
 它已经在统一解释以下事实：
 
@@ -64,10 +64,10 @@
 
 当前 `NcpChatPage` 会先读取 `useRuntimeLifecycleStatus()`，再把结果同步到聊天 store：
 
-- `packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page.tsx`
-- `packages/nextclaw-ui/src/components/chat/ncp/page/ncp-chat-derived-state.ts`
-- `packages/nextclaw-ui/src/components/chat/stores/chat-input.store.ts`
-- `packages/nextclaw-ui/src/components/chat/stores/chat-thread.store.ts`
+- `packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ncp/page/ncp-chat-derived-state.ts`
+- `packages/go-usb-ai-ui/src/components/chat/stores/chat-input.store.ts`
+- `packages/go-usb-ai-ui/src/components/chat/stores/chat-thread.store.ts`
 
 `chatRuntimeBlocked` 和 `chatRuntimeMessage` 这两个字段，本质上不是聊天领域自己的状态，而是系统状态在聊天页的镜像副本。
 
@@ -81,10 +81,10 @@
 
 当前 runtime management 相关能力来自另一条完全独立的链路：
 
-- `packages/nextclaw-ui/src/runtime-control/runtime-control.manager.ts`
-- `packages/nextclaw-ui/src/hooks/use-runtime-control.ts`
-- `packages/nextclaw-ui/src/components/config/runtime-control-card.tsx`
-- `packages/nextclaw-ui/src/components/layout/runtime-status-entry.tsx`
+- `packages/go-usb-ai-ui/src/runtime-control/runtime-control.manager.ts`
+- `packages/go-usb-ai-ui/src/hooks/use-runtime-control.ts`
+- `packages/go-usb-ai-ui/src/components/config/runtime-control-card.tsx`
+- `packages/go-usb-ai-ui/src/components/layout/runtime-status-entry.tsx`
 
 这一组代码持有的是：
 
@@ -231,7 +231,7 @@
 新增顶层 feature root：
 
 ```text
-packages/nextclaw-ui/src/system-status/
+packages/go-usb-ai-ui/src/system-status/
 ├── system-status.types.ts
 ├── system-status.store.ts
 ├── system-status.manager.ts
@@ -525,4 +525,4 @@ selector 只能做派生，不应偷偷持有独立状态。
 - 把 runtime control 也并入同一个系统状态领域
 - 让所有消费方只读统一 selector，而不是自己再拼一版
 
-这条路径比继续局部修修补补更符合长期方向，也更符合 NextClaw 作为统一入口、自感知系统与自治控制面的产品目标。
+这条路径比继续局部修修补补更符合长期方向，也更符合 GoUsbAi 作为统一入口、自感知系统与自治控制面的产品目标。

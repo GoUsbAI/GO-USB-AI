@@ -9,11 +9,11 @@
 
 ## 测试/验证/验收方式
 
-- 运行：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/core test -- src/agent/context.test.ts src/agent/tools/cron.test.ts`
+- 运行：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/core test -- src/agent/context.test.ts src/agent/tools/cron.test.ts`
 - 结果：通过，`2` 个测试文件、`13` 个测试用例全部通过。
 - 运行：`PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard`
 - 结果：未通过，但失败原因为仓库中其它未提交改动触发的目录预算守卫：
-  `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list`
+  `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list`
   与本次 `cron` 提示改动无直接关联。
 
 ## 发布/部署方式

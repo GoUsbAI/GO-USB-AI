@@ -1,4 +1,4 @@
-# NextClaw 24h Curated Change Report
+# GoUsbAi 24h Curated Change Report
 
 ## Window
 
@@ -26,11 +26,11 @@ This 24-hour cycle is not just a routine patch pass. It shows a clear product di
 
 ### Key improvements in this cycle
 
-- Reworked git-skill install path inside NextClaw service flow.
+- Reworked git-skill install path inside GoUsbAi service flow.
 - Added two-stage install strategy:
   - Fast path: `git sparse-checkout` when `git` exists.
   - Fallback path: GitHub HTTP recursive download when `git` is unavailable.
-- Standardized target directory to workspace `skills/` for NextClaw-native behavior.
+- Standardized target directory to workspace `skills/` for GoUsbAi-native behavior.
 - Added regression tests covering fallback behavior and install/uninstall path expectations.
 - Completed smoke verification under isolated temp workspace with `git` intentionally unavailable.
 
@@ -48,7 +48,7 @@ This 24-hour cycle is not just a routine patch pass. It shows a clear product di
 
 ### Key improvements in this cycle
 
-- Explicitly reinforced: version lookup should use `nextclaw --version`.
+- Explicitly reinforced: version lookup should use `go-usb-ai --version`.
 - Aligned docs and self-management skill guidance to avoid intent misrouting.
 - Added diagnostics/status test coverage for expected command behavior.
 - Updated usage/troubleshooting docs in both Chinese and English.
@@ -62,9 +62,9 @@ This 24-hour cycle is not just a routine patch pass. It shows a clear product di
 
 Within this 24-hour window, release-related actions formed a full chain:
 
-- `nextclaw` package progressed to `0.9.13` and is now the npm `latest`.
+- `go-usb-ai` package progressed to `0.9.13` and is now the npm `latest`.
 - Release metadata/changelog were updated in sync with package versions.
-- GitHub release for `nextclaw@0.9.13` was published/updated with bilingual notes.
+- GitHub release for `go-usb-ai@0.9.13` was published/updated with bilingual notes.
 
 This means the above improvements are not only in-repo; they are externally consumable.
 
@@ -73,7 +73,7 @@ This means the above improvements are not only in-repo; they are externally cons
 Two governance updates reduce future delivery noise:
 
 - `docs/logs` semver naming is now enforced as globally monotonic.
-- Cross-platform-first rule was added for NextClaw CLI/install/service flows.
+- Cross-platform-first rule was added for GoUsbAi CLI/install/service flows.
 
 These changes reduce repeat mistakes and force platform-awareness earlier in implementation.
 
@@ -102,7 +102,7 @@ These changes reduce repeat mistakes and force platform-awareness earlier in imp
 ## Appendix: Representative Commits in Window
 
 - `2f190d1` feat: improve marketplace skill install fallback and status guidance
-- `09af0a9` chore(release): publish nextclaw 0.9.13
+- `09af0a9` chore(release): publish go-usb-ai 0.9.13
 - `b65c54e` docs: add iteration log for status exit behavior
 - `1a555ee` docs: enforce monotonic log versions
 

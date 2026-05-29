@@ -1,4 +1,4 @@
-# NextClaw UI API 设计（Phase 1）
+# GoUsbAi UI API 设计（Phase 1）
 
 本文件提供 UI 与后端协作的详细接口定义与类型约定。
 
@@ -89,7 +89,7 @@ export type ConfigMetaView = {
 
 ## 配置 Schema（Phase 1）
 
-来源：`packages/nextclaw/src/config/schema.ts`。以下为 UI 常用字段结构。
+来源：`packages/go-usb-ai/src/config/schema.ts`。以下为 UI 常用字段结构。
 
 ```ts
 export type AgentDefaults = {

@@ -16,7 +16,7 @@
 pnpm build
 pnpm lint
 pnpm tsc
-pnpm --filter @nextclaw/ui build
+pnpm --filter @go-usb-ai/ui build
 ```
 
 验收点：
@@ -33,7 +33,7 @@ pnpm --filter @nextclaw/ui build
 
 ## 用户/产品视角的验收步骤
 
-1. 执行 `nextclaw start`，进入 UI 的 Providers 页面。
+1. 执行 `go-usb-ai start`，进入 UI 的 Providers 页面。
 2. 随机选择一个 provider，故意填错配置（如无效 key 或错误 apiBase）。
 3. 点击「测试连接」。
 4. 预期：错误提示包含更具体上下文（至少含状态/接口信息或 provider/latency），可直接据此定位问题。

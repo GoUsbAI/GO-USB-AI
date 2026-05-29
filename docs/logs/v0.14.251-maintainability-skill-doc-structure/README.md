@@ -10,7 +10,7 @@
 
 相关文档：
 
-- [post-edit-maintainability-guard skill](/Users/tongwenwen/Projects/Peiiii/nextclaw/.codex/skills/post-edit-maintainability-guard/SKILL.md)
+- [post-edit-maintainability-guard skill](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/.codex/skills/post-edit-maintainability-guard/SKILL.md)
 
 ## 测试/验证/验收方式
 

@@ -25,17 +25,17 @@
   - `pnpm -C apps/desktop exec node --test dist/src/services/desktop-bundle-bootstrap.service.test.js`
   - `pnpm -C apps/desktop exec node --test dist/src/launcher/__tests__/launcher-foundation.test.js`
   - `pnpm -C apps/desktop exec node --test dist/src/services/desktop-update-source.service.test.js`
-  - `codesign --verify --deep --strict --verbose=4 apps/desktop/release/mac-arm64/NextClaw\ Desktop.app`
-  - `codesign --verify --deep --strict --verbose=2 /Applications/NextClaw\ Desktop.app`
+  - `codesign --verify --deep --strict --verbose=4 apps/desktop/release/mac-arm64/GoUsbAi\ Desktop.app`
+  - `codesign --verify --deep --strict --verbose=2 /Applications/GoUsbAi\ Desktop.app`
   - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs`
   - `pnpm check:governance-backlog-ratchet`
 - 真实数据目录恢复验证：
-  - 通过 `DesktopBundleBootstrapService` 指向 `/Users/peiwang/Library/Application Support/@nextclaw/desktop` 重放 packaged seed bootstrap，确认 previously quarantined `0.19.6` 可以在新 launcher 指纹下重试并完成安装。
+  - 通过 `DesktopBundleBootstrapService` 指向 `/Users/peiwang/Library/Application Support/@go-usb-ai/desktop` 重放 packaged seed bootstrap，确认 previously quarantined `0.19.6` 可以在新 launcher 指纹下重试并完成安装。
   - 验证 staging 根目录为空，不再残留或继续生成 `.trash-staging-.trash-*` 长路径。
   - 启动真实 `0.19.6` runtime 后，`/api/health` 返回 `ncpAgent: ready` 与 `cronService: ready`。
-  - `pnpm smoke:ncp-chat -- --session-type native --model deepseek/deepseek-v4-flash --base-url http://127.0.0.1:18999 --prompt "Reply exactly NEXTCLAW_DESKTOP_SMOKE_OK" --timeout-ms 120000 --json` 返回 `ok: true`，assistant 回复 `NEXTCLAW_DESKTOP_SMOKE_OK`。
-  - `NEXTCLAW_DESKTOP_SMOKE_PROFILE=real bash apps/desktop/scripts/smoke-macos-dmg.sh "apps/desktop/release/NextClaw Desktop-0.0.162-arm64.dmg" 120` 通过：从 DMG 临时安装，真实数据目录启动，GUI ready 用时约 10088ms，health URL 为 `http://127.0.0.1:52395/api/health`，日志出现 `ready-to-show`、`did-finish-load`、`Bundle version marked healthy: 0.19.6`。
-  - GUI-launched runtime AI smoke 通过：启动 release `.app` 后发现 runtime port `52820`，`/api/health` 返回 ok，`pnpm --silent smoke:ncp-chat -- --session-type native --model deepseek/deepseek-v4-flash --base-url http://127.0.0.1:52820 --prompt "Reply exactly NEXTCLAW_DESKTOP_GUI_AI_OK" --timeout-ms 120000 --json` 返回 `ok: true`，assistant 回复 `NEXTCLAW_DESKTOP_GUI_AI_OK`，耗时约 3551ms。
+  - `pnpm smoke:ncp-chat -- --session-type native --model deepseek/deepseek-v4-flash --base-url http://127.0.0.1:18999 --prompt "Reply exactly GOUSB_AI_DESKTOP_SMOKE_OK" --timeout-ms 120000 --json` 返回 `ok: true`，assistant 回复 `GOUSB_AI_DESKTOP_SMOKE_OK`。
+  - `GOUSB_AI_DESKTOP_SMOKE_PROFILE=real bash apps/desktop/scripts/smoke-macos-dmg.sh "apps/desktop/release/GoUsbAi Desktop-0.0.162-arm64.dmg" 120` 通过：从 DMG 临时安装，真实数据目录启动，GUI ready 用时约 10088ms，health URL 为 `http://127.0.0.1:52395/api/health`，日志出现 `ready-to-show`、`did-finish-load`、`Bundle version marked healthy: 0.19.6`。
+  - GUI-launched runtime AI smoke 通过：启动 release `.app` 后发现 runtime port `52820`，`/api/health` 返回 ok，`pnpm --silent smoke:ncp-chat -- --session-type native --model deepseek/deepseek-v4-flash --base-url http://127.0.0.1:52820 --prompt "Reply exactly GOUSB_AI_DESKTOP_GUI_AI_OK" --timeout-ms 120000 --json` 返回 `ok: true`，assistant 回复 `GOUSB_AI_DESKTOP_GUI_AI_OK`，耗时约 3551ms。
 - 打包验证：
   - `env CSC_IDENTITY_AUTO_DISCOVERY=false NODE_OPTIONS=--max-old-space-size=4096 pnpm -C apps/desktop dist -- --mac dmg --arm64 --publish never`
   - 产物大小：DMG 约 131M，mac zip 约 126M，seed bundle 约 20M。
@@ -52,9 +52,9 @@
 
 - 本轮只生成本地 macOS arm64 验证产物，未创建 GitHub release，未发布 update channel。
 - 本地产物：
-  - `apps/desktop/release/NextClaw Desktop-0.0.162-arm64.dmg`
-  - `apps/desktop/release/mac-arm64/NextClaw Desktop.app`
-  - `apps/desktop/release/NextClaw Desktop-0.0.162-arm64-mac.zip`
+  - `apps/desktop/release/GoUsbAi Desktop-0.0.162-arm64.dmg`
+  - `apps/desktop/release/mac-arm64/GoUsbAi Desktop.app`
+  - `apps/desktop/release/GoUsbAi Desktop-0.0.162-arm64-mac.zip`
 
 ## 用户/产品视角的验收步骤
 
@@ -75,7 +75,7 @@
 - 删除了不再使用的 `@electron/osx-sign` 直接依赖。
 - 删除了 DMG GUI smoke 里的 `ELECTRON_RUN_AS_NODE` fallback 诊断，避免 fallback 成功被误读为 GUI 启动成功；GUI smoke 现在只对真实窗口、renderer load、health 与日志负责。
 - 维护性 guard 已通过，无 error；剩余 warnings 主要来自历史目录/文件预算和本轮未触达的 UI 改动。
-- `pnpm lint:new-code:governance` 当前仍被无关已存在/并行改动阻塞：`packages/nextclaw-ui/src/features/marketplace/components/marketplace-curated-module-state.ts` 的 React effect 规则。该文件不属于本轮桌面修复范围。
+- `pnpm lint:new-code:governance` 当前仍被无关已存在/并行改动阻塞：`packages/go-usb-ai-ui/src/features/marketplace/components/marketplace-curated-module-state.ts` 的 React effect 规则。该文件不属于本轮桌面修复范围。
 
 ## 机制沉淀
 

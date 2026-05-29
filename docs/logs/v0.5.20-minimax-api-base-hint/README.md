@@ -39,7 +39,7 @@ pnpm release:version
 pnpm release:publish
 ```
 
-影响包：`nextclaw-core`、`nextclaw`。
+影响包：`go-usb-ai-core`、`go-usb-ai`。
 
 ## 影响范围 / 风险
 

@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-- 新增 ESLint 自定义规则 `nextclaw/no-file-directory-basename-collision`，禁止同级同时出现 `xxx.ts/tsx/js` 与 `xxx/` 这类基名冲突结构。
+- 新增 ESLint 自定义规则 `go-usb-ai/no-file-directory-basename-collision`，禁止同级同时出现 `xxx.ts/tsx/js` 与 `xxx/` 这类基名冲突结构。
 - 新增 `scripts/lint-new-code-file-directory-collisions.mjs`，把同一条治理语义接入 `pnpm lint:new-code:governance`，确保维护性门槛在 diff-only 守卫里也能阻断新增冲突。
 - 将 `scripts/` 一并纳入根 ESLint 匹配与增量治理采集范围，避免治理机制只覆盖 `apps/packages/workers` 而在仓库根脚本层留下后门。
 - 将当前仓库 10 处历史冲突收敛为一份集中豁免名单，只允许历史债务显式存在，不允许继续新增同类目录结构债务。

@@ -5,9 +5,9 @@
 - 新增输入法保护：仅在 `!nativeEvent.isComposing` 时触发关闭，避免中文输入法组合态误触。
 
 ## 测试/验证/验收方式
-- `pnpm -C packages/nextclaw-ui tsc`：通过。
-- `pnpm -C packages/nextclaw-ui build`：通过。
-- `pnpm -C packages/nextclaw-ui lint`：未通过；仓库已有错误（`useChatStreamController.ts`、`MaskedInput.tsx`），非本次改动引入。
+- `pnpm -C packages/go-usb-ai-ui tsc`：通过。
+- `pnpm -C packages/go-usb-ai-ui build`：通过。
+- `pnpm -C packages/go-usb-ai-ui lint`：未通过；仓库已有错误（`useChatStreamController.ts`、`MaskedInput.tsx`），非本次改动引入。
 
 ## 发布/部署方式
 - 本次属于前端 UI 交互修复，按既有前端发布流程发布即可。

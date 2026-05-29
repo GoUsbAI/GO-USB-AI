@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "nextclaw.starter-card",
+  "id": "go-usb-ai.starter-card",
   "name": "Starter Card",
   "version": "0.1.0",
   "description": "A minimal starter app card that runs locally and demonstrates the host bridge action loop.",

@@ -17,14 +17,14 @@
   - 自定义 Provider 的名称编辑框回到主表单。
   - `Wire API Mode` 仅在展开“高级设置”后显示。
 - 关键实现点：
-  - `packages/nextclaw-ui/src/components/config/ProviderForm.tsx`
+  - `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx`
 
 ## 测试 / 验证 / 验收方式
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc
 ```
 
 验收点：
@@ -42,7 +42,7 @@ PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc
 
 ## 发布 / 部署方式
 
-- 本次变更仅影响 `@nextclaw/ui`（以及携带 UI 产物的 `nextclaw`）。
+- 本次变更仅影响 `@go-usb-ai/ui`（以及携带 UI 产物的 `go-usb-ai`）。
 - 按发布流程执行：`docs/workflows/npm-release-process.md`。
 
 ## 影响范围 / 风险

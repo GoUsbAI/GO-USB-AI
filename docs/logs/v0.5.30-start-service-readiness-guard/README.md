@@ -2,7 +2,7 @@
 
 ## 背景 / 问题
 
-- VPS 上执行 `nextclaw start` 后无法访问 UI；执行 `nextclaw stop` 提示：`Service is not running. Cleaning up state.`
+- VPS 上执行 `go-usb-ai start` 后无法访问 UI；执行 `go-usb-ai stop` 提示：`Service is not running. Cleaning up state.`
 - 远程日志显示两类问题：
   - 后台启动参数仍使用 `--ui-host`，但当前 CLI 已移除该参数，导致子进程直接退出。
   - 主进程未验证子进程是否真正就绪，就写入 `service.json`，产生“假启动 + 脏状态”。
@@ -15,9 +15,9 @@
 
 ## 变更内容
 
-- `packages/nextclaw/src/cli/utils.ts`
+- `packages/go-usb-ai/src/cli/utils.ts`
   - `buildServeArgs` 改为只传 `--ui-port`。
-- `packages/nextclaw/src/cli/runtime.ts`
+- `packages/go-usb-ai/src/cli/runtime.ts`
   - `startService` 增加 `waitForBackgroundServiceReady` 探测。
   - 探测通过条件：
     - 子进程 PID 持续存活。
@@ -32,19 +32,19 @@ export NVM_DIR="$HOME/.nvm"
 . "$NVM_DIR/nvm.sh"
 nvm use default
 
-pnpm -C packages/nextclaw build
-pnpm -C packages/nextclaw lint
-pnpm -C packages/nextclaw tsc
+pnpm -C packages/go-usb-ai build
+pnpm -C packages/go-usb-ai lint
+pnpm -C packages/go-usb-ai tsc
 ```
 
 冒烟 1（正常路径）：
 
 ```bash
-export NEXTCLAW_HOME="$(mktemp -d /tmp/nextclaw-startfix-XXXXXX)"
-node packages/nextclaw/dist/cli/index.js init --force
-node packages/nextclaw/dist/cli/index.js start --ui-port 19995
+export GOUSB_AI_HOME="$(mktemp -d /tmp/go-usb-ai-startfix-XXXXXX)"
+node packages/go-usb-ai/dist/cli/index.js init --force
+node packages/go-usb-ai/dist/cli/index.js start --ui-port 19995
 curl http://127.0.0.1:19995/api/health
-node packages/nextclaw/dist/cli/index.js stop
+node packages/go-usb-ai/dist/cli/index.js stop
 ```
 
 验收点：
@@ -57,9 +57,9 @@ node packages/nextclaw/dist/cli/index.js stop
 # 先占用端口 19996
 node -e "require('http').createServer((req,res)=>res.end('busy')).listen(19996,'127.0.0.1'); setInterval(()=>{},1000);"
 
-export NEXTCLAW_HOME="$(mktemp -d /tmp/nextclaw-startfix-fail-XXXXXX)"
-node packages/nextclaw/dist/cli/index.js init --force
-node packages/nextclaw/dist/cli/index.js start --ui-port 19996
+export GOUSB_AI_HOME="$(mktemp -d /tmp/go-usb-ai-startfix-fail-XXXXXX)"
+node packages/go-usb-ai/dist/cli/index.js init --force
+node packages/go-usb-ai/dist/cli/index.js start --ui-port 19996
 ```
 
 验收点：

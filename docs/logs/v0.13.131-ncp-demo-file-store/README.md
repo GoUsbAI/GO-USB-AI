@@ -25,7 +25,7 @@
 
 ## 发布/部署方式
 
-- 本次仅影响 `apps/ncp-demo/backend` 的 demo 组装层，无 `@nextclaw/ncp-toolkit` 公共库改动。
+- 本次仅影响 `apps/ncp-demo/backend` 的 demo 组装层，无 `@go-usb-ai/ncp-toolkit` 公共库改动。
 - 常规部署方式不变：按现有 demo backend 流程启动即可，必要时通过 `NCP_DEMO_STORE_DIR` 指定持久化目录。
 
 ## 用户/产品视角的验收步骤

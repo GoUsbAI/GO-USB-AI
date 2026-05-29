@@ -9,15 +9,15 @@
 
 关键文件：
 
-- `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
 
 ## 测试 / 验证 / 验收方式
 
 已执行：
 
-- `pnpm -C packages/nextclaw-ui exec eslint src/components/chat/ChatPage.tsx`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui build`
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/ChatPage.tsx`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui build`
 
 结果：
 

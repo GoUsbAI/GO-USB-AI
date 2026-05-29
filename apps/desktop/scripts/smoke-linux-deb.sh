@@ -32,17 +32,17 @@ docker run --rm \
     apt-get install -y /artifacts/${DEB_NAME}
     PACKAGE_NAME=\$(dpkg-deb -f /artifacts/${DEB_NAME} Package)
     PACKAGE_VERSION=\$(dpkg-deb -f /artifacts/${DEB_NAME} Version)
-    if [ \"\${PACKAGE_NAME}\" != \"nextclaw-desktop\" ]; then
+    if [ \"\${PACKAGE_NAME}\" != \"go-usb-ai-desktop\" ]; then
       echo \"unexpected deb package name: \${PACKAGE_NAME}\" >&2
       exit 1
     fi
-    INSTALLED_VERSION=\$(dpkg-query -W -f='\${Version}' nextclaw-desktop)
+    INSTALLED_VERSION=\$(dpkg-query -W -f='\${Version}' go-usb-ai-desktop)
     if [ \"\${INSTALLED_VERSION}\" != \"\${PACKAGE_VERSION}\" ]; then
       echo \"installed version \${INSTALLED_VERSION} does not match package version \${PACKAGE_VERSION}\" >&2
       exit 1
     fi
-    dpkg -s nextclaw-desktop >/tmp/nextclaw-desktop.status
-    apt-get remove -y nextclaw-desktop
+    dpkg -s go-usb-ai-desktop >/tmp/go-usb-ai-desktop.status
+    apt-get remove -y go-usb-ai-desktop
   "
 
 echo "[desktop-smoke] deb install/remove passed"

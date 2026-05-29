@@ -1,11 +1,11 @@
 ---
 title: Project Overview
-description: Follow NextClaw's public project pulse, vision, roadmap, release notes, and community entry points.
+description: Follow GoUsbAi's public project pulse, vision, roadmap, release notes, and community entry points.
 ---
 
 # Project Overview
 
-This section is not the operating manual for using NextClaw. It is the public information layer for understanding the project itself:
+This section is not the operating manual for using GoUsbAi. It is the public information layer for understanding the project itself:
 
 - where it is heading
 - what it has been shipping recently
@@ -21,7 +21,7 @@ If you are here to get value quickly, start with:
 ## What each page is for
 
 - [Project Pulse](/en/project/project-pulse): the public dashboard for shipping rhythm, code growth, release cadence, and automated screenshots.
-- [Vision](/en/project/vision): what NextClaw is trying to become over the long term.
+- [Vision](/en/project/vision): what GoUsbAi is trying to become over the long term.
 - [Roadmap](/en/project/roadmap): current priorities and next-stage directions.
 - [Release Notes](/en/project/release-notes): recent public updates written from user value first.
 - [Community](/en/project/community): GitHub, notes, blog, and follow-up entry points.

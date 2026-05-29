@@ -3,32 +3,32 @@
 ## 迭代完成说明（改了什么）
 
 - 在文档站新增移动端体验更新记录，并在讨论后将公开笔记收敛为更面向用户的版本：
-  - [中文更新笔记](/Users/tongwenwen/Projects/Peiiii/nextclaw/apps/docs/zh/notes/2026-04-26-mobile-experience-update.md)
-  - [英文更新笔记](/Users/tongwenwen/Projects/Peiiii/nextclaw/apps/docs/en/notes/2026-04-26-mobile-experience-update.md)
+  - [中文更新笔记](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/apps/docs/zh/notes/2026-04-26-mobile-experience-update.md)
+  - [英文更新笔记](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/apps/docs/en/notes/2026-04-26-mobile-experience-update.md)
 - 更新中英文 `Notes` 总览页，将 2026-04-26 移动端更新放到最新位置。
 - 更新 VitePress 中英文 notes sidebar，让用户能从文档站侧边栏直接看到这条新记录。
 - 重新生成 Project Pulse 数据，让 `latestNoteDate` 与近期产品笔记列表包含本次移动端更新记录。
-- 本次记录的产品重点是：让用户看到 NextClaw 移动端体验正在持续推进，并明确“已部署后用手机浏览器直接访问即可体验”，避免把公开笔记写成内部发布清单、包版本说明或 QA 验收步骤。
+- 本次记录的产品重点是：让用户看到 GoUsbAi 移动端体验正在持续推进，并明确“已部署后用手机浏览器直接访问即可体验”，避免把公开笔记写成内部发布清单、包版本说明或 QA 验收步骤。
 
 ## 测试/验证/验收方式
 
 - 已通过：`pnpm docs:i18n:check`
   - 结果：`OK: 39 mirrored markdown pages in en/ and zh/`。
-- 已通过：`pnpm --filter @nextclaw/docs build`
+- 已通过：`pnpm --filter @go-usb-ai/docs build`
   - 结果：Project Pulse 数据生成成功，VitePress client / server bundle 构建与页面渲染完成。
   - 构建过程中保留 VitePress 既有 chunk size warning；不影响本次页面生成。
 - 已执行：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths apps/docs/.vitepress/config.ts`
   - 结果：`Maintainability check not applicable: no changed code-like files found.`。
 - 已通过线上冒烟：
-  - `curl -L --silent --show-error https://74de41ec.nextclaw-docs.pages.dev/zh/notes/2026-04-26-mobile-experience-update | rg "手机端访问更顺手|聊天列表|已部署|NextClaw"`
-  - `curl -L --silent --show-error https://74de41ec.nextclaw-docs.pages.dev/en/notes/2026-04-26-mobile-experience-update | rg "NextClaw Feels Better on Mobile|mobile browser|session list|NextClaw"`
+  - `curl -L --silent --show-error https://74de41ec.go-usb-ai-docs.pages.dev/zh/notes/2026-04-26-mobile-experience-update | rg "手机端访问更顺手|聊天列表|已部署|GoUsbAi"`
+  - `curl -L --silent --show-error https://74de41ec.go-usb-ai-docs.pages.dev/en/notes/2026-04-26-mobile-experience-update | rg "GoUsbAi Feels Better on Mobile|mobile browser|session list|GoUsbAi"`
   - 结果：中英文线上页面均可见，标题、侧边栏和正文内容已更新。
 
 ## 发布/部署方式
 
 - 已执行线上部署：`pnpm deploy:docs`。
-- 部署目标：Cloudflare Pages `nextclaw-docs`，branch `master`。
-- 部署地址：https://74de41ec.nextclaw-docs.pages.dev
+- 部署目标：Cloudflare Pages `go-usb-ai-docs`，branch `master`。
+- 部署地址：https://74de41ec.go-usb-ai-docs.pages.dev
 - 部署过程中保留 Wrangler 的 uncommitted changes warning，原因是当前工作区存在本次文档改动及其它未关联改动；部署命令已完成上传与发布。
 - 本次未创建 NPM changeset，也不涉及 NPM 包版本发布。
 

@@ -4,7 +4,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 
 const DEFAULT_OUTPUT_PATH = "build/update-bundle-public.pem";
-const DEFAULT_PUBLISHED_PUBLIC_KEY_URL = "https://Peiiii.github.io/nextclaw/desktop-updates/update-bundle-public.pem";
+const DEFAULT_PUBLISHED_PUBLIC_KEY_URL = "https://Peiiii.github.io/go-usb-ai/desktop-updates/update-bundle-public.pem";
 
 function parseArgs(argv) {
   const args = {};
@@ -44,11 +44,11 @@ function resolveOutputPath(args) {
 }
 
 function readInlinePrivateKey(args) {
-  return args["private-key"]?.trim() || process.env.NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY?.trim() || "";
+  return args["private-key"]?.trim() || process.env.GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY?.trim() || "";
 }
 
 function readPrivateKeyFile(args) {
-  return args["private-key-file"]?.trim() || process.env.NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY_FILE?.trim() || "";
+  return args["private-key-file"]?.trim() || process.env.GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY_FILE?.trim() || "";
 }
 
 function resolvePrivateKey(args) {

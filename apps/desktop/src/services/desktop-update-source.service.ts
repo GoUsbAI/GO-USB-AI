@@ -117,7 +117,7 @@ export class DesktopUpdateSourceService {
   }
 
   resolveChannel = (): DesktopReleaseChannel => {
-    const envChannel = normalizeOptionalString(this.env.NEXTCLAW_DESKTOP_UPDATE_CHANNEL);
+    const envChannel = normalizeOptionalString(this.env.GOUSB_AI_DESKTOP_UPDATE_CHANNEL);
     if (envChannel) {
       return normalizeDesktopReleaseChannel(envChannel);
     }
@@ -128,11 +128,11 @@ export class DesktopUpdateSourceService {
   };
 
   resolveManifestUrl = async (): Promise<string | null> => {
-    const explicitManifestUrl = normalizeOptionalString(this.env.NEXTCLAW_DESKTOP_UPDATE_MANIFEST_URL);
+    const explicitManifestUrl = normalizeOptionalString(this.env.GOUSB_AI_DESKTOP_UPDATE_MANIFEST_URL);
     if (explicitManifestUrl) {
       return explicitManifestUrl;
     }
-    const explicitManifestBaseUrl = normalizeOptionalString(this.env.NEXTCLAW_DESKTOP_UPDATE_MANIFEST_BASE_URL);
+    const explicitManifestBaseUrl = normalizeOptionalString(this.env.GOUSB_AI_DESKTOP_UPDATE_MANIFEST_BASE_URL);
     if (explicitManifestBaseUrl) {
       return this.buildChannelManifestUrlFromBaseUrl(explicitManifestBaseUrl, this.resolveChannel());
     }

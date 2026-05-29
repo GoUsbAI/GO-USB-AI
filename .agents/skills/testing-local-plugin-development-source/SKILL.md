@@ -1,6 +1,6 @@
 ---
 name: testing-local-plugin-development-source
-description: Use when a local NextClaw plugin in this repo needs to be loaded from source for frontend or backend verification without publishing a new package version
+description: Use when a local GoUsbAi plugin in this repo needs to be loaded from source for frontend or backend verification without publishing a new package version
 ---
 
 # Testing Local Plugin Development Source
@@ -11,7 +11,7 @@ Use the generic local plugin dev command as the unified base path for unpublishe
 
 This command handles the shared bootstrapping work:
 
-- isolated `NEXTCLAW_HOME`
+- isolated `GOUSB_AI_HOME`
 - local linked plugin install
 - `plugins.entries.<id>.source` selection
 - local source-mode service startup
@@ -33,8 +33,8 @@ pnpm dev:plugin:local -- --plugin-path ./packages/extensions/<plugin-dir> --fron
 ## Quick Reference
 
 ```bash
-pnpm dev:plugin:local -- --plugin-path ./packages/extensions/nextclaw-channel-plugin-discord --frontend
-pnpm dev:plugin:local -- --plugin-path ./packages/extensions/nextclaw-channel-plugin-slack
+pnpm dev:plugin:local -- --plugin-path ./packages/extensions/go-usb-ai-channel-plugin-discord --frontend
+pnpm dev:plugin:local -- --plugin-path ./packages/extensions/go-usb-ai-channel-plugin-slack
 ```
 
 ## Notes

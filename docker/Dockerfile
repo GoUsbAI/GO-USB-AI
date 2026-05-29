@@ -12,22 +12,22 @@ COPY packages ./packages
 
 RUN pnpm install --frozen-lockfile
 
-RUN pnpm -C packages/nextclaw-core build \
-  && pnpm -C packages/ncp-packages/nextclaw-ncp build \
-  && pnpm -C packages/nextclaw-runtime build \
-  && pnpm -C packages/extensions/nextclaw-channel-runtime build \
-  && pnpm -C packages/extensions/nextclaw-engine-plugin-codex-sdk build \
-  && pnpm -C packages/extensions/nextclaw-engine-plugin-claude-agent-sdk build \
-  && pnpm -C packages/nextclaw-openclaw-compat build \
-  && pnpm -C packages/nextclaw-server build \
-  && pnpm -C packages/nextclaw-agent-chat build \
-  && pnpm -C packages/nextclaw-ui build \
-  && pnpm -C packages/nextclaw build
+RUN pnpm -C packages/go-usb-ai-core build \
+  && pnpm -C packages/ncp-packages/go-usb-ai-ncp build \
+  && pnpm -C packages/go-usb-ai-runtime build \
+  && pnpm -C packages/extensions/go-usb-ai-channel-runtime build \
+  && pnpm -C packages/extensions/go-usb-ai-engine-plugin-codex-sdk build \
+  && pnpm -C packages/extensions/go-usb-ai-engine-plugin-claude-agent-sdk build \
+  && pnpm -C packages/go-usb-ai-openclaw-compat build \
+  && pnpm -C packages/go-usb-ai-server build \
+  && pnpm -C packages/go-usb-ai-agent-chat build \
+  && pnpm -C packages/go-usb-ai-ui build \
+  && pnpm -C packages/go-usb-ai build
 
-ENV NEXTCLAW_HOME=/data
-ENV NEXTCLAW_UI_PORT=55667
+ENV GOUSB_AI_HOME=/data
+ENV GOUSB_AI_UI_PORT=55667
 
 VOLUME ["/data"]
 EXPOSE 18790 55667
 
-CMD ["sh", "-lc", "node /app/packages/nextclaw/dist/cli/index.js serve --ui-port ${NEXTCLAW_UI_PORT:-55667}"]
+CMD ["sh", "-lc", "node /app/packages/go-usb-ai/dist/cli/index.js serve --ui-port ${GOUSB_AI_UI_PORT:-55667}"]

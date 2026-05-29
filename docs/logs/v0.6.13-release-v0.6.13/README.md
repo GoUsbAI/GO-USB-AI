@@ -6,13 +6,13 @@
 
 ## 发布范围
 
-- `nextclaw@0.6.13`
-- `@nextclaw/core@0.6.11`
+- `go-usb-ai@0.6.13`
+- `@go-usb-ai/core@0.6.11`
 
 未发布（版本未变更）：
-- `@nextclaw/openclaw-compat@0.1.5`
-- `@nextclaw/server@0.4.2`
-- `@nextclaw/ui@0.3.9`
+- `@go-usb-ai/openclaw-compat@0.1.5`
+- `@go-usb-ai/server@0.4.2`
+- `@go-usb-ai/ui@0.3.9`
 
 ## 执行记录
 
@@ -25,7 +25,7 @@ pnpm release:publish
 
 - `build/lint/tsc` 通过（仅既有 warning）。
 - `/tmp` 冒烟通过：
-  - `pnpm -C packages/nextclaw exec tsx /tmp/nextclaw-restart-ai-wake-smoke.ts`
+  - `pnpm -C packages/go-usb-ai exec tsx /tmp/go-usb-ai-restart-ai-wake-smoke.ts`
 - 本机真实 Discord E2E 通过：
   - 重启后会话写入系统唤醒消息；
   - AI 生成并发出重启完成回复（非固定模板直发）。

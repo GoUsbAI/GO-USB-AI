@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-- 新增远程实例分享落地方案设计文档：[NextClaw Remote Instance Sharing Design](../../plans/2026-03-22-nextclaw-remote-instance-sharing-design.md)
+- 新增远程实例分享落地方案设计文档：[GoUsbAi Remote Instance Sharing Design](../../plans/2026-03-22-go-usb-ai-remote-instance-sharing-design.md)
 - 将对外主术语从 `device` 收敛为 `instance`
 - 明确当前阶段只做三类核心对象：`instance`、`share-grant`、`access-session`
 - 明确访问模型采用“分享 URL + 访问会话 URL”双层结构，而不是固定实例域名
@@ -24,7 +24,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开设计文档：[NextClaw Remote Instance Sharing Design](../../plans/2026-03-22-nextclaw-remote-instance-sharing-design.md)
+1. 打开设计文档：[GoUsbAi Remote Instance Sharing Design](../../plans/2026-03-22-go-usb-ai-remote-instance-sharing-design.md)
 2. 确认产品术语已从“设备”切换为“实例”
 3. 确认方案支持“同一浏览器同时访问多个远程实例”
 4. 确认方案支持“通过分享 URL 让其他人访问实例”

@@ -123,7 +123,7 @@ export function resolveSkillIdentity(
   const packageName = input.packageName ?? derivePackageNameFromActor(derivedSkillName, actor);
   const parsedPackage = parsePackageName(packageName, "body.packageName");
 
-  if (parsedPackage.ownerScope === "nextclaw") {
+  if (parsedPackage.ownerScope === "go-usb-ai") {
     if (actor.role !== "admin") {
       throw new DomainValidationError("official scope publishing requires admin permission");
     }
@@ -160,7 +160,7 @@ export function assertExistingSkillOwnership(
   if (existing.package_name !== next.packageName || existing.owner_scope !== next.ownerScope || existing.skill_name !== next.skillName) {
     throw new DomainValidationError("existing skill identity does not match requested package");
   }
-  if (next.ownerScope === "nextclaw") {
+  if (next.ownerScope === "go-usb-ai") {
     if (actor.role !== "admin") {
       throw new DomainValidationError("official scope publishing requires admin permission");
     }
@@ -256,7 +256,7 @@ function deriveSlugFromPackageName(packageName: string | undefined): string | nu
 
 function derivePackageNameFromActor(skillName: string, actor: MarketplaceSkillPublishActor): string {
   if (actor.role === "admin" && actor.authType === "admin_token") {
-    return `@nextclaw/${skillName}`;
+    return `@go-usb-ai/${skillName}`;
   }
   if (!actor.username) {
     throw new DomainValidationError("username is required before publishing skills");

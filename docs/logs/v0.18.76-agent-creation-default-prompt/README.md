@@ -8,13 +8,13 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --dir packages/nextclaw-ui exec eslint src/features/agents/components/agents-page.tsx src/features/agents/components/agents-page.test.tsx`：通过。
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/features/agents/components/agents-page.tsx packages/nextclaw-ui/src/features/agents/components/agents-page.test.tsx`：通过，0 errors / 0 warnings。
+- `pnpm --dir packages/go-usb-ai-ui exec eslint src/features/agents/components/agents-page.tsx src/features/agents/components/agents-page.test.tsx`：通过。
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/features/agents/components/agents-page.tsx packages/go-usb-ai-ui/src/features/agents/components/agents-page.test.tsx`：通过，0 errors / 0 warnings。
 - `pnpm lint:new-code:governance`：通过。
 - `pnpm check:governance-backlog-ratchet`：通过。
-- `pnpm --filter @nextclaw/ui test -- agents-page.test.tsx`：未通过，原因是当前工作区无关的 `nextclaw-ncp-toolkit` agent 文件路径状态导致 Vite 无法解析 `agent-conversation-state-manager.js`。
-- `pnpm --filter @nextclaw/ui tsc`：未通过，原因是当前工作区无关的 `use-ncp-agent-runtime.test.tsx` 仍引用不存在的 `agent-conversation-state-manager.ts` 路径。
-- `pnpm --filter @nextclaw/ui lint -- ...`：该命令触发包级全量 lint，暴露已有无关 lint 债务；随后已补跑 touched-file ESLint 并通过。
+- `pnpm --filter @go-usb-ai/ui test -- agents-page.test.tsx`：未通过，原因是当前工作区无关的 `go-usb-ai-ncp-toolkit` agent 文件路径状态导致 Vite 无法解析 `agent-conversation-state-manager.js`。
+- `pnpm --filter @go-usb-ai/ui tsc`：未通过，原因是当前工作区无关的 `use-ncp-agent-runtime.test.tsx` 仍引用不存在的 `agent-conversation-state-manager.ts` 路径。
+- `pnpm --filter @go-usb-ai/ui lint -- ...`：该命令触发包级全量 lint，暴露已有无关 lint 债务；随后已补跑 touched-file ESLint 并通过。
 
 ## 发布/部署方式
 

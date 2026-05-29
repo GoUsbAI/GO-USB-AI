@@ -5,21 +5,21 @@
 - UI 路由改为懒加载：`/model`、`/providers`、`/channels`、`/runtime`、`/sessions`、`/cron`、`/marketplace` 全部通过 `React.lazy + Suspense` 按路由加载。
 - 保持现有路由结构不变，仅调整加载策略，避免一次性下载全部页面逻辑。
 - Vite 构建启用 `splitVendorChunkPlugin`，将 vendor 代码与入口代码拆分，降低首屏入口包体积。
-- UI 服务端开启 gzip 压缩（`packages/nextclaw-server/src/ui/server.ts`），减少弱网下静态资源传输体积与耗时。
+- UI 服务端开启 gzip 压缩（`packages/go-usb-ai-server/src/ui/server.ts`），减少弱网下静态资源传输体积与耗时。
 - 关键文件：
-- `packages/nextclaw-ui/src/App.tsx`
-- `packages/nextclaw-ui/vite.config.ts`
-- `packages/nextclaw-ui/src/components/layout/AppLayout.tsx`
-- `packages/nextclaw-server/src/ui/server.ts`
+- `packages/go-usb-ai-ui/src/App.tsx`
+- `packages/go-usb-ai-ui/vite.config.ts`
+- `packages/go-usb-ai-ui/src/components/layout/AppLayout.tsx`
+- `packages/go-usb-ai-server/src/ui/server.ts`
 
 ## 测试 / 验证 / 验收方式
 
 - 构建：
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 - TypeScript：
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
 - 代码检查：
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
 - 结果：
 - `build`、`tsc` 通过。
 - `lint` 存在既有问题（`CronConfig.tsx`、`SessionsConfig.tsx` 的 `PageBody` 未使用），本次未新增 lint error。
@@ -33,8 +33,8 @@
 - 本次改动包含 UI 服务静态资源压缩策略调整（gzip），无数据库变更。
 - 远程 migration：不适用。
 - 发布方式：
-- 按既有流程发布包含最新 `@nextclaw/ui` 产物的 `nextclaw` 包。
-- 测试环境可通过更新包后重启 `nextclaw` 完成生效。
+- 按既有流程发布包含最新 `@go-usb-ai/ui` 产物的 `go-usb-ai` 包。
+- 测试环境可通过更新包后重启 `go-usb-ai` 完成生效。
 
 ## 用户 / 产品视角的验收步骤
 

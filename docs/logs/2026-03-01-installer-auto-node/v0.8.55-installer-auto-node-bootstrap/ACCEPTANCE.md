@@ -6,13 +6,13 @@
 
 ## 步骤
 
-1. 下载并双击安装 `NextClaw-*-macos-*-installer.pkg`。
-2. 打开 `/Applications/NextClaw/Start NextClaw.command`。
+1. 下载并双击安装 `GoUsbAi-*-macos-*-installer.pkg`。
+2. 打开 `/Applications/GoUsbAi/Start GoUsbAi.command`。
 3. 观察首次启动：
    - 若系统无 Node，会看到自动安装 Node 的提示。
-   - 安装完成后自动继续启动 NextClaw。
+   - 安装完成后自动继续启动 GoUsbAi。
 4. 浏览器应自动打开 `http://127.0.0.1:18791`。
-5. 在终端执行 `/Applications/NextClaw/nextclaw --help`，确认命令可运行。
+5. 在终端执行 `/Applications/GoUsbAi/go-usb-ai --help`，确认命令可运行。
 6. 执行一次依赖 npm/npx 的能力（如 skill/plugin 安装），确认无需用户手动先装 Node。
 
 ## 通过标准

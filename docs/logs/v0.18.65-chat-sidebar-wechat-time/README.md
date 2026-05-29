@@ -12,11 +12,11 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui test -- src/features/chat/utils/chat-session-display.utils.test.ts`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui lint`
+- `pnpm -C packages/go-usb-ai-ui test -- src/features/chat/utils/chat-session-display.utils.test.ts`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui lint`
   - 该命令被既有无关 ESLint 错误阻塞。
-- `pnpm -C packages/nextclaw-ui exec eslint src/features/chat/utils/chat-session-display.utils.ts src/features/chat/utils/chat-session-display.utils.test.ts src/features/chat/components/chat-sidebar-session-item.tsx`
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/features/chat/utils/chat-session-display.utils.ts src/features/chat/utils/chat-session-display.utils.test.ts src/features/chat/components/chat-sidebar-session-item.tsx`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`

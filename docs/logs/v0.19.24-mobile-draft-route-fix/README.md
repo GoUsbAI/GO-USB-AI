@@ -8,14 +8,14 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui test -- src/features/chat/managers/chat-session-list.manager.test.ts src/features/chat/components/layout/chat-sidebar.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/utils/chat-session-route.utils.test.ts`
-- `pnpm --filter @nextclaw/ui exec eslint src/features/chat/managers/chat-session-list.manager.ts src/features/chat/managers/chat-ui.manager.ts src/features/chat/components/layout/chat-sidebar.tsx src/features/chat/components/conversation/chat-conversation-panel.tsx src/features/chat/utils/chat-session-route.utils.ts src/features/chat/managers/chat-session-list.manager.test.ts src/features/chat/components/layout/chat-sidebar.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/utils/chat-session-route.utils.test.ts`
-- `pnpm --filter @nextclaw/ui tsc`
+- `pnpm --filter @go-usb-ai/ui test -- src/features/chat/managers/chat-session-list.manager.test.ts src/features/chat/components/layout/chat-sidebar.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/utils/chat-session-route.utils.test.ts`
+- `pnpm --filter @go-usb-ai/ui exec eslint src/features/chat/managers/chat-session-list.manager.ts src/features/chat/managers/chat-ui.manager.ts src/features/chat/components/layout/chat-sidebar.tsx src/features/chat/components/conversation/chat-conversation-panel.tsx src/features/chat/utils/chat-session-route.utils.ts src/features/chat/managers/chat-session-list.manager.test.ts src/features/chat/components/layout/chat-sidebar.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/utils/chat-session-route.utils.test.ts`
+- `pnpm --filter @go-usb-ai/ui tsc`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths ...`
-- Playwright 窄宽冒烟：`420x700` 下点击移动端 New Task，确认路径进入 `/chat/draft`，列表底部导航隐藏，draft 欢迎页与 `Message NextClaw...` 输入框出现。
-- 已知无关阻塞：`pnpm --filter @nextclaw/ui lint` 仍被既有无关错误阻塞，包括未使用 import、历史 `import()` type annotation 与既有 React refs 规则问题；本次触达文件 targeted ESLint 已通过。
+- Playwright 窄宽冒烟：`420x700` 下点击移动端 New Task，确认路径进入 `/chat/draft`，列表底部导航隐藏，draft 欢迎页与 `Message GoUsbAi...` 输入框出现。
+- 已知无关阻塞：`pnpm --filter @go-usb-ai/ui lint` 仍被既有无关错误阻塞，包括未使用 import、历史 `import()` type annotation 与既有 React refs 规则问题；本次触达文件 targeted ESLint 已通过。
 
 ## 发布/部署方式
 

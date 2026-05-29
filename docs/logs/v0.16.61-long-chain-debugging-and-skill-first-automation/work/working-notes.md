@@ -76,8 +76,8 @@
 - 只有内容明显分叉或膨胀时才拆更多 `work/*.md`
 - 当前迭代 `README.md` 必须显式链接 `work/working-notes.md`
 - `long-chain-debugging` 需要显式知道这条机制存在，并在长时间排查时建议配合使用
-- 新增代码质量前置 skill 名称定为 `nextclaw-clean-implementation`
-- 通过一条很薄的 `Project Rulebook` 规则 `nextclaw-clean-implementation-required` 自动接入
+- 新增代码质量前置 skill 名称定为 `go-usb-ai-clean-implementation`
+- 通过一条很薄的 `Project Rulebook` 规则 `go-usb-ai-clean-implementation-required` 自动接入
 - 对纯 bugfix / 纯重构 / 纯非功能改动，新增硬门槛：`非测试代码净增 <= 0`
 - 这条门槛同时接到：
   - `AGENTS.md` 的 `/validate`
@@ -86,7 +86,7 @@
   - `AGENTS.md` 的 `post-edit-maintainability-review-required`
   - `code-review` skill
   - `post-edit-maintainability-review` skill
-  - `nextclaw-clean-implementation` skill
+  - `go-usb-ai-clean-implementation` skill
 - 自动化落地策略：
   - 不让脚本猜“这次是不是非功能改动”，因为这类猜测不稳定且容易误判
   - 改为给 `post-edit-maintainability-guard` 增加显式 `--non-feature` 模式
@@ -99,7 +99,7 @@
   - 工作笔记是否真的帮助跨轮接手
   - `working-notes.md` 是否足够轻，不会迅速长成重模板
   - 是否出现新的稳定拆分模式，再决定是否补更多示例
-  - `nextclaw-clean-implementation` 是否真的能把垃圾代码风险前移，而不是仍然主要靠收尾 review 才暴露
+  - `go-usb-ai-clean-implementation` 是否真的能把垃圾代码风险前移，而不是仍然主要靠收尾 review 才暴露
   - “纯 bugfix / 重构非测试代码净增即失败”是否能真正把非功能改动压回删减和简化路径，而不是继续靠解释放行
   - `post-edit-maintainability-guard --non-feature` 是否足够顺手，是否还需要后续再补一个更稳定的项目脚本别名
 

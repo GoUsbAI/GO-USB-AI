@@ -12,12 +12,12 @@
 
 # 测试/验证/验收方式
 
-- 插件构建：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk build`
-- 插件类型检查：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk tsc`
-- Claude NCP 端到端测试：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/create-ui-ncp-agent.claude.test.ts`
-- UI 适配器测试：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- --run src/components/chat/adapters/chat-input-bar.adapter.test.ts`
-- UI 类型检查：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-- 本机配置实测（隔离 `NEXTCLAW_HOME` + repo 宿主链路）：
+- 插件构建：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk build`
+- 插件类型检查：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk tsc`
+- Claude NCP 端到端测试：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/create-ui-ncp-agent.claude.test.ts`
+- UI 适配器测试：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- --run src/components/chat/adapters/chat-input-bar.adapter.test.ts`
+- UI 类型检查：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+- 本机配置实测（隔离 `GOUSB_AI_HOME` + repo 宿主链路）：
   - 先前原始候选集里：
     - `openai/gpt-5.3-codex`
     - `openai/gpt-5.4`
@@ -42,8 +42,8 @@
 
 # 发布/部署方式
 
-- 本次仓库改动完成后，按常规包发布流程发布 `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk`，并确保 Claude runtime 相关包版本联动。
-- 若需要让外部已安装实例获得同样行为，需升级到包含本次修复的 Claude runtime plugin 版本；旧的全局 `nextclaw 0.6.15` 宿主与当前 NCP runtime plugin 协议并不同代，不应作为本次修复的承载宿主。
+- 本次仓库改动完成后，按常规包发布流程发布 `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk`，并确保 Claude runtime 相关包版本联动。
+- 若需要让外部已安装实例获得同样行为，需升级到包含本次修复的 Claude runtime plugin 版本；旧的全局 `go-usb-ai 0.6.15` 宿主与当前 NCP runtime plugin 协议并不同代，不应作为本次修复的承载宿主。
 - 发布后建议补一次真实配置冒烟，确认 Claude 会话的模型列表与推荐模型仍保持“默认开放”契约。
 
 # 用户/产品视角的验收步骤

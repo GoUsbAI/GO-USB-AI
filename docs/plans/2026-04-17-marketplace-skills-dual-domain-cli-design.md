@@ -2,11 +2,11 @@
 
 ## 背景
 
-当前 `NextClaw` 的 skill CLI 只覆盖：
+当前 `GoUsbAi` 的 skill CLI 只覆盖：
 
-- `nextclaw skills install <slug>`
-- `nextclaw skills publish <dir>`
-- `nextclaw skills update <dir>`
+- `go-usb-ai skills install <slug>`
+- `go-usb-ai skills publish <dir>`
+- `go-usb-ai skills update <dir>`
 
 这导致 AI 在 self-management 场景下只能“已知 slug 后安装”，但无法通过正式 CLI 区分并查询：
 
@@ -22,17 +22,17 @@
 - 已安装域：回答“当前实例已经具备哪些 skill”
 - Marketplace 域：回答“远端目录里有哪些 skill 值得发现、查看、推荐、安装”
 
-如果继续复用模糊的 `nextclaw skills list`，AI 和用户都会混淆“本地状态”与“远端目录”。因此本次不做模糊聚合，而是采用双域模型。
+如果继续复用模糊的 `go-usb-ai skills list`，AI 和用户都会混淆“本地状态”与“远端目录”。因此本次不做模糊聚合，而是采用双域模型。
 
 ## 方案比较
 
-### 方案 A：继续扩展 `nextclaw skills *`
+### 方案 A：继续扩展 `go-usb-ai skills *`
 
 示例：
 
-- `nextclaw skills list`
-- `nextclaw skills search`
-- `nextclaw skills info`
+- `go-usb-ai skills list`
+- `go-usb-ai skills search`
+- `go-usb-ai skills info`
 
 优点：
 
@@ -48,12 +48,12 @@
 
 示例：
 
-- `nextclaw skills installed`
-- `nextclaw skills info <selector>`
-- `nextclaw marketplace skills search`
-- `nextclaw marketplace skills info <slug>`
-- `nextclaw marketplace skills recommend`
-- `nextclaw marketplace skills install <slug>`
+- `go-usb-ai skills installed`
+- `go-usb-ai skills info <selector>`
+- `go-usb-ai marketplace skills search`
+- `go-usb-ai marketplace skills info <slug>`
+- `go-usb-ai marketplace skills recommend`
+- `go-usb-ai marketplace skills install <slug>`
 
 优点：
 
@@ -67,14 +67,14 @@
 
 ### 结论
 
-采用方案 B，并保留现有 `nextclaw skills install <slug>` 作为兼容入口，但在文档与 self-management guide 中把 `nextclaw marketplace skills install <slug>` 设为更清晰的推荐路径。
+采用方案 B，并保留现有 `go-usb-ai skills install <slug>` 作为兼容入口，但在文档与 self-management guide 中把 `go-usb-ai marketplace skills install <slug>` 设为更清晰的推荐路径。
 
 ## 命令设计
 
 ### 已安装域
 
-- `nextclaw skills installed [--workdir <dir>] [--scope <all|builtin|project|workspace>] [--query <text>] [--json]`
-- `nextclaw skills info <selector> [--workdir <dir>] [--json]`
+- `go-usb-ai skills installed [--workdir <dir>] [--scope <all|builtin|project|workspace>] [--query <text>] [--json]`
+- `go-usb-ai skills info <selector> [--workdir <dir>] [--json]`
 
 说明：
 
@@ -83,10 +83,10 @@
 
 ### Marketplace 域
 
-- `nextclaw marketplace skills search [--query <text>] [--tag <tag>] [--sort <relevance|updated>] [--page <n>] [--page-size <n>] [--api-base <url>] [--json]`
-- `nextclaw marketplace skills info <slug> [--api-base <url>] [--json]`
-- `nextclaw marketplace skills recommend [--scene <scene>] [--limit <n>] [--api-base <url>] [--json]`
-- `nextclaw marketplace skills install <slug> [--api-base <url>] [--workdir <dir>] [--dir <dir>] [--force]`
+- `go-usb-ai marketplace skills search [--query <text>] [--tag <tag>] [--sort <relevance|updated>] [--page <n>] [--page-size <n>] [--api-base <url>] [--json]`
+- `go-usb-ai marketplace skills info <slug> [--api-base <url>] [--json]`
+- `go-usb-ai marketplace skills recommend [--scene <scene>] [--limit <n>] [--api-base <url>] [--json]`
+- `go-usb-ai marketplace skills install <slug> [--api-base <url>] [--workdir <dir>] [--dir <dir>] [--force]`
 
 说明：
 
@@ -141,8 +141,8 @@
 - CLI 命令注册
 - CLI 自管理运行时入口
 - `docs/USAGE.md`
-- `packages/nextclaw/resources/USAGE.md`
-- `packages/nextclaw-core/src/agent/skills/nextclaw-self-manage/SKILL.md`
+- `packages/go-usb-ai/resources/USAGE.md`
+- `packages/go-usb-ai-core/src/agent/skills/go-usb-ai-self-manage/SKILL.md`
 - 相关测试
 
 ## 验证
@@ -153,8 +153,8 @@
    - 本地 installed / info
    - marketplace search / info / recommend
 2. CLI 冒烟：
-   - `nextclaw skills installed --json`
-   - `nextclaw marketplace skills search --json`
+   - `go-usb-ai skills installed --json`
+   - `go-usb-ai marketplace skills search --json`
 3. 治理校验：
    - `pnpm lint:maintainability:guard`
    - 受影响包测试 / lint / tsc 最小集
@@ -163,7 +163,7 @@
 
 若后续验证该双域模型稳定，可继续把同一模式扩展到：
 
-- `nextclaw marketplace plugins *`
-- `nextclaw marketplace mcp *`
+- `go-usb-ai marketplace plugins *`
+- `go-usb-ai marketplace mcp *`
 
 届时 `marketplace` 可作为统一远端生态入口，而 `skills / plugins / mcp` 各自保留本地已安装与运行态管理入口。

@@ -6,12 +6,12 @@
 
 主要改动：
 
-1. 在 `@nextclaw/server` 挂载独立的并行 NCP 路由：
+1. 在 `@go-usb-ai/server` 挂载独立的并行 NCP 路由：
    - `/api/ncp/agent/send`
    - `/api/ncp/agent/stream`
    - `/api/ncp/agent/abort`
    - `/api/ncp/sessions/*`
-2. 在 `nextclaw` 内新增独立 NCP backend 组装，不复用 legacy chat runtime 编排。
+2. 在 `go-usb-ai` 内新增独立 NCP backend 组装，不复用 legacy chat runtime 编排。
 3. 新增基于现有 `SessionManager` 的 `AgentSessionStore` adapter，让 NCP backend 直接读写现有 session 存储。
 4. 新增基于现有 `ProviderManager` 的 NCP LLM bridge，让 NCP runtime 走当前 provider 配置。
 5. 新增服务端路由测试，覆盖新的并行 NCP agent/session API。
@@ -25,13 +25,13 @@
 已执行：
 
 1. `PATH=/opt/homebrew/bin:$PATH pnpm install`
-2. `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server tsc`
-3. `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw tsc`
-4. `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server lint`
-5. `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw lint`
-6. `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server build`
-7. `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw build`
-8. `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server test -- --run src/ui/router.ncp-agent.test.ts`
+2. `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server tsc`
+3. `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai tsc`
+4. `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server lint`
+5. `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai lint`
+6. `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server build`
+7. `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai build`
+8. `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server test -- --run src/ui/router.ncp-agent.test.ts`
 
 结果：
 
@@ -45,13 +45,13 @@
 
 部署方式：
 
-1. 按现有 `nextclaw`/`@nextclaw/server` 发布流程发布受影响包
+1. 按现有 `go-usb-ai`/`@go-usb-ai/server` 发布流程发布受影响包
 2. 启动 UI server 后，新并行 NCP 路由会随服务一起提供
 3. 当前默认用户链路仍是 legacy；本阶段主要用于为下一阶段前端切换接入做准备
 
 ## 用户/产品视角的验收步骤
 
-1. 启动当前 NextClaw UI 服务
+1. 启动当前 GoUsbAi UI 服务
 2. 访问 `GET /api/ncp/sessions`，确认能看到现有 session 列表
 3. 访问 `GET /api/ncp/sessions/:sessionId/messages`，确认能读取已有会话历史
 4. 调用 `POST /api/ncp/agent/send` 发送一条用户消息，确认 NCP agent 链路能返回流式事件

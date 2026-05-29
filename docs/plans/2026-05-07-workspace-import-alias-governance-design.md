@@ -4,7 +4,7 @@
 
 ## 1. 结论
 
-NextClaw workspace 的 import alias 采用三档策略：
+GoUsbAi workspace 的 import alias 采用三档策略：
 
 ```text
 App / 最终入口包：允许继续使用 @/*
@@ -17,23 +17,23 @@ App / 最终入口包：允许继续使用 @/*
 核心判断：
 
 - `@/*` 的语义是“当前应用的 src root”，适合 app，不适合会被其它包源码消费的 library。
-- 跨包公开引用永远走 package name，例如 `@nextclaw/kernel`。
+- 跨包公开引用永远走 package name，例如 `@go-usb-ai/kernel`。
 - 包内 alias 如果确实需要，必须全仓唯一、短、登记过，并且只允许该包内部使用。
 - 简单 library 不强制 alias。能用清楚的相对路径，就不要造别名。
 
 ## 2. 背景
 
-这次 `@nextclaw/kernel` 被多个包通过源码 path 消费后，暴露出一个路径解析问题：
+这次 `@go-usb-ai/kernel` 被多个包通过源码 path 消费后，暴露出一个路径解析问题：
 
 ```json
 {
   "paths": {
-    "@nextclaw/kernel": ["../nextclaw-kernel/src/index.ts"]
+    "@go-usb-ai/kernel": ["../go-usb-ai-kernel/src/index.ts"]
   }
 }
 ```
 
-当 consumer 包直接编译 `nextclaw-kernel/src/index.ts` 时，kernel 内部如果继续写：
+当 consumer 包直接编译 `go-usb-ai-kernel/src/index.ts` 时，kernel 内部如果继续写：
 
 ```ts
 import type { UpdateSnapshot } from "@/types/update.types.js";
@@ -63,7 +63,7 @@ Node 的 `package.json#imports` 是标准机制，但本仓库不把它作为第
 
 适用对象：
 
-- `packages/nextclaw-ui`
+- `packages/go-usb-ai-ui`
 - `apps/desktop`
 - `apps/platform-console`
 - `apps/platform-admin`
@@ -124,7 +124,7 @@ import type { Foo } from "@some-long-package-name/types/foo.types.js";
 
 命名原则：
 
-- 短，避免 `@nextclaw-very-long-package-name/*`。
+- 短，避免 `@go-usb-ai-very-long-package-name/*`。
 - 全仓唯一，不能两个包都叫同一个 alias。
 - 能表达 package owner，不表达任意目录。
 - 只允许包内使用，不是跨包公开 API。
@@ -144,7 +144,7 @@ import type { Foo } from "../types/foo.types.js";
 import type { UpdateSnapshot } from "@kernel/types/update.types.js";
 
 // 跨包公开引用
-import { nextclaw, eventKeys } from "@nextclaw/kernel";
+import { go-usb-ai, eventKeys } from "@go-usb-ai/kernel";
 ```
 
 禁止：
@@ -157,7 +157,7 @@ import type { UpdateSnapshot } from "@/types/update.types.js";
 import { EventBus } from "@kernel/events/event-bus.service.js";
 
 // 跨包引用别人的 src 内部路径
-import { EventBus } from "@nextclaw/kernel/src/events/event-bus.service.js";
+import { EventBus } from "@go-usb-ai/kernel/src/events/event-bus.service.js";
 ```
 
 ## 6. Consumer tsconfig 规则
@@ -167,7 +167,7 @@ import { EventBus } from "@nextclaw/kernel/src/events/event-bus.service.js";
 ```json
 {
   "paths": {
-    "@nextclaw/kernel": ["../nextclaw-kernel/src/index.ts"]
+    "@go-usb-ai/kernel": ["../go-usb-ai-kernel/src/index.ts"]
   }
 }
 ```
@@ -177,8 +177,8 @@ import { EventBus } from "@nextclaw/kernel/src/events/event-bus.service.js";
 ```json
 {
   "paths": {
-    "@nextclaw/kernel": ["../nextclaw-kernel/src/index.ts"],
-    "@kernel/*": ["../nextclaw-kernel/src/*"]
+    "@go-usb-ai/kernel": ["../go-usb-ai-kernel/src/index.ts"],
+    "@kernel/*": ["../go-usb-ai-kernel/src/*"]
   }
 }
 ```
@@ -189,39 +189,39 @@ import { EventBus } from "@nextclaw/kernel/src/events/event-bus.service.js";
 
 本轮不只处理一个包，而是处理当前扫描中明显违反规则、且能低风险一次性收敛的范围。
 
-### 7.1 登记 `@nextclaw/kernel`
+### 7.1 登记 `@go-usb-ai/kernel`
 
-`@nextclaw/kernel` 登记短 alias：
+`@go-usb-ai/kernel` 登记短 alias：
 
 ```text
-packages/nextclaw-kernel -> @kernel/*
+packages/go-usb-ai-kernel -> @kernel/*
 ```
 
 原因：
 
 - 它是基础 library。
-- 它会被 `nextclaw-server`、`nextclaw-client-sdk`、`nextclaw-ui`、`nextclaw` 等多个包源码消费。
+- 它会被 `go-usb-ai-server`、`go-usb-ai-client-sdk`、`go-usb-ai-ui`、`go-usb-ai` 等多个包源码消费。
 - 当前问题正是由 kernel 内部 alias 归属不清导致。
 - 它的内部结构已经足够稳定，适合登记短 alias。
 
 改动范围：
 
-- `packages/nextclaw-kernel/tsconfig.json`
-- `packages/nextclaw-kernel/module-structure.config.json`
-- `packages/nextclaw-kernel/src/**/*.ts`
+- `packages/go-usb-ai-kernel/tsconfig.json`
+- `packages/go-usb-ai-kernel/module-structure.config.json`
+- `packages/go-usb-ai-kernel/src/**/*.ts`
 - 消费 kernel 源码的 workspace 包 tsconfig：
   - `apps/desktop`
-  - `packages/nextclaw`
-  - `packages/nextclaw-remote`
-  - `packages/nextclaw-server`
-  - `packages/nextclaw-ui`
+  - `packages/go-usb-ai`
+  - `packages/go-usb-ai-remote`
+  - `packages/go-usb-ai-server`
+  - `packages/go-usb-ai-ui`
 - 必要的 Vite / Vitest alias 配置：
-  - `packages/nextclaw-ui`
-  - `packages/nextclaw`
+  - `packages/go-usb-ai-ui`
+  - `packages/go-usb-ai`
 
-### 7.2 清理 `@nextclaw/agent-chat-ui`
+### 7.2 清理 `@go-usb-ai/agent-chat-ui`
 
-`@nextclaw/agent-chat-ui` 是被 `@nextclaw/ui` 源码消费的 reusable library。
+`@go-usb-ai/agent-chat-ui` 是被 `@go-usb-ai/ui` 源码消费的 reusable library。
 
 扫描结果显示：
 
@@ -242,8 +242,8 @@ packages/nextclaw-kernel -> @kernel/*
 
 本轮保留以下 `@/*`：
 
-- `packages/nextclaw-ui`：UI app layer，`@/*` 表达当前 UI `src` root。
-- `packages/nextclaw`：CLI / NPM 产品入口包，属于最终运行入口，不作为 reusable source library 被其它包消费。
+- `packages/go-usb-ai-ui`：UI app layer，`@/*` 表达当前 UI `src` root。
+- `packages/go-usb-ai`：CLI / NPM 产品入口包，属于最终运行入口，不作为 reusable source library 被其它包消费。
 - `apps/*` 和 `workers/*`：最终入口 app / worker，`@/*` 语义清晰。
 
 不做：
@@ -253,7 +253,7 @@ packages/nextclaw-kernel -> @kernel/*
 - 不引入 `#imports` 作为本轮方案。
 - 不允许其它包直接使用 `@kernel/*` 作为业务 import。
 
-`packages/nextclaw-kernel/module-structure.config.json` 同步登记：
+`packages/go-usb-ai-kernel/module-structure.config.json` 同步登记：
 
 - `allowedRootDirectories: ["events"]`：`events/` 是 kernel 的稳定事件边界，而不是临时 legacy 漂移目录。
 - `importAliasPrefixes: ["@kernel/"]`：治理配置与实际短 alias 保持一致。
@@ -263,31 +263,31 @@ packages/nextclaw-kernel -> @kernel/*
 本轮必须至少通过：
 
 ```bash
-pnpm --filter @nextclaw/kernel test
-pnpm --filter @nextclaw/kernel tsc
-pnpm --filter @nextclaw/kernel build
-pnpm --filter @nextclaw/agent-chat-ui tsc
-pnpm --filter @nextclaw/agent-chat-ui build
-pnpm --filter @nextclaw/client-sdk tsc
-pnpm --filter @nextclaw/server tsc
-pnpm --filter @nextclaw/ui tsc
-pnpm --filter @nextclaw/ui build
-pnpm --filter nextclaw tsc
-pnpm --filter nextclaw build
+pnpm --filter @go-usb-ai/kernel test
+pnpm --filter @go-usb-ai/kernel tsc
+pnpm --filter @go-usb-ai/kernel build
+pnpm --filter @go-usb-ai/agent-chat-ui tsc
+pnpm --filter @go-usb-ai/agent-chat-ui build
+pnpm --filter @go-usb-ai/client-sdk tsc
+pnpm --filter @go-usb-ai/server tsc
+pnpm --filter @go-usb-ai/ui tsc
+pnpm --filter @go-usb-ai/ui build
+pnpm --filter go-usb-ai tsc
+pnpm --filter go-usb-ai build
 pnpm lint:maintainability:guard
 ```
 
 还需要加一个静态检查：
 
 ```bash
-rg "from ['\\\"]@/|import\\(['\\\"]@/|export .* from ['\\\"]@/|\\\"@/\\*\\\"" packages/nextclaw-kernel packages/nextclaw-agent-chat-ui
+rg "from ['\\\"]@/|import\\(['\\\"]@/|export .* from ['\\\"]@/|\\\"@/\\*\\\"" packages/go-usb-ai-kernel packages/go-usb-ai-agent-chat-ui
 rg "from ['\\\"]@kernel/|import\\(['\\\"]@kernel/|export .* from ['\\\"]@kernel/" apps packages workers -g '*.ts' -g '*.tsx'
 ```
 
 预期：
 
 - 第一条无结果；
-- 第二条只允许出现在 `packages/nextclaw-kernel/src`。
+- 第二条只允许出现在 `packages/go-usb-ai-kernel/src`。
 
 ## 9. 后续治理
 
@@ -307,11 +307,11 @@ rg "from ['\\\"]@kernel/|import\\(['\\\"]@kernel/|export .* from ['\\\"]@kernel/
 
 ## 10. 推荐落地顺序
 
-1. 以 `@nextclaw/kernel` 作为第一个登记短 alias 的核心库。
-2. 清理 `@nextclaw/agent-chat-ui` 中未使用的 app-style alias。
+1. 以 `@go-usb-ai/kernel` 作为第一个登记短 alias 的核心库。
+2. 清理 `@go-usb-ai/agent-chat-ui` 中未使用的 app-style alias。
 3. 给 consumer tsconfig / Vite / Vitest 补 `@kernel/*` 解析，仅用于编译识别。
 4. 跑完整验证。
-5. 后续如果 `@nextclaw-core`、`@nextclaw-server`、`@nextclaw-client-sdk` 出现源码消费下的内部 alias 归属问题，再按同一规则评估，不提前扩散。
+5. 后续如果 `@go-usb-ai-core`、`@go-usb-ai-server`、`@go-usb-ai-client-sdk` 出现源码消费下的内部 alias 归属问题，再按同一规则评估，不提前扩散。
 
 这条路线兼顾：
 

@@ -7,14 +7,14 @@
 
 ## 决策
 
-- 统一品牌配置到 `packages/nextclaw/src/config/brand.ts`
+- 统一品牌配置到 `packages/go-usb-ai/src/config/brand.ts`
 - 移除 `NEXTBOT_HOME` 与 `~/.nextbot` 的兼容回退
 - bridge 侧引入同名品牌配置，避免硬编码
 
 ## 变更内容
 
 - 用户可见变化
-  - 仅支持 `NEXTCLAW_HOME` 与 `~/.nextclaw`
+  - 仅支持 `GOUSB_AI_HOME` 与 `~/.go-usb-ai`
 - 关键实现点
   - 新增 brand 常量并替换 CLI/渠道/工具内的硬编码名称
   - 移除 tmux skill、bridge、helpers 的兼容回退
@@ -27,7 +27,7 @@ pnpm -C /Users/peiwang/Projects/nextbot lint
 pnpm -C /Users/peiwang/Projects/nextbot tsc
 
 # smoke-check（非仓库目录）
-NEXTCLAW_HOME=/tmp/nextclaw-smoke-3 pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw dev onboard
+GOUSB_AI_HOME=/tmp/go-usb-ai-smoke-3 pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai dev onboard
 ```
 
 验收点：
@@ -40,12 +40,12 @@ NEXTCLAW_HOME=/tmp/nextclaw-smoke-3 pnpm -C /Users/peiwang/Projects/nextbot/pack
 ```bash
 pnpm -C /Users/peiwang/Projects/nextbot release:version
 pnpm -C /Users/peiwang/Projects/nextbot release:publish
-npm view nextclaw version
+npm view go-usb-ai version
 ```
 
 发布结果：
 
-- `nextclaw@0.2.0` 已发布至 npm
+- `go-usb-ai@0.2.0` 已发布至 npm
 
 ## 影响范围 / 风险
 

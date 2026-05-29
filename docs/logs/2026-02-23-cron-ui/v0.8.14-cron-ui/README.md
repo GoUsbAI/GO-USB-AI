@@ -10,8 +10,8 @@
 
 ## 测试 / 验证 / 验收方式
 - 未执行（本次变更涉及 UI + API，建议执行）：
-  - `pnpm -C packages/nextclaw-server build && pnpm -C packages/nextclaw-server lint && pnpm -C packages/nextclaw-server tsc`
-  - `pnpm -C packages/nextclaw-ui build && pnpm -C packages/nextclaw-ui lint && pnpm -C packages/nextclaw-ui tsc`
+  - `pnpm -C packages/go-usb-ai-server build && pnpm -C packages/go-usb-ai-server lint && pnpm -C packages/go-usb-ai-server tsc`
+  - `pnpm -C packages/go-usb-ai-ui build && pnpm -C packages/go-usb-ai-ui lint && pnpm -C packages/go-usb-ai-ui tsc`
 - 冒烟建议：
   - 启动网关 + UI，进入“定时任务”页。
   - 确认列表展示现有 Cron 任务；可启用/禁用；立即执行可触发状态更新；点击删除后任务从列表消失且再次刷新不再出现。

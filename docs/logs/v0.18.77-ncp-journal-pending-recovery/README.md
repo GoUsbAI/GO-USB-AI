@@ -14,24 +14,24 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ncp-toolkit test -- agent-backend-append-session-event.test.ts`：通过。
-- `pnpm --filter @nextclaw/kernel test -- ncp-agent-session-journal.store.test.ts ncp-session-api.service.test.ts`：通过。
-- `pnpm --filter @nextclaw/kernel tsc && pnpm --filter @nextclaw/ncp-toolkit tsc`：通过。
-- `pnpm --filter @nextclaw/kernel lint && pnpm --filter @nextclaw/ncp-toolkit lint`：通过；`@nextclaw/ncp-toolkit` 仍有既有 warning。
+- `pnpm --filter @go-usb-ai/ncp-toolkit test -- agent-backend-append-session-event.test.ts`：通过。
+- `pnpm --filter @go-usb-ai/kernel test -- ncp-agent-session-journal.store.test.ts ncp-session-api.service.test.ts`：通过。
+- `pnpm --filter @go-usb-ai/kernel tsc && pnpm --filter @go-usb-ai/ncp-toolkit tsc`：通过。
+- `pnpm --filter @go-usb-ai/kernel lint && pnpm --filter @go-usb-ai/ncp-toolkit lint`：通过；`@go-usb-ai/ncp-toolkit` 仍有既有 warning。
 - `pnpm lint:new-code:governance`：通过。
 - `pnpm check:governance-backlog-ratchet`：通过。
 - maintainability guard：通过；非测试代码净增 0。
-- `pnpm --filter @nextclaw/ncp-http-agent-client test -- index.test.ts`：通过。
-- `pnpm --filter @nextclaw/ncp-http-agent-server test -- index.test.ts`：通过。
-- `pnpm --filter @nextclaw/ui test -- use-ncp-agent-runtime.test.tsx`：通过。
-- `pnpm --filter @nextclaw/ncp-toolkit test -- agent-client-from-server.test.ts`：通过。
-- `pnpm --filter @nextclaw/service test -- service-deferred-ncp-agent.service.test.ts nextclaw-app.service.test.ts`：通过。
-- `pnpm --filter @nextclaw/server test -- router.ncp-agent.test.ts server.cors.test.ts server.weixin-channel.test.ts`：通过。
-- `pnpm --filter @nextclaw/service test -- service-ncp-agent-send-http-contract.test.ts service-deferred-ncp-agent.service.test.ts`：通过，覆盖真实 UI server API 边界的 `/api/ncp/agent/send` command handle 合同。
-- `pnpm --filter @nextclaw/ncp-toolkit test -- agent-conversation-state-manager.dedup.test.ts agent-conversation-state-manager.test.ts in-memory-agent-backend.test.ts agent-backend-append-session-event.test.ts`：通过。
-- `pnpm --filter @nextclaw/ncp-toolkit tsc`：通过。
-- `pnpm --filter @nextclaw/ncp-toolkit lint`：通过；仍有既有 warning。
-- `pnpm --filter @nextclaw/service test -- service-ncp-agent-send-http-contract.test.ts`：通过。
+- `pnpm --filter @go-usb-ai/ncp-http-agent-client test -- index.test.ts`：通过。
+- `pnpm --filter @go-usb-ai/ncp-http-agent-server test -- index.test.ts`：通过。
+- `pnpm --filter @go-usb-ai/ui test -- use-ncp-agent-runtime.test.tsx`：通过。
+- `pnpm --filter @go-usb-ai/ncp-toolkit test -- agent-client-from-server.test.ts`：通过。
+- `pnpm --filter @go-usb-ai/service test -- service-deferred-ncp-agent.service.test.ts go-usb-ai-app.service.test.ts`：通过。
+- `pnpm --filter @go-usb-ai/server test -- router.ncp-agent.test.ts server.cors.test.ts server.weixin-channel.test.ts`：通过。
+- `pnpm --filter @go-usb-ai/service test -- service-ncp-agent-send-http-contract.test.ts service-deferred-ncp-agent.service.test.ts`：通过，覆盖真实 UI server API 边界的 `/api/ncp/agent/send` command handle 合同。
+- `pnpm --filter @go-usb-ai/ncp-toolkit test -- agent-conversation-state-manager.dedup.test.ts agent-conversation-state-manager.test.ts in-memory-agent-backend.test.ts agent-backend-append-session-event.test.ts`：通过。
+- `pnpm --filter @go-usb-ai/ncp-toolkit tsc`：通过。
+- `pnpm --filter @go-usb-ai/ncp-toolkit lint`：通过；仍有既有 warning。
+- `pnpm --filter @go-usb-ai/service test -- service-ncp-agent-send-http-contract.test.ts`：通过。
 - `curl -sS http://127.0.0.1:5174/api/ncp/sessions/ncp-mpbdub27-d7ab716c/messages`：通过；返回 `total: 4`，assistant id `mpbduff5-c0pqsfmto` 只出现一次，且没有同 id pending 副本。
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths ...`：通过；总增减 `+695 / -318 / +377`，非测试代码 `+183 / -187 / -4`。
 - `pnpm check:governance-backlog-ratchet`：通过。
@@ -40,8 +40,8 @@
 ## 发布/部署方式
 
 - 未发布。
-- 本次触达 `@nextclaw/ncp-toolkit` 与 `@nextclaw/kernel` 源码，后续若需要用户运行中的桌面应用立即生效，需要重启/重建对应本地运行时或进入统一发布闭环。
-- 后续追加触达 `@nextclaw/ncp`、`@nextclaw/ncp-http-agent-client`、`@nextclaw/ncp-http-agent-server`、`@nextclaw/ncp-react`、`@nextclaw/service`、`@nextclaw/server` 与 `@nextclaw/ui` 的源码或测试；本地 dev server 已重启到 `http://127.0.0.1:5174/` 验证。
+- 本次触达 `@go-usb-ai/ncp-toolkit` 与 `@go-usb-ai/kernel` 源码，后续若需要用户运行中的桌面应用立即生效，需要重启/重建对应本地运行时或进入统一发布闭环。
+- 后续追加触达 `@go-usb-ai/ncp`、`@go-usb-ai/ncp-http-agent-client`、`@go-usb-ai/ncp-http-agent-server`、`@go-usb-ai/ncp-react`、`@go-usb-ai/service`、`@go-usb-ai/server` 与 `@go-usb-ai/ui` 的源码或测试；本地 dev server 已重启到 `http://127.0.0.1:5174/` 验证。
 
 ## 用户/产品视角的验收步骤
 

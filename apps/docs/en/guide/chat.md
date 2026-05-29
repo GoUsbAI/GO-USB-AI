@@ -1,6 +1,6 @@
 # Chat & Sessions
 
-Chat is the interaction surface between you and NextClaw. A session keeps context so multi-step work does not need to be re-explained every turn.
+Chat is the interaction surface between you and GoUsbAi. A session keeps context so multi-step work does not need to be re-explained every turn.
 
 ## Concepts users need
 

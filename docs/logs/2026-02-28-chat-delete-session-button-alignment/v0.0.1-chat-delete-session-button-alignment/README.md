@@ -3,7 +3,7 @@
 ## 迭代完成说明（改了什么）
 - 调整聊天页会话栏右侧“删除会话”按钮尺寸，从 `size="sm"` 改为默认尺寸，使其高度与同排输入控件一致。
 - 变更文件：
-  - `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
+  - `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
 
 ## 测试 / 验证 / 验收方式
 - 已执行：
@@ -16,8 +16,8 @@
   - `tsc` 通过。
 - UI 冒烟（非仓库目录，避免本地仓库写入）：
   - 命令：
-    - `TMP_HOME=$(mktemp -d /tmp/nextclaw-chat-align-smoke.XXXXXX)`
-    - `NEXTCLAW_HOME="$TMP_HOME" pnpm -C packages/nextclaw dev:build serve --ui-port 18998`
+    - `TMP_HOME=$(mktemp -d /tmp/go-usb-ai-chat-align-smoke.XXXXXX)`
+    - `GOUSB_AI_HOME="$TMP_HOME" pnpm -C packages/go-usb-ai dev:build serve --ui-port 18998`
     - `curl -sf http://127.0.0.1:18998/chat`
     - `curl -sf 'http://127.0.0.1:18998/api/sessions?limit=5'`
   - 观察点：
@@ -30,9 +30,9 @@
 - 前端一键发布（仅 UI 变更）：
   - `PATH=/opt/homebrew/bin:$PATH pnpm release:frontend`
 - 发布结果：
-  - `@nextclaw/ui@0.5.33` 已发布。
-  - `nextclaw@0.8.46` 已发布。
-  - 已生成 git tag：`@nextclaw/ui@0.5.33`、`nextclaw@0.8.46`。
+  - `@go-usb-ai/ui@0.5.33` 已发布。
+  - `go-usb-ai@0.8.46` 已发布。
+  - 已生成 git tag：`@go-usb-ai/ui@0.5.33`、`go-usb-ai@0.8.46`。
 - 本次仅 UI 改动，不涉及后端/数据库 migration。
 
 ## 用户 / 产品视角验收步骤

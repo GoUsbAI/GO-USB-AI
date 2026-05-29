@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: NextClaw
+  name: GoUsbAi
   text: Powerful AI Assistant for Your Computer
   tagline: Turn your computer into a powerful AI assistant that coordinates agents, skills, CLI tools, automations, and messaging apps.
   actions:

@@ -13,13 +13,13 @@
 ## 测试/验证/验收方式
 
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-channel-plugin-weixin tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin tsc`
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-channel-plugin-weixin build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin build`
 - Lint 验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-channel-plugin-weixin lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin lint`
 - 账号替换冒烟：
-  - 使用临时 `NEXTCLAW_HOME` 预写入旧账号与旧 cursor。
+  - 使用临时 `GOUSB_AI_HOME` 预写入旧账号与旧 cursor。
   - 通过插件公开 `auth.start/auth.poll` 流程模拟“同一微信重新扫码返回新 bot id”。
   - 验证结果：
     - 返回状态为 `authorized`

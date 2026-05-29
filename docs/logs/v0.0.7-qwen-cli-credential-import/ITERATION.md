@@ -21,7 +21,7 @@
 ## 测试/验证/验收方式
 
 1. 自动化测试
-- `packages/nextclaw-server/src/ui/router.provider-test.test.ts`
+- `packages/go-usb-ai-server/src/ui/router.provider-test.test.ts`
   - 校验 `qwen-portal` auth 元数据包含 `supportsCliImport=true`
   - 校验 `auth/import-cli` 可从 `~/.qwen/oauth_creds.json` 导入并生效
   - 校验 CLI 凭证文件缺失时返回 `AUTH_IMPORT_FAILED`
@@ -29,22 +29,22 @@
   - 当前总计：`10 tests passed`
 
 2. 构建与类型
-- `pnpm -C packages/nextclaw-core build && pnpm -C packages/nextclaw-core tsc`
-- `pnpm -C packages/nextclaw-server build && pnpm -C packages/nextclaw-server tsc`
-- `pnpm -C packages/nextclaw-ui build && pnpm -C packages/nextclaw-ui tsc`
+- `pnpm -C packages/go-usb-ai-core build && pnpm -C packages/go-usb-ai-core tsc`
+- `pnpm -C packages/go-usb-ai-server build && pnpm -C packages/go-usb-ai-server tsc`
+- `pnpm -C packages/go-usb-ai-ui build && pnpm -C packages/go-usb-ai-ui tsc`
 - 全仓完整验证通过：
   - `pnpm build`
   - `pnpm lint`（仅历史 max-lines warnings，无 errors）
   - `pnpm tsc`
 
 3. Lint
-- 定向 lint 本次改动文件；若全量 `nextclaw-ui lint` 失败，需标注为仓库历史问题并附失败文件。
+- 定向 lint 本次改动文件；若全量 `go-usb-ai-ui lint` 失败，需标注为仓库历史问题并附失败文件。
 
 ## 发布/部署方式
 
-1. 本次为 NextClaw 本地服务/UI改动
+1. 本次为 GoUsbAi 本地服务/UI改动
 - 无需单独发布 Worker。
-- 按常规 npm 发布流程发布受影响包（core/server/ui/nextclaw）。
+- 按常规 npm 发布流程发布受影响包（core/server/ui/go-usb-ai）。
 
 2. 若仅本地验证
 - 无需发布，直接 `pnpm dev` 后在 UI 完成验收。
@@ -52,7 +52,7 @@
 ## 用户/产品视角的验收步骤
 
 1. 确保本机存在 `~/.qwen/oauth_creds.json`（Qwen CLI 已登录）。
-2. 打开 NextClaw UI 的 Providers 页面，进入 `qwen-portal`。
+2. 打开 GoUsbAi UI 的 Providers 页面，进入 `qwen-portal`。
 3. 点击 `Import From Qwen CLI`。
 4. 观察状态为导入成功，且 provider 显示已配置 API Key。
 5. 选择 `qwen-portal/*` 模型发起对话，确认可正常请求。

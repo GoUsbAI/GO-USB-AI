@@ -18,7 +18,7 @@
 - 类型验证：
   - `pnpm tsc`
 - 冒烟验证（默认值生效）：
-  - `node --input-type=module -e "import { ConfigSchema } from './packages/nextclaw-core/dist/index.js'; const cfg = ConfigSchema.parse({}); console.log(cfg.channels.telegram.ackReactionScope, cfg.channels.telegram.ackReaction);"`
+  - `node --input-type=module -e "import { ConfigSchema } from './packages/go-usb-ai-core/dist/index.js'; const cfg = ConfigSchema.parse({}); console.log(cfg.channels.telegram.ackReactionScope, cfg.channels.telegram.ackReaction);"`
   - 预期输出包含：`all 👀`
 
 ## 发布/部署方式

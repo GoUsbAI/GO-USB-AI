@@ -14,18 +14,18 @@
 ## 测试/验证/验收方式
 
 - 运行：
-  - `pnpm --filter @nextclaw/ui test -- --run src/components/chat/chat-page-runtime.test.ts src/components/chat/useChatSessionTypeState.test.tsx src/components/chat/ChatSidebar.test.tsx src/components/chat/ncp/ncp-session-adapter.test.ts`
-  - `pnpm --filter @nextclaw/ui tsc`
-  - `pnpm --filter @nextclaw/ui exec eslint src/components/chat/chat-page-runtime.ts src/components/chat/chat-page-runtime.test.ts src/components/chat/chat-page-data.ts src/components/chat/ncp/ncp-chat-page-data.ts`
+  - `pnpm --filter @go-usb-ai/ui test -- --run src/components/chat/chat-page-runtime.test.ts src/components/chat/useChatSessionTypeState.test.tsx src/components/chat/ChatSidebar.test.tsx src/components/chat/ncp/ncp-session-adapter.test.ts`
+  - `pnpm --filter @go-usb-ai/ui tsc`
+  - `pnpm --filter @go-usb-ai/ui exec eslint src/components/chat/chat-page-runtime.ts src/components/chat/chat-page-runtime.test.ts src/components/chat/chat-page-data.ts src/components/chat/ncp/ncp-chat-page-data.ts`
 - 可维护性自检：
-  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-ui/src/components/chat/chat-page-runtime.ts packages/nextclaw-ui/src/components/chat/chat-page-data.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page-data.ts packages/nextclaw-ui/src/components/chat/chat-page-runtime.test.ts`
+  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-ui/src/components/chat/chat-page-runtime.ts packages/go-usb-ai-ui/src/components/chat/chat-page-data.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page-data.ts packages/go-usb-ai-ui/src/components/chat/chat-page-runtime.test.ts`
 - 说明：
-  - `eslint` 仅报告了 [`packages/nextclaw-ui/src/components/chat/chat-page-runtime.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/components/chat/chat-page-runtime.ts) 中既有的 `max-lines-per-function` warning，未新增 error。
+  - `eslint` 仅报告了 [`packages/go-usb-ai-ui/src/components/chat/chat-page-runtime.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/components/chat/chat-page-runtime.ts) 中既有的 `max-lines-per-function` warning，未新增 error。
 
 ## 发布/部署方式
 
 - 本次为前端模型选择逻辑修正，无 migration。
-- 按常规前端发布流程发布 `@nextclaw/ui` 及依赖它的上层应用即可。
+- 按常规前端发布流程发布 `@go-usb-ai/ui` 及依赖它的上层应用即可。
 
 ## 用户/产品视角的验收步骤
 

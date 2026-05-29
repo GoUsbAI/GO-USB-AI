@@ -2,7 +2,7 @@
 
 ## Goal
 
-为 NextClaw/NCP 聊天建立一个通用、轻量、可扩展的附件基础设施：
+为 GoUsbAi/NCP 聊天建立一个通用、轻量、可扩展的附件基础设施：
 
 - 前端上传文件后不再把完整 base64 长期保存在 composer 状态中
 - 服务端负责保存附件并返回稳定引用
@@ -268,7 +268,7 @@ type NcpFilePart = {
 本次实现只完成：
 
 - 本地文件系统附件服务
-- NextClaw UI NCP 路由与 NCP demo 上传/下载
+- GoUsbAi UI NCP 路由与 NCP demo 上传/下载
 - `attachmentUri` 契约
 - text-like 文件注入模型上下文
 - 光标位置修复

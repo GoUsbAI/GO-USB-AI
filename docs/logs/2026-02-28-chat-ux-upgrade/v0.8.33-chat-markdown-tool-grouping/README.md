@@ -10,8 +10,8 @@
   - 会话消息 `content` 改为结构化 `unknown`（不再强制字符串）。
   - 会话 history API 透出 `tool_calls`、`reasoning_content` 字段。
 - 新增聊天解析与分组工具层：
-  - `packages/nextclaw-ui/src/lib/chat-message.ts`
-  - `packages/nextclaw-ui/src/components/chat/ChatThread.tsx`
+  - `packages/go-usb-ai-ui/src/lib/chat-message.ts`
+  - `packages/go-usb-ai-ui/src/components/chat/ChatThread.tsx`
 - 会话管理页同步兼容结构化消息显示（避免 `[object Object]`）。
 - 文档更新：
   - README（中/英）补充对话渲染能力说明
@@ -26,14 +26,14 @@
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`
 - 定向验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server tsc`
 - 聊天工具链冒烟（解析能力）：
-  - `pnpm -C packages/nextclaw-ui exec tsx -e "<groupChatMessages + extractToolCards sample>"`
+  - `pnpm -C packages/go-usb-ai-ui exec tsx -e "<groupChatMessages + extractToolCards sample>"`
   - 观察点：输出 `groups/toolCards/toolName` 与预期一致。
 - 运行态 API 冒烟（隔离目录）：
-  - `NEXTCLAW_HOME=/tmp/... node packages/nextclaw/dist/cli/index.js ui --port 19107 --no-open`
+  - `GOUSB_AI_HOME=/tmp/... node packages/go-usb-ai/dist/cli/index.js ui --port 19107 --no-open`
   - `GET /api/health` 返回 `ok=true`
   - `POST /api/chat/turn` 在未配置 provider 时返回明确错误（预期行为）。
 
@@ -47,17 +47,17 @@
 发布后验证：
 
 - 已发布：
-  - `nextclaw@0.8.33`
-  - `@nextclaw/server@0.5.17`
-  - `@nextclaw/ui@0.5.21`
+  - `go-usb-ai@0.8.33`
+  - `@go-usb-ai/server@0.5.17`
+  - `@go-usb-ai/ui@0.5.21`
 - 已生成 tag：
-  - `nextclaw@0.8.33`
-  - `@nextclaw/server@0.5.17`
-  - `@nextclaw/ui@0.5.21`
+  - `go-usb-ai@0.8.33`
+  - `@go-usb-ai/server@0.5.17`
+  - `@go-usb-ai/ui@0.5.21`
 
 ## 用户 / 产品视角的验收步骤
 
-1. 启动：`nextclaw start`
+1. 启动：`go-usb-ai start`
 2. 打开 UI：`http://127.0.0.1:18791`
 3. 进入 Chat 页并发送包含 Markdown 的消息（如代码块、表格）
 4. 观察助手回复是否按 Markdown 正确渲染

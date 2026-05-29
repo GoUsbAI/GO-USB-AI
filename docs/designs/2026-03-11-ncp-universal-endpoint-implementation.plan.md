@@ -1,4 +1,4 @@
-# NCP（NextClaw Communication Protocol）通用 Endpoint 实施方案
+# NCP（GoUsbAi Communication Protocol）通用 Endpoint 实施方案
 
 ## 0. 背景与目标
 
@@ -34,10 +34,10 @@
 
 ## 2. 包与目录规划
 
-新增 `packages/ncp-packages/nextclaw-ncp/`（发布名：`@nextclaw/ncp`）：
+新增 `packages/ncp-packages/go-usb-ai-ncp/`（发布名：`@go-usb-ai/ncp`）：
 
 ```text
-packages/ncp-packages/nextclaw-ncp/
+packages/ncp-packages/go-usb-ai-ncp/
   package.json
   tsconfig.json
   src/
@@ -174,7 +174,7 @@ export abstract class AbstractAgentEndpoint extends AbstractEndpoint {
 
 ## 5. 从现有计划升级后的实施阶段
 
-## Phase 1：创建 `@nextclaw/ncp` 包骨架
+## Phase 1：创建 `@go-usb-ai/ncp` 包骨架
 - 按既有计划创建类型、工具、导出入口。
 - 补充 `endpoint.ts` 与 `abstract-endpoint.ts`（本方案新增关键项）。
 
@@ -188,7 +188,7 @@ export abstract class AbstractAgentEndpoint extends AbstractEndpoint {
 - 插件注册对外形式不变（`registerEngine(..., { kind })`）。
 
 ## Phase 4：构建系统与回归验证
-- 根 `package.json` 的 `build/lint/tsc` 链路插入 `@nextclaw/ncp`。
+- 根 `package.json` 的 `build/lint/tsc` 链路插入 `@go-usb-ai/ncp`。
 - 确认 `AgentEngine`、runtime pool、UI 协议不破坏。
 
 ## Phase 5（可选）：Platform Endpoint PoC
@@ -199,10 +199,10 @@ export abstract class AbstractAgentEndpoint extends AbstractEndpoint {
 ## 6. 兼容性约束
 
 首轮必须保证不变：
-- `packages/nextclaw-core/src/engine/types.ts` 对外 `AgentEngine` 语义
-- `packages/nextclaw/src/cli/commands/agent-runtime-pool.ts` 消费方式
-- `packages/nextclaw/src/cli/commands/ui-chat-run-coordinator.ts` 现有 stream 语义
-- `packages/nextclaw-ui/*` 与 `packages/nextclaw-agent-chat/*` 对外 API
+- `packages/go-usb-ai-core/src/engine/types.ts` 对外 `AgentEngine` 语义
+- `packages/go-usb-ai/src/cli/commands/agent-runtime-pool.ts` 消费方式
+- `packages/go-usb-ai/src/cli/commands/ui-chat-run-coordinator.ts` 现有 stream 语义
+- `packages/go-usb-ai-ui/*` 与 `packages/go-usb-ai-agent-chat/*` 对外 API
 
 ---
 
@@ -223,7 +223,7 @@ export abstract class AbstractAgentEndpoint extends AbstractEndpoint {
 
 ## 8. 执行顺序（建议）
 
-1. `@nextclaw/ncp` 骨架 + 类型 + 基类
+1. `@go-usb-ai/ncp` 骨架 + 类型 + 基类
 2. 构建链路接入
 3. codex 重构
 4. claude 重构

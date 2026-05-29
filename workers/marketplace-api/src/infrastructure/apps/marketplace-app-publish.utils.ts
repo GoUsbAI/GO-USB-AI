@@ -36,7 +36,7 @@ export function resolveAppIdentity(
   actor: MarketplaceSkillPublishActor,
 ): MarketplaceResolvedAppIdentity {
   const parsed = parseAppId(input.appId);
-  if (parsed.ownerScope === "nextclaw") {
+  if (parsed.ownerScope === "go-usb-ai") {
     if (actor.role !== "admin") {
       throw new DomainValidationError("official scope publishing requires admin permission");
     }
@@ -72,7 +72,7 @@ export function assertExistingAppOwnership(
   if (existing.app_id !== next.appId || normalizeScope(existing.owner_scope) !== next.ownerScope || normalizeAppName(existing.app_name, existing.app_id) !== next.appName) {
     throw new DomainValidationError("existing app identity does not match requested app");
   }
-  if (next.ownerScope === "nextclaw") {
+  if (next.ownerScope === "go-usb-ai") {
     if (actor.role !== "admin") {
       throw new DomainValidationError("official scope publishing requires admin permission");
     }
@@ -129,7 +129,7 @@ function parseAppId(appId: string): { ownerScope: string; appName: string } {
 }
 
 function normalizeScope(value: string | null | undefined): string {
-  return value?.trim() || "nextclaw";
+  return value?.trim() || "go-usb-ai";
 }
 
 function normalizeAppName(value: string | null | undefined, appId: string): string {

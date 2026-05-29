@@ -4,7 +4,7 @@
 
 这份文档沉淀一套更简单的插件运行时方向：
 
-- NextClaw 运行时只加载插件编译后的 JavaScript，不在插件加载阶段处理 TypeScript。
+- GoUsbAi 运行时只加载插件编译后的 JavaScript，不在插件加载阶段处理 TypeScript。
 - 插件模块统一用原生 `import()` 加载，不再用 `jiti` 做运行时转译和无缓存加载。
 - 插件代码可以被加载，但能力是否生效由明确生命周期控制。
 - `enabled / disabled` 不再等价于“是否 import 模块”，而是等价于“是否运行插件激活函数”。
@@ -72,7 +72,7 @@
 
 一句话：
 
-**NextClaw runtime 只原生 import 插件 JS；插件能力是否生效由 `enable / disable` 生命周期决定。**
+**GoUsbAi runtime 只原生 import 插件 JS；插件能力是否生效由 `enable / disable` 生命周期决定。**
 
 ## 目标
 
@@ -227,7 +227,7 @@ await import(`${pathToFileURL(entryFile).href}?v=${mtimeMs}`);
 这也会倒逼插件开发流程更清晰：
 
 - 开发期：插件自己 watch / build。
-- 运行期：NextClaw 只加载 `dist/*.js`。
+- 运行期：GoUsbAi 只加载 `dist/*.js`。
 
 ## 当前异常点解释
 
@@ -254,8 +254,8 @@ await import(`${pathToFileURL(entryFile).href}?v=${mtimeMs}`);
 
 当前 owner：
 
-- `packages/nextclaw-openclaw-compat/src/plugins/loader.ts`
-- `packages/nextclaw-openclaw-compat/src/plugins/progressive-plugin-loader/*`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/loader.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/progressive-plugin-loader/*`
 
 目标：
 
@@ -320,7 +320,7 @@ api.unregisterByPlugin(pluginId);
 
 验收：
 
-- `NEXTCLAW_STARTUP_TRACE=1 pnpm dev start` 中 plugin loader 总耗时显著下降。
+- `GOUSB_AI_STARTUP_TRACE=1 pnpm dev start` 中 plugin loader 总耗时显著下降。
 - 不再出现 `jiti` 冷加载导致的秒级抖动。
 
 ### Phase 2：引入 enable / disable 生命周期

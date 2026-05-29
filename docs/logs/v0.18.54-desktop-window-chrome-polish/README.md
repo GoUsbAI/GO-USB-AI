@@ -2,55 +2,55 @@
 
 ## 迭代完成说明
 
-- 优化 NextClaw Desktop 窗口 chrome 的第一版试验方案：Windows 使用系统 caption controls + `titleBarOverlay`，让顶栏背景跟随 NextClaw warm / cool 主题；Linux 隐藏默认菜单栏；macOS 保留平台菜单与 traffic lights 习惯。
+- 优化 GoUsbAi Desktop 窗口 chrome 的第一版试验方案：Windows 使用系统 caption controls + `titleBarOverlay`，让顶栏背景跟随 GoUsbAi warm / cool 主题；Linux 隐藏默认菜单栏；macOS 保留平台菜单与 traffic lights 习惯。
 - 将 BrowserWindow 选项从 `main.ts` 拆入 `desktop-window-options.utils.ts`，避免继续推高 desktop main 入口文件体积。
 - 新增 `DesktopShellThemeService`，用很窄的 `warm | cool` IPC contract 接收前端主题变化，并更新 Windows title bar overlay；没有引入自绘窗口按钮或窗口控制 IPC。
 - Windows/Linux 不再安装 Electron 默认 `File / Edit / View / Window / Help` 应用菜单，降低桌面壳感；macOS 继续保留平台必要菜单。
-- 打包复查发现本地 DMG 从 100 多 MB 飙升到约 700MB 的根因不是窗口 chrome 改动，而是 `nextclaw` production 依赖 `@nextclaw/companion`，间接把 `electron` 带进 desktop app 和 seed runtime bundle。已移除 `nextclaw -> @nextclaw/companion` 依赖，并删除 `nextclaw companion ...` 主 CLI 暴露面；内部自动启动路径在未安装 companion 时降级为提示，不阻塞主 runtime。
+- 打包复查发现本地 DMG 从 100 多 MB 飙升到约 700MB 的根因不是窗口 chrome 改动，而是 `go-usb-ai` production 依赖 `@go-usb-ai/companion`，间接把 `electron` 带进 desktop app 和 seed runtime bundle。已移除 `go-usb-ai -> @go-usb-ai/companion` 依赖，并删除 `go-usb-ai companion ...` 主 CLI 暴露面；内部自动启动路径在未安装 companion 时降级为提示，不阻塞主 runtime。
 - 桌面打包与 runtime update bundle 增加 Electron 嵌套防线：desktop app 和 seed bundle 中若再次出现 `node_modules/electron`，验证脚本会失败，避免同类体积事故回归。
 - Follow-up：Windows 桌面端新增应用自己的紧凑安全顶栏，由 `DesktopWindowChrome` 统一承载 logo、产品名、版本号、运行状态和拖拽空白区；顶栏高度收敛为 `34px`，右侧通过 `--desktop-caption-safe-right: 140px` 只在 Windows Desktop 预留系统最小化/最大化/关闭按钮区域。
 - Follow-up：整条 Windows 顶栏使用与左侧栏一致的 `bg-secondary` 背景；左侧顶栏段与 sidebar 融为一体不画底线，右侧主内容段保留底部分割线。Windows 主工作区下沉业务操作到内容层，chat 侧栏在 Windows 下不再重复显示品牌头；macOS 和普通 Web 不受 Windows Desktop 规则影响。
-- Follow-up：保留本地开发调试开关 `?nextclawDesktopPlatform=win32|darwin|clear`，仅在 Vite dev 下生效并写入当前 origin 的 sessionStorage，方便 macOS / Web 本地预览 Desktop 平台布局；生产构建不读取该开关。
+- Follow-up：保留本地开发调试开关 `?go-usb-aiDesktopPlatform=win32|darwin|clear`，仅在 Vite dev 下生效并写入当前 origin 的 sessionStorage，方便 macOS / Web 本地预览 Desktop 平台布局；生产构建不读取该开关。
 
 ## 测试/验证/验收方式
 
 - `pnpm -C apps/desktop lint`：通过。
-- `pnpm -C packages/nextclaw-ui exec eslint src/app/components/theme-provider.tsx src/platforms/desktop/types/desktop-update.types.ts`：通过。
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/app/components/theme-provider.tsx src/platforms/desktop/types/desktop-update.types.ts`：通过。
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths apps/desktop/src/main.ts apps/desktop/src/services/desktop-update-shell.service.ts apps/desktop/src/utils/desktop-window-options.utils.ts`：通过；提示 `main.ts` 仍接近 400 行预算，需要后续持续拆分。
 - `pnpm lint:new-code:governance`：通过。
 - `pnpm check:governance-backlog-ratchet`：通过。
-- `pnpm -C packages/nextclaw-shared build`、`pnpm -C packages/nextclaw-core build`、`pnpm -C packages/nextclaw-kernel build`：通过，用于尝试解除 desktop tsc 的依赖产物阻塞。
-- `pnpm -C packages/nextclaw-service tsc`：通过。
-- `pnpm -C packages/nextclaw tsc`：通过。
-- `docs/USAGE.md` 与 `packages/nextclaw/resources/USAGE.md`：已同步移除 `nextclaw companion ...` 命令说明；本次直接同步两份文档，未额外运行 `sync-usage-resource`。
-- `pnpm why @nextclaw/companion --filter nextclaw --prod`：无输出，确认 `nextclaw` production 依赖树不再包含 companion。
-- `pnpm why electron --filter nextclaw --prod`：无输出，确认 `nextclaw` production 依赖树不再通过 companion 带入 electron。
-- `pnpm --config.node-linker=hoisted --filter nextclaw --prod deploy tmp/nextclaw-deploy-check` 后检查 `node_modules/@nextclaw/companion` 与 `node_modules/electron` 均不存在；部署产物约 198MB。
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/desktop bundle:seed -- --channel stable`：通过；生成的 seed bundle 约 20MB，zip 内未发现 `bundle/runtime/node_modules/electron` 或 `bundle/runtime/node_modules/@nextclaw/companion`。
+- `pnpm -C packages/go-usb-ai-shared build`、`pnpm -C packages/go-usb-ai-core build`、`pnpm -C packages/go-usb-ai-kernel build`：通过，用于尝试解除 desktop tsc 的依赖产物阻塞。
+- `pnpm -C packages/go-usb-ai-service tsc`：通过。
+- `pnpm -C packages/go-usb-ai tsc`：通过。
+- `docs/USAGE.md` 与 `packages/go-usb-ai/resources/USAGE.md`：已同步移除 `go-usb-ai companion ...` 命令说明；本次直接同步两份文档，未额外运行 `sync-usage-resource`。
+- `pnpm why @go-usb-ai/companion --filter go-usb-ai --prod`：无输出，确认 `go-usb-ai` production 依赖树不再包含 companion。
+- `pnpm why electron --filter go-usb-ai --prod`：无输出，确认 `go-usb-ai` production 依赖树不再通过 companion 带入 electron。
+- `pnpm --config.node-linker=hoisted --filter go-usb-ai --prod deploy tmp/go-usb-ai-deploy-check` 后检查 `node_modules/@go-usb-ai/companion` 与 `node_modules/electron` 均不存在；部署产物约 198MB。
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/desktop bundle:seed -- --channel stable`：通过；生成的 seed bundle 约 20MB，zip 内未发现 `bundle/runtime/node_modules/electron` 或 `bundle/runtime/node_modules/@go-usb-ai/companion`。
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/desktop exec electron-builder --mac dmg --arm64 --publish never`：通过；新的本地 DMG 约 144MB，`.app` 约 381MB，`app.asar.unpacked` 约 1.1MB。
-- `codesign --verify --deep --strict --verbose=2 apps/desktop/release/mac-arm64/NextClaw\ Desktop.app`：通过。
-- `bash apps/desktop/scripts/smoke-macos-dmg.sh apps/desktop/release/NextClaw\ Desktop-0.0.162-arm64.dmg 120`：未通过；GUI 与 fallback 均被 macOS system policy 拒绝加载 `ReactiveObjC.framework`，当前判断是本地 unsigned/ad-hoc 签名与 macOS 安全策略问题，独立于本次 companion/electron 体积根因。
-- `pnpm -C apps/desktop tsc`：未通过；阻塞在 `packages/nextclaw-kernel/src` 对多个 workspace package 的既有 moduleResolution / 隐式 any 诊断，不是本次触达文件新增错误。
-- `pnpm -C packages/nextclaw-ui tsc`：未通过；阻塞在 `packages/nextclaw-agent-chat-ui` 的既有 `@/components/chat/...` alias 解析与隐式 any 诊断，以及 `chat-message-list.container.tsx` 的既有隐式 any 诊断，不是本次触达文件新增错误。
+- `codesign --verify --deep --strict --verbose=2 apps/desktop/release/mac-arm64/GoUsbAi\ Desktop.app`：通过。
+- `bash apps/desktop/scripts/smoke-macos-dmg.sh apps/desktop/release/GoUsbAi\ Desktop-0.0.162-arm64.dmg 120`：未通过；GUI 与 fallback 均被 macOS system policy 拒绝加载 `ReactiveObjC.framework`，当前判断是本地 unsigned/ad-hoc 签名与 macOS 安全策略问题，独立于本次 companion/electron 体积根因。
+- `pnpm -C apps/desktop tsc`：未通过；阻塞在 `packages/go-usb-ai-kernel/src` 对多个 workspace package 的既有 moduleResolution / 隐式 any 诊断，不是本次触达文件新增错误。
+- `pnpm -C packages/go-usb-ai-ui tsc`：未通过；阻塞在 `packages/go-usb-ai-agent-chat-ui` 的既有 `@/components/chat/...` alias 解析与隐式 any 诊断，以及 `chat-message-list.container.tsx` 的既有隐式 any 诊断，不是本次触达文件新增错误。
 - Follow-up 验证：
-  - `pnpm -C packages/nextclaw-ui tsc`：通过。
+  - `pnpm -C packages/go-usb-ai-ui tsc`：通过。
   - `pnpm -C apps/desktop tsc`：通过。
-  - `pnpm -C packages/nextclaw-ui exec vitest run src/shared/components/common/brand-header.test.tsx src/platforms/desktop/components/desktop-app-shell.test.tsx`：通过，覆盖 Windows 顶栏渲染与非 Windows 不渲染该顶栏。
-  - `pnpm exec eslint packages/nextclaw-ui/src/platforms/desktop/components/desktop-app-shell.tsx packages/nextclaw-ui/src/platforms/desktop/components/desktop-window-chrome.tsx packages/nextclaw-ui/src/platforms/desktop/utils/desktop-host.utils.ts packages/nextclaw-ui/src/shared/components/common/brand-header.tsx packages/nextclaw-ui/src/features/chat/components/layout/chat-sidebar.tsx packages/nextclaw-ui/src/platforms/desktop/index.ts packages/nextclaw-ui/src/platforms/desktop/components/desktop-app-shell.test.tsx`：0 error；保留既有 `ChatSidebar` 函数长度 warning。
+  - `pnpm -C packages/go-usb-ai-ui exec vitest run src/shared/components/common/brand-header.test.tsx src/platforms/desktop/components/desktop-app-shell.test.tsx`：通过，覆盖 Windows 顶栏渲染与非 Windows 不渲染该顶栏。
+  - `pnpm exec eslint packages/go-usb-ai-ui/src/platforms/desktop/components/desktop-app-shell.tsx packages/go-usb-ai-ui/src/platforms/desktop/components/desktop-window-chrome.tsx packages/go-usb-ai-ui/src/platforms/desktop/utils/desktop-host.utils.ts packages/go-usb-ai-ui/src/shared/components/common/brand-header.tsx packages/go-usb-ai-ui/src/features/chat/components/layout/chat-sidebar.tsx packages/go-usb-ai-ui/src/platforms/desktop/index.ts packages/go-usb-ai-ui/src/platforms/desktop/components/desktop-app-shell.test.tsx`：0 error；保留既有 `ChatSidebar` 函数长度 warning。
   - `pnpm lint:new-code:governance -- <follow-up touched files>`：通过。
   - `pnpm check:governance-backlog-ratchet`：通过。
   - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths <follow-up touched files>`：0 error；提示 `ChatSidebar` 仍是既有函数长度债务，但本次 delta 为 `-3` 行，没有继续恶化。
-  - `pnpm -C packages/nextclaw-ui build`：通过；Vite 仍提示既有大 chunk warning。
+  - `pnpm -C packages/go-usb-ai-ui build`：通过；Vite 仍提示既有大 chunk warning。
 
 ## 发布/部署方式
 
 - 不涉及部署。
-- 已生成本地 macOS arm64 DMG 供人工验证：`apps/desktop/release/NextClaw Desktop-0.0.162-arm64.dmg`。
+- 已生成本地 macOS arm64 DMG 供人工验证：`apps/desktop/release/GoUsbAi Desktop-0.0.162-arm64.dmg`。
 - 不涉及正式桌面安装包发布；由于 DMG smoke 仍被 unsigned/ad-hoc 签名策略挡住，本地包只能作为体积和内容检查通过后的人工验证候选，不能视为可发布构建。
 
 ## 用户/产品视角的验收步骤
 
-1. 在 Windows 启动 NextClaw Desktop。
+1. 在 Windows 启动 GoUsbAi Desktop。
 2. 确认默认菜单栏不再显示 `File / Edit / View / Window / Help`。
 3. 确认右上角仍是系统窗口控制按钮，而不是应用自绘按钮。
 4. 在 warm 主题下确认窗口顶部背景接近 `#F9F8F5`，按钮符号为暖灰；切换到 cool 主题后确认窗口顶部切换到 `#F8FAFB`，按钮符号为冷灰。
@@ -58,11 +58,11 @@
 6. 在 macOS 启动时确认左上角 traffic lights 仍符合平台习惯。
 7. 检查新 DMG 体积应回到约 144MB，不再是约 700MB。
 8. 若 macOS 双击仍无法启动，优先按 unsigned/ad-hoc 签名与 Gatekeeper 路径继续排查；不要再回到 companion/electron 体积根因。
-9. Follow-up：在 Windows 启动 NextClaw Desktop，确认 34px 顶栏只显示品牌、版本、状态点和可拖拽空白区，窗口右上角系统按钮下方没有 NextClaw 业务按钮。
+9. Follow-up：在 Windows 启动 GoUsbAi Desktop，确认 34px 顶栏只显示品牌、版本、状态点和可拖拽空白区，窗口右上角系统按钮下方没有 GoUsbAi 业务按钮。
 10. Follow-up：确认“新任务”、chat header 操作、workspace panel close、DocBrowser 控制等业务操作从第二层内容区开始出现，不进入 Windows 系统按钮所在的第一行。
 11. Follow-up：确认顶栏左右两段背景均与左侧栏一致；左侧顶栏与 sidebar 没有横向分割线，右侧主内容区域仍有底部分割线。
 12. Follow-up：在 macOS 启动时确认没有新增 Windows 右侧预留空白，普通 Web 和 Windows Web 也不会进入 Windows Desktop chrome 分支。
-13. Follow-up：本地开发可打开 `?nextclawDesktopPlatform=win32` 预览 Windows Desktop 布局；需要恢复真实平台判断时打开 `?nextclawDesktopPlatform=clear`。
+13. Follow-up：本地开发可打开 `?go-usb-aiDesktopPlatform=win32` 预览 Windows Desktop 布局；需要恢复真实平台判断时打开 `?go-usb-aiDesktopPlatform=clear`。
 
 ## 可维护性总结汇总
 
@@ -72,7 +72,7 @@
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰：是。窗口创建仍由 `DesktopApplication` 调用，平台窗口选项集中在 desktop utils；主题 IPC 由 `DesktopShellThemeService` 拥有；菜单安装逻辑仍由 `DesktopUpdateShellService` 拥有；前端主题变更仍由既有 `ThemeProvider` owner 发起。
 - 目录结构与文件组织是否满足当前项目治理要求：满足；新增文件命名和落点通过 governance。
 - 是否使用 `post-edit-maintainability-review`：是，收尾阶段完成主观复核；无额外 maintainability finding。
-- 本次 follow-up 的正向减债动作：删除错误 production 依赖并增加打包验证防线。相比单纯在 electron-builder 中排除文件，主修复把 `nextclaw` 主 runtime 与 standalone companion shell 的依赖边界重新切开；打包排除和验证只作为防回归措施保留。
+- 本次 follow-up 的正向减债动作：删除错误 production 依赖并增加打包验证防线。相比单纯在 electron-builder 中排除文件，主修复把 `go-usb-ai` 主 runtime 与 standalone companion shell 的依赖边界重新切开；打包排除和验证只作为防回归措施保留。
 - Windows chrome follow-up 的可维护性复核：通过。新增的是用户可见的 Windows 桌面适配能力，净增集中在 `DesktopWindowChrome` 与 `desktop-host.utils` 两个明确 owner；`ChatSidebar` 只删除本地 mac 平台 helper 并改用平台公共入口，没有继续散落 Windows 特判。保留债务是 `ChatSidebar` 仍超过函数长度建议，后续拆分点是把会话分组、工具菜单和品牌/header 区域继续拆成更窄的 sidebar 子 owner。
 
 ## NPM 包发布记录

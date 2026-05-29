@@ -7,13 +7,13 @@
 
 ## 发布范围
 
-- `nextclaw@0.6.7`
-- `@nextclaw/core@0.6.6`
+- `go-usb-ai@0.6.7`
+- `@go-usb-ai/core@0.6.6`
 
 未发布（版本未变更）：
-- `@nextclaw/openclaw-compat@0.1.5`
-- `@nextclaw/server@0.4.2`
-- `@nextclaw/ui@0.3.9`
+- `@go-usb-ai/openclaw-compat@0.1.5`
+- `@go-usb-ai/server@0.4.2`
+- `@go-usb-ai/ui@0.3.9`
 
 ## 执行记录
 
@@ -34,11 +34,11 @@ pnpm release:publish
 
 - 本地校验通过：`build/lint/tsc`（仅仓库既有 lint warning，无新增 error）。
 - npm 发布成功：
-  - `nextclaw@0.6.7`
-  - `@nextclaw/core@0.6.6`
+  - `go-usb-ai@0.6.7`
+  - `@go-usb-ai/core@0.6.6`
 - tag 创建成功：
-  - `nextclaw@0.6.7`
-  - `@nextclaw/core@0.6.6`
+  - `go-usb-ai@0.6.7`
+  - `@go-usb-ai/core@0.6.6`
 - 冒烟（隔离 `/tmp`）验证 no-reply 行为：
   - empty -> `""`
   - `NO_REPLY` -> `""`
@@ -48,6 +48,6 @@ pnpm release:publish
 
 - 本次已同步：
   - `docs/USAGE.md`
-  - `packages/nextclaw/templates/USAGE.md`
+  - `packages/go-usb-ai/templates/USAGE.md`
   - 迭代日志与发布日志索引
 - 不涉及数据库/后端 migration（不适用）。

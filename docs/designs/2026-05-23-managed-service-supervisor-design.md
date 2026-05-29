@@ -1,10 +1,10 @@
-# NextClaw 托管服务生命周期监督设计
+# GoUsbAi 托管服务生命周期监督设计
 
 ## 背景
 
-2026-05-22 至 2026-05-23 的本机事故暴露出一个确定性缺口：`nextclaw start/restart` 启动的托管服务在 ready 后被 `unref`，父进程不再观察子进程生命周期；如果子进程后续死亡，`service.json` 仍会长期保留旧 PID 和 ready 状态，导致 `status/doctor` 只能在读端发现 stale state，无法说明最后一次存活时间、退出原因或状态合同是否过期。
+2026-05-22 至 2026-05-23 的本机事故暴露出一个确定性缺口：`go-usb-ai start/restart` 启动的托管服务在 ready 后被 `unref`，父进程不再观察子进程生命周期；如果子进程后续死亡，`service.json` 仍会长期保留旧 PID 和 ready 状态，导致 `status/doctor` 只能在读端发现 stale state，无法说明最后一次存活时间、退出原因或状态合同是否过期。
 
-这不符合 NextClaw 作为个人操作层的自感知要求。NextClaw 必须能表达“我是否仍在运行、最后一次被谁确认、退出时发生了什么”，而不是把一个静态 PID 文件留给用户猜。
+这不符合 GoUsbAi 作为个人操作层的自感知要求。GoUsbAi 必须能表达“我是否仍在运行、最后一次被谁确认、退出时发生了什么”，而不是把一个静态 PID 文件留给用户猜。
 
 ## 目标
 
@@ -91,8 +91,8 @@
 
 ## 验证计划
 
-- `pnpm --filter @nextclaw/service test -- shared/services/runtime`
-- `pnpm --filter @nextclaw/service test -- cli/commands/diagnostics`
-- `pnpm --filter @nextclaw/service tsc`
-- `pnpm --filter @nextclaw/service lint`
-- 贴近链路 smoke：在临时 `NEXTCLAW_HOME` 下启动服务，读取 `run/service.json`，确认 lease 存在且 heartbeat 更新；杀掉 PID 后确认 `status --json` 报告 stale。
+- `pnpm --filter @go-usb-ai/service test -- shared/services/runtime`
+- `pnpm --filter @go-usb-ai/service test -- cli/commands/diagnostics`
+- `pnpm --filter @go-usb-ai/service tsc`
+- `pnpm --filter @go-usb-ai/service lint`
+- 贴近链路 smoke：在临时 `GOUSB_AI_HOME` 下启动服务，读取 `run/service.json`，确认 lease 存在且 heartbeat 更新；杀掉 PID 后确认 `status --json` 报告 stale。

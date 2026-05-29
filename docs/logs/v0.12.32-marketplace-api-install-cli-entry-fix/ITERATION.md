@@ -11,12 +11,12 @@
 ## 测试/验证/验收方式
 
 - 单元测试：
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/service.marketplace-skill-args.test.ts src/cli/runtime.skills-install-workdir.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/service.marketplace-skill-args.test.ts src/cli/runtime.skills-install-workdir.test.ts`
 - 静态检查：
-  - `pnpm -C packages/nextclaw lint`
-  - `pnpm -C packages/nextclaw tsc`
+  - `pnpm -C packages/go-usb-ai lint`
+  - `pnpm -C packages/go-usb-ai tsc`
 - 打包态 API 冒烟（关键）：
-  - 使用 `node packages/nextclaw/dist/cli/index.js serve` 启动服务；
+  - 使用 `node packages/go-usb-ai/dist/cli/index.js serve` 启动服务；
   - 调用 `/api/marketplace/skills/install` 安装 `cloudflare-deploy`；
   - 验证安装前后 installed 列表变化与技能文件落盘。
 
@@ -36,7 +36,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 启动 NextClaw 服务并打开技能市场。
+1. 启动 GoUsbAi 服务并打开技能市场。
 2. 选择一个未安装的 Marketplace 技能，点击“安装”。
 3. 看到成功提示后，确认按钮从“安装”切换为“卸载”。
 4. 切到“已安装”页签，确认该技能已出现且可卸载。

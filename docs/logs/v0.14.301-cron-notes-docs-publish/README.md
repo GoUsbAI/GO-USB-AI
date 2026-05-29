@@ -13,7 +13,7 @@
 ## 测试/验证/验收方式
 
 - 文档构建验证：
-  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/docs build`
+  - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/docs build`
   - 结果：通过。
 - 可维护性检查：
   - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths apps/docs/.vitepress/config.ts apps/docs/en/notes/index.md apps/docs/en/notes/2026-03-31-cron-clarity-and-one-shot-upgrade.md apps/docs/zh/notes/index.md apps/docs/zh/notes/2026-03-31-cron-clarity-and-one-shot-upgrade.md`
@@ -25,7 +25,7 @@
   - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm deploy:docs`
 - 结果：Cloudflare Pages 部署完成。
 - 本次部署地址：
-  - `https://a2c0bc5c.nextclaw-docs.pages.dev`
+  - `https://a2c0bc5c.go-usb-ai-docs.pages.dev`
 
 ## 用户/产品视角的验收步骤
 

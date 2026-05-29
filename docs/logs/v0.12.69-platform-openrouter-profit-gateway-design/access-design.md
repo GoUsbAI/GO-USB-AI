@@ -1,10 +1,10 @@
 # 平台接入方案（OpenRouter 型中转）
 
-本文档面向接入方，约定“只接 NextClaw，不直连上游厂商”。
+本文档面向接入方，约定“只接 GoUsbAi，不直连上游厂商”。
 
 ## 1. 接入原则
 
-- 接入方只使用 NextClaw 提供的统一 OpenAI 兼容接口。
+- 接入方只使用 GoUsbAi 提供的统一 OpenAI 兼容接口。
 - 不需要提供任何上游厂商凭证（API Key / OAuth）。
 - 模型选择使用平台公开模型名（`public_model_id`），由平台内部路由到上游。
 - 模型命名与 OpenRouter 对齐，采用 `provider/model` 形式（例如 `openai/gpt-4o`），会体现上游供应商前缀。
@@ -16,7 +16,7 @@
 
 ## 2. 基础信息
 
-- Base URL（示例）：`https://ai-gateway-api.nextclaw.io`
+- Base URL（示例）：`https://ai-gateway-api.go-usb-ai.io`
 - 兼容路径：
   - `GET /v1/models`
   - `POST /v1/chat/completions`

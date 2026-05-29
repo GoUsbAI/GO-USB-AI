@@ -6,13 +6,13 @@
 
 **Architecture:** 继续坚持“session 是主语，project 只是 `session.metadata.project_root` 的派生上下文”。不新增第二套 sidebar、路由或存储模型，只在现有 session list store 上增加一个轻量 `listMode`，再基于同一份 session summaries 派生出 `time-first` 与 `project-first` 两种投影视图。`project-first` 视图仅展示绑定了 project 的 session，并在 project 组头触发带 `pendingProjectRoot` 的新建会话。
 
-**Tech Stack:** TypeScript, React, Zustand, existing NextClaw chat sidebar, Vitest, Testing Library
+**Tech Stack:** TypeScript, React, Zustand, existing GoUsbAi chat sidebar, Vitest, Testing Library
 
 ---
 
 ## 长期目标对齐 / 可维护性推进
 
-- 这次改动是在强化 NextClaw 作为统一入口的体验，而不是新增一块平行功能区：用户仍然只面对一个会话入口，但能按“时间”或“项目”两种心智模型组织工作。
+- 这次改动是在强化 GoUsbAi 作为统一入口的体验，而不是新增一块平行功能区：用户仍然只面对一个会话入口，但能按“时间”或“项目”两种心智模型组织工作。
 - 明确不新增 `Project` 实体、不新增 `projects` 存储、不新增第二个 sidebar 组件树，避免把“派生视图问题”误做成“数据模型扩张问题”。
 - 优先通过现有 session store、现有 session summaries、现有 create-session 流程扩展最小字段和最小派生函数，尽量把复杂度限制在 UI 投影层。
 - 若出现净增代码，必须集中在“视图模式状态”“project 分组派生”“组头新建动作”这三处最小必要点，并同步复用现有 session item 渲染，避免复制列表 UI。
@@ -40,9 +40,9 @@
 ## Task 1: 扩展 sidebar 列表模式状态
 
 **Files:**
-- Modify: `packages/nextclaw-ui/src/components/chat/stores/chat-session-list.store.ts`
-- Modify: `packages/nextclaw-ui/src/components/chat/managers/chat-session-list.manager.ts`
-- Test: `packages/nextclaw-ui/src/components/chat/managers/chat-session-list.manager.test.ts`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/stores/chat-session-list.store.ts`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/managers/chat-session-list.manager.ts`
+- Test: `packages/go-usb-ai-ui/src/components/chat/managers/chat-session-list.manager.test.ts`
 
 **Step 1: 写失败测试**
 
@@ -63,9 +63,9 @@
 ## Task 2: 基于现有 session 数据派生 project-first 视图
 
 **Files:**
-- Modify: `packages/nextclaw-ui/src/components/chat/ncp/use-ncp-session-list-view.ts`
-- Possibly Modify: `packages/nextclaw-ui/src/components/chat/chat-session-display.ts`
-- Test: `packages/nextclaw-ui/src/components/chat/ChatSidebar.test.tsx`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/ncp/use-ncp-session-list-view.ts`
+- Possibly Modify: `packages/go-usb-ai-ui/src/components/chat/chat-session-display.ts`
+- Test: `packages/go-usb-ai-ui/src/components/chat/ChatSidebar.test.tsx`
 
 **Step 1: 先补视图派生测试**
 
@@ -87,10 +87,10 @@
 ## Task 3: 改造 sidebar 组件为双视图投影
 
 **Files:**
-- Modify: `packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx`
-- Reuse: `packages/nextclaw-ui/src/components/chat/chat-sidebar-session-item.tsx`
-- Test: `packages/nextclaw-ui/src/components/chat/ChatSidebar.test.tsx`
-- Modify: `packages/nextclaw-ui/src/lib/i18n.chat.ts`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx`
+- Reuse: `packages/go-usb-ai-ui/src/components/chat/chat-sidebar-session-item.tsx`
+- Test: `packages/go-usb-ai-ui/src/components/chat/ChatSidebar.test.tsx`
+- Modify: `packages/go-usb-ai-ui/src/lib/i18n.chat.ts`
 
 **Step 1: 先补 UI 测试**
 

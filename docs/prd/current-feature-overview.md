@@ -1,19 +1,19 @@
-# NextClaw 当前功能概览（2026-02）
+# GoUsbAi 当前功能概览（2026-02）
 
 > 文档定位：用于“梳理 + 宣传”的产品概览，不是研发任务清单。
 
 ## 1. 产品一句话
 
-**NextClaw 是一个 UI-first、轻量化、可维护优先的个人 AI 助手网关。**
+**GoUsbAi 是一个 UI-first、轻量化、可维护优先的个人 AI 助手网关。**
 
-核心体验是：安装后执行一次 `nextclaw start`，其余配置（模型、Provider、渠道）主要在浏览器中完成。
+核心体验是：安装后执行一次 `go-usb-ai start`，其余配置（模型、Provider、渠道）主要在浏览器中完成。
 
 ## 2. 当前能力版图（已上线）
 
 ### A. 启动与运行体验
 
-- 一键启动：`nextclaw start`（后台运行网关 + UI）
-- 前台模式：`nextclaw serve` / `nextclaw ui` / `nextclaw gateway`
+- 一键启动：`go-usb-ai start`（后台运行网关 + UI）
+- 前台模式：`go-usb-ai serve` / `go-usb-ai ui` / `go-usb-ai gateway`
 - 生命周期管理：`start / restart / stop / status / doctor`
 - 运行状态诊断：进程状态、端口占用、配置可用性、Provider 准备度检查
 
@@ -81,7 +81,7 @@
 
 ### 3.1 无外部插件扩展入口
 
-- 不再提供 `nextclaw plugins *` 命令
+- 不再提供 `go-usb-ai plugins *` 命令
 - 不再加载 OpenClaw 插件与插件渠道适配逻辑
 
 ### 3.2 扩展策略以内建能力演进为主
@@ -93,11 +93,11 @@
 
 ### 口径 1（简版）
 
-**NextClaw：一条命令启动、一个 UI 完成配置、可维护优先的轻量 AI 助手网关。**
+**GoUsbAi：一条命令启动、一个 UI 完成配置、可维护优先的轻量 AI 助手网关。**
 
 ### 口径 2（场景版）
 
-如果你想要多渠道与多模型能力，但不想引入复杂插件系统，NextClaw 是更快上手、更易维护的选择。
+如果你想要多渠道与多模型能力，但不想引入复杂插件系统，GoUsbAi 是更快上手、更易维护的选择。
 
 ## 5. 典型使用场景
 

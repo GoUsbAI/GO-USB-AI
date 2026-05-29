@@ -13,7 +13,7 @@ import { prepareLocalUpdateChannelArtifacts } from "./local-update-channel-artif
 const desktopDir = resolve(fileURLToPath(new URL("../../..", import.meta.url)));
 const workspaceRoot = resolve(desktopDir, "..", "..");
 const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
-const localRuntimeScript = resolve(workspaceRoot, "packages", "nextclaw", "dist", "cli", "app", "index.js");
+const localRuntimeScript = resolve(workspaceRoot, "packages", "go-usb-ai", "dist", "cli", "app", "index.js");
 const existingBuildSeedBundlePath = resolve(desktopDir, "build", "update", "seed-product-bundle.zip");
 
 function parseArgs(argv) {
@@ -56,7 +56,7 @@ function incrementPatchVersion(version) {
 class DesktopDevUpdateValidationRunner {
   constructor(args) {
     this.args = args;
-    this.tempRoot = mkdtempSync(join(tmpdir(), "nextclaw-dev-update-validation-"));
+    this.tempRoot = mkdtempSync(join(tmpdir(), "go-usb-ai-dev-update-validation-"));
     this.serverRoot = join(this.tempRoot, "server-root");
     this.runtimeHome = join(this.tempRoot, "runtime-home");
     this.desktopData = join(this.tempRoot, "desktop-data");
@@ -199,8 +199,8 @@ class DesktopDevUpdateValidationRunner {
 
   buildLocalArtifacts = async () => {
     if (!this.generatedStableSeedBundle) {
-      await this.runCommand(pnpmCommand, ["-C", "packages/nextclaw-ui", "build"]);
-      await this.runCommand(pnpmCommand, ["-C", "packages/nextclaw", "build"]);
+      await this.runCommand(pnpmCommand, ["-C", "packages/go-usb-ai-ui", "build"]);
+      await this.runCommand(pnpmCommand, ["-C", "packages/go-usb-ai", "build"]);
     }
     await this.runCommand(pnpmCommand, ["-C", "apps/desktop", "build:main"]);
   };
@@ -239,11 +239,11 @@ class DesktopDevUpdateValidationRunner {
       cwd: workspaceRoot,
       env: {
         ...env,
-        NEXTCLAW_HOME: this.runtimeHome,
-        NEXTCLAW_DESKTOP_DATA_DIR: this.desktopData,
-        NEXTCLAW_DESKTOP_UPDATE_MANIFEST_BASE_URL: manifestBaseUrl,
-        NEXTCLAW_DESKTOP_BUNDLE_PUBLIC_KEY: publicKeyPem,
-        NEXTCLAW_DESKTOP_RUNTIME_SCRIPT: localRuntimeScript
+        GOUSB_AI_HOME: this.runtimeHome,
+        GOUSB_AI_DESKTOP_DATA_DIR: this.desktopData,
+        GOUSB_AI_DESKTOP_UPDATE_MANIFEST_BASE_URL: manifestBaseUrl,
+        GOUSB_AI_DESKTOP_BUNDLE_PUBLIC_KEY: publicKeyPem,
+        GOUSB_AI_DESKTOP_RUNTIME_SCRIPT: localRuntimeScript
       },
       stdio: "inherit",
       shell: shouldUseShell(pnpmCommand)
@@ -304,8 +304,8 @@ class DesktopDevUpdateValidationRunner {
     console.log(`
 [desktop-dev-update] Local update server: ${manifestBaseUrl}
 [desktop-dev-update] Runtime data is isolated:
-  NEXTCLAW_HOME=${this.runtimeHome}
-  NEXTCLAW_DESKTOP_DATA_DIR=${this.desktopData}
+  GOUSB_AI_HOME=${this.runtimeHome}
+  GOUSB_AI_DESKTOP_DATA_DIR=${this.desktopData}
 
 Manual validation:
 1. Wait for the desktop window to open.

@@ -16,17 +16,17 @@
 
 ## 测试/验证/验收方式
 
-- 已通过：`pnpm --filter @nextclaw/ui test -- ncp-chat-input-availability.utils.test.ts ncp-chat-input.manager.test.ts`
+- 已通过：`pnpm --filter @go-usb-ai/ui test -- ncp-chat-input-availability.utils.test.ts ncp-chat-input.manager.test.ts`
   - 结果：`2` 个测试文件、`9` 个测试用例通过。
-- 已通过：`pnpm --filter @nextclaw/ui exec eslint src/features/chat/utils/ncp-chat-input-availability.utils.ts src/features/chat/utils/ncp-chat-input-availability.utils.test.ts src/features/chat/managers/ncp-chat-input.manager.test.ts`
-- 已通过：`pnpm --filter @nextclaw/ui tsc`
-- 已通过：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/chat/utils/ncp-chat-input-availability.utils.ts packages/nextclaw-ui/src/features/chat/utils/ncp-chat-input-availability.utils.test.ts packages/nextclaw-ui/src/features/chat/managers/ncp-chat-input.manager.test.ts`
+- 已通过：`pnpm --filter @go-usb-ai/ui exec eslint src/features/chat/utils/ncp-chat-input-availability.utils.ts src/features/chat/utils/ncp-chat-input-availability.utils.test.ts src/features/chat/managers/ncp-chat-input.manager.test.ts`
+- 已通过：`pnpm --filter @go-usb-ai/ui tsc`
+- 已通过：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/utils/ncp-chat-input-availability.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-chat-input-availability.utils.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.test.ts`
   - 结果：无 error、无 warning。
   - 代码增减报告：新增 `68` 行，删除 `9` 行，净增 `+59` 行。
   - 非测试代码增减报告：新增 `4` 行，删除 `6` 行，净增 `-2` 行。
-- 已通过：`git diff --check -- packages/nextclaw-ui/src/features/chat/utils/ncp-chat-input-availability.utils.ts packages/nextclaw-ui/src/features/chat/utils/ncp-chat-input-availability.utils.test.ts packages/nextclaw-ui/src/features/chat/managers/ncp-chat-input.manager.test.ts`
+- 已通过：`git diff --check -- packages/go-usb-ai-ui/src/features/chat/utils/ncp-chat-input-availability.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-chat-input-availability.utils.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.test.ts`
 - 未通过且未作为本次通过前提：`pnpm lint:new-code:governance`
-  - 失败原因：当前工作区已有其它 staged/unstaged 改动触发 `packages/nextclaw-ui/src/shared/lib/i18n/chat.ts` 文件角色命名检查；该文件不是本次发送可用性改动触达文件。
+  - 失败原因：当前工作区已有其它 staged/unstaged 改动触发 `packages/go-usb-ai-ui/src/shared/lib/i18n/chat.ts` 文件角色命名检查；该文件不是本次发送可用性改动触达文件。
 - 未通过且未作为本次通过前提：`pnpm check:governance-backlog-ratchet`
   - 失败原因：仓库级 `docFileNameViolations` 当前为 `13`，高于 baseline `11`；该失败来自既有治理 backlog，不由本次输入框发送改动引入。
 
@@ -56,7 +56,7 @@
 - `post-edit-maintainability-review` 结论：
   - 可维护性复核结论：通过。
   - 本次顺手减债：是。
-  - 长期目标对齐 / 可维护性推进：本次顺着“核心入口更可靠、代码更少、约束更少且更明确”的方向推进了一小步；把发送入口从旁路 metadata 状态中解耦，强化 NextClaw 作为默认入口的基础可靠性。
+  - 长期目标对齐 / 可维护性推进：本次顺着“核心入口更可靠、代码更少、约束更少且更明确”的方向推进了一小步；把发送入口从旁路 metadata 状态中解耦，强化 GoUsbAi 作为默认入口的基础可靠性。
   - 代码增减报告：新增 `68` 行；删除 `9` 行；净增 `+59` 行。
   - 非测试代码增减报告：新增 `4` 行；删除 `6` 行；净增 `-2` 行。
   - 正向减债动作：简化 / 删除。
@@ -70,5 +70,5 @@
 - 需要发布哪些包：不涉及单独发包。
 - 当前是否已经发布：未发布。
 - 待统一发布：
-  - `@nextclaw/ui`：待统一发布。
+  - `@go-usb-ai/ui`：待统一发布。
 - 阻塞或触发条件：等待下一次统一前端 / 产品发布流程触发。

@@ -5,7 +5,7 @@
 - 为聊天输入区的 skill 选择补齐“最近使用优先”能力，覆盖两条入口：
   - 输入 `/` 触发的 slash skill 菜单
   - 底部工具栏里的 skill picker
-- 新增本地 recent skill 记录器：`packages/nextclaw-ui/src/components/chat/chat-recent-skills.manager.ts`
+- 新增本地 recent skill 记录器：`packages/go-usb-ai-ui/src/components/chat/chat-recent-skills.manager.ts`
 - 统一把 recent skill 排序收敛到 chat input 适配层：
   - slash 菜单在空 `/` 状态下直接 recent 优先；有搜索词时按“匹配层级优先、同层 recent 优先”排序
   - 底部 skill picker 会把最近使用的 skill 提前，并在技能数量足够时显示“最近使用 / 全部技能”分组
@@ -21,7 +21,7 @@
 
 ```bash
 PATH=/opt/homebrew/bin:/usr/local/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH \
-pnpm --filter @nextclaw/ui exec vitest run src/components/chat/adapters/chat-input-bar.adapter.test.ts
+pnpm --filter @go-usb-ai/ui exec vitest run src/components/chat/adapters/chat-input-bar.adapter.test.ts
 ```
 
 - 结果：`Test Files 1 passed`，`Tests 11 passed`
@@ -30,7 +30,7 @@ pnpm --filter @nextclaw/ui exec vitest run src/components/chat/adapters/chat-inp
 
 ```bash
 PATH=/opt/homebrew/bin:/usr/local/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH \
-pnpm --filter @nextclaw/agent-chat-ui exec vitest run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx
+pnpm --filter @go-usb-ai/agent-chat-ui exec vitest run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx
 ```
 
 - 结果：`Test Files 1 passed`，`Tests 11 passed`
@@ -38,8 +38,8 @@ pnpm --filter @nextclaw/agent-chat-ui exec vitest run src/components/chat/ui/cha
 - 类型检查：
 
 ```bash
-PATH=/opt/homebrew/bin:/usr/local/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/ui tsc
-PATH=/opt/homebrew/bin:/usr/local/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui tsc
+PATH=/opt/homebrew/bin:/usr/local/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/ui tsc
+PATH=/opt/homebrew/bin:/usr/local/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui tsc
 ```
 
 - 结果：两侧 `tsc` 均通过

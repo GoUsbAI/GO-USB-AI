@@ -34,7 +34,7 @@ export const createInitialCompanionRuntimeSnapshot = (
   offlineReason: null,
   currentView: {
     state: "idle",
-    title: "NextClaw",
+    title: "GoUsbAi",
     subtitle: "Starting companion",
     openUrl: baseUrl ?? "http://127.0.0.1:55667"
   }

@@ -10,9 +10,9 @@
 ## 测试/验证/验收方式
 
 - 执行命令（在缺省 PATH 无 pnpm 的环境下，使用 one-off PATH 前缀）：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 - 结果：
   - `tsc` 通过。
   - `lint` 通过（存在仓库既有 warning，无新增 error）。

@@ -70,7 +70,7 @@ node --test scripts/shared/repo-paths.test.mjs
 - 运行真实开发入口冒烟：
 
 ```bash
-NEXTCLAW_HOME="$(mktemp -d /tmp/nextclaw-dev-smoke.XXXXXX)" NEXTCLAW_DEV_BACKEND_PORT=18992 NEXTCLAW_DEV_FRONTEND_PORT=5199 pnpm dev start
+GOUSB_AI_HOME="$(mktemp -d /tmp/go-usb-ai-dev-smoke.XXXXXX)" GOUSB_AI_DEV_BACKEND_PORT=18992 GOUSB_AI_DEV_FRONTEND_PORT=5199 pnpm dev start
 ```
 
 - 运行平台开发入口 check：

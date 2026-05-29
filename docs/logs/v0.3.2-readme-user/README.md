@@ -6,7 +6,7 @@
 
 ## 决策
 
-- README 改为用户视角，突出 npm 安装与 `nextclaw start`
+- README 改为用户视角，突出 npm 安装与 `go-usb-ai start`
 - 保留基础配置示例与常用命令
 
 ## 变更内容
@@ -21,10 +21,10 @@ pnpm -C /Users/peiwang/Projects/nextbot lint
 pnpm -C /Users/peiwang/Projects/nextbot tsc
 
 # smoke-check（非仓库目录）
-NEXTCLAW_HOME=/tmp/nextclaw-readme-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw dev start --no-frontend --no-open --ui-port 18807 &
+GOUSB_AI_HOME=/tmp/go-usb-ai-readme-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai dev start --no-frontend --no-open --ui-port 18807 &
 sleep 2
 curl -s http://127.0.0.1:18807/api/health
-pkill -f "nextclaw.*start" || true
+pkill -f "go-usb-ai.*start" || true
 ```
 
 验收点：

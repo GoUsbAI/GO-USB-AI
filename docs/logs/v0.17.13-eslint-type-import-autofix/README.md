@@ -16,19 +16,19 @@
 # 测试/验证/验收方式
 
 - 执行单文件验证：
-  - `pnpm exec eslint packages/nextclaw/src/cli/commands/start/index.ts --fix`
+  - `pnpm exec eslint packages/go-usb-ai/src/cli/commands/start/index.ts --fix`
 - 执行全仓自动修复验证：
   - `pnpm exec eslint apps packages workers scripts --fix`
 - 执行花括号空格规则验证：
-  - `pnpm exec eslint eslint.config.mjs packages/extensions/nextclaw-feishu-core/eslint.config.mjs packages/extensions/nextclaw-channel-plugin-weixin/eslint.config.mjs packages/ncp-packages/nextclaw-ncp-react-ui/eslint.config.mjs packages/nextclaw-ui/src/shared/lib/i18n/runtime/i18n-language-owner.ts --fix`
+  - `pnpm exec eslint eslint.config.mjs packages/extensions/go-usb-ai-feishu-core/eslint.config.mjs packages/extensions/go-usb-ai-channel-plugin-weixin/eslint.config.mjs packages/ncp-packages/go-usb-ai-ncp-react-ui/eslint.config.mjs packages/go-usb-ai-ui/src/shared/lib/i18n/runtime/i18n-language-owner.ts --fix`
 - 执行本次改动文件的定向验证：
-  - `pnpm exec eslint packages/extensions/nextclaw-channel-plugin-feishu/src/media.ts packages/extensions/nextclaw-channel-plugin-feishu/src/monitor.state.ts packages/nextclaw-ui/src/features/channels/components/config/weixin-channel-auth-section.tsx packages/nextclaw-ui/src/features/chat/utils/chat-runtime.utils.ts packages/nextclaw-ui/src/shared/components/cron-config.tsx packages/nextclaw-ui/src/shared/components/doc-browser/doc-browser-context.test.tsx packages/nextclaw-ui/src/shared/components/doc-browser/doc-browser.tsx packages/nextclaw-ui/src/shared/components/search-config.tsx packages/nextclaw-ui/src/shared/lib/api/ncp-attachments.ts packages/nextclaw-ui/src/shared/lib/i18n/runtime/i18n-language-owner.ts packages/nextclaw-ui/src/shared/lib/transport/remote-transport.service.ts packages/nextclaw/src/cli/commands/gateway/index.ts packages/nextclaw/src/cli/commands/restart/index.ts packages/nextclaw/src/cli/commands/serve/index.ts packages/nextclaw/src/cli/commands/start/index.ts packages/nextclaw/src/cli/commands/stop/index.ts packages/nextclaw/src/cli/commands/ui/index.ts`
+  - `pnpm exec eslint packages/extensions/go-usb-ai-channel-plugin-feishu/src/media.ts packages/extensions/go-usb-ai-channel-plugin-feishu/src/monitor.state.ts packages/go-usb-ai-ui/src/features/channels/components/config/weixin-channel-auth-section.tsx packages/go-usb-ai-ui/src/features/chat/utils/chat-runtime.utils.ts packages/go-usb-ai-ui/src/shared/components/cron-config.tsx packages/go-usb-ai-ui/src/shared/components/doc-browser/doc-browser-context.test.tsx packages/go-usb-ai-ui/src/shared/components/doc-browser/doc-browser.tsx packages/go-usb-ai-ui/src/shared/components/search-config.tsx packages/go-usb-ai-ui/src/shared/lib/api/ncp-attachments.ts packages/go-usb-ai-ui/src/shared/lib/i18n/runtime/i18n-language-owner.ts packages/go-usb-ai-ui/src/shared/lib/transport/remote-transport.service.ts packages/go-usb-ai/src/cli/commands/gateway/index.ts packages/go-usb-ai/src/cli/commands/restart/index.ts packages/go-usb-ai/src/cli/commands/serve/index.ts packages/go-usb-ai/src/cli/commands/start/index.ts packages/go-usb-ai/src/cli/commands/stop/index.ts packages/go-usb-ai/src/cli/commands/ui/index.ts`
 - 执行非功能改动 maintainability guard：
   - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths <17 touched files>`
 - 验证结果：
   - 全仓 `eslint --fix`：执行成功并落盘自动修复，但最终因仓库既有其它 lint error 返回 `1`
   - 花括号空格规则：已生效，`eslint --fix` 可自动把 `{name}` 修为 `{ name }`
-  - 定向 ESLint：仍有既有 error `packages/extensions/nextclaw-channel-plugin-feishu/src/media.ts:239 no-control-regex`
+  - 定向 ESLint：仍有既有 error `packages/extensions/go-usb-ai-channel-plugin-feishu/src/media.ts:239 no-control-regex`
   - 追加花括号空格规则前的 maintainability guard：通过，`非测试代码净增 = 0`
   - 追加花括号空格规则后的 maintainability guard：通过，配置净增来自新增 ESLint 规则本身，未新增业务逻辑
 
@@ -51,7 +51,7 @@
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。本次没有新增功能逻辑，主要是复用 ESLint 现有能力完成自动修复，并将 mixed type/value import 调整为更紧凑的写法以消除非功能净增长。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：是。业务文件自动修复部分保持净增 `0`；规则配置新增 `5` 行，用于统一约束对象花括号空格，未新增业务分支、函数、文件或目录平铺度。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：是。本次未引入新抽象，只做 import 级别收敛。
-- 目录结构与文件组织是否满足当前项目治理要求：未完全满足。既有告警仍指出 `packages/extensions/nextclaw-channel-plugin-feishu/src` 与 `packages/nextclaw-ui/src/shared/lib/api` 目录平铺偏高，`doc-browser.tsx` 与 `media.ts` 文件体量偏大；本次未处理，因为与“验证 type import 是否可一键自动修复”的目标无直接关系。下一步入口可从这些路径做专项拆分治理。
+- 目录结构与文件组织是否满足当前项目治理要求：未完全满足。既有告警仍指出 `packages/extensions/go-usb-ai-channel-plugin-feishu/src` 与 `packages/go-usb-ai-ui/src/shared/lib/api` 目录平铺偏高，`doc-browser.tsx` 与 `media.ts` 文件体量偏大；本次未处理，因为与“验证 type import 是否可一键自动修复”的目标无直接关系。下一步入口可从这些路径做专项拆分治理。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：本次已进行独立复核，结论为“通过”。  
   - 可维护性复核结论：通过
   - 本次顺手减债：是

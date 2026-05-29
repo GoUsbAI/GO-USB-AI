@@ -5,7 +5,7 @@
 本次将产品截图脚本升级为“真实技能市场优先”的可切换模式：
 
 1. 新增环境变量 `REAL_MARKETPLACE=1`，开启后截图流程会优先请求真实 marketplace 数据。
-2. 新增环境变量 `REAL_MARKETPLACE_BASE`，可指定真实市场源地址（默认 `https://marketplace-api.nextclaw.io`）。
+2. 新增环境变量 `REAL_MARKETPLACE_BASE`，可指定真实市场源地址（默认 `https://marketplace-api.go-usb-ai.io`）。
 3. 保持原有稳定性：若真实市场请求失败，会自动回退到内置 mock 数据，不中断截图流程。
 4. 对技能详情/插件详情截图所需的 `.../content` 接口补充远端适配逻辑，保证“点击卡片后右侧详情”依然可渲染。
 5. 更新截图流程文档，补充真实模式使用说明。
@@ -36,5 +36,5 @@
 ## 用户/产品视角的验收步骤
 
 1. 执行 `REAL_MARKETPLACE=1 pnpm screenshots:refresh`。
-2. 打开 `apps/landing/public/nextclaw-skills-doc-browser-en.png` 与 `apps/landing/public/nextclaw-skills-doc-browser-cn.png`。
+2. 打开 `apps/landing/public/go-usb-ai-skills-doc-browser-en.png` 与 `apps/landing/public/go-usb-ai-skills-doc-browser-cn.png`。
 3. 确认截图中 skills 列表不再是固定演示两条数据，且选中 skill 后右侧有对应详情。

@@ -19,14 +19,14 @@
 
 ## 测试/验证/验收方式
 
-- 已通过：`pnpm --filter @nextclaw/agent-chat-ui test -- chat-input-bar.test.tsx`
+- 已通过：`pnpm --filter @go-usb-ai/agent-chat-ui test -- chat-input-bar.test.tsx`
   - 结果：`1` 个测试文件、`18` 个测试用例通过。
-- 已通过：`pnpm --filter @nextclaw/ui test -- chat-input-bar.utils.test.ts`
+- 已通过：`pnpm --filter @go-usb-ai/ui test -- chat-input-bar.utils.test.ts`
   - 结果：`1` 个测试文件、`12` 个测试用例通过。
-- 已通过：`pnpm --filter @nextclaw/agent-chat-ui tsc`
-- 已通过：`pnpm --filter @nextclaw/ui tsc`
+- 已通过：`pnpm --filter @go-usb-ai/agent-chat-ui tsc`
+- 已通过：`pnpm --filter @go-usb-ai/ui tsc`
 - 已通过：`pnpm lint:new-code:governance`
-- 已通过：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-actions.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-skill-picker.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-toolbar.tsx packages/nextclaw-ui/src/features/chat/utils/chat-input-toolbar.utils.ts packages/nextclaw-ui/src/features/chat/utils/chat-input-bar.utils.test.ts`
+- 已通过：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-actions.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-skill-picker.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-toolbar.tsx packages/go-usb-ai-ui/src/features/chat/utils/chat-input-toolbar.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-input-bar.utils.test.ts`
   - 结果：无 error；保留 `chat-input-bar` 目录历史直接文件数 warning，本次未新增文件、未继续恶化。
   - 代码增减报告：新增 `58` 行，删除 `33` 行，净增 `+25` 行。
   - 非测试代码增减报告：新增 `31` 行，删除 `32` 行，净增 `-1` 行。
@@ -57,7 +57,7 @@
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。本次没有新增移动端专用 toolbar 组件，也没有复制一套输入面板；只在现有 toolbar / skill picker / model select owner 内调整展示契约。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：是。会话列表继续沿用现有单文件 owner，没有新增组件或额外变体链；本次只是把未读提醒移动到既有时间槽位，没有再引入新的元信息节点。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：是。模型收起态文案仍由 `buildModelToolbarSelect` 负责，toolbar 布局仍由 `ChatInputBarToolbar` 负责，技能入口仍由 `ChatInputBarSkillPicker` 负责，没有增加新的 helper 层或平台分叉。
-- 目录结构与文件组织是否满足当前项目治理要求：本次未新增文件，满足当前改动范围治理要求。守卫提示 `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar` 目录历史直接文件数为 `13`，超过预算 `12`，但本次没有继续增加目录文件数；后续若继续大改输入栏，应优先拆分该目录职责或补目录预算治理说明。
+- 目录结构与文件组织是否满足当前项目治理要求：本次未新增文件，满足当前改动范围治理要求。守卫提示 `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar` 目录历史直接文件数为 `13`，超过预算 `12`，但本次没有继续增加目录文件数；后续若继续大改输入栏，应优先拆分该目录职责或补目录预算治理说明。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：是。
 - `post-edit-maintainability-review` 结论：
   - 可维护性复核结论：通过。
@@ -74,6 +74,6 @@
 - 需要发布哪些包：不涉及单独发包。
 - 当前是否已经发布：未发布。
 - 待统一发布：
-  - `@nextclaw/agent-chat-ui`：待统一发布。
-  - `@nextclaw/ui`：待统一发布。
+  - `@go-usb-ai/agent-chat-ui`：待统一发布。
+  - `@go-usb-ai/ui`：待统一发布。
 - 阻塞或触发条件：等待下一次统一前端 / 产品发布流程触发。

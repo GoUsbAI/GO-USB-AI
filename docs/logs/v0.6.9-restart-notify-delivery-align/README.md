@@ -15,8 +15,8 @@
 
 ## 关键文件
 
-- `packages/nextclaw-core/src/channels/manager.ts`
-- `packages/nextclaw/src/cli/commands/service.ts`
+- `packages/go-usb-ai-core/src/channels/manager.ts`
+- `packages/go-usb-ai/src/cli/commands/service.ts`
 
 ## 验证
 
@@ -24,7 +24,7 @@
 pnpm build
 pnpm lint
 pnpm tsc
-pnpm dlx tsx /tmp/nextclaw-restart-notify-smoke.ts
+pnpm dlx tsx /tmp/go-usb-ai-restart-notify-smoke.ts
 ```
 
 冒烟结论：

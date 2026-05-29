@@ -10,11 +10,11 @@
 
 ## 测试/验证/验收方式
 
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/ncp-toolkit exec vitest run src/agent/agent-backend-run-status.test.ts src/agent/agent-backend-finalize-status.test.ts src/agent/in-memory-agent-backend.test.ts src/agent/agent-conversation-state-manager.test.ts`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter nextclaw-ui exec vitest run src/api/ncp-session-query-cache.test.ts`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter nextclaw exec tsc -p tsconfig.json --noEmit`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/ui exec tsc -p tsconfig.json --noEmit`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/ncp-toolkit exec tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/ncp-toolkit exec vitest run src/agent/agent-backend-run-status.test.ts src/agent/agent-backend-finalize-status.test.ts src/agent/in-memory-agent-backend.test.ts src/agent/agent-conversation-state-manager.test.ts`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter go-usb-ai-ui exec vitest run src/api/ncp-session-query-cache.test.ts`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter go-usb-ai exec tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/ui exec tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/ncp-toolkit exec tsc -p tsconfig.json --noEmit`
 
 ## 发布/部署方式
 

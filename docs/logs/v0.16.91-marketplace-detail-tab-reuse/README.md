@@ -2,13 +2,13 @@
 
 - 修复了 skills marketplace / plugins marketplace / MCP marketplace 中，详情页缺少按条目身份去重的问题：同一个条目重复点击会复用同一个内嵌浏览器 tab，不同条目会按各自 `dedupeKey` 并存。
 - 同批次继续修复了 skills marketplace 中，点击 skill 后右侧详情要等明显一段时间才出现的问题：现在先立即打开 loading 详情，再异步填充真实内容。
-- 重复标签页问题根因已确认：marketplace 详情打开逻辑在 [packages/nextclaw-ui/src/features/marketplace/components/marketplace-page.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/features/marketplace/components/marketplace-page.tsx) 与 [packages/nextclaw-ui/src/features/marketplace/components/mcp/mcp-marketplace-page.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/features/marketplace/components/mcp/mcp-marketplace-page.tsx) 中，每次打开详情都显式传入 `newTab: true`，因此即使只是重复查看当前详情，也会强制新建 content 标签。
+- 重复标签页问题根因已确认：marketplace 详情打开逻辑在 [packages/go-usb-ai-ui/src/features/marketplace/components/marketplace-page.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/features/marketplace/components/marketplace-page.tsx) 与 [packages/go-usb-ai-ui/src/features/marketplace/components/mcp/mcp-marketplace-page.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/features/marketplace/components/mcp/mcp-marketplace-page.tsx) 中，每次打开详情都显式传入 `newTab: true`，因此即使只是重复查看当前详情，也会强制新建 content 标签。
 - 详情打开慢的问题根因已确认：skills marketplace 在点击后先 `await fetchMarketplaceSkillContent(...)`，只有等远端内容拉完才调用 `docBrowser.open(...)`，于是用户体感上是“右侧面板迟迟不出现”，而不是“面板先出现、内容后补齐”。
 - 同批次后续确认了第一次去重修复不完整：只移除 `newTab: true` 会让所有 marketplace 详情都退化成“复用当前 content tab”，导致不同 skill 的详情互相覆盖，违背用户对“不同 skill 可并存、同 skill 才去重”的预期。
 - 根因确认方式：
   - 直接检查 marketplace 详情点击链路代码，对比 doc browser 现有 `open()` 逻辑，确认第一层重复页问题来自调用侧强制 `newTab: true`。
   - 直接检查 skills 详情打开路径，确认 `docBrowser.open(...)` 位于远端 content fetch 之后，因此右侧详情显示被网络等待串行阻塞。
-  - 继续检查 [packages/nextclaw-ui/src/shared/components/doc-browser/doc-browser-context.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/shared/components/doc-browser/doc-browser-context.tsx) 的 `open()` 逻辑，确认它原本只按 `kind` 决定是否复用 active tab，缺少可由调用方提供的稳定详情身份 key。
+  - 继续检查 [packages/go-usb-ai-ui/src/shared/components/doc-browser/doc-browser-context.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/shared/components/doc-browser/doc-browser-context.tsx) 的 `open()` 逻辑，确认它原本只按 `kind` 决定是否复用 active tab，缺少可由调用方提供的稳定详情身份 key。
 - 本次修复为何命中根因而非表象：
   - 对重复页与不同 skill 互相覆盖问题，新增通用 `dedupeKey` 协议并由 marketplace 传入 `marketplace:<type>:<slug>` / `marketplace:mcp:<slug>` 等稳定 key；doc browser 只在 key 相同时更新已有 tab，key 不同时新建并保留并存。
   - 对打开慢问题，没有去改 iframe 或渲染层，而是把 skills detail 改成“先立即打开 loading 详情，再异步替换为真实内容”；竞态保护也从“全局最后一个 skill”修正为“同一个 dedupeKey 的最后一次请求”，避免不同 skill 之间互相吞掉回填。
@@ -25,7 +25,7 @@
   - doc browser 底层验证不同 `dedupeKey` 会打开不同 content tab，相同 `dedupeKey` 会更新已有 content tab，且后台更新不会抢走当前 active tab。
 - 运行：`pnpm lint:maintainability:guard`
 - 结果：通过，无错误；保留历史体量 warning，主要来自 `MarketplacePage`、`DocBrowserProvider` 与 `DocBrowser` 文件接近预算或历史函数体量偏大。本次没有引入治理错误，`lint:new-code:governance` 与 `check:governance-backlog-ratchet` 均通过。
-- 运行：`pnpm --filter @nextclaw/ui tsc`
+- 运行：`pnpm --filter @go-usb-ai/ui tsc`
 - 结果：通过。
 
 # 发布/部署方式

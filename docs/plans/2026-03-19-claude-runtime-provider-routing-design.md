@@ -4,11 +4,11 @@
 
 这份文档只回答一件事：
 
-- `NextClaw` 里的 `Claude` 会话，应该怎样在产品语境下正确接到用户已经配置好的 provider / model。
+- `GoUsbAi` 里的 `Claude` 会话，应该怎样在产品语境下正确接到用户已经配置好的 provider / model。
 
-这次方案明确不再把 `Claude` 设计成“必须依赖 Claude 订阅”的独立宇宙，而是把它收回到 `NextClaw` 统一的 provider / model 心智里：
+这次方案明确不再把 `Claude` 设计成“必须依赖 Claude 订阅”的独立宇宙，而是把它收回到 `GoUsbAi` 统一的 provider / model 心智里：
 
-- 用户先在 `NextClaw` 里配置 provider
+- 用户先在 `GoUsbAi` 里配置 provider
 - 会话里仍然选择模型
 - `session_type=claude` 只代表“使用 Claude Code / Claude Agent SDK 这套 runtime”
 - Claude runtime 是否 ready，由“当前模型能否落到已确认的 Anthropic-compatible / gateway 路由”决定
@@ -23,8 +23,8 @@
   - <https://platform.minimaxi.com/docs/guides/text-ai-coding-tools>
 - 智谱官方明确给出了 Claude Code / Anthropic 兼容接法，Anthropic 兼容端点为 `https://open.bigmodel.cn/api/anthropic`：
   - <https://docs.bigmodel.cn/cn/guide/develop/claude/introduction>
-- 在本机真实验证里，`@anthropic-ai/claude-agent-sdk` 会读取用户全局 `~/.claude/settings.json`，如果不隔离 `CLAUDE_CONFIG_DIR`，就可能被现有 Claude 全局 `env` 覆盖，导致 NextClaw 当前 provider/model 与真实请求不一致。
-- 在本机真实验证里，只设置隔离的 `CLAUDE_CONFIG_DIR`，并通过 NextClaw 注入 `ANTHROPIC_BASE_URL + ANTHROPIC_API_KEY/AUTH_TOKEN + model`，MiniMax Anthropic 兼容链路可以拿到真实 Claude runtime 回复。
+- 在本机真实验证里，`@anthropic-ai/claude-agent-sdk` 会读取用户全局 `~/.claude/settings.json`，如果不隔离 `CLAUDE_CONFIG_DIR`，就可能被现有 Claude 全局 `env` 覆盖，导致 GoUsbAi 当前 provider/model 与真实请求不一致。
+- 在本机真实验证里，只设置隔离的 `CLAUDE_CONFIG_DIR`，并通过 GoUsbAi 注入 `ANTHROPIC_BASE_URL + ANTHROPIC_API_KEY/AUTH_TOKEN + model`，MiniMax Anthropic 兼容链路可以拿到真实 Claude runtime 回复。
 
 ## 明确能做什么
 
@@ -41,14 +41,14 @@
 ## 明确不能臆想承诺什么
 
 - 不能承诺“任意 OpenAI-compatible provider 都能直接给 Claude Code 用”
-- 不能承诺 `nextclaw`、`openrouter`、`dashscope` 这类现有 provider 在没有 Anthropic-compatible 包装层时可以直接给 Claude runtime 用
+- 不能承诺 `go-usb-ai`、`openrouter`、`dashscope` 这类现有 provider 在没有 Anthropic-compatible 包装层时可以直接给 Claude runtime 用
 - 不能承诺所有第三方模型都完整支持 Claude runtime 的全部能力，例如 tools、resume、thinking、partial messages
 
 因此本次实现不会做“看到有 API Key 就盲目 ready”的错误判断。
 
 ## 产品契约
 
-在 `NextClaw` 里，Claude 会话的正确心智是：
+在 `GoUsbAi` 里，Claude 会话的正确心智是：
 
 - `Claude session = Claude Code runtime 壳 + 当前选中的可兼容 provider/model`
 
@@ -136,7 +136,7 @@ Claude session type 的 ready 判定不再是“看到 provider apiKey 就 ready
 
 ## 用户实际使用步骤
 
-假设用户是一个新安装的 `NextClaw` 用户：
+假设用户是一个新安装的 `GoUsbAi` 用户：
 
 1. 安装并启用 `Claude` runtime 插件
 2. 在 Providers 页面配置一个已确认兼容的 provider
@@ -149,8 +149,8 @@ Claude session type 的 ready 判定不再是“看到 provider apiKey 就 ready
 ## 本次实现范围
 
 - 新增 Claude provider routing helper
-- 让 Claude runtime 优先跟随 `NextClaw` provider/model
-- 让 Claude runtime 默认运行在 NextClaw 自己的隔离 `CLAUDE_CONFIG_DIR` 中，避免宿主机全局 Claude 配置污染
+- 让 Claude runtime 优先跟随 `GoUsbAi` provider/model
+- 让 Claude runtime 默认运行在 GoUsbAi 自己的隔离 `CLAUDE_CONFIG_DIR` 中，避免宿主机全局 Claude 配置污染
 - 修正 readiness 与 supportedModels/recommendedModel 生成逻辑
 - 支持内置 `anthropic/minimax/minimax-portal/zhipu`
 - 支持通过插件配置显式声明自定义 Anthropic-compatible provider / gateway provider

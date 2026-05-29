@@ -2,7 +2,7 @@
 
 ## 目标
 
-把 provider 领域收敛到 `kernel.llmProviders`，让 kernel 成为唯一装配层。`@nextclaw/core` 只保留可复用的协议、类型和纯组件；`@nextclaw/runtime` 只提供 builtin provider catalog 这类材料；service/server/NCP 调用方直接访问 `kernel.llmProviders`，不再自己实例化 provider manager 或具体 provider。
+把 provider 领域收敛到 `kernel.llmProviders`，让 kernel 成为唯一装配层。`@go-usb-ai/core` 只保留可复用的协议、类型和纯组件；`@go-usb-ai/runtime` 只提供 builtin provider catalog 这类材料；service/server/NCP 调用方直接访问 `kernel.llmProviders`，不再自己实例化 provider manager 或具体 provider。
 
 ## 命中的原则
 
@@ -16,7 +16,7 @@
 ## 理想结构
 
 ```ts
-class NextclawKernel {
+class GoUsbAiKernel {
   readonly llmProviders = new LlmProviderManager();
 }
 
@@ -28,7 +28,7 @@ await kernel.llmProviders.chatStream(params);
 await kernel.llmProviders.testConnection(params);
 ```
 
-`NextclawKernel` 只负责组合对象图；provider 领域能力都属于 `LlmProviderManager`。
+`GoUsbAiKernel` 只负责组合对象图；provider 领域能力都属于 `LlmProviderManager`。
 
 ## 职责边界
 
@@ -65,20 +65,20 @@ await kernel.llmProviders.testConnection(params);
 1. `runtime` 导出 `BUILTIN_PROVIDER_PLUGINS`，作为材料。
 2. `kernel.llmProviders` 持有自己的 `ProviderRegistry(BUILTIN_PROVIDER_PLUGINS)`。
 3. `LiteLLMProvider` 支持显式 provider registry，新路径不读 core global registry。
-4. `server` 的 provider connection test 不再 `new LiteLLMProvider`，改为 `nextclaw.llmProviders.testConnection(...)`。
+4. `server` 的 provider connection test 不再 `new LiteLLMProvider`，改为 `go-usb-ai.llmProviders.testConnection(...)`。
 
 这个切片先删除一个分散创建点，展示最终形态。
 
 ## 已推进删除项
 
 - 已删除 `RuntimeCommandService.createProvider` / `createMissingProvider` 作为 gateway deps。
-- 已删除 `NextclawGatewayRuntime.createProviderManager`。
+- 已删除 `GoUsbAiGatewayRuntime.createProviderManager`。
 - 已删除 `ConfigReloader.makeProvider` 调用链。
 - 已删除 `installBuiltinProviderRegistry()`。
 - 已删除 service 里的 `MissingProvider`。
 - 已删除 core 旧 `ProviderManager` class。
 - 已删除 kernel 里未接入的 provider record CRUD、`LlmProviderRecord` 类型出口、provider id 字段和重复 `reload()` 别名。
-- gateway runtime 已直接使用 `nextclaw.llmProviders`。
+- gateway runtime 已直接使用 `go-usb-ai.llmProviders`。
 - CLI agent 和 NCP/telemetry 调用方已收敛为依赖 kernel provider runtime 能力。
 
 ## 后续删除清单

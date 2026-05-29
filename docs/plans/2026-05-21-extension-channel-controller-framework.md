@@ -1,16 +1,16 @@
 # Extension Channel Controller Framework Implementation Plan
 
-**Goal:** 在不引入渠道特例的前提下，把微信和飞书 extension 里重复的 channel 生命周期、配置同步、入站提交、NCP 回复转发和可选 outbound text 桥接收敛为 `@nextclaw/extension-sdk` 的通用 channel controller 框架。
+**Goal:** 在不引入渠道特例的前提下，把微信和飞书 extension 里重复的 channel 生命周期、配置同步、入站提交、NCP 回复转发和可选 outbound text 桥接收敛为 `@go-usb-ai/extension-sdk` 的通用 channel controller 框架。
 
-**Architecture:** `@nextclaw/extension-sdk` 提供一个通用 `ExtensionChannelController<TConfig, TInbound>` owner，负责 extension channel 的通用生命周期闭环；每个渠道只提供 adapter、inbound mapper 和可选 capability handler。渠道包继续拥有自己的协议 API、账号存储、auth/registration、消息 parser、路由策略和外部平台发送逻辑。
+**Architecture:** `@go-usb-ai/extension-sdk` 提供一个通用 `ExtensionChannelController<TConfig, TInbound>` owner，负责 extension channel 的通用生命周期闭环；每个渠道只提供 adapter、inbound mapper 和可选 capability handler。渠道包继续拥有自己的协议 API、账号存储、auth/registration、消息 parser、路由策略和外部平台发送逻辑。
 
-**Tech Stack:** TypeScript、Vitest、`@nextclaw/extension-sdk`、`@nextclaw/ncp`、现有微信/飞书 extension 包。
+**Tech Stack:** TypeScript、Vitest、`@go-usb-ai/extension-sdk`、`@go-usb-ai/ncp`、现有微信/飞书 extension 包。
 
 ---
 
 ## 设计原则
 
-- `protected-variations`：外部渠道差异只通过 adapter 与 mapper 暴露，NextClaw 主流程不感知微信/飞书等特例。
+- `protected-variations`：外部渠道差异只通过 adapter 与 mapper 暴露，GoUsbAi 主流程不感知微信/飞书等特例。
 - `information-expert`：配置变化、cleanup、start/stop 幂等属于 controller owner；外部协议细节属于 channel adapter。
 - `complete-owner`：`ExtensionChannelController` 必须覆盖通用 channel extension 生命周期闭环，不做只转发的空壳。
 - `deletion-first`：新增 SDK controller 后删除 `WeixinExtensionRuntime` 与 `FeishuExtensionRuntime` 的重复实现。
@@ -30,8 +30,8 @@
 ```ts
 import {
   ExtensionChannelController,
-  NextClawExtension,
-} from "@nextclaw/extension-sdk";
+  GoUsbAiExtension,
+} from "@go-usb-ai/extension-sdk";
 import { WeixinAuthCapability } from "./services/weixin-auth-capability.service.js";
 import { WeixinChannelAdapter } from "./services/weixin-channel-adapter.service.js";
 import { toWeixinSubmittedMessage } from "./utils/weixin-submitted-message.utils.js";
@@ -47,7 +47,7 @@ function readOptionalString(value: unknown): string | undefined {
   return typeof value === "string" && value.trim() ? value.trim() : undefined;
 }
 
-const extension = new NextClawExtension();
+const extension = new GoUsbAiExtension();
 const channel = extension.channels.use("weixin");
 const adapter = new WeixinChannelAdapter();
 
@@ -75,12 +75,12 @@ await controller.start();
 飞书 `main.ts` 目标：
 
 ```ts
-import { ExtensionChannelController, NextClawExtension } from "@nextclaw/extension-sdk";
+import { ExtensionChannelController, GoUsbAiExtension } from "@go-usb-ai/extension-sdk";
 import { FeishuAuthCapability } from "./services/feishu-auth-capability.service.js";
 import { FeishuChannelAdapter } from "./services/feishu-channel-adapter.service.js";
 import { toFeishuSubmittedMessage } from "./utils/feishu-submitted-message.utils.js";
 
-const extension = new NextClawExtension();
+const extension = new GoUsbAiExtension();
 const channel = extension.channels.use("feishu");
 
 const controller = new ExtensionChannelController({
@@ -98,10 +98,10 @@ await controller.start();
 
 ## SDK 类型设计
 
-新增文件：`packages/nextclaw-extension-sdk/src/services/extension-channel-controller.service.ts`
+新增文件：`packages/go-usb-ai-extension-sdk/src/services/extension-channel-controller.service.ts`
 
 ```ts
-import type { NcpEndpointEvent } from "@nextclaw/ncp";
+import type { NcpEndpointEvent } from "@go-usb-ai/ncp";
 import type {
   ChannelSubmittedMessage,
   ExtensionChannel,
@@ -214,7 +214,7 @@ function defaultChannelEnabled(config: unknown): boolean {
 }
 ```
 
-修改：`packages/nextclaw-extension-sdk/src/index.ts`
+修改：`packages/go-usb-ai-extension-sdk/src/index.ts`
 
 ```ts
 export { ExtensionChannelController } from "./services/extension-channel-controller.service.js";
@@ -228,10 +228,10 @@ export type {
 
 **Files:**
 
-- Modify: `packages/nextclaw-extension-sdk/src/extension-sdk.test.ts`
-- Create: `packages/nextclaw-extension-sdk/src/services/extension-channel-controller.service.ts`
-- Modify: `packages/nextclaw-extension-sdk/src/index.ts`
-- Modify: `packages/nextclaw-extension-sdk/src/module-structure.config.json`
+- Modify: `packages/go-usb-ai-extension-sdk/src/extension-sdk.test.ts`
+- Create: `packages/go-usb-ai-extension-sdk/src/services/extension-channel-controller.service.ts`
+- Modify: `packages/go-usb-ai-extension-sdk/src/index.ts`
+- Modify: `packages/go-usb-ai-extension-sdk/src/module-structure.config.json`
 
 **Steps:**
 
@@ -248,24 +248,24 @@ export type {
 **Commands:**
 
 ```bash
-pnpm --filter @nextclaw/extension-sdk test -- --run
-pnpm --filter @nextclaw/extension-sdk tsc
+pnpm --filter @go-usb-ai/extension-sdk test -- --run
+pnpm --filter @go-usb-ai/extension-sdk tsc
 ```
 
 ## Task 2: Weixin controller replacement
 
 **Files:**
 
-- Modify: `packages/extensions/nextclaw-channel-extension-weixin/src/main.ts`
-- Create: `packages/extensions/nextclaw-channel-extension-weixin/src/utils/weixin-submitted-message.utils.ts`
-- Delete: `packages/extensions/nextclaw-channel-extension-weixin/src/services/weixin-extension-runtime.service.ts`
-- Modify: `packages/extensions/nextclaw-channel-extension-weixin/src/tests/weixin-extension-runtime.test.ts`
-- Modify as needed: `packages/extensions/nextclaw-channel-extension-weixin/src/types/weixin-extension.types.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-extension-weixin/src/main.ts`
+- Create: `packages/extensions/go-usb-ai-channel-extension-weixin/src/utils/weixin-submitted-message.utils.ts`
+- Delete: `packages/extensions/go-usb-ai-channel-extension-weixin/src/services/weixin-extension-runtime.service.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-extension-weixin/src/tests/weixin-extension-runtime.test.ts`
+- Modify as needed: `packages/extensions/go-usb-ai-channel-extension-weixin/src/types/weixin-extension.types.ts`
 
 **Mapper target:**
 
 ```ts
-import type { ChannelSubmittedMessageInput } from "@nextclaw/extension-sdk";
+import type { ChannelSubmittedMessageInput } from "@go-usb-ai/extension-sdk";
 import type { WeixinInboundMessage } from "../types/weixin-extension.types.js";
 
 export function toWeixinSubmittedMessage(message: WeixinInboundMessage): ChannelSubmittedMessageInput {
@@ -298,25 +298,25 @@ export function toWeixinSubmittedMessage(message: WeixinInboundMessage): Channel
 **Commands:**
 
 ```bash
-pnpm --filter @nextclaw/channel-extension-weixin test -- --run
-pnpm --filter @nextclaw/channel-extension-weixin tsc
-pnpm --filter @nextclaw/channel-extension-weixin lint
+pnpm --filter @go-usb-ai/channel-extension-weixin test -- --run
+pnpm --filter @go-usb-ai/channel-extension-weixin tsc
+pnpm --filter @go-usb-ai/channel-extension-weixin lint
 ```
 
 ## Task 3: Feishu controller replacement
 
 **Files:**
 
-- Modify: `packages/extensions/nextclaw-channel-extension-feishu/src/main.ts`
-- Create: `packages/extensions/nextclaw-channel-extension-feishu/src/utils/feishu-submitted-message.utils.ts`
-- Delete: `packages/extensions/nextclaw-channel-extension-feishu/src/services/feishu-extension-runtime.service.ts`
-- Modify: `packages/extensions/nextclaw-channel-extension-feishu/src/tests/feishu-extension-runtime.service.test.ts`
-- Modify as needed: `packages/extensions/nextclaw-channel-extension-feishu/src/types/feishu-extension.types.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-extension-feishu/src/main.ts`
+- Create: `packages/extensions/go-usb-ai-channel-extension-feishu/src/utils/feishu-submitted-message.utils.ts`
+- Delete: `packages/extensions/go-usb-ai-channel-extension-feishu/src/services/feishu-extension-runtime.service.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-extension-feishu/src/tests/feishu-extension-runtime.service.test.ts`
+- Modify as needed: `packages/extensions/go-usb-ai-channel-extension-feishu/src/types/feishu-extension.types.ts`
 
 **Mapper target:**
 
 ```ts
-import type { ChannelSubmittedMessageInput } from "@nextclaw/extension-sdk";
+import type { ChannelSubmittedMessageInput } from "@go-usb-ai/extension-sdk";
 import type { FeishuInboundMessage } from "../types/feishu-extension.types.js";
 
 export function toFeishuSubmittedMessage(message: FeishuInboundMessage): ChannelSubmittedMessageInput {
@@ -353,17 +353,17 @@ export function toFeishuSubmittedMessage(message: FeishuInboundMessage): Channel
 **Commands:**
 
 ```bash
-pnpm --filter @nextclaw/channel-extension-feishu test -- --run
-pnpm --filter @nextclaw/channel-extension-feishu tsc
-pnpm --filter @nextclaw/channel-extension-feishu lint
+pnpm --filter @go-usb-ai/channel-extension-feishu test -- --run
+pnpm --filter @go-usb-ai/channel-extension-feishu tsc
+pnpm --filter @go-usb-ai/channel-extension-feishu lint
 ```
 
 ## Task 4: Capability helper decision
 
 **Files:**
 
-- Modify: `packages/extensions/nextclaw-channel-extension-weixin/src/services/weixin-auth-capability.service.ts`
-- Modify: `packages/extensions/nextclaw-channel-extension-feishu/src/services/feishu-auth-capability.service.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-extension-weixin/src/services/weixin-auth-capability.service.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-extension-feishu/src/services/feishu-auth-capability.service.ts`
 
 **Steps:**
 
@@ -374,9 +374,9 @@ pnpm --filter @nextclaw/channel-extension-feishu lint
 **Commands:**
 
 ```bash
-pnpm --filter @nextclaw/channel-extension-weixin test -- src/tests/weixin-auth-capability.service.test.ts --run
-pnpm --filter @nextclaw/channel-extension-feishu test -- src/tests/feishu-auth-capability.service.test.ts --run
-pnpm --filter @nextclaw/extension-sdk test -- --run
+pnpm --filter @go-usb-ai/channel-extension-weixin test -- src/tests/weixin-auth-capability.service.test.ts --run
+pnpm --filter @go-usb-ai/channel-extension-feishu test -- src/tests/feishu-auth-capability.service.test.ts --run
+pnpm --filter @go-usb-ai/extension-sdk test -- --run
 ```
 
 ## Task 5: Full validation and maintainability close
@@ -384,14 +384,14 @@ pnpm --filter @nextclaw/extension-sdk test -- --run
 **Commands:**
 
 ```bash
-pnpm --filter @nextclaw/extension-sdk tsc
-pnpm --filter @nextclaw/extension-sdk test -- --run
-pnpm --filter @nextclaw/channel-extension-weixin tsc
-pnpm --filter @nextclaw/channel-extension-weixin test -- --run
-pnpm --filter @nextclaw/channel-extension-weixin lint
-pnpm --filter @nextclaw/channel-extension-feishu tsc
-pnpm --filter @nextclaw/channel-extension-feishu test -- --run
-pnpm --filter @nextclaw/channel-extension-feishu lint
+pnpm --filter @go-usb-ai/extension-sdk tsc
+pnpm --filter @go-usb-ai/extension-sdk test -- --run
+pnpm --filter @go-usb-ai/channel-extension-weixin tsc
+pnpm --filter @go-usb-ai/channel-extension-weixin test -- --run
+pnpm --filter @go-usb-ai/channel-extension-weixin lint
+pnpm --filter @go-usb-ai/channel-extension-feishu tsc
+pnpm --filter @go-usb-ai/channel-extension-feishu test -- --run
+pnpm --filter @go-usb-ai/channel-extension-feishu lint
 pnpm lint:new-code:governance
 pnpm check:governance-backlog-ratchet
 node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs
@@ -409,4 +409,4 @@ git diff --check
 
 ## Follow-up After This Plan
 
-完成本轮后，再单独设计“旧 `channel-plugin-*` 到新 `channel-extension-*` 的迁移模板”。迁移模板应以本轮 SDK controller 为唯一标准，不再复制旧 `@nextclaw/channel-runtime` 聚合模式。
+完成本轮后，再单独设计“旧 `channel-plugin-*` 到新 `channel-extension-*` 的迁移模板”。迁移模板应以本轮 SDK controller 为唯一标准，不再复制旧 `@go-usb-ai/channel-runtime` 聚合模式。

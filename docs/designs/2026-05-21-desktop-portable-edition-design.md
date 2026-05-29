@@ -2,16 +2,16 @@
 
 ## 1. 文档目的
 
-本文记录 NextClaw Desktop Windows Portable Edition 的产品与技术方案。
+本文记录 GoUsbAi Desktop Windows Portable Edition 的产品与技术方案。
 
 Portable Edition 不是安装器里的一个 portable 选项，也不是把默认桌面版改成便携模式，而是一个独立下载产物：
 
 ```text
-NextClaw-Portable-<desktop-version>-win-x64.zip
-NextClaw-Portable-<desktop-version>-win-arm64.zip
+GoUsbAi-Portable-<desktop-version>-win-x64.zip
+GoUsbAi-Portable-<desktop-version>-win-arm64.zip
 ```
 
-用户下载后解压，把整个目录放到 U 盘或任意可写目录，双击 `NextClaw Desktop.exe` 即可使用。NextClaw 自己管理的数据默认跟随这个目录移动。
+用户下载后解压，把整个目录放到 U 盘或任意可写目录，双击 `GoUsbAi Desktop.exe` 即可使用。GoUsbAi 自己管理的数据默认跟随这个目录移动。
 
 ## 2. 范围
 
@@ -28,9 +28,9 @@ NextClaw-Portable-<desktop-version>-win-arm64.zip
 解压后的 portable 根目录固定为：
 
 ```text
-NextClaw-Portable/
-  NextClaw Desktop.exe
-  nextclaw-portable.json
+GoUsbAi-Portable/
+  GoUsbAi Desktop.exe
+  go-usb-ai-portable.json
   data/
     desktop/
       userData/
@@ -38,17 +38,17 @@ NextClaw-Portable/
     logs/
 ```
 
-`nextclaw-portable.json` 是安装形态 marker，不是用户配置文件。它只用于告诉桌面启动链路：当前目录应按 portable root 处理。
+`go-usb-ai-portable.json` 是安装形态 marker，不是用户配置文件。它只用于告诉桌面启动链路：当前目录应按 portable root 处理。
 
-`data/` 是 Portable Edition 的用户数据根目录，用于保存 NextClaw 自己管理的桌面状态、Electron `userData`、runtime home、日志、会话、配置和运行时状态。便携包不要求预置用户数据；`data/` 可以不存在，第一次启动时由应用按需创建。
+`data/` 是 Portable Edition 的用户数据根目录，用于保存 GoUsbAi 自己管理的桌面状态、Electron `userData`、runtime home、日志、会话、配置和运行时状态。便携包不要求预置用户数据；`data/` 可以不存在，第一次启动时由应用按需创建。
 
 Portable Edition 与普通桌面版的关系：
 
 - 普通桌面版适合长期安装，写入系统默认 app data，保留开始菜单、桌面快捷方式和卸载入口。
-- Portable Edition 适合 U 盘、临时电脑和免安装环境，NextClaw 自有数据写入应用目录旁边的 `data/`。
+- Portable Edition 适合 U 盘、临时电脑和免安装环境，GoUsbAi 自有数据写入应用目录旁边的 `data/`。
 - 两者不是同一个安装流程的不同选项，必须能够共存。
 
-边界也必须清楚：Portable Edition 追求 NextClaw 自有数据随目录走，不承诺操作系统完全零痕迹。系统仍可能留下最近打开记录、系统日志、SmartScreen 记录、GPU 或字体缓存等宿主痕迹。
+边界也必须清楚：Portable Edition 追求 GoUsbAi 自有数据随目录走，不承诺操作系统完全零痕迹。系统仍可能留下最近打开记录、系统日志、SmartScreen 记录、GPU 或字体缓存等宿主痕迹。
 
 ## 4. 核心设计原则
 
@@ -123,8 +123,8 @@ Portable Edition 与普通桌面版的关系：
 GitHub beta preview release 必须包含：
 
 ```text
-NextClaw-Portable-<desktop-version>-win-x64.zip
-NextClaw-Portable-<desktop-version>-win-arm64.zip
+GoUsbAi-Portable-<desktop-version>-win-x64.zip
+GoUsbAi-Portable-<desktop-version>-win-arm64.zip
 ```
 
 Windows release workflow 需要：
@@ -139,7 +139,7 @@ Windows release workflow 需要：
 ## 9. 验收标准
 
 - Windows x64 portable zip 可解压启动。
-- Windows arm64 portable zip 结构正确，包含 `nextclaw-portable.json`。
+- Windows arm64 portable zip 结构正确，包含 `go-usb-ai-portable.json`。
 - 首次启动后数据落在 `data/desktop`、`data/runtime-home`、`data/logs`。
 - main log 记录 `installationKind=portable`，并记录 portable data / runtime home。
 - portable 应用内更新入口进入 unsupported blocked 状态，不触发下载。
@@ -152,8 +152,8 @@ Windows release workflow 需要：
 
 - Release tag：`v0.19.17-desktop-beta.4`
 - Desktop version：`0.0.174`
-- x64 asset：`NextClaw-Portable-0.0.174-win-x64.zip`
-- arm64 asset：`NextClaw-Portable-0.0.174-win-arm64.zip`
+- x64 asset：`GoUsbAi-Portable-0.0.174-win-x64.zip`
+- arm64 asset：`GoUsbAi-Portable-0.0.174-win-arm64.zip`
 - GitHub Actions run：`26235866236`
 
 本阶段交付的是 Windows portable 用户能力。NPM release、macOS portable 和 Linux portable 不属于本阶段闭环。

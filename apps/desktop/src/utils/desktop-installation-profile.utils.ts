@@ -40,8 +40,8 @@ export type DesktopInstallationProfileInput = {
   readTextFile?: (path: string) => string;
 };
 
-export const DESKTOP_PORTABLE_MARKER_FILE = "nextclaw-portable.json";
-export const DESKTOP_PORTABLE_MARKER_KIND = "nextclaw-portable";
+export const DESKTOP_PORTABLE_MARKER_FILE = "go-usb-ai-portable.json";
+export const DESKTOP_PORTABLE_MARKER_KIND = "go-usb-ai-portable";
 export const DESKTOP_PORTABLE_MARKER_VERSION = 1;
 
 const PORTABLE_UPDATE_MESSAGE =
@@ -75,7 +75,7 @@ function createProfileId(kind: DesktopInstallationKind, root: string | null): st
 function assertPortableMarker(markerPath: string, readTextFile: (path: string) => string): void {
   const parsed = JSON.parse(readTextFile(markerPath)) as Record<string, unknown>;
   if (parsed.kind !== DESKTOP_PORTABLE_MARKER_KIND || parsed.version !== DESKTOP_PORTABLE_MARKER_VERSION) {
-    throw new Error(`Invalid NextClaw portable marker: ${markerPath}`);
+    throw new Error(`Invalid GoUsbAi portable marker: ${markerPath}`);
   }
 }
 

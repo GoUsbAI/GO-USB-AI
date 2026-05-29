@@ -10,9 +10,9 @@
 
 ## 测试/验证/验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- --run src/components/config/ChannelForm.test.tsx src/components/config/ChannelsList.test.tsx`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/config/ChannelForm.tsx src/components/config/ChannelForm.test.tsx src/components/config/ChannelsList.test.tsx`
-- `PATH=/opt/homebrew/bin:$PATH node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/config/ChannelForm.tsx packages/nextclaw-ui/src/components/config/ChannelForm.test.tsx packages/nextclaw-ui/src/components/config/ChannelsList.test.tsx`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- --run src/components/config/ChannelForm.test.tsx src/components/config/ChannelsList.test.tsx`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/config/ChannelForm.tsx src/components/config/ChannelForm.test.tsx src/components/config/ChannelsList.test.tsx`
+- `PATH=/opt/homebrew/bin:$PATH node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/config/ChannelForm.tsx packages/go-usb-ai-ui/src/components/config/ChannelForm.test.tsx packages/go-usb-ai-ui/src/components/config/ChannelsList.test.tsx`
 - `PATH=/opt/homebrew/bin:$PATH pnpm lint:new-code:governance`
 
 ## 发布/部署方式
@@ -23,7 +23,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 NextClaw 设置页，进入“消息渠道”。
+1. 打开 GoUsbAi 设置页，进入“消息渠道”。
 2. 点击任一渠道卡片，确认右侧详情面板可以正常打开，不再立即卡死，也不再出现 `Maximum update depth exceeded`。
 3. 切换不同渠道，再切回原渠道，确认表单内容能正常按渠道切换，不会自行重置或持续闪动。
 4. 对含 JSON 字段的渠道执行一次保存前编辑或手动 action，确认 JSON 文本框内容与实际配置状态保持一致。
@@ -32,9 +32,9 @@
 
 - 本次是否已尽最大努力优化可维护性：是。本次没有在原有 effect 外再叠一层条件分支，而是直接收敛了不稳定依赖和 hydrate 触发条件，把状态同步语义改成“按真实源数据变化同步”。
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。虽然非测试代码净增 `40` 行，但先删除了 effect 内重复构造 JSON 草稿的散落实现，并避免新增新的 store、flag 或补丁式 guard；剩余增长用于把同步契约显式化，这是本次真正修复死循环所需的最小必要代码。
-- 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：总代码净增 `100` 行，其中非测试代码净增 `40` 行，测试代码净增 `60` 行。非功能性改动出现净增的原因是需要把“配置内容指纹 + hydrate guard + JSON 草稿同步”编码为明确规则，并新增回归测试锁住问题；这部分增长已经收敛在单个组件内，没有引入新的模块层级或额外状态容器。目录平铺度未改善，`packages/nextclaw-ui/src/components/config` 仍存在既有目录预算例外，本次仅新增一个回归测试文件，未进一步拆目录，下一步整理入口仍是按职责拆分该配置目录。
+- 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：总代码净增 `100` 行，其中非测试代码净增 `40` 行，测试代码净增 `60` 行。非功能性改动出现净增的原因是需要把“配置内容指纹 + hydrate guard + JSON 草稿同步”编码为明确规则，并新增回归测试锁住问题；这部分增长已经收敛在单个组件内，没有引入新的模块层级或额外状态容器。目录平铺度未改善，`packages/go-usb-ai-ui/src/components/config` 仍存在既有目录预算例外，本次仅新增一个回归测试文件，未进一步拆目录，下一步整理入口仍是按职责拆分该配置目录。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：更清晰。`ChannelForm` 现在把“空兜底常量”“JSON 草稿构造”“hydrate key 生成”三个职责前置为局部 helper，组件主体只负责状态编排与渲染，没有新增新的抽象层。
-- 目录结构与文件组织是否满足当前项目治理要求：部分未满足。`packages/nextclaw-ui/src/components/config` 目录仍超过硬性文件预算，但这是已有例外，不是本次新增的问题域；本次未在该目录做结构治理，原因是当前优先级是先恢复渠道设置页可用性，下一步整理入口是将配置页按职责拆到更细的子目录或测试子树。
+- 目录结构与文件组织是否满足当前项目治理要求：部分未满足。`packages/go-usb-ai-ui/src/components/config` 目录仍超过硬性文件预算，但这是已有例外，不是本次新增的问题域；本次未在该目录做结构治理，原因是当前优先级是先恢复渠道设置页可用性，下一步整理入口是将配置页按职责拆到更细的子目录或测试子树。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：是。本总结基于实现后独立复核填写，不仅复述守卫结果，也额外评估了净增代码的必要性、目录债务与职责边界变化。
 - 可维护性复核结论：通过。
 - 本次顺手减债：是。

@@ -20,10 +20,10 @@ pnpm -C /Users/peiwang/Projects/nextbot lint
 pnpm -C /Users/peiwang/Projects/nextbot tsc
 
 # smoke-check（非仓库目录）
-NEXTCLAW_HOME=/tmp/nextclaw-readme-docs-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw dev start --ui-port 18811 > /tmp/nextclaw-readme-docs-smoke.log 2>&1
+GOUSB_AI_HOME=/tmp/go-usb-ai-readme-docs-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai dev start --ui-port 18811 > /tmp/go-usb-ai-readme-docs-smoke.log 2>&1
 sleep 2
 curl -s http://127.0.0.1:18811/api/health
-NEXTCLAW_HOME=/tmp/nextclaw-readme-docs-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw dev stop
+GOUSB_AI_HOME=/tmp/go-usb-ai-readme-docs-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai dev stop
 ```
 
 验收点：

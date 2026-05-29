@@ -2,13 +2,13 @@
 
 ## 迭代完成说明（改了什么）
 
-- 目标：补齐 `@nextclaw/channel-runtime@0.1.5` 之后的下游联动发布，确保最终用户默认安装链路稳定拿到 Discord 分片修复。
+- 目标：补齐 `@go-usb-ai/channel-runtime@0.1.5` 之后的下游联动发布，确保最终用户默认安装链路稳定拿到 Discord 分片修复。
 - 本次联动发布：
-  - `@nextclaw/openclaw-compat@0.1.12`
-  - `nextclaw@0.6.20`
+  - `@go-usb-ai/openclaw-compat@0.1.12`
+  - `go-usb-ai@0.6.20`
 - 依赖链调整：
-  - `packages/nextclaw-openclaw-compat/package.json` 中 `@nextclaw/channel-runtime` 依赖从 `^0.1.4` 提升为 `^0.1.5`
-  - `packages/nextclaw/package.json` 中 `@nextclaw/openclaw-compat` 依赖随联动版本升级为 `^0.1.12`
+  - `packages/go-usb-ai-openclaw-compat/package.json` 中 `@go-usb-ai/channel-runtime` 依赖从 `^0.1.4` 提升为 `^0.1.5`
+  - `packages/go-usb-ai/package.json` 中 `@go-usb-ai/openclaw-compat` 依赖随联动版本升级为 `^0.1.12`
 - 本轮没有采用 `changeset fixed` 强绑定版本组：
   - 原因：`fixed` 会强制组内包统一版本号，导致 `openclaw-compat` 被不合理抬升到 `0.6.x`。
   - 改为显式多包 changeset 联动（更符合当前版本结构）。
@@ -28,27 +28,27 @@ pnpm tsc
 ### 发布结果核验
 
 ```bash
-npm view @nextclaw/openclaw-compat version
-npm view nextclaw@0.6.20 version
-npm view nextclaw dist-tags --json
-npm view @nextclaw/openclaw-compat dist-tags --json
-git tag --list 'nextclaw@0.6.20' '@nextclaw/openclaw-compat@0.1.12'
+npm view @go-usb-ai/openclaw-compat version
+npm view go-usb-ai@0.6.20 version
+npm view go-usb-ai dist-tags --json
+npm view @go-usb-ai/openclaw-compat dist-tags --json
+git tag --list 'go-usb-ai@0.6.20' '@go-usb-ai/openclaw-compat@0.1.12'
 ```
 
 验收点：
-- `@nextclaw/openclaw-compat` 最新版本为 `0.1.12`
-- `nextclaw@0.6.20` 可查询
-- dist-tag：`nextclaw.latest = 0.6.20`，`@nextclaw/openclaw-compat.latest = 0.1.12`
+- `@go-usb-ai/openclaw-compat` 最新版本为 `0.1.12`
+- `go-usb-ai@0.6.20` 可查询
+- dist-tag：`go-usb-ai.latest = 0.6.20`，`@go-usb-ai/openclaw-compat.latest = 0.1.12`
 - 本地存在对应 tag。
 
 ### 发布后冒烟（隔离目录）
 
 ```bash
-TMP_DIR=$(mktemp -d /tmp/nextclaw-release-smoke.XXXXXX)
+TMP_DIR=$(mktemp -d /tmp/go-usb-ai-release-smoke.XXXXXX)
 cd "$TMP_DIR"
 npm init -y
-npm install nextclaw@0.6.20
-npx --yes nextclaw --version
+npm install go-usb-ai@0.6.20
+npx --yes go-usb-ai --version
 rm -rf "$TMP_DIR"
 ```
 
@@ -65,8 +65,8 @@ pnpm release:publish
 ```
 
 本次发布结果：
-- `@nextclaw/openclaw-compat@0.1.12` ✅
-- `nextclaw@0.6.20` ✅
+- `@go-usb-ai/openclaw-compat@0.1.12` ✅
+- `go-usb-ai@0.6.20` ✅
 
 闭环说明：
 - 远程 migration：不适用（无后端/数据库变更）。

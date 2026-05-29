@@ -1,6 +1,6 @@
-# NextClaw 路线图
+# GoUsbAi 路线图
 
-本文档描述 NextClaw 当前阶段的具体优先级与执行方向。所有工作服务于 [产品愿景](/zh/project/vision)。
+本文档描述 GoUsbAi 当前阶段的具体优先级与执行方向。所有工作服务于 [产品愿景](/zh/project/vision)。
 
 如果你想看一个更直观的公开页面，了解最近发版节奏、代码规模变化、产品笔记和当前界面截图，先看 [Project Pulse](/zh/project/project-pulse)。
 

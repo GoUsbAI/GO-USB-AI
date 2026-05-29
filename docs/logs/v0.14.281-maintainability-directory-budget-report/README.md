@@ -30,6 +30,6 @@
 
 - 在仓库根目录运行 `node scripts/eslint-maintainability-report.mjs --fail-on-coverage-gaps`。
 - 确认输出除了 ESLint 维护性违规外，还会额外展示 `Directory budget hotspots` 分段。
-- 检查热点列表中能看到真实目录热点，例如 `packages/extensions/nextclaw-channel-plugin-feishu/src`、`packages/nextclaw-openclaw-compat/src/plugins`、`packages/nextclaw-core/src/agent`。
+- 检查热点列表中能看到真实目录热点，例如 `packages/extensions/go-usb-ai-channel-plugin-feishu/src`、`packages/go-usb-ai-openclaw-compat/src/plugins`、`packages/go-usb-ai-core/src/agent`。
 - 检查热点列表中不会出现 `ui-dist`、`release` 等生成目录。
 - 在日常改动后运行 `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --no-fail`，确认 diff-only guard 与统一报告使用同一套目录预算语义。

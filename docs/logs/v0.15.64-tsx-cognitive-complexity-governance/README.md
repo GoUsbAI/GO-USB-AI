@@ -9,9 +9,9 @@
 ## 测试/验证/验收方式
 
 - 已执行：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm exec eslint --print-config packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx | rg -n 'sonarjs/cognitive-complexity|max-lines-per-function|max-statements' -C 1`
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm exec eslint packages/nextclaw-ui/src/components/chat/ChatConversationPanel.tsx`
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm exec eslint packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm exec eslint --print-config packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx | rg -n 'sonarjs/cognitive-complexity|max-lines-per-function|max-statements' -C 1`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm exec eslint packages/go-usb-ai-ui/src/components/chat/ChatConversationPanel.tsx`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm exec eslint packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx`
 - 结果：
   - `print-config` 已显示 TSX 组件命中 `sonarjs/cognitive-complexity` 规则。
   - `ChatConversationPanel.tsx` 现在会报出 `Cognitive Complexity from 23 to the 18 allowed` warning。
@@ -24,7 +24,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 运行 `pnpm exec eslint --print-config packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`，确认 UI 组件配置中已包含 `sonarjs/cognitive-complexity`。
+1. 运行 `pnpm exec eslint --print-config packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`，确认 UI 组件配置中已包含 `sonarjs/cognitive-complexity`。
 2. 对一个已知复杂的 TSX 组件运行 `pnpm exec eslint <path>`，确认输出会出现 `sonarjs/cognitive-complexity` warning。
 3. 运行 `pnpm lint:maintainability:guard` 或按路径运行 `check-maintainability.mjs --paths <tsx-file>`，确认后续触达 TSX 组件时可进入统一维护性治理闭环。
 

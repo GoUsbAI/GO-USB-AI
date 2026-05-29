@@ -6,23 +6,23 @@
   - GitHub Release 正文（`github-release.md`）
   - 多渠道宣发文案（`channel-announcements.md`）
 - 版本范围聚焦：
-  - `nextclaw@0.9.8`
-  - `@nextclaw/ui@0.6.6`
+  - `go-usb-ai@0.9.8`
+  - `@go-usb-ai/ui@0.6.6`
 - GitHub Release 已创建：
-  - `nextclaw@0.9.7`
-  - `nextclaw@0.9.8`（最新）
+  - `go-usb-ai@0.9.7`
+  - `go-usb-ai@0.9.8`（最新）
 - 目标：把近期“聊天体验与文档体验优化”集中对外可见，提升传播效率。
 
 ## 测试/验证/验收方式
 
 - 发布链路校验：执行 `pnpm release:publish` 并确认成功。
-- 版本校验：执行 `npm view nextclaw version` 与 `npm view @nextclaw/ui version`，确认为最新版本。
-- GitHub 校验：在仓库 Releases 页面确认 `nextclaw@0.9.8` 公告已创建且内容正确。
+- 版本校验：执行 `npm view go-usb-ai version` 与 `npm view @go-usb-ai/ui version`，确认为最新版本。
+- GitHub 校验：在仓库 Releases 页面确认 `go-usb-ai@0.9.8` 公告已创建且内容正确。
 
 ## 发布/部署方式
 
 1. 确保版本已完成 NPM 发布。
-2. 使用 `github-release-0.9.8.md` 作为正式公告正文创建 GitHub Release（tag：`nextclaw@0.9.8`）。
+2. 使用 `github-release-0.9.8.md` 作为正式公告正文创建 GitHub Release（tag：`go-usb-ai@0.9.8`）。
 3. 将 `channel-announcements.md` 用于飞书/社群/公众号等外部渠道分发。
 
 ## 用户/产品视角的验收步骤

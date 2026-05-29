@@ -1,13 +1,13 @@
-# NextClaw 项目功能全集
+# GoUsbAi 项目功能全集
 
-本文档按模块梳理 NextClaw 的完整功能集合，便于产品规划、对外宣传与研发对齐。与 [USAGE](USAGE.md)、[PRD 功能清单](prd/current-feature-list.md) 互补。
+本文档按模块梳理 GoUsbAi 的完整功能集合，便于产品规划、对外宣传与研发对齐。与 [USAGE](USAGE.md)、[PRD 功能清单](prd/current-feature-list.md) 互补。
 
 ---
 
 ## 1. 产品定位
 
 - **一句话**：你的数字世界全能管家，兼容 OpenClaw，以 UI 为先，并在本地调度互联网与算力。
-- **核心体验**：`nextclaw start` 后，在浏览器中配置 Provider 与渠道，无需复杂 CLI 流程。
+- **核心体验**：`go-usb-ai start` 后，在浏览器中配置 Provider 与渠道，无需复杂 CLI 流程。
 - **适用场景**：快速试玩、备用机、多渠道 + 多模型且希望低维护成本的个人助理用户。
 
 ---
@@ -16,13 +16,13 @@
 
 | 包 | 职责 |
 |----|------|
-| `nextclaw` | CLI 入口、start/stop/serve/gateway、agent/config/channels/cron/plugins/skills 等命令 |
-| `nextclaw-core` | Agent 循环、Provider 管理、内置工具、Cron、Session、Memory、配置 schema |
-| `nextclaw-server` | HTTP API、WebSocket、与 UI 和 Channel 的对接 |
-| `nextclaw-ui` | 配置 Web UI（模型 / Provider / 渠道 / 路由与运行时） |
-| `nextclaw-openclaw-compat` | OpenClaw 插件 SDK 与兼容层 |
-| `nextclaw-channel-runtime` | 渠道运行时（加载、注册、消息入站/出站） |
-| `nextclaw-channel-plugin-*` | 各渠道插件：telegram, discord, slack, feishu, dingtalk, wecom, whatsapp, email, qq, weixin |
+| `go-usb-ai` | CLI 入口、start/stop/serve/gateway、agent/config/channels/cron/plugins/skills 等命令 |
+| `go-usb-ai-core` | Agent 循环、Provider 管理、内置工具、Cron、Session、Memory、配置 schema |
+| `go-usb-ai-server` | HTTP API、WebSocket、与 UI 和 Channel 的对接 |
+| `go-usb-ai-ui` | 配置 Web UI（模型 / Provider / 渠道 / 路由与运行时） |
+| `go-usb-ai-openclaw-compat` | OpenClaw 插件 SDK 与兼容层 |
+| `go-usb-ai-channel-runtime` | 渠道运行时（加载、注册、消息入站/出站） |
+| `go-usb-ai-channel-plugin-*` | 各渠道插件：telegram, discord, slack, feishu, dingtalk, wecom, whatsapp, email, qq, weixin |
 
 ---
 
@@ -32,90 +32,90 @@
 
 | 命令 | 说明 |
 |------|------|
-| `nextclaw start` | 后台启动助理服务 + UI（默认 0.0.0.0，端口 55667） |
-| `nextclaw restart` | 重启后台服务（可带 start 参数） |
-| `nextclaw stop` | 停止后台服务 |
-| `nextclaw serve` | 前台运行助理服务 + UI |
-| `nextclaw ui` | 前台运行 UI + 助理服务 |
-| `nextclaw gateway` | 仅启动通道服务（供渠道连接） |
+| `go-usb-ai start` | 后台启动助理服务 + UI（默认 0.0.0.0，端口 55667） |
+| `go-usb-ai restart` | 重启后台服务（可带 start 参数） |
+| `go-usb-ai stop` | 停止后台服务 |
+| `go-usb-ai serve` | 前台运行助理服务 + UI |
+| `go-usb-ai ui` | 前台运行 UI + 助理服务 |
+| `go-usb-ai gateway` | 仅启动通道服务（供渠道连接） |
 
 ### 3.2 对话与工作区
 
 | 命令 | 说明 |
 |------|------|
-| `nextclaw agent -m "..."` | 单轮对话 |
-| `nextclaw agent` | 交互式对话 |
-| `nextclaw agent --session <id> --model <model>` | 指定会话与模型路由 |
-| `nextclaw init` | 初始化工作区与模板文件 |
-| `nextclaw init --force` | 覆盖已有模板 |
-| `nextclaw onboard` | 引导流程 |
+| `go-usb-ai agent -m "..."` | 单轮对话 |
+| `go-usb-ai agent` | 交互式对话 |
+| `go-usb-ai agent --session <id> --model <model>` | 指定会话与模型路由 |
+| `go-usb-ai init` | 初始化工作区与模板文件 |
+| `go-usb-ai init --force` | 覆盖已有模板 |
+| `go-usb-ai onboard` | 引导流程 |
 
 ### 3.3 状态与诊断
 
 | 命令 | 说明 |
 |------|------|
-| `nextclaw status` | 进程 / 健康 / 配置摘要（`--json`、`--verbose`、`--fix`） |
-| `nextclaw doctor` | 运行时诊断（`--json`、`--verbose`、`--fix`） |
-| `nextclaw update` | 自更新（可配 `NEXTCLAW_UPDATE_COMMAND`） |
+| `go-usb-ai status` | 进程 / 健康 / 配置摘要（`--json`、`--verbose`、`--fix`） |
+| `go-usb-ai doctor` | 运行时诊断（`--json`、`--verbose`、`--fix`） |
+| `go-usb-ai update` | 自更新（可配 `GOUSB_AI_UPDATE_COMMAND`） |
 
 ### 3.4 配置
 
 | 命令 | 说明 |
 |------|------|
-| `nextclaw config get <path>` | 按路径读取配置（`--json` 输出结构化） |
-| `nextclaw config set <path> <value>` | 按路径设置（`--json` 解析 value） |
-| `nextclaw config unset <path>` | 按路径删除 |
+| `go-usb-ai config get <path>` | 按路径读取配置（`--json` 输出结构化） |
+| `go-usb-ai config set <path> <value>` | 按路径设置（`--json` 解析 value） |
+| `go-usb-ai config unset <path>` | 按路径删除 |
 
 ### 3.5 渠道
 
 | 命令 | 说明 |
 |------|------|
-| `nextclaw channels status` | 已启用渠道及状态 |
-| `nextclaw channels login` | 支持渠道的扫码登录 |
-| `nextclaw channels add --channel <id> ...` | 通过 setup adapter 配置渠道 |
+| `go-usb-ai channels status` | 已启用渠道及状态 |
+| `go-usb-ai channels login` | 支持渠道的扫码登录 |
+| `go-usb-ai channels add --channel <id> ...` | 通过 setup adapter 配置渠道 |
 
 ### 3.6 定时任务
 
 | 命令 | 说明 |
 |------|------|
-| `nextclaw cron list` | 列出定时任务（`--json`） |
-| `nextclaw cron add -n <name> -m <message> ...` | 新增任务（`--at` 一次性 / `-c` cron / `-e` 间隔秒） |
-| `nextclaw cron remove <jobId>` | 删除任务 |
-| `nextclaw cron enable <jobId>` | 启用（`--disable` 禁用） |
-| `nextclaw cron run <jobId>` | 立即执行一次（可选 `--force`） |
+| `go-usb-ai cron list` | 列出定时任务（`--json`） |
+| `go-usb-ai cron add -n <name> -m <message> ...` | 新增任务（`--at` 一次性 / `-c` cron / `-e` 间隔秒） |
+| `go-usb-ai cron remove <jobId>` | 删除任务 |
+| `go-usb-ai cron enable <jobId>` | 启用（`--disable` 禁用） |
+| `go-usb-ai cron run <jobId>` | 立即执行一次（可选 `--force`） |
 
 ### 3.7 插件（OpenClaw 兼容）
 
 | 命令 | 说明 |
 |------|------|
-| `nextclaw plugins list` | 已发现插件列表 |
-| `nextclaw plugins info <id>` | 插件详情 |
-| `nextclaw plugins install <path-or-spec>` | 从路径或 npm 安装 |
-| `nextclaw plugins uninstall <id>` | 卸载（可选 `--dry-run`） |
-| `nextclaw plugins enable <id>` | 在配置中启用 |
-| `nextclaw plugins disable <id>` | 在配置中禁用 |
-| `nextclaw plugins doctor` | 插件加载诊断 |
+| `go-usb-ai plugins list` | 已发现插件列表 |
+| `go-usb-ai plugins info <id>` | 插件详情 |
+| `go-usb-ai plugins install <path-or-spec>` | 从路径或 npm 安装 |
+| `go-usb-ai plugins uninstall <id>` | 卸载（可选 `--dry-run`） |
+| `go-usb-ai plugins enable <id>` | 在配置中启用 |
+| `go-usb-ai plugins disable <id>` | 在配置中禁用 |
+| `go-usb-ai plugins doctor` | 插件加载诊断 |
 
 ### 3.8 Skills / Marketplace
 
 | 命令 | 说明 |
 |------|------|
-| `nextclaw skills installed` | 查看本地已安装 skill |
-| `nextclaw skills info <selector>` | 查看本地已安装 skill 详情 |
-| `nextclaw skills install <slug>` | 兼容入口：从 marketplace 安装 skill |
-| `nextclaw skills publish <dir>` | 上传/创建 marketplace skill |
-| `nextclaw skills update <dir>` | 更新已有 marketplace skill |
-| `nextclaw marketplace skills search` | 搜索 marketplace skill 目录 |
-| `nextclaw marketplace skills info <slug>` | 查看 marketplace skill 详情 |
-| `nextclaw marketplace skills recommend` | 查看 marketplace skill 推荐 |
-| `nextclaw marketplace skills install <slug>` | 从 marketplace 安装 skill（显式远端域） |
+| `go-usb-ai skills installed` | 查看本地已安装 skill |
+| `go-usb-ai skills info <selector>` | 查看本地已安装 skill 详情 |
+| `go-usb-ai skills install <slug>` | 兼容入口：从 marketplace 安装 skill |
+| `go-usb-ai skills publish <dir>` | 上传/创建 marketplace skill |
+| `go-usb-ai skills update <dir>` | 更新已有 marketplace skill |
+| `go-usb-ai marketplace skills search` | 搜索 marketplace skill 目录 |
+| `go-usb-ai marketplace skills info <slug>` | 查看 marketplace skill 详情 |
+| `go-usb-ai marketplace skills recommend` | 查看 marketplace skill 推荐 |
+| `go-usb-ai marketplace skills install <slug>` | 从 marketplace 安装 skill（显式远端域） |
 
 ---
 
 ## 4. 配置与数据
 
-- **配置路径**：`~/.nextclaw/config.json`（可通过 `NEXTCLAW_HOME` 覆盖目录）。
-- **工作区默认路径**：`~/.nextclaw/workspace`（可在 `agents.defaults.workspace` 覆盖）。
+- **配置路径**：`~/.go-usb-ai/config.json`（可通过 `GOUSB_AI_HOME` 覆盖目录）。
+- **工作区默认路径**：`~/.go-usb-ai/workspace`（可在 `agents.defaults.workspace` 覆盖）。
 - **热应用（无需重启）**：`providers.*`、`channels.*`、`agents.defaults.*`、`agents.context.*`、`tools.*`。
 - **需重启**：UI 端口（`--port`/`--ui-port`）、`plugins.*`。
 
@@ -123,7 +123,7 @@
 
 ## 5. Provider 全集
 
-内置 Provider 规格（见 `nextclaw-core` `providers/registry.ts`）：
+内置 Provider 规格（见 `go-usb-ai-core` `providers/registry.ts`）：
 
 | Provider | 说明 |
 |----------|------|
@@ -164,7 +164,7 @@
 
 ## 7. 内置工具全集
 
-Agent 主循环中注册的默认工具（`nextclaw-core` `agent/loop.ts` + `agent/tools/*`）：
+Agent 主循环中注册的默认工具（`go-usb-ai-core` `agent/loop.ts` + `agent/tools/*`）：
 
 | 工具名 | 说明 |
 |--------|------|
@@ -203,15 +203,15 @@ Agent 主循环中注册的默认工具（`nextclaw-core` `agent/loop.ts` + `age
 - **会话隔离**：`session.dmScope`（main / per-peer / per-channel-peer / per-account-channel-peer）。
 - **群组**：Discord/Telegram 支持 requireMention、mentionPatterns、groups 等。
 
-详见 [多 Agent 架构](https://docs.nextclaw.io/en/guide/multi-agent)。
+详见 [多 Agent 架构](https://docs.go-usb-ai.io/en/guide/multi-agent)。
 
 ---
 
 ## 10. 插件与扩展
 
 - **OpenClaw 兼容**：插件 SDK 与渠道插件格式与 OpenClaw 一致，可从本地或 npm 安装。
-- **发现路径**：`$NEXTCLAW_HOME/extensions`、`<workspace>/.nextclaw/extensions`、`plugins.load.paths`。
-- **渠道插件包**：`nextclaw-channel-plugin-telegram` 等，由 channel-runtime 加载并注册。
+- **发现路径**：`$GOUSB_AI_HOME/extensions`、`<workspace>/.go-usb-ai/extensions`、`plugins.load.paths`。
+- **渠道插件包**：`go-usb-ai-channel-plugin-telegram` 等，由 channel-runtime 加载并注册。
 
 ---
 
@@ -234,7 +234,7 @@ Agent 主循环中注册的默认工具（`nextclaw-core` `agent/loop.ts` + `age
 
 ## 13. 自更新与运维
 
-- **update**：`nextclaw update` 或通过 Agent 调用 `gateway` 的 `update.run`；可配置 `NEXTCLAW_UPDATE_COMMAND`；更新后支持自重启并通知会话。
+- **update**：`go-usb-ai update` 或通过 Agent 调用 `gateway` 的 `update.run`；可配置 `GOUSB_AI_UPDATE_COMMAND`；更新后支持自重启并通知会话。
 - **静默回复**：模型输出含 `<noreply/>` 或最终回复为空/空白时不发送渠道回复（与 OpenClaw 对齐）。
 
 ---
@@ -242,7 +242,7 @@ Agent 主循环中注册的默认工具（`nextclaw-core` `agent/loop.ts` + `age
 ## 14. 文档与迭代
 
 - 使用说明：[USAGE](USAGE.md)
-- 多 Agent：[multi-agent-architecture](https://docs.nextclaw.io/en/guide/multi-agent)
+- 多 Agent：[multi-agent-architecture](https://docs.go-usb-ai.io/en/guide/multi-agent)
 - 迭代与发布：`docs/logs/`、`docs/workflows/`、`docs/prd/`
 
 ---

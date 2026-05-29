@@ -9,11 +9,11 @@
 - 更新状态管理器测试，改为基于 `run.finished/run.error` 断言最终收敛行为。
 
 ## 测试/验证/验收方式
-- `pnpm -C packages/ncp-packages/nextclaw-ncp tsc`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit lint`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- agent-conversation-state-manager`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- agent-client-from-server`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit lint`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- agent-conversation-state-manager`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- agent-client-from-server`
 
 ## 发布/部署方式
 - 本次为协议/状态管理器代码改动，按 monorepo 常规发布流程处理（changeset/version/publish）。

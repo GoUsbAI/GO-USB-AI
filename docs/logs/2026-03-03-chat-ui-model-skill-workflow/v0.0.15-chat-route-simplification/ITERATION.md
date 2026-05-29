@@ -14,31 +14,31 @@
 
 涉及文件：
 
-- `packages/nextclaw-ui/src/App.tsx`
-- `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
+- `packages/go-usb-ai-ui/src/App.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
 - `AGENTS.md`
 
 ## 测试/验证/验收方式
 
 ### 执行命令
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
 
 ### 结果
 
 - `tsc`：通过。
 - `build`：通过。
 - `lint`：未通过，存在仓库既有问题（非本次改动引入）：
-  - `packages/nextclaw-ui/src/components/common/MaskedInput.tsx` 未使用参数。
-  - `packages/nextclaw-ui/src/components/config/ProviderForm.tsx` 未使用变量。
+  - `packages/go-usb-ai-ui/src/components/common/MaskedInput.tsx` 未使用参数。
+  - `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx` 未使用变量。
   - 其余为既有 `max-lines` 警告。
 
 ## 发布/部署方式
 
-1. 发布 `@nextclaw/ui`。
-2. 发布包含 UI 资源的 `nextclaw`。
+1. 发布 `@go-usb-ai/ui`。
+2. 发布包含 UI 资源的 `go-usb-ai`。
 3. 重启服务并清理前端缓存。
 4. 按以下验收步骤验证路由稳定性。
 

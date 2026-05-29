@@ -1,14 +1,14 @@
-# 2026-02-18 Release nextclaw v0.5.3
+# 2026-02-18 Release go-usb-ai v0.5.3
 
 ## 背景
 
 - 本次发布落地运行态诊断能力：
-  - `nextclaw status` 从“配置摘要”升级为“运行态真相”。
-  - 新增 `nextclaw doctor` 用于运维诊断。
+  - `go-usb-ai status` 从“配置摘要”升级为“运行态真相”。
+  - 新增 `go-usb-ai doctor` 用于运维诊断。
 
 ## 发布范围
 
-- `nextclaw@0.5.3`
+- `go-usb-ai@0.5.3`
 
 ## 发布流程
 
@@ -28,17 +28,17 @@ pnpm release:publish
 ## 发布后验收
 
 ```bash
-npm view nextclaw version
+npm view go-usb-ai version
 # 期望: 0.5.3
 ```
 
 VPS 回归（8.219.57.52）：
 
-- `nextclaw --version` => `0.5.3`
-- `nextclaw status --json` => 运行态 JSON 输出（含 process/health/issues/recommendations）
-- `nextclaw doctor --json` => 诊断 checks 输出
-- `nextclaw start --ui-port 18791` 后：
-  - `nextclaw status --verbose` 显示 `Level: healthy`
+- `go-usb-ai --version` => `0.5.3`
+- `go-usb-ai status --json` => 运行态 JSON 输出（含 process/health/issues/recommendations）
+- `go-usb-ai doctor --json` => 诊断 checks 输出
+- `go-usb-ai start --ui-port 18791` 后：
+  - `go-usb-ai status --verbose` 显示 `Level: healthy`
   - `curl http://127.0.0.1:18791/api/health` 返回 `{"ok":true,...}`
 
 ## 备注

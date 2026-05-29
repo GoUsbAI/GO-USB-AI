@@ -24,18 +24,18 @@
 ## 验证（怎么确认符合预期）
 
 ```bash
-pnpm -C packages/nextclaw tsc
-pnpm -C packages/nextclaw lint
-pnpm -C packages/nextclaw build
+pnpm -C packages/go-usb-ai tsc
+pnpm -C packages/go-usb-ai lint
+pnpm -C packages/go-usb-ai build
 
 # smoke-check（非仓库目录）
-NEXTCLAW_HOME=/tmp/nextclaw-smoke node /Users/peiwang/Projects/nextclaw/packages/nextclaw/dist/cli/index.js onboard
+GOUSB_AI_HOME=/tmp/go-usb-ai-smoke node /Users/peiwang/Projects/go-usb-ai/packages/go-usb-ai/dist/cli/index.js onboard
 ```
 
 验收点：
 
 - tsc/lint/build 全部成功
-- `onboard` 在 `/tmp/nextclaw-smoke` 生成 config/workspace 并提示下一步
+- `onboard` 在 `/tmp/go-usb-ai-smoke` 生成 config/workspace 并提示下一步
 
 ## 发布 / 部署
 

@@ -2,9 +2,9 @@
 
 ## 迭代完成说明
 
-- 目标：继续推进“最终形态对齐”，把 NextClaw 兼容层从 loader 内联注册，收敛为 OpenClaw 同款 `registry` 职责分层。
+- 目标：继续推进“最终形态对齐”，把 GoUsbAi 兼容层从 loader 内联注册，收敛为 OpenClaw 同款 `registry` 职责分层。
 - 本次核心改动：
-  - 新增注册内核：`packages/nextclaw-openclaw-compat/src/plugins/registry.ts`
+  - 新增注册内核：`packages/go-usb-ai-openclaw-compat/src/plugins/registry.ts`
     - 统一处理 `registerTool/registerChannel/registerProvider`。
     - 统一处理保留名校验、去重冲突、插件诊断。
     - 统一创建 `OpenClawPluginApi`，并封装不支持能力的 warning 行为。
@@ -12,7 +12,7 @@
     - bundled 渠道与外部插件都通过同一 `registerPluginWithApi(...)` 注册路径。
     - 去掉 loader 内大段重复内联注册逻辑，结构更接近 OpenClaw 的 `loader + registry` 分工。
   - 导出更新：
-    - `packages/nextclaw-openclaw-compat/src/index.ts` 新增导出 `plugins/registry.js`。
+    - `packages/go-usb-ai-openclaw-compat/src/index.ts` 新增导出 `plugins/registry.js`。
 
 ## 测试 / 验证 / 验收方式
 
@@ -29,21 +29,21 @@ pnpm tsc
 ### 冒烟验证（隔离目录）
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-final-align-smoke.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
-NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0 NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
-NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0 NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-final-align-smoke.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
+GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0 GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
+GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0 GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
 rm -rf "$TMP_HOME"
 ```
 
 验收点：
 - 插件渠道绑定仍完整（9 个 `builtin-channel-*`）。
-- 关闭外部插件发现后（`NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0`）bundled 渠道仍可注册并可见。
+- 关闭外部插件发现后（`GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0`）bundled 渠道仍可注册并可见。
 
 ## 发布 / 部署方式
 
-本次变更只影响 `@nextclaw/openclaw-compat` 的插件注册实现，不涉及后端或数据库。
+本次变更只影响 `@go-usb-ai/openclaw-compat` 的插件注册实现，不涉及后端或数据库。
 
 ### 执行流程（按 `docs/workflows/npm-release-process.md`）
 
@@ -53,8 +53,8 @@ pnpm release:publish
 ```
 
 发布结果：
-- `@nextclaw/openclaw-compat@0.1.7` ✅
-- tag：`@nextclaw/openclaw-compat@0.1.7` ✅
+- `@go-usb-ai/openclaw-compat@0.1.7` ✅
+- tag：`@go-usb-ai/openclaw-compat@0.1.7` ✅
 
 ### 闭环说明（按需项）
 

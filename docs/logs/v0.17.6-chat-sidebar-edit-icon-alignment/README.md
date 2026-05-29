@@ -4,27 +4,27 @@
 
 - 优化聊天侧边栏会话列表条目的编辑按钮尺寸与对齐方式。
 - 根因：会话条目本身是两行信息结构，但编辑按钮使用 `h-7 w-7`，高于第一行文字的约 `20px` 行高，导致按钮视觉重心偏大、偏像按整条两行居中悬浮。
-- 根因确认方式：检查 `packages/nextclaw-ui/src/features/chat/components/chat-sidebar-session-item.tsx`，确认编辑按钮绝对定位在 `top-0`，但按钮尺寸为 `28px`，图标为 `14px`，与第一行行高不一致。
+- 根因确认方式：检查 `packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-session-item.tsx`，确认编辑按钮绝对定位在 `top-0`，但按钮尺寸为 `28px`，图标为 `14px`，与第一行行高不一致。
 - 本次修复命中根因：将编辑按钮收敛为 `h-5 w-5`，图标收敛为 `h-3 w-3`，并同步收紧右侧预留空间与相邻子会话按钮高度，使操作区按第一行高度对齐，而不是继续通过外层布局补偿表象。
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui test -- src/features/chat/components/layout/chat-sidebar.test.tsx`：通过，1 个测试文件 / 18 个测试通过。
-- `pnpm -C packages/nextclaw-ui tsc`：通过。
-- `pnpm -C packages/nextclaw-ui build`：通过；保留既有 Vite 动态导入与 chunk size 警告。
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/chat/components/chat-sidebar-session-item.tsx`：通过，非测试代码 `+4 / -4 / net +0`。
+- `pnpm -C packages/go-usb-ai-ui test -- src/features/chat/components/layout/chat-sidebar.test.tsx`：通过，1 个测试文件 / 18 个测试通过。
+- `pnpm -C packages/go-usb-ai-ui tsc`：通过。
+- `pnpm -C packages/go-usb-ai-ui build`：通过；保留既有 Vite 动态导入与 chunk size 警告。
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-session-item.tsx`：通过，非测试代码 `+4 / -4 / net +0`。
 - `pnpm lint:new-code:governance`：通过。
 - `pnpm check:governance-backlog-ratchet`：未通过。原因是当前工作区已有文档命名 backlog 计数为 `13`，超过 baseline `11`；本次触达文件为会话列表源码，未新增该类文档命名违规。
 
 ## 发布/部署方式
 
-- 本次改动影响 `@nextclaw/ui` 的聊天侧边栏展示。
+- 本次改动影响 `@go-usb-ai/ui` 的聊天侧边栏展示。
 - 尚未执行发布、提交或推送。
-- 后续发布时应随 `@nextclaw/ui` 的统一前端发布流程进入版本批次。
+- 后续发布时应随 `@go-usb-ai/ui` 的统一前端发布流程进入版本批次。
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 NextClaw 聊天页，并展开左侧会话列表。
+1. 打开 GoUsbAi 聊天页，并展开左侧会话列表。
 2. 将鼠标悬停到一个两行显示的会话条目上，或选中该会话条目。
 3. 确认右侧编辑按钮尺寸接近第一行高度，不再显得比条目文字过大。
 4. 确认编辑按钮顶部与标题第一行对齐，点击后仍能进入会话标题编辑状态。
@@ -40,8 +40,8 @@
 
 ## NPM 包发布记录
 
-- 本次是否需要发包：需要。改动触达可发布包 `@nextclaw/ui` 的运行代码。
+- 本次是否需要发包：需要。改动触达可发布包 `@go-usb-ai/ui` 的运行代码。
 - 需要发布哪些包：
-  - `@nextclaw/ui`：未发布；本次会话列表编辑按钮视觉修正待统一发布。
+  - `@go-usb-ai/ui`：未发布；本次会话列表编辑按钮视觉修正待统一发布。
 - 当前发布状态：未执行 NPM 发布。
 - 阻塞或触发条件：等待后续统一前端或 NPM release 流程触发版本、构建、发布与发布后校验。

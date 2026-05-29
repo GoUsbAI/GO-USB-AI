@@ -9,14 +9,14 @@
   - 公开文档唯一来源：`apps/docs/**`
   - 内部工程文档：`docs/**`（logs/workflows/designs/prd/metrics）
 - 统一入口链接：
-  - `README.md` 的 Roadmap 链接改为 `https://docs.nextclaw.io/guide/roadmap`
+  - `README.md` 的 Roadmap 链接改为 `https://docs.go-usb-ai.io/guide/roadmap`
 - 更新机制文档：
   - `docs/workflows/docs-single-source.md` 明确“禁止 docs 与 apps/docs 重复维护”
 
 ## 测试 / 验证 / 验收方式
 
 - 文档构建冒烟（用户可见）：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/docs build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/docs build`
   - 观察点：构建成功，且 `guide/roadmap` 页面正常产出
 - 全仓验证（按规则）：
   - `PATH=/opt/homebrew/bin:$PATH pnpm build`
@@ -38,5 +38,5 @@
 
 1. 打开 `apps/docs/guide/roadmap.md`，确认这是唯一 Roadmap 内容源。
 2. 打开仓库根 `README.md`，确认 Roadmap 链接直达 docs 站点。
-3. 执行 `pnpm --filter @nextclaw/docs build`，确认文档站可正常构建。
-4. 打开 `https://docs.nextclaw.io/guide/roadmap`，确认用户访问内容完整一致。
+3. 执行 `pnpm --filter @go-usb-ai/docs build`，确认文档站可正常构建。
+4. 打开 `https://docs.go-usb-ai.io/guide/roadmap`，确认用户访问内容完整一致。

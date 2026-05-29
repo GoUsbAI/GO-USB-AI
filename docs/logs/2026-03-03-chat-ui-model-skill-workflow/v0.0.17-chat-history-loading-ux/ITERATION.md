@@ -8,15 +8,15 @@
 
 涉及文件：
 
-- `packages/nextclaw-ui/src/components/chat/ChatConversationPanel.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatConversationPanel.tsx`
 
 ## 测试/验证/验收方式
 
 ### 执行命令
 
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui build`
-- `pnpm -C packages/nextclaw-ui lint`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `pnpm -C packages/go-usb-ai-ui lint`
 
 ### 结果
 

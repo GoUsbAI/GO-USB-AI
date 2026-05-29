@@ -13,19 +13,19 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/kernel tsc`
-- `pnpm --filter @nextclaw/kernel test -- src/stores/ncp-agent-session-journal.store.test.ts src/managers/__tests__/session-run.manager.test.ts src/managers/__tests__/agent-run-request.manager.test.ts src/utils/session-run.utils.test.ts`
-- `pnpm --filter @nextclaw/kernel test`
-- `pnpm --filter @nextclaw/kernel lint`
+- `pnpm --filter @go-usb-ai/kernel tsc`
+- `pnpm --filter @go-usb-ai/kernel test -- src/stores/ncp-agent-session-journal.store.test.ts src/managers/__tests__/session-run.manager.test.ts src/managers/__tests__/agent-run-request.manager.test.ts src/utils/session-run.utils.test.ts`
+- `pnpm --filter @go-usb-ai/kernel test`
+- `pnpm --filter @go-usb-ai/kernel lint`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
-- 真实接口冒烟：用 `NEXTCLAW_HOME=/tmp/nextclaw-metadata-smoke-src-*` 和 `tsx --tsconfig scripts/dev/dev-runtime.tsconfig.json` 启动源码服务到 `127.0.0.1:18795`，发送“查看一下系统信息”，确认最终 session summary 保留 `last_activity_preview.replyText`，且 metadata 写入没有推进 `updatedAt`。
+- 真实接口冒烟：用 `GOUSB_AI_HOME=/tmp/go-usb-ai-metadata-smoke-src-*` 和 `tsx --tsconfig scripts/dev/dev-runtime.tsconfig.json` 启动源码服务到 `127.0.0.1:18795`，发送“查看一下系统信息”，确认最终 session summary 保留 `last_activity_preview.replyText`，且 metadata 写入没有推进 `updatedAt`。
 - 追加验证：
-  - `pnpm -C packages/nextclaw-kernel exec vitest run src/stores/ncp-agent-session-journal.store.test.ts`
-  - `pnpm -C packages/nextclaw-kernel tsc`
-  - `pnpm -C packages/nextclaw-kernel lint`
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-kernel/src/stores/ncp-agent-session-metadata.store.ts packages/nextclaw-kernel/src/utils/ncp-agent-session-journal.utils.ts packages/nextclaw-kernel/src/stores/ncp-agent-session-journal.store.test.ts`
+  - `pnpm -C packages/go-usb-ai-kernel exec vitest run src/stores/ncp-agent-session-journal.store.test.ts`
+  - `pnpm -C packages/go-usb-ai-kernel tsc`
+  - `pnpm -C packages/go-usb-ai-kernel lint`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-kernel/src/stores/ncp-agent-session-metadata.store.ts packages/go-usb-ai-kernel/src/utils/ncp-agent-session-journal.utils.ts packages/go-usb-ai-kernel/src/stores/ncp-agent-session-journal.store.test.ts`
   - `pnpm lint:new-code:governance`
   - `pnpm check:governance-backlog-ratchet`
 
@@ -33,7 +33,7 @@
 
 - 未发布。
 - 未执行数据库 migration、远程 deploy、桌面包构建或 NPM release。
-- 已确认普通 `packages/nextclaw dev:build` 可能走旧 dist；真实源码冒烟必须使用 dev runtime tsconfig 或先构建相关 workspace package。
+- 已确认普通 `packages/go-usb-ai dev:build` 可能走旧 dist；真实源码冒烟必须使用 dev runtime tsconfig 或先构建相关 workspace package。
 
 ## 用户/产品视角的验收步骤
 

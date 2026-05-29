@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
 
-const workerDir = resolve(process.cwd(), "workers/nextclaw-provider-gateway-api");
+const workerDir = resolve(process.cwd(), "workers/go-usb-ai-provider-gateway-api");
 const configPath = resolve(workerDir, "wrangler.toml");
 
 function readArgValue(name) {

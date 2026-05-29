@@ -23,7 +23,7 @@
 - 同批次续改又继续收掉了一批 reply 链残留：
   - `ncp-reply-consumer.service.ts` 收回到更直接的 `ncp-reply-consumer.ts`
   - `channel-reply-router.service.ts` 删除，改成无状态的 `channel-reply.ts` 纯函数模块
-  - `nextclaw-ncp-runner.service.ts` 删除，改成无状态的 `ncp-event-stream.ts` 纯函数模块
+  - `go-usb-ai-ncp-runner.service.ts` 删除，改成无状态的 `ncp-event-stream.ts` 纯函数模块
   - `ChatTarget` 删除了没有运行时消费方的 `participantId / messageId / threadId`
   - 微信 channel 自己也删掉了对应的空传递字段与 `message_id` 元信息残留
 - 微信长轮询里的 `errcode=-14, errmsg=session timeout` 现在会被识别成 `getupdates` 会话游标过期：
@@ -62,33 +62,33 @@
 已执行：
 
 ```bash
-pnpm --filter @nextclaw/channel-plugin-weixin test -- weixin-channel-attachments.test.ts weixin-channel.test.ts weixin-api.client.test.ts
-pnpm --filter @nextclaw/channel-plugin-weixin tsc
-pnpm --filter @nextclaw/ui test -- ncp-session-adapter.test.ts
-pnpm --filter @nextclaw/ui tsc
-pnpm --filter @nextclaw/ncp-toolkit test -- ncp-reply-consumer.test.ts
-pnpm --filter @nextclaw/ncp-toolkit tsc
-pnpm --filter nextclaw test -- nextclaw-ncp-runner.test.ts
-pnpm --filter nextclaw tsc
+pnpm --filter @go-usb-ai/channel-plugin-weixin test -- weixin-channel-attachments.test.ts weixin-channel.test.ts weixin-api.client.test.ts
+pnpm --filter @go-usb-ai/channel-plugin-weixin tsc
+pnpm --filter @go-usb-ai/ui test -- ncp-session-adapter.test.ts
+pnpm --filter @go-usb-ai/ui tsc
+pnpm --filter @go-usb-ai/ncp-toolkit test -- ncp-reply-consumer.test.ts
+pnpm --filter @go-usb-ai/ncp-toolkit tsc
+pnpm --filter go-usb-ai test -- go-usb-ai-ncp-runner.test.ts
+pnpm --filter go-usb-ai tsc
 pnpm lint:maintainability:guard
-pnpm -C packages/nextclaw exec tsx --eval 'import("../../packages/extensions/nextclaw-channel-plugin-weixin/src/media/weixin-media.client.ts").then(() => console.log("media-client-ok"))'
-pnpm -C packages/nextclaw exec tsx --eval 'import("../../packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-channel.ts").then(() => console.log("weixin-channel-ok"))'
+pnpm -C packages/go-usb-ai exec tsx --eval 'import("../../packages/extensions/go-usb-ai-channel-plugin-weixin/src/media/weixin-media.client.ts").then(() => console.log("media-client-ok"))'
+pnpm -C packages/go-usb-ai exec tsx --eval 'import("../../packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-channel.ts").then(() => console.log("weixin-channel-ok"))'
 ```
 
 结果：
 
 - 微信插件定向测试通过，最新已扩展到 `15` 条测试并全部通过。
-- `@nextclaw/ui` 的 `ncp-session-adapter.test.ts` 通过，`7` 条测试通过。
-- `@nextclaw/ncp-toolkit` 的 `ncp-reply-consumer.test.ts` 通过，`5` 条测试通过。
-- 补充后，`@nextclaw/ncp-toolkit` 的 `ncp-reply-consumer.test.ts` 已扩展到覆盖 `asset_put -> file part` 投影，当前 `7` 条测试通过。
-- `nextclaw` 的 `nextclaw-ncp-runner.test.ts` 通过，`8` 条测试通过。
+- `@go-usb-ai/ui` 的 `ncp-session-adapter.test.ts` 通过，`7` 条测试通过。
+- `@go-usb-ai/ncp-toolkit` 的 `ncp-reply-consumer.test.ts` 通过，`5` 条测试通过。
+- 补充后，`@go-usb-ai/ncp-toolkit` 的 `ncp-reply-consumer.test.ts` 已扩展到覆盖 `asset_put -> file part` 投影，当前 `7` 条测试通过。
+- `go-usb-ai` 的 `go-usb-ai-ncp-runner.test.ts` 通过，`8` 条测试通过。
 - 本轮继续删壳后，再次验证：
-  - `pnpm --filter @nextclaw/ncp-toolkit test -- ncp-reply-consumer.test.ts`
-  - `pnpm --filter @nextclaw/ncp-toolkit tsc`
-  - `pnpm --filter @nextclaw/channel-plugin-weixin test -- weixin-channel.test.ts weixin-api.client.test.ts weixin-channel-attachments.test.ts`
-  - `pnpm --filter @nextclaw/channel-plugin-weixin tsc`
-  - `pnpm --filter nextclaw test -- nextclaw-ncp-runner.test.ts`
-  - `pnpm --filter nextclaw tsc`
+  - `pnpm --filter @go-usb-ai/ncp-toolkit test -- ncp-reply-consumer.test.ts`
+  - `pnpm --filter @go-usb-ai/ncp-toolkit tsc`
+  - `pnpm --filter @go-usb-ai/channel-plugin-weixin test -- weixin-channel.test.ts weixin-api.client.test.ts weixin-channel-attachments.test.ts`
+  - `pnpm --filter @go-usb-ai/channel-plugin-weixin tsc`
+  - `pnpm --filter go-usb-ai test -- go-usb-ai-ncp-runner.test.ts`
+  - `pnpm --filter go-usb-ai tsc`
   结果全部通过。
 - `pnpm lint:maintainability:guard` 未通过，但本轮自己引入的 hard error 已经清掉；剩余 hard error 全部来自当前工作区里其它 Hermes / HTTP runtime 相关并行改动，不是本轮微信 media 改动造成的。
 - source-mode 运行时 import 验证通过，`weixin-media.client.ts` 和 `weixin-channel.ts` 都能在本地源码模式下被真实加载。
@@ -97,14 +97,14 @@ pnpm -C packages/nextclaw exec tsx --eval 'import("../../packages/extensions/nex
 
 - 使用真实微信账号 `61899606cc64@im.bot` 和真实会话 `o9cq804svxfyCCTIqzddDqRBeMC0@im.wechat` 完成在线发送。
 - 先直接走底层媒体发送链，真实发出：
-  - 文本文件 `nextclaw-smoke.txt`
-  - 图片 `nextclaw-smoke.png`
+  - 文本文件 `go-usb-ai-smoke.txt`
+  - 图片 `go-usb-ai-smoke.png`
 - 微信官方接口返回的真实 `messageId`：
   - file: `b1968a30-835a-4bf5-a66a-8877dff17102`
   - image: `44bdf753-26e1-470c-85d5-5cdb6fd3248a`
 - 随后再走产品实际新增链路 `WeixinChat.sendPart(target, filePart)` 复测一次：
-  - 文本文件 `nextclaw-chat-smoke.txt`
-  - 图片 `nextclaw-chat-smoke.png`
+  - 文本文件 `go-usb-ai-chat-smoke.txt`
+  - 图片 `go-usb-ai-chat-smoke.png`
 - 第二轮通过 `contentBase64 -> WeixinMediaPartReader -> WeixinChat -> media client -> 微信 API` 的实际链路完成，没有报错。
 - 之后又补了一轮共享链路收口：`asset_put result -> NcpReplyConsumer projection -> file part -> WeixinChat.sendPart`。这轮是为了让渠道附件能力真正建立在标准 `file part` 上，而不是继续依赖前端侧的工具结果特判。
 - 最新一轮又做了真实微信 smoke：直接通过 `WeixinChannel.consumeNcpReply(...)` 喂入两个 `asset_put` 工具结果（一个文本附件、一个图片附件），并由 `NcpReplyConsumer` 在发送前统一投影成标准 `file part`。脚本执行完成且未报错，验证了 `asset_put -> consumer projection -> 微信附件发送` 这条实际链路。
@@ -112,7 +112,7 @@ pnpm -C packages/nextclaw exec tsx --eval 'import("../../packages/extensions/nex
 - 最新修正把图片重新切回原生 `image_item` 路径，并单独改成图片专用的 `aes_key` 编码；文件附件仍维持现有文件路径。
 - 当前收尾验证又补了两轮真实微信发送：
   - 直接发送了一条原生图片协议探针 `raw-aes-key`，微信接口返回真实 `imageMessageId: 70014da4-ae6b-43a7-9aab-68ec318a92bc`
-  - 再通过当前源码链路 `WeixinChannel.consumeNcpReply(...)` 发送了一张 `nextclaw-native-image-fixed.jpg`，脚本返回 `mode: weixin-native-image-fixed-smoke`
+  - 再通过当前源码链路 `WeixinChannel.consumeNcpReply(...)` 发送了一张 `go-usb-ai-native-image-fixed.jpg`，脚本返回 `mode: weixin-native-image-fixed-smoke`
   这两轮的目的都是确认“最近微信会话里的图片”已经重新回到原生图片消息链，而不是继续停留在附件降级路径
 - 最新顺序验证也已完成：构造了 `文本 -> asset_put tool-call-result -> 等 2 秒 -> 后续文本` 的真实微信 smoke。记录到的本地时间顺序显示：
   - `17:40:24.220Z` 先发前置文本
@@ -131,14 +131,14 @@ pnpm -C packages/nextclaw exec tsx --eval 'import("../../packages/extensions/nex
   - 这条路径现在不会再持续 `console.warn`
   - 微信插件定向测试已经覆盖这条恢复逻辑
 - 最新一轮“只删不增” cleanup 又补跑了：
-  - `pnpm --filter @nextclaw/channel-plugin-weixin test -- index.test.ts weixin-channel.test.ts weixin-api.client.test.ts weixin-channel-attachments.test.ts weixin-typing-controller.test.ts`
-  - `pnpm --filter @nextclaw/channel-plugin-weixin tsc`
-  - `pnpm --filter nextclaw tsc`
+  - `pnpm --filter @go-usb-ai/channel-plugin-weixin test -- index.test.ts weixin-channel.test.ts weixin-api.client.test.ts weixin-channel-attachments.test.ts weixin-typing-controller.test.ts`
+  - `pnpm --filter @go-usb-ai/channel-plugin-weixin tsc`
+  - `pnpm --filter go-usb-ai tsc`
   结果全部通过，说明删除 context-token 小 store、收窄插件公开面和删死参数后，微信插件行为仍然成立。
 - 再下一轮继续减债后，又补跑了：
-  - `pnpm --filter @nextclaw/channel-plugin-weixin test -- weixin-channel.test.ts weixin-api.client.test.ts weixin-channel-attachments.test.ts weixin-typing-controller.test.ts`
-  - `pnpm --filter @nextclaw/channel-plugin-weixin tsc`
-  - `pnpm --filter nextclaw tsc`
+  - `pnpm --filter @go-usb-ai/channel-plugin-weixin test -- weixin-channel.test.ts weixin-api.client.test.ts weixin-channel-attachments.test.ts weixin-typing-controller.test.ts`
+  - `pnpm --filter @go-usb-ai/channel-plugin-weixin tsc`
+  - `pnpm --filter go-usb-ai tsc`
   结果全部通过，说明把入站文本语义收回 channel 本地、并删除 `index.test.ts` 后，微信插件运行链依然稳定。
 
 ## 发布 / 部署方式
@@ -150,7 +150,7 @@ pnpm -C packages/nextclaw exec tsx --eval 'import("../../packages/extensions/nex
 1. 启动或重启本地开发服务。
 2. 确认微信插件按 first-party development source 模式加载源码。
 3. 用真实微信会话分别验证：
-   - 用户发图片到 NextClaw
+   - 用户发图片到 GoUsbAi
    - AI 在微信里回复标准图片
    - AI 在微信里回复文件
 4. 若本地源码模式下渠道未启用，先检查新增的 source-mode import 写法是否再次被回退成混合 `type` import。
@@ -170,7 +170,7 @@ pnpm -C packages/nextclaw exec tsx --eval 'import("../../packages/extensions/nex
 
 是。
 
-这次不是为微信附件问题临时塞一层特判，而是继续沿用统一的 NCP event -> Chat 输出链，并把“资产内容如何从宿主读出来”收成了一个明确的运行时上下文字段。它让 NextClaw 作为统一入口在聊天渠道里对富媒体的承接能力更完整了一步，而不是继续停留在“文本能通、附件靠占位”的半成品状态。
+这次不是为微信附件问题临时塞一层特判，而是继续沿用统一的 NCP event -> Chat 输出链，并把“资产内容如何从宿主读出来”收成了一个明确的运行时上下文字段。它让 GoUsbAi 作为统一入口在聊天渠道里对富媒体的承接能力更完整了一步，而不是继续停留在“文本能通、附件靠占位”的半成品状态。
 
 ### 可维护性复核结论
 

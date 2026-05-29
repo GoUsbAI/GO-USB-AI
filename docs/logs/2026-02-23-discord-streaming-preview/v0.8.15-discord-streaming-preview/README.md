@@ -2,7 +2,7 @@
 
 ## 迭代完成说明（改了什么）
 
-- 继续使用 `@nextclaw/channel-plugin-discord`，在 `@nextclaw/channel-runtime` 内实现 Discord 预览流式输出（编辑消息实时更新）。
+- 继续使用 `@go-usb-ai/channel-plugin-discord`，在 `@go-usb-ai/channel-runtime` 内实现 Discord 预览流式输出（编辑消息实时更新）。
 - 新增 Discord 流式配置：`channels.discord.streaming`、`channels.discord.draftChunk`、`channels.discord.textChunkLimit`。
 - 发送逻辑按 openclaw 语义对齐：`partial/progress` 走较细粒度预览流，`block` 走较大块更新，`off` 保持原有分片发送。
 - 更新配置帮助/标签、UI 渠道表单与使用文档说明。
@@ -16,7 +16,7 @@
 - 执行结果：全部通过（仅 lint 警告）。
 - 冒烟测试（本地模拟，避免写入仓库目录）：
   - 命令：
-    - `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw exec tsx /tmp/nextclaw-discord-stream-smoke.ts`
+    - `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai exec tsx /tmp/go-usb-ai-discord-stream-smoke.ts`
   - 观察点：同一消息出现多次 `edit` 更新（流式预览），无异常抛出。
   - 执行结果：通过（输出 `sends: 1, edits: 11`）。
 
@@ -28,13 +28,13 @@
   3. `pnpm release:publish`
   - 执行结果：已发布并打 tag（`changeset publish/tag` 完成）。
   - 发布版本摘要：
-    - `nextclaw@0.8.12`
-    - `@nextclaw/core@0.6.31`
-    - `@nextclaw/channel-runtime@0.1.16`
-    - `@nextclaw/openclaw-compat@0.1.24`
-    - `@nextclaw/server@0.5.7`
-    - `@nextclaw/ui@0.5.7`
-    - `@nextclaw/channel-plugin-*` 全量 `0.1.5`
+    - `go-usb-ai@0.8.12`
+    - `@go-usb-ai/core@0.6.31`
+    - `@go-usb-ai/channel-runtime@0.1.16`
+    - `@go-usb-ai/openclaw-compat@0.1.24`
+    - `@go-usb-ai/server@0.5.7`
+    - `@go-usb-ai/ui@0.5.7`
+    - `@go-usb-ai/channel-plugin-*` 全量 `0.1.5`
 
 ## 用户 / 产品视角验收步骤
 

@@ -7,15 +7,15 @@
 
 # 测试/验证/验收方式
 
-- 运行 `node node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/tsc.js -p packages/nextclaw-core/tsconfig.json`
-- 运行 `node node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/tsc.js -p packages/nextclaw-server/tsconfig.json`
-- 运行 `node node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/tsc.js -p packages/nextclaw-ui/tsconfig.json --noEmit`
-- 运行 `pnpm.cmd -C packages/nextclaw-core test -- --run src/config/loader.nextclaw-provider.test.ts`
-- 运行 `pnpm.cmd -C packages/nextclaw-server test -- --run src/ui/router.provider-test.test.ts -t "updates search config and exposes search metadata"`
+- 运行 `node node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/tsc.js -p packages/go-usb-ai-core/tsconfig.json`
+- 运行 `node node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/tsc.js -p packages/go-usb-ai-server/tsconfig.json`
+- 运行 `node node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/tsc.js -p packages/go-usb-ai-ui/tsconfig.json --noEmit`
+- 运行 `pnpm.cmd -C packages/go-usb-ai-core test -- --run src/config/loader.go-usb-ai-provider.test.ts`
+- 运行 `pnpm.cmd -C packages/go-usb-ai-server test -- --run src/ui/router.provider-test.test.ts -t "updates search config and exposes search metadata"`
 
 # 发布/部署方式
 
-- 本次为常规前后端配置与 UI 改动，按现有 NextClaw 发布流程执行受影响包构建与发布即可。
+- 本次为常规前后端配置与 UI 改动，按现有 GoUsbAi 发布流程执行受影响包构建与发布即可。
 - 若仅本次改动上线到现有服务，确保前端静态资源与 server 包同步部署，避免 `/search` 页与 `/api/config/search` 返回结构不一致。
 
 # 用户/产品视角的验收步骤

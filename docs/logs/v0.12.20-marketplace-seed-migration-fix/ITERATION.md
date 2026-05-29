@@ -15,13 +15,13 @@
   - `wrangler d1 execute ... SELECT slug, install_kind FROM marketplace_items WHERE type='skill' ORDER BY slug;`
   - 结果应为 11 个 skill，且 install_kind 仅 `builtin/marketplace`。
 - 合同验证（线上 API 观测）：
-  - `curl https://marketplace-api.nextclaw.io/health`
-  - `curl 'https://marketplace-api.nextclaw.io/api/v1/skills/items?page=1&pageSize=50'`
+  - `curl https://marketplace-api.go-usb-ai.io/health`
+  - `curl 'https://marketplace-api.go-usb-ai.io/api/v1/skills/items?page=1&pageSize=50'`
   - 若仍出现 `install.kind=git`，表示线上仍是旧 worker，需部署新版本。
 - 代码验证：
   - `pnpm -C workers/marketplace-api build && pnpm -C workers/marketplace-api lint && pnpm -C workers/marketplace-api tsc`
-  - `pnpm -C packages/nextclaw-server test -- --run src/ui/router.marketplace-content.test.ts`
-  - `pnpm -C packages/nextclaw-server build && pnpm -C packages/nextclaw-server lint && pnpm -C packages/nextclaw-server tsc`
+  - `pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.marketplace-content.test.ts`
+  - `pnpm -C packages/go-usb-ai-server build && pnpm -C packages/go-usb-ai-server lint && pnpm -C packages/go-usb-ai-server tsc`
 
 ## 发布/部署方式
 
@@ -32,10 +32,10 @@
 
 本次实际执行结果（2026-03-07）：
 
-- 已创建 D1：`nextclaw-marketplace`（`database_id=252a64a3-94a7-4d34-89ab-945754f39f98`）。
+- 已创建 D1：`go-usb-ai-marketplace`（`database_id=252a64a3-94a7-4d34-89ab-945754f39f98`）。
 - 已成功执行远程 migration：`0001`、`0002` 均为 ✅。
-- 已成功部署 worker：`nextclaw-marketplace-api`，Version `287f7fe3-f61a-4e47-b423-51f7920793bf`。
-- 线上验证 `https://marketplace-api.nextclaw.io`：
+- 已成功部署 worker：`go-usb-ai-marketplace-api`，Version `287f7fe3-f61a-4e47-b423-51f7920793bf`。
+- 线上验证 `https://marketplace-api.go-usb-ai.io`：
   - `/health` 返回包含 `storage: "d1"`。
   - `/api/v1/skills/items` 返回 11 个 skill，`install.kind` 仅 `builtin|marketplace`。
 

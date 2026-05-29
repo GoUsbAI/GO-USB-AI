@@ -4,11 +4,11 @@
 - 修复“短文本消息气泡仍然很宽”的根因。
 - 根因不是最小宽度类本身，而是消息容器内时间戳文本较长，导致外层宽度变宽；消息卡片是 block 元素时会跟随外层宽度拉伸。
 - 将消息卡片根节点改为 `inline-block w-fit max-w-full`，使气泡宽度按消息内容收缩，不再被同容器的时间戳行撑宽。
-- 变更位置：`packages/nextclaw-ui/src/components/chat/ChatThread.tsx`。
+- 变更位置：`packages/go-usb-ai-ui/src/components/chat/ChatThread.tsx`。
 
 ## 测试/验证/验收方式
 - 类型检查：
-  - `pnpm --filter @nextclaw/ui tsc`
+  - `pnpm --filter @go-usb-ai/ui tsc`
 - 结果：通过。
 - UI 冒烟：
   - 发送短文本（如“你好”/“ok”），观察气泡宽度应紧贴文本，不再出现明显空白。

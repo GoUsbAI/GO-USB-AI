@@ -21,7 +21,7 @@
   - 结果：输出 `0.0.143`
 - 已通过：`node apps/desktop/scripts/update/services/build-update-manifest.service.mjs --bundle <tmp bundle> --channel stable --platform linux --arch x64 --version 0.18.0 --bundle-url https://example.com/bundle.zip --output <tmp manifest> --private-key-file <tmp key>`
   - 结果：在未显式传 `--minimum-launcher-version` 的情况下，生成 manifest 的 `minimumLauncherVersion = 0.0.141`
-- 已通过：`node apps/desktop/scripts/update/services/build-product-bundle.service.mjs --channel stable --minimum-launcher-version 0.0.999 --platform linux --arch x64 --version 0.18.0 --output-dir /tmp/nextclaw-bundle-test`
+- 已通过：`node apps/desktop/scripts/update/services/build-product-bundle.service.mjs --channel stable --minimum-launcher-version 0.0.999 --platform linux --arch x64 --version 0.18.0 --output-dir /tmp/go-usb-ai-bundle-test`
   - 结果：按预期失败，并明确提示 `0.0.999` 与 stable channel governed floor `0.0.141` 不一致
 - 已通过：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths AGENTS.md .agents/skills/desktop-release-contract-guard/SKILL.md .github/workflows/desktop-release.yml apps/desktop/README.md apps/desktop/package.json apps/desktop/desktop-launcher-compatibility.json apps/desktop/scripts/update/services/build-product-bundle.service.mjs apps/desktop/scripts/update/services/build-update-manifest.service.mjs apps/desktop/scripts/update/services/launcher-compatibility.service.mjs apps/desktop/scripts/update/services/print-minimum-launcher-version.service.mjs docs/plans/2026-04-17-desktop-minimum-launcher-version-governance-plan.md`
   - 结果：`Errors: 0`、`Warnings: 0`
@@ -30,7 +30,7 @@
   - 原因：当前工作树里存在与本任务无关的历史/并行 touched 文件，命中了 legacy 命名与热点文件治理，不是本次新增的 desktop compatibility 治理文件触发。
 - 已通过：远端 GitHub Actions workflow `desktop-release`
   - run id：`24570137388`
-  - run URL：[desktop-release #24570137388](https://github.com/Peiiii/nextclaw/actions/runs/24570137388)
+  - run URL：[desktop-release #24570137388](https://github.com/Peiiii/go-usb-ai/actions/runs/24570137388)
   - 触发分支：`codex/desktop-launcher-compat-governance`
   - 结果：整体 `success`
   - 关键观察点：

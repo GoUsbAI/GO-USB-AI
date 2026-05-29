@@ -19,19 +19,19 @@
 ## 测试 / 验证 / 验收方式
 
 - 单测：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/nextclaw-core exec vitest run src/providers/chat-completions-normalizer.test.ts src/providers/openai_provider.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/go-usb-ai-core exec vitest run src/providers/chat-completions-normalizer.test.ts src/providers/openai_provider.test.ts`
   - 结果：2 个测试文件通过（7/7）。
 - 构建：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/nextclaw-core build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/go-usb-ai-core build`
   - 结果：通过。
 - Lint：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/nextclaw-core lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/go-usb-ai-core lint`
   - 结果：通过（仅历史 warning：`max-lines` / `max-lines-per-function`，无新增 error）。
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/nextclaw-core tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/go-usb-ai-core tsc`
   - 结果：通过。
 - 冒烟（非仓库目录，不写入仓库）：
-  - 使用临时 `NEXTCLAW_HOME` / `NEXTCLAW_WORKSPACE` + Fake Provider 复现“首轮 tool call、次轮空内容无 tool call”路径。
+  - 使用临时 `GOUSB_AI_HOME` / `GOUSB_AI_WORKSPACE` + Fake Provider 复现“首轮 tool call、次轮空内容无 tool call”路径。
   - 观察点：返回 `Sorry, tool call flow ended without a final response... Last model output was empty (finishReason: stop)`，不再出现误导性的 `after 1000 iterations`。
 - 错误透出限长验证：
   - 构造超长错误 message（>320 chars）触发 `CHAT_TURN_FAILED` / `Sorry, I encountered an error` 路径。

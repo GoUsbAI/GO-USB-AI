@@ -9,7 +9,7 @@ If you want to track the project, file feedback, read longer essays, or follow p
 
 ## Main Entry Points
 
-- GitHub repository: [Peiiii/nextclaw](https://github.com/Peiiii/nextclaw)
+- GitHub repository: [Peiiii/go-usb-ai](https://github.com/Peiiii/go-usb-ai)
 - Product Notes: [Product Notes](/en/notes/)
 - Blog: [Blog](/en/blog/)
 - Roadmap: [Roadmap](/en/project/roadmap)

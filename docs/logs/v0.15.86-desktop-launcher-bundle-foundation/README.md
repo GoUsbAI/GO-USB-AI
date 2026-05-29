@@ -20,7 +20,7 @@
   - [role-first-file-organization](/Users/peiwang/Projects/nextbot/.agents/skills/role-first-file-organization/SKILL.md)
 - `main.ts` 现在会在桌面启动前先处理 pending candidate：第一次允许 candidate 启动一次；如果该 candidate 已启动过但未被标记健康，则下次启动前自动回滚到上一已知健康版本。
 - `main.ts` 现在还会接入真正的产品包更新闭环：
-  - 已发布桌面包默认会从 GitHub Release 的 `manifest-stable-<platform>-<arch>.json` 拉取 stable update manifest；`NEXTCLAW_DESKTOP_UPDATE_MANIFEST_URL` 只再作为显式 override
+  - 已发布桌面包默认会从 GitHub Release 的 `manifest-stable-<platform>-<arch>.json` 拉取 stable update manifest；`GOUSB_AI_DESKTOP_UPDATE_MANIFEST_URL` 只再作为显式 override
   - launcher 会先校验 update manifest 的 Ed25519 `manifestSignature`，通过后才信任其中的 bundle URL、版本号与 hash/signature 元数据
   - 若未发现 active bundle，则会先尝试拉取首个 stable bundle 再启动桌面端
   - 若已有 active bundle，则会在后台检查更新、下载 zip 产品包、校验 SHA-256 与 Ed25519 `bundleSignature`、解包安装到 `versions/`、激活为 candidate，并弹出“Restart Now / Later”提示
@@ -28,19 +28,19 @@
   - 若远端最新版本已经被本机标记为坏版本，则 launcher 会显式 quarantine 它，不再反复下载和反复激活
 - `runtime-config.ts` 现在已经删除 `legacy-runtime` 自动兜底路径，桌面端运行时来源只剩：
   - `bundle`
-  - `NEXTCLAW_DESKTOP_RUNTIME_SCRIPT` 显式 override
+  - `GOUSB_AI_DESKTOP_RUNTIME_SCRIPT` 显式 override
 - 开发态 `pnpm -C apps/desktop dev` 也已切到显式 override，不再偷偷借用旧 fallback。
 - 已新增产物侧脚本：
   - [build-product-bundle.service.mjs](/Users/peiwang/Projects/nextbot/apps/desktop/scripts/update/services/build-product-bundle.service.mjs)
   - [build-update-manifest.service.mjs](/Users/peiwang/Projects/nextbot/apps/desktop/scripts/update/services/build-update-manifest.service.mjs)
   - [write-bundle-public-key.service.mjs](/Users/peiwang/Projects/nextbot/apps/desktop/scripts/update/services/write-bundle-public-key.service.mjs)
-  - `build-product-bundle.mjs` 会复用 `pnpm --filter nextclaw --prod deploy` 产出自包含 runtime，补出 `ui/`、`plugins/` 与 `manifest.json`，并生成 launcher 可直接消费的 zip product bundle
+  - `build-product-bundle.mjs` 会复用 `pnpm --filter go-usb-ai --prod deploy` 产出自包含 runtime，补出 `ui/`、`plugins/` 与 `manifest.json`，并生成 launcher 可直接消费的 zip product bundle
   - 该脚本会对 zip product bundle 计算 `bundleSha256`、`bundleSignature`，并对 manifest payload 本身生成 `manifestSignature`
   - `write-bundle-public-key.mjs` 会从同一把 Ed25519 私钥导出 launcher 打包内置的公钥文件，避免已发布应用再依赖外部环境变量才能验签
 - `electron-after-pack.cjs` 现在会把 `build/update-bundle-public.pem` 拷贝进打包资源目录 `resources/update/update-bundle-public.pem`。
 - 本次收尾又修正了两个真正阻断本地 `.dmg` 可用性的产物问题：
   - `update.service.ts` 的 seed zip 解包不再并发 `Promise.all` 写文件，已改成顺序解压，避免超大 bundle 首启时触发 `EMFILE` 导致 seed 安装失败。
-  - `build-product-bundle.service.mjs` 生成 runtime bundle 时，`pnpm deploy` 已切到 `--config.node-linker=hoisted`。这样 bundle 内的 runtime `node_modules` 不再依赖 pnpm symlink 拓扑，zip 解包后也能稳定解析 `@nextclaw/core -> undici` 这类运行时依赖，不会再出现桌面端首启 `ERR_MODULE_NOT_FOUND: Cannot find package 'undici'`。
+  - `build-product-bundle.service.mjs` 生成 runtime bundle 时，`pnpm deploy` 已切到 `--config.node-linker=hoisted`。这样 bundle 内的 runtime `node_modules` 不再依赖 pnpm symlink 拓扑，zip 解包后也能稳定解析 `@go-usb-ai/core -> undici` 这类运行时依赖，不会再出现桌面端首启 `ERR_MODULE_NOT_FOUND: Cannot find package 'undici'`。
 - `main.ts` 追加了更早期的桌面启动日志，日志会优先落到桌面数据目录下的 `launcher/main.log`，便于排查 packaged 环境下 `requestSingleInstanceLock`、seed 安装、runtime bootstrap 这些首启阶段问题。
 - 本次续改又给桌面窗口本身补上了 renderer 诊断日志，`launcher/main.log` 现在除了 launcher/runtime 启动链路，还会记录：
   - `BrowserWindow` 的 `did-start-loading / did-finish-load / did-fail-load / did-navigate / did-navigate-in-page / render-process-gone`
@@ -48,26 +48,26 @@
   - 当前实际路由
   - 桌面窗口对 `/api/auth/status`、`/api/config`、`/api/ncp/sessions` 这些关键请求的发起与返回状态
 - 这轮日志补齐后，已用真实 packaged 桌面端确认：桌面窗口自身启动后确实会进入 `/chat`，并实际请求 `/api/config` 与 `/api/ncp/sessions`，且都返回 `200`；因此“桌面端把用户数据目录读错了”目前没有被证据支持。
-- 本次续改最终定位并修复了真正影响用户的桌面端可用性问题：打包桌面端原先在 `app.isPackaged === true` 时默认走 `managed-service`，会先执行 `nextclaw start` 再连接固定后台服务端口；这会让桌面端在用户机器上被“已经存在的旧 NextClaw 服务”劫持，进而出现“打开桌面端但会话/provider/model 为空或与当前 bundle 不一致”的不确定行为。
-- 现在桌面端运行时已收敛为单一路径：无论开发态还是打包态，都会直接拉起当前桌面 bundle 自带的 runtime `serve` 进程，并连接该进程自己分配的 loopback 端口；桌面端不再依赖系统里已有的 `nextclaw start` 后台服务来决定自己展示哪个 UI / runtime / 数据链路。
+- 本次续改最终定位并修复了真正影响用户的桌面端可用性问题：打包桌面端原先在 `app.isPackaged === true` 时默认走 `managed-service`，会先执行 `go-usb-ai start` 再连接固定后台服务端口；这会让桌面端在用户机器上被“已经存在的旧 GoUsbAi 服务”劫持，进而出现“打开桌面端但会话/provider/model 为空或与当前 bundle 不一致”的不确定行为。
+- 现在桌面端运行时已收敛为单一路径：无论开发态还是打包态，都会直接拉起当前桌面 bundle 自带的 runtime `serve` 进程，并连接该进程自己分配的 loopback 端口；桌面端不再依赖系统里已有的 `go-usb-ai start` 后台服务来决定自己展示哪个 UI / runtime / 数据链路。
 - 这次修复的结果是：
-  - 桌面端打开后仍然读取 `~/.nextclaw` 下的真实用户数据
+  - 桌面端打开后仍然读取 `~/.go-usb-ai` 下的真实用户数据
   - 但不会再因为本机已有旧后台服务而连到错误的固定端口
   - 打包后的桌面端现在会稳定加载自己当前 bundle 对应的 UI 与 runtime，一起升级、一起回滚、一起切换
-- 本次续改又进一步定位并修复了一个只在 macOS `open "/Applications/NextClaw Desktop.app"` / Finder 双击链路下暴露的问题：
+- 本次续改又进一步定位并修复了一个只在 macOS `open "/Applications/GoUsbAi Desktop.app"` / Finder 双击链路下暴露的问题：
   - 原先无证书构建产物虽然带有主可执行文件的 adhoc 标记，但整个 `.app` bundle 并没有形成完整的资源封印，`codesign -dv` 会表现为 `Identifier=Electron`、`Info.plist=not bound`、`Sealed Resources=none`
-  - 这会导致“直接运行 `Contents/MacOS/NextClaw Desktop`”和“按 app bundle 语义启动”出现分叉，前者可能看起来正常，后者则会落到不可预测的 macOS bundle 启动行为
+  - 这会导致“直接运行 `Contents/MacOS/GoUsbAi Desktop`”和“按 app bundle 语义启动”出现分叉，前者可能看起来正常，后者则会落到不可预测的 macOS bundle 启动行为
   - 现在 [apps/desktop/scripts/electron-after-sign.cjs](/Users/peiwang/Projects/nextbot/apps/desktop/scripts/electron-after-sign.cjs) 已改成：
     - 先验证 `.app` 的 bundle 签名是否完整
     - 若发现是这种不完整的 partial / adhoc 状态，就自动执行 `codesign --force --deep --sign - --timestamp=none <app>` 生成完整的 adhoc bundle 签名
     - 然后再决定是否继续 notarization；无 Apple 凭据时会保留完整 adhoc bundle，但跳过 notarize
   - 这样即使没有 Apple 证书，后续打包出的 `.app` 也至少是“完整可启动的 adhoc bundle”，不会再停留在“只有主二进制有零散签名、app bundle 本体不完整”的坏状态
 - 本次排查最终又把“桌面端打开后 provider / model / session 看起来像空的一样”收敛成两类环境污染，并已用日志和真实返回体完成证据化验证：
-  - GUI / Finder / Spotlight 链路：历史遗留的 `launchd` 环境里曾残留错误的 `NEXTCLAW_HOME`、`NEXTCLAW_DESKTOP_DATA_DIR`，旧版 packaged desktop 会原样继承它们，导致 runtime 读错用户目录。
-  - 当前实现已在 packaged 模式下切断这条继承链：即使 ambient 环境里仍带着错误的 `NEXTCLAW_HOME`、`NEXTCLAW_DESKTOP_DATA_DIR`，桌面端也会强制把 runtime home 固定解析到 `~/.nextclaw`，并把 desktop data dir 固定解析到 `app.getPath("userData")`。
-  - 终端 `open` 链路还存在另一个会制造假象的污染项：如果当前 shell 带着 `ELECTRON_RUN_AS_NODE=1`，那么 `open "/Applications/NextClaw Desktop.app"` 拉起的并不是正常 Electron GUI 语义，而是被切成 Node 模式的 Electron；此时“open 没日志 / 行为异常”不能拿来判断 packaged app 主链路是否正常。
+  - GUI / Finder / Spotlight 链路：历史遗留的 `launchd` 环境里曾残留错误的 `GOUSB_AI_HOME`、`GOUSB_AI_DESKTOP_DATA_DIR`，旧版 packaged desktop 会原样继承它们，导致 runtime 读错用户目录。
+  - 当前实现已在 packaged 模式下切断这条继承链：即使 ambient 环境里仍带着错误的 `GOUSB_AI_HOME`、`GOUSB_AI_DESKTOP_DATA_DIR`，桌面端也会强制把 runtime home 固定解析到 `~/.go-usb-ai`，并把 desktop data dir 固定解析到 `app.getPath("userData")`。
+  - 终端 `open` 链路还存在另一个会制造假象的污染项：如果当前 shell 带着 `ELECTRON_RUN_AS_NODE=1`，那么 `open "/Applications/GoUsbAi Desktop.app"` 拉起的并不是正常 Electron GUI 语义，而是被切成 Node 模式的 Electron；此时“open 没日志 / 行为异常”不能拿来判断 packaged app 主链路是否正常。
   - 因而当前正确的排查口径是：
-    - Finder / Spotlight / 双击：重点看 packaged app 是否忽略脏的 `NEXTCLAW_HOME` / `NEXTCLAW_DESKTOP_DATA_DIR`
+    - Finder / Spotlight / 双击：重点看 packaged app 是否忽略脏的 `GOUSB_AI_HOME` / `GOUSB_AI_DESKTOP_DATA_DIR`
     - 终端 `open`：必须先排除 `ELECTRON_RUN_AS_NODE`，否则结论无效
 - 为了避免桌面壳入口继续膨胀，本次还把 `main.ts` 中新增的日志与窗口诊断逻辑收敛进了：
   - [apps/desktop/src/utils/desktop-logging.utils.ts](/Users/peiwang/Projects/nextbot/apps/desktop/src/utils/desktop-logging.utils.ts)
@@ -84,20 +84,20 @@
   - `main.ts` 已从上一轮一度膨胀后的 593 行重新压回 372 行
 - renderer 侧新增了完整桥接链路：
   - [apps/desktop/src/preload.ts](/Users/peiwang/Projects/nextbot/apps/desktop/src/preload.ts) 现在会暴露桌面更新 API 与状态订阅
-  - [packages/nextclaw-ui/src/desktop/managers/desktop-update.manager.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/desktop/managers/desktop-update.manager.ts) 收敛更新页面的桌面交互 owner
-  - [packages/nextclaw-ui/src/desktop/stores/desktop-update.store.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/desktop/stores/desktop-update.store.ts) 负责 renderer 侧状态承载
-  - [packages/nextclaw-ui/src/components/config/desktop-update-config.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/components/config/desktop-update-config.tsx) 提供最终设置页
+  - [packages/go-usb-ai-ui/src/desktop/managers/desktop-update.manager.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/desktop/managers/desktop-update.manager.ts) 收敛更新页面的桌面交互 owner
+  - [packages/go-usb-ai-ui/src/desktop/stores/desktop-update.store.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/desktop/stores/desktop-update.store.ts) 负责 renderer 侧状态承载
+  - [packages/go-usb-ai-ui/src/components/config/desktop-update-config.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/components/config/desktop-update-config.tsx) 提供最终设置页
 - 本次又额外修复了一个会让“我已经写好了更新页，但用户安装出来还是旧界面”的发布链路问题：
-  - 原先桌面端 `dist/pack` 在生成 `seed-product-bundle.zip` 前只要求 runtime 产物存在，不保证 `packages/nextclaw/ui-dist` 一定按当前源码重新构建
+  - 原先桌面端 `dist/pack` 在生成 `seed-product-bundle.zip` 前只要求 runtime 产物存在，不保证 `packages/go-usb-ai/ui-dist` 一定按当前源码重新构建
   - 这会导致桌面安装包复用陈旧 `ui-dist`，把旧 UI 一起打进 DMG
-  - 现在 [apps/desktop/scripts/update/services/build-product-bundle.service.mjs](/Users/peiwang/Projects/nextbot/apps/desktop/scripts/update/services/build-product-bundle.service.mjs) 已在生成 product bundle 前强制执行 `packages/nextclaw-ui build` 与 `packages/nextclaw build`，把“先拿最新 UI/runtime，再打包”变成显式合同
+  - 现在 [apps/desktop/scripts/update/services/build-product-bundle.service.mjs](/Users/peiwang/Projects/nextbot/apps/desktop/scripts/update/services/build-product-bundle.service.mjs) 已在生成 product bundle 前强制执行 `packages/go-usb-ai-ui build` 与 `packages/go-usb-ai build`，把“先拿最新 UI/runtime，再打包”变成显式合同
 - 本次续改又修正了一个直接阻断 beta 桌面更新发布的 workflow 路径合同错误：
   - `desktop-release` workflow 原先在 `pnpm -C apps/desktop` 下仍把 `apps/desktop/dist-bundles`、`apps/desktop/release-manifests/...` 作为脚本输出参数传入
-  - 这会让 `bundle:build` 与 `bundle:manifest` 把产物错误写到 `apps/desktop/apps/desktop/...`，随后 artifact 上传阶段只能带出 DMG / ZIP 等安装物，真正用于应用内更新的 `nextclaw-bundle-*.zip` 与 `manifest-beta-*.json` 会直接丢失
+  - 这会让 `bundle:build` 与 `bundle:manifest` 把产物错误写到 `apps/desktop/apps/desktop/...`，随后 artifact 上传阶段只能带出 DMG / ZIP 等安装物，真正用于应用内更新的 `go-usb-ai-bundle-*.zip` 与 `manifest-beta-*.json` 会直接丢失
   - 现在 `.github/workflows/desktop-release.yml` 已改为把相对输出目录显式收敛到 `dist-bundles` 与 `release-manifests/...`，并在构建步骤内直接校验这两个目标文件是否存在；一旦 bundle/manifest 没写到 `apps/desktop` 预期目录，矩阵 job 会立即失败，不再制造“构建看起来成功、release 里却没有更新资产”的假成功
 - 本次续改继续修正了两个真实影响 beta 更新体验的问题：
   - beta 桌面端原先会在客户端直接请求 GitHub Releases API 来查找最新 prerelease manifest；这会在未认证或命中频控时直接返回 `403`，然后被桌面端展示成 `desktop beta release lookup failed with status 403`
-  - 现在桌面端更新源已经改成静态 channel manifest：已发布 beta 包会直接访问 `https://Peiiii.github.io/nextclaw/desktop-updates/beta/manifest-beta-<platform>-<arch>.json`，stable 包同理访问 `.../stable/...`，不再依赖 GitHub Releases API，也不再受其匿名访问策略影响
+  - 现在桌面端更新源已经改成静态 channel manifest：已发布 beta 包会直接访问 `https://Peiiii.github.io/go-usb-ai/desktop-updates/beta/manifest-beta-<platform>-<arch>.json`，stable 包同理访问 `.../stable/...`，不再依赖 GitHub Releases API，也不再受其匿名访问策略影响
   - 同一轮还把 channel manifest 的发布合同补进了 `.github/workflows/desktop-release.yml`：release 资产上传成功后，会把 `manifest-stable-*.json` / `manifest-beta-*.json` 同步发布到 `gh-pages` 的 `desktop-updates/<channel>/` 目录，桌面端读取的是这个静态发布面
   - “手动检查更新失败”原先会把 update coordinator 的主状态直接改成 `failed`，于是用户明明只是点了“检查更新”，页面却会长期展示“更新失败”
   - 现在手动检查失败只会保留当前主状态，并弹出一次性的“检查失败”提示；后台自动检查失败同样不会污染主状态，页面不会再把“观测失败”伪装成“更新流程失败”
@@ -106,12 +106,12 @@
   - beta release 继续完整产出 macOS / Windows / Linux 安装物、channel manifest、signed bundle 与公钥，但不会再因为 Linux APT 升级冒烟失败而把整个 beta desktop 发布链路标成失败
 - 本次最后还修正了一个只在 GitHub Actions Windows runner 上暴露的产物打包根因：
   - 原先 `build-product-bundle.service.mjs` 会把 `%TEMP%` 下的绝对路径直接传给 `pnpm deploy`
-  - Windows 下该参数会被 `pnpm deploy` 错误拼成 `workspaceRoot + C:\\...` 形式，导致 `seed-product-bundle.zip` 无法生成，随后桌面端首启只能去拉远端 manifest，最终退化成 `Unable to locate nextclaw runtime script`
+  - Windows 下该参数会被 `pnpm deploy` 错误拼成 `workspaceRoot + C:\\...` 形式，导致 `seed-product-bundle.zip` 无法生成，随后桌面端首启只能去拉远端 manifest，最终退化成 `Unable to locate go-usb-ai runtime script`
   - 现在该脚本已统一改成在仓库 `tmp/` 下创建短生命周期工作目录，并向 `pnpm deploy` 传递相对路径；这样 Linux、macOS、Windows 三端都走同一套显式合同，不再依赖 Windows 对绝对路径参数的偶然行为
 - 本次还额外修复了一个只在 packaged app 启动后暴露的 preload 桥接问题：
   - 原先 [apps/desktop/src/preload.ts](/Users/peiwang/Projects/nextbot/apps/desktop/src/preload.ts) 通过本地相对模块加载 `desktop-ipc.utils`
   - packaged Electron 在该 preload 场景下会出现本地模块解析失败，导致窗口日志出现 `Unable to load preload script` 与 `module not found: ./utils/desktop-ipc.utils`
-  - preload 一旦失效，`window.nextclawDesktop` 桥接就不会注入到 renderer，更新页即使已经打进 UI，也只能退化成“桌面端桥接不可用”的状态
+  - preload 一旦失效，`window.go-usb-aiDesktop` 桥接就不会注入到 renderer，更新页即使已经打进 UI，也只能退化成“桌面端桥接不可用”的状态
   - 现在 preload 已收敛为自包含入口，直接内联桌面更新 IPC channel 常量，不再依赖本地相对模块解析
 - 本次续改还补齐了 update coordinator 的产品语义：
   - 检查更新时会稳定写入 `lastUpdateCheckAt`
@@ -120,7 +120,7 @@
 - 为了让现有冒烟链继续可用，本次顺手修复了 [apps/desktop/scripts/smoke-runtime.mjs](/Users/peiwang/Projects/nextbot/apps/desktop/scripts/smoke-runtime.mjs) 与当前 `RuntimeServiceProcess` 契约脱节的问题；现在该脚本会传入显式 `runtimeEnv`，并回到当前真实支持的 embedded runtime 启动方式。
 - `.github/workflows/desktop-release.yml` 现在会在 release 发布时统一产出并上传：
   - 桌面安装物
-  - `nextclaw-bundle-<platform>-<arch>-<version>.zip`
+  - `go-usb-ai-bundle-<platform>-<arch>-<version>.zip`
   - `manifest-stable-<platform>-<arch>.json`
   - `update-bundle-public.pem`
 - 顺手修复了桌面包入口路径错误：Electron 打包入口现在对齐到 `dist/src/main.js`，不再错误指向不存在的 `dist/main.js`。
@@ -139,16 +139,16 @@
   - 结果：已收敛为更精确的测试入口 `node --test apps/desktop/dist/src/launcher/__tests__/*.test.js`，通过，`24 passed / 24 total`
 - 已执行：`pnpm -C apps/desktop smoke`
   - 结果：通过。删除 `legacy-runtime` 后，桌面端 runtime smoke 仍保持可用。
-- 已执行：`pnpm -C packages/nextclaw-ui tsc`
+- 已执行：`pnpm -C packages/go-usb-ai-ui tsc`
   - 结果：通过
-- 已执行：`pnpm -C packages/nextclaw-ui exec eslint src/desktop/desktop-update.types.ts src/desktop/stores/desktop-update.store.ts src/desktop/managers/desktop-update.manager.ts src/components/config/desktop-update-config.tsx src/App.tsx src/components/layout/Sidebar.tsx src/components/layout/sidebar.layout.test.tsx src/lib/ui-document-title.ts src/lib/i18n.ts src/lib/desktop-update-labels.utils.ts`
+- 已执行：`pnpm -C packages/go-usb-ai-ui exec eslint src/desktop/desktop-update.types.ts src/desktop/stores/desktop-update.store.ts src/desktop/managers/desktop-update.manager.ts src/components/config/desktop-update-config.tsx src/App.tsx src/components/layout/Sidebar.tsx src/components/layout/sidebar.layout.test.tsx src/lib/ui-document-title.ts src/lib/i18n.ts src/lib/desktop-update-labels.utils.ts`
   - 结果：通过
-- 已执行：`pnpm -C packages/nextclaw-ui build`
+- 已执行：`pnpm -C packages/go-usb-ai-ui build`
   - 结果：通过。已确认桌面更新设置页产物被打进 UI bundle，最终 chunk 中包含 `desktop-update-config-*.js`
 - 已执行：`node apps/desktop/scripts/update/services/build-update-manifest.service.mjs -- ...`
   - 结果：通过。使用临时 Ed25519 密钥与临时 bundle 文件做了真实冒烟，脚本能产出 manifest，且产出的 `manifestSignature` 与 `bundleSignature` 都可被公钥成功验签。
 - 已执行：`node apps/desktop/scripts/update/services/build-product-bundle.service.mjs -- ...`
-  - 结果：通过。使用临时输出目录做了真实冒烟，脚本能生成 `nextclaw-bundle-<platform>-<arch>-<version>.zip`，并确认包内至少包含：
+  - 结果：通过。使用临时输出目录做了真实冒烟，脚本能生成 `go-usb-ai-bundle-<platform>-<arch>-<version>.zip`，并确认包内至少包含：
     - `bundle/manifest.json`
     - `bundle/runtime/dist/cli/index.js`
     - `bundle/ui/index.html`
@@ -159,42 +159,42 @@
   - 结果：通过。确认 `afterPack` 会把 `update-bundle-public.pem` 复制到打包产物中的 `Contents/Resources/update/update-bundle-public.pem`。
 - 已执行：`pnpm -C apps/desktop dist`
   - 结果：通过。已在本地重新生成：
-    - `apps/desktop/release/NextClaw Desktop-0.0.134-arm64.dmg`
-    - `apps/desktop/release/NextClaw Desktop-0.0.134-arm64-mac.zip`
+    - `apps/desktop/release/GoUsbAi Desktop-0.0.134-arm64.dmg`
+    - `apps/desktop/release/GoUsbAi Desktop-0.0.134-arm64-mac.zip`
   - 补充验证：`electron-builder` 输出中已明确命中新加的签名修复分支，日志包含：
     - `bundle signature verification failed; rebuilding adhoc signature`
     - 后续重新签名完成后继续产出 DMG / ZIP
-- 已执行：`codesign --verify --deep --strict --verbose=4 'apps/desktop/release/mac-arm64/NextClaw Desktop.app'`
-  - 结果：通过。新产物已经是完整的 adhoc bundle 签名，`Identifier=io.nextclaw.desktop`，`Info.plist` 与资源都被 seal 进 bundle。
-- 已执行：覆盖安装新构建产物到 `/Applications/NextClaw Desktop.app` 后再次执行 `codesign --verify --deep --strict --verbose=4`
+- 已执行：`codesign --verify --deep --strict --verbose=4 'apps/desktop/release/mac-arm64/GoUsbAi Desktop.app'`
+  - 结果：通过。新产物已经是完整的 adhoc bundle 签名，`Identifier=io.go-usb-ai.desktop`，`Info.plist` 与资源都被 seal 进 bundle。
+- 已执行：覆盖安装新构建产物到 `/Applications/GoUsbAi Desktop.app` 后再次执行 `codesign --verify --deep --strict --verbose=4`
   - 结果：通过。当前机器上的安装版也已经不再是旧的残缺 bundle 签名状态。
-- 已执行：`env -u ELECTRON_RUN_AS_NODE bash apps/desktop/scripts/smoke-macos-dmg.sh 'apps/desktop/release/NextClaw Desktop-0.0.134-arm64.dmg' 240`
+- 已执行：`env -u ELECTRON_RUN_AS_NODE bash apps/desktop/scripts/smoke-macos-dmg.sh 'apps/desktop/release/GoUsbAi Desktop-0.0.134-arm64.dmg' 240`
   - 结果：通过。桌面端本体成功完成：
     - 安装 packaged seed bundle
     - 解析 active bundle runtime
     - 启动本地 runtime
     - 命中 `http://127.0.0.1:59736/api/health`
   - 说明：这次冒烟明确命中了桌面端自身启动出来的 runtime，不再走 fallback runtime。
-- 已执行：`env -u ELECTRON_RUN_AS_NODE 'apps/desktop/release/mac-arm64/NextClaw Desktop.app/Contents/MacOS/NextClaw Desktop'`
-  - 结果：通过。新的桌面窗口诊断日志已经在 [apps/desktop/src/main.ts](/Users/peiwang/Projects/nextbot/apps/desktop/src/main.ts) 对应的 packaged 应用里生效，并在 `~/Library/Application Support/@nextclaw/desktop/launcher/main.log` 中确认到：
+- 已执行：`env -u ELECTRON_RUN_AS_NODE 'apps/desktop/release/mac-arm64/GoUsbAi Desktop.app/Contents/MacOS/GoUsbAi Desktop'`
+  - 结果：通过。新的桌面窗口诊断日志已经在 [apps/desktop/src/main.ts](/Users/peiwang/Projects/nextbot/apps/desktop/src/main.ts) 对应的 packaged 应用里生效，并在 `~/Library/Application Support/@go-usb-ai/desktop/launcher/main.log` 中确认到：
     - 桌面窗口实际加载 `http://127.0.0.1:53489/chat`
     - renderer 真实发起 `GET /api/ncp/sessions?limit=200`
     - renderer 真实发起 `GET /api/config`
     - 两者都返回 `200`
-- 已执行：`env -u ELECTRON_RUN_AS_NODE open -n "/Applications/NextClaw Desktop.app"`
-  - 结果：通过。`~/Library/Application Support/@nextclaw/desktop/launcher/main.log` 明确记录：
-    - `runtimeHome=/Users/peiwang/.nextclaw`
-    - `resolvedRuntimeHome=/Users/peiwang/.nextclaw`
-    - `resolvedDesktopDataDir=/Users/peiwang/Library/Application Support/@nextclaw/desktop`
+- 已执行：`env -u ELECTRON_RUN_AS_NODE open -n "/Applications/GoUsbAi Desktop.app"`
+  - 结果：通过。`~/Library/Application Support/@go-usb-ai/desktop/launcher/main.log` 明确记录：
+    - `runtimeHome=/Users/peiwang/.go-usb-ai`
+    - `resolvedRuntimeHome=/Users/peiwang/.go-usb-ai`
+    - `resolvedDesktopDataDir=/Users/peiwang/Library/Application Support/@go-usb-ai/desktop`
     - renderer 真实发起 `/api/config`、`/api/config/meta`、`/api/ncp/sessions`，且均返回 `200`
-- 已执行：`env -u ELECTRON_RUN_AS_NODE NEXTCLAW_HOME=/tmp/nextclaw-bad-home-open NEXTCLAW_DESKTOP_DATA_DIR=/tmp/nextclaw-bad-desktop-open open -n "/Applications/NextClaw Desktop.app"`
+- 已执行：`env -u ELECTRON_RUN_AS_NODE GOUSB_AI_HOME=/tmp/go-usb-ai-bad-home-open GOUSB_AI_DESKTOP_DATA_DIR=/tmp/go-usb-ai-bad-desktop-open open -n "/Applications/GoUsbAi Desktop.app"`
   - 结果：通过。虽然日志里仍能看到：
-    - `ambientNextclawHome=/tmp/nextclaw-bad-home-open`
-    - `ambientDesktopDataDir=/tmp/nextclaw-bad-desktop-open`
+    - `ambientGoUsbAiHome=/tmp/go-usb-ai-bad-home-open`
+    - `ambientDesktopDataDir=/tmp/go-usb-ai-bad-desktop-open`
     但 packaged app 最终仍固定解析到：
-    - `runtimeHome=/Users/peiwang/.nextclaw`
-    - `resolvedRuntimeHome=/Users/peiwang/.nextclaw`
-    - `resolvedDesktopDataDir=/Users/peiwang/Library/Application Support/@nextclaw/desktop`
+    - `runtimeHome=/Users/peiwang/.go-usb-ai`
+    - `resolvedRuntimeHome=/Users/peiwang/.go-usb-ai`
+    - `resolvedDesktopDataDir=/Users/peiwang/Library/Application Support/@go-usb-ai/desktop`
 - 已执行：重新生成 `apps/desktop/build/update/seed-product-bundle.zip` 后直接解包检查
   - 结果：通过。新的 seed bundle 已明确包含：
     - `bundle/ui/assets/desktop-update-config-*.js`
@@ -202,9 +202,9 @@
     - `desktopUpdatesPageTitle`
     - `desktopUpdatesAutomaticChecks`
   - 说明：这次验证直接证实“桌面安装包里已经不是旧前端”，根因确认为旧 `ui-dist` 被复用的问题已消除。
-- 已执行：覆盖安装最新构建产物到 `/Applications/NextClaw Desktop.app` 后，再直接解包其中的 `Contents/Resources/update/seed-product-bundle.zip`
+- 已执行：覆盖安装最新构建产物到 `/Applications/GoUsbAi Desktop.app` 后，再直接解包其中的 `Contents/Resources/update/seed-product-bundle.zip`
   - 结果：通过。安装后的 app 资源里同样包含 `desktop-update-config-*.js` 与 `/updates` 路由，不再是旧 seed bundle。
-- 已执行：直接启动 `/Applications/NextClaw Desktop.app/Contents/MacOS/NextClaw Desktop` 并检查 `~/Library/Logs/@nextclaw/desktop/main.log`
+- 已执行：直接启动 `/Applications/GoUsbAi Desktop.app/Contents/MacOS/GoUsbAi Desktop` 并检查 `~/Library/Logs/@go-usb-ai/desktop/main.log`
   - 结果：通过。最新日志已确认：
     - `Runtime source: bundle`
     - `Bundle version: 0.17.6`
@@ -212,13 +212,13 @@
     - 不再出现 `module not found: ./utils/desktop-ipc.utils`
     - 启动后已进入 `Desktop update snapshot changed. status=idle/checking/failed ...`
   - 说明：这次验证确认 packaged preload 桥接已真正恢复，桌面更新页不再因为 preload 失效而退化。
-- 已执行：Playwright 直接拉起刚打包出来的 [apps/desktop/release/mac-arm64/NextClaw Desktop.app](/Users/peiwang/Projects/nextbot/apps/desktop/release/mac-arm64/NextClaw%20Desktop.app) 二进制，并在页面内读取桌面 UI 当前状态
+- 已执行：Playwright 直接拉起刚打包出来的 [apps/desktop/release/mac-arm64/GoUsbAi Desktop.app](/Users/peiwang/Projects/nextbot/apps/desktop/release/mac-arm64/GoUsbAi%20Desktop.app) 二进制，并在页面内读取桌面 UI 当前状态
   - 结果：通过。确认桌面端当前使用自己的独立 loopback 端口而不是固定 `55667`，并且页面内可直接读到：
-    - `providerKeys = ["nextclaw", "minimax", "custom-1", "custom-2", "dashscope", "custom-3", "custom-4"]`
+    - `providerKeys = ["go-usb-ai", "minimax", "custom-1", "custom-2", "dashscope", "custom-3", "custom-4"]`
     - `defaultModel = "dashscope/qwen3.6-plus"`
     - `metaProviderCount = 20`
     - `sessionCount = 912`
-  - 说明：这次验证直接覆盖了用户最关心的结果，即“桌面端打开后能正常加载原有 `~/.nextclaw` 数据，而不是空 provider / 空 model / 空会话列表”。
+  - 说明：这次验证直接覆盖了用户最关心的结果，即“桌面端打开后能正常加载原有 `~/.go-usb-ai` 数据，而不是空 provider / 空 model / 空会话列表”。
 - 本次续改还补上了桌面 bundle 存储回收策略，避免版本目录无限增长：
   - launcher 现在只保留被当前状态明确引用的版本：`currentVersion`、`previousVersion`、`lastKnownGoodVersion`、`candidateVersion`、`downloadedVersion`，以及 `current.json` / `previous.json` 指针指向的版本
   - 一旦版本切换、下载待应用、回滚或健康确认完成，未被这些引用命中的旧 `versions/<version>` 目录会自动删除
@@ -242,7 +242,7 @@
       - `manifest-beta-darwin-x64.json`
       - `manifest-beta-linux-x64.json`
       - `manifest-beta-win32-x64.json`
-      - 四个平台对应的 `nextclaw-bundle-*.zip`
+      - 四个平台对应的 `go-usb-ai-bundle-*.zip`
       - macOS / Windows / Linux 安装物与 `update-bundle-public.pem`
   - 补充说明：同一 run 最后仍有 `publish-linux-apt-repo` 失败，失败点是 Linux APT “升级冒烟”里检测到 `candidate version did not advance: 0.0.134`；该问题发生在 gh-pages APT 仓库升级验证阶段，不影响本次 beta desktop release 页面、桌面安装物和应用内更新 manifest/bundle 资产的可用性
 - 已执行：`pnpm lint:maintainability:guard`
@@ -262,12 +262,12 @@
   - 结果：通过。9/9 测试全部通过，其中新增确认：
     - beta packaged app 会直接解析到已发布的静态 beta channel manifest URL
     - 手动检查更新失败会抛出错误给 UI 提示，但不会把页面主状态写成 `failed`
-- 已执行：`pnpm -C packages/nextclaw-ui tsc`
+- 已执行：`pnpm -C packages/go-usb-ai-ui tsc`
   - 结果：通过。
-- 已执行：`pnpm -C packages/nextclaw-ui build`
+- 已执行：`pnpm -C packages/go-usb-ai-ui build`
   - 结果：通过。网页端 `/updates` 非桌面空态文案已进入最新前端构建产物。
-- 已执行：`pnpm -C packages/nextclaw build`
-  - 结果：通过。`packages/nextclaw/ui-dist` 已同步最新桌面更新页文案产物。
+- 已执行：`pnpm -C packages/go-usb-ai build`
+  - 结果：通过。`packages/go-usb-ai/ui-dist` 已同步最新桌面更新页文案产物。
 - 已执行：GitHub Actions `desktop-release` workflow_dispatch，run id `24302831063`
   - 结果：通过。四个矩阵 job 均成功完成：
     - `desktop-darwin-arm64`
@@ -286,7 +286,7 @@
 - 本次只完成桌面端 launcher 基础层，不涉及数据库、远程 migration 或生产环境部署。
 - 若要随桌面包发版，按现有桌面构建链路执行 `pnpm -C apps/desktop build:main` 后继续现有 Electron 打包流程即可。
 - 当前已实现远端 update manifest 解析、版本比较、zip 产品包下载、SHA-256 校验、Ed25519 bundle 签名校验、zip 解包安装、candidate 激活、重启切换提示、坏版本 quarantine 与启动失败自动回滚。
-- 当前已打通 release 自动产物链路：`desktop-release` 会从 `NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY` 导出公钥、构建桌面安装物、构建 product bundle、生成 signed manifest，并把这些文件一起上传到 GitHub Release。
+- 当前已打通 release 自动产物链路：`desktop-release` 会从 `GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY` 导出公钥、构建桌面安装物、构建 product bundle、生成 signed manifest，并把这些文件一起上传到 GitHub Release。
 - 当前 beta 桌面更新链路已经支持：
   - beta 包读取 beta channel manifest
   - 自动检查更新但不自动把后台检查失败冒充成用户失败
@@ -297,8 +297,8 @@
 - 当前仍未实现：
   - 桌面 launcher 自身更新
 - 现阶段实际发布桌面端免下载更新时，桌面端默认会直接消费 GitHub Release 的 stable manifest 与打包内公钥；只有在本地联调、灰度或私有源场景下，才额外使用：
-  - `NEXTCLAW_DESKTOP_UPDATE_MANIFEST_URL`
-  - `NEXTCLAW_DESKTOP_BUNDLE_PUBLIC_KEY`
+  - `GOUSB_AI_DESKTOP_UPDATE_MANIFEST_URL`
+  - `GOUSB_AI_DESKTOP_BUNDLE_PUBLIC_KEY`
 
 ## 用户/产品视角的验收步骤
 
@@ -307,14 +307,14 @@
 3. 将一个新版本 bundle 激活为 candidate 后重启桌面端，确认第一次会尝试启动 candidate，而不是在启动前被错误回滚。
 4. 让该 candidate 在首次启动后被标记健康，确认后续再次重启时不会触发回滚。
 5. 模拟 candidate 启动失败且未完成健康确认，再次启动桌面端，确认 launcher 会在启动前自动回滚到上一已知健康版本。
-6. 对已发布桌面包，确认它默认会请求 GitHub Release 的 `manifest-stable-<platform>-<arch>.json`；本地联调时也可通过 `NEXTCLAW_DESKTOP_UPDATE_MANIFEST_URL` 与 `NEXTCLAW_DESKTOP_BUNDLE_PUBLIC_KEY` 覆盖该默认源。
+6. 对已发布桌面包，确认它默认会请求 GitHub Release 的 `manifest-stable-<platform>-<arch>.json`；本地联调时也可通过 `GOUSB_AI_DESKTOP_UPDATE_MANIFEST_URL` 与 `GOUSB_AI_DESKTOP_BUNDLE_PUBLIC_KEY` 覆盖该默认源。
 7. 当 manifest 提供更新版本时，确认桌面端会先校验 manifest 的 `manifestSignature`，再下载 zip 产品包，并继续校验 SHA-256 与 `bundleSignature`，解包安装到 `versions/<new-version>`，并把该版本激活为 candidate。
-8. 观察桌面端弹出“NextClaw Update Ready”，点击 `Restart Now` 后确认桌面端重启并切到新 bundle。
+8. 观察桌面端弹出“GoUsbAi Update Ready”，点击 `Restart Now` 后确认桌面端重启并切到新 bundle。
 9. 故意让新版本在首次启动后未完成健康确认，再次启动桌面端，确认 launcher 会自动回滚到上一已知健康版本。
-10. 在没有任何 current bundle 的干净数据目录下，配置 `NEXTCLAW_DESKTOP_UPDATE_MANIFEST_URL` 与 `NEXTCLAW_DESKTOP_BUNDLE_PUBLIC_KEY`，确认桌面端会先拉取首个 stable bundle，再启动应用，而不要求用户手动下载产品包。
+10. 在没有任何 current bundle 的干净数据目录下，配置 `GOUSB_AI_DESKTOP_UPDATE_MANIFEST_URL` 与 `GOUSB_AI_DESKTOP_BUNDLE_PUBLIC_KEY`，确认桌面端会先拉取首个 stable bundle，再启动应用，而不要求用户手动下载产品包。
 11. 将一个已知坏版本号写入 launcher state 的 `badVersions` 后再次提供相同版本 manifest，确认 launcher 会显式跳过该版本，而不是反复下载它。
-12. 在本机先人为启动一个旧的 `nextclaw start` 后台服务，再打开最新桌面端，确认桌面窗口仍然会连到自己的独立端口（例如 `http://127.0.0.1:53489/chat`），而不是被旧服务固定端口劫持。
-13. 打开桌面端后确认会话列表、provider 列表和默认模型都与 `~/.nextclaw/config.json`、`~/.nextclaw/sessions` 中的真实数据一致，而不是出现空列表。
+12. 在本机先人为启动一个旧的 `go-usb-ai start` 后台服务，再打开最新桌面端，确认桌面窗口仍然会连到自己的独立端口（例如 `http://127.0.0.1:53489/chat`），而不是被旧服务固定端口劫持。
+13. 打开桌面端后确认会话列表、provider 列表和默认模型都与 `~/.go-usb-ai/config.json`、`~/.go-usb-ai/sessions` 中的真实数据一致，而不是出现空列表。
 14. 打开桌面端设置页，确认左侧设置导航已经出现“更新”入口，进入后可看到：
   - 当前桌面壳版本
   - 当前产品版本
@@ -324,13 +324,13 @@
 16. 在更新页点击“下载更新”，确认只会把新版本下载到本地并进入“已下载待应用”，当前运行版本不应立即改变。
 17. 在更新页点击“立即重启更新”，确认应用重启后才切到新版本；若新版本启动失败且没有健康确认，后续再次启动时仍会自动回滚。
 18. 切换“自动检查更新”和“发现更新后自动后台下载”两个偏好开关，重启桌面端后确认状态仍能保留，且只有在打开 `autoDownload` 时才会自动进入下载阶段。
-19. 打开 `~/Library/Logs/@nextclaw/desktop/main.log`，确认最新启动日志中不再出现 `Unable to load preload script` 与 `module not found: ./utils/desktop-ipc.utils`。
-20. 使用最新安装到 `/Applications/NextClaw Desktop.app` 的桌面端进入设置页，确认左侧已经出现“更新”入口，而不是旧版本里缺失该入口的状态。
-21. 连续完成多次桌面 bundle 更新后，检查 `~/Library/Application Support/@nextclaw/desktop/versions`，确认不会无限堆积历史版本；正常情况下只应保留：
+19. 打开 `~/Library/Logs/@go-usb-ai/desktop/main.log`，确认最新启动日志中不再出现 `Unable to load preload script` 与 `module not found: ./utils/desktop-ipc.utils`。
+20. 使用最新安装到 `/Applications/GoUsbAi Desktop.app` 的桌面端进入设置页，确认左侧已经出现“更新”入口，而不是旧版本里缺失该入口的状态。
+21. 连续完成多次桌面 bundle 更新后，检查 `~/Library/Application Support/@go-usb-ai/desktop/versions`，确认不会无限堆积历史版本；正常情况下只应保留：
   - 当前运行版本
   - 一个可回滚版本
   - 一个已下载待应用版本（如果存在）
-22. 检查 `~/Library/Application Support/@nextclaw/desktop/staging`，确认桌面稳定运行后不会残留历史下载或历史解压目录。
+22. 检查 `~/Library/Application Support/@go-usb-ai/desktop/staging`，确认桌面稳定运行后不会残留历史下载或历史解压目录。
 
 ## 可维护性总结汇总
 
@@ -363,7 +363,7 @@
 - 本次又额外删掉了桌面端 `runtime-service.ts` 里整条 `managed-service` 分支及其相关测试残留，让桌面运行链路不再同时维护“连外部后台服务”和“拉起内嵌 runtime”两套路径；同时把 `main.ts` 中与壳层编排无关的日志/窗口诊断逻辑移动到 `utils`，把入口文件重新压回预算内。
 - 本次续改继续沿着“少一点入口膨胀、少一点隐式行为”的方向推进：
   - 把桌面更新壳层编排从 `main.ts` 抽到独立 `DesktopUpdateShellService`
-  - 把新增的桌面更新文案从 `i18n.ts` 拆到 [packages/nextclaw-ui/src/lib/desktop-update-labels.utils.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/lib/desktop-update-labels.utils.ts)
+  - 把新增的桌面更新文案从 `i18n.ts` 拆到 [packages/go-usb-ai-ui/src/lib/desktop-update-labels.utils.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/lib/desktop-update-labels.utils.ts)
   - 把新增的 update coordinator 行为测试拆到 [apps/desktop/src/launcher/__tests__/update-coordinator.service.test.ts](/Users/peiwang/Projects/nextbot/apps/desktop/src/launcher/__tests__/update-coordinator.service.test.ts)，避免原测试文件继续无边界膨胀
 - 这次新增的 renderer 诊断日志虽然带来了少量非功能代码，但仍压在现有 `main.ts` 这个桌面壳入口 owner 内，没有再拆新的 logger class、diagnostic service 或 Electron bridge；它解决的是“桌面窗口真实发生了什么无法证据化”这个直接排障缺口，属于最小必要增长。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：部分达成。总代码量相对本大迭代起点仍是净增，但本次这轮续改本身已经删掉了桌面端一整条运行模式分支，并把 `main.ts` 从超预算状态压回预算内；新增的两个 `utils` 文件属于为了降低入口复杂度而做的职责收敛，没有继续恶化目录平铺度。

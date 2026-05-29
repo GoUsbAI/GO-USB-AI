@@ -6,9 +6,9 @@
 
 # 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui test -- ChatSidebar`
+- `pnpm --filter @go-usb-ai/ui test -- ChatSidebar`
   - 结果：通过（7/7）。
-- `pnpm --filter @nextclaw/ui lint`
+- `pnpm --filter @go-usb-ai/ui lint`
   - 结果：通过（无新增 error，仅仓库既有 warning）。
 
 # 发布/部署方式

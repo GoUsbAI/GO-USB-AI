@@ -4,23 +4,23 @@
 
 具体改动：
 
-- 在 `@nextclaw/ncp` 的 hydration 类型中补充可选 `activeRun`，允许前端在恢复历史消息时一并恢复运行态。
-- 在 `@nextclaw/ncp-toolkit` 的 `DefaultNcpAgentConversationStateManager.hydrate()` 中支持恢复 hydrated `activeRun`，并为缺失的 `sessionId` / `abortDisabledReason` 做默认补全。
-- 在 `@nextclaw/ncp-react` 的 `useHydratedNcpAgent()` 中，当 seed 返回 `status: "running"` 时主动注入占位 `activeRun`，保证 reload 后 `isRunning` 立即为真，`stop` / `abort` UI 与真实运行态保持一致。
+- 在 `@go-usb-ai/ncp` 的 hydration 类型中补充可选 `activeRun`，允许前端在恢复历史消息时一并恢复运行态。
+- 在 `@go-usb-ai/ncp-toolkit` 的 `DefaultNcpAgentConversationStateManager.hydrate()` 中支持恢复 hydrated `activeRun`，并为缺失的 `sessionId` / `abortDisabledReason` 做默认补全。
+- 在 `@go-usb-ai/ncp-react` 的 `useHydratedNcpAgent()` 中，当 seed 返回 `status: "running"` 时主动注入占位 `activeRun`，保证 reload 后 `isRunning` 立即为真，`stop` / `abort` UI 与真实运行态保持一致。
 - 扩展 `apps/ncp-demo/scripts/smoke-ui.mjs`，新增“长任务执行中 reload 页面后仍显示 `stop`”的回归检查。
 
 # 测试/验证/验收方式
 
 已执行：
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- agent-conversation-state-manager.test.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp lint`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit lint`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-react build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-react tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-react lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- agent-conversation-state-manager.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-react build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-react tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-react lint`
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo/frontend tsc`
 - `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint apps/ncp-demo/scripts/smoke-ui.mjs --config apps/ncp-demo/eslint.config.mjs`
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo smoke:ui`
@@ -36,7 +36,7 @@
 
 如需后续发布，可按受影响包顺序执行：
 
-- 先构建 `@nextclaw/ncp`、`@nextclaw/ncp-toolkit`、`@nextclaw/ncp-react`
+- 先构建 `@go-usb-ai/ncp`、`@go-usb-ai/ncp-toolkit`、`@go-usb-ai/ncp-react`
 - 再按项目实际发布流程处理 demo 或相关包的版本发布/部署
 
 # 用户/产品视角的验收步骤

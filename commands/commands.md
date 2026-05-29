@@ -14,7 +14,7 @@
 
 - 用途：调整或更新 `AGENTS.md`、命令机制、Rulebook / Project Rulebook 遗留内容、skill 分层或项目 AI 指令。
 - 输入格式：`/config-meta <要调整的问题或目标>`
-- 输出/期望行为：必须使用 `nextclaw-agent-instructions-governance`；先判断应删减、合并、迁入 skill、修正已有规则还是新增常驻规则；优先处理深层机制问题，避免表层补丁。默认把“规范”理解为包含 `AGENTS.md`、skills、`commands/commands.md`、相关 `docs/*`、`scripts/governance/*` 与对应 baseline/test 的完整系统，不能只改文档不检查脚本侧影响。收尾时按 `nextclaw-iteration-log-governance` 判断是否需要 `docs/logs` 留痕。
+- 输出/期望行为：必须使用 `go-usb-ai-agent-instructions-governance`；先判断应删减、合并、迁入 skill、修正已有规则还是新增常驻规则；优先处理深层机制问题，避免表层补丁。默认把“规范”理解为包含 `AGENTS.md`、skills、`commands/commands.md`、相关 `docs/*`、`scripts/governance/*` 与对应 baseline/test 的完整系统，不能只改文档不检查脚本侧影响。收尾时按 `go-usb-ai-iteration-log-governance` 判断是否需要 `docs/logs` 留痕。
 
 ## `/add-to-plan`
 
@@ -26,7 +26,7 @@
 
 - 用途：检查 `AGENTS.md`、命令机制和 skill 分层是否自洽。
 - 输入格式：`/check-meta`，可附聚焦范围。
-- 输出/期望行为：必须使用 `nextclaw-agent-instructions-governance`；检查过度常驻、重复规则、普通文档承载强制流程、skill 触发描述缺失、命令索引漂移等问题，并给出修复建议或直接修复低风险问题。
+- 输出/期望行为：必须使用 `go-usb-ai-agent-instructions-governance`；检查过度常驻、重复规则、普通文档承载强制流程、skill 触发描述缺失、命令索引漂移等问题，并给出修复建议或直接修复低风险问题。
 
 ## `/new-rule`
 
@@ -44,7 +44,7 @@
 
 - 用途：对当前任务执行标准交付收尾流程。
 - 输入格式：`/close-task`，可附聚焦范围或说明。
-- 输出/期望行为：使用 `nextclaw-delivery-workflow` 作为总流程 owner；统一检查是否完成实现前删减判断、定向验证、`tsc` 适用性、maintainability guard/review、总代码与非测试代码增减披露、复盘机制改进、迭代留痕决策与最终主动汇报。若相关项缺失，不得视为真正收尾完成。
+- 输出/期望行为：使用 `go-usb-ai-delivery-workflow` 作为总流程 owner；统一检查是否完成实现前删减判断、定向验证、`tsc` 适用性、maintainability guard/review、总代码与非测试代码增减披露、复盘机制改进、迭代留痕决策与最终主动汇报。若相关项缺失，不得视为真正收尾完成。
 
 ## `/maintainability-review`
 
@@ -56,7 +56,7 @@
 
 - 用途：按改动影响范围执行最小充分验证。
 - 输入格式：`/validate`，可附验证范围。
-- 输出/期望行为：使用 `nextclaw-validation-workflow`；若触达 TypeScript 源码、类型声明、导入导出边界或运行链路，必须包含实际执行的 `tsc` 命令；代码改动需覆盖 maintainability guard、governance ratchet、主观可维护性复核和必要冒烟。
+- 输出/期望行为：使用 `go-usb-ai-validation-workflow`；若触达 TypeScript 源码、类型声明、导入导出边界或运行链路，必须包含实际执行的 `tsc` 命令；代码改动需覆盖 maintainability guard、governance ratchet、主观可维护性复核和必要冒烟。
 
 ## `/release-frontend`
 
@@ -66,21 +66,21 @@
 
 ## `/release-beta`
 
-- 用途：执行 NextClaw NPM beta 一键发布闭环。
+- 用途：执行 GoUsbAi NPM beta 一键发布闭环。
 - 输入格式：`/release-beta`，可附 `--skip-runtime-channel`、`--minimum-launcher-version-override <version>` 或 dry-run 说明。
-- 输出/期望行为：使用 `npm-beta-release` 与 `npm-release-contract-guard`；默认走 `pnpm release:beta`，必要时补充当前 batch / runtime channel / 发布后验收结果说明。若 batch 包含 `nextclaw`，默认要求同时闭合 beta runtime update channel，而不是只停在 npm registry 发布。
+- 输出/期望行为：使用 `npm-beta-release` 与 `npm-release-contract-guard`；默认走 `pnpm release:beta`，必要时补充当前 batch / runtime channel / 发布后验收结果说明。若 batch 包含 `go-usb-ai`，默认要求同时闭合 beta runtime update channel，而不是只停在 npm registry 发布。
 
 ## `/release-beta-npm`
 
-- 用途：只发布 NextClaw NPM beta 包，不触发 runtime update channel。
+- 用途：只发布 GoUsbAi NPM beta 包，不触发 runtime update channel。
 - 输入格式：`/release-beta-npm`，可附 dry-run 说明。
 - 输出/期望行为：使用 `npm-beta-release` 与 `npm-release-contract-guard`；执行 `pnpm release:beta:npm`。适用于“先把 npm beta 包发出去，但暂时不开放自动更新通道”的场景。
 
 ## `/release-beta-runtime`
 
-- 用途：只发布 NextClaw beta runtime update channel，不重复发 npm 包。
-- 输入格式：`/release-beta-runtime`，可附 `--version <nextclaw-version>`、`--release-tag <tag>`、`--minimum-launcher-version-override <version>` 或 dry-run 说明。
-- 输出/期望行为：使用 `npm-beta-release` 与 `npm-release-contract-guard`；执行 `pnpm release:beta:runtime`。默认读取已发布的 `nextclaw@beta` 版本并闭合 runtime workflow / release assets / gh-pages manifest / 公网 manifest。
+- 用途：只发布 GoUsbAi beta runtime update channel，不重复发 npm 包。
+- 输入格式：`/release-beta-runtime`，可附 `--version <go-usb-ai-version>`、`--release-tag <tag>`、`--minimum-launcher-version-override <version>` 或 dry-run 说明。
+- 输出/期望行为：使用 `npm-beta-release` 与 `npm-release-contract-guard`；执行 `pnpm release:beta:runtime`。默认读取已发布的 `go-usb-ai@beta` 版本并闭合 runtime workflow / release assets / gh-pages manifest / 公网 manifest。
 
 ## `/release-desktop-beta`
 

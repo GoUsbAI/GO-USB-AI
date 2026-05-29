@@ -6,7 +6,7 @@
 - 前端普通 `fetch("/api/todos")` 调后端。
 - 后端实际运行在 Wasmtime/WASI 沙箱中。
 - Todo 数据写入运行时指定的宿主目录，并在 guest 中固定表现为 `/data`。
-- 继续产品化到普通用户可通过 NextClaw 能力入口开发、分发、安装和运行 NApp。
+- 继续产品化到普通用户可通过 GoUsbAi 能力入口开发、分发、安装和运行 NApp。
 
 ## 明确非目标
 
@@ -30,7 +30,7 @@
 - `napp run --data <path>` 已将 host 数据目录挂载到 guest `/data`。
 - Todo 端到端冒烟已通过，数据写入运行时指定目录。
 - `napp doctor` 与 `napp build --install` 已支持 skill 编排的普通用户开发流。
-- `skills/nextclaw-app-runtime` 已更新为创建、预览、发布、安装运行的端到端工作流。
+- `skills/go-usb-ai-app-runtime` 已更新为创建、预览、发布、安装运行的端到端工作流。
 - 已确定双模式分发边界：`.napp` 容器不变，新增 `source` / `bundle` 分发模式，默认切到 `source`。
 
 ## 当前下一步

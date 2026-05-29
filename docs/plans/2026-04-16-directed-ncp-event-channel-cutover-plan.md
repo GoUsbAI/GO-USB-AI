@@ -18,7 +18,7 @@
 - 开放式全局事件订阅
 - 为所有历史渠道长期保留双轨主链
 - 把 Web UI 和外部聊天软件强行塞进同一 delivery interface
-- 在 `nextclaw` CLI 包里继续堆积机制性协议定义
+- 在 `go-usb-ai` CLI 包里继续堆积机制性协议定义
 - 把 `MessageBus` 直接升级成新的 Agent reply 主协议
 
 ## 现状问题
@@ -72,13 +72,13 @@
 
 这些对象一旦微信切到新主链，就不应该再继续作为微信回复主链的一部分：
 
-1. `packages/nextclaw/src/cli/commands/ncp/runtime/nextclaw-ncp-dispatch.ts`
+1. `packages/go-usb-ai/src/cli/commands/ncp/runtime/go-usb-ai-ncp-dispatch.ts`
    - 微信回复路径里对 `createAssistantStreamResetControlMessage(...)`
    - 微信回复路径里对 `createAssistantStreamDeltaControlMessage(...)`
    - 微信回复路径里对 `createTypingStopControlMessage(...)`
    - 微信回复路径里通过 `runPromptOverNcp()` 把 stream 压成 `result.text`
 
-2. `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-channel.ts`
+2. `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-channel.ts`
    - 微信回复路径对 `isTypingStopControlMessage(...)` 的主链依赖
    - 微信不应再通过旧 outbound control message 来驱动 typing stop
 
@@ -89,7 +89,7 @@
 
 这些对象在首个渠道新链稳定后就应进入删除窗口，不应再被视为长期共享协议：
 
-1. `packages/nextclaw-core/src/bus/control.ts`
+1. `packages/go-usb-ai-core/src/bus/control.ts`
    - `assistant_stream` control message 定义
    - `createAssistantStreamResetControlMessage(...)`
    - `createAssistantStreamDeltaControlMessage(...)`
@@ -97,8 +97,8 @@
    - `readAssistantStreamDelta(...)`
 
 2. 对应测试
-   - `packages/nextclaw-core/src/bus/control.test.ts`
-   - `packages/nextclaw-core/src/channels/manager.typing-control.test.ts`
+   - `packages/go-usb-ai-core/src/bus/control.test.ts`
+   - `packages/go-usb-ai-core/src/channels/manager.typing-control.test.ts`
 
 说明：
 
@@ -110,7 +110,7 @@
 
 这些对象在飞书切到直接消费 `NcpEventStream` 后，不应继续作为飞书 reply 主入口：
 
-1. `packages/nextclaw/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts`
+1. `packages/go-usb-ai/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts`
    - `dispatchPrompt: (...) => Promise<string>` reply 主入口
    - `const response = await dispatchPrompt(request)`
    - `replyText = typeof response === "string" ? response : ...`
@@ -124,15 +124,15 @@
 
 以下对象在所有聊天渠道都切换完成后，应彻底删除，不再保留为兼容主链：
 
-1. `packages/nextclaw/src/cli/commands/ncp/runtime/nextclaw-ncp-dispatch.ts`
+1. `packages/go-usb-ai/src/cli/commands/ncp/runtime/go-usb-ai-ncp-dispatch.ts`
    - channel reply 主链里的旧 `bus.publishOutbound(...)` 路径
    - 依赖 `runPromptOverNcp()` 的传统 channel reply 逻辑
 
-2. `packages/nextclaw-core/src/channels/manager.ts`
+2. `packages/go-usb-ai-core/src/channels/manager.ts`
    - 作为 Agent reply 主链的 `consumeOutbound() -> deliver()` 模式
    - 如果 `ChannelManager` 仍有必要存在，也应只保留 channel lifecycle / legacy system message 等非 reply 主职责
 
-3. `packages/nextclaw-core/src/bus/queue.ts`
+3. `packages/go-usb-ai-core/src/bus/queue.ts`
    - `publishOutbound/consumeOutbound` 不再作为 Agent 回复主协议
    - `MessageBus` 若保留，也必须降级为 transport / system message / temporary bridge
    - 不再承载 `NcpEventStream -> final string/control message -> channel` 这条 reply 主链
@@ -252,13 +252,13 @@
 - 将 `eventStream` 定向交给 route 对应的 consumer
 - 为 abort / failure / cleanup 建立统一处理
 - 保持旧链仅作为 temporary bridge，不新增旧合同使用点
-- 扩展 `ExtensionChannel.nextclaw.createChannel(...)` 的实例返回值类型，使其可承载 `consumeReply(...)`
+- 扩展 `ExtensionChannel.go-usb-ai.createChannel(...)` 的实例返回值类型，使其可承载 `consumeReply(...)`
 - 扩展 `ChannelManager`，使其可以从现有 channel instances 中解析 reply-capable channel
 
 ### 建议落点
 
-- `nextclaw` 应用层负责 route / binding / lifecycle
-- `@nextclaw/ncp-toolkit` 不负责应用级路由状态
+- `go-usb-ai` 应用层负责 route / binding / lifecycle
+- `@go-usb-ai/ncp-toolkit` 不负责应用级路由状态
 - 插件系统继续只负责注册 channel，不负责 reply routing
 
 ### 完成标准
@@ -380,7 +380,7 @@
 - `ChannelReplyDispatchInput`
 - `ChannelRunBinding`
 
-这些类型应优先落在 `@nextclaw/ncp-toolkit/message-channel` 与应用层 glue code 中，不再散落在 CLI runtime 各处。
+这些类型应优先落在 `@go-usb-ai/ncp-toolkit/message-channel` 与应用层 glue code 中，不再散落在 CLI runtime 各处。
 
 ### 平台类
 
@@ -529,4 +529,4 @@ Web UI 共享上游 event truth，但不要求与外部聊天软件共享同一 
 - 更少的中间协议和历史包袱
 - 更容易把新渠道、新输出面纳入同一套 Agent 回复模型
 
-这更符合 NextClaw 作为“AI 时代个人操作层”的长期方向。
+这更符合 GoUsbAi 作为“AI 时代个人操作层”的长期方向。

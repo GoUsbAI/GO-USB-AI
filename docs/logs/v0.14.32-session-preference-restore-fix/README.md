@@ -9,10 +9,10 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui test -- --run src/components/chat/chat-page-runtime.test.ts`
-- `pnpm --filter @nextclaw/ui tsc`
-- `pnpm --filter @nextclaw/ui exec eslint src/components/chat/chat-page-runtime.ts src/components/chat/chat-page-data.ts src/components/chat/ncp/ncp-chat-page-data.ts src/components/chat/legacy/LegacyChatPage.tsx src/components/chat/ncp/NcpChatPage.tsx src/components/chat/chat-page-runtime.test.ts`
-- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-ui/src/components/chat/chat-page-runtime.ts packages/nextclaw-ui/src/components/chat/chat-page-data.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page-data.ts packages/nextclaw-ui/src/components/chat/legacy/LegacyChatPage.tsx packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx packages/nextclaw-ui/src/components/chat/chat-page-runtime.test.ts`
+- `pnpm --filter @go-usb-ai/ui test -- --run src/components/chat/chat-page-runtime.test.ts`
+- `pnpm --filter @go-usb-ai/ui tsc`
+- `pnpm --filter @go-usb-ai/ui exec eslint src/components/chat/chat-page-runtime.ts src/components/chat/chat-page-data.ts src/components/chat/ncp/ncp-chat-page-data.ts src/components/chat/legacy/LegacyChatPage.tsx src/components/chat/ncp/NcpChatPage.tsx src/components/chat/chat-page-runtime.test.ts`
+- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-ui/src/components/chat/chat-page-runtime.ts packages/go-usb-ai-ui/src/components/chat/chat-page-data.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page-data.ts packages/go-usb-ai-ui/src/components/chat/legacy/LegacyChatPage.tsx packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx packages/go-usb-ai-ui/src/components/chat/chat-page-runtime.test.ts`
 - 说明：未执行真实 UI 端到端冒烟；本次先以回归测试、类型检查、目标文件 lint、自检作为最小充分验证。
 
 ## 发布/部署方式

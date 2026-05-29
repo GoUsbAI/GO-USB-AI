@@ -14,14 +14,14 @@
 ## 测试/验证/验收方式
 
 - 类型检查：
-  - `pnpm -C packages/nextclaw-openclaw-compat tsc -p tsconfig.json`
-  - `pnpm -C packages/nextclaw tsc -p tsconfig.json`
-  - `pnpm -C packages/nextclaw-server tsc -p tsconfig.json`
+  - `pnpm -C packages/go-usb-ai-openclaw-compat tsc -p tsconfig.json`
+  - `pnpm -C packages/go-usb-ai tsc -p tsconfig.json`
+  - `pnpm -C packages/go-usb-ai-server tsc -p tsconfig.json`
 - 单测：
-  - `pnpm -C packages/nextclaw exec vitest run src/cli/commands/service-bootstrap-status.test.ts src/cli/commands/service-plugin-runtime-bridge.test.ts`
-  - `pnpm -C packages/nextclaw-server exec vitest run src/ui/router.auth.test.ts`
+  - `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/service-bootstrap-status.test.ts src/cli/commands/service-plugin-runtime-bridge.test.ts`
+  - `pnpm -C packages/go-usb-ai-server exec vitest run src/ui/router.auth.test.ts`
 - 启动冒烟：
-  - 使用临时 `NEXTCLAW_HOME` + 4 个人为减速插件启动 `tsx src/cli/index.ts serve --ui-port <port>`
+  - 使用临时 `GOUSB_AI_HOME` + 4 个人为减速插件启动 `tsx src/cli/index.ts serve --ui-port <port>`
   - 在插件 hydration 仍进行中时验证：
     - `/api/auth/status` 已返回 `200`
     - `/api/runtime/bootstrap-status` 先返回 `shell-ready/pending`，稍后返回 `hydrating-capabilities/running`
@@ -31,7 +31,7 @@
 
 ## 发布/部署方式
 
-- 本次改动涉及 `@nextclaw/openclaw-compat`、`@nextclaw/server`、`nextclaw` 启动链路。
+- 本次改动涉及 `@go-usb-ai/openclaw-compat`、`@go-usb-ai/server`、`go-usb-ai` 启动链路。
 - 正式发布时按仓库既有 npm/release 流程执行：
   - 生成版本变更
   - 发布受影响包

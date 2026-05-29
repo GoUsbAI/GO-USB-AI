@@ -12,7 +12,7 @@
 - 本次未新增脚手架命令，未接入发布流程自动化。
 
 ## 测试/验证/验收方式
-- 运行文档站构建验证：`pnpm --filter @nextclaw/docs build`。
+- 运行文档站构建验证：`pnpm --filter @go-usb-ai/docs build`。
 - 人工检查点：
   - 顶部导航可进入 `/en/notes/` 与 `/zh/notes/`。
   - Notes 列表可进入详情页。
@@ -21,7 +21,7 @@
 
 ## 发布/部署方式
 - 按现有文档站流程发布：
-  - 本地验证：`pnpm --filter @nextclaw/docs build`
+  - 本地验证：`pnpm --filter @go-usb-ai/docs build`
   - 部署命令（如需）：`pnpm deploy:docs`
 - 本次仅实现能力，不绑定发布流程自动生成。
 

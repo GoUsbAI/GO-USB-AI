@@ -1,10 +1,10 @@
 # HTTP Webhook Ingress
 
-This focused guide is for developers, local scripts, and AI agents that need to call NextClaw's HTTP webhook ingress.
+This focused guide is for developers, local scripts, and AI agents that need to call GoUsbAi's HTTP webhook ingress.
 
 ## Endpoint
 
-NextClaw exposes a generic webhook ingress at:
+GoUsbAi exposes a generic webhook ingress at:
 
 ```text
 POST /webhook
@@ -18,7 +18,7 @@ Use the same host and port as the running gateway/UI:
 For AI or scripts, do not guess the port. Discover the running service first:
 
 ```bash
-nextclaw status --json
+go-usb-ai status --json
 ```
 
 Read these fields:
@@ -55,7 +55,7 @@ Contract:
 
 ## Trigger a New Agent Session
 
-For normal external tools, use the lightweight `content` shape. NextClaw creates the internal user message id, role, status, timestamp, and session id.
+For normal external tools, use the lightweight `content` shape. GoUsbAi creates the internal user message id, role, status, timestamp, and session id.
 
 ```bash
 curl -sS -X POST http://127.0.0.1:55667/webhook \

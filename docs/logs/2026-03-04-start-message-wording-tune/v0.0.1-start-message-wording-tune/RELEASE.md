@@ -6,8 +6,8 @@
 
 ## 发布方式
 
-1. 按项目标准流程发版 `nextclaw` 包（changeset/version/publish）。
-2. 发布后执行一次 `nextclaw start` 冒烟，确认新提示生效。
+1. 按项目标准流程发版 `go-usb-ai` 包（changeset/version/publish）。
+2. 发布后执行一次 `go-usb-ai start` 冒烟，确认新提示生效。
 
 ## 不适用项
 

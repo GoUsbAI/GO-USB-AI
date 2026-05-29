@@ -1,6 +1,6 @@
 # 多 Agent 路由
 
-多 Agent 路由是高阶能力。它适合在你已经稳定使用 NextClaw 之后，把不同任务交给不同 agent 或 runtime。
+多 Agent 路由是高阶能力。它适合在你已经稳定使用 GoUsbAi 之后，把不同任务交给不同 agent 或 runtime。
 
 ## 什么时候需要
 

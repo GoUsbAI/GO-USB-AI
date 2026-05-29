@@ -11,7 +11,7 @@
 3. 将 child session tabs 从派生态生成，不再依赖点击工具卡时临时 upsert tab，减少 UI 状态与 session 列表之间的漂移。
 4. 调整 `NcpChatThreadManager`，新增 `openChildSessionPanel`，由 manager 统一负责父会话路由与 active child session 聚焦。
 5. 补充侧栏、session list manager、session header actions、NCP chat thread manager 等相关测试。
-6. 已重新构建 `packages/nextclaw-ui/dist`，并通过 `packages/nextclaw/scripts/copy-ui-dist.mjs` 同步最新构建产物到 `packages/nextclaw/ui-dist`。
+6. 已重新构建 `packages/go-usb-ai-ui/dist`，并通过 `packages/go-usb-ai/scripts/copy-ui-dist.mjs` 同步最新构建产物到 `packages/go-usb-ai/ui-dist`。
 7. 同批次续改：修复“前端删除当前会话后，外部渠道同 key 会话再次收到新消息时，聊天面板仍可能沿用旧前端线程状态”的问题。
 8. `NcpChatThreadManager` 在删除成功后会立即清空当前 `selectedSessionKey` 与线程快照，不再只依赖路由回到 `/chat` 后再被动同步，避免旧消息、旧父子面板状态、旧 header 信息继续滞留在前端内存态里。
 9. 为该删除链路补充回归测试，锁定“删除成功后必须立刻清空当前线程选择态与消息快照”的行为。
@@ -20,39 +20,39 @@
 
 已完成：
 
-1. `pnpm -C packages/nextclaw-ui test -- src/components/chat/ChatSidebar.test.tsx src/components/chat/managers/chat-session-list.manager.test.ts src/components/chat/session-header/chat-session-header-actions.test.tsx src/components/chat/ncp/tests/ncp-chat-thread.manager.test.ts`
-2. `pnpm -C packages/nextclaw-ui tsc`
-3. `pnpm -C packages/nextclaw-ui build`
-4. `node packages/nextclaw/scripts/copy-ui-dist.mjs`
-5. `pnpm exec eslint packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx packages/nextclaw-ui/src/components/chat/ChatSidebar.test.tsx packages/nextclaw-ui/src/components/chat/chat-sidebar-session-item.tsx packages/nextclaw-ui/src/components/chat/managers/chat-session-list.manager.ts packages/nextclaw-ui/src/components/chat/managers/chat-session-list.manager.test.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page.tsx packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-thread.manager.ts packages/nextclaw-ui/src/components/chat/ncp/tests/ncp-chat-thread.manager.test.ts packages/nextclaw-ui/src/components/chat/ncp/page/ncp-chat-derived-state.ts packages/nextclaw-ui/src/components/chat/presenter/chat-presenter-context.tsx packages/nextclaw-ui/src/components/chat/session-header/chat-session-header-actions.tsx packages/nextclaw-ui/src/components/chat/session-header/chat-session-header-actions.test.tsx packages/nextclaw-ui/src/components/chat/stores/chat-thread.store.ts packages/nextclaw-ui/src/lib/i18n.chat.ts`
+1. `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/ChatSidebar.test.tsx src/components/chat/managers/chat-session-list.manager.test.ts src/components/chat/session-header/chat-session-header-actions.test.tsx src/components/chat/ncp/tests/ncp-chat-thread.manager.test.ts`
+2. `pnpm -C packages/go-usb-ai-ui tsc`
+3. `pnpm -C packages/go-usb-ai-ui build`
+4. `node packages/go-usb-ai/scripts/copy-ui-dist.mjs`
+5. `pnpm exec eslint packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx packages/go-usb-ai-ui/src/components/chat/ChatSidebar.test.tsx packages/go-usb-ai-ui/src/components/chat/chat-sidebar-session-item.tsx packages/go-usb-ai-ui/src/components/chat/managers/chat-session-list.manager.ts packages/go-usb-ai-ui/src/components/chat/managers/chat-session-list.manager.test.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page.tsx packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-thread.manager.ts packages/go-usb-ai-ui/src/components/chat/ncp/tests/ncp-chat-thread.manager.test.ts packages/go-usb-ai-ui/src/components/chat/ncp/page/ncp-chat-derived-state.ts packages/go-usb-ai-ui/src/components/chat/presenter/chat-presenter-context.tsx packages/go-usb-ai-ui/src/components/chat/session-header/chat-session-header-actions.tsx packages/go-usb-ai-ui/src/components/chat/session-header/chat-session-header-actions.test.tsx packages/go-usb-ai-ui/src/components/chat/stores/chat-thread.store.ts packages/go-usb-ai-ui/src/lib/i18n.chat.ts`
 
 结果：
 
 1. 定向 UI 测试通过：4 个 test files，29 个 tests。
-2. `packages/nextclaw-ui` 类型检查通过。
+2. `packages/go-usb-ai-ui` 类型检查通过。
 3. UI production build 通过；Vite 仍提示 `chat-page` chunk 超过 500 kB，这是既有打包体积 warning，不阻断本次构建。
-4. 构建产物已同步到 `packages/nextclaw/ui-dist`。
+4. 构建产物已同步到 `packages/go-usb-ai/ui-dist`。
 5. touched 文件定点 eslint 无 error，仅保留 `ChatSidebar` 超过函数行数阈值的 warning。
-6. `pnpm -C packages/nextclaw-ui lint` 全量执行被 marketplace 既有 `react-hooks/refs` error 阻断，阻断文件不属于本次改动范围。
+6. `pnpm -C packages/go-usb-ai-ui lint` 全量执行被 marketplace 既有 `react-hooks/refs` error 阻断，阻断文件不属于本次改动范围。
 7. 同批次续改已完成：
-   `pnpm -C packages/nextclaw-ui test -- src/components/chat/ncp/tests/ncp-chat-thread.manager.test.ts`
+   `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/ncp/tests/ncp-chat-thread.manager.test.ts`
 8. 同批次续改复查已完成：
-   `pnpm -C packages/nextclaw-ui test -- src/components/chat/chat-conversation-panel.test.tsx`
+   `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/chat-conversation-panel.test.tsx`
 9. `pnpm lint:maintainability:guard` 本次仍被仓库中其它并行改动/既有超预算文件阻断，阻断项不在本次 touched 文件内；本次改动自身未新增新的守卫命中。
 
 ## 发布 / 部署方式
 
 本次是前端体验改动，不涉及后端数据迁移或额外服务部署。
 
-发布时随正常 NextClaw 包发布即可：
+发布时随正常 GoUsbAi 包发布即可：
 
-1. `@nextclaw/ui` 源码已更新。
-2. `packages/nextclaw/ui-dist` 已包含最新构建产物，可随 CLI 包一起分发。
+1. `@go-usb-ai/ui` 源码已更新。
+2. `packages/go-usb-ai/ui-dist` 已包含最新构建产物，可随 CLI 包一起分发。
 3. 不需要用户新增配置。
 
 ## 用户 / 产品视角的验收步骤
 
-1. 打开 NextClaw 聊天页。
+1. 打开 GoUsbAi 聊天页。
 2. 找到一个已有 child session 的父会话。
 3. 在左侧会话列表中确认该父会话显示子会话数量入口。
 4. 点击子会话入口，确认会切回父会话并打开右侧 child session 面板。
@@ -68,7 +68,7 @@
 
 长期目标对齐 / 可维护性推进：
 
-1. 本次增强了 NextClaw 作为统一工作台的连续性：子会话不再像离散会话一样隐藏在列表里，而是能围绕父会话形成可理解的工作流层级。
+1. 本次增强了 GoUsbAi 作为统一工作台的连续性：子会话不再像离散会话一样隐藏在列表里，而是能围绕父会话形成可理解的工作流层级。
 2. 状态来源更清晰：child session tab 列表由 session summaries 派生，而不是由点击工具卡时临时写入 store，减少了 UI 状态漂移。
 3. 行为入口收敛到 `NcpChatThreadManager.openChildSessionPanel`，没有把父会话路由和 child 聚焦逻辑散落到多个组件里。
 4. 本次续改进一步把“删除成功后的前端状态清理”也收回 `NcpChatThreadManager`，避免删除语义依赖页面 effect 时序。
@@ -110,7 +110,7 @@
 
 目录结构与文件组织是否满足当前项目治理要求：基本满足。
 
-1. 新增测试文件位于 `packages/nextclaw-ui/src/components/chat/ncp/tests/`，命名为 kebab-case 并带 `.test.ts` 后缀。
+1. 新增测试文件位于 `packages/go-usb-ai-ui/src/components/chat/ncp/tests/`，命名为 kebab-case 并带 `.test.ts` 后缀。
 2. touched 文件定点 eslint 无 error。
 3. 保留债务：`ChatSidebar` 已达 321 行，超过 300 行函数阈值；本次没有继续拆分，是因为当前改动优先保证前端行为和构建产物提交闭环。下一步整理入口应是把 child session 分组与 session item view-model 构建从 `ChatSidebar` 抽到 manager / adapter 边界。
 

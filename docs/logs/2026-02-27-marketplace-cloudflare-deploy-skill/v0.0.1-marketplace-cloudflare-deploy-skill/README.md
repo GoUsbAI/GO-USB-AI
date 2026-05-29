@@ -33,13 +33,13 @@
 1. 合并变更到 `main/master`。
 2. 按 [Marketplace Worker Deploy & Sync](../../../../workflows/marketplace-worker-deploy.md) 触发发布流程。
 3. 发布后执行：
-   - `curl -sS https://marketplace-api.nextclaw.io/health`
-   - `curl -sS 'https://marketplace-api.nextclaw.io/api/v1/skills/items?q=cloudflare-deploy&page=1&pageSize=5'`
+   - `curl -sS https://marketplace-api.go-usb-ai.io/health`
+   - `curl -sS 'https://marketplace-api.go-usb-ai.io/api/v1/skills/items?q=cloudflare-deploy&page=1&pageSize=5'`
 4. 验证返回结果包含 `slug=cloudflare-deploy` 条目。
 
 ## 用户 / 产品视角的验收步骤
 
-1. 打开 NextClaw UI 的 Skills Marketplace。
+1. 打开 GoUsbAi UI 的 Skills Marketplace。
 2. 在搜索框输入 `cloudflare` 或 `cloudflare-deploy`。
 3. 确认可看到 `Cloudflare Deploy` 条目。
 4. 进入推荐分组，确认可看到 `Cloudflare Mastery` 场景。

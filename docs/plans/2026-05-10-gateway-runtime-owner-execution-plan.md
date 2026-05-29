@@ -6,7 +6,7 @@
 
 ## 目标
 
-把 gateway 启动期能力收回到 `NextclawGatewayRuntime` 这一个 owner 下，删除 `hydrate/apply/runtimeState` 这类外层搬运链路，让 constructor 负责确定对象图，生命周期方法只负责 load/start/reload/stop。
+把 gateway 启动期能力收回到 `GoUsbAiGatewayRuntime` 这一个 owner 下，删除 `hydrate/apply/runtimeState` 这类外层搬运链路，让 constructor 负责确定对象图，生命周期方法只负责 load/start/reload/stop。
 
 ## 非目标
 
@@ -17,7 +17,7 @@
 
 ## 设计原则
 
-- GRASP Creator：`NextclawGatewayRuntime` 创建并持有本次 gateway runtime 的长期组件。
+- GRASP Creator：`GoUsbAiGatewayRuntime` 创建并持有本次 gateway runtime 的长期组件。
 - GRASP Information Expert：插件 registry、extension registry、channel bindings、UI metadata 由插件目录 owner 自己维护。
 - Tell, Don't Ask：外部流程调用 `runtime.plugins.load()` / `runtime.plugins.reloadForConfigChange()` / `runtime.plugins.startGateways()`，不拿出字段替 owner 赋值，也不让父级为子组件逐个包转发方法。
 - Encapsulation：不再出现 `params.runtime.xxx = ...`、`applyXxx(result)` 或一坨 result 字段同步。
@@ -27,7 +27,7 @@
 ## 目标结构
 
 ```txt
-NextclawGatewayRuntime
+GoUsbAiGatewayRuntime
   - messageBus
   - appEventBus
   - sessionManager
@@ -61,11 +61,11 @@ NextclawGatewayRuntime
 
 不做：
 
-- 不修改 `NextclawGatewayRuntime` 字段；
+- 不修改 `GoUsbAiGatewayRuntime` 字段；
 - 不返回 registry/bindings/extensionRegistry 让外部逐个赋值。
 - 不把 `startPluginChannelGateways` 作为 service 层散函数暴露。
 
-### `NextclawGatewayRuntime`
+### `GoUsbAiGatewayRuntime`
 
 职责：
 
@@ -89,7 +89,7 @@ NextclawGatewayRuntime
 
 - 不把已有明确组件再包一层；
 - 不通过 getter alias 保留旧字段入口；
-- 不把 owner class 继续塞在 `nextclaw-gateway-runtime.service.ts` 里。
+- 不把 owner class 继续塞在 `go-usb-ai-gateway-runtime.service.ts` 里。
 
 ## 实施步骤
 
@@ -98,22 +98,22 @@ NextclawGatewayRuntime
    - 在设计文档中链接本计划。
 
 2. 收敛 plugin 子系统 owner
-   - 新增 `packages/nextclaw-service/src/shared/services/gateway/managers/gateway-plugin.manager.ts`。
+   - 新增 `packages/go-usb-ai-service/src/shared/services/gateway/managers/gateway-plugin.manager.ts`。
    - 删除 `service-plugin-runtime-loader.service.ts` 的 `hydrateServiceCapabilities` 链路。
    - 将测试迁移为 plugin manager owner 测试。
    - registry、extension registry、channel bindings、UI metadata、gateway handles 都只由 manager 维护。
    - 启动 plugin channel gateway 的逻辑归入 manager，不再作为 service 层散函数使用。
 
-3. 改造 `NextclawGatewayRuntime`
+3. 改造 `GoUsbAiGatewayRuntime`
    - constructor 创建 `plugins: GatewayPluginManager`。
-   - `GatewayPluginManager` constructor 直接接收 `NextclawGatewayRuntime`。
+   - `GatewayPluginManager` constructor 直接接收 `GoUsbAiGatewayRuntime`。
    - 删除 `hydrateCapabilities`、`applyPluginRuntimeCapabilities`。
    - 删除 `pluginRegistry`、`extensionRegistry`、`pluginChannelBindings` 这类可由 plugin manager 查询的 runtime 重复字段。
    - 删除 `getPluginRegistry`、`getExtensionRegistry`、`getPluginChannelBindings`、`getPluginUiMetadata`、`loadPlugins`、`reloadPluginsForConfigChange`、`startPluginGateways`、`stopPluginGateways` 这类父级转发壳，使用处改为直接访问 `runtime.plugins`。
 
 4. 改造 deferred startup
    - 将 `hydrateCapabilities` 命名与指标改为 `loadPlugins`。
-   - `NextclawApp` 只调用语义化生命周期 callback，不维护 plugin runtime state。
+   - `GoUsbAiApp` 只调用语义化生命周期 callback，不维护 plugin runtime state。
 
 5. 改造 UI shell 和 runtime bridge
    - UI shell 从 `runtime.plugins` 查询 plugin metadata。
@@ -125,12 +125,12 @@ NextclawGatewayRuntime
    - 删除 `params.runtime.xxx = ...` 这类外部 owner 赋值。
 
 7. 收敛 constructor 胶水 owner
-   - 拆出 `packages/nextclaw-service/src/shared/services/gateway/managers/gateway-config.manager.ts`。
-   - 拆出 `packages/nextclaw-service/src/shared/services/gateway/managers/gateway-workspace.manager.ts`。
-   - 拆出 `packages/nextclaw-service/src/shared/services/gateway/managers/gateway-remote.manager.ts`。
-   - 拆出 `packages/nextclaw-service/src/shared/services/gateway/managers/gateway-marketplace.manager.ts`。
-   - 拆出 `packages/nextclaw-service/src/shared/services/gateway/managers/gateway-channel.manager.ts`。
-   - `NextclawGatewayRuntime` 只负责创建这些 owner 并协调生命周期。
+   - 拆出 `packages/go-usb-ai-service/src/shared/services/gateway/managers/gateway-config.manager.ts`。
+   - 拆出 `packages/go-usb-ai-service/src/shared/services/gateway/managers/gateway-workspace.manager.ts`。
+   - 拆出 `packages/go-usb-ai-service/src/shared/services/gateway/managers/gateway-remote.manager.ts`。
+   - 拆出 `packages/go-usb-ai-service/src/shared/services/gateway/managers/gateway-marketplace.manager.ts`。
+   - 拆出 `packages/go-usb-ai-service/src/shared/services/gateway/managers/gateway-channel.manager.ts`。
+   - `GoUsbAiGatewayRuntime` 只负责创建这些 owner 并协调生命周期。
 
 8. 角色命名收敛
    - classless 运行期辅助模块使用 `.utils.ts`。
@@ -139,19 +139,19 @@ NextclawGatewayRuntime
 
 ## 验收标准
 
-- `rg "hydrateCapabilities|applyPluginRuntimeCapabilities|ServiceCapabilityHydration|hydrateServiceCapabilities" packages/nextclaw-service/src/shared/services/gateway` 无命中。
-- `rg "params\\.[a-zA-Z0-9_]*(runtime|Runtime|gateway|Gateway|owner|Owner)\\.[a-zA-Z0-9_]+\\s*=" packages/nextclaw-service/src/shared/services/gateway` 无外部 owner 赋值命中。
-- `NextclawGatewayRuntime` constructor 创建 `GatewayPluginManager`。
-- `GatewayPluginManager` 直接依赖 `NextclawGatewayRuntime`，不存在 `GatewayPluginManagerOwner` / `GatewayPluginContext`。
-- `NextclawGatewayRuntime` 不再提供插件子组件的逐个转发方法，使用处直接走 `runtime.plugins.*`。
+- `rg "hydrateCapabilities|applyPluginRuntimeCapabilities|ServiceCapabilityHydration|hydrateServiceCapabilities" packages/go-usb-ai-service/src/shared/services/gateway` 无命中。
+- `rg "params\\.[a-zA-Z0-9_]*(runtime|Runtime|gateway|Gateway|owner|Owner)\\.[a-zA-Z0-9_]+\\s*=" packages/go-usb-ai-service/src/shared/services/gateway` 无外部 owner 赋值命中。
+- `GoUsbAiGatewayRuntime` constructor 创建 `GatewayPluginManager`。
+- `GatewayPluginManager` 直接依赖 `GoUsbAiGatewayRuntime`，不存在 `GatewayPluginManagerOwner` / `GatewayPluginContext`。
+- `GoUsbAiGatewayRuntime` 不再提供插件子组件的逐个转发方法，使用处直接走 `runtime.plugins.*`。
 - plugin registry 派生状态只由 `GatewayPluginManager` 维护。
 - plugin gateway handles 只由 `GatewayPluginManager` 维护。
-- `NextclawApp` 使用 `loadPlugins`，不再出现 hydrate 语义。
+- `GoUsbAiApp` 使用 `loadPlugins`，不再出现 hydrate 语义。
 - `GatewayConfigManager`、`GatewayWorkspaceManager`、`GatewayRemoteManager`、`GatewayMarketplaceManager`、`GatewayChannelManager` 各自位于独立文件。
 - `GatewayConfigManager`、`GatewayWorkspaceManager`、`GatewayRemoteManager`、`GatewayMarketplaceManager`、`GatewayChannelManager` 各自位于 `gateway/managers/` 下的独立文件。
-- `NextclawGatewayRuntime` 不再直接持有 `configPath`、`config`、`workspace`、`remoteModule`、`remoteAccess`、`marketplace`、`deferredChannelStarter`。
+- `GoUsbAiGatewayRuntime` 不再直接持有 `configPath`、`config`、`workspace`、`remoteModule`、`remoteAccess`、`marketplace`、`deferredChannelStarter`。
 - `runtimeControl` / `runtimeUpdate` 不归入 `remoteManager`。
-- `rg "startUiShell|service.start_ui_shell" packages/nextclaw-service/src/shared/services/gateway` 无命中。
-- 运行 `pnpm --filter @nextclaw-service tsc --noEmit`。
+- `rg "startUiShell|service.start_ui_shell" packages/go-usb-ai-service/src/shared/services/gateway` 无命中。
+- 运行 `pnpm --filter @go-usb-ai-service tsc --noEmit`。
 - 运行相关 gateway/service 单测。
 - 运行 lint 或最小相关 lint 验证。

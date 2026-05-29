@@ -10,13 +10,13 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
-- `pnpm --filter @nextclaw/ui tsc`
+- `pnpm --filter @go-usb-ai/agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+- `pnpm --filter @go-usb-ai/ui tsc`
 
 ## 发布/部署方式
 
 - 本次涉及前端 workspace 包源码，联调前需保证依赖当前源码或重新构建相关包
-- 若走正式发布，至少需要覆盖 `@nextclaw/agent-chat-ui` 与 `@nextclaw/ui` 的构建/发布链路
+- 若走正式发布，至少需要覆盖 `@go-usb-ai/agent-chat-ui` 与 `@go-usb-ai/ui` 的构建/发布链路
 
 ## 用户/产品视角的验收步骤
 

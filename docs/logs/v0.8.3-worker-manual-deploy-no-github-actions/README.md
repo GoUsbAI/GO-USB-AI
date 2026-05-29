@@ -14,7 +14,7 @@
 
 3. 由当前执行助手直接部署 Worker：
 - 已执行 `pnpm -C workers/marketplace-api run deploy`
-- 部署到 `https://nextclaw-marketplace-api.15353764479037.workers.dev`
+- 部署到 `https://go-usb-ai-marketplace-api.15353764479037.workers.dev`
 
 ## 测试 / 验证 / 验收方式
 
@@ -28,13 +28,13 @@
 
 ### 线上冒烟（本次执行）
 
-- `curl -sS https://nextclaw-marketplace-api.15353764479037.workers.dev/health`
-- `curl -sS 'https://nextclaw-marketplace-api.15353764479037.workers.dev/api/v1/items?page=1&pageSize=20'`
+- `curl -sS https://go-usb-ai-marketplace-api.15353764479037.workers.dev/health`
+- `curl -sS 'https://go-usb-ai-marketplace-api.15353764479037.workers.dev/api/v1/items?page=1&pageSize=20'`
 
 观察点：
 - `/health` 返回 `ok: true`。
-- `/api/v1/items` 返回 `total=11`（6 个 `@nextclaw/channel-plugin-*` + 5 个 builtin skill）。
-- 不包含 `@nextclaw/openclaw-compat` / `@nextclaw/channel-runtime`。
+- `/api/v1/items` 返回 `total=11`（6 个 `@go-usb-ai/channel-plugin-*` + 5 个 builtin skill）。
+- 不包含 `@go-usb-ai/openclaw-compat` / `@go-usb-ai/channel-runtime`。
 
 ## 发布 / 部署方式
 
@@ -55,8 +55,8 @@
 1. 在仓库确认不存在 `.github/workflows/deploy-marketplace-worker.yml`。
 2. 查阅部署文档，确认只保留手动部署命令。
 3. 打开 Worker 线上地址并访问：
-- `https://nextclaw-marketplace-api.15353764479037.workers.dev/health`
-- `https://nextclaw-marketplace-api.15353764479037.workers.dev/api/v1/items?page=1&pageSize=20`
+- `https://go-usb-ai-marketplace-api.15353764479037.workers.dev/health`
+- `https://go-usb-ai-marketplace-api.15353764479037.workers.dev/api/v1/items?page=1&pageSize=20`
 4. 验收标准：
 - 不再存在自动部署入口。
 - Worker 可正常响应并返回预期 marketplace 数据。

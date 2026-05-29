@@ -13,7 +13,7 @@ function assert(condition, message) {
   }
 }
 
-const workspace = mkdtempSync(join(tmpdir(), "nextclaw-desktop-smoke-"));
+const workspace = mkdtempSync(join(tmpdir(), "go-usb-ai-desktop-smoke-"));
 const embeddedScriptPath = join(workspace, "mock-embedded-runtime.cjs");
 const runtimeHome = join(workspace, "runtime-home");
 
@@ -59,7 +59,7 @@ const runtime = new RuntimeServiceProcess({
   scriptPath: embeddedScriptPath,
   runtimeEnv: {
     ...process.env,
-    NEXTCLAW_HOME: runtimeHome
+    GOUSB_AI_HOME: runtimeHome
   },
   startupTimeoutMs: 8_000
 });

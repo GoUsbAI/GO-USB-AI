@@ -46,7 +46,7 @@ type DesktopWindowStateSnapshot = {
   isMaximized: boolean;
 };
 
-contextBridge.exposeInMainWorld("nextclawDesktop", {
+contextBridge.exposeInMainWorld("go-usb-aiDesktop", {
   platform: process.platform,
   version: process.versions.electron,
   localePreference: ipcRenderer.sendSync(DESKTOP_LOCALE_GET_CHANNEL) as DesktopUiLanguagePreference | null,

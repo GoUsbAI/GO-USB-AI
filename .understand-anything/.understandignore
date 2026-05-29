@@ -1,0 +1,37 @@
+# .understandignore  patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore
+#
+# Built-in defaults (always excluded):
+#   node_modules/, .git/, dist/, build/, obj/, *.lock, *.min.js, etc.
+#
+# --- From .gitignore (uncomment to exclude) ---
+
+# .pnpm-store/
+# .env
+# .DS_Store
+# .npmrc
+# .npmrc.publish.local
+# tmp
+# .codegraph/
+# apps/docs/.vitepress/dist/
+# apps/docs/.vitepress/cache/
+# apps/docs/--host/
+# packages/go-usb-ai/*.tgz
+# **/.wrangler/
+# apps/docs/.vitepress/.temp/
+# apps/ncp-demo/backend/.ncp-demo-store/
+# apps/desktop/.local/
+# **/__pycache__/
+# *.pyc
+# *.pyo
+
+# --- Detected directories (uncomment to exclude) ---
+
+# docs/
+# scripts/
+
+# --- Test file patterns (uncomment to exclude) ---
+
+# *.test.*
+# *.spec.*
+# *.snap

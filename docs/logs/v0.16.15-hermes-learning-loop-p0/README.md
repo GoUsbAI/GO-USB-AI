@@ -19,10 +19,10 @@
 
 已完成：
 
-1. `pnpm -C packages/nextclaw-core exec vitest run src/agent/tests/context.test.ts src/agent/tests/runtime-user-prompt.test.ts`
-2. `pnpm -C packages/nextclaw exec vitest run src/cli/commands/ncp/context/nextclaw-ncp-context-builder.test.ts`
-3. `pnpm -C packages/nextclaw-core tsc`
-4. `pnpm -C packages/nextclaw tsc`
+1. `pnpm -C packages/go-usb-ai-core exec vitest run src/agent/tests/context.test.ts src/agent/tests/runtime-user-prompt.test.ts`
+2. `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/ncp/context/go-usb-ai-ncp-context-builder.test.ts`
+3. `pnpm -C packages/go-usb-ai-core tsc`
+4. `pnpm -C packages/go-usb-ai tsc`
 
 结果：
 
@@ -38,7 +38,7 @@
 
 本次不涉及独立部署步骤。
 
-若随正常版本发布进入产线，无需额外数据迁移；随常规 NextClaw 发布流程发布即可。
+若随正常版本发布进入产线，无需额外数据迁移；随常规 GoUsbAi 发布流程发布即可。
 
 ## 用户 / 产品视角的验收步骤
 
@@ -55,7 +55,7 @@
 
 1. 本次顺着“代码更少、边界更清晰、优先补协议而不是补新系统”的方向推进了一小步。
 2. 没有新增新的后台调度器、skill tool 或存储层，而是复用现有 prompt/context 边界完成第一阶段能力收敛。
-3. 这符合 NextClaw 作为统一入口的长期方向：先让 agent 学会把经验抽象成可复用能力，再决定是否需要更重的运行时设施。
+3. 这符合 GoUsbAi 作为统一入口的长期方向：先让 agent 学会把经验抽象成可复用能力，再决定是否需要更重的运行时设施。
 
 本次是否已尽最大努力优化可维护性：是。
 
@@ -101,5 +101,5 @@ no maintainability findings
 可维护性总结：
 
 1. 这次实现把 P0 收敛成“协议先行”的轻量版本，没有为了自动学习先造大系统，非测试代码净增控制在较小范围内。
-2. 当前仍保留的债务主要是 `packages/nextclaw-core/src/agent/context.ts` 与 NCP context builder 本体接近预算，需要后续在更大范围重构时继续拆分。
+2. 当前仍保留的债务主要是 `packages/go-usb-ai-core/src/agent/context.ts` 与 NCP context builder 本体接近预算，需要后续在更大范围重构时继续拆分。
 3. 下一步最值得盯住的 seam 是：如果 P1/P2 继续做下去，学习协议与后台复盘调度仍应沿现有 `session_search / child session / session request` 语义扩展，避免重新长出第二套抽象。

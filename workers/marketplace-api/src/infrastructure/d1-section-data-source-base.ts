@@ -107,8 +107,8 @@ export abstract class D1MarketplaceSectionDataSourceBase extends BaseMarketplace
     return {
       ...base,
       type: "skill",
-      packageName: row.package_name ?? `@nextclaw/${row.slug}`,
-      ownerScope: row.owner_scope ?? "nextclaw",
+      packageName: row.package_name ?? `@go-usb-ai/${row.slug}`,
+      ownerScope: row.owner_scope ?? "go-usb-ai",
       skillName: row.skill_name ?? row.slug,
       publishStatus: this.readSkillPublishStatus(row.publish_status),
       publishedByType: this.readSkillPublishedByType(row.published_by_type),

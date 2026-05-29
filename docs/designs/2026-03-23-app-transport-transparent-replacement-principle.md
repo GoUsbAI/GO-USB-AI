@@ -127,8 +127,8 @@ transport / adaptor 允许做的事情只有：
 
 ### 8.1 单元/类型层
 
-- `@nextclaw/ui` 的 stream routing / SSE parsing 测试通过
-- `@nextclaw/ui` / `@nextclaw/remote` / `nextclaw-provider-gateway-api` 类型检查通过
+- `@go-usb-ai/ui` 的 stream routing / SSE parsing 测试通过
+- `@go-usb-ai/ui` / `@go-usb-ai/remote` / `go-usb-ai-provider-gateway-api` 类型检查通过
 
 ### 8.2 本地真实实例
 

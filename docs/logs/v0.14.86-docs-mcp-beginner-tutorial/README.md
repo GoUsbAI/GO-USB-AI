@@ -25,8 +25,8 @@
   - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/docs build`
   - 结果：通过
 - 线上可达性检查：
-  - `PATH=/opt/homebrew/bin:$PATH curl -I -s https://26c4525a.nextclaw-docs.pages.dev/zh/guide/tutorials/mcp-marketplace | head -n 5`
-  - `PATH=/opt/homebrew/bin:$PATH curl -I -s https://26c4525a.nextclaw-docs.pages.dev/en/guide/tutorials/mcp-marketplace | head -n 5`
+  - `PATH=/opt/homebrew/bin:$PATH curl -I -s https://26c4525a.go-usb-ai-docs.pages.dev/zh/guide/tutorials/mcp-marketplace | head -n 5`
+  - `PATH=/opt/homebrew/bin:$PATH curl -I -s https://26c4525a.go-usb-ai-docs.pages.dev/en/guide/tutorials/mcp-marketplace | head -n 5`
   - 结果：两条路由均返回 `HTTP/2 200`
 
 ## 发布/部署方式
@@ -34,7 +34,7 @@
 - 本次为文档站内容更新，按既有 docs 发布流程执行：
   - `PATH=/opt/homebrew/bin:$PATH pnpm deploy:docs`
 - 实际部署结果：
-  - Cloudflare Pages preview: `https://26c4525a.nextclaw-docs.pages.dev`
+  - Cloudflare Pages preview: `https://26c4525a.go-usb-ai-docs.pages.dev`
 - 说明：
   - 本次仅文档站变更，不涉及后端、数据库、worker 或 npm 包发布。
 

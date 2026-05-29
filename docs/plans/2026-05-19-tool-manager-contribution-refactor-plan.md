@@ -1,14 +1,14 @@
 # 工具管理器与工具贡献重构方案
 
-**目标：**把当前事实上的 `NextclawNcpToolRegistry` 收敛为 kernel 级 `ToolManager`，删除空壳 `ToolManager`，并用单个 kernel contribution 负责注册 agent 可用工具，从而先切掉 `AgentRuntimeManager` 对 gateway / tool 装配细节的耦合。
+**目标：**把当前事实上的 `GoUsbAiNcpToolRegistry` 收敛为 kernel 级 `ToolManager`，删除空壳 `ToolManager`，并用单个 kernel contribution 负责注册 agent 可用工具，从而先切掉 `AgentRuntimeManager` 对 gateway / tool 装配细节的耦合。
 
-**架构方向：**现有 `NextclawNcpToolRegistry` 已经是真正的工具 owner：它按运行上下文准备工具、提供 `NcpToolRegistry`、执行工具调用，并处理 extension / additional tools。改造时不新增平行 manager，而是把这套真实实现迁回 `packages/nextclaw-kernel/src/managers/tool.manager.ts`。具体工具注册逻辑集中到一个 `ToolContribution`，该 contribution 直接依赖 `NextclawKernel`，由 kernel 管理生命周期；asset store / `McpManager` 作为 kernel 能力暴露给 contribution，避免 native runtime factory 继续承担工具注册职责。
+**架构方向：**现有 `GoUsbAiNcpToolRegistry` 已经是真正的工具 owner：它按运行上下文准备工具、提供 `NcpToolRegistry`、执行工具调用，并处理 extension / additional tools。改造时不新增平行 manager，而是把这套真实实现迁回 `packages/go-usb-ai-kernel/src/managers/tool.manager.ts`。具体工具注册逻辑集中到一个 `ToolContribution`，该 contribution 直接依赖 `GoUsbAiKernel`，由 kernel 管理生命周期；asset store / `McpManager` 作为 kernel 能力暴露给 contribution，避免 native runtime factory 继续承担工具注册职责。
 
 **成功标准：**
-- `NextclawKernel` 暴露 `readonly toolManager: ToolManager`，不再暴露空壳 `tools`。
-- `NextclawKernel` 提供一个简单的可选 `GatewayController` provide / 读取入口，service 创建 controller 后提供给 kernel。
+- `GoUsbAiKernel` 暴露 `readonly toolManager: ToolManager`，不再暴露空壳 `tools`。
+- `GoUsbAiKernel` 提供一个简单的可选 `GatewayController` provide / 读取入口，service 创建 controller 后提供给 kernel。
 - 旧空壳 `ToolManager` 被真实实现替换，不保留新旧双轨。
-- `NativeAgentRuntimeFactory` 不再直接构造 `NextclawNcpToolRegistry`。
+- `NativeAgentRuntimeFactory` 不再直接构造 `GoUsbAiNcpToolRegistry`。
 - `AgentRuntimeManager` 不再持有 `gatewayController` 字段，也不再提供 `connectGatewayController()`。
 - 默认工具注册由一个 `ToolContribution` 完成，不提前拆成多个 contribution。
 - 现有 agent run、gateway tool、session tools、extension tools、MCP tools、asset tools 行为保持不变。
@@ -17,19 +17,19 @@
 
 当前相关文件：
 
-- `packages/nextclaw-kernel/src/managers/tool.manager.ts`
+- `packages/go-usb-ai-kernel/src/managers/tool.manager.ts`
   - 当前是空壳，方法全部未实现。
-- `packages/nextclaw-kernel/src/features/native-runtime/services/nextclaw-ncp-tool-registry.service.ts`
+- `packages/go-usb-ai-kernel/src/features/native-runtime/services/go-usb-ai-ncp-tool-registry.service.ts`
   - 当前是真正工具 owner，但位置和命名都让它看起来只是 native runtime 的私有 registry。
   - 它直接注册 file / exec / web / message / cron / session / memory / gateway / extension / additional tools。
-- `packages/nextclaw-kernel/src/features/native-runtime/services/native-agent-runtime-factory.service.ts`
-  - 当前每次创建 native runtime 时 new `NextclawNcpToolRegistry`。
+- `packages/go-usb-ai-kernel/src/features/native-runtime/services/native-agent-runtime-factory.service.ts`
+  - 当前每次创建 native runtime 时 new `GoUsbAiNcpToolRegistry`。
   - 通过 `resolveGatewayController` 把 gateway controller 注入 tool registry。
-- `packages/nextclaw-kernel/src/managers/agent-runtime.manager.ts`
+- `packages/go-usb-ai-kernel/src/managers/agent-runtime.manager.ts`
   - 当前持有 `gatewayController`，通过 `connectGatewayController()` 接收 service 侧 controller。
-- `packages/nextclaw-service/src/shared/services/gateway/nextclaw-gateway-runtime.service.ts`
+- `packages/go-usb-ai-service/src/shared/services/gateway/go-usb-ai-gateway-runtime.service.ts`
   - 当前调用 `kernel.agentRuntimeManager.connectGatewayController(this.gatewayController)`。
-- `packages/nextclaw-kernel/src/app/nextclaw-kernel.ts`
+- `packages/go-usb-ai-kernel/src/app/go-usb-ai-kernel.ts`
   - 当前暴露 `readonly tools: ToolManager`，但这个 manager 没有真实能力。
   - 当前已有 contribution 生命周期数组。
 
@@ -38,7 +38,7 @@
 目标结构：
 
 ```text
-NextclawKernel
+GoUsbAiKernel
   readonly toolManager: ToolManager
   provideGatewayController(controller)
   getGatewayController()
@@ -48,7 +48,7 @@ NextclawKernel
   ]
 
 ToolContribution
-  constructor(kernel: NextclawKernel)
+  constructor(kernel: GoUsbAiKernel)
   start() 注册默认 agent 可用工具提供者到 kernel.toolManager
   创建 GatewayTool 时从 kernel.getGatewayController() 读取可选 controller
   dispose() 在需要时清理 / 释放自己的注册
@@ -64,7 +64,7 @@ NativeAgentRuntimeFactory
   向 toolManager 请求本次运行的工具 / registry
   不知道 GatewayController
 
-NextclawGatewayRuntime
+GoUsbAiGatewayRuntime
   创建 GatewayControllerImpl
   调用 kernel.provideGatewayController(gatewayController)
 ```
@@ -84,16 +84,16 @@ NextclawGatewayRuntime
 
 修改：
 
-- `packages/nextclaw-kernel/src/managers/tool.manager.ts`
-- `packages/nextclaw-kernel/src/features/native-runtime/services/nextclaw-ncp-tool-registry.service.ts`
-- `packages/nextclaw-kernel/src/features/native-runtime/index.ts`
+- `packages/go-usb-ai-kernel/src/managers/tool.manager.ts`
+- `packages/go-usb-ai-kernel/src/features/native-runtime/services/go-usb-ai-ncp-tool-registry.service.ts`
+- `packages/go-usb-ai-kernel/src/features/native-runtime/index.ts`
 
 步骤：
 
-1. 把 `NextclawNcpToolRegistry` 的真实 manager 逻辑迁入 `ToolManager`。
+1. 把 `GoUsbAiNcpToolRegistry` 的真实 manager 逻辑迁入 `ToolManager`。
 2. 保持现有运行上下文行为不变。
 3. `CoreToolNcpAdapter` 默认留在 `tool.manager.ts` 内部，除非测试需要更窄的内部文件。
-4. 删除或压缩 `nextclaw-ncp-tool-registry.service.ts`，确保不存在第二个工具 owner。
+4. 删除或压缩 `go-usb-ai-ncp-tool-registry.service.ts`，确保不存在第二个工具 owner。
 5. 更新导出，让调用方只指向 `ToolManager`。
 
 预期结果：
@@ -105,7 +105,7 @@ NextclawGatewayRuntime
 
 修改：
 
-- `packages/nextclaw-kernel/src/app/nextclaw-kernel.ts`
+- `packages/go-usb-ai-kernel/src/app/go-usb-ai-kernel.ts`
 - 所有 `kernel.tools` 引用
 
 步骤：
@@ -123,15 +123,15 @@ NextclawGatewayRuntime
 
 修改：
 
-- `packages/nextclaw-kernel/src/app/nextclaw-kernel.ts`
-- `packages/nextclaw-service/src/shared/services/gateway/nextclaw-gateway-runtime.service.ts`
+- `packages/go-usb-ai-kernel/src/app/go-usb-ai-kernel.ts`
+- `packages/go-usb-ai-service/src/shared/services/gateway/go-usb-ai-gateway-runtime.service.ts`
 
 步骤：
 
-1. 在 `NextclawKernel` 上增加一个私有可选字段保存 `GatewayController`。
+1. 在 `GoUsbAiKernel` 上增加一个私有可选字段保存 `GatewayController`。
 2. 增加 `provideGatewayController(controller: GatewayController): void`。
 3. 增加 `getGatewayController(): GatewayController | undefined`。
-4. `NextclawGatewayRuntime` 创建 `GatewayControllerImpl` 后，改为调用 `kernel.provideGatewayController(this.gatewayController)`。
+4. `GoUsbAiGatewayRuntime` 创建 `GatewayControllerImpl` 后，改为调用 `kernel.provideGatewayController(this.gatewayController)`。
 5. 不新增 `GatewayControllerManager`，不把 controller 传给 `AgentRuntimeManager`。
 
 预期结果：
@@ -143,17 +143,17 @@ NextclawGatewayRuntime
 
 新增：
 
-- `packages/nextclaw-kernel/src/contributions/tool-contribution/index.ts`
+- `packages/go-usb-ai-kernel/src/contributions/tool-contribution/index.ts`
 
 只有确实需要时才新增内部文件：
 
-- `packages/nextclaw-kernel/src/contributions/tool-contribution/types/tool-context.types.ts`
-- `packages/nextclaw-kernel/src/contributions/tool-contribution/utils/*.utils.ts`
+- `packages/go-usb-ai-kernel/src/contributions/tool-contribution/types/tool-context.types.ts`
+- `packages/go-usb-ai-kernel/src/contributions/tool-contribution/utils/*.utils.ts`
 
 步骤：
 
 1. 创建 `ToolContribution implements KernelContribution`。
-2. 构造器只接收 `NextclawKernel`。
+2. 构造器只接收 `GoUsbAiKernel`。
 3. `start()` 把现有默认 agent 可用工具提供者注册到 `kernel.toolManager`。
 4. 创建 `GatewayTool` 时直接读取 `kernel.getGatewayController()`，controller 不存在时沿用当前 `GatewayTool(undefined)` 的降级行为。
 5. `dispose()` 只在注册 API 返回 disposer 时移除注册；否则至少由 manager 防止重复 start 注册。
@@ -168,13 +168,13 @@ NextclawGatewayRuntime
 
 修改：
 
-- `packages/nextclaw-kernel/src/features/native-runtime/services/native-agent-runtime-factory.service.ts`
-- `packages/nextclaw-kernel/src/managers/agent-runtime.manager.ts`
+- `packages/go-usb-ai-kernel/src/features/native-runtime/services/native-agent-runtime-factory.service.ts`
+- `packages/go-usb-ai-kernel/src/managers/agent-runtime.manager.ts`
 
 步骤：
 
 1. 用 `toolManager` 替换 `NativeAgentRuntimeFactoryOptions.resolveGatewayController`。
-2. 用 tool manager 调用替换直接构造 `NextclawNcpToolRegistry`。
+2. 用 tool manager 调用替换直接构造 `GoUsbAiNcpToolRegistry`。
 3. asset / MCP tools 也由 `ToolContribution` 注册，native runtime factory 不再传 `getAdditionalTools`。
 4. 保持 `resolveOpenAiToolsForRuntime(input)` 行为不变，由同一条 tool manager 准备路径承接。
 5. 保持 `updateToolCallResult` 通过工具执行上下文回写的行为不变。
@@ -187,15 +187,15 @@ NextclawGatewayRuntime
 
 修改：
 
-- `packages/nextclaw-kernel/src/managers/agent-runtime.manager.ts`
-- `packages/nextclaw-service/src/shared/services/gateway/nextclaw-gateway-runtime.service.ts`
+- `packages/go-usb-ai-kernel/src/managers/agent-runtime.manager.ts`
+- `packages/go-usb-ai-service/src/shared/services/gateway/go-usb-ai-gateway-runtime.service.ts`
 
 步骤：
 
 1. 删除 `private gatewayController`。
 2. 删除 `connectGatewayController()`。
 3. 删除 `resolveGatewayController` 透传。
-4. 将 gateway controller 可用性移动到 `NextclawKernel.provideGatewayController()` / `getGatewayController()`。
+4. 将 gateway controller 可用性移动到 `GoUsbAiKernel.provideGatewayController()` / `getGatewayController()`。
 5. 禁止把 gateway controller 传进 contribution 构造器或 `NativeAgentRuntimeFactory`。
 
 预期结果：
@@ -206,10 +206,10 @@ NextclawGatewayRuntime
 
 可能需要更新或新增的测试：
 
-- `packages/nextclaw-kernel/src/features/native-runtime/services/nextclaw-ncp-tool-registry.service.*`
-- `packages/nextclaw-kernel/src/managers/tool.manager.*`
-- `packages/nextclaw-kernel/src/app/nextclaw-kernel.*`
-- `packages/nextclaw-service/src/shared/services/gateway/tests/nextclaw-app.service.test.ts`
+- `packages/go-usb-ai-kernel/src/features/native-runtime/services/go-usb-ai-ncp-tool-registry.service.*`
+- `packages/go-usb-ai-kernel/src/managers/tool.manager.*`
+- `packages/go-usb-ai-kernel/src/app/go-usb-ai-kernel.*`
+- `packages/go-usb-ai-service/src/shared/services/gateway/tests/go-usb-ai-app.service.test.ts`
 
 覆盖目标：
 
@@ -224,9 +224,9 @@ NextclawGatewayRuntime
 实现后最小验证：
 
 ```bash
-pnpm -C packages/nextclaw-kernel tsc
-pnpm -C packages/nextclaw-kernel test
-pnpm -C packages/nextclaw-service test -- --runInBand
+pnpm -C packages/go-usb-ai-kernel tsc
+pnpm -C packages/go-usb-ai-kernel test
+pnpm -C packages/go-usb-ai-service test -- --runInBand
 pnpm lint:new-code:governance
 pnpm check:governance-backlog-ratchet
 ```
@@ -240,10 +240,10 @@ pnpm check:governance-backlog-ratchet
 这是非新增用户能力的结构重构。实现阶段应通过删除以下内容，尽量保证非测试生产代码净增 `<= 0`：
 
 - 空壳 `ToolManager` 实现。
-- 迁移后的 `NextclawNcpToolRegistry` 重复 owner。
+- 迁移后的 `GoUsbAiNcpToolRegistry` 重复 owner。
 - `AgentRuntimeManager.connectGatewayController`。
 - `AgentRuntimeManager.gatewayController`。
 - `NativeAgentRuntimeFactoryOptions.resolveGatewayController`。
 - 现在已经冗余的 import / export 路径。
 
-除非公共 package export 证明必须保留，否则不要保留 `kernel.tools` 或 `NextclawNcpToolRegistry` 这类兼容 alias。当前证据显示二者都是内部路径，应直接改调用方。
+除非公共 package export 证明必须保留，否则不要保留 `kernel.tools` 或 `GoUsbAiNcpToolRegistry` 这类兼容 alias。当前证据显示二者都是内部路径，应直接改调用方。

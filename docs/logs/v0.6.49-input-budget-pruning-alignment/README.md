@@ -2,19 +2,19 @@
 
 ## 迭代完成说明（改了什么）
 
-本次将 NextClaw 的输入上下文控制从“字符/条数驱动”为主，升级为更接近 OpenClaw 的“统一 token-budget 裁剪器”，并保持低耦合实现。
+本次将 GoUsbAi 的输入上下文控制从“字符/条数驱动”为主，升级为更接近 OpenClaw 的“统一 token-budget 裁剪器”，并保持低耦合实现。
 
-- 新增统一输入预算裁剪器：[`packages/nextclaw-core/src/agent/input-budget-pruner.ts`](../../../packages/nextclaw-core/src/agent/input-budget-pruner.ts)
-- 在主 Agent 循环每次调用模型前启用裁剪：[`packages/nextclaw-core/src/agent/loop.ts`](../../../packages/nextclaw-core/src/agent/loop.ts)
-- 在 Subagent 循环同样启用裁剪，保持行为一致：[`packages/nextclaw-core/src/agent/subagent.ts`](../../../packages/nextclaw-core/src/agent/subagent.ts)
-- 新增配置项 `agents.defaults.contextTokens` 与 `agents.list[*].contextTokens`：[`packages/nextclaw-core/src/config/schema.ts`](../../../packages/nextclaw-core/src/config/schema.ts)
+- 新增统一输入预算裁剪器：[`packages/go-usb-ai-core/src/agent/input-budget-pruner.ts`](../../../packages/go-usb-ai-core/src/agent/input-budget-pruner.ts)
+- 在主 Agent 循环每次调用模型前启用裁剪：[`packages/go-usb-ai-core/src/agent/loop.ts`](../../../packages/go-usb-ai-core/src/agent/loop.ts)
+- 在 Subagent 循环同样启用裁剪，保持行为一致：[`packages/go-usb-ai-core/src/agent/subagent.ts`](../../../packages/go-usb-ai-core/src/agent/subagent.ts)
+- 新增配置项 `agents.defaults.contextTokens` 与 `agents.list[*].contextTokens`：[`packages/go-usb-ai-core/src/config/schema.ts`](../../../packages/go-usb-ai-core/src/config/schema.ts)
 - 增加热更新规则与 UI Hint 文案：
-  - [`packages/nextclaw-core/src/config/reload.ts`](../../../packages/nextclaw-core/src/config/reload.ts)
-  - [`packages/nextclaw-core/src/config/schema.help.ts`](../../../packages/nextclaw-core/src/config/schema.help.ts)
-  - [`packages/nextclaw-core/src/config/schema.labels.ts`](../../../packages/nextclaw-core/src/config/schema.labels.ts)
+  - [`packages/go-usb-ai-core/src/config/reload.ts`](../../../packages/go-usb-ai-core/src/config/reload.ts)
+  - [`packages/go-usb-ai-core/src/config/schema.help.ts`](../../../packages/go-usb-ai-core/src/config/schema.help.ts)
+  - [`packages/go-usb-ai-core/src/config/schema.labels.ts`](../../../packages/go-usb-ai-core/src/config/schema.labels.ts)
 - 更新使用文档与架构文档：
   - [`docs/USAGE.md`](../../../docs/USAGE.md)
-  - [docs site multi-agent](https://docs.nextclaw.io/guide/multi-agent)
+  - [docs site multi-agent](https://docs.go-usb-ai.io/guide/multi-agent)
 
 ## 测试 / 验证 / 验收方式
 
@@ -25,7 +25,7 @@
   - 结果：全部通过（`lint` 仅有仓库既有告警，无新增 error）
 - 冒烟测试（不写入仓库目录）：
   - 命令（示例）：
-    - `NEXTCLAW_HOME=/tmp/nextclaw-smoke-v0649 pnpm -C packages/nextclaw-core exec tsx -e "import { InputBudgetPruner } from './src/agent/input-budget-pruner.ts'; const p=new InputBudgetPruner(); const long='x'.repeat(1200000); const r=p.prune({messages:[{role:'system',content:'sys'},{role:'user',content:long},{role:'tool',content:long}] as any, contextTokens:200000}); console.log(JSON.stringify({budget:r.budgetTokens, estimated:r.estimatedTokens, tool:r.truncatedToolResultCount, dropped:r.droppedHistoryCount, user:r.truncatedUserMessage}));"`
+    - `GOUSB_AI_HOME=/tmp/go-usb-ai-smoke-v0649 pnpm -C packages/go-usb-ai-core exec tsx -e "import { InputBudgetPruner } from './src/agent/input-budget-pruner.ts'; const p=new InputBudgetPruner(); const long='x'.repeat(1200000); const r=p.prune({messages:[{role:'system',content:'sys'},{role:'user',content:long},{role:'tool',content:long}] as any, contextTokens:200000}); console.log(JSON.stringify({budget:r.budgetTokens, estimated:r.estimatedTokens, tool:r.truncatedToolResultCount, dropped:r.droppedHistoryCount, user:r.truncatedUserMessage}));"`
   - 观察点：
     - 输出中 `tool` 或 `dropped` 至少一个大于 `0`
     - `estimated` 不再无限增长并被压回预算附近
@@ -49,9 +49,9 @@
   1. `pnpm release:version`
   2. `pnpm release:publish`
 - 本次已发布：
-  - `@nextclaw/core@0.6.24`
-  - `@nextclaw/channel-runtime@0.1.10`
-  - `@nextclaw/openclaw-compat@0.1.17`
-  - `@nextclaw/server@0.4.10`
-  - `nextclaw@0.6.27`
+  - `@go-usb-ai/core@0.6.24`
+  - `@go-usb-ai/channel-runtime@0.1.10`
+  - `@go-usb-ai/openclaw-compat@0.1.17`
+  - `@go-usb-ai/server@0.4.10`
+  - `go-usb-ai@0.6.27`
 - 远程 migration：不适用（本次为 npm 包运行时与配置能力变更，不涉及后端数据库结构）。

@@ -14,8 +14,8 @@
 ## 测试 / 验证 / 验收方式
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui build
-PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/docs build
+PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui build
+PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/docs build
 PATH=/opt/homebrew/bin:$PATH pnpm lint
 PATH=/opt/homebrew/bin:$PATH pnpm tsc
 ```
@@ -33,7 +33,7 @@ PATH=/opt/homebrew/bin:$PATH pnpm tsc
 
 ```bash
 # 前端构建（UI）
-PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui build
+PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui build
 
 # 文档构建并部署（Cloudflare Pages）
 PATH=/opt/homebrew/bin:$PATH pnpm deploy:docs
@@ -43,7 +43,7 @@ PATH=/opt/homebrew/bin:$PATH pnpm deploy:docs
 
 ## 用户 / 产品视角验收步骤
 
-1. 打开 NextClaw Web UI，进入 `Model`。
+1. 打开 GoUsbAi Web UI，进入 `Model`。
 2. 在“默认模型”卡片中点击“查看模型配置指南”。
 3. 确认右侧文档侧边栏自动打开，并进入“模型选型指南”。
 4. 在指南中按 provider 找到推荐模型与官方链接，复制一个模型 id 回到 UI。

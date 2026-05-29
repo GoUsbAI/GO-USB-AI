@@ -4,9 +4,9 @@
 
 **Goal:** Validate the full cron feature end-to-end in dev mode and lock the highest-risk behavior into automated regression coverage.
 
-**Architecture:** Keep the validation centered on the real `CronService` and the real dev-mode `nextclaw serve` entrypoint. Prefer one shared test harness that uses isolated `NEXTCLAW_HOME`, real `pnpm -C packages/nextclaw dev serve`, and direct inspection of `cron/jobs.json` plus `/api/cron` actions so we verify product behavior rather than only internal helpers.
+**Architecture:** Keep the validation centered on the real `CronService` and the real dev-mode `go-usb-ai serve` entrypoint. Prefer one shared test harness that uses isolated `GOUSB_AI_HOME`, real `pnpm -C packages/go-usb-ai dev serve`, and direct inspection of `cron/jobs.json` plus `/api/cron` actions so we verify product behavior rather than only internal helpers.
 
-**Tech Stack:** Vitest, `pnpm`, `tsx`, isolated `NEXTCLAW_HOME`, Hono `/api/cron` routes, `CronService`
+**Tech Stack:** Vitest, `pnpm`, `tsx`, isolated `GOUSB_AI_HOME`, Hono `/api/cron` routes, `CronService`
 
 ---
 
@@ -55,14 +55,14 @@
 
 **Step 3: Record the no-disturbance constraint**
 
-- all runtime validation must use isolated `NEXTCLAW_HOME`
+- all runtime validation must use isolated `GOUSB_AI_HOME`
 - no external channel delivery
 - no writes into repo-local runtime data
 
 ### Task 2: Build a reusable dev-mode cron integration harness
 
 **Files:**
-- Create: `packages/nextclaw/src/cli/commands/cron-support/cron-dev-service.integration.test.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/cron-support/cron-dev-service.integration.test.ts`
 
 **Step 1: Add isolated-home helpers**
 
@@ -73,10 +73,10 @@
 
 **Step 2: Add real process helpers**
 
-- spawn `pnpm -C packages/nextclaw dev serve --ui-port <port>`
+- spawn `pnpm -C packages/go-usb-ai dev serve --ui-port <port>`
 - wait until `✓ UI NCP agent: ready`
 - graceful stop helper
-- CLI helper for `pnpm -C packages/nextclaw dev:build cron ...`
+- CLI helper for `pnpm -C packages/go-usb-ai dev:build cron ...`
 - HTTP helper for `/api/cron`
 
 **Step 3: Keep the harness honest**
@@ -88,7 +88,7 @@
 ### Task 3: Lock running-service mutation behavior
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/cron-support/cron-dev-service.integration.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/cron-support/cron-dev-service.integration.test.ts`
 
 **Step 1: Add a running-service add/disable/enable/remove test**
 
@@ -110,7 +110,7 @@
 ### Task 4: Lock one-shot and manual-run behavior
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/cron-support/cron-dev-service.integration.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/cron-support/cron-dev-service.integration.test.ts`
 
 **Step 1: Add a one-shot `at` test**
 
@@ -130,8 +130,8 @@
 ### Task 5: Lock dev-mode restart cadence recovery
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/cron-support/cron-dev-service.integration.test.ts`
-- Modify: `packages/nextclaw-core/src/cron/service.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/cron-support/cron-dev-service.integration.test.ts`
+- Modify: `packages/go-usb-ai-core/src/cron/service.test.ts`
 
 **Step 1: Add dev-mode restart recovery integration coverage**
 
@@ -146,24 +146,24 @@
 ### Task 6: Run the validation matrix and fix anything that fails
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/cron/service.ts` if needed
-- Modify: `packages/nextclaw/src/cli/commands/cron-support/cron-local.service.ts` if needed
-- Modify: `packages/nextclaw/src/cli/commands/cron.ts` if needed
-- Modify: `packages/nextclaw-server/src/ui/ui-routes/cron.controller.ts` if needed
+- Modify: `packages/go-usb-ai-core/src/cron/service.ts` if needed
+- Modify: `packages/go-usb-ai/src/cli/commands/cron-support/cron-local.service.ts` if needed
+- Modify: `packages/go-usb-ai/src/cli/commands/cron.ts` if needed
+- Modify: `packages/go-usb-ai-server/src/ui/ui-routes/cron.controller.ts` if needed
 
 **Step 1: Run targeted tests**
 
-- `pnpm -C packages/nextclaw-core exec vitest run src/cron/service.test.ts`
-- `pnpm -C packages/nextclaw exec vitest run src/cli/commands/cron-support/cron-dev-service.integration.test.ts`
-- `pnpm -C packages/nextclaw-server exec vitest run src/ui/router.cron.test.ts`
+- `pnpm -C packages/go-usb-ai-core exec vitest run src/cron/service.test.ts`
+- `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/cron-support/cron-dev-service.integration.test.ts`
+- `pnpm -C packages/go-usb-ai-server exec vitest run src/ui/router.cron.test.ts`
 
 **Step 2: Run package validation**
 
-- `pnpm -C packages/nextclaw-core lint`
-- `pnpm -C packages/nextclaw-core tsc`
-- `pnpm -C packages/nextclaw lint`
-- `pnpm -C packages/nextclaw tsc`
-- `pnpm -C packages/nextclaw-server tsc` if server route code changes
+- `pnpm -C packages/go-usb-ai-core lint`
+- `pnpm -C packages/go-usb-ai-core tsc`
+- `pnpm -C packages/go-usb-ai lint`
+- `pnpm -C packages/go-usb-ai tsc`
+- `pnpm -C packages/go-usb-ai-server tsc` if server route code changes
 
 **Step 3: Run maintainability guard**
 

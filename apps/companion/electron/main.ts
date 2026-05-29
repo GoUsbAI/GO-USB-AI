@@ -10,13 +10,13 @@ function resolveBaseUrl(argv: string[]): string {
   if (baseUrlFlagIndex >= 0 && argv[baseUrlFlagIndex + 1]) {
     return argv[baseUrlFlagIndex + 1];
   }
-  return process.env.NEXTCLAW_COMPANION_BASE_URL?.trim() || "http://127.0.0.1:55667";
+  return process.env.GOUSB_AI_COMPANION_BASE_URL?.trim() || "http://127.0.0.1:55667";
 }
 
 async function main(): Promise<void> {
   const options: CompanionAppOptions = {
     baseUrl: resolveBaseUrl(process.argv.slice(1)),
-    runtimeStatePath: process.env.NEXTCLAW_COMPANION_RUNTIME_STATE_PATH?.trim() || undefined
+    runtimeStatePath: process.env.GOUSB_AI_COMPANION_RUNTIME_STATE_PATH?.trim() || undefined
   };
   await new CompanionApplicationService(options).run();
 }

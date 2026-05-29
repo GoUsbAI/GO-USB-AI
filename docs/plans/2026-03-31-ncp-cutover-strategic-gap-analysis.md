@@ -4,7 +4,7 @@
 
 这份文档专门回答一个更高层的问题：
 
-> 以最初目标为准，NextClaw 离“由 NCP 彻底接管原有 agent 主体能力”还差哪些事情？
+> 以最初目标为准，GoUsbAi 离“由 NCP 彻底接管原有 agent 主体能力”还差哪些事情？
 
 这里的判断原则不是“代码新旧”，而是“职责归属”：
 
@@ -20,7 +20,7 @@
 
 最初目标是：
 
-- 让 NCP 成为 NextClaw agent 体系的主执行基座
+- 让 NCP 成为 GoUsbAi agent 体系的主执行基座
 - 当某项职责被 NCP 接管后，legacy 同职责代码退出
 - 最终收敛为单主链，而不是长期双执行内核
 
@@ -45,8 +45,8 @@ NcpChatPage
   -> createUiNcpAgent
   -> DefaultNcpAgentBackend
   -> DefaultNcpAgentRuntime
-  -> NextclawNcpContextBuilder
-  -> NextclawNcpToolRegistry
+  -> GoUsbAiNcpContextBuilder
+  -> GoUsbAiNcpToolRegistry
 ```
 
 这意味着：
@@ -85,8 +85,8 @@ NcpChatPage
 
 当前：
 
-- `nextclaw agent`
-- `nextclaw agent -m`
+- `go-usb-ai agent`
+- `go-usb-ai agent -m`
 
 仍直接使用 `AgentLoop.processDirect()`
 

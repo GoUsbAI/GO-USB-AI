@@ -6,12 +6,12 @@
 - 增加回归测试，覆盖“abort 后不暴露 error，且保留已生成部分内容”的行为。
 
 ## 测试/验证/验收方式
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- agent-conversation-state-manager`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit lint`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- agent-conversation-state-manager`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit lint`
 
 ## 发布/部署方式
-- 本次为 `@nextclaw/ncp-toolkit` 行为调整，按 monorepo 常规流程执行 changeset/version/publish。
+- 本次为 `@go-usb-ai/ncp-toolkit` 行为调整，按 monorepo 常规流程执行 changeset/version/publish。
 - 若本轮仅本地开发验证，则发布步骤标记为“不适用（未执行发布）”。
 
 ## 用户/产品视角的验收步骤

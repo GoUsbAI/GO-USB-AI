@@ -4,7 +4,7 @@
 
 `learning loop` 是一个后台自学习增强能力：当主会话累计足够多 tool call 后，它触发一个后台 review session，提炼可复用经验。它不参与核心 Agent run、session run、runtime 创建、工具调用或 MCP 主链路。
 
-当前实现把它作为 `NextclawKernel.learningLoop` 顶层 manager 持有，并通过 `NcpLifecycleEventBridge` 把 NCP 事件转换为 `agent.run.finished` 后再触发。这导致两个问题：
+当前实现把它作为 `GoUsbAiKernel.learningLoop` 顶层 manager 持有，并通过 `NcpLifecycleEventBridge` 把 NCP 事件转换为 `agent.run.finished` 后再触发。这导致两个问题：
 
 - 核心 kernel 对一个附加能力有固定字段和固定生命周期调用。
 - NCP 主事件之外存在一条 lifecycle 影子事件链，且这条链还从旧 `SessionManager` 拼上下文。
@@ -24,7 +24,7 @@
 
 ## 方案
 
-新增 `packages/nextclaw-kernel/src/contributions/learning-loop/`：
+新增 `packages/go-usb-ai-kernel/src/contributions/learning-loop/`：
 
 - `index.ts`：实现 `LearningLoopContribution implements KernelContribution`，监听 `eventKeys.ncpEvent`。
 - `config.ts`：保留 learning loop metadata key、默认阈值和配置读取函数。
@@ -49,7 +49,7 @@ SessionRunManager.publishSessionEvent
 - 删除 `types/ncp-lifecycle-event.types.ts`
 - 删除 `managers/learning-loop.manager.ts`
 - 删除顶层 `configs/learning-loop.config.ts` 和 `utils/learning-loop-prompt.utils.ts`，移动到 contribution 内部
-- 删除 `NextclawKernel.learningLoop` 字段以及 start/dispose 特殊调用
+- 删除 `GoUsbAiKernel.learningLoop` 字段以及 start/dispose 特殊调用
 - 删除 `SessionRunManager.handleNcpEvent` 注入点
 
 ## 验收

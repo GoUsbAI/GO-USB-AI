@@ -14,8 +14,8 @@
 - 运行 `node scripts/test-governance-report.mjs`
   - 结果：命令可正常输出当前仓库测试热点。
   - 关键观察点：
-    - 包级热点命中 `packages/nextclaw-server`
-    - 文件级热点命中 `packages/extensions/nextclaw-channel-plugin-feishu/src/bot.test.ts`
+    - 包级热点命中 `packages/go-usb-ai-server`
+    - 文件级热点命中 `packages/extensions/go-usb-ai-channel-plugin-feishu/src/bot.test.ts`
     - 输出包含预警/阻塞阈值说明
 - 运行 `node -e 'const pkg=require("./package.json"); console.log(pkg.scripts["report:test-governance"]); console.log(pkg.scripts["check:test-governance"]);'`
   - 结果：确认两个命令已接入根脚本。

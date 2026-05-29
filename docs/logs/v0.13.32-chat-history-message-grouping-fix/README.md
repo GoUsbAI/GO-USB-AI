@@ -10,12 +10,12 @@
 - 结果：历史回放的卡片组织与流式过程保持一致，不再出现“流式是一卡、刷新历史变多卡”。
 
 ## 测试/验证/验收方式
-- `pnpm --filter @nextclaw/ui tsc`
-- `pnpm --filter @nextclaw/ui build`
+- `pnpm --filter @go-usb-ai/ui tsc`
+- `pnpm --filter @go-usb-ai/ui build`
 - 结果：均通过。
 
 ## 发布/部署方式
-- 本次仅涉及 `@nextclaw/ui` 前端逻辑。
+- 本次仅涉及 `@go-usb-ai/ui` 前端逻辑。
 - 按既有前端部署流程发布即可。
 
 ## 用户/产品视角的验收步骤

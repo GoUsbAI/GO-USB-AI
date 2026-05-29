@@ -9,10 +9,10 @@
 - 保持任务列表语义不受影响：`contains-task-list` 仍不显示默认 marker，仅展示 checkbox。
 
 ## 2) 测试/验证/验收方式
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`（通过）
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`（通过）
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`（通过）
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`（通过）
 - 冒烟：
-  - `cd packages/nextclaw-ui/dist && python3 -m http.server 4174`
+  - `cd packages/go-usb-ai-ui/dist && python3 -m http.server 4174`
   - `curl http://127.0.0.1:4174/index.html` 返回 `HTTP 200`
   - 检查构建产物 CSS 含 `list-style-type: disc/decimal` 与 `li::marker` 规则（通过）
 

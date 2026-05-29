@@ -7,7 +7,7 @@ if (-not $IsWindows) {
 }
 
 function Initialize-MinimalAppRegionProbe {
-  if ("NextClawMinimalAppRegionNative" -as [type]) {
+  if ("GoUsbAiMinimalAppRegionNative" -as [type]) {
     return
   }
 
@@ -16,7 +16,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-public static class NextClawMinimalAppRegionNative {
+public static class GoUsbAiMinimalAppRegionNative {
   [StructLayout(LayoutKind.Sequential)]
   public struct RECT {
     public int Left;
@@ -158,8 +158,8 @@ function Read-WindowRect {
   param([IntPtr]$WindowHandle)
 
   Initialize-MinimalAppRegionProbe
-  $rect = New-Object NextClawMinimalAppRegionNative+RECT
-  if (-not [NextClawMinimalAppRegionNative]::GetWindowRect($WindowHandle, [ref]$rect)) {
+  $rect = New-Object GoUsbAiMinimalAppRegionNative+RECT
+  if (-not [GoUsbAiMinimalAppRegionNative]::GetWindowRect($WindowHandle, [ref]$rect)) {
     throw "GetWindowRect failed for window handle $WindowHandle"
   }
 
@@ -181,10 +181,10 @@ function Convert-ClientPointToScreen {
   )
 
   Initialize-MinimalAppRegionProbe
-  $point = New-Object NextClawMinimalAppRegionNative+POINT
+  $point = New-Object GoUsbAiMinimalAppRegionNative+POINT
   $point.X = $X
   $point.Y = $Y
-  if (-not [NextClawMinimalAppRegionNative]::ClientToScreen($WindowHandle, [ref]$point)) {
+  if (-not [GoUsbAiMinimalAppRegionNative]::ClientToScreen($WindowHandle, [ref]$point)) {
     throw "ClientToScreen failed for window handle $WindowHandle"
   }
 
@@ -217,11 +217,11 @@ function Invoke-MinimalAppRegionDragProbe {
     throw "Could not find a window handle for minimal Electron process tree rooted at $RootPid"
   }
 
-  [NextClawMinimalAppRegionNative]::ShowWindow($windowHandle, 9) | Out-Null
-  [NextClawMinimalAppRegionNative]::SetForegroundWindow($windowHandle) | Out-Null
+  [GoUsbAiMinimalAppRegionNative]::ShowWindow($windowHandle, 9) | Out-Null
+  [GoUsbAiMinimalAppRegionNative]::SetForegroundWindow($windowHandle) | Out-Null
   Start-Sleep -Milliseconds 500
 
-  if (-not [NextClawMinimalAppRegionNative]::MoveWindow($windowHandle, 80, 80, 1024, 720, $true)) {
+  if (-not [GoUsbAiMinimalAppRegionNative]::MoveWindow($windowHandle, 80, 80, 1024, 720, $true)) {
     throw "MoveWindow failed while preparing minimal app-region probe for window handle $windowHandle"
   }
   Start-Sleep -Milliseconds 800
@@ -242,26 +242,26 @@ function Invoke-MinimalAppRegionDragProbe {
   $startY = $startPoint.Y
   $endX = $startX + 140
   $endY = $startY + 80
-  $mainHitTest = [NextClawMinimalAppRegionNative]::HitTest($windowHandle, $startX, $startY)
-  $pointWindowHandle = [NextClawMinimalAppRegionNative]::WindowFromScreenPoint($startX, $startY)
-  $pointClassName = [NextClawMinimalAppRegionNative]::ClassName($pointWindowHandle)
-  $rootFromPointHandle = [NextClawMinimalAppRegionNative]::RootWindow($pointWindowHandle)
-  $rootClassName = [NextClawMinimalAppRegionNative]::ClassName($rootFromPointHandle)
-  $pointHitTest = [NextClawMinimalAppRegionNative]::HitTest($pointWindowHandle, $startX, $startY)
-  $rootHitTest = [NextClawMinimalAppRegionNative]::HitTest($rootFromPointHandle, $startX, $startY)
+  $mainHitTest = [GoUsbAiMinimalAppRegionNative]::HitTest($windowHandle, $startX, $startY)
+  $pointWindowHandle = [GoUsbAiMinimalAppRegionNative]::WindowFromScreenPoint($startX, $startY)
+  $pointClassName = [GoUsbAiMinimalAppRegionNative]::ClassName($pointWindowHandle)
+  $rootFromPointHandle = [GoUsbAiMinimalAppRegionNative]::RootWindow($pointWindowHandle)
+  $rootClassName = [GoUsbAiMinimalAppRegionNative]::ClassName($rootFromPointHandle)
+  $pointHitTest = [GoUsbAiMinimalAppRegionNative]::HitTest($pointWindowHandle, $startX, $startY)
+  $rootHitTest = [GoUsbAiMinimalAppRegionNative]::HitTest($rootFromPointHandle, $startX, $startY)
   $hasCaptionHit = $mainHitTest -eq 2 -or $pointHitTest -eq 2 -or $rootHitTest -eq 2
 
   Write-Host "[minimal-app-region] $Variant probe: before=($($before.Left),$($before.Top)) clientStart=($clientStartX,$clientStartY) screenStart=($startX,$startY) mainHandle=$windowHandle mainHitTest=$mainHitTest pointHandle=$pointWindowHandle pointClass=$pointClassName pointHitTest=$pointHitTest rootHandle=$rootFromPointHandle rootClass=$rootClassName rootHitTest=$rootHitTest"
 
   $mouseLeftDown = 0x0002
   $mouseLeftUp = 0x0004
-  [NextClawMinimalAppRegionNative]::SetCursorPos($startX, $startY) | Out-Null
+  [GoUsbAiMinimalAppRegionNative]::SetCursorPos($startX, $startY) | Out-Null
   Start-Sleep -Milliseconds 200
-  [NextClawMinimalAppRegionNative]::mouse_event($mouseLeftDown, 0, 0, 0, [UIntPtr]::Zero)
+  [GoUsbAiMinimalAppRegionNative]::mouse_event($mouseLeftDown, 0, 0, 0, [UIntPtr]::Zero)
   Start-Sleep -Milliseconds 200
-  [NextClawMinimalAppRegionNative]::SetCursorPos($endX, $endY) | Out-Null
+  [GoUsbAiMinimalAppRegionNative]::SetCursorPos($endX, $endY) | Out-Null
   Start-Sleep -Milliseconds 700
-  [NextClawMinimalAppRegionNative]::mouse_event($mouseLeftUp, 0, 0, 0, [UIntPtr]::Zero)
+  [GoUsbAiMinimalAppRegionNative]::mouse_event($mouseLeftUp, 0, 0, 0, [UIntPtr]::Zero)
   Start-Sleep -Milliseconds 900
 
   $after = Read-WindowRect -WindowHandle $windowHandle
@@ -278,10 +278,10 @@ function Invoke-MinimalAppRegionDragProbe {
   }
 }
 
-function Resolve-NextClawUiDistPath {
+function Resolve-GoUsbAiUiDistPath {
   $candidates = @(
-    (Join-Path $repoRoot "packages\nextclaw-ui\dist"),
-    (Join-Path $repoRoot "packages\nextclaw\ui-dist")
+    (Join-Path $repoRoot "packages\go-usb-ai-ui\dist"),
+    (Join-Path $repoRoot "packages\go-usb-ai\ui-dist")
   )
   foreach ($candidate in $candidates) {
     if (Test-Path $candidate) {
@@ -289,7 +289,7 @@ function Resolve-NextClawUiDistPath {
     }
   }
 
-  throw "NextClaw UI dist not found. Checked: $($candidates -join ', ')"
+  throw "GoUsbAi UI dist not found. Checked: $($candidates -join ', ')"
 }
 
 function New-MinimalAppRegionApp {
@@ -306,12 +306,12 @@ function New-MinimalAppRegionApp {
     [switch]$DesktopBridge
   )
 
-  $appRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("nextclaw-minimal-app-region-$Variant-" + [System.Guid]::NewGuid().ToString("N"))
+  $appRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("go-usb-ai-minimal-app-region-$Variant-" + [System.Guid]::NewGuid().ToString("N"))
   New-Item -ItemType Directory -Force -Path $appRoot | Out-Null
 
   Set-Content -Path (Join-Path $appRoot "package.json") -Encoding UTF8 -Value @'
 {
-  "name": "nextclaw-minimal-app-region-smoke",
+  "name": "go-usb-ai-minimal-app-region-smoke",
   "version": "0.0.0",
   "main": "main.js"
 }
@@ -322,7 +322,7 @@ function New-MinimalAppRegionApp {
 @'
 const { contextBridge } = require("electron");
 
-contextBridge.exposeInMainWorld("nextclawDesktop", {
+contextBridge.exposeInMainWorld("go-usb-aiDesktop", {
   platform: "win32",
   version: process.versions.electron,
   localePreference: null,
@@ -345,7 +345,7 @@ contextBridge.exposeInMainWorld("nextclawDesktop", {
 @'
 const { contextBridge } = require("electron");
 
-contextBridge.exposeInMainWorld("nextclawMinimalPreload", {
+contextBridge.exposeInMainWorld("go-usb-aiMinimalPreload", {
   platform: process.platform
 });
 '@
@@ -389,7 +389,7 @@ contextBridge.exposeInMainWorld("nextclawMinimalPreload", {
 @"
   const fs = require("node:fs");
   const http = require("node:http");
-  const startupHtml = "<!doctype html><html><body style=\"$startupBodyStyle\">Starting NextClaw...</body></html>";
+  const startupHtml = "<!doctype html><html><body style=\"$startupBodyStyle\">Starting GoUsbAi...</body></html>";
   await win.loadURL("data:text/html;charset=utf-8," + encodeURIComponent(startupHtml));
   const indexPath = path.join(__dirname, "index.html");
   const server = http.createServer((_request, response) => {
@@ -412,7 +412,7 @@ contextBridge.exposeInMainWorld("nextclawMinimalPreload", {
 @"
   const fs = require("node:fs");
   const http = require("node:http");
-  const startupHtml = "<!doctype html><html><body style=\"$startupBodyStyle\">Starting NextClaw...</body></html>";
+  const startupHtml = "<!doctype html><html><body style=\"$startupBodyStyle\">Starting GoUsbAi...</body></html>";
   await win.loadURL("data:text/html;charset=utf-8," + encodeURIComponent(startupHtml));
   const runtimeWin = createMinimalWindow();
   win.destroy();
@@ -433,7 +433,7 @@ contextBridge.exposeInMainWorld("nextclawMinimalPreload", {
   });
 "@
   } elseif ($LoadMode -eq "ui-dist-http") {
-    $uiDistPathLiteral = ConvertTo-Json (Resolve-NextClawUiDistPath)
+    $uiDistPathLiteral = ConvertTo-Json (Resolve-GoUsbAiUiDistPath)
 @"
   const fs = require("node:fs");
   const http = require("node:http");
@@ -553,13 +553,13 @@ app.on("window-all-closed", () => {
 });
 "@
 
-  $indexHtml = if ($Layout -eq "nextclaw" -or $Layout -eq "nextclaw-empty" -or $Layout -eq "nextclaw-css") {
+  $indexHtml = if ($Layout -eq "go-usb-ai" -or $Layout -eq "go-usb-ai-empty" -or $Layout -eq "go-usb-ai-css") {
 @'
 <!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
-    __NEXTCLAW_UI_CSS_LINK__
+    __GOUSB_AI_UI_CSS_LINK__
     <style>
       :root {
         --desktop-titlebar-height: 40px;
@@ -652,11 +652,11 @@ app.on("window-all-closed", () => {
       <header class="desktop-window-drag chrome" data-testid="desktop-window-chrome">
         <div class="desktop-window-no-drag resize-strip" data-testid="desktop-window-chrome-resize-strip"></div>
         <div class="desktop-window-no-drag sidebar" data-testid="desktop-window-chrome-sidebar">
-          <div class="desktop-window-no-drag brand">NextClaw</div>
+          <div class="desktop-window-no-drag brand">GoUsbAi</div>
         </div>
-        __NEXTCLAW_MAIN_DRAG__
+        __GOUSB_AI_MAIN_DRAG__
       </header>
-      <main class="desktop-window-no-drag content">nextclaw-like app-region smoke</main>
+      <main class="desktop-window-no-drag content">go-usb-ai-like app-region smoke</main>
     </div>
   </body>
 </html>
@@ -703,28 +703,28 @@ app.on("window-all-closed", () => {
 '@
   }
 
-  if ($Layout -eq "nextclaw" -or $Layout -eq "nextclaw-empty" -or $Layout -eq "nextclaw-css") {
-    $mainDragMarkup = if ($Layout -eq "nextclaw") {
+  if ($Layout -eq "go-usb-ai" -or $Layout -eq "go-usb-ai-empty" -or $Layout -eq "go-usb-ai-css") {
+    $mainDragMarkup = if ($Layout -eq "go-usb-ai") {
       '<div class="desktop-window-drag main-drag" data-testid="desktop-window-chrome-main"></div>'
-    } elseif ($Layout -eq "nextclaw-css") {
+    } elseif ($Layout -eq "go-usb-ai-css") {
       '<div class="desktop-window-drag h-full min-w-0 flex-1" data-testid="desktop-window-chrome-main-drag-region"></div>'
     } else {
       ''
     }
     $uiCssLink = ""
-    if ($Layout -eq "nextclaw-css") {
+    if ($Layout -eq "go-usb-ai-css") {
       $assetsPath = Join-Path $appRoot "assets"
       New-Item -ItemType Directory -Force -Path $assetsPath | Out-Null
-      $uiDistPath = Resolve-NextClawUiDistPath
+      $uiDistPath = Resolve-GoUsbAiUiDistPath
       $uiCssPath = Get-ChildItem -Path (Join-Path $uiDistPath "assets") -Filter "*.css" | Select-Object -First 1
       if (-not $uiCssPath) {
-        throw "NextClaw UI dist CSS asset not found under $uiDistPath"
+        throw "GoUsbAi UI dist CSS asset not found under $uiDistPath"
       }
-      Copy-Item -Path $uiCssPath.FullName -Destination (Join-Path $assetsPath "nextclaw-ui.css") -Force
-      $uiCssLink = '<link rel="stylesheet" href="/assets/nextclaw-ui.css">'
+      Copy-Item -Path $uiCssPath.FullName -Destination (Join-Path $assetsPath "go-usb-ai-ui.css") -Force
+      $uiCssLink = '<link rel="stylesheet" href="/assets/go-usb-ai-ui.css">'
     }
-    $indexHtml = $indexHtml.Replace("__NEXTCLAW_MAIN_DRAG__", $mainDragMarkup)
-    $indexHtml = $indexHtml.Replace("__NEXTCLAW_UI_CSS_LINK__", $uiCssLink)
+    $indexHtml = $indexHtml.Replace("__GOUSB_AI_MAIN_DRAG__", $mainDragMarkup)
+    $indexHtml = $indexHtml.Replace("__GOUSB_AI_UI_CSS_LINK__", $uiCssLink)
   }
 
   Set-Content -Path (Join-Path $appRoot "index.html") -Encoding UTF8 -Value $indexHtml
@@ -771,10 +771,10 @@ $forceInlineTitlebarDragScript = @'
 '@
 $fixedTitlebarDragLayerScript = @'
 (() => {
-  const existing = document.getElementById("nextclaw-fixed-titlebar-drag-probe");
+  const existing = document.getElementById("go-usb-ai-fixed-titlebar-drag-probe");
   if (existing) existing.remove();
   const layer = document.createElement("div");
-  layer.id = "nextclaw-fixed-titlebar-drag-probe";
+  layer.id = "go-usb-ai-fixed-titlebar-drag-probe";
   layer.dataset.testid = "desktop-window-fixed-titlebar-drag-probe";
   Object.assign(layer.style, {
     position: "fixed",
@@ -836,54 +836,54 @@ $variants = @(
     Preload = $true
   },
   [pscustomobject]@{
-    Name = "nextclaw-layout-empty-http-preload-sandbox-false"
+    Name = "go-usb-ai-layout-empty-http-preload-sandbox-false"
     WindowOptionLines = "    frame: false,"
     LoadMode = "http"
     WebPreferenceLines = @'
       sandbox: false,
       preload: path.join(__dirname, "preload.js")
 '@
-    Layout = "nextclaw-empty"
+    Layout = "go-usb-ai-empty"
     Preload = $true
     ExpectCaption = $false
   },
   [pscustomobject]@{
-    Name = "nextclaw-layout-http-preload-sandbox-false"
+    Name = "go-usb-ai-layout-http-preload-sandbox-false"
     WindowOptionLines = "    frame: false,"
     LoadMode = "http"
     WebPreferenceLines = @'
       sandbox: false,
       preload: path.join(__dirname, "preload.js")
 '@
-    Layout = "nextclaw"
+    Layout = "go-usb-ai"
     Preload = $true
   },
   [pscustomobject]@{
-    Name = "nextclaw-layout-http-preload-sandbox-false-gpu-enabled"
+    Name = "go-usb-ai-layout-http-preload-sandbox-false-gpu-enabled"
     WindowOptionLines = "    frame: false,"
     LoadMode = "http"
     WebPreferenceLines = @'
       sandbox: false,
       preload: path.join(__dirname, "preload.js")
 '@
-    Layout = "nextclaw"
-    Preload = $true
-    DisableGpu = $false
-  },
-  [pscustomobject]@{
-    Name = "nextclaw-layout-ui-css-http-preload-sandbox-false-gpu-enabled"
-    WindowOptionLines = "    frame: false,"
-    LoadMode = "http"
-    WebPreferenceLines = @'
-      sandbox: false,
-      preload: path.join(__dirname, "preload.js")
-'@
-    Layout = "nextclaw-css"
+    Layout = "go-usb-ai"
     Preload = $true
     DisableGpu = $false
   },
   [pscustomobject]@{
-    Name = "nextclaw-ui-dist-http-preload-sandbox-false-gpu-enabled"
+    Name = "go-usb-ai-layout-ui-css-http-preload-sandbox-false-gpu-enabled"
+    WindowOptionLines = "    frame: false,"
+    LoadMode = "http"
+    WebPreferenceLines = @'
+      sandbox: false,
+      preload: path.join(__dirname, "preload.js")
+'@
+    Layout = "go-usb-ai-css"
+    Preload = $true
+    DisableGpu = $false
+  },
+  [pscustomobject]@{
+    Name = "go-usb-ai-ui-dist-http-preload-sandbox-false-gpu-enabled"
     WindowOptionLines = "    frame: false,"
     LoadMode = "ui-dist-http"
     WebPreferenceLines = @'
@@ -896,7 +896,7 @@ $variants = @(
     ExpectCaption = $false
   },
   [pscustomobject]@{
-    Name = "nextclaw-ui-dist-inline-titlebar-drag-http-preload-sandbox-false-gpu-enabled"
+    Name = "go-usb-ai-ui-dist-inline-titlebar-drag-http-preload-sandbox-false-gpu-enabled"
     WindowOptionLines = "    frame: false,"
     LoadMode = "ui-dist-http"
     WebPreferenceLines = @'
@@ -910,7 +910,7 @@ $variants = @(
     ExpectCaption = $false
   },
   [pscustomobject]@{
-    Name = "nextclaw-ui-dist-fixed-titlebar-drag-http-preload-sandbox-false-gpu-enabled"
+    Name = "go-usb-ai-ui-dist-fixed-titlebar-drag-http-preload-sandbox-false-gpu-enabled"
     WindowOptionLines = "    frame: false,"
     LoadMode = "ui-dist-http"
     WebPreferenceLines = @'
@@ -924,7 +924,7 @@ $variants = @(
     ExpectCaption = $false
   },
   [pscustomobject]@{
-    Name = "nextclaw-ui-dist-body-drag-http-preload-sandbox-false-gpu-enabled"
+    Name = "go-usb-ai-ui-dist-body-drag-http-preload-sandbox-false-gpu-enabled"
     WindowOptionLines = "    frame: false,"
     LoadMode = "ui-dist-http"
     WebPreferenceLines = @'
@@ -980,7 +980,7 @@ $variants = @(
     Preload = $true
   },
   [pscustomobject]@{
-    Name = "nextclaw-layout-data-new-window-http-preload-sandbox-false"
+    Name = "go-usb-ai-layout-data-new-window-http-preload-sandbox-false"
     WindowOptionLines = @'
     frame: false,
     titleBarStyle: "hidden",
@@ -990,7 +990,7 @@ $variants = @(
       sandbox: false,
       preload: path.join(__dirname, "preload.js")
 '@
-    Layout = "nextclaw"
+    Layout = "go-usb-ai"
     Preload = $true
   }
 )

@@ -10,11 +10,11 @@
 ## 测试/验证/验收方式
 
 - 运行单测：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- ChatSidebar.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- ChatSidebar.test.tsx`
 - 运行类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
 - 运行可维护性自检：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx packages/nextclaw-ui/src/components/chat/ChatSidebar.test.tsx packages/nextclaw-ui/src/components/chat/chat-session-label.service.ts packages/nextclaw-ui/src/components/chat/chat-sidebar-session-item.tsx packages/nextclaw-ui/src/hooks/useConfig.ts`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx packages/go-usb-ai-ui/src/components/chat/ChatSidebar.test.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-label.service.ts packages/go-usb-ai-ui/src/components/chat/chat-sidebar-session-item.tsx packages/go-usb-ai-ui/src/hooks/useConfig.ts`
 - 验证重点：
   - 主聊天侧栏会话项显示标签与原始 key。
   - 点击编辑后支持保存/取消。

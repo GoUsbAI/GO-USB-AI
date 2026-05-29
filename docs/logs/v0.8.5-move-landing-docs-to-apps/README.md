@@ -29,12 +29,12 @@
 
 ### 冒烟验证（本次执行）
 
-- `pnpm --filter @nextclaw/landing build`
-- `pnpm --filter @nextclaw/docs build`
+- `pnpm --filter @go-usb-ai/landing build`
+- `pnpm --filter @go-usb-ai/docs build`
 
 观察点：
-- `@nextclaw/landing` 在新路径 `apps/landing` 下可正常构建并产出 `dist`。
-- `@nextclaw/docs` 在新路径 `apps/docs` 下可正常执行 VitePress 构建。
+- `@go-usb-ai/landing` 在新路径 `apps/landing` 下可正常构建并产出 `dist`。
+- `@go-usb-ai/docs` 在新路径 `apps/docs` 下可正常执行 VitePress 构建。
 
 ## 发布 / 部署方式
 
@@ -51,7 +51,7 @@ pnpm deploy:docs
 
 ## 用户/产品视角的验收步骤
 
-1. 在仓库根目录执行 `pnpm --filter @nextclaw/landing build`，确认构建成功。
-2. 在仓库根目录执行 `pnpm --filter @nextclaw/docs build`，确认文档站构建成功。
+1. 在仓库根目录执行 `pnpm --filter @go-usb-ai/landing build`，确认构建成功。
+2. 在仓库根目录执行 `pnpm --filter @go-usb-ai/docs build`，确认文档站构建成功。
 3. 执行 `pnpm deploy:pages` 与 `pnpm deploy:docs`（按需），确认部署命令无路径错误。
 4. 验收通过标准：应用项目已归类到 `apps`，且构建与部署流程均可正常运行。

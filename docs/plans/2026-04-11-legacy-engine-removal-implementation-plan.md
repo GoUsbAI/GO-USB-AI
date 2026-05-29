@@ -2,17 +2,17 @@
 
 > 执行原则：删减优先、简化优先、单路径优先；不为旧 engine、旧 runtime pool、旧兼容桥保留 fallback。
 
-**Goal:** 彻底删除 NextClaw 里已失效的 `AgentLoop` 后续遗留、legacy engine 注册体系、两个旧 engine 插件包与 `agent-runtime-pool`，让 CLI、Service、Gateway、插件桥都只复用 NCP 这一套真实执行主链。
+**Goal:** 彻底删除 GoUsbAi 里已失效的 `AgentLoop` 后续遗留、legacy engine 注册体系、两个旧 engine 插件包与 `agent-runtime-pool`，让 CLI、Service、Gateway、插件桥都只复用 NCP 这一套真实执行主链。
 
-**Architecture:** NextClaw 作为统一入口，不应该继续维护两套执行核心。保留真实对外出口仍在使用的 NCP runtime 与 session 存储链路，把旧 engine 抽象、旧插件注册面、旧 runtime pool 中间层整片铲掉，最后把 direct dispatch 与 gateway inbound loop 收敛成 NCP helper。
+**Architecture:** GoUsbAi 作为统一入口，不应该继续维护两套执行核心。保留真实对外出口仍在使用的 NCP runtime 与 session 存储链路，把旧 engine 抽象、旧插件注册面、旧 runtime pool 中间层整片铲掉，最后把 direct dispatch 与 gateway inbound loop 收敛成 NCP helper。
 
-**Tech Stack:** TypeScript、pnpm workspace、NextClaw CLI/Service、NCP runtime、OpenClaw compat plugin loader。
+**Tech Stack:** TypeScript、pnpm workspace、GoUsbAi CLI/Service、NCP runtime、OpenClaw compat plugin loader。
 
 ---
 
 ## 长期目标对齐 / 可维护性推进
 
-这次删除不是“技术洁癖式重构”，而是在兑现 NextClaw 作为统一入口的产品方向：
+这次删除不是“技术洁癖式重构”，而是在兑现 GoUsbAi 作为统一入口的产品方向：
 
 - 用户只该面对一套稳定的执行主链，而不是历史 loop 与 NCP 并存。
 - 插件体系只该暴露仍然真实存在的运行时扩展面，而不是继续把已废弃的 engine API 留给后来人误用。
@@ -34,7 +34,7 @@
 
 所有真实用户出口都必须继续通过它工作：
 
-- `nextclaw agent`
+- `go-usb-ai agent`
 - Service / Gateway 入站消息
 - UI Chat 关联的服务侧 NCP agent
 - plugin runtime bridge
@@ -43,10 +43,10 @@
 
 以下内容虽然和旧执行链相邻，但不是本次删除目标，且当前仍有真实价值，因此保留：
 
-- `packages/extensions/nextclaw-ncp-runtime-codex-sdk`
-- `packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk`
-- `packages/extensions/nextclaw-ncp-runtime-claude-code-sdk`
-- `packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk`
+- `packages/extensions/go-usb-ai-ncp-runtime-codex-sdk`
+- `packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk`
+- `packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk`
+- `packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk`
 - `SessionManager`、NCP session store、历史读取、消息格式桥、配置写回
 - UI 现有 `createUiNcpAgent(...)` 主链
 
@@ -61,9 +61,9 @@
 - `PluginRecord.engineKinds`
 - `reservedEngineKinds`
 - 两个旧 engine 插件包
-  - `packages/extensions/nextclaw-engine-plugin-codex-sdk`
-  - `packages/extensions/nextclaw-engine-plugin-claude-agent-sdk`
-- `packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.ts`
+  - `packages/extensions/go-usb-ai-engine-plugin-codex-sdk`
+  - `packages/extensions/go-usb-ai-engine-plugin-claude-agent-sdk`
+- `packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.ts`
 - 只为上述旧体系存在的测试、脚本、构建命令与文档表述
 
 ## 为什么存储层不需要跟着删
@@ -82,18 +82,18 @@
 
 **Files:**
 
-- Modify: `packages/nextclaw-core/src/extensions/types.ts`
-- Modify: `packages/nextclaw-core/src/index.ts`
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/types.ts`
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/registry.ts`
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/loader.ts`
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/status.ts`
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/plugin-capability-registration.ts`
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/plugin-loader-utils.ts`
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/progressive-plugin-loader/progressive-plugin-loader-context.ts`
-- Modify: `packages/nextclaw/src/cli/commands/plugin/plugin-extension-registry.ts`
-- Modify: `packages/nextclaw/src/cli/commands/plugin/plugin-registry-loader.ts`
-- Modify: `packages/nextclaw/src/cli/commands/plugin/plugin-command-utils.ts`
+- Modify: `packages/go-usb-ai-core/src/extensions/types.ts`
+- Modify: `packages/go-usb-ai-core/src/index.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/types.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/registry.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/loader.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/status.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/plugin-capability-registration.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/plugin-loader-utils.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/progressive-plugin-loader/progressive-plugin-loader-context.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/plugin/plugin-extension-registry.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/plugin/plugin-registry-loader.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/plugin/plugin-command-utils.ts`
 
 **执行动作：**
 
@@ -104,7 +104,7 @@
    - `channels`
    - `providers`
    - `ncpAgentRuntimes`
-4. 让 NextClaw extension registry 只继续映射真实还在用的能力面。
+4. 让 GoUsbAi extension registry 只继续映射真实还在用的能力面。
 
 **完成标准：**
 
@@ -114,8 +114,8 @@
 
 **Files:**
 
-- Delete: `packages/extensions/nextclaw-engine-plugin-codex-sdk/*`
-- Delete: `packages/extensions/nextclaw-engine-plugin-claude-agent-sdk/*`
+- Delete: `packages/extensions/go-usb-ai-engine-plugin-codex-sdk/*`
+- Delete: `packages/extensions/go-usb-ai-engine-plugin-claude-agent-sdk/*`
 - Modify: `package.json`
 
 **执行动作：**
@@ -133,16 +133,16 @@
 
 **Files:**
 
-- Delete: `packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.ts`
-- Delete: `packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.command.test.ts`
-- Add: `packages/nextclaw/src/cli/commands/ncp/runtime/nextclaw-ncp-dispatch.ts`
-- Modify: `packages/nextclaw/src/cli/commands/agent/cli-agent-runner.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-bootstrap.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-startup.ts`
-- Add: `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-runtime-lifecycle.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service.ts`
+- Delete: `packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.ts`
+- Delete: `packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.command.test.ts`
+- Add: `packages/go-usb-ai/src/cli/commands/ncp/runtime/go-usb-ai-ncp-dispatch.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/agent/cli-agent-runner.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-bootstrap.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-startup.ts`
+- Add: `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-runtime-lifecycle.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service.ts`
 
 **执行动作：**
 
@@ -183,8 +183,8 @@
 - 不为了兼容历史插件而恢复旧 engine 注册 API
 - 不为了“更稳妥”额外加 fallback 或双轨
 - 不顺手处理与本轮无关的仓库存量复杂度债务
-  - 例如 `packages/nextclaw-core/src/providers/openai_provider.ts`
-  - 例如 `packages/nextclaw-server/src/ui/ui-routes/marketplace/installed.ts`
+  - 例如 `packages/go-usb-ai-core/src/providers/openai_provider.ts`
+  - 例如 `packages/go-usb-ai-server/src/ui/ui-routes/marketplace/installed.ts`
 
 ## 风险与判定
 
@@ -207,18 +207,18 @@
 
 ### 自动化验证
 
-1. `pnpm -C packages/nextclaw-openclaw-compat tsc`
-2. `pnpm -C packages/nextclaw-core tsc`
-3. `pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/runtime/nextclaw-ncp-runner.test.ts src/cli/commands/service-support/plugin/tests/service-plugin-runtime-bridge.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-bootstrap.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts src/cli/commands/service-support/gateway/tests/service-capability-hydration.test.ts`
-4. `pnpm -C packages/nextclaw tsc`
+1. `pnpm -C packages/go-usb-ai-openclaw-compat tsc`
+2. `pnpm -C packages/go-usb-ai-core tsc`
+3. `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/runtime/go-usb-ai-ncp-runner.test.ts src/cli/commands/service-support/plugin/tests/service-plugin-runtime-bridge.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-bootstrap.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts src/cli/commands/service-support/gateway/tests/service-capability-hydration.test.ts`
+4. `pnpm -C packages/go-usb-ai tsc`
 5. `pnpm lint:maintainability:guard`
 
 ### 残留搜索
 
 至少执行：
 
-1. `rg -n "registerEngine|PluginEngineRegistration|ExtensionEngineRegistration|AgentEngineFactory|AgentEngineDirectRequest|AgentEngineInboundRequest|AgentEngineFactoryContext|\\bAgentEngine\\b|engineKinds|reservedEngineKinds|GatewayAgentRuntimePool|agent-runtime-pool|nextclaw-engine-plugin-codex-sdk|nextclaw-engine-plugin-claude-agent-sdk|NativeAgentEngine|AgentLoop" packages docs package.json --glob '!docs/logs/**' --glob '!**/dist/**'`
-2. `rg -n "runtimePool|processDirect\\(|registerEngine|engineKinds|AgentEngine|GatewayAgentRuntimePool" packages/nextclaw packages/nextclaw-core packages/nextclaw-openclaw-compat --glob '!**/dist/**'`
+1. `rg -n "registerEngine|PluginEngineRegistration|ExtensionEngineRegistration|AgentEngineFactory|AgentEngineDirectRequest|AgentEngineInboundRequest|AgentEngineFactoryContext|\\bAgentEngine\\b|engineKinds|reservedEngineKinds|GatewayAgentRuntimePool|agent-runtime-pool|go-usb-ai-engine-plugin-codex-sdk|go-usb-ai-engine-plugin-claude-agent-sdk|NativeAgentEngine|AgentLoop" packages docs package.json --glob '!docs/logs/**' --glob '!**/dist/**'`
+2. `rg -n "runtimePool|processDirect\\(|registerEngine|engineKinds|AgentEngine|GatewayAgentRuntimePool" packages/go-usb-ai packages/go-usb-ai-core packages/go-usb-ai-openclaw-compat --glob '!**/dist/**'`
 
 **判定标准：**
 

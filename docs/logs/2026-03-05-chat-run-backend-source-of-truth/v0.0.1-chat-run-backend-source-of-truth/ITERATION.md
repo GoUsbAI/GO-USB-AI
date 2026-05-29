@@ -2,7 +2,7 @@
 
 ## 迭代完成说明（改了什么）
 
-- 后端新增 `run` 真源能力（状态机：`queued/running/completed/failed/aborted`），并持久化到 `NEXTCLAW_HOME/runs`：
+- 后端新增 `run` 真源能力（状态机：`queued/running/completed/failed/aborted`），并持久化到 `GOUSB_AI_HOME/runs`：
   - 新增 `UiChatRunCoordinator`，统一管理 run 生命周期、事件缓存、停止控制、会话 metadata 同步。
   - 会话在 run 创建时立即落盘并标记运行态，保证“发起即可见”。
 - UI API 扩展 run 能力：
@@ -23,7 +23,7 @@
 - `pnpm tsc`
 - `pnpm build`
 - `pnpm lint`
-- `pnpm -C packages/nextclaw-server exec vitest run src/ui/router.chat.test.ts`
+- `pnpm -C packages/go-usb-ai-server exec vitest run src/ui/router.chat.test.ts`
 
 ### 结果
 
@@ -35,9 +35,9 @@
 ## 发布/部署方式
 
 1. 按现有流程发布包含改动的包：
-   - `@nextclaw/server`
-   - `@nextclaw/ui`
-   - `nextclaw`
+   - `@go-usb-ai/server`
+   - `@go-usb-ai/ui`
+   - `go-usb-ai`
 2. 部署后重启服务实例，确认 `/api/chat/runs*` 与 `/ws` 可用。
 3. 前端清缓存刷新后验证会话恢复流程。
 

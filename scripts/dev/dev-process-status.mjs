@@ -89,22 +89,22 @@ function inferHomeScope(command) {
   if (!command.includes("--exclude")) {
     return "unknown";
   }
-  if (command.includes("/.nextclaw") || command.includes(".nextclaw/**")) {
+  if (command.includes("/.go-usb-ai") || command.includes(".go-usb-ai/**")) {
     return "default";
   }
   if (
     command.includes("/tmp/") ||
     command.includes("/private/tmp/") ||
     command.includes("/var/folders/") ||
-    command.includes("nextclaw-dev-home") ||
-    command.includes("nextclaw-feishu-reload-verify")
+    command.includes("go-usb-ai-dev-home") ||
+    command.includes("go-usb-ai-feishu-reload-verify")
   ) {
     return "isolated";
   }
   return "unknown";
 }
 
-function isNextclawServeCommand(command) {
+function isGoUsbAiServeCommand(command) {
   if (!/\bserve --ui-port \d+/.test(command)) {
     return false;
   }
@@ -114,8 +114,8 @@ function isNextclawServeCommand(command) {
     command.includes("src/cli/app/index.js") ||
     command.includes("dist/cli.js") ||
     command.includes("dist/cli/app/index.js") ||
-    command.includes("packages/nextclaw/src/cli/app/index.js") ||
-    command.includes("packages/nextclaw/dist/cli/app/index.js")
+    command.includes("packages/go-usb-ai/src/cli/app/index.js") ||
+    command.includes("packages/go-usb-ai/dist/cli/app/index.js")
   );
 }
 
@@ -125,9 +125,9 @@ function isStandaloneServeWrapper(command) {
   }
 
   return (
-    /pnpm .*packages\/nextclaw .*dev:build/.test(command) ||
-    /pnpm .*packages\/nextclaw .*exec tsx/.test(command) ||
-    /pnpm .*--filter nextclaw .*exec tsx/.test(command)
+    /pnpm .*packages\/go-usb-ai .*dev:build/.test(command) ||
+    /pnpm .*packages\/go-usb-ai .*exec tsx/.test(command) ||
+    /pnpm .*--filter go-usb-ai .*exec tsx/.test(command)
   );
 }
 
@@ -146,7 +146,7 @@ function classifyProcess(entry) {
   if (/tsx.*\swatch\b.*src\/cli\/app\/index\.ts serve --ui-port \d+/.test(command)) {
     roles.push("backend-watch");
   }
-  if (isNextclawServeCommand(command) && !roles.includes("backend-watch")) {
+  if (isGoUsbAiServeCommand(command) && !roles.includes("backend-watch")) {
     roles.push("backend-runtime");
   }
   if (command.includes("vite/bin/vite.js")) {

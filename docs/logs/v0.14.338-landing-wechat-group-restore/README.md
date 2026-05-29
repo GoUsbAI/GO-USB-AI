@@ -2,17 +2,17 @@
 
 ## 迭代完成说明（改了什么）
 - 修复 landing 首页“加入社群”入口误指向 QQ 群的问题：
-  - 将 [`apps/landing/src/main.ts`](/Users/peiwang/Projects/nextbot/apps/landing/src/main.ts) 中的 `wechatGroupImage` 从 QQ 群二维码切回微信群二维码 `'/contact/nextclaw-contact-wechat-group.png'`。
+  - 将 [`apps/landing/src/main.ts`](/Users/peiwang/Projects/nextbot/apps/landing/src/main.ts) 中的 `wechatGroupImage` 从 QQ 群二维码切回微信群二维码 `'/contact/go-usb-ai-contact-wechat-group.png'`。
   - 将首页 Hero CTA、社区区块、页脚入口的中英文文案统一从 `QQ群 / QQ Group` 改回 `微信群 / WeChat Group`。
   - 将社区说明与二维码标签同步修正，避免按钮、弹窗、社区 section 三处信息不一致。
 - 为满足仓库治理规则，顺手把 `LandingPage` 中本次触达 class 的实例方法统一改为箭头 class field；仅为治理收尾，不改变页面行为。
 - 同批次补充：将 landing/docs 站点实际使用的 `logo.svg` 叠加 `🐾` emoji（右下角），与当前前端品牌图标视觉保持一致。
-- 同批次续改：为避免微信群二维码被 CDN / 浏览器缓存命中，新增带日期后缀的资源 [`nextclaw-contact-wechat-group-2026-03-31.png`](../../../apps/landing/public/contact/nextclaw-contact-wechat-group-2026-03-31.png)，并把 landing 页引用切换为 `'/contact/nextclaw-contact-wechat-group-2026-03-31.png'`；后续换码时只需新增新日期文件并更新常量。
-- 同批次续改：将你提供的最新微信群二维码同步覆盖到仓库根资源 [`images/contact/nextclaw-contact-wechat-group.png`](../../../images/contact/nextclaw-contact-wechat-group.png) 与 landing 基础资源 [`apps/landing/public/contact/nextclaw-contact-wechat-group.png`](../../../apps/landing/public/contact/nextclaw-contact-wechat-group.png)，保证仓库 README 与落地页资源源头一致。
-- 同批次续改：继续沿用日期后缀防缓存策略，新增 [`nextclaw-contact-wechat-group-2026-04-08.png`](../../../apps/landing/public/contact/nextclaw-contact-wechat-group-2026-04-08.png)，并将 [`apps/landing/src/main.ts`](../../../apps/landing/src/main.ts) 中的 `wechatGroupImage` 更新为 `'/contact/nextclaw-contact-wechat-group-2026-04-08.png'`。
+- 同批次续改：为避免微信群二维码被 CDN / 浏览器缓存命中，新增带日期后缀的资源 [`go-usb-ai-contact-wechat-group-2026-03-31.png`](../../../apps/landing/public/contact/go-usb-ai-contact-wechat-group-2026-03-31.png)，并把 landing 页引用切换为 `'/contact/go-usb-ai-contact-wechat-group-2026-03-31.png'`；后续换码时只需新增新日期文件并更新常量。
+- 同批次续改：将你提供的最新微信群二维码同步覆盖到仓库根资源 [`images/contact/go-usb-ai-contact-wechat-group.png`](../../../images/contact/go-usb-ai-contact-wechat-group.png) 与 landing 基础资源 [`apps/landing/public/contact/go-usb-ai-contact-wechat-group.png`](../../../apps/landing/public/contact/go-usb-ai-contact-wechat-group.png)，保证仓库 README 与落地页资源源头一致。
+- 同批次续改：继续沿用日期后缀防缓存策略，新增 [`go-usb-ai-contact-wechat-group-2026-04-08.png`](../../../apps/landing/public/contact/go-usb-ai-contact-wechat-group-2026-04-08.png)，并将 [`apps/landing/src/main.ts`](../../../apps/landing/src/main.ts) 中的 `wechatGroupImage` 更新为 `'/contact/go-usb-ai-contact-wechat-group-2026-04-08.png'`。
 - 同批次续改：将 [`README.md`](../../../README.md) 与 [`README.zh-CN.md`](../../../README.zh-CN.md) 的社群二维码入口统一改回微信群二维码，避免仓库首页和 landing 页对外展示的社群入口不一致。
-- 同批次续改：继续使用你 2026-04-16 提供的最新微信群二维码覆盖仓库根资源与 landing 基础资源，并新增 [`nextclaw-contact-wechat-group-2026-04-16.png`](../../../apps/landing/public/contact/nextclaw-contact-wechat-group-2026-04-16.png) 作为新的防缓存 landing 入口；[`apps/landing/src/main.ts`](../../../apps/landing/src/main.ts) 中的 `wechatGroupImage` 同步更新为 `'/contact/nextclaw-contact-wechat-group-2026-04-16.png'`。
-- 同批次续改：继续使用你 2026-04-24 提供的最新微信群二维码覆盖仓库根资源 [`images/contact/nextclaw-contact-wechat-group.png`](../../../images/contact/nextclaw-contact-wechat-group.png) 与 landing 基础资源 [`apps/landing/public/contact/nextclaw-contact-wechat-group.png`](../../../apps/landing/public/contact/nextclaw-contact-wechat-group.png)，并新增 [`nextclaw-contact-wechat-group-2026-04-24.png`](../../../apps/landing/public/contact/nextclaw-contact-wechat-group-2026-04-24.png) 作为新的防缓存 landing 入口；[`apps/landing/src/main.ts`](../../../apps/landing/src/main.ts) 中的 `wechatGroupImage` 同步更新为 `'/contact/nextclaw-contact-wechat-group-2026-04-24.png'`。
+- 同批次续改：继续使用你 2026-04-16 提供的最新微信群二维码覆盖仓库根资源与 landing 基础资源，并新增 [`go-usb-ai-contact-wechat-group-2026-04-16.png`](../../../apps/landing/public/contact/go-usb-ai-contact-wechat-group-2026-04-16.png) 作为新的防缓存 landing 入口；[`apps/landing/src/main.ts`](../../../apps/landing/src/main.ts) 中的 `wechatGroupImage` 同步更新为 `'/contact/go-usb-ai-contact-wechat-group-2026-04-16.png'`。
+- 同批次续改：继续使用你 2026-04-24 提供的最新微信群二维码覆盖仓库根资源 [`images/contact/go-usb-ai-contact-wechat-group.png`](../../../images/contact/go-usb-ai-contact-wechat-group.png) 与 landing 基础资源 [`apps/landing/public/contact/go-usb-ai-contact-wechat-group.png`](../../../apps/landing/public/contact/go-usb-ai-contact-wechat-group.png)，并新增 [`go-usb-ai-contact-wechat-group-2026-04-24.png`](../../../apps/landing/public/contact/go-usb-ai-contact-wechat-group-2026-04-24.png) 作为新的防缓存 landing 入口；[`apps/landing/src/main.ts`](../../../apps/landing/src/main.ts) 中的 `wechatGroupImage` 同步更新为 `'/contact/go-usb-ai-contact-wechat-group-2026-04-24.png'`。
 - 同批次续改：将 GitHub 首页 [`README.md`](../../../README.md) 与 [`README.zh-CN.md`](../../../README.zh-CN.md) 中的“社群 / 微信群”模块整体前移到产品卖点之后、快速开始之前，降低用户在仓库首页找到入群入口的滚动成本。
 
 ## 测试/验证/验收方式
@@ -26,26 +26,26 @@
 - 前端冒烟：
   - 本地预览：`PATH=/opt/homebrew/bin:$PATH pnpm -C apps/landing preview --host 127.0.0.1 --port 4173`
   - 页面可达：`curl -I http://127.0.0.1:4173/zh/`
-  - 资源可达：`curl -I http://127.0.0.1:4173/contact/nextclaw-contact-wechat-group-2026-03-31.png`
-  - 构建产物检查：`rg -n "WeChat Group|加入微信群|微信群二维码|nextclaw-contact-wechat-group-2026-03-31" apps/landing/dist -S`
+  - 资源可达：`curl -I http://127.0.0.1:4173/contact/go-usb-ai-contact-wechat-group-2026-03-31.png`
+  - 构建产物检查：`rg -n "WeChat Group|加入微信群|微信群二维码|go-usb-ai-contact-wechat-group-2026-03-31" apps/landing/dist -S`
   - 结果：中文首页预览返回 `200`，微信二维码带日期资源返回 `200`，构建产物命中微信文案与新资源路径。
 - 本次二维码续改补充验证：
-  - 哈希一致性：`shasum -a 256 /tmp/nextclaw-wechat-qr-import/1621775655482_.pic.jpg images/contact/nextclaw-contact-wechat-group.png apps/landing/public/contact/nextclaw-contact-wechat-group-2026-04-08.png`
-  - Landing 资源可达：`curl -I http://127.0.0.1:4173/contact/nextclaw-contact-wechat-group-2026-04-08.png`
-  - 引用检查：`rg -n "nextclaw-contact-wechat-group-2026-04-08|nextclaw-contact-wechat-group\\.png|WeChat Group|微信群" README.md README.zh-CN.md apps/landing/src/main.ts apps/landing/dist -S`
+  - 哈希一致性：`shasum -a 256 /tmp/go-usb-ai-wechat-qr-import/1621775655482_.pic.jpg images/contact/go-usb-ai-contact-wechat-group.png apps/landing/public/contact/go-usb-ai-contact-wechat-group-2026-04-08.png`
+  - Landing 资源可达：`curl -I http://127.0.0.1:4173/contact/go-usb-ai-contact-wechat-group-2026-04-08.png`
+  - 引用检查：`rg -n "go-usb-ai-contact-wechat-group-2026-04-08|go-usb-ai-contact-wechat-group\\.png|WeChat Group|微信群" README.md README.zh-CN.md apps/landing/src/main.ts apps/landing/dist -S`
   - 结果：导入源图、仓库根二维码与 landing 新日期资源的 SHA-256 一致；landing 预览中的新资源返回 `200`；README 与 landing 构建产物均命中新二维码路径和微信群文案。
 - 本次 2026-04-16 二维码续改补充验证：
-  - 哈希一致性：`shasum -a 256 /tmp/nextclaw-wechat-qr-import-2026-04-16/source.jpg images/contact/nextclaw-contact-wechat-group.png apps/landing/public/contact/nextclaw-contact-wechat-group.png apps/landing/public/contact/nextclaw-contact-wechat-group-2026-04-16.png`
-  - Landing 资源可达：`curl -I http://127.0.0.1:4173/contact/nextclaw-contact-wechat-group-2026-04-16.png`
-  - 引用检查：`rg -n "nextclaw-contact-wechat-group-2026-04-16|nextclaw-contact-wechat-group\\.png|WeChat Group|微信群" README.md README.zh-CN.md apps/landing/src/main.ts apps/landing/dist -S`
-  - 线上资源可达：`curl -I https://1fa92228.nextclaw-landing.pages.dev/contact/nextclaw-contact-wechat-group-2026-04-16.png`
+  - 哈希一致性：`shasum -a 256 /tmp/go-usb-ai-wechat-qr-import-2026-04-16/source.jpg images/contact/go-usb-ai-contact-wechat-group.png apps/landing/public/contact/go-usb-ai-contact-wechat-group.png apps/landing/public/contact/go-usb-ai-contact-wechat-group-2026-04-16.png`
+  - Landing 资源可达：`curl -I http://127.0.0.1:4173/contact/go-usb-ai-contact-wechat-group-2026-04-16.png`
+  - 引用检查：`rg -n "go-usb-ai-contact-wechat-group-2026-04-16|go-usb-ai-contact-wechat-group\\.png|WeChat Group|微信群" README.md README.zh-CN.md apps/landing/src/main.ts apps/landing/dist -S`
+  - 线上资源可达：`curl -I https://1fa92228.go-usb-ai-landing.pages.dev/contact/go-usb-ai-contact-wechat-group-2026-04-16.png`
   - 结果：导入源图、仓库根二维码、landing 基础资源与新的日期资源 SHA-256 一致；本地 preview 与已发布 Pages 资源均返回 `200`；README 与 landing 构建产物均命中新二维码路径和微信群文案。
 - 本次 2026-04-24 二维码续改补充验证：
-  - 哈希一致性：`shasum -a 256 /tmp/nextclaw-wechat-qr-2026-04-24/source.png images/contact/nextclaw-contact-wechat-group.png apps/landing/public/contact/nextclaw-contact-wechat-group.png apps/landing/public/contact/nextclaw-contact-wechat-group-2026-04-24.png`
-  - Landing 资源可达：`curl -I http://127.0.0.1:4173/contact/nextclaw-contact-wechat-group-2026-04-24.png`
-  - 引用检查：`rg -n "nextclaw-contact-wechat-group-2026-04-24|nextclaw-contact-wechat-group\\.png|WeChat Group|微信群" README.md README.zh-CN.md apps/landing/src/main.ts apps/landing/dist -S`
-  - Pages 预览资源可达：`curl -I https://5ab828af.nextclaw-landing.pages.dev/contact/nextclaw-contact-wechat-group-2026-04-24.png`
-  - 线上资源可达：`curl -I https://nextclaw.io/contact/nextclaw-contact-wechat-group-2026-04-24.png`
+  - 哈希一致性：`shasum -a 256 /tmp/go-usb-ai-wechat-qr-2026-04-24/source.png images/contact/go-usb-ai-contact-wechat-group.png apps/landing/public/contact/go-usb-ai-contact-wechat-group.png apps/landing/public/contact/go-usb-ai-contact-wechat-group-2026-04-24.png`
+  - Landing 资源可达：`curl -I http://127.0.0.1:4173/contact/go-usb-ai-contact-wechat-group-2026-04-24.png`
+  - 引用检查：`rg -n "go-usb-ai-contact-wechat-group-2026-04-24|go-usb-ai-contact-wechat-group\\.png|WeChat Group|微信群" README.md README.zh-CN.md apps/landing/src/main.ts apps/landing/dist -S`
+  - Pages 预览资源可达：`curl -I https://5ab828af.go-usb-ai-landing.pages.dev/contact/go-usb-ai-contact-wechat-group-2026-04-24.png`
+  - 线上资源可达：`curl -I https://go-usb-ai.io/contact/go-usb-ai-contact-wechat-group-2026-04-24.png`
   - 结果：桌面源图转换得到的新 PNG、仓库根二维码、landing 基础资源与新的日期资源 SHA-256 一致；本地 build 产物与线上 landing 资源均命中新二维码路径和微信群文案。
 - 本次 GitHub 模块前移补充验证：
   - 结构检查：`rg -n "^## Community|^## Quick Start|^## 社群|^## 快速开始" README.md README.zh-CN.md -n`
@@ -57,7 +57,7 @@
 ## 发布/部署方式
 - 本次续改已按 landing 发布流程执行正式部署：
   - `pnpm deploy:landing`
-  - Pages 部署结果：`https://5ab828af.nextclaw-landing.pages.dev`
+  - Pages 部署结果：`https://5ab828af.go-usb-ai-landing.pages.dev`
   - 如需让仓库首页同步对外生效，再推送包含本次资源替换的 Git 提交。
 
 ## 用户/产品视角的验收步骤

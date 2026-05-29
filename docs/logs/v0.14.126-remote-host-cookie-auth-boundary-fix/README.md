@@ -3,7 +3,7 @@
 ## 迭代完成说明
 
 - 修复远程实例子域名授权边界漏洞：`https://r-<access-session-id>.claw.cool` 不再因为 host 中包含会话 ID 就直接放行。
-- `workers/nextclaw-provider-gateway-api/src/services/remote-access-service.ts` 现在要求实例子域名访问必须同时携带 `nextclaw_remote_session` cookie，且 cookie 对应的访问会话必须与 host 中的 `access-session-id` 完全一致。
+- `workers/go-usb-ai-provider-gateway-api/src/services/remote-access-service.ts` 现在要求实例子域名访问必须同时携带 `go-usb-ai_remote_session` cookie，且 cookie 对应的访问会话必须与 host 中的 `access-session-id` 完全一致。
 - 这样 `r-<access-session-id>.claw.cool` 被收敛为“会话承载域名”，真正授权只能来自一次性 `platform/remote/open?token=...` 设置下来的 cookie，而不是来自 host 自身。
 - `scripts/remote-relay-hibernation-smoke.mjs` 新增授权边界冒烟：
   - owner open / share open 的整链路仍然可用
@@ -12,16 +12,16 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C workers/nextclaw-provider-gateway-api build`
-- `pnpm -C workers/nextclaw-provider-gateway-api lint`
-- `pnpm -C workers/nextclaw-provider-gateway-api tsc`
+- `pnpm -C workers/go-usb-ai-provider-gateway-api build`
+- `pnpm -C workers/go-usb-ai-provider-gateway-api lint`
+- `pnpm -C workers/go-usb-ai-provider-gateway-api tsc`
 - `node scripts/remote-relay-hibernation-smoke.mjs`
 - `node scripts/remote-host-cookie-binding-check.mjs`
 - `curl -sS -o /tmp/r-claw-health.out -w '%{http_code}\n' https://r-test.claw.cool/health`
 
 ## 发布/部署方式
 
-- 执行 `pnpm -C workers/nextclaw-provider-gateway-api run deploy`
+- 执行 `pnpm -C workers/go-usb-ai-provider-gateway-api run deploy`
 - 本次仅涉及 Worker 访问授权逻辑，无需 migration，无需重新部署平台前端
 - 本次线上 Worker 版本：`2de51778-271c-43bc-b7ff-9f75aa3d4189`
 

@@ -6,13 +6,13 @@
 
 # 测试/验证/验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/nextclaw-ncp-context-builder.test.ts src/cli/commands/ncp/nextclaw-agent-session-store.test.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/go-usb-ai-ncp-context-builder.test.ts src/cli/commands/ncp/go-usb-ai-agent-session-store.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai build`
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo build`
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo lint`
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo exec node scripts/smoke-ui.mjs`
-- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-current-turn.ts packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-context-builder.ts packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-context-builder.test.ts apps/ncp-demo/scripts/smoke-ui.mjs`
+- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-current-turn.ts packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-context-builder.ts packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-context-builder.test.ts apps/ncp-demo/scripts/smoke-ui.mjs`
 
 # 发布/部署方式
 

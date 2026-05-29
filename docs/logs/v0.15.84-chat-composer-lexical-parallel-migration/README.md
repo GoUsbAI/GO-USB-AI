@@ -12,17 +12,17 @@
 
 ## 测试/验证/验收方式
 
-- 已执行：`pnpm -C packages/nextclaw-agent-chat-ui exec vitest run src/components/chat/ui/chat-input-bar/chat-composer.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts src/components/chat/ui/chat-input-bar/chat-slash-menu.test.tsx src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx src/components/chat/ui/chat-input-bar/chat-input-bar-selection.test.tsx`
+- 已执行：`pnpm -C packages/go-usb-ai-agent-chat-ui exec vitest run src/components/chat/ui/chat-input-bar/chat-composer.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts src/components/chat/ui/chat-input-bar/chat-slash-menu.test.tsx src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx src/components/chat/ui/chat-input-bar/chat-input-bar-selection.test.tsx`
   - 结果：`5 passed / 24 passed`
-- 已执行：`pnpm -C packages/nextclaw-agent-chat-ui exec tsc --noEmit`
+- 已执行：`pnpm -C packages/go-usb-ai-agent-chat-ui exec tsc --noEmit`
   - 结果：通过
 - 已执行：`pnpm lint:maintainability:guard`
-  - 结果：本次 chat composer 链路新增治理违例已清零；命令最终仍失败，但失败原因来自本次改动之外的既有/并行链路，例如 `packages/nextclaw/src/cli/commands/service.ts` 超预算继续增长，不属于本次迁移引入的问题。
+  - 结果：本次 chat composer 链路新增治理违例已清零；命令最终仍失败，但失败原因来自本次改动之外的既有/并行链路，例如 `packages/go-usb-ai/src/cli/commands/service.ts` 超预算继续增长，不属于本次迁移引入的问题。
 
 ## 发布/部署方式
 
 - 本次为前端实现重构，不涉及数据库、后端 migration 或额外部署脚本。
-- 按正常前端发布链路构建并发布包含 `packages/nextclaw-agent-chat-ui` 的产物即可。
+- 按正常前端发布链路构建并发布包含 `packages/go-usb-ai-agent-chat-ui` 的产物即可。
 - 发布前建议至少再次走一遍聊天输入框真实手测，重点覆盖 slash 选 skill、skill picker 选 skill、粘贴图片/插入附件 token、IME 输入。
 
 ## 用户/产品视角的验收步骤
@@ -52,5 +52,5 @@
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：部分达成。`chat-input-bar` 目录的直接文件数已从 `21` 降到 `13`，`legacy/` 目录已完全删除；但目录仍高于预算 `12`，且 `chat-input-bar.test.tsx` 继续变大，这两项债务本次记录保留。
 - 抽象、模块边界、class/helper/service/store 等职责划分是否更合适、更清晰：是。现在根入口只做桥接；Lexical 相关实现统一收敛在 `lexical/` 目录；编辑器状态、语义操作、插件绑定、token 节点、handle owner 分层更清晰，不再把复杂度混在 DOM 读写黑箱里。
 - 是否避免了过度抽象或补丁式叠加：是。本次没有再包一层兼容开关或 fallback 双路径，而是直接删除旧实现，保留单一路径。
-- 目录结构与文件组织是否满足当前项目治理要求：部分满足。`legacy/` 已删除，边界显著清楚；但 `chat-input-bar` 根目录直系文件数仍超预算，下一步应优先把测试夹具/测试 harness 从 [chat-input-bar.test.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx) 中抽离，必要时为该目录补治理 README 或进一步细分子目录。
+- 目录结构与文件组织是否满足当前项目治理要求：部分满足。`legacy/` 已删除，边界显著清楚；但 `chat-input-bar` 根目录直系文件数仍超预算，下一步应优先把测试夹具/测试 harness 从 [chat-input-bar.test.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx) 中抽离，必要时为该目录补治理 README 或进一步细分子目录。
 - 本次可维护性评估是否基于独立于实现阶段的 review：是。本节基于实现完成后的独立复核，不只是复述守卫结果。

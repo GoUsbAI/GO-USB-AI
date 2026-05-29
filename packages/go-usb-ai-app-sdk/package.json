@@ -1,0 +1,49 @@
+{
+  "name": "@go-usb-ai/app-sdk",
+  "version": "0.1.12",
+  "private": false,
+  "description": "Lightweight bridge client for GoUsbAi Apps.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Peiiii/go-usb-ai.git"
+  },
+  "homepage": "https://github.com/Peiiii/go-usb-ai/tree/master/packages/go-usb-ai-app-sdk",
+  "bugs": {
+    "url": "https://github.com/Peiiii/go-usb-ai/issues"
+  },
+  "keywords": [
+    "go-usb-ai",
+    "app-sdk",
+    "micro-app",
+    "webview",
+    "bridge"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsdown src/index.ts --dts.sourcemap --clean --target es2022 --no-fixedExtension --unbundle",
+    "prepack": "pnpm run build",
+    "lint": "eslint src --max-warnings=0",
+    "tsc": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "prepublishOnly": "node ../../scripts/release/ensure-pnpm-publish.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.2"
+  }
+}

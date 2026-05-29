@@ -2,7 +2,7 @@
 
 ## 迭代完成说明（改了什么）
 
-本次迭代完善了 `nextclaw update` 的版本可观测性：
+本次迭代完善了 `go-usb-ai update` 的版本可观测性：
 
 1. CLI `update` 命令新增版本变化提示
 - 更新前输出当前版本：`Current version: x.y.z`
@@ -18,7 +18,7 @@
 
 3. 使用文档补齐
 - `docs/USAGE.md` 的 Self-update 章节补充版本变化提示说明。
-- 同步到模板文档 `packages/nextclaw/templates/USAGE.md`。
+- 同步到模板文档 `packages/go-usb-ai/templates/USAGE.md`。
 
 ## 测试 / 验证 / 验收方式
 
@@ -33,7 +33,7 @@
 - 命令：
 
 ```bash
-NEXTCLAW_UPDATE_COMMAND='echo smoke-update-ok' pnpm -C packages/nextclaw dev:build update --timeout 60000
+GOUSB_AI_UPDATE_COMMAND='echo smoke-update-ok' pnpm -C packages/go-usb-ai dev:build update --timeout 60000
 ```
 
 - 观察点：
@@ -42,7 +42,7 @@ NEXTCLAW_UPDATE_COMMAND='echo smoke-update-ok' pnpm -C packages/nextclaw dev:bui
 
 ### 用户/产品视角验收步骤
 
-1. 用户执行 `nextclaw update`。
+1. 用户执行 `go-usb-ai update`。
 2. 在终端确认能看到更新前版本（Current version）。
 3. 在终端确认能看到更新结果对应的版本变化提示（updated/unchanged）。
 4. 若通过 AI 触发 `gateway update.run`，确认返回中包含 `version.before/after/changed` 字段。
@@ -56,5 +56,5 @@ NEXTCLAW_UPDATE_COMMAND='echo smoke-update-ok' pnpm -C packages/nextclaw dev:bui
   2. `pnpm release:check`
   3. `pnpm changeset publish`
   4. `pnpm changeset tag`
-- 已发布版本：`nextclaw@0.6.25`
-- 部署方式：升级到 `nextclaw@0.6.25` 后重启服务即可生效。
+- 已发布版本：`go-usb-ai@0.6.25`
+- 部署方式：升级到 `go-usb-ai@0.6.25` 后重启服务即可生效。

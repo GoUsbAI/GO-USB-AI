@@ -7,13 +7,13 @@
 
 ## 迭代完成说明（改了什么）
 
-- `@nextclaw/ui`
+- `@go-usb-ai/ui`
   - 新增可复用 `ConfirmDialog` 组件与 `useConfirmDialog` hook。
   - Sessions 配置页的清空历史/删除会话加入确认弹窗。
   - Marketplace 卸载动作加入确认弹窗。
-- `@nextclaw/server`
+- `@go-usb-ai/server`
   - Marketplace 管理接口支持 `spec` 兜底解析真实插件 ID。
-- 发布版本：`nextclaw@0.8.9`、`@nextclaw/server@0.5.4`、`@nextclaw/ui@0.5.5`。
+- 发布版本：`go-usb-ai@0.8.9`、`@go-usb-ai/server@0.5.4`、`@go-usb-ai/ui@0.5.5`。
 
 ## 测试 / 验证 / 验收方式
 
@@ -28,11 +28,11 @@ PATH=/opt/homebrew/bin:$PATH pnpm release:publish
 UI 冒烟（非仓库目录）：
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-ui-release-smoke.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw dev start --ui-port 18813 > /tmp/nextclaw-ui-release-smoke.log 2>&1 &
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-ui-release-smoke.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai dev start --ui-port 18813 > /tmp/go-usb-ai-ui-release-smoke.log 2>&1 &
 sleep 4
 curl -s --max-time 3 --retry 3 --retry-connrefused http://127.0.0.1:18813/api/health
-NEXTCLAW_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw dev stop
+GOUSB_AI_HOME="$TMP_HOME" PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai dev stop
 rm -rf "$TMP_HOME"
 ```
 
@@ -58,6 +58,6 @@ PATH=/opt/homebrew/bin:$PATH pnpm release:publish
 
 ## 影响范围 / 风险
 
-- 影响范围：`@nextclaw/ui`、`@nextclaw/server`、`nextclaw`。
+- 影响范围：`@go-usb-ai/ui`、`@go-usb-ai/server`、`go-usb-ai`。
 - Breaking change：否。
 - 风险：低（新增确认流程 + 兜底解析）。

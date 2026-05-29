@@ -7,7 +7,7 @@
 落地方式：
 
 - `AGENTS.md` 在迭代留痕常驻原则中增加规则：迭代机制中的设计和计划沉淀必须带 `YYYY-MM-DD-` 日期锚点。
-- `nextclaw-iteration-log-governance` skill 增加专门的 `Design / Plan Date Prefix` 小节：`docs/designs` 与 `docs/plans` 下的 design/plan 文档必须带日期前缀，即使本次不需要 `docs/logs` 迭代记录也适用。
+- `go-usb-ai-iteration-log-governance` skill 增加专门的 `Design / Plan Date Prefix` 小节：`docs/designs` 与 `docs/plans` 下的 design/plan 文档必须带日期前缀，即使本次不需要 `docs/logs` 迭代记录也适用。
 - `file-naming-convention` skill 增加可执行治理入口说明。
 - `lint-doc-file-names` 从单纯 kebab-case 检查升级为文档命名治理检查。
 - `doc-file-name-shared` 增加 `docs/designs` / `docs/plans` 日期前缀检查与建议路径。
@@ -23,16 +23,16 @@
   - 结果：通过，6 个测试。
 - `pnpm exec eslint scripts/governance/doc-file-name-shared.mjs scripts/governance/lint-doc-file-names.mjs scripts/governance/report-doc-file-name-violations.mjs scripts/governance/lint-doc-file-names.test.mjs --no-warn-ignored`
   - 结果：通过。
-- `pnpm lint:new-code:doc-file-names -- AGENTS.md .agents/skills/file-naming-convention .agents/skills/nextclaw-iteration-log-governance scripts/governance`
+- `pnpm lint:new-code:doc-file-names -- AGENTS.md .agents/skills/file-naming-convention .agents/skills/go-usb-ai-iteration-log-governance scripts/governance`
   - 结果：通过，当前触达治理文件的文档命名检查通过。
 - `pnpm check:governance-backlog-ratchet`
   - 结果：通过；doc file-name violations 当前为 16，baseline 为 16。
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths ...`
   - 结果：通过，0 error，1 warning；总代码 `+63 / -31 / net +32`，非测试代码 `+27 / -28 / net -1`。
-- `pnpm lint:new-code:governance -- AGENTS.md .agents/skills/file-naming-convention/SKILL.md .agents/skills/nextclaw-iteration-log-governance/SKILL.md scripts/governance/doc-file-name-shared.mjs scripts/governance/lint-doc-file-names.mjs scripts/governance/report-doc-file-name-violations.mjs scripts/governance/lint-doc-file-names.test.mjs scripts/governance/governance-backlog-baseline.json docs/logs/v0.18.20-design-plan-date-prefix-governance/README.md docs/designs/2026-05-09-service-package-split.md`
+- `pnpm lint:new-code:governance -- AGENTS.md .agents/skills/file-naming-convention/SKILL.md .agents/skills/go-usb-ai-iteration-log-governance/SKILL.md scripts/governance/doc-file-name-shared.mjs scripts/governance/lint-doc-file-names.mjs scripts/governance/report-doc-file-name-violations.mjs scripts/governance/lint-doc-file-names.test.mjs scripts/governance/governance-backlog-baseline.json docs/logs/v0.18.20-design-plan-date-prefix-governance/README.md docs/designs/2026-05-09-service-package-split.md`
   - 结果：通过。
 - `pnpm lint:new-code:governance`
-  - 结果：未通过；阻塞来自工作区既有 `packages/nextclaw-service/**` 与 `packages/nextclaw-runtime/src/providers/index.ts` 的 file-role-boundaries 命名问题，不属于本次日期前缀规范改动。
+  - 结果：未通过；阻塞来自工作区既有 `packages/go-usb-ai-service/**` 与 `packages/go-usb-ai-runtime/src/providers/index.ts` 的 file-role-boundaries 命名问题，不属于本次日期前缀规范改动。
 
 本次不涉及 TypeScript 源码、类型声明、导入导出边界或运行链路配置，因此 `tsc` 不适用。
 

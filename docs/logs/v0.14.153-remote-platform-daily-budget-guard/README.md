@@ -20,11 +20,11 @@
 
 ## 测试/验证/验收方式
 
-- 构建：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api build`
-- Lint：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api lint`
-- 类型检查：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api tsc`
-- 策略测试：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api test:quota`
-- 可维护性检查：`PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths workers/nextclaw-provider-gateway-api/src/remote-quota-contract.ts workers/nextclaw-provider-gateway-api/src/remote-quota-budget-support.ts workers/nextclaw-provider-gateway-api/src/remote-quota-state-support.ts workers/nextclaw-provider-gateway-api/src/remote-quota-policy.ts workers/nextclaw-provider-gateway-api/src/remote-quota-do.ts workers/nextclaw-provider-gateway-api/src/services/remote-quota-guard.service.ts workers/nextclaw-provider-gateway-api/src/controllers/remote-controller.ts workers/nextclaw-provider-gateway-api/src/controllers/remote-controller-quota-support.ts workers/nextclaw-provider-gateway-api/src/remote-relay-do.ts workers/nextclaw-provider-gateway-api/src/remote-relay-quota-support.ts workers/nextclaw-provider-gateway-api/src/remote-relay-client-frame-support.ts workers/nextclaw-provider-gateway-api/tests/remote-quota-policy.test.mjs workers/nextclaw-provider-gateway-api/tests/run-remote-quota-policy-test.mjs`
+- 构建：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api build`
+- Lint：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api lint`
+- 类型检查：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api tsc`
+- 策略测试：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api test:quota`
+- 可维护性检查：`PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths workers/go-usb-ai-provider-gateway-api/src/remote-quota-contract.ts workers/go-usb-ai-provider-gateway-api/src/remote-quota-budget-support.ts workers/go-usb-ai-provider-gateway-api/src/remote-quota-state-support.ts workers/go-usb-ai-provider-gateway-api/src/remote-quota-policy.ts workers/go-usb-ai-provider-gateway-api/src/remote-quota-do.ts workers/go-usb-ai-provider-gateway-api/src/services/remote-quota-guard.service.ts workers/go-usb-ai-provider-gateway-api/src/controllers/remote-controller.ts workers/go-usb-ai-provider-gateway-api/src/controllers/remote-controller-quota-support.ts workers/go-usb-ai-provider-gateway-api/src/remote-relay-do.ts workers/go-usb-ai-provider-gateway-api/src/remote-relay-quota-support.ts workers/go-usb-ai-provider-gateway-api/src/remote-relay-client-frame-support.ts workers/go-usb-ai-provider-gateway-api/tests/remote-quota-policy.test.mjs workers/go-usb-ai-provider-gateway-api/tests/run-remote-quota-policy-test.mjs`
 
 自动化测试覆盖：
 
@@ -38,13 +38,13 @@
 ## 发布/部署方式
 
 - 本次不涉及 D1 schema 变更，`platform:db:migrate:remote` 不适用。
-- 发布命令：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api run deploy`
+- 发布命令：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api run deploy`
 - 发布后检查：
-  - `NEXTCLAW_REMOTE_RELAY`
-  - `NEXTCLAW_REMOTE_QUOTA`
+  - `GOUSB_AI_REMOTE_RELAY`
+  - `GOUSB_AI_REMOTE_QUOTA`
   - quota 相关新环境变量
 - 本次实际发布结果：
-  - Route：`ai-gateway-api.nextclaw.io` / `*.claw.cool/*`
+  - Route：`ai-gateway-api.go-usb-ai.io` / `*.claw.cool/*`
   - Current Version ID：`aa39568f-a136-4c05-9dfb-a87c378faee7`
 
 ## 用户/产品视角的验收步骤
@@ -54,18 +54,18 @@
 - 在一个远程会话内持续触发消息流量时，relay 不应再为每条消息新增一次 quota DO request，而应批量补货。
 - 当平台接近或超过每日安全水位时，新请求应被明确拒绝，并提示稍后重试，而不是把全天额度池继续耗光。
 - 本次线上最小验收：
-  - `curl -sS https://ai-gateway-api.nextclaw.io/health`
-  - 返回：`{"ok":true,"data":{"status":"ok","service":"nextclaw-provider-gateway-api","authRequired":true,"billingMode":"usd-only"}}`
+  - `curl -sS https://ai-gateway-api.go-usb-ai.io/health`
+  - 返回：`{"ok":true,"data":{"status":"ok","service":"go-usb-ai-provider-gateway-api","authRequired":true,"billingMode":"usd-only"}}`
 
 ## 红区触达与减债记录
 
-### workers/nextclaw-provider-gateway-api/src/controllers/remote-controller.ts
+### workers/go-usb-ai-provider-gateway-api/src/controllers/remote-controller.ts
 
 - 本次是否减债：否
 - 说明：本轮没有继续把平台预算逻辑堆入 controller，而是继续通过 `remote-controller-quota-support.ts` 承载；但主 controller 文件仍接近预算上限。
 - 下一步拆分缝：把 remote session 校验 / proxy request 编排继续拆到更细的 support 文件。
 
-### workers/nextclaw-provider-gateway-api/src/remote-relay-do.ts
+### workers/go-usb-ai-provider-gateway-api/src/remote-relay-do.ts
 
 - 本次是否减债：否
 - 说明：本轮增加了 ws lease 逻辑，但控制在 budget 内，并把 quota 细节继续外提到 `remote-relay-quota-support.ts`。

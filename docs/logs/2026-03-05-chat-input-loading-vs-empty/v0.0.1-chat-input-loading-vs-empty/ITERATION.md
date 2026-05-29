@@ -14,9 +14,9 @@
 - 新增 i18n 文案键 `chatModelOptionsLoading`。
 
 涉及文件：
-- `packages/nextclaw-ui/src/components/chat/ChatInputBar.tsx`
-- `packages/nextclaw-ui/src/components/chat/ChatConversationPanel.tsx`
-- `packages/nextclaw-ui/src/lib/i18n.ts`
+- `packages/go-usb-ai-ui/src/components/chat/ChatInputBar.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatConversationPanel.tsx`
+- `packages/go-usb-ai-ui/src/lib/i18n.ts`
 
 ## 2) 测试/验证/验收方式
 执行环境说明：当前 shell 未内置 `pnpm`，命令使用 `PATH=/opt/homebrew/bin:$PATH` 前缀。
@@ -27,7 +27,7 @@
 - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`（通过）
 
 冒烟（UI 最小可访问性）：
-- 启动 `@nextclaw/ui preview` 于 `127.0.0.1:4373`，请求 `/chat`
+- 启动 `@go-usb-ai/ui preview` 于 `127.0.0.1:4373`，请求 `/chat`
 - 观察点：
   - 返回 `HTTP/1.1 200 OK`
   - 返回 HTML 文档头（`<!DOCTYPE html>`）

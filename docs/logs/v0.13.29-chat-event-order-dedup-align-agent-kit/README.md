@@ -12,15 +12,15 @@
   - `ChatThread` 从“聚合 text/reasoning/tool 再分组渲染”改为按 `message.parts` 原始顺序渲染，保证文本/工具卡片顺序与事件顺序一致。
 
 ## 测试/验证/验收方式
-- `pnpm --filter @nextclaw/agent-chat tsc`
-- `pnpm --filter @nextclaw/ui tsc`
-- `pnpm --filter @nextclaw/ui build`
+- `pnpm --filter @go-usb-ai/agent-chat tsc`
+- `pnpm --filter @go-usb-ai/ui tsc`
+- `pnpm --filter @go-usb-ai/ui build`
 - 结果：全部通过。
 
 ## 发布/部署方式
-- 本次涉及 `@nextclaw/agent-chat` 与 `@nextclaw/ui`：
-  - 前端发布按现有 `@nextclaw/ui` 构建与部署流程执行。
-  - 如需同步发包 `@nextclaw/agent-chat`，按仓库既有 changeset/version/publish 流程执行。
+- 本次涉及 `@go-usb-ai/agent-chat` 与 `@go-usb-ai/ui`：
+  - 前端发布按现有 `@go-usb-ai/ui` 构建与部署流程执行。
+  - 如需同步发包 `@go-usb-ai/agent-chat`，按仓库既有 changeset/version/publish 流程执行。
 
 ## 用户/产品视角的验收步骤
 1. 在聊天页发送一条会触发工具调用的消息。

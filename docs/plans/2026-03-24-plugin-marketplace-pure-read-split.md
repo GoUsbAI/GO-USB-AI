@@ -13,8 +13,8 @@
 ### Task 1: Add an explicit pure-read plugin discovery report
 
 **Files:**
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/status.ts`
-- Test: `packages/nextclaw-openclaw-compat/src/plugins/status.pure-read.test.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/status.ts`
+- Test: `packages/go-usb-ai-openclaw-compat/src/plugins/status.pure-read.test.ts`
 
 **Step 1:** Add a new pure-read report entry such as `discoverPluginStatusReport(...)`.
 
@@ -29,8 +29,8 @@
 ### Task 2: Move marketplace installed reads to the pure-read path
 
 **Files:**
-- Modify: `packages/nextclaw-server/src/ui/router/marketplace/installed.ts`
-- Test: `packages/nextclaw-server/src/ui/router.marketplace-installed.test.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/router/marketplace/installed.ts`
+- Test: `packages/go-usb-ai-server/src/ui/router.marketplace-installed.test.ts`
 
 **Step 1:** Replace marketplace installed plugin collection so it uses the new pure-read discovery report instead of the full load report.
 
@@ -41,8 +41,8 @@
 ### Task 3: Remove plugin catalog full-fetch behavior
 
 **Files:**
-- Modify: `packages/nextclaw-server/src/ui/router/marketplace/plugin.controller.ts`
-- Test: `packages/nextclaw-server/src/ui/router.marketplace-content.test.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/router/marketplace/plugin.controller.ts`
+- Test: `packages/go-usb-ai-server/src/ui/router.marketplace-content.test.ts`
 
 **Step 1:** Change plugin catalog listing to proxy the requested remote page directly.
 

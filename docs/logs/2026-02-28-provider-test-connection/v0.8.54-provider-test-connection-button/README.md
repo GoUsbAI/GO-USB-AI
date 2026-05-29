@@ -17,7 +17,7 @@
 ## 测试 / 验证 / 验收方式
 
 - 单测：
-  - `pnpm -C packages/nextclaw-server test -- --run src/ui/router.provider-test.test.ts`
+  - `pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.provider-test.test.ts`
 - 全量校验：
   - `pnpm build`
   - `pnpm lint`

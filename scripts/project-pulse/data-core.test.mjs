@@ -6,7 +6,7 @@ import test from "node:test";
 
 import { mergeLatestLocSnapshot, readLocHistory } from "./data-core.mjs";
 
-const createFixtureDir = () => mkdtempSync(join(tmpdir(), "nextclaw-project-pulse-"));
+const createFixtureDir = () => mkdtempSync(join(tmpdir(), "go-usb-ai-project-pulse-"));
 
 test("readLocHistory keeps production and test LOC separated", () => {
   const fixtureDir = createFixtureDir();

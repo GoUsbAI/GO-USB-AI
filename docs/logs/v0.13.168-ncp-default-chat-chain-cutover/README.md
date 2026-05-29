@@ -12,13 +12,13 @@
 
 已执行：
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui test -- src/components/chat/chat-chain.test.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui test -- src/components/chat/chat-chain.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui build`
 
 结果：
 
 - 链路解析定向测试通过。
-- `@nextclaw/ui` 构建通过。
+- `@go-usb-ai/ui` 构建通过。
 
 # 发布/部署方式
 
@@ -26,7 +26,7 @@
 
 如需集成验证：
 
-- 重启 `nextclaw-ui` dev server
+- 重启 `go-usb-ai-ui` dev server
 - 直接打开聊天页，默认应进入 NCP 链路
 - 如需临时回滚，对聊天页追加 `?chatChain=legacy`
 

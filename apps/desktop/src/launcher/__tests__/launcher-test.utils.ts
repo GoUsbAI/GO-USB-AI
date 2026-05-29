@@ -148,7 +148,7 @@ export function createSignedUpdateManifest(
     arch: overrides.arch ?? process.arch,
     latestVersion: overrides.latestVersion,
     minimumLauncherVersion: overrides.minimumLauncherVersion ?? "0.1.0",
-    bundleUrl: overrides.bundleUrl ?? "https://example.com/nextclaw.bundle",
+    bundleUrl: overrides.bundleUrl ?? "https://example.com/go-usb-ai.bundle",
     bundleSha256: overrides.bundleSha256 ?? createHash("sha256").update(Buffer.from("placeholder")).digest("hex"),
     bundleSignature: overrides.bundleSignature ?? "c2lnbmF0dXJl",
     releaseNotesUrl: overrides.releaseNotesUrl ?? null

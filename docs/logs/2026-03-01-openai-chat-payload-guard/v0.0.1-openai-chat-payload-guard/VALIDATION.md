@@ -3,7 +3,7 @@
 ## 单元测试
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core test -- --run src/providers/chat-completions-normalizer.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core test -- --run src/providers/chat-completions-normalizer.test.ts
 ```
 
 结果：
@@ -23,23 +23,23 @@ PATH=/opt/homebrew/bin:$PATH pnpm tsc
 结果：
 
 - 全仓 `build` 失败（与本次改动无关的既有改动导致）：
-  - `packages/nextclaw-server/src/ui/config.ts` 中 `ProviderSpec.isCustom` 类型不匹配（`TS2339`）
+  - `packages/go-usb-ai-server/src/ui/config.ts` 中 `ProviderSpec.isCustom` 类型不匹配（`TS2339`）
 - 针对本次变更的受影响包验证通过：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core build
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core lint
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core tsc
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core build
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core lint
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core tsc
 ```
 
-- `nextclaw-core` 的 `build/lint/tsc` 全部通过（lint 仅历史 warning，无新增 error）
+- `go-usb-ai-core` 的 `build/lint/tsc` 全部通过（lint 仅历史 warning，无新增 error）
 
 ## 冒烟测试（真实运行）
 
 目的：验证“非标准 payload 不再报 `reading '0'`”
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core exec tsx /tmp/nextclaw-openai-invalid-payload-smoke.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core exec tsx /tmp/go-usb-ai-openai-invalid-payload-smoke.ts
 ```
 
 观察点：

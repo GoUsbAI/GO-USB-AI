@@ -9,11 +9,11 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-agent-chat-ui test -- src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
-- `pnpm -C packages/nextclaw-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts`
-- `pnpm -C packages/nextclaw-agent-chat-ui tsc`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-agent-chat-ui/src/components/chat/view-models/chat-ui.types.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-tool-card.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.ts packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.test.ts packages/nextclaw-ui/src/components/chat/containers/chat-message-list.container.tsx packages/nextclaw-ui/src/lib/i18n.chat.ts`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui test -- src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/view-models/chat-ui.types.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-tool-card.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.ts packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.test.ts packages/go-usb-ai-ui/src/components/chat/containers/chat-message-list.container.tsx packages/go-usb-ai-ui/src/lib/i18n.chat.ts`
 - 验收关注点：
   - 工具执行中应显示明确状态，而不是只看到一块静态信息。
   - 工具完成、失败、取消时应有可区分的状态颜色与标签。
@@ -23,7 +23,7 @@
 
 - 本次未单独执行发布。
 - 随下一次前端正常发布链路带出即可，无需数据库 migration、后端部署或额外运维动作。
-- 若需要提前验证，可按常规前端流程重新构建并发布 `@nextclaw/agent-chat-ui` 与 `@nextclaw/ui` 所在产物。
+- 若需要提前验证，可按常规前端流程重新构建并发布 `@go-usb-ai/agent-chat-ui` 与 `@go-usb-ai/ui` 所在产物。
 
 ## 用户/产品视角的验收步骤
 

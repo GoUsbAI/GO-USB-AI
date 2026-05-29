@@ -1,6 +1,6 @@
-# What is NextClaw?
+# What is GoUsbAi?
 
-NextClaw is a personal AI operating layer that runs on your own machine. It is not just a chat window. It brings models, channels, automations, and host-machine capabilities into one entry point.
+GoUsbAi is a personal AI operating layer that runs on your own machine. It is not just a chat window. It brings models, channels, automations, and host-machine capabilities into one entry point.
 
 You can start small: install the CLI, start the service, open the browser UI, configure one model provider, and get one useful reply. After that, you can connect chat channels, scheduled jobs, remote access, and long-running hosting.
 

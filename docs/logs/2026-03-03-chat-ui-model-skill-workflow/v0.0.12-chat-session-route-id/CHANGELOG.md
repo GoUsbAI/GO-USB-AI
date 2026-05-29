@@ -16,5 +16,5 @@
 
 涉及文件：
 
-- `packages/nextclaw-ui/src/App.tsx`
-- `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
+- `packages/go-usb-ai-ui/src/App.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`

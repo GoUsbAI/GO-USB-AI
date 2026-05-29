@@ -14,23 +14,23 @@
 
 关键文件：
 
-- `packages/nextclaw-ui/src/lib/chat-message.ts`
-- `packages/nextclaw-ui/src/components/chat/ChatThread.tsx`
-- `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
+- `packages/go-usb-ai-ui/src/lib/chat-message.ts`
+- `packages/go-usb-ai-ui/src/components/chat/ChatThread.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
 
 ## 测试 / 验证 / 验收方式
 
 已执行：
 
 - 定向验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
 - 全量验证：
   - `PATH=/opt/homebrew/bin:$PATH pnpm build`
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`
 - 运行态冒烟（隔离目录，避免写入仓库）：
-  - `NEXTCLAW_HOME=/tmp/... node packages/nextclaw/dist/cli/index.js ui --port 18765 --no-open`
+  - `GOUSB_AI_HOME=/tmp/... node packages/go-usb-ai/dist/cli/index.js ui --port 18765 --no-open`
   - `GET /api/health` 返回 `{"ok":true,"data":{"status":"ok"}}`
   - `POST /api/chat/turn` 在未配置 provider 时返回 `500 + CHAT_TURN_FAILED`（预期行为，证明链路可达）
 
@@ -42,17 +42,17 @@
 
 实际发布结果：
 
-- `nextclaw@0.8.35`
-- `@nextclaw/ui@0.5.23`
+- `go-usb-ai@0.8.35`
+- `@go-usb-ai/ui@0.5.23`
 
 生成标签：
 
-- `nextclaw@0.8.35`
-- `@nextclaw/ui@0.5.23`
+- `go-usb-ai@0.8.35`
+- `@go-usb-ai/ui@0.5.23`
 
 ## 用户 / 产品视角的验收步骤
 
-1. 启动：`nextclaw start`
+1. 启动：`go-usb-ai start`
 2. 打开 UI：`http://127.0.0.1:18791`
 3. 进入 Chat，发送会触发工具调用的问题（如搜索/读文件类请求）
 4. 观察工具展示是否为“单卡（调用 + 输出）”，而非分离两张卡

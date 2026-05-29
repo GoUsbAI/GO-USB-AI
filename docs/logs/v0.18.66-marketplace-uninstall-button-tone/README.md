@@ -8,9 +8,9 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui exec eslint src/features/marketplace/components/marketplace-list-card.tsx`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/marketplace/components/marketplace-list-card.tsx`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/features/marketplace/components/marketplace-list-card.tsx`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/marketplace/components/marketplace-list-card.tsx`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
 - `git diff --check`

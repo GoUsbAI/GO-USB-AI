@@ -10,11 +10,11 @@
 ## 测试/验证/验收方式
 
 - 定向回归测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- src/components/marketplace/mcp/McpMarketplacePage.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- src/components/marketplace/mcp/McpMarketplacePage.test.tsx`
 - 可维护性自检：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/marketplace/mcp/McpMarketplacePage.tsx packages/nextclaw-ui/src/components/marketplace/mcp/McpMarketplacePage.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/marketplace/mcp/McpMarketplacePage.tsx packages/go-usb-ai-ui/src/components/marketplace/mcp/McpMarketplacePage.test.tsx`
 - 说明：
-  - `packages/nextclaw-ui` 当前全量 `tsc/build` 被工作区中与本次无关的 chat 偏好治理并行改动阻塞，不属于本次修复引入，已保持不触碰。
+  - `packages/go-usb-ai-ui` 当前全量 `tsc/build` 被工作区中与本次无关的 chat 偏好治理并行改动阻塞，不属于本次修复引入，已保持不触碰。
 
 ## 发布/部署方式
 

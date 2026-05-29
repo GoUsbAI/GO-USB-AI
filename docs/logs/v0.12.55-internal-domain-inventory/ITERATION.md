@@ -2,29 +2,29 @@
 
 ## 迭代完成说明（改了什么）
 
-- 新增内部文档 [`docs/internal/domain-inventory.md`](../../internal/domain-inventory.md)，集中记录当前 Nextclaw 全部线上域名（Pages + Workers）。
+- 新增内部文档 [`docs/internal/domain-inventory.md`](../../internal/domain-inventory.md)，集中记录当前 GoUsbAi 全部线上域名（Pages + Workers）。
 - 文档中包含：
   - 站点/服务与 Cloudflare 项目映射
   - 业务域名与默认域名（`*.pages.dev` / `*.workers.dev`）
   - 2026-03-08 的可用性校验结果
-  - 待处理/历史域名清单（含 `api.nextclaw.io` 当前不可用状态）
+  - 待处理/历史域名清单（含 `api.go-usb-ai.io` 当前不可用状态）
 
 ## 测试/验证/验收方式
 
 - Pages 项目与域名关系核对：
   - `pnpm dlx wrangler pages project list`
 - 域名可用性校验（本次已执行）：
-  - `https://platform.nextclaw.io` -> 200
-  - `https://platform-admin.nextclaw.io` -> 200
-  - `https://docs.nextclaw.io` -> 200
-  - `https://nextclaw.io` -> 200
+  - `https://platform.go-usb-ai.io` -> 200
+  - `https://platform-admin.go-usb-ai.io` -> 200
+  - `https://docs.go-usb-ai.io` -> 200
+  - `https://go-usb-ai.io` -> 200
   - `https://bibo.bot` -> 200
   - `https://openclaw-pro-max.com` -> TLS 异常
 - Worker 健康接口校验（本次已执行）：
-  - `https://ai-gateway-api.nextclaw.io/health` -> 200
-  - `https://ai-gateway-api.nextclaw.io/v1/models` -> 200
-  - `https://marketplace-api.nextclaw.io/health` -> 200
-  - `https://marketplace-api.nextclaw.io/api/v1/skills/items?page=1&pageSize=1` -> 200
+  - `https://ai-gateway-api.go-usb-ai.io/health` -> 200
+  - `https://ai-gateway-api.go-usb-ai.io/v1/models` -> 200
+  - `https://marketplace-api.go-usb-ai.io/health` -> 200
+  - `https://marketplace-api.go-usb-ai.io/api/v1/skills/items?page=1&pageSize=1` -> 200
 
 ## 发布/部署方式
 

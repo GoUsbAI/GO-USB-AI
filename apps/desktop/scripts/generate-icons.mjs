@@ -33,7 +33,7 @@ if (!existsSync(sourceSvg)) {
   throw new Error(`Source logo not found: ${sourceSvg}`);
 }
 
-const tempDir = mkdtempSync(join(tmpdir(), "nextclaw-desktop-icon-"));
+const tempDir = mkdtempSync(join(tmpdir(), "go-usb-ai-desktop-icon-"));
 const iconsetDir = join(tempDir, "icon.iconset");
 
 mkdirSync(iconsetDir, { recursive: true });

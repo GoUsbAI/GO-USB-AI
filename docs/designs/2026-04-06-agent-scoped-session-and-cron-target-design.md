@@ -28,7 +28,7 @@
 
 ## 愿景对齐
 
-NextClaw 的目标是成为 AI 时代的个人操作层，而不是功能垃圾场。
+GoUsbAi 的目标是成为 AI 时代的个人操作层，而不是功能垃圾场。
 
 这意味着多 Agent 设计必须满足：
 
@@ -367,13 +367,13 @@ resolveDefaultAgentId(...)
 CLI / API 支持：
 
 ```bash
-nextclaw sessions spawn --agent engineer
+go-usb-ai sessions spawn --agent engineer
 ```
 
 也支持不传：
 
 ```bash
-nextclaw sessions spawn
+go-usb-ai sessions spawn
 ```
 
 语义：
@@ -385,13 +385,13 @@ nextclaw sessions spawn
 CLI / API 支持：
 
 ```bash
-nextclaw cron add --name daily-review --message "review inbox" --cron "0 9 * * *" --agent engineer
+go-usb-ai cron add --name daily-review --message "review inbox" --cron "0 9 * * *" --agent engineer
 ```
 
 也支持不传：
 
 ```bash
-nextclaw cron add --name daily-review --message "review inbox" --cron "0 9 * * *"
+go-usb-ai cron add --name daily-review --message "review inbox" --cron "0 9 * * *"
 ```
 
 语义同样是：
@@ -400,7 +400,7 @@ nextclaw cron add --name daily-review --message "review inbox" --cron "0 9 * * *
 
 ### AI 自管理
 
-因为 `nextclaw` CLI 会暴露完整能力，所以 AI 可以自然学会：
+因为 `go-usb-ai` CLI 会暴露完整能力，所以 AI 可以自然学会：
 
 - 创建 Agent
 - 创建指定 Agent 的新会话
@@ -477,4 +477,4 @@ metadata 可以镜像，但不能成为主语义层。
 - `cron.payload.agentId` 是定时任务归属正式字段
 - `sessionKey` 只是标识符，不承载 Agent 语义
 
-这套设计更轻、更清晰、更自然，也更符合 NextClaw 作为长期基础设施与统一入口产品的方向。
+这套设计更轻、更清晰、更自然，也更符合 GoUsbAi 作为长期基础设施与统一入口产品的方向。

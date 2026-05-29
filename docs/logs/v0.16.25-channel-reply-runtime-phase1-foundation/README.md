@@ -13,14 +13,14 @@
 
 本批次最终落地的核心文件：
 
-- `packages/ncp-packages/nextclaw-ncp-toolkit/src/chat/chat.types.ts`
-- `packages/ncp-packages/nextclaw-ncp-toolkit/src/chat/ncp-reply-consumer.ts`
-- `packages/ncp-packages/nextclaw-ncp-toolkit/src/chat/index.ts`
-- `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-chat.ts`
-- `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-channel.ts`
-- `packages/nextclaw/src/cli/commands/ncp/runtime/runner/channel-reply.ts`
-- `packages/nextclaw/src/cli/commands/ncp/runtime/runner/nextclaw-ncp-runner.service.ts`
-- `packages/nextclaw/src/cli/commands/ncp/runtime/nextclaw-ncp-dispatch.ts`
+- `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/chat/chat.types.ts`
+- `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/chat/ncp-reply-consumer.ts`
+- `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/chat/index.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-chat.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-channel.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/runtime/runner/channel-reply.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/runtime/runner/go-usb-ai-ncp-runner.service.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/runtime/go-usb-ai-ncp-dispatch.ts`
 
 本批次关键结果：
 
@@ -29,7 +29,7 @@
 - `message.completed` 到来时只补发尚未输出的最终尾巴，不会把已发送文本整条重复发送
 - 微信不再依赖旧 `typing-stop control` 才能结束 typing
 - reply 消费逻辑从“散函数 + 传 state”收成了“长期 `NcpReplyConsumer` + 内部 `NcpReplySession` state owner”
-- `nextclaw-ncp-dispatch.ts` 顺手删除了一套已经多余的 slash command fallback，避免新链把 dispatch 文件继续撑大
+- `go-usb-ai-ncp-dispatch.ts` 顺手删除了一套已经多余的 slash command fallback，避免新链把 dispatch 文件继续撑大
 - 验收排查期间一度加过临时结构化调试日志，并在根因定位后移除了这些临时诊断代码
 - 同批次续改继续清理了已无实际价值的 reply 协议残留：
   - 删除了 `blockId` 这层没有真实消费方的过渡概念
@@ -49,13 +49,13 @@
 已执行：
 
 ```bash
-pnpm --filter @nextclaw/ncp-toolkit test -- ncp-reply-consumer
-pnpm --filter @nextclaw/channel-plugin-weixin test -- weixin-channel.test.ts
-pnpm --filter nextclaw test -- nextclaw-ncp-runner.test.ts
-pnpm --filter nextclaw test -- stream-encoder-order.test.ts
-pnpm --filter @nextclaw/ncp-toolkit tsc
-pnpm --filter @nextclaw/channel-plugin-weixin tsc
-pnpm --filter nextclaw tsc
+pnpm --filter @go-usb-ai/ncp-toolkit test -- ncp-reply-consumer
+pnpm --filter @go-usb-ai/channel-plugin-weixin test -- weixin-channel.test.ts
+pnpm --filter go-usb-ai test -- go-usb-ai-ncp-runner.test.ts
+pnpm --filter go-usb-ai test -- stream-encoder-order.test.ts
+pnpm --filter @go-usb-ai/ncp-toolkit tsc
+pnpm --filter @go-usb-ai/channel-plugin-weixin tsc
+pnpm --filter go-usb-ai tsc
 pnpm lint:maintainability:guard
 pnpm lint:new-code:governance
 pnpm check:governance-backlog-ratchet
@@ -63,27 +63,27 @@ pnpm check:governance-backlog-ratchet
 
 结果：
 
-- `@nextclaw/ncp-toolkit` 的 `ncp-reply-consumer` 测试通过，`4` 条测试通过
+- `@go-usb-ai/ncp-toolkit` 的 `ncp-reply-consumer` 测试通过，`4` 条测试通过
   - 后续提升为 `5` 条测试通过，其中新增了一条“completed non-text part 通过共享 part 协议下发”的回归测试
-- `@nextclaw/channel-plugin-weixin` 的 `weixin-channel.test.ts` 通过，`3` 条测试通过
-- `nextclaw` 的 `nextclaw-ncp-runner.test.ts` 通过，`8` 条测试通过
-- `nextclaw` 的 `stream-encoder-order.test.ts` 通过，`3` 条测试通过
+- `@go-usb-ai/channel-plugin-weixin` 的 `weixin-channel.test.ts` 通过，`3` 条测试通过
+- `go-usb-ai` 的 `go-usb-ai-ncp-runner.test.ts` 通过，`8` 条测试通过
+- `go-usb-ai` 的 `stream-encoder-order.test.ts` 通过，`3` 条测试通过
 - 三个相关包的定向 `tsc` 都通过
-- `@nextclaw/ncp-toolkit`、微信插件与 `nextclaw` 的定向测试复跑通过，说明 reply 新链在去掉临时诊断代码后仍然成立
+- `@go-usb-ai/ncp-toolkit`、微信插件与 `go-usb-ai` 的定向测试复跑通过，说明 reply 新链在去掉临时诊断代码后仍然成立
 - 同批次续改再次复跑：
-  - `pnpm --filter @nextclaw/ncp-toolkit test -- ncp-reply-consumer`
-  - `pnpm --filter @nextclaw/channel-plugin-weixin test -- weixin-channel.test.ts`
-  - `pnpm --filter nextclaw test -- nextclaw-ncp-runner.test.ts`
-  - `pnpm --filter @nextclaw/ncp-toolkit tsc`
-  - `pnpm --filter @nextclaw/channel-plugin-weixin tsc`
-  - `pnpm --filter nextclaw tsc`
+  - `pnpm --filter @go-usb-ai/ncp-toolkit test -- ncp-reply-consumer`
+  - `pnpm --filter @go-usb-ai/channel-plugin-weixin test -- weixin-channel.test.ts`
+  - `pnpm --filter go-usb-ai test -- go-usb-ai-ncp-runner.test.ts`
+  - `pnpm --filter @go-usb-ai/ncp-toolkit tsc`
+  - `pnpm --filter @go-usb-ai/channel-plugin-weixin tsc`
+  - `pnpm --filter go-usb-ai tsc`
   结果全部通过，说明删掉 `blockId` 和相关内部死状态后，这条微信新链仍然成立；随后又把共享协议重新提升回 `NcpMessagePart` 级别并复跑通过，确认这条链没有被错误收窄成“只支持纯文本”
 
 治理/维护性命令结果说明：
 
-- `pnpm lint:maintainability:guard` 未通过，但这次直接相关的硬错误已经清掉；`packages/nextclaw/src/cli/commands/ncp/runtime/nextclaw-ncp-dispatch.ts` 已从超预算错误降为 `332 / 400` 的 near-budget 预警
-- 后续 class 收敛本身没有再引入新的维护性硬错误；`packages/ncp-packages/nextclaw-ncp-toolkit/src/chat/ncp-reply-consumer.ts` 与 `packages/nextclaw/src/cli/commands/ncp/runtime/nextclaw-ncp-dispatch.ts` 当前都只剩 near-budget 预警
-- `pnpm lint:maintainability:guard` 剩余硬错误都来自当前工作区里其它无关改动，例如 `packages/nextclaw-ncp-runtime-adapter-hermes-http/*` 和 `packages/nextclaw-ncp-runtime-http-client/*`
+- `pnpm lint:maintainability:guard` 未通过，但这次直接相关的硬错误已经清掉；`packages/go-usb-ai/src/cli/commands/ncp/runtime/go-usb-ai-ncp-dispatch.ts` 已从超预算错误降为 `332 / 400` 的 near-budget 预警
+- 后续 class 收敛本身没有再引入新的维护性硬错误；`packages/ncp-packages/go-usb-ai-ncp-toolkit/src/chat/ncp-reply-consumer.ts` 与 `packages/go-usb-ai/src/cli/commands/ncp/runtime/go-usb-ai-ncp-dispatch.ts` 当前都只剩 near-budget 预警
+- `pnpm lint:maintainability:guard` 剩余硬错误都来自当前工作区里其它无关改动，例如 `packages/go-usb-ai-ncp-runtime-adapter-hermes-http/*` 和 `packages/go-usb-ai-ncp-runtime-http-client/*`
 - `pnpm lint:new-code:governance` 仍未通过；本轮直接相关的阻塞来自当前仓库的 file-role-boundary 规则与既有 touched 文件命名债务，外加若干无关改动
 - `pnpm check:governance-backlog-ratchet` 未通过，原因是仓库当前 tracked doc 命名债务计数为 `13`，高于 baseline `11`；直接涉及的 tracked 文档包括 `docs/logs/TEMPLATE.md` 与 `docs/logs/v0.6.34-multi-agent-gateway-research/SOURCE.md`
 
@@ -110,11 +110,11 @@ pnpm check:governance-backlog-ratchet
 ## 用户 / 产品视角的验收步骤
 
 1. 阅读 [../../designs/2026-04-16-channel-consume-ncp-reply-midstate-design.md](../../designs/2026-04-16-channel-consume-ncp-reply-midstate-design.md)，确认顶层模型已经收敛成 `Channel + consumeNcpReply(...) + Chat + ChatTarget`。
-2. 阅读 `packages/ncp-packages/nextclaw-ncp-toolkit/src/chat/chat.types.ts` 与 `packages/ncp-packages/nextclaw-ncp-toolkit/src/chat/ncp-reply-consumer.ts`，确认共享层只保留最小协议与最小消费逻辑，并且 reply state 已被收回到内部 class owner。
-3. 阅读 `packages/nextclaw/src/cli/commands/ncp/runtime/runner/channel-reply.ts`，确认平台只做定向路由，不再引入第二套插件注册协议。
-4. 阅读 `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-channel.ts` 与 `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-chat.ts`，确认微信链路已经内聚成 `WeixinChannel + WeixinChat`。
+2. 阅读 `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/chat/chat.types.ts` 与 `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/chat/ncp-reply-consumer.ts`，确认共享层只保留最小协议与最小消费逻辑，并且 reply state 已被收回到内部 class owner。
+3. 阅读 `packages/go-usb-ai/src/cli/commands/ncp/runtime/runner/channel-reply.ts`，确认平台只做定向路由，不再引入第二套插件注册协议。
+4. 阅读 `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-channel.ts` 与 `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-chat.ts`，确认微信链路已经内聚成 `WeixinChannel + WeixinChat`。
 5. 运行上面的定向测试，确认微信在 text-part 边界会逐块发送，且 `message.completed` 不会重复整条文本。
-6. 查看 `packages/nextclaw/src/cli/commands/ncp/runtime/nextclaw-ncp-dispatch.ts`，确认 dispatch 仍然清晰，并且没有为了接新链继续叠加一套 fallback 解析逻辑。
+6. 查看 `packages/go-usb-ai/src/cli/commands/ncp/runtime/go-usb-ai-ncp-dispatch.ts`，确认 dispatch 仍然清晰，并且没有为了接新链继续叠加一套 fallback 解析逻辑。
 7. 在真实微信链路中验证“先说话 -> 调工具 -> 再说话”场景，确认微信能按稳定 text-part 分段输出，而不是重新退回整条最终输出。
 
 ## 可维护性总结汇总
@@ -132,7 +132,7 @@ pnpm check:governance-backlog-ratchet
 没有发现新的抽象层污染，但还保留两处明确后续入口：
 
 1. 其它聊天渠道尚未切到新链，所以旧 reply 主链还没有进入总删除阶段。
-2. `packages/nextclaw/src/cli/commands/ncp/runtime/nextclaw-ncp-runner.test.ts` 在本批次增长较多，后续如果继续扩测试，应优先拆 fixtures/builders。
+2. `packages/go-usb-ai/src/cli/commands/ncp/runtime/go-usb-ai-ncp-runner.test.ts` 在本批次增长较多，后续如果继续扩测试，应优先拆 fixtures/builders。
 
 ### 本次是否已尽最大努力优化可维护性
 
@@ -141,7 +141,7 @@ pnpm check:governance-backlog-ratchet
 本批次已经顺手做了两次主动删减，而不是只把新能力接进去：
 
 - 删除了上一版 `message-channel` 公共层
-- 删除了 `nextclaw-ncp-dispatch.ts` 里已无必要的 slash command fallback 解析
+- 删除了 `go-usb-ai-ncp-dispatch.ts` 里已无必要的 slash command fallback 解析
 - 为了避免“加日志反而把主函数重新撑爆”，又把新增调试逻辑做了一次内部收敛，把主流程中的大分支拆回了更小 helper
 
 ### 本次顺手减债
@@ -150,7 +150,7 @@ pnpm check:governance-backlog-ratchet
 
 - 微信对旧 `typing-stop control` 的依赖被删掉了
 - 旧 `message-channel` 顶层命名和公开结构被删掉了
-- `nextclaw-ncp-dispatch.ts` 的死 fallback 被删掉了
+- `go-usb-ai-ncp-dispatch.ts` 的死 fallback 被删掉了
 - 现有 `Channel` 生命周期被保留，没有再裂出第二套插件注册协议
 - `sendBlock + blockId` 这层过渡抽象被删掉了，协议更贴近“text-part”真实语义
 - 文本专用的共享协议又被拉回 `NcpMessagePart` 级别，避免把“当前微信先做文本”误写成“长期协议只能发文本”
@@ -167,7 +167,7 @@ pnpm check:governance-backlog-ratchet
 说明：
 
 - 这次增长主要来自新增的共享 `chat` 协议/消费实现、微信 `WeixinChat` 适配，以及平台薄路由
-- 现有非测试实现文件本身并没有继续单向膨胀，`weixin-channel.ts` 和 `nextclaw-ncp-dispatch.ts` 反而都有明显删减
+- 现有非测试实现文件本身并没有继续单向膨胀，`weixin-channel.ts` 和 `go-usb-ai-ncp-dispatch.ts` 反而都有明显删减
 
 ### 非测试代码增减报告
 
@@ -198,8 +198,8 @@ pnpm check:governance-backlog-ratchet
 部分改善，部分仍保留债务。
 
 - 共享层顶层概念明显减少了
-- 既有实现文件的复杂度没有继续恶化，`nextclaw-ncp-dispatch.ts` 甚至净减了 `67` 行
-- 但 `packages/nextclaw/src/cli/commands/ncp/runtime` 目录仍处于 near-budget 状态，后续若继续增长，需要进一步按职责拆稳
+- 既有实现文件的复杂度没有继续恶化，`go-usb-ai-ncp-dispatch.ts` 甚至净减了 `67` 行
+- 但 `packages/go-usb-ai/src/cli/commands/ncp/runtime` 目录仍处于 near-budget 状态，后续若继续增长，需要进一步按职责拆稳
 
 ### 抽象 / 模块边界 / class / helper / service / store 等职责划分判断
 

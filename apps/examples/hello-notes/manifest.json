@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "nextclaw.hello-notes",
+  "id": "go-usb-ai.hello-notes",
   "name": "Hello Notes",
   "version": "0.1.0",
   "description": "A tiny micro app that summarizes an authorized notes directory through a wasm main module.",

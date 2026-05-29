@@ -2,11 +2,11 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Make NextClaw treat `larksuite/openclaw-lark` as the Feishu upstream reference and continuously absorb nearly all high-value upstream capabilities, especially `calendar`, `task`, and `identity` (`OAuth` / acting as the authorized user), while keeping NextClaw architecture maintainable and copy-based where possible.
+**Goal:** Make GoUsbAi treat `larksuite/openclaw-lark` as the Feishu upstream reference and continuously absorb nearly all high-value upstream capabilities, especially `calendar`, `task`, and `identity` (`OAuth` / acting as the authorized user), while keeping GoUsbAi architecture maintainable and copy-based where possible.
 
-**Architecture:** NextClaw should not treat Feishu as a narrow chat channel. It should treat Feishu as a first-entry work surface provider. The default strategy is `vendor/copy first, rewrite only the thin OpenClaw-bound shell`, with `@nextclaw/feishu-core` becoming the shared Feishu platform layer and `@nextclaw/channel-plugin-feishu` remaining the outward Feishu plugin/tool shell.
+**Architecture:** GoUsbAi should not treat Feishu as a narrow chat channel. It should treat Feishu as a first-entry work surface provider. The default strategy is `vendor/copy first, rewrite only the thin OpenClaw-bound shell`, with `@go-usb-ai/feishu-core` becoming the shared Feishu platform layer and `@go-usb-ai/channel-plugin-feishu` remaining the outward Feishu plugin/tool shell.
 
-**Tech Stack:** TypeScript, `@larksuiteoapi/node-sdk`, `@nextclaw/feishu-core`, `@nextclaw/channel-plugin-feishu`, `@nextclaw/channel-runtime`, NextClaw config/runtime/server layers, upstream reference repo `https://github.com/larksuite/openclaw-lark`
+**Tech Stack:** TypeScript, `@larksuiteoapi/node-sdk`, `@go-usb-ai/feishu-core`, `@go-usb-ai/channel-plugin-feishu`, `@go-usb-ai/channel-runtime`, GoUsbAi config/runtime/server layers, upstream reference repo `https://github.com/larksuite/openclaw-lark`
 
 ---
 
@@ -28,7 +28,7 @@ This plan should be read together with:
 
 ## Product Position
 
-NextClaw's Feishu strategy is:
+GoUsbAi's Feishu strategy is:
 
 - not "support a Feishu chat plugin"
 - but "use Feishu as a major AgentOS entry surface"
@@ -54,7 +54,7 @@ It must expand into the core work surfaces that determine whether users can actu
 
 The default rule is:
 
-`If openclaw-lark has a Feishu capability and it provides clear user value, NextClaw should plan to absorb it.`
+`If openclaw-lark has a Feishu capability and it provides clear user value, GoUsbAi should plan to absorb it.`
 
 Only two classes are excluded by default:
 
@@ -64,7 +64,7 @@ Only two classes are excluded by default:
 This is intentionally more aggressive than a typical "careful rewrite" strategy. The reason is straightforward:
 
 - the upstream plugin already solved many Feishu-specific details
-- re-deriving those details inside NextClaw would be slower and riskier
+- re-deriving those details inside GoUsbAi would be slower and riskier
 - keeping the implementation structurally close to upstream lowers future sync cost
 
 ## Engineering Rule
@@ -81,11 +81,11 @@ The bar for allowing copy is:
 
 - it is mainly Feishu API invocation, parameter normalization, result shaping, or domain-specific logic
 - it does not deeply depend on OpenClaw runtime contracts
-- it does not introduce hidden fallback behavior that violates NextClaw predictability rules
+- it does not introduce hidden fallback behavior that violates GoUsbAi predictability rules
 
 ## Target Architecture
 
-### `@nextclaw/feishu-core`
+### `@go-usb-ai/feishu-core`
 
 This package should become the long-term Feishu platform foundation. It should own:
 
@@ -100,18 +100,18 @@ This package should become the long-term Feishu platform foundation. It should o
 
 It should gradually absorb the reusable Feishu logic that does not belong in a message-channel shell.
 
-### `@nextclaw/channel-plugin-feishu`
+### `@go-usb-ai/channel-plugin-feishu`
 
-This package should remain the Feishu plugin/tool shell exposed to the rest of NextClaw. It should own:
+This package should remain the Feishu plugin/tool shell exposed to the rest of GoUsbAi. It should own:
 
 - plugin registration
 - tool export surface
 - message-channel specific glue
-- compatibility bridge to NextClaw runtime contracts
+- compatibility bridge to GoUsbAi runtime contracts
 
 It should not become the dumping ground for all Feishu platform logic.
 
-### `@nextclaw/channel-runtime`
+### `@go-usb-ai/channel-runtime`
 
 This layer should stay focused on:
 
@@ -126,7 +126,7 @@ It should not own Feishu work-surface business logic such as calendar/task/docum
 
 ### Already Present or Partially Present
 
-NextClaw already has meaningful Feishu capability surface in-repo:
+GoUsbAi already has meaningful Feishu capability surface in-repo:
 
 - message send/reply/media/streaming
 - chat
@@ -181,7 +181,7 @@ Deliverables:
 
 - this formal implementation plan
 - the first capability sync checklist
-- explicit ownership of `@nextclaw/feishu-core` as the shared Feishu platform layer
+- explicit ownership of `@go-usb-ai/feishu-core` as the shared Feishu platform layer
 
 ### Phase B: Fill Work-Surface Gaps
 
@@ -208,7 +208,7 @@ Priority:
 
 Execution rule:
 
-- reusable auth/token primitives go into `@nextclaw/feishu-core`
+- reusable auth/token primitives go into `@go-usb-ai/feishu-core`
 - per-tool identity routing stays thin and explicit
 - no hidden fallback from user identity to bot identity for side-effecting actions
 
@@ -226,7 +226,7 @@ Once core gaps are closed, Feishu development should switch to a repeated sync m
 
 ### Rule 1: Upstream Is a Source Tree, Not a Runtime Dependency
 
-NextClaw must not depend on the upstream Feishu plugin package at runtime.
+GoUsbAi must not depend on the upstream Feishu plugin package at runtime.
 
 We should:
 
@@ -245,7 +245,7 @@ We should not:
 For high-value copied modules:
 
 - keep names and file boundaries reasonably close to upstream when that reduces future diff cost
-- convert to NextClaw TypeScript and test style
+- convert to GoUsbAi TypeScript and test style
 - avoid "creative cleanup" that makes future upstream sync harder without strong payoff
 
 ### Rule 3: Rewrite Only the Boundary
@@ -268,23 +268,23 @@ For identity-sensitive actions:
 - fail clearly when the required identity is unavailable
 - never silently downgrade to a different identity for mutating actions
 
-This is required by NextClaw's predictable-behavior rules.
+This is required by GoUsbAi's predictable-behavior rules.
 
 ## Ownership and File Mapping
 
 ### Expected New or Expanded Areas
 
-- `packages/extensions/nextclaw-feishu-core/src/`
-- `packages/extensions/nextclaw-channel-plugin-feishu/src/`
-- `packages/nextclaw-server/src/` or future tool/runtime host layer
+- `packages/extensions/go-usb-ai-feishu-core/src/`
+- `packages/extensions/go-usb-ai-channel-plugin-feishu/src/`
+- `packages/go-usb-ai-server/src/` or future tool/runtime host layer
 - config schema and UI projection files that expose new Feishu capability toggles
 
 ### Typical Placement Rule
 
-- reusable auth/client/scope/identity primitives: `nextclaw-feishu-core`
-- reusable OAPI capability services: `nextclaw-feishu-core`
-- user-facing Feishu tool registration surface: `nextclaw-channel-plugin-feishu`
-- message transport/runtime glue: `nextclaw-channel-runtime`
+- reusable auth/client/scope/identity primitives: `go-usb-ai-feishu-core`
+- reusable OAPI capability services: `go-usb-ai-feishu-core`
+- user-facing Feishu tool registration surface: `go-usb-ai-channel-plugin-feishu`
+- message transport/runtime glue: `go-usb-ai-channel-runtime`
 
 ## Validation Standard
 
@@ -335,5 +335,5 @@ This plan requires the checklist below as its operational companion:
 That checklist should be updated whenever:
 
 - upstream adds a new Feishu capability
-- NextClaw absorbs a capability
+- GoUsbAi absorbs a capability
 - a migration bucket changes because the architecture boundary changed

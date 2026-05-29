@@ -10,10 +10,10 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test src/agent/in-memory-agent-backend.test.ts`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
-- `pnpm -C packages/nextclaw-ui test src/components/chat/chat-page-runtime.test.ts src/components/chat/ncp/session-conversation/use-ncp-session-conversation.test.tsx src/components/chat/useHydratedNcpAgent.test.tsx`
-- `pnpm -C packages/nextclaw-ui tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test src/agent/in-memory-agent-backend.test.ts`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
+- `pnpm -C packages/go-usb-ai-ui test src/components/chat/chat-page-runtime.test.ts src/components/chat/ncp/session-conversation/use-ncp-session-conversation.test.tsx src/components/chat/useHydratedNcpAgent.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui tsc`
 - `pnpm lint:maintainability:guard`
 
 ## 发布/部署方式
@@ -34,5 +34,5 @@
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。关键收敛点是把 `stream` 的职责明确为纯观察路径，避免用额外状态层去弥补错误契约。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：部分做到。未新增源代码文件，目录平铺度未恶化；当前代码 diff 统计为新增 81 行、删除 17 行、净增 64 行，其中非测试代码新增 47 行、删除 15 行、净增 32 行。净增仍存在，但已经从早先补丁式方案的更高非测试净增明显收缩到当前最小必要范围。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：更清晰。前端把 draft id 刷新规则显式化；后端把 `stream` 与“创建 / 持久化 session”彻底分离，避免了读接口隐式执行写路径。
-- 目录结构与文件组织是否满足当前项目治理要求：本次没有新增目录平铺问题，但 `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend` 仍处于目录预算警戒，`packages/nextclaw-ui/src/components/chat` 仍有既有例外；本次未继续恶化，后续如再改该后端目录，应优先按责任继续拆分。
+- 目录结构与文件组织是否满足当前项目治理要求：本次没有新增目录平铺问题，但 `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend` 仍处于目录预算警戒，`packages/go-usb-ai-ui/src/components/chat` 仍有既有例外；本次未继续恶化，后续如再改该后端目录，应优先按责任继续拆分。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：是。本结论基于收尾阶段对“Map 方案是否还能继续删除、是否只是把复杂度挪位置”的独立复核得出。

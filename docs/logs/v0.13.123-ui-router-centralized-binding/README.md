@@ -1,7 +1,7 @@
 # v0.13.123-ui-router-centralized-binding
 
 ## 迭代完成说明（改了什么）
-- 将 UI Router 重构为“集中绑定 + 分模块控制器”结构：`packages/nextclaw-server/src/ui/router.ts` 统一声明所有 API 路径与方法绑定。
+- 将 UI Router 重构为“集中绑定 + 分模块控制器”结构：`packages/go-usb-ai-server/src/ui/router.ts` 统一声明所有 API 路径与方法绑定。
 - 新增并改造控制器分层：
   - `AppRoutesController`
   - `ConfigRoutesController`
@@ -15,11 +15,11 @@
 
 ## 测试/验证/验收方式
 - 类型检查：
-  - `pnpm -C packages/nextclaw-server tsc`
+  - `pnpm -C packages/go-usb-ai-server tsc`
 - 路由相关测试：
-  - `pnpm -C packages/nextclaw-server test -- --run src/ui/router.chat.test.ts src/ui/router.marketplace-content.test.ts src/ui/router.marketplace-manage.test.ts src/ui/router.provider-test.test.ts src/ui/router.session-type.test.ts`
+  - `pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.chat.test.ts src/ui/router.marketplace-content.test.ts src/ui/router.marketplace-manage.test.ts src/ui/router.provider-test.test.ts src/ui/router.session-type.test.ts`
 - Lint（存在历史 warning，无 error）：
-  - `pnpm -C packages/nextclaw-server lint`
+  - `pnpm -C packages/go-usb-ai-server lint`
 
 ## 发布/部署方式
 - 本次为服务端路由结构重构，不涉及独立发布流程变更。

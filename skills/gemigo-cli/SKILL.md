@@ -7,7 +7,7 @@ description: Use when the user wants to publish an already-built static website 
 
 ## Overview
 
-Use this skill when the user wants to publish an already-built static website or front-end app through the local `gemigo` CLI from inside NextClaw, then get a hosted public URL.
+Use this skill when the user wants to publish an already-built static website or front-end app through the local `gemigo` CLI from inside GoUsbAi, then get a hosted public URL.
 
 This skill is intentionally decoupled:
 
@@ -69,11 +69,11 @@ The safe rule is simple:
 - build first,
 - deploy the generated static output second.
 
-## Install Boundary: NextClaw Skill vs Local CLI
+## Install Boundary: GoUsbAi Skill vs Local CLI
 
 Always distinguish these two layers:
 
-- NextClaw marketplace skill install:
+- GoUsbAi marketplace skill install:
   the selectable skill exists at `<workspace>/skills/gemigo-cli/SKILL.md`
 - Local GemiGo CLI install:
   the `gemigo` binary exists on the user's machine
@@ -81,16 +81,16 @@ Always distinguish these two layers:
 Installing this marketplace skill does not automatically install the `gemigo` binary.
 If the user wants to actually publish an app, both layers must be ready.
 
-Default NextClaw workspace:
+Default GoUsbAi workspace:
 
 ```bash
-~/.nextclaw/workspace
+~/.go-usb-ai/workspace
 ```
 
 Typical installed skill path:
 
 ```bash
-~/.nextclaw/workspace/skills/gemigo-cli/SKILL.md
+~/.go-usb-ai/workspace/skills/gemigo-cli/SKILL.md
 ```
 
 Install the local CLI with:

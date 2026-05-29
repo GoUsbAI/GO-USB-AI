@@ -18,9 +18,9 @@
 ### Task 1: Freeze the target contract in tests
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/config/reload.test.ts`
-- Modify: `packages/nextclaw-server/src/ui/router.weixin-channel-config.test.ts`
-- Modify: `packages/nextclaw-ui/src/components/config/ChannelForm.test.tsx`
+- Modify: `packages/go-usb-ai-core/src/config/reload.test.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/router.weixin-channel-config.test.ts`
+- Modify: `packages/go-usb-ai-ui/src/components/config/ChannelForm.test.tsx`
 
 **Step 1: Add failing reload-plan assertions**
 
@@ -46,9 +46,9 @@
 Run:
 
 ```bash
-pnpm -C packages/nextclaw-core exec vitest run src/config/reload.test.ts
-pnpm -C packages/nextclaw-server exec vitest run src/ui/router.weixin-channel-config.test.ts
-pnpm -C packages/nextclaw-ui exec vitest run src/components/config/ChannelForm.test.tsx
+pnpm -C packages/go-usb-ai-core exec vitest run src/config/reload.test.ts
+pnpm -C packages/go-usb-ai-server exec vitest run src/ui/router.weixin-channel-config.test.ts
+pnpm -C packages/go-usb-ai-ui exec vitest run src/components/config/ChannelForm.test.tsx
 ```
 
 Expected: channel reload-plan test fails first, then route/UI tests fail until implementation lands.
@@ -56,8 +56,8 @@ Expected: channel reload-plan test fails first, then route/UI tests fail until i
 ### Task 2: Remove channel-save coupling to plugin registry reload
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/config/reload.ts`
-- Modify: `packages/nextclaw-core/src/config/reload.test.ts`
+- Modify: `packages/go-usb-ai-core/src/config/reload.ts`
+- Modify: `packages/go-usb-ai-core/src/config/reload.test.ts`
 
 **Step 1: Narrow the reload plan**
 
@@ -73,7 +73,7 @@ Expected: channel reload-plan test fails first, then route/UI tests fail until i
 Run:
 
 ```bash
-pnpm -C packages/nextclaw-core exec vitest run src/config/reload.test.ts
+pnpm -C packages/go-usb-ai-core exec vitest run src/config/reload.test.ts
 ```
 
 Expected: all reload-plan assertions pass.
@@ -81,18 +81,18 @@ Expected: all reload-plan assertions pass.
 ### Task 3: Make Feishu tool registration runtime-stable
 
 **Files:**
-- Modify: `packages/extensions/nextclaw-channel-plugin-feishu/src/tool-account.ts`
-- Modify: `packages/extensions/nextclaw-channel-plugin-feishu/src/calendar.ts`
-- Modify: `packages/extensions/nextclaw-channel-plugin-feishu/src/task.ts`
-- Modify: `packages/extensions/nextclaw-channel-plugin-feishu/src/chat.ts`
-- Modify: `packages/extensions/nextclaw-channel-plugin-feishu/src/docx.ts`
-- Modify: `packages/extensions/nextclaw-channel-plugin-feishu/src/drive.ts`
-- Modify: `packages/extensions/nextclaw-channel-plugin-feishu/src/identity.ts`
-- Modify: `packages/extensions/nextclaw-channel-plugin-feishu/src/oauth.ts`
-- Modify: `packages/extensions/nextclaw-channel-plugin-feishu/src/perm.ts`
-- Modify: `packages/extensions/nextclaw-channel-plugin-feishu/src/sheets.ts`
-- Modify: `packages/extensions/nextclaw-channel-plugin-feishu/src/wiki.ts`
-- Modify: `packages/extensions/nextclaw-channel-plugin-feishu/src/bitable.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-feishu/src/tool-account.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-feishu/src/calendar.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-feishu/src/task.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-feishu/src/chat.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-feishu/src/docx.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-feishu/src/drive.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-feishu/src/identity.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-feishu/src/oauth.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-feishu/src/perm.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-feishu/src/sheets.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-feishu/src/wiki.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-feishu/src/bitable.ts`
 
 **Step 1: Add one shared registration helper**
 
@@ -112,7 +112,7 @@ Expected: all reload-plan assertions pass.
 Run:
 
 ```bash
-pnpm -C packages/nextclaw-ui exec vitest run --root /Users/peiwang/Projects/nextbot/packages/extensions/nextclaw-channel-plugin-feishu src/chat.test.ts src/docx.test.ts src/tool-account-routing.test.ts
+pnpm -C packages/go-usb-ai-ui exec vitest run --root /Users/peiwang/Projects/nextbot/packages/extensions/go-usb-ai-channel-plugin-feishu src/chat.test.ts src/docx.test.ts src/tool-account-routing.test.ts
 ```
 
 Expected: registrations remain stable and account-routing behavior still passes.
@@ -120,9 +120,9 @@ Expected: registrations remain stable and account-routing behavior still passes.
 ### Task 4: Split channel save from channel apply on the server
 
 **Files:**
-- Modify: `packages/nextclaw-server/src/ui/types.ts`
-- Modify: `packages/nextclaw-server/src/ui/ui-routes/config.controller.ts`
-- Modify: `packages/nextclaw-server/src/ui/router.weixin-channel-config.test.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/types.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/ui-routes/config.controller.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/router.weixin-channel-config.test.ts`
 
 **Step 1: Add explicit channel apply events**
 
@@ -150,7 +150,7 @@ Expected: registrations remain stable and account-routing behavior still passes.
 Run:
 
 ```bash
-pnpm -C packages/nextclaw-server exec vitest run src/ui/router.weixin-channel-config.test.ts
+pnpm -C packages/go-usb-ai-server exec vitest run src/ui/router.weixin-channel-config.test.ts
 ```
 
 Expected: route returns fast semantics while still eventually applying in background.
@@ -158,11 +158,11 @@ Expected: route returns fast semantics while still eventually applying in backgr
 ### Task 5: Teach the frontend the difference between “saved” and “applied”
 
 **Files:**
-- Modify: `packages/nextclaw-ui/src/api/types.ts`
-- Modify: `packages/nextclaw-ui/src/hooks/useConfig.ts`
-- Modify: `packages/nextclaw-ui/src/components/config/ChannelForm.tsx`
-- Modify: `packages/nextclaw-ui/src/components/config/ChannelForm.test.tsx`
-- Modify: `packages/nextclaw-ui/src/lib/i18n.ts`
+- Modify: `packages/go-usb-ai-ui/src/api/types.ts`
+- Modify: `packages/go-usb-ai-ui/src/hooks/useConfig.ts`
+- Modify: `packages/go-usb-ai-ui/src/components/config/ChannelForm.tsx`
+- Modify: `packages/go-usb-ai-ui/src/components/config/ChannelForm.test.tsx`
+- Modify: `packages/go-usb-ai-ui/src/lib/i18n.ts`
 
 **Step 1: Extend realtime event typing**
 
@@ -190,7 +190,7 @@ Expected: route returns fast semantics while still eventually applying in backgr
 Run:
 
 ```bash
-pnpm -C packages/nextclaw-ui exec vitest run src/components/config/ChannelForm.test.tsx
+pnpm -C packages/go-usb-ai-ui exec vitest run src/components/config/ChannelForm.test.tsx
 ```
 
 Expected: channel form reflects saved/applying/applied/failed states correctly.
@@ -205,10 +205,10 @@ Expected: channel form reflects saved/applying/applied/failed states correctly.
 Run:
 
 ```bash
-pnpm -C packages/nextclaw-core exec vitest run src/config/reload.test.ts
-pnpm -C packages/nextclaw-server exec vitest run src/ui/router.weixin-channel-config.test.ts
-pnpm -C packages/nextclaw-ui exec vitest run src/components/config/ChannelForm.test.tsx
-pnpm -C packages/nextclaw-ui exec vitest run --root /Users/peiwang/Projects/nextbot/packages/extensions/nextclaw-channel-plugin-feishu src/chat.test.ts src/docx.test.ts src/tool-account-routing.test.ts
+pnpm -C packages/go-usb-ai-core exec vitest run src/config/reload.test.ts
+pnpm -C packages/go-usb-ai-server exec vitest run src/ui/router.weixin-channel-config.test.ts
+pnpm -C packages/go-usb-ai-ui exec vitest run src/components/config/ChannelForm.test.tsx
+pnpm -C packages/go-usb-ai-ui exec vitest run --root /Users/peiwang/Projects/nextbot/packages/extensions/go-usb-ai-channel-plugin-feishu src/chat.test.ts src/docx.test.ts src/tool-account-routing.test.ts
 pnpm lint:maintainability:guard
 pnpm check:governance-backlog-ratchet
 ```

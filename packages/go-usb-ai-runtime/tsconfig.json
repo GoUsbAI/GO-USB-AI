@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": [
+      "node"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@core/*": [
+        "../go-usb-ai-core/src/*"
+      ],
+      "@go-usb-ai/core": [
+        "../go-usb-ai-core/src/index.ts"
+      ],
+      "@go-usb-ai/shared": [
+        "../go-usb-ai-shared/src/index.ts"
+      ]
+    }
+  },
+  "include": [
+    "src"
+  ]
+}

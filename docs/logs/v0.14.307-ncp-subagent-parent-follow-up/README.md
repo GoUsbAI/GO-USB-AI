@@ -5,16 +5,16 @@
   - 先写入一条用户可见的 `service` completion 卡片，保留可见性与历史留痕。
   - 再在 session 进入 idle 后，发起一轮隐藏的 follow-up run，把 completion 结果作为内部 `system` 驱动消息喂给父 agent，继续生成后续 assistant 输出。
 - 为避免把内部驱动消息污染聊天历史，引入了隐藏消息元数据约定；隐藏消息会参与当前轮建模，但不会被持久化成用户可见消息。
-- 修正 `NextclawNcpContextBuilder` 当前轮角色处理，不再把所有当前轮输入强制写成 `user`，而是允许 `system` follow-up 保持其原始角色语义。
+- 修正 `GoUsbAiNcpContextBuilder` 当前轮角色处理，不再把所有当前轮输入强制写成 `user`，而是允许 `system` follow-up 保持其原始角色语义。
 
 # 测试/验证/验收方式
 
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/ncp exec tsc -p tsconfig.json --noEmit`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/ncp-agent-runtime exec tsc -p tsconfig.json --noEmit`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/ncp-toolkit exec tsc -p tsconfig.json --noEmit`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/ui exec tsc -p tsconfig.json --noEmit`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter nextclaw exec tsc -p tsconfig.json --noEmit`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter nextclaw exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/ncp exec tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/ncp-agent-runtime exec tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/ncp-toolkit exec tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/ui exec tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter go-usb-ai exec tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter go-usb-ai exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts`
 - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainability:guard`
 
 # 发布/部署方式

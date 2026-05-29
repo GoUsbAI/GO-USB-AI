@@ -6,18 +6,18 @@ import { fileURLToPath } from "node:url";
 
 const desktopDir = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const workspaceRoot = resolve(desktopDir, "..", "..");
-const runtimePackageRoot = resolve(desktopDir, "node_modules", "nextclaw");
+const runtimePackageRoot = resolve(desktopDir, "node_modules", "go-usb-ai");
 const runtimeEntrypoint = resolve(
   desktopDir,
   "node_modules",
-  "nextclaw",
+  "go-usb-ai",
   "dist",
   "cli",
   "app",
   "index.js"
 );
-const runtimeUiEntrypoint = resolve(desktopDir, "node_modules", "nextclaw", "ui-dist", "index.html");
-const runtimeBinShim = resolve(desktopDir, "node_modules", "nextclaw", "bin", "nextclaw");
+const runtimeUiEntrypoint = resolve(desktopDir, "node_modules", "go-usb-ai", "ui-dist", "index.html");
+const runtimeBinShim = resolve(desktopDir, "node_modules", "go-usb-ai", "bin", "go-usb-ai");
 
 function ensureRuntimeBinShim() {
   if (existsSync(runtimeBinShim)) {
@@ -41,9 +41,9 @@ if (existsSync(runtimeEntrypoint) && existsSync(runtimeUiEntrypoint)) {
   process.exit(0);
 }
 
-console.log("[desktop] nextclaw runtime missing, building packages/nextclaw-ui + packages/nextclaw...");
+console.log("[desktop] go-usb-ai runtime missing, building packages/go-usb-ai-ui + packages/go-usb-ai...");
 
-const uiBuildResult = spawnSync("pnpm", ["-C", "packages/nextclaw-ui", "build"], {
+const uiBuildResult = spawnSync("pnpm", ["-C", "packages/go-usb-ai-ui", "build"], {
   cwd: workspaceRoot,
   env: process.env,
   stdio: "inherit",
@@ -53,7 +53,7 @@ if (uiBuildResult.status !== 0) {
   process.exit(uiBuildResult.status ?? 1);
 }
 
-const runtimeBuildResult = spawnSync("pnpm", ["-C", "packages/nextclaw", "build"], {
+const runtimeBuildResult = spawnSync("pnpm", ["-C", "packages/go-usb-ai", "build"], {
   cwd: workspaceRoot,
   env: process.env,
   stdio: "inherit",

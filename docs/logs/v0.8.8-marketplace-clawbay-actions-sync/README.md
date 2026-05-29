@@ -11,11 +11,11 @@
 - 同步加入 `channels` 推荐场景。
 
 2. **Server 侧 Marketplace 过滤规则支持 Clawbay 插件**
-- 文件：`packages/nextclaw-server/src/ui/router.ts`
-- 插件过滤由“仅 `@nextclaw/channel-plugin-*`”扩展为：
-  - `@nextclaw/channel-plugin-*`
+- 文件：`packages/go-usb-ai-server/src/ui/router.ts`
+- 插件过滤由“仅 `@go-usb-ai/channel-plugin-*`”扩展为：
+  - `@go-usb-ai/channel-plugin-*`
   - `@clawbay/clawbay-channel`（含版本 spec 归一）
-- 插件 spec 归一函数从 NextClaw 专用拓展为通用 npm scoped spec 归一。
+- 插件 spec 归一函数从 GoUsbAi 专用拓展为通用 npm scoped spec 归一。
 
 3. **GitHub Actions 自动同步 Worker（以 GitHub 为数据源）**
 - 新增 workflow：`.github/workflows/marketplace-catalog-sync.yml`
@@ -42,8 +42,8 @@
 1. 启动本地 worker：
 - `pnpm -C workers/marketplace-api dev --port 18931`
 
-2. 启动本地 nextclaw 服务并指向本地 worker：
-- `NEXTCLAW_HOME=/tmp/nextclaw-market-smoke-... NEXTCLAW_MARKETPLACE_API_BASE=http://127.0.0.1:18931 pnpm -C packages/nextclaw dev:build serve --ui-port 18942`
+2. 启动本地 go-usb-ai 服务并指向本地 worker：
+- `GOUSB_AI_HOME=/tmp/go-usb-ai-market-smoke-... GOUSB_AI_MARKETPLACE_API_BASE=http://127.0.0.1:18931 pnpm -C packages/go-usb-ai dev:build serve --ui-port 18942`
 
 3. 验证 marketplace 列表包含 Clawbay：
 - `curl -fsS 'http://127.0.0.1:18942/api/marketplace/items?page=1&pageSize=50'`

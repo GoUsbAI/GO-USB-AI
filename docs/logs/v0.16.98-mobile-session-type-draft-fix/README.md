@@ -17,18 +17,18 @@
 
 ## 测试/验证/验收方式
 
-- 已通过：`pnpm -C packages/nextclaw-ui test -- src/features/chat/components/layout/chat-sidebar.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/hooks/use-chat-session-type-state.test.tsx src/features/chat/components/chat-session-type-option-item.test.tsx`
+- 已通过：`pnpm -C packages/go-usb-ai-ui test -- src/features/chat/components/layout/chat-sidebar.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/hooks/use-chat-session-type-state.test.tsx src/features/chat/components/chat-session-type-option-item.test.tsx`
   - 结果：`4` 个测试文件、`40` 个测试用例全部通过。
-- 已通过：`pnpm -C packages/nextclaw-ui tsc`
-- 已通过：`pnpm -C packages/nextclaw-ui build`
-- 已通过：`pnpm -C packages/nextclaw-ui exec eslint src/features/chat/components/layout/chat-sidebar.tsx src/features/chat/components/conversation/chat-conversation-panel.tsx src/features/chat/components/chat-session-type-option-item.tsx`
+- 已通过：`pnpm -C packages/go-usb-ai-ui tsc`
+- 已通过：`pnpm -C packages/go-usb-ai-ui build`
+- 已通过：`pnpm -C packages/go-usb-ai-ui exec eslint src/features/chat/components/layout/chat-sidebar.tsx src/features/chat/components/conversation/chat-conversation-panel.tsx src/features/chat/components/chat-session-type-option-item.tsx`
   - 结果：无 error；保留 `ChatSidebar` 历史函数体量 warning，但本次已从 `243` 行降到 `236` 行，没有继续恶化。
-- 已通过：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/chat/components/layout/chat-sidebar.tsx packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/nextclaw-ui/src/features/chat/components/chat-session-type-option-item.tsx packages/nextclaw-ui/src/features/chat/components/layout/chat-sidebar.test.tsx packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/nextclaw-ui/src/features/chat/hooks/use-chat-session-type-state.test.tsx packages/nextclaw-ui/src/features/chat/components/chat-session-type-option-item.test.tsx`
+- 已通过：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/components/layout/chat-sidebar.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-type-option-item.tsx packages/go-usb-ai-ui/src/features/chat/components/layout/chat-sidebar.test.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-type-state.test.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-type-option-item.test.tsx`
   - 结果：
     - 代码增减报告：新增 `121` 行，删除 `49` 行，净增 `+72` 行
     - 非测试代码增减报告：新增 `42` 行，删除 `47` 行，净增 `-5` 行
     - 无 error，仅保留 `ChatSidebar` 与其测试文件的历史预算 warning
-- 已通过：`pnpm lint:new-code:governance -- packages/nextclaw-ui/src/features/chat/components/layout/chat-sidebar.tsx packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/nextclaw-ui/src/features/chat/components/chat-session-type-option-item.tsx packages/nextclaw-ui/src/features/chat/components/layout/chat-sidebar.test.tsx packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/nextclaw-ui/src/features/chat/hooks/use-chat-session-type-state.test.tsx packages/nextclaw-ui/src/features/chat/components/chat-session-type-option-item.test.tsx`
+- 已通过：`pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/features/chat/components/layout/chat-sidebar.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-type-option-item.tsx packages/go-usb-ai-ui/src/features/chat/components/layout/chat-sidebar.test.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-type-state.test.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-type-option-item.test.tsx`
 - 未作为本次通过前提：`pnpm check:governance-backlog-ratchet`
   - 结果：失败
   - 原因：仓库级 `docFileNameViolations` 当前为 `13`，高于基线 `11`；这属于本次改动之外的现存 backlog 漂移，不是本次修复引入的新问题。
@@ -43,7 +43,7 @@
   - 执行 `changeset publish`
   - 执行 `pnpm release:verify:published`
   - 执行 `changeset tag`
-- 本次同步更新了 `packages/nextclaw/ui-dist`，确保 `nextclaw` 包内置的前端静态产物包含本次移动端修复。
+- 本次同步更新了 `packages/go-usb-ai/ui-dist`，确保 `go-usb-ai` 包内置的前端静态产物包含本次移动端修复。
 
 ## 用户/产品视角的验收步骤
 
@@ -77,13 +77,13 @@
 
 - 本次是否需要发包：需要。
 - 需要发布哪些包：
-  - `@nextclaw/ui`
-  - `nextclaw`
+  - `@go-usb-ai/ui`
+  - `go-usb-ai`
 - 每个包当前是否已经发布：
-  - `@nextclaw/ui@0.12.14`：已发布
-  - `nextclaw@0.18.6`：已发布
+  - `@go-usb-ai/ui@0.12.14`：已发布
+  - `go-usb-ai@0.18.6`：已发布
 - 本次不需要发布的相关包：
-  - `@nextclaw/desktop`：不涉及 NPM 发布；本次仅因 workspace 依赖联动更新到本地版本 `0.0.149`
+  - `@go-usb-ai/desktop`：不涉及 NPM 发布；本次仅因 workspace 依赖联动更新到本地版本 `0.0.149`
 - 待统一发布：
   - 无
 - 阻塞与触发条件：

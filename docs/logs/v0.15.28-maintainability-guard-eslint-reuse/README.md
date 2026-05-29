@@ -8,8 +8,8 @@
 
 ## 测试/验证/验收方式
 
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw/src/cli/commands/ncp/session-request/session-creation.service.ts --no-fail`
-- `/usr/bin/time -lp node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw/src/cli/commands/ncp/session-request/session-creation.service.ts --no-fail`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai/src/cli/commands/ncp/session-request/session-creation.service.ts --no-fail`
+- `/usr/bin/time -lp node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai/src/cli/commands/ncp/session-request/session-creation.service.ts --no-fail`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs .agents/skills/post-edit-maintainability-guard/scripts/maintainability-guard-core.mjs .agents/skills/post-edit-maintainability-guard/scripts/maintainability-guard-lint.mjs`
 
 补充观察：

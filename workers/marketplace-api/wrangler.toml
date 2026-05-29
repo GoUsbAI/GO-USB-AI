@@ -1,10 +1,10 @@
-name = "nextclaw-marketplace-api"
+name = "go-usb-ai-marketplace-api"
 main = "src/main.ts"
 compatibility_date = "2026-02-23"
 workers_dev = false
 routes = [
-  { pattern = "marketplace-api.nextclaw.io", custom_domain = true },
-  { pattern = "apps-registry.nextclaw.io", custom_domain = true }
+  { pattern = "marketplace-api.go-usb-ai.io", custom_domain = true },
+  { pattern = "apps-registry.go-usb-ai.io", custom_domain = true }
 ]
 
 [observability]
@@ -13,20 +13,20 @@ enabled = true
 [vars]
 MARKETPLACE_CACHE_TTL_SECONDS = "120"
 MARKETPLACE_SKILL_AUTO_APPROVE = "true"
-NEXTCLAW_PLATFORM_API_BASE = "https://ai-gateway-api.nextclaw.io"
+GOUSB_AI_PLATFORM_API_BASE = "https://ai-gateway-api.go-usb-ai.io"
 
 [[d1_databases]]
 binding = "MARKETPLACE_SKILLS_DB"
-database_name = "nextclaw-marketplace-skills"
+database_name = "go-usb-ai-marketplace-skills"
 database_id = "a39c3efd-4811-40f2-b1c9-f26f18a07c3b"
 migrations_dir = "migrations/skills"
 
 [[d1_databases]]
 binding = "MARKETPLACE_PLUGINS_DB"
-database_name = "nextclaw-marketplace-plugins"
+database_name = "go-usb-ai-marketplace-plugins"
 database_id = "17df1af4-5db9-4870-83e9-c151af7bc313"
 migrations_dir = "migrations/plugins"
 
 [[r2_buckets]]
 binding = "MARKETPLACE_SKILLS_FILES"
-bucket_name = "nextclaw-marketplace-skills-files"
+bucket_name = "go-usb-ai-marketplace-skills-files"

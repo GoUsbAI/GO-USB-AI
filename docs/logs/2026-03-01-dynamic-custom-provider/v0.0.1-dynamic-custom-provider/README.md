@@ -21,26 +21,26 @@
   - 自定义 Provider 详情页显示 OpenAI 兼容格式提示。
   - 自定义 Provider 在 Provider 列表前面展示。
 - 关键实现点：
-  - `packages/nextclaw-core/src/config/schema.ts`
+  - `packages/go-usb-ai-core/src/config/schema.ts`
     - Provider 配置 schema 从固定字段扩展为可接收动态 key（`catchall`）。
     - Provider 路由匹配支持按模型前缀命中动态自定义 Provider。
-  - `packages/nextclaw-server/src/ui/config.ts`
+  - `packages/go-usb-ai-server/src/ui/config.ts`
     - 新增动态 custom provider 元数据构建逻辑（置顶、isCustom、wireApi 支持）。
     - 新增创建/删除自定义 Provider 的配置更新函数。
-  - `packages/nextclaw-server/src/ui/router.ts`
+  - `packages/go-usb-ai-server/src/ui/router.ts`
     - 新增 `POST /api/config/providers`（创建 custom provider）。
     - 新增 `DELETE /api/config/providers/:provider`（删除 custom provider）。
-  - `packages/nextclaw-ui/src/components/config/ProvidersList.tsx`
+  - `packages/go-usb-ai-ui/src/components/config/ProvidersList.tsx`
     - 新增创建按钮并在创建后自动定位到新 Provider。
-  - `packages/nextclaw-ui/src/components/config/ProviderForm.tsx`
+  - `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx`
     - 自定义 Provider 支持名称编辑、删除操作和 OpenAI 兼容提示。
 
 ## 验证（怎么确认符合预期）
 
 ```bash
 # 定向测试
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core test -- run src/config/schema.provider-routing.test.ts
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server test -- run src/ui/router.provider-test.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core test -- run src/config/schema.provider-routing.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server test -- run src/ui/router.provider-test.test.ts
 
 # 全量校验
 PATH=/opt/homebrew/bin:$PATH pnpm build
@@ -64,7 +64,7 @@ PATH=/opt/homebrew/bin:$PATH pnpm tsc
 
 ## 发布 / 部署
 
-- 本次涉及 `@nextclaw/core`、`@nextclaw/server`、`@nextclaw/ui` 行为变更。
+- 本次涉及 `@go-usb-ai/core`、`@go-usb-ai/server`、`@go-usb-ai/ui` 行为变更。
 - 发布时按 `docs/workflows/npm-release-process.md` 执行 changeset/version/publish 流程。
 - 如仅本地验证，可直接在开发环境热重载生效；正式发布请走统一 NPM 发布流程。
 

@@ -1,6 +1,6 @@
 # 运行自动化
 
-自动化让 NextClaw 不只在你发消息时响应，也能按计划主动做事。
+自动化让 GoUsbAi 不只在你发消息时响应，也能按计划主动做事。
 
 第一次使用自动化时，先从低风险提醒开始，不要直接做高影响任务。
 
@@ -31,10 +31,10 @@
 常用操作包括：
 
 ```bash
-nextclaw cron list
-nextclaw cron add
-nextclaw cron run <jobId>
-nextclaw cron disable <jobId>
+go-usb-ai cron list
+go-usb-ai cron add
+go-usb-ai cron run <jobId>
+go-usb-ai cron disable <jobId>
 ```
 
 完整参数见 [命令索引](/zh/guide/commands)。

@@ -2,9 +2,9 @@
 
 ## 背景
 
-当前 NextClaw 已具备 scoped skill 发布能力：
+当前 GoUsbAi 已具备 scoped skill 发布能力：
 
-- 官方 scope：`@nextclaw/*`
+- 官方 scope：`@go-usb-ai/*`
 - 个人 scope：`@<username>/*`
 - 个人 skill 发布后默认进入 `pending`
 
@@ -16,11 +16,11 @@
 
 1. 管理员明明有独立后台，却仍要用脚本或手工 API 审核，治理入口割裂。
 2. 发布者只能感知“发了但没上架”，无法在正式产品入口里看到待审核、拒绝原因与结果。
-3. Marketplace 作为生态入口缺少统一治理控制面，削弱 NextClaw 作为“统一入口与能力编排层”的产品可信度。
+3. Marketplace 作为生态入口缺少统一治理控制面，削弱 GoUsbAi 作为“统一入口与能力编排层”的产品可信度。
 
 ## 长期目标对齐
 
-该方案直接服务 NextClaw 产品愿景中的三条主线：
+该方案直接服务 GoUsbAi 产品愿景中的三条主线：
 
 - 统一入口：管理员通过统一后台完成平台治理，不再依赖隐性运维接口。
 - 能力编排：平台后台、平台网关、marketplace worker 形成清晰分工，而不是把治理逻辑散落在脚本和手工 curl 中。
@@ -54,7 +54,7 @@
 采用“平台后台统一承接”的方案：
 
 - `platform-admin`：管理员正式审核入口
-- `nextclaw-provider-gateway-api`：统一管理 API 与管理员身份校验、审计入口
+- `go-usb-ai-provider-gateway-api`：统一管理 API 与管理员身份校验、审计入口
 - `marketplace-api`：skill 审核对象的真实数据源与状态写入点
 
 不采用“继续让管理员手工调 marketplace API”或“再做一个独立 marketplace 管理后台”的方案。
@@ -284,7 +284,7 @@
 ## 发布与上线要求
 
 - `platform-admin` 构建通过
-- `nextclaw-provider-gateway-api` 类型与测试通过
+- `go-usb-ai-provider-gateway-api` 类型与测试通过
 - `marketplace-api` 类型与测试通过
 - 生产环境需要补齐 `MARKETPLACE_API_BASE` 与 `MARKETPLACE_ADMIN_TOKEN`
 

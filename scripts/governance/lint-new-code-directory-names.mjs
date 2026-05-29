@@ -14,7 +14,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-directory-names.mjs
   node scripts/governance/lint-new-code-directory-names.mjs --staged
   node scripts/governance/lint-new-code-directory-names.mjs --base origin/main
-  node scripts/governance/lint-new-code-directory-names.mjs -- packages/nextclaw-ui/src
+  node scripts/governance/lint-new-code-directory-names.mjs -- packages/go-usb-ai-ui/src
 
 Blocks touched files whose parent directory chain contains non-governed directory names.
 Touched directories must use kebab-case, except for explicit version/date conventions and approved technical directories.`;

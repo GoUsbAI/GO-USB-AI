@@ -29,18 +29,18 @@
 
 ### 工程验证（已执行）
 
-- `pnpm -C packages/nextclaw-server tsc`
-- `pnpm -C packages/nextclaw-server lint`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui lint`
+- `pnpm -C packages/go-usb-ai-server tsc`
+- `pnpm -C packages/go-usb-ai-server lint`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui lint`
 
 说明：UI 包现存历史 lint warning（max-lines），本次未新增 error。
 
 ### 冒烟验证（已执行，隔离环境）
 
-使用临时 `NEXTCLAW_HOME=/tmp/...` 启动：
+使用临时 `GOUSB_AI_HOME=/tmp/...` 启动：
 
-- `NEXTCLAW_HOME=/tmp/... pnpm -C packages/nextclaw dev:build ui --port 18892`
+- `GOUSB_AI_HOME=/tmp/... pnpm -C packages/go-usb-ai dev:build ui --port 18892`
 
 验证步骤：
 
@@ -61,11 +61,11 @@
 - 本次改动为本地 UI/API 接入与状态增强，无需单独发布 Worker。
 - 若需要发布，按项目既有发布流程执行。
 - Worker 地址仍支持环境变量覆盖：
-  - `NEXTCLAW_MARKETPLACE_API_BASE`
+  - `GOUSB_AI_MARKETPLACE_API_BASE`
 
 ## 用户/产品视角验收步骤
 
-1. 启动 UI：`nextclaw ui --port 18891`
+1. 启动 UI：`go-usb-ai ui --port 18891`
 2. 打开 `http://127.0.0.1:18891/marketplace`
 3. 观察：
 - 顶部有 `Marketplace / Installed` tabs

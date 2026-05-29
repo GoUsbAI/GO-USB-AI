@@ -8,7 +8,7 @@
   - macOS 安装包新增 `postinstall`，在系统缺少 `node/npm/npx` 时自动尝试安装 Node.js。
   - 启动脚本（macOS `.command` / Windows `.cmd`）新增 Node 自动引导：系统无 Node 时自动下载并安装到用户目录后继续启动。
   - Node 下载源改为“国内优先镜像 + 官方回退”：默认按 `npmmirror -> nodejs.org` 依次尝试。
-  - 支持通过环境变量 `NEXTCLAW_NODE_DIST_BASES` 覆盖 Node 下载源顺序（逗号分隔）。
+  - 支持通过环境变量 `GOUSB_AI_NODE_DIST_BASES` 覆盖 Node 下载源顺序（逗号分隔）。
 - 更新 Windows NSIS 模板 `scripts/installer/windows-installer.nsi`：
   - 安装阶段增加 Node 自动检查与安装（失败不阻断安装，首次启动会再次尝试）。
   - 安装阶段 Node 下载同样改为“国内优先镜像 + 官方回退”。
@@ -18,7 +18,7 @@
   - `scripts/installer/docker/run-docker-smoke.sh`
   - `scripts/installer/docker/README.md`
 - 新增功能级 Docker 冒烟与一键入口：
-  - `scripts/installer/docker/run-docker-nextclaw-smoke.sh`（`init/start/stop` + npm/npx 依赖链路）
+  - `scripts/installer/docker/run-docker-go-usb-ai-smoke.sh`（`init/start/stop` + npm/npx 依赖链路）
   - `scripts/installer/docker/run-docker-e2e.sh`
   - 根命令：`pnpm installer:verify:e2e`
 - 新增本机一键 UI 验收入口（动态避让端口，避免本地开发冲突）：

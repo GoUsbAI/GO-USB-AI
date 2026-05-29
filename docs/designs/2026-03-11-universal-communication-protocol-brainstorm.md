@@ -1,18 +1,18 @@
-# NextClaw 通用通信协议头脑风暴（2026-03-11）
+# GoUsbAi 通用通信协议头脑风暴（2026-03-11）
 
 ## 核心愿景
 
-NextClaw 不仅仅是"接入 Codex/Claude Code"，而是要成为一个 **通用通信中枢（Communication Hub）**。每个端点——无论是 Codex、Claude Code、飞书机器人、真人、邮箱——都是一个 Endpoint，NextClaw 和它们之间通过统一协议通信。
+GoUsbAi 不仅仅是"接入 Codex/Claude Code"，而是要成为一个 **通用通信中枢（Communication Hub）**。每个端点——无论是 Codex、Claude Code、飞书机器人、真人、邮箱——都是一个 Endpoint，GoUsbAi 和它们之间通过统一协议通信。
 
-类比：**NextClaw 要做的事情类似于 Matrix 协议对聊天做的事，但面向的是 Agent + 人 + 协作平台的混合通信场景。**
+类比：**GoUsbAi 要做的事情类似于 Matrix 协议对聊天做的事，但面向的是 Agent + 人 + 协作平台的混合通信场景。**
 
 ## 实现边界决策
 
-**选项 A（已确认）：NextClaw 后端是中枢，所有端点对接都在后端完成。前端只看到统一的消息流。**
+**选项 A（已确认）：GoUsbAi 后端是中枢，所有端点对接都在后端完成。前端只看到统一的消息流。**
 
-## `@nextclaw/agent-chat` 已有的可复用基础
+## `@go-usb-ai/agent-chat` 已有的可复用基础
 
-看完 `@nextclaw/agent-chat` 源码，以下设计已经很接近通用通信协议的雏形：
+看完 `@go-usb-ai/agent-chat` 源码，以下设计已经很接近通用通信协议的雏形：
 
 ### 1. Parts-based 消息模型
 
@@ -193,7 +193,7 @@ L1 的职责：连接管理、认证、原始消息收发、心跳/重连。
 - **Session Contract** — sessionKey ↔ 端点会话的稳定映射
 - **Message Contract** — Parts-based 统一消息模型 + status 状态机
 - **Event Contract** — 统一事件流（delta 模型 for 流式，complete 模型 for 非流式）
-- **Persistence Contract** — 所有消息写入 NextClaw 会话层
+- **Persistence Contract** — 所有消息写入 GoUsbAi 会话层
 - **Error Contract** — 统一错误码（config_error / auth_error / runtime_error / timeout_error / abort_error）
 
 ### L3: Capability Bridges 层
@@ -212,7 +212,7 @@ L1 的职责：连接管理、认证、原始消息收发、心跳/重连。
 NCIP v1 本质上是 L2 + L3 的 Agent 专用子集。通用协议可以把 NCIP v1 包含为一个 profile：
 
 ```
-NextClaw Communication Protocol (NCP)
+GoUsbAi Communication Protocol (NCP)
   ├── NCP-Core   (L1 + L2, 所有端点必须实现)
   ├── NCP-Agent  (L3, Agent 端点 profile ≈ 当前 NCIP)
   ├── NCP-Platform (飞书/钉钉 profile)

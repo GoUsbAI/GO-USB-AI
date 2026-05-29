@@ -22,7 +22,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-flat-directories.mjs
   node scripts/governance/lint-new-code-flat-directories.mjs --staged
   node scripts/governance/lint-new-code-flat-directories.mjs --base origin/main
-  node scripts/governance/lint-new-code-flat-directories.mjs -- packages/nextclaw/src
+  node scripts/governance/lint-new-code-flat-directories.mjs -- packages/go-usb-ai/src
 
 Checks touched directories that keep growing as flat mixed-responsibility directories.
 If a touched directory has too many direct code files, almost no subtree, and multiple role clusters, split it by responsibility or record an explicit subtree exception.`;

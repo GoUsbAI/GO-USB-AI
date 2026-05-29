@@ -8,13 +8,13 @@
 
 ## 测试 / 验证 / 验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-remote tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-remote lint`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw lint`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw test -- --run src/cli/commands/remote-connector-runtime.test.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw exec tsx --eval "...RemoteConnector auth failure smoke..."`
-- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-remote/src/remote-connector.ts packages/nextclaw-remote/src/remote-connector-error.ts packages/nextclaw/src/cli/commands/remote-connector-runtime.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-remote tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-remote lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai test -- --run src/cli/commands/remote-connector-runtime.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai exec tsx --eval "...RemoteConnector auth failure smoke..."`
+- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-remote/src/remote-connector.ts packages/go-usb-ai-remote/src/remote-connector-error.ts packages/go-usb-ai/src/cli/commands/remote-connector-runtime.test.ts`
 
 ## 发布 / 部署方式
 
@@ -23,8 +23,8 @@
 
 ## 用户 / 产品视角的验收步骤
 
-1. 保持 remote access 为启用状态，但使用一个已失效的 NextClaw 平台 token。
+1. 保持 remote access 为启用状态，但使用一个已失效的 GoUsbAi 平台 token。
 2. 运行 `pnpm dev start`。
 3. 确认终端最多出现一次 `Remote connector error: Invalid or expired token.`。
 4. 确认终端不再继续输出 `Remote connector disconnected. Reconnecting in 3s...`。
-5. 重新执行 `nextclaw login` 或在浏览器里重新登录后再次启动，确认 remote connector 可恢复正常连接。
+5. 重新执行 `go-usb-ai login` 或在浏览器里重新登录后再次启动，确认 remote connector 可恢复正常连接。

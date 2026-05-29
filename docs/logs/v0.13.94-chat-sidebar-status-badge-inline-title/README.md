@@ -6,15 +6,15 @@
 
 ## 测试/验证/验收方式
 - 代码验证（UI 受影响最小充分验证）：
-  - `pnpm -C packages/nextclaw-ui tsc`
-  - `pnpm -C packages/nextclaw-ui build`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
+  - `pnpm -C packages/go-usb-ai-ui build`
 - 冒烟验证：
-  - 启动 `pnpm -C packages/nextclaw-ui dev --host 127.0.0.1 --port 4174 --strictPort`
+  - 启动 `pnpm -C packages/go-usb-ai-ui dev --host 127.0.0.1 --port 4174 --strictPort`
   - 打开主页观察左侧标题行：状态徽标与标题同一行，位于最右侧。
 
 ## 发布/部署方式
 - UI 变更发布前执行：
-  - `pnpm -C packages/nextclaw-ui tsc && pnpm -C packages/nextclaw-ui build`
+  - `pnpm -C packages/go-usb-ai-ui tsc && pnpm -C packages/go-usb-ai-ui build`
 - 正式发布按项目既有流程执行（changeset/release 流程）。
 - 不适用项：
   - 远程 migration 不适用（未涉及后端数据库变更）。

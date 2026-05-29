@@ -4,9 +4,9 @@
 
 针对 provider 左侧图标宽度不一致，采用最直接方案：固定统一尺寸。
 
-- `packages/nextclaw-ui/src/components/config/ProvidersList.tsx`
+- `packages/go-usb-ai-ui/src/components/config/ProvidersList.tsx`
   - provider logo 改为固定 `h-5 w-5 object-contain`
-- `packages/nextclaw-ui/src/components/common/LogoBadge.tsx`
+- `packages/go-usb-ai-ui/src/components/common/LogoBadge.tsx`
   - 移除 `normalize` 分支逻辑，恢复单一路径渲染
 
 ## 测试 / 验证 / 验收方式

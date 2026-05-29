@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/pwa-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="GO-USB-AI" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F9F8F5" />
+  <meta name="color-scheme" content="light" />
+  <style>
+    html,
+    body,
+    #root {
+      background: #f9f8f5;
+    }
+
+    html[data-theme="cool"],
+    html[data-theme="cool"] body,
+    html[data-theme="cool"] #root {
+      background: #f8fafb;
+    }
+  </style>
+  <script>
+    (() => {
+      const storageKey = 'go-usb-ai.ui.theme';
+      const storedTheme = window.localStorage.getItem(storageKey);
+      const nextTheme = storedTheme === 'cool' ? 'cool' : 'warm';
+      const themeColor = nextTheme === 'cool' ? '#F8FAFB' : '#F9F8F5';
+      document.documentElement.setAttribute('data-theme', nextTheme);
+      document.documentElement.style.backgroundColor = themeColor;
+      document.documentElement.style.colorScheme = 'light';
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeMeta) {
+        themeMeta.setAttribute('content', themeColor);
+      }
+    })();
+  </script>
+  <script>
+    (() => {
+      const devResetKey = 'go-usb-ai-pwa-dev-sw-reset';
+      const isViteDevServer = 'production' === 'development';
+      if (!isViteDevServer || !('serviceWorker' in navigator)) {
+        return;
+      }
+
+      void navigator.serviceWorker.getRegistrations().then(async (registrations) => {
+        const goUsbAiRegistrations = registrations.filter((registration) => {
+          const scriptUrls = [registration.active?.scriptURL, registration.installing?.scriptURL, registration.waiting?.scriptURL]
+            .filter(Boolean);
+          return scriptUrls.some((scriptUrl) => scriptUrl.endsWith('/sw.js'));
+        });
+
+        if (goUsbAiRegistrations.length === 0) {
+          window.sessionStorage.removeItem(devResetKey);
+          return;
+        }
+
+        await Promise.all(goUsbAiRegistrations.map(async (registration) => await registration.unregister()));
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.filter((key) => key.startsWith('go-usb-ai-ui-')).map(async (key) => await caches.delete(key)));
+        }
+
+        if (navigator.serviceWorker.controller && window.sessionStorage.getItem(devResetKey) !== '1') {
+          window.sessionStorage.setItem(devResetKey, '1');
+          window.location.reload();
+          return;
+        }
+
+        window.sessionStorage.removeItem(devResetKey);
+      });
+    })();
+  </script>
+  <title>GO-USB-AI</title>
+  <script type="module" crossorigin src="/assets/index-C2_ISu6h.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/i18n-CatI6jkE.js">
+  <link rel="modulepreload" crossorigin href="/assets/api-DrD7793t.js">
+  <link rel="modulepreload" crossorigin href="/assets/es2015-DbRDoFal.js">
+  <link rel="modulepreload" crossorigin href="/assets/createLucideIcon-C6u2u7yo.js">
+  <link rel="modulepreload" crossorigin href="/assets/select-BZ_wViT6.js">
+  <link rel="modulepreload" crossorigin href="/assets/dist-DpK10jgf.js">
+  <link rel="modulepreload" crossorigin href="/assets/tooltip-B1iv5fC5.js">
+  <link rel="modulepreload" crossorigin href="/assets/x-Cy5LM6kl.js">
+  <link rel="modulepreload" crossorigin href="/assets/dialog-Dwjh1nr8.js">
+  <link rel="modulepreload" crossorigin href="/assets/search-Dd22Cf2H.js">
+  <link rel="modulepreload" crossorigin href="/assets/book-open-B8nAG7sX.js">
+  <link rel="modulepreload" crossorigin href="/assets/external-link-P9bJyTAO.js">
+  <link rel="modulepreload" crossorigin href="/assets/plus-mGaq2nmn.js">
+  <link rel="modulepreload" crossorigin href="/assets/doc-browser-context-FoOW4Cgp.js">
+  <link rel="modulepreload" crossorigin href="/assets/doc-browser-C2HYN9Yw.js">
+  <link rel="modulepreload" crossorigin href="/assets/key-round-BulMHJ9O.js">
+  <link rel="stylesheet" crossorigin href="/assets/index-hGsYBfVe.css">
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
+</html>

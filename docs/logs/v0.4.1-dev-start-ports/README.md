@@ -2,7 +2,7 @@
 
 ## 背景 / 问题
 
-- 开发态执行 `pnpm nextclaw start` 时，前后端与应用态端口冲突风险高
+- 开发态执行 `pnpm go-usb-ai start` 时，前后端与应用态端口冲突风险高
 - 需要确保 dev mode 明确使用独立端口，并以开发态方式启动前后端
 
 ## 决策
@@ -23,12 +23,12 @@
 ## 验证（怎么确认符合预期）
 
 ```bash
-pnpm -C packages/nextclaw build
-pnpm -C packages/nextclaw lint
-pnpm -C packages/nextclaw tsc
+pnpm -C packages/go-usb-ai build
+pnpm -C packages/go-usb-ai lint
+pnpm -C packages/go-usb-ai tsc
 
 # smoke-check
-NEXTCLAW_HOME=/tmp/nextclaw-dev-start pnpm -C packages/nextclaw dev start
+GOUSB_AI_HOME=/tmp/go-usb-ai-dev-start pnpm -C packages/go-usb-ai dev start
 # 看到 UI API 输出为 18792，UI frontend 输出为 5174
 curl -s http://127.0.0.1:18792/api/health
 ```

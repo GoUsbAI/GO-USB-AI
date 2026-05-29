@@ -23,7 +23,7 @@
 1. `pnpm build`
 2. `pnpm lint`
 3. `pnpm tsc`
-4. `pnpm --filter @nextclaw/docs build`
+4. `pnpm --filter @go-usb-ai/docs build`
 
 本地结果：
 

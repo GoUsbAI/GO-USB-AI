@@ -14,7 +14,7 @@ import { prepareLocalUpdateChannelArtifacts } from "./update/services/local-upda
 const desktopDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const workspaceRoot = resolve(desktopDir, "..", "..");
 const pnpmBin = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
-const installedDesktopSeedBundlePath = "/Applications/NextClaw Desktop.app/Contents/Resources/update/seed-product-bundle.zip";
+const installedDesktopSeedBundlePath = "/Applications/GoUsbAi Desktop.app/Contents/Resources/update/seed-product-bundle.zip";
 const desktopSeedBundlePath = resolve(desktopDir, "build", "update", "seed-product-bundle.zip");
 const stableVersion = "0.17.7";
 const betaVersion = "0.17.11";
@@ -148,7 +148,7 @@ async function waitForDesktopPage(browser, timeoutMs = 120_000) {
         if (page.isClosed()) {
           continue;
         }
-        const hasDesktopApi = await page.evaluate(() => Boolean(window.nextclawDesktop?.getUpdateState)).catch(() => false);
+        const hasDesktopApi = await page.evaluate(() => Boolean(window.go-usb-aiDesktop?.getUpdateState)).catch(() => false);
         if (hasDesktopApi) {
           return page;
         }
@@ -156,7 +156,7 @@ async function waitForDesktopPage(browser, timeoutMs = 120_000) {
     }
     await sleep(500);
   }
-  throw new Error("Timed out waiting for a desktop renderer page with window.nextclawDesktop.");
+  throw new Error("Timed out waiting for a desktop renderer page with window.go-usb-aiDesktop.");
 }
 
 async function waitForSnapshot(page, predicate, timeoutMs, label) {
@@ -164,7 +164,7 @@ async function waitForSnapshot(page, predicate, timeoutMs, label) {
   let lastSnapshot = null;
   while (Date.now() - startAt < timeoutMs) {
     try {
-      lastSnapshot = await page.evaluate(async () => await window.nextclawDesktop.getUpdateState());
+      lastSnapshot = await page.evaluate(async () => await window.go-usb-aiDesktop.getUpdateState());
       if (predicate(lastSnapshot)) {
         return lastSnapshot;
       }
@@ -183,7 +183,7 @@ async function closeDesktopWindow(page) {
   } catch {}
 }
 
-const tempRoot = mkdtempSync(join(tmpdir(), "nextclaw-desktop-update-smoke-"));
+const tempRoot = mkdtempSync(join(tmpdir(), "go-usb-ai-desktop-update-smoke-"));
 const serverRoot = join(tempRoot, "server-root");
 const runtimeHome = join(tempRoot, "runtime-home");
 const desktopData = join(tempRoot, "desktop-data");
@@ -274,10 +274,10 @@ try {
           delete nextEnv.ELECTRON_RUN_AS_NODE;
           return nextEnv;
         })(),
-        NEXTCLAW_HOME: runtimeHome,
-        NEXTCLAW_DESKTOP_DATA_DIR: desktopData,
-        NEXTCLAW_DESKTOP_UPDATE_MANIFEST_BASE_URL: manifestBaseUrl,
-        NEXTCLAW_DESKTOP_BUNDLE_PUBLIC_KEY: publicKeyPem
+        GOUSB_AI_HOME: runtimeHome,
+        GOUSB_AI_DESKTOP_DATA_DIR: desktopData,
+        GOUSB_AI_DESKTOP_UPDATE_MANIFEST_BASE_URL: manifestBaseUrl,
+        GOUSB_AI_DESKTOP_BUNDLE_PUBLIC_KEY: publicKeyPem
       },
       stdio: ["ignore", "pipe", "pipe"],
       shell: shouldUseShell(pnpmBin)
@@ -306,13 +306,13 @@ try {
     `Desktop did not bootstrap stable bundle ${stableVersion}`
   );
 
-  const stableCheckSnapshot = await page.evaluate(async () => await window.nextclawDesktop.checkForUpdates());
+  const stableCheckSnapshot = await page.evaluate(async () => await window.go-usb-aiDesktop.checkForUpdates());
   assert(
     stableCheckSnapshot.status === "up-to-date" && stableCheckSnapshot.currentVersion === stableVersion,
     `Expected stable channel to be up-to-date on ${stableVersion}, got ${JSON.stringify(stableCheckSnapshot)}`
   );
 
-  const betaChannelSnapshot = await page.evaluate(async () => await window.nextclawDesktop.updateChannel("beta"));
+  const betaChannelSnapshot = await page.evaluate(async () => await window.go-usb-aiDesktop.updateChannel("beta"));
   assert(
     betaChannelSnapshot.status === "update-available" &&
       betaChannelSnapshot.channel === "beta" &&
@@ -320,7 +320,7 @@ try {
     `Expected beta channel switch to expose ${betaVersion}, got ${JSON.stringify(betaChannelSnapshot)}`
   );
 
-  const downloadedSnapshot = await page.evaluate(async () => await window.nextclawDesktop.downloadUpdate());
+  const downloadedSnapshot = await page.evaluate(async () => await window.go-usb-aiDesktop.downloadUpdate());
   assert(
     downloadedSnapshot.status === "downloaded" &&
       downloadedSnapshot.downloadedVersion === betaVersion &&
@@ -329,7 +329,7 @@ try {
   );
 
   try {
-    await page.evaluate(async () => await window.nextclawDesktop.applyDownloadedUpdate());
+    await page.evaluate(async () => await window.go-usb-aiDesktop.applyDownloadedUpdate());
   } catch {}
   await sleep(2_000);
 
@@ -348,7 +348,7 @@ try {
     `Desktop did not relaunch on applied beta bundle ${betaVersion}`
   );
 
-  const stableDowngradeSnapshot = await page.evaluate(async () => await window.nextclawDesktop.updateChannel("stable"));
+  const stableDowngradeSnapshot = await page.evaluate(async () => await window.go-usb-aiDesktop.updateChannel("stable"));
   assert(
     stableDowngradeSnapshot.channel === "stable" &&
       stableDowngradeSnapshot.currentVersion === betaVersion &&

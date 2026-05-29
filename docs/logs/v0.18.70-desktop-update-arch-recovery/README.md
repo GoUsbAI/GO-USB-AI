@@ -3,7 +3,7 @@
 ## 迭代完成说明
 
 - 根因：桌面 product bundle 的本地存储目录按 `version` 命名，未区分 `platform/arch`。当同一版本号的 arm64 bundle 已经作为 `currentVersion` 留在本机状态里，再用 x64 launcher 启动时，启动阶段会读取同一路径并触发 `bundle arch mismatch: expected x64 but got arm64`，表现为点击更新/重启后应用退出但没有进入可用新进程。
-- 确认证据：本机 `/Users/peiwang/Library/Application Support/@nextclaw/desktop/launcher/main.log` 在 2026-05-16 记录了 `packaged=true platform=darwin arch=x64` 后立刻 `Failed to bootstrap runtime: Error: bundle arch mismatch: expected x64 but got arm64`。
+- 确认证据：本机 `/Users/peiwang/Library/Application Support/@go-usb-ai/desktop/launcher/main.log` 在 2026-05-16 记录了 `packaged=true platform=darwin arch=x64` 后立刻 `Failed to bootstrap runtime: Error: bundle arch mismatch: expected x64 but got arm64`。
 - 修复：`DesktopBundleBootstrapService` 在安装 seed 或远端初始 bundle 前，先校验当前 active bundle 是否兼容当前 launcher；若不兼容，清除 current/previous pointer 与候选下载状态，让同架构 packaged seed 或远端 manifest 重新安装。
 - 同批减债：删除 packaged seed bootstrap 的冗余叙事日志/计时日志 helper，保留关键成功/失败信号，避免 bugfix 通过增加生产代码维护面完成。
 
@@ -24,7 +24,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 在已有同版本异构 bundle 状态的机器上启动 NextClaw Desktop。
+1. 在已有同版本异构 bundle 状态的机器上启动 GoUsbAi Desktop。
 2. 观察 launcher 不再因为 `bundle arch mismatch` 直接退出。
 3. 确认启动准备阶段会清理不兼容 active pointer，并安装当前 launcher 架构兼容的 seed 或远端 bundle。
 4. 点击左上角更新并重启后，应用应回到可用窗口，而不是停留在退出状态。

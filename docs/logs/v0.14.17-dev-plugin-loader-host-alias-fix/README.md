@@ -3,22 +3,22 @@
 ## 迭代完成说明
 
 - 修复 `pnpm dev start` 场景下外部 NCP runtime 插件的加载问题。
-- 根因是 dev 启动链路带有 `--conditions=development`，已安装插件在 `~/.nextclaw/extensions/...` 中解析 `@nextclaw/*` 依赖时，会错误命中未随包发布的 `src/*` 入口。
-- 在插件 loader 中新增宿主 `@nextclaw/*` 包别名映射，外部插件在 dev 模式下会优先复用当前宿主可解析的入口。
+- 根因是 dev 启动链路带有 `--conditions=development`，已安装插件在 `~/.go-usb-ai/extensions/...` 中解析 `@go-usb-ai/*` 依赖时，会错误命中未随包发布的 `src/*` 入口。
+- 在插件 loader 中新增宿主 `@go-usb-ai/*` 包别名映射，外部插件在 dev 模式下会优先复用当前宿主可解析的入口。
 - 新增回归测试，覆盖“插件本地依赖副本不可运行时，仍可通过宿主别名成功注册 NCP runtime”的场景。
 - 实机验证了 `session-types` 的热更新链路：install / disable / enable / uninstall 都会在运行中的服务中反映到 `/api/ncp/session-types`。
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/openclaw-compat exec vitest run src/plugins/loader.ncp-agent-runtime.test.ts`
-- `pnpm -C packages/nextclaw-openclaw-compat tsc`
-- `pnpm -C packages/nextclaw-openclaw-compat exec eslint src/plugins/loader.ts src/plugins/loader.ncp-agent-runtime.test.ts`
+- `pnpm --filter @go-usb-ai/openclaw-compat exec vitest run src/plugins/loader.ncp-agent-runtime.test.ts`
+- `pnpm -C packages/go-usb-ai-openclaw-compat tsc`
+- `pnpm -C packages/go-usb-ai-openclaw-compat exec eslint src/plugins/loader.ts src/plugins/loader.ncp-agent-runtime.test.ts`
 - 实机验证 1：
   - 使用 `NODE_OPTIONS='--conditions=development' ./node_modules/.bin/tsx watch --tsconfig tsconfig.json src/cli/index.ts serve --ui-port 19094`
   - 请求 `http://127.0.0.1:19094/api/ncp/session-types`
   - 返回 `native + codex`
 - 实机验证 2：
-  - 使用隔离 `NEXTCLAW_HOME` 启动服务
+  - 使用隔离 `GOUSB_AI_HOME` 启动服务
   - 现场验证 `native -> codex -> native -> codex -> native` 的热安装/禁用/启用/卸载切换结果
 
 ## 发布/部署方式

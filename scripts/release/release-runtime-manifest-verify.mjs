@@ -31,7 +31,7 @@ function verifyGhPagesRuntimeManifests({ channel, expectedVersion, repo, run, ta
 }
 
 function readPublicManifest({ channel, readJsonCommand, target }) {
-  const manifestUrl = `https://peiiii.github.io/nextclaw/npm-runtime-updates/${channel}/manifest-${channel}-${target.platform}-${target.arch}.json?ts=${Date.now()}`;
+  const manifestUrl = `https://peiiii.github.io/go-usb-ai/npm-runtime-updates/${channel}/manifest-${channel}-${target.platform}-${target.arch}.json?ts=${Date.now()}`;
   return readJsonCommand("curl", ["-fsSL", manifestUrl]);
 }
 

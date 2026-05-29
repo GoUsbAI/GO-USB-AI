@@ -18,7 +18,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-param-mutations.mjs
   node scripts/governance/lint-new-code-param-mutations.mjs --staged
   node scripts/governance/lint-new-code-param-mutations.mjs --base origin/main
-  node scripts/governance/lint-new-code-param-mutations.mjs -- packages/nextclaw/src
+  node scripts/governance/lint-new-code-param-mutations.mjs -- packages/go-usb-ai/src
 
 Checks touched ordinary functions in changed workspace source files.
 If a touched non-class function mutates one of its parameters, return a new value/patch or move the mutation under an explicit owner class instead of mutating the input object in place.`;

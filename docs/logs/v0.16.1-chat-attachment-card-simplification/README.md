@@ -21,19 +21,19 @@
 
 主要代码入口：
 
-- [chat-message-file/index.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx)
-- [chat-message-file/meta.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/meta.ts)
-- [chat-message-list.container.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/components/chat/containers/chat-message-list.container.tsx)
-- [i18n.chat.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/lib/i18n.chat.ts)
+- [chat-message-file/index.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx)
+- [chat-message-file/meta.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/meta.ts)
+- [chat-message-list.container.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/components/chat/containers/chat-message-list.container.tsx)
+- [i18n.chat.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/lib/i18n.chat.ts)
 
 ## 测试/验证/验收方式
 
 已执行：
 
-- `pnpm --filter @nextclaw/agent-chat-ui test -- src/components/chat/ui/chat-message-list/chat-message-list.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.attachments.test.tsx`
-- `pnpm --filter @nextclaw/ui test -- src/components/chat/containers/chat-message-list.container.test.tsx`
-- `pnpm --filter @nextclaw/agent-chat-ui tsc`
-- `pnpm --filter @nextclaw/ui tsc`
+- `pnpm --filter @go-usb-ai/agent-chat-ui test -- src/components/chat/ui/chat-message-list/chat-message-list.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.attachments.test.tsx`
+- `pnpm --filter @go-usb-ai/ui test -- src/components/chat/containers/chat-message-list.container.test.tsx`
+- `pnpm --filter @go-usb-ai/agent-chat-ui tsc`
+- `pnpm --filter @go-usb-ai/ui tsc`
 - `pnpm lint:maintainability:guard`
 
 结果：
@@ -45,8 +45,8 @@
 
 额外说明：
 
-- `pnpm --filter @nextclaw/agent-chat-ui lint` 未通过，失败原因来自包内既有未修复问题与规则债务，不是本次改动引入的新错误
-- `pnpm --filter @nextclaw/ui lint` 未通过，失败原因来自 `NcpChatPage`、marketplace 等既有文件中的历史 lint 错误，不是本次改动引入的新错误
+- `pnpm --filter @go-usb-ai/agent-chat-ui lint` 未通过，失败原因来自包内既有未修复问题与规则债务，不是本次改动引入的新错误
+- `pnpm --filter @go-usb-ai/ui lint` 未通过，失败原因来自 `NcpChatPage`、marketplace 等既有文件中的历史 lint 错误，不是本次改动引入的新错误
 
 ## 发布/部署方式
 
@@ -54,8 +54,8 @@
 
 按现有发布链路交付即可：
 
-- 如果只在仓库内消费，随 NextClaw UI 正常构建发布
-- 如果需要对外发布共享 UI 组件，按 `@nextclaw/agent-chat-ui` 与 `@nextclaw/ui` 现有版本发布流程处理
+- 如果只在仓库内消费，随 GoUsbAi UI 正常构建发布
+- 如果需要对外发布共享 UI 组件，按 `@go-usb-ai/agent-chat-ui` 与 `@go-usb-ai/ui` 现有版本发布流程处理
 
 ## 用户/产品视角的验收步骤
 
@@ -120,5 +120,5 @@
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是；先删掉 MIME、重复 badge 和冗余英文说明，再补最小必要的类型识别与 i18n 通路。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：部分做到。总代码与非测试代码有最小必要净增长，但直接偿还了主测试文件膨胀债务，并且没有继续恶化 `chat-message-list` 目录的直接平铺度。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：是。附件分类仍收敛在 `meta.ts`，语言仍从容器注入，展示组件没有继续承担 MIME 判定和多处文案拼接。
-- 目录结构与文件组织是否满足当前项目治理要求：未完全满足。`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list` 与 `packages/nextclaw-ui/src/lib` 仍有历史预算告警；本次未新增直接平铺文件，后续整理入口是继续把消息列表子能力按职责拆出更稳定的子目录。
+- 目录结构与文件组织是否满足当前项目治理要求：未完全满足。`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list` 与 `packages/go-usb-ai-ui/src/lib` 仍有历史预算告警；本次未新增直接平铺文件，后续整理入口是继续把消息列表子能力按职责拆出更稳定的子目录。
 - 若本次涉及代码可维护性评估，默认是否基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写：是，本节基于实现后独立复核填写，而不是只复述守卫输出。

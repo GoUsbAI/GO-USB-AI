@@ -1,6 +1,6 @@
 # v0.14.127 Platform Console I18n And Billing Gating
 
-相关方案文档：[Platform Console 国际化与 Billing 模块收敛方案](/Users/tongwenwen/Projects/Peiiii/nextclaw/docs/plans/2026-03-23-platform-console-i18n-and-billing-split-plan.md)
+相关方案文档：[Platform Console 国际化与 Billing 模块收敛方案](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/docs/plans/2026-03-23-platform-console-i18n-and-billing-split-plan.md)
 
 ## 迭代完成说明
 
@@ -23,11 +23,11 @@
 
 - 本轮仅涉及 `platform-console` 前端与本地验证脚本，不涉及数据库 migration。
 - 发布命令：`pnpm deploy:platform:console`
-- 线上验收可复用：`PLATFORM_CONSOLE_BASE_URL=https://platform.nextclaw.io pnpm smoke:platform:console`
+- 线上验收可复用：`PLATFORM_CONSOLE_BASE_URL=https://platform.go-usb-ai.io pnpm smoke:platform:console`
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 `https://platform.nextclaw.io`，默认应能进入登录页，并看到语言切换器。
+1. 打开 `https://platform.go-usb-ai.io`，默认应能进入登录页，并看到语言切换器。
 2. 在登录页切换 `English / 中文`，首页标题、说明、按钮文案应即时切换。
 3. 登录后进入用户首页，应看到“我的实例 / My Instances”作为主模块。
 4. 首页不应再显示真实额度、充值入口、消费流水等 billing UI。

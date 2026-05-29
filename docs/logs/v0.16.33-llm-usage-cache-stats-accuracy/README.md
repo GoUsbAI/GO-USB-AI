@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-- 修正 `nextclaw usage --stats` 的缓存统计口径，新增以下拆分：
+- 修正 `go-usb-ai usage --stats` 的缓存统计口径，新增以下拆分：
   - `Usage records`
   - `Empty usage records`
   - `Prompt-bearing records`
@@ -15,19 +15,19 @@
 - 将 `scripts/smoke/prompt-cache-smoke.mjs` 扩展为同时支持：
   - `provider-direct`
   - `ncp-chat`
-- `ncp-chat` 模式会通过真实 `native + model` 会话重复发消息，并直接从 `~/.nextclaw/logs/llm-usage.jsonl` 回读对应 usage 记录，验证产品链路里的实际缓存 telemetry。
+- `ncp-chat` 模式会通过真实 `native + model` 会话重复发消息，并直接从 `~/.go-usb-ai/logs/llm-usage.jsonl` 回读对应 usage 记录，验证产品链路里的实际缓存 telemetry。
 - 针对 `minimax/MiniMax-M2.7` 补了真实 MiniMax 冒烟结论：若每轮都新开 session，结果可能出现 `INCONCLUSIVE`；若按真实会话方式复用同一 session 连续请求，则能稳定观察到高缓存命中。
 
 ## 测试 / 验证 / 验收方式
 
 - 单元测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw exec vitest run src/cli/commands/shared/llm-usage-observer.test.ts src/cli/commands/shared/llm-usage.commands.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/shared/llm-usage-observer.test.ts src/cli/commands/shared/llm-usage.commands.test.ts`
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw exec tsc -p tsconfig.json --noEmit`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai exec tsc -p tsconfig.json --noEmit`
 - 可维护性守卫：
-  - `PATH=/opt/homebrew/bin:$PATH node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw/src/cli/runtime-state/llm-usage-record.ts packages/nextclaw/src/cli/commands/shared/llm-usage-recorder.ts packages/nextclaw/src/cli/commands/shared/llm-usage-observer.ts packages/nextclaw/src/cli/commands/shared/llm-usage-query.service.ts packages/nextclaw/src/cli/commands/shared/llm-usage.commands.ts packages/nextclaw/src/cli/commands/shared/llm-usage-observer.test.ts packages/nextclaw/src/cli/commands/shared/llm-usage.commands.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai/src/cli/runtime-state/llm-usage-record.ts packages/go-usb-ai/src/cli/commands/shared/llm-usage-recorder.ts packages/go-usb-ai/src/cli/commands/shared/llm-usage-observer.ts packages/go-usb-ai/src/cli/commands/shared/llm-usage-query.service.ts packages/go-usb-ai/src/cli/commands/shared/llm-usage.commands.ts packages/go-usb-ai/src/cli/commands/shared/llm-usage-observer.test.ts packages/go-usb-ai/src/cli/commands/shared/llm-usage.commands.test.ts`
 - 本机真实数据只读复核：
-  - 通过 `LlmUsageQueryService().getStats()` 读取 `~/.nextclaw/logs/llm-usage.jsonl`
+  - 通过 `LlmUsageQueryService().getStats()` 读取 `~/.go-usb-ai/logs/llm-usage.jsonl`
   - 观察到：
     - `totalRecords = 837`
     - `usageRecordCount = 777`
@@ -60,18 +60,18 @@
 
 补充说明：
 
-- `pnpm lint:new-code:governance` 当前失败，原因是工作区内已有与本次无关的 touched 文件 `packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx` / `ChatSidebar.test.tsx` 不满足 kebab-case。
+- `pnpm lint:new-code:governance` 当前失败，原因是工作区内已有与本次无关的 touched 文件 `packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx` / `ChatSidebar.test.tsx` 不满足 kebab-case。
 - `pnpm check:governance-backlog-ratchet` 当前失败，原因是仓库现状中的 doc file-name violation 数量高于 baseline；非本次改动引入。
 
 ## 发布 / 部署方式
 
 - 无额外部署步骤。
-- 按既有 `nextclaw` CLI 发布流程发版即可；本次改动仅影响本地 usage snapshot/history 的记录与展示口径，不涉及配置迁移。
+- 按既有 `go-usb-ai` CLI 发布流程发版即可；本次改动仅影响本地 usage snapshot/history 的记录与展示口径，不涉及配置迁移。
 
 ## 用户 / 产品视角的验收步骤
 
 1. 继续正常使用会触发 LLM 请求的 CLI 或 UI/NCP 会话。
-2. 执行 `nextclaw usage --stats`。
+2. 执行 `go-usb-ai usage --stats`。
 3. 确认输出不再只给出一个混杂口径的 cache hit 数字，而是同时展示：
    - `Usage records`
    - `Empty usage records`
@@ -85,7 +85,7 @@
    - `status = PASS`
    - `laterRuns.cacheHitRuns > 0`
    - `laterRuns.cacheRate` 维持在预期高位（本次实测约 `65% - 69%`）
-   - 具体 usage 记录可在 `~/.nextclaw/logs/llm-usage.jsonl` 中看到 `prompt_tokens_details_cached_tokens`
+   - 具体 usage 记录可在 `~/.go-usb-ai/logs/llm-usage.jsonl` 中看到 `prompt_tokens_details_cached_tokens`
 
 ## 可维护性总结汇总
 

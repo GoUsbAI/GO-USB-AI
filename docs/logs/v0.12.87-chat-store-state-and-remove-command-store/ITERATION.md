@@ -13,10 +13,10 @@
 
 ## 测试/验证/验收方式
 
-1. 类型检查：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc --noEmit`（通过）。
+1. 类型检查：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc --noEmit`（通过）。
 2. 构建验证：`PATH=/opt/homebrew/bin:$PATH pnpm build:ui`（通过）。
 3. Chat 受影响文件 ESLint：
-   - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint ...`（无 error，`ChatPage` 仍有 `max-lines-per-function` warning，后续继续拆分）。
+   - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint ...`（无 error，`ChatPage` 仍有 `max-lines-per-function` warning，后续继续拆分）。
 
 ## 发布/部署方式
 

@@ -1,7 +1,7 @@
 export const projectPulseCopy = {
   en: {
     eyebrow: 'Project Pulse',
-    title: 'A public view into how NextClaw keeps shipping.',
+    title: 'A public view into how GoUsbAi keeps shipping.',
     summary:
       'This page turns engineering movement into a product signal: how the codebase grows, how often we ship, what we are improving, and what the product looks like right now.',
     heroCaption: 'Not a metrics wall. A product pulse for a unified AI operating layer.',
@@ -57,7 +57,7 @@ export const projectPulseCopy = {
         description: 'These images are refreshed through our existing screenshot automation.'
       }
     },
-    benchmarkLine: 'NextClaw is {percent}% of {name} production source LOC.',
+    benchmarkLine: 'GoUsbAi is {percent}% of {name} production source LOC.',
     lighterLine: '{percent}% lighter by production source LOC.',
     tags: 'Tags',
     releaseCountSuffix: 'packages',
@@ -98,7 +98,7 @@ export const projectPulseCopy = {
   },
   zh: {
     eyebrow: 'Project Pulse',
-    title: '把 NextClaw 的持续交付节奏公开展示出来。',
+    title: '把 GoUsbAi 的持续交付节奏公开展示出来。',
     summary:
       '这个页面把工程变化变成产品信号：代码规模怎么变化、最近发版有多频繁、产品最近在推进什么、现在的产品长什么样。',
     heroCaption: '不是报表墙，而是面向统一 AI 操作层的产品脉搏页。',
@@ -154,7 +154,7 @@ export const projectPulseCopy = {
         description: '这些截图与现有截图自动化链路保持一致。'
       }
     },
-    benchmarkLine: 'NextClaw 当前是 {name} 生产源码 LOC 的 {percent}%。',
+    benchmarkLine: 'GoUsbAi 当前是 {name} 生产源码 LOC 的 {percent}%。',
     lighterLine: '按生产源码 LOC 计算，当前轻了 {percent}%。',
     tags: '标签',
     releaseCountSuffix: '个包',

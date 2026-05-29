@@ -1,10 +1,10 @@
-name = "nextclaw-public-roadmap-feedback-portal"
+name = "go-usb-ai-public-roadmap-feedback-portal"
 main = "worker/index.ts"
 compatibility_date = "2026-04-14"
 workers_dev = true
 
 [[routes]]
-pattern = "roadmap.nextclaw.io"
+pattern = "roadmap.go-usb-ai.io"
 custom_domain = true
 
 [vars]
@@ -20,7 +20,7 @@ PUBLIC_ROADMAP_FEEDBACK_PORTAL_LINEAR_RESEARCH_LABELS = "research"
 
 [[d1_databases]]
 binding = "PUBLIC_ROADMAP_PORTAL_DB"
-database_name = "nextclaw-public-roadmap-portal"
+database_name = "go-usb-ai-public-roadmap-portal"
 database_id = "4982a23b-f303-46fc-b746-efa785ddc7d2"
 
 [assets]

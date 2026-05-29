@@ -7,11 +7,11 @@ on:
       - master
       - main
     paths:
-      - "packages/nextclaw/**"
+      - "packages/go-usb-ai/**"
       - ".github/workflows/windows-update-smoke.yml"
   pull_request:
     paths:
-      - "packages/nextclaw/**"
+      - "packages/go-usb-ai/**"
       - ".github/workflows/windows-update-smoke.yml"
 
 permissions:
@@ -34,18 +34,18 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install released nextclaw CLI
+      - name: Install released go-usb-ai CLI
         shell: pwsh
-        run: npm install -g nextclaw
+        run: npm install -g go-usb-ai
 
-      - name: Run nextclaw update on Windows
+      - name: Run go-usb-ai update on Windows
         shell: pwsh
         env:
-          NEXTCLAW_UPDATE_COMMAND: 'node -e "process.exit(0)"'
+          GOUSB_AI_UPDATE_COMMAND: 'node -e "process.exit(0)"'
         run: |
           $ErrorActionPreference = "Stop"
-          $output = nextclaw update 2>&1
+          $output = go-usb-ai update 2>&1
           $output | Out-Host
           if ($LASTEXITCODE -ne 0) {
-            throw "nextclaw update failed with exit code $LASTEXITCODE"
+            throw "go-usb-ai update failed with exit code $LASTEXITCODE"
           }

@@ -30,4 +30,4 @@
 1. 运行新的 desktop release workflow。
 2. 确认 Windows 任务已通过 `Smoke Desktop (Windows)` 与 `Archive desktop artifacts (Windows)`。
 3. 确认 workflow 最终进入 `publish-release-assets`，并将 Windows zip、macOS dmg/zip、Linux AppImage 上传到对应 release。
-4. 下载 Windows release zip，确认可正常解压并包含 `NextClaw Desktop.exe`。
+4. 下载 Windows release zip，确认可正常解压并包含 `GoUsbAi Desktop.exe`。

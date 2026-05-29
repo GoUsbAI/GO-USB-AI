@@ -14,9 +14,9 @@
 
 涉及文件：
 
-- [`packages/nextclaw-ui/src/components/config/SessionsConfig.tsx`](../../../packages/nextclaw-ui/src/components/config/SessionsConfig.tsx)
-- [`packages/nextclaw-ui/src/lib/i18n.ts`](../../../packages/nextclaw-ui/src/lib/i18n.ts)
-- [`packages/nextclaw-ui/src/components/layout/Sidebar.tsx`](../../../packages/nextclaw-ui/src/components/layout/Sidebar.tsx)
+- [`packages/go-usb-ai-ui/src/components/config/SessionsConfig.tsx`](../../../packages/go-usb-ai-ui/src/components/config/SessionsConfig.tsx)
+- [`packages/go-usb-ai-ui/src/lib/i18n.ts`](../../../packages/go-usb-ai-ui/src/lib/i18n.ts)
+- [`packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx`](../../../packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx)
 - [`docs/USAGE.md`](../../../docs/USAGE.md)
 
 ## 测试 / 验证 / 验收方式

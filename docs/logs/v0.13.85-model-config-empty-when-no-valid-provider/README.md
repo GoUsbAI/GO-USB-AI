@@ -5,20 +5,20 @@
 - 移除“无匹配时自动回退到第一个 provider”的行为；当没有有效 provider 时，provider 与默认模型均保持为空。
 - 当当前默认模型无法映射到有效 provider 时，Model 页不再展示残留模型值，避免误导。
 - `SearchableModelInput` 新增 `disabled` 能力；在 provider 未选择时禁用模型输入与下拉切换，避免空 provider 场景下误填模型。
-- 补充模型归属兜底：当默认模型未命中 provider 前缀时，若命中某个有效 provider 的模型目录（`defaultModels + custom models`），仍可正确映射该 provider（修复初始配置 `dashscope/qwen3.5-flash` + `nextclaw` 场景下的空白显示）。
+- 补充模型归属兜底：当默认模型未命中 provider 前缀时，若命中某个有效 provider 的模型目录（`defaultModels + custom models`），仍可正确映射该 provider（修复初始配置 `dashscope/qwen3.5-flash` + `go-usb-ai` 场景下的空白显示）。
 
 ## 测试/验证/验收方式
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
   - 结果：通过。
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
   - 结果：通过，`ModelConfig` 打包产物生成成功。
 - 目标文件 ESLint：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/lib/provider-models.ts src/components/config/ModelConfig.tsx src/components/common/SearchableModelInput.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/lib/provider-models.ts src/components/config/ModelConfig.tsx src/components/common/SearchableModelInput.tsx`
   - 结果：通过。
 - Lint 说明：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
   - 结果：未通过，失败点为仓库既有文件（如 `ChatConversationPanel.tsx`）中的 React Compiler/规则告警与错误，非本次改动引入。
 
 ## 发布/部署方式

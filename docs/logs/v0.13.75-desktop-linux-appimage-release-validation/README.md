@@ -4,11 +4,11 @@
 - 为 Desktop 发布链路新增 Linux（x64）产物支持，发布格式为 `AppImage`。
 - 新增 Linux 冒烟脚本：`apps/desktop/scripts/smoke-linux-appimage.sh`。
   - 通过 `--appimage-extract` 提取产物。
-  - 使用 `ELECTRON_RUN_AS_NODE` 调用内置 `nextclaw` CLI 完成 `init + serve`。
+  - 使用 `ELECTRON_RUN_AS_NODE` 调用内置 `go-usb-ai` CLI 完成 `init + serve`。
   - 对 `/api/health` 做可用性探测并超时失败。
 - 更新 `desktop-release` 工作流：
   - 新增 `ubuntu-latest` 的 `linux/x64` 矩阵任务。
-  - 构建 `AppImage` 后统一标准化产物名为 `NextClaw.Desktop-<version>-linux-x64.AppImage`。
+  - 构建 `AppImage` 后统一标准化产物名为 `GoUsbAi.Desktop-<version>-linux-x64.AppImage`。
   - 执行 Linux 冒烟并上传 Linux 冒烟日志与 AppImage 资产。
   - Release 资产上传范围增加 `*.AppImage` 与 `*.AppImage.blockmap`。
 - 更新 `desktop-validate` 工作流：新增 `desktop-linux-appimage-smoke` 作业，覆盖 Linux 构建与冒烟。
@@ -30,7 +30,7 @@
   - `pnpm -C apps/landing build`
 - 发布链路验证（需执行）：
   - 触发 `desktop-release`，确认 `desktop-linux-x64` job 构建 + 冒烟通过。
-  - 确认 Release 资产包含 `NextClaw.Desktop-<version>-linux-x64.AppImage`。
+  - 确认 Release 资产包含 `GoUsbAi.Desktop-<version>-linux-x64.AppImage`。
   - 下载 Release 的 Linux AppImage，执行最小可用性验证（`chmod +x` 后可启动或可完成脚本化健康检查）。
 
 ## 发布/部署方式
@@ -45,7 +45,7 @@
 ## 用户/产品视角的验收步骤
 1. 打开官网下载页，确认出现 Linux（x64）下载卡片与 AppImage 按钮。
 2. Linux 用户下载 AppImage 后执行：
-   - `chmod +x NextClaw.Desktop-<version>-linux-x64.AppImage`
-   - `./NextClaw.Desktop-<version>-linux-x64.AppImage`
+   - `chmod +x GoUsbAi.Desktop-<version>-linux-x64.AppImage`
+   - `./GoUsbAi.Desktop-<version>-linux-x64.AppImage`
 3. 首次启动后可进入 Desktop UI（或通过冒烟流程验证 `api/health` 可达）。
 4. macOS、Windows 入口仍可正常下载且不回归。

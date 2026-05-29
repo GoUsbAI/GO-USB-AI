@@ -9,12 +9,12 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui test -- src/components/chat/useHydratedNcpAgent.test.tsx`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-react tsc`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-react build`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-react lint`
-- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/ncp-packages/nextclaw-ncp-react/src/hooks/use-hydrated-ncp-agent.ts packages/nextclaw-ui/src/components/chat/useHydratedNcpAgent.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/useHydratedNcpAgent.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-react tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-react build`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-react lint`
+- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/ncp-packages/go-usb-ai-ncp-react/src/hooks/use-hydrated-ncp-agent.ts packages/go-usb-ai-ui/src/components/chat/useHydratedNcpAgent.test.tsx`
 - 验收关注点：
   - 已有消息的会话之间切换时，不应先闪出“暂无消息”文案。
   - 空会话在真正完成 hydration 后，仍可按原逻辑显示空态。
@@ -24,7 +24,7 @@
 
 - 本次未单独执行发布。
 - 随下一次正常前端发布链路带出即可，无需数据库 migration、后端部署或额外运维动作。
-- 若单独验证该修复，可按常规前端流程重新构建并发布 `@nextclaw/ui` 所在产物。
+- 若单独验证该修复，可按常规前端流程重新构建并发布 `@go-usb-ai/ui` 所在产物。
 
 ## 用户/产品视角的验收步骤
 

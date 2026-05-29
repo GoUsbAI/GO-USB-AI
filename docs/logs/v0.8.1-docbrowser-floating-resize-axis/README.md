@@ -16,7 +16,7 @@
 
 ### 冒烟验证
 
-- `NEXTCLAW_HOME=/tmp/... pnpm -C packages/nextclaw dev:build ui --port 18897`
+- `GOUSB_AI_HOME=/tmp/... pnpm -C packages/go-usb-ai dev:build ui --port 18897`
 - `curl -fsS http://127.0.0.1:18897/`
 - 观察点：服务启动正常，页面返回 HTML。
 
@@ -36,5 +36,5 @@
 
 ## 本次执行结果（2026-02-23）
 
-- 已发布 NPM：`nextclaw@0.8.1`、`@nextclaw/ui@0.5.1`
-- 已打 tag：`nextclaw@0.8.1`、`@nextclaw/ui@0.5.1`
+- 已发布 NPM：`go-usb-ai@0.8.1`、`@go-usb-ai/ui@0.5.1`
+- 已打 tag：`go-usb-ai@0.8.1`、`@go-usb-ai/ui@0.5.1`

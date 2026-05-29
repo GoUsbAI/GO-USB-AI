@@ -19,7 +19,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-stateful-orchestrators.mjs
   node scripts/governance/lint-new-code-stateful-orchestrators.mjs --staged
   node scripts/governance/lint-new-code-stateful-orchestrators.mjs --base origin/main
-  node scripts/governance/lint-new-code-stateful-orchestrators.mjs -- packages/nextclaw/src
+  node scripts/governance/lint-new-code-stateful-orchestrators.mjs -- packages/go-usb-ai/src
 
 Checks touched modules that coordinate shared state through multiple top-level functions without an explicit owner.
 If a touched file has module-scope state shared by several lifecycle-style functions, promote that orchestration to a class or explicit owner abstraction.`;

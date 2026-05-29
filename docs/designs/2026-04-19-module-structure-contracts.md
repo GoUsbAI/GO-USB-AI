@@ -467,7 +467,7 @@ src/
 
 例如：
 
-- [`packages/nextclaw-ui/module-structure.config.json`](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/module-structure.config.json)
+- [`packages/go-usb-ai-ui/module-structure.config.json`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/module-structure.config.json)
 
 注意：
 

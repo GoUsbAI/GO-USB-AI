@@ -9,7 +9,7 @@
    - 进入技能市场
    - 点击技能卡片
    - 等待右侧详情浏览器出现后截图
-3. 自动截图 CI 文件收集范围改为 `nextclaw-skills-doc-browser-*.png`。
+3. 自动截图 CI 文件收集范围改为 `go-usb-ai-skills-doc-browser-*.png`。
 4. 更新截图流程文档对应产物说明。
 
 ## 测试/验证/验收方式
@@ -24,10 +24,10 @@
 验收点：
 
 1. 新增并更新文件：
-   - `apps/landing/public/nextclaw-skills-doc-browser-en.png`
-   - `apps/landing/public/nextclaw-skills-doc-browser-cn.png`
-   - `images/screenshots/nextclaw-skills-doc-browser-en.png`
-   - `images/screenshots/nextclaw-skills-doc-browser-cn.png`
+   - `apps/landing/public/go-usb-ai-skills-doc-browser-en.png`
+   - `apps/landing/public/go-usb-ai-skills-doc-browser-cn.png`
+   - `images/screenshots/go-usb-ai-skills-doc-browser-en.png`
+   - `images/screenshots/go-usb-ai-skills-doc-browser-cn.png`
 2. 图中可见：左侧 skill 列表 + 选中 skill + 右侧详情浏览器内容。
 3. 官网截图顺序保持 4 张，首张仍是对话图，第 4 张为 skill 详情图。
 

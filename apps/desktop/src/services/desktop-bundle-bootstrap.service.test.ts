@@ -70,7 +70,7 @@ function createBootstrapService(
 }
 
 test("retries a quarantined packaged seed when the packaged archive fingerprint is new", async () =>
-  await withTempDir("nextclaw-desktop-packaged-seed-retry-", async (rootDir) => {
+  await withTempDir("go-usb-ai-desktop-packaged-seed-retry-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     writeBundleFixture({
@@ -102,7 +102,7 @@ test("retries a quarantined packaged seed when the packaged archive fingerprint 
   }));
 
 test("does not retry the same quarantined packaged seed fingerprint again", async () =>
-  await withTempDir("nextclaw-desktop-packaged-seed-skip-", async (rootDir) => {
+  await withTempDir("go-usb-ai-desktop-packaged-seed-skip-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     writeBundleFixture({
@@ -132,7 +132,7 @@ test("does not retry the same quarantined packaged seed fingerprint again", asyn
   }));
 
 test("retries a quarantined packaged seed when the launcher fingerprint changed", async () =>
-  await withTempDir("nextclaw-desktop-packaged-seed-launcher-retry-", async (rootDir) => {
+  await withTempDir("go-usb-ai-desktop-packaged-seed-launcher-retry-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     writeBundleFixture({
@@ -163,7 +163,7 @@ test("retries a quarantined packaged seed when the launcher fingerprint changed"
   }));
 
 test("replaces an existing same-version bundle when retrying a quarantined packaged seed", async () =>
-  await withTempDir("nextclaw-desktop-packaged-seed-replace-quarantined-", async (rootDir) => {
+  await withTempDir("go-usb-ai-desktop-packaged-seed-replace-quarantined-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const existingBundleDir = writeBundleFixture({
@@ -193,7 +193,7 @@ test("replaces an existing same-version bundle when retrying a quarantined packa
   }));
 
 test("replaces an existing same-version bundle when the packaged seed fingerprint changed", async () =>
-  await withTempDir("nextclaw-desktop-packaged-seed-replace-same-version-", async (rootDir) => {
+  await withTempDir("go-usb-ai-desktop-packaged-seed-replace-same-version-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const existingBundleDir = writeBundleFixture({
@@ -224,7 +224,7 @@ test("replaces an existing same-version bundle when the packaged seed fingerprin
   }));
 
 test("replaces an existing same-version bundle when staging storage is missing", async () =>
-  await withTempDir("nextclaw-desktop-packaged-seed-replace-missing-staging-", async (rootDir) => {
+  await withTempDir("go-usb-ai-desktop-packaged-seed-replace-missing-staging-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const existingBundleDir = writeBundleFixture({
@@ -254,7 +254,7 @@ test("replaces an existing same-version bundle when staging storage is missing",
   }));
 
 test("replaces incompatible same-version active bundle before desktop boot", async () =>
-  await withTempDir("nextclaw-desktop-packaged-seed-replace-incompatible-active-", async (rootDir) => {
+  await withTempDir("go-usb-ai-desktop-packaged-seed-replace-incompatible-active-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const incompatibleArch = process.arch === "arm64" ? "x64" : "arm64";
@@ -281,7 +281,7 @@ test("replaces incompatible same-version active bundle before desktop boot", asy
   }));
 
 test("uses packaged seed metadata to skip older seed archives without opening the bundle", async () =>
-  await withTempDir("nextclaw-desktop-packaged-seed-metadata-skip-", async (rootDir) => {
+  await withTempDir("go-usb-ai-desktop-packaged-seed-metadata-skip-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     writeBundleFixture({

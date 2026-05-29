@@ -1,0 +1,12 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@go-usb-ai/ncp": ["../go-usb-ai-ncp/src/index.ts"]
+    }
+  },
+  "include": ["src"]
+}

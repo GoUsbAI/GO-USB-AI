@@ -8,13 +8,13 @@
 
 ## 发布范围
 
-- `nextclaw@0.6.8`
-- `@nextclaw/core@0.6.7`
+- `go-usb-ai@0.6.8`
+- `@go-usb-ai/core@0.6.7`
 
 未发布（版本未变更）：
-- `@nextclaw/openclaw-compat@0.1.5`
-- `@nextclaw/server@0.4.2`
-- `@nextclaw/ui@0.3.9`
+- `@go-usb-ai/openclaw-compat@0.1.5`
+- `@go-usb-ai/server@0.4.2`
+- `@go-usb-ai/ui@0.3.9`
 
 ## 执行记录
 
@@ -40,22 +40,22 @@ pnpm release:publish
   - Context 层 `attachments[]` 能产出 `image_url` 块。
   - Responses 映射层能产出 `input_image` 块。
 - npm 发布成功：
-  - `nextclaw@0.6.8`
-  - `@nextclaw/core@0.6.7`
+  - `go-usb-ai@0.6.8`
+  - `@go-usb-ai/core@0.6.7`
 - npm 线上版本校验：
-  - `npm view nextclaw version` -> `0.6.8`
-  - `npm view @nextclaw/core version` -> `0.6.7`
+  - `npm view go-usb-ai version` -> `0.6.8`
+  - `npm view @go-usb-ai/core version` -> `0.6.7`
 - 发布后安装路径冒烟（隔离 `/tmp`）通过：
-  - `NEXTCLAW_HOME=/tmp/... npx -y nextclaw@0.6.8 --help` 正常输出命令列表。
+  - `GOUSB_AI_HOME=/tmp/... npx -y go-usb-ai@0.6.8 --help` 正常输出命令列表。
 - tag 创建成功：
-  - `nextclaw@0.6.8`
-  - `@nextclaw/core@0.6.7`
+  - `go-usb-ai@0.6.8`
+  - `@go-usb-ai/core@0.6.7`
 
 ## 文档复盘
 
 - 本次已同步：
   - `docs/USAGE.md`
-  - `packages/nextclaw/templates/USAGE.md`
+  - `packages/go-usb-ai/templates/USAGE.md`
   - `docs/designs/protocol-isomorphic-kernel-heterogeneous-checklist.md`
   - 发布日志索引
 - 不涉及数据库/后端 migration（不适用）。

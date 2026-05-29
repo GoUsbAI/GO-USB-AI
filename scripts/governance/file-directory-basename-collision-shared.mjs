@@ -2,15 +2,15 @@ import fs from "node:fs";
 import path from "node:path";
 
 export const FILE_DIRECTORY_BASENAME_COLLISION_ALLOWLIST = [
-  "packages/nextclaw-core/src/agent/skills.ts",
-  "packages/nextclaw-core/src/agent/thinking.ts",
-  "packages/nextclaw-openclaw-compat/src/plugins/openclaw-plugin-loader.utils.ts",
-  "packages/nextclaw-ui/src/lib/i18n.ts",
-  "packages/nextclaw/src/cli/commands/config.ts",
-  "packages/nextclaw/src/cli/commands/cron.ts",
-  "packages/nextclaw/src/cli/commands/diagnostics.ts",
-  "packages/nextclaw/src/cli/commands/remote.ts",
-  "packages/nextclaw/src/cli/commands/service.ts"
+  "packages/go-usb-ai-core/src/agent/skills.ts",
+  "packages/go-usb-ai-core/src/agent/thinking.ts",
+  "packages/go-usb-ai-openclaw-compat/src/plugins/openclaw-plugin-loader.utils.ts",
+  "packages/go-usb-ai-ui/src/lib/i18n.ts",
+  "packages/go-usb-ai/src/cli/commands/config.ts",
+  "packages/go-usb-ai/src/cli/commands/cron.ts",
+  "packages/go-usb-ai/src/cli/commands/diagnostics.ts",
+  "packages/go-usb-ai/src/cli/commands/remote.ts",
+  "packages/go-usb-ai/src/cli/commands/service.ts"
 ];
 
 const normalizePathText = (value) => `${value ?? ""}`.trim().replaceAll("\\", "/").replace(/^\.\/+/, "");

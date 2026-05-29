@@ -65,21 +65,21 @@
 ## 测试/验证/验收方式
 
 - TypeScript:
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk tsc`
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk tsc`
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk tsc`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk tsc`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk tsc`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk tsc`
 - Lint:
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk lint`
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk lint`
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk lint`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk lint`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk lint`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk lint`
 - Build:
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk build`
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk build`
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk build`
-  - `pnpm -C packages/extensions/nextclaw-narp-runtime-codex-sdk build`
-  - `pnpm -C packages/extensions/nextclaw-narp-runtime-claude-code-sdk build`
-  - `pnpm -C packages/nextclaw-ncp-runtime-stdio-client build`
-  - `pnpm -C packages/nextclaw-narp-stdio-runtime-wrapper build`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk build`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk build`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk build`
+  - `pnpm -C packages/extensions/go-usb-ai-narp-runtime-codex-sdk build`
+  - `pnpm -C packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk build`
+  - `pnpm -C packages/go-usb-ai-ncp-runtime-stdio-client build`
+  - `pnpm -C packages/go-usb-ai-narp-stdio-runtime-wrapper build`
 - Bridge 直测：
   - 临时 OpenAI-compatible SSE 上游返回 reasoning + 两段 text delta。
   - Codex bridge 输出 `response.output_text.delta` 两段，Claude gateway 输出 `content_block_delta:text_delta` 两段。
@@ -90,35 +90,35 @@
   - 复现：Codex NARP + 本地 DeepSeek 配置，命令型提示产生 `message.reasoning-delta`，内容包含无空格工具调用修正叙事。
   - 修复后源码验证：同一 DeepSeek 链路 `reasoningDeltaCount: 0`，仍有 `message.tool-call-*` 事件。
   - 修复后源码验证：MiniMax 链路 `reasoningDeltaCount: 0`，仍有 `message.text-delta`，文本包含 `收到`。
-  - 发布后安装验证：`/tmp` npm install `@nextclaw/nextclaw-narp-runtime-codex-sdk@0.1.5`，依赖闭包解析到 SDK `0.1.28`、插件 `0.1.62`。
+  - 发布后安装验证：`/tmp` npm install `@go-usb-ai/go-usb-ai-narp-runtime-codex-sdk@0.1.5`，依赖闭包解析到 SDK `0.1.28`、插件 `0.1.62`。
   - 发布后 DeepSeek 冒烟：`reasoningDeltaCount: 0`，仍有 `message.tool-call-*` 事件。
   - 发布后 MiniMax 冒烟：`reasoningDeltaCount: 0`，仍有 `message.text-delta`，文本包含 `收到`。
 - 2026-05-14 Codex reasoning 空白保留修正验证：
   - DeepSeek 分层复现：上游 reasoning sample 为 `The user wants...`，Codex SDK raw sample 变为 `Theuserwants...`，确认第一处错误在 bridge delta 空白处理；修复后 DeepSeek 账号返回 `Insufficient Balance`，无法继续真实模型闭环。
-  - Unit：`pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk test`，验证 reasoning/text delta 保留前导空白。
-  - Unit：`pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk test`，验证 NCP mapper 不再改写 reasoning 文本。
-  - TypeScript：`pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk tsc`、`pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk tsc`、`pnpm -C packages/extensions/nextclaw-narp-runtime-codex-sdk tsc`。
-  - Lint：`pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk lint`、`pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk lint`、`pnpm -C packages/extensions/nextclaw-narp-runtime-codex-sdk lint`，0 error，仅既有 context-destructuring warning。
-  - Build：`pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk build`、`pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk build`、`pnpm -C packages/extensions/nextclaw-narp-runtime-codex-sdk build`。
+  - Unit：`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk test`，验证 reasoning/text delta 保留前导空白。
+  - Unit：`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk test`，验证 NCP mapper 不再改写 reasoning 文本。
+  - TypeScript：`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk tsc`、`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk tsc`、`pnpm -C packages/extensions/go-usb-ai-narp-runtime-codex-sdk tsc`。
+  - Lint：`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk lint`、`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk lint`、`pnpm -C packages/extensions/go-usb-ai-narp-runtime-codex-sdk lint`，0 error，仅既有 context-destructuring warning。
+  - Build：`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk build`、`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk build`、`pnpm -C packages/extensions/go-usb-ai-narp-runtime-codex-sdk build`。
   - MiniMax 真实模型 Codex SDK raw event：`minimax/MiniMax-M2.7` reasoning 非空且保留空白，最终文本 `391`。
   - MiniMax 真实模型 NCP runtime：`message.reasoning-delta` 非空且保留空白，最终文本 `391`。
-  - 发布后安装验证：`/tmp` npm install `@nextclaw/nextclaw-narp-runtime-codex-sdk@0.1.6`，依赖闭包解析到 SDK `0.1.29`、插件 `0.1.63`。
+  - 发布后安装验证：`/tmp` npm install `@go-usb-ai/go-usb-ai-narp-runtime-codex-sdk@0.1.6`，依赖闭包解析到 SDK `0.1.29`、插件 `0.1.63`。
   - 发布后 MiniMax NCP runtime 冒烟：`message.reasoning-delta` 非空且保留空白，最终文本 `391`。
 - 2026-05-14 Codex bridge live output 修正验证：
   - 复现：延迟 fake upstream 每 450ms 输出三段 reasoning 和三段 text；修复前 NCP runtime 在约 `2169ms` 一次性输出完整 `message.reasoning-delta` 与 `message.text-delta`。
   - 修复后 runtime 层验收：reasoning delta 分别在约 `452ms / 902ms / 1354ms` 到达；text delta 分别在约 `1806ms / 2258ms / 2711ms` 按 `3`、`9`、`1` 到达。
-  - Unit：`pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk test`，新增 live output stream 顺序测试，并覆盖 Codex event iterator 先结束时 live text 不被截断。
-  - TypeScript：`pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk tsc`、`pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk tsc`、`pnpm -C packages/extensions/nextclaw-narp-runtime-codex-sdk tsc`。
-  - Build：`pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk build`、`pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk build`、`pnpm -C packages/extensions/nextclaw-narp-runtime-codex-sdk build`。
+  - Unit：`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk test`，新增 live output stream 顺序测试，并覆盖 Codex event iterator 先结束时 live text 不被截断。
+  - TypeScript：`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk tsc`、`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk tsc`、`pnpm -C packages/extensions/go-usb-ai-narp-runtime-codex-sdk tsc`。
+  - Build：`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk build`、`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk build`、`pnpm -C packages/extensions/go-usb-ai-narp-runtime-codex-sdk build`。
   - MiniMax 真实模型 live 冒烟：NCP runtime 收到多段 live `message.reasoning-delta` 与最终 `message.text-delta`，内容包含 `391`。
-  - 发布后安装验证：`/tmp` npm install `@nextclaw/nextclaw-narp-runtime-codex-sdk@0.1.7`，依赖闭包解析到 SDK `0.1.30`、插件 `0.1.64`；发布后 runtime 层 smoke 输出 `452ms / 903ms / 1354ms` reasoning delta 与 `1804ms / 2255ms / 2706ms` text delta。
+  - 发布后安装验证：`/tmp` npm install `@go-usb-ai/go-usb-ai-narp-runtime-codex-sdk@0.1.7`，依赖闭包解析到 SDK `0.1.30`、插件 `0.1.64`；发布后 runtime 层 smoke 输出 `452ms / 903ms / 1354ms` reasoning delta 与 `1804ms / 2255ms / 2706ms` text delta。
 - 2026-05-14 Claude bridge raw whitespace 同步修正验证：
-  - Unit：`pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk test`，覆盖 reasoning/text/tool argument delta 的 raw whitespace 保留。
-  - TypeScript：`pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk tsc`、`pnpm -C packages/extensions/nextclaw-narp-runtime-claude-code-sdk tsc`。
-  - Build：`pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk build`、`pnpm -C packages/extensions/nextclaw-narp-runtime-claude-code-sdk build`。
-  - Lint：`pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk lint`。
-  - 发布后 NARP 安装验证：`/tmp` npm install `@nextclaw/nextclaw-narp-runtime-claude-code-sdk@0.1.6`，依赖闭包解析到 SDK `0.1.31`；发布包 bridge smoke 输出 `thinking: "These seem "`、`thinking: "to be "`、`text: "Hello "`、`partial_json: " -la"`。
-  - 发布后 plugin 安装验证：`/tmp` npm install `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk@0.1.62`，依赖闭包解析到 SDK `0.1.31`。
+  - Unit：`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk test`，覆盖 reasoning/text/tool argument delta 的 raw whitespace 保留。
+  - TypeScript：`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk tsc`、`pnpm -C packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk tsc`。
+  - Build：`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk build`、`pnpm -C packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk build`。
+  - Lint：`pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk lint`。
+  - 发布后 NARP 安装验证：`/tmp` npm install `@go-usb-ai/go-usb-ai-narp-runtime-claude-code-sdk@0.1.6`，依赖闭包解析到 SDK `0.1.31`；发布包 bridge smoke 输出 `thinking: "These seem "`、`thinking: "to be "`、`text: "Hello "`、`partial_json: " -la"`。
+  - 发布后 plugin 安装验证：`/tmp` npm install `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk@0.1.62`，依赖闭包解析到 SDK `0.1.31`。
 - Governance:
   - `pnpm lint:new-code:governance`
   - `pnpm check:governance-backlog-ratchet`
@@ -156,30 +156,30 @@
 
 ## NPM 包发布记录
 
-- `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk@0.1.60`：已发布。
-- `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk@0.1.60`：已发布，随 Claude SDK runtime 依赖闭包补发。
-- `@nextclaw/nextclaw-ncp-runtime-claude-code-sdk@0.1.29`：已发布。
-- `@nextclaw/nextclaw-ncp-runtime-codex-sdk@0.1.26`：已发布。
-- `@nextclaw/nextclaw-narp-runtime-codex-sdk@0.1.3`：已发布，随 Codex runtime/plugin 依赖闭包补发。
-- `@nextclaw/nextclaw-narp-runtime-claude-code-sdk@0.1.4`：已发布，随 Claude SDK runtime 依赖闭包补发。
+- `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk@0.1.60`：已发布。
+- `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk@0.1.60`：已发布，随 Claude SDK runtime 依赖闭包补发。
+- `@go-usb-ai/go-usb-ai-ncp-runtime-claude-code-sdk@0.1.29`：已发布。
+- `@go-usb-ai/go-usb-ai-ncp-runtime-codex-sdk@0.1.26`：已发布。
+- `@go-usb-ai/go-usb-ai-narp-runtime-codex-sdk@0.1.3`：已发布，随 Codex runtime/plugin 依赖闭包补发。
+- `@go-usb-ai/go-usb-ai-narp-runtime-claude-code-sdk@0.1.4`：已发布，随 Claude SDK runtime 依赖闭包补发。
 - Registry verification：`pnpm release:verify:published` 已确认 6/6 包版本可见。
 - 2026-05-14 raw reasoning 修正：
-  - `@nextclaw/nextclaw-ncp-runtime-codex-sdk@0.1.28`：已发布。
-  - `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk@0.1.62`：已发布，依赖 SDK `0.1.28`。
-  - `@nextclaw/nextclaw-narp-runtime-codex-sdk@0.1.5`：已发布，依赖 SDK `0.1.28` 与插件 `0.1.62`。
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-codex-sdk@0.1.28`：已发布。
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk@0.1.62`：已发布，依赖 SDK `0.1.28`。
+  - `@go-usb-ai/go-usb-ai-narp-runtime-codex-sdk@0.1.5`：已发布，依赖 SDK `0.1.28` 与插件 `0.1.62`。
   - Registry verification：`pnpm release:verify:published` 已确认 3/3 包版本可见。
 - 2026-05-14 Codex reasoning 空白保留修正：
-  - `@nextclaw/nextclaw-ncp-runtime-codex-sdk@0.1.29`：已发布。
-  - `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk@0.1.63`：已发布。
-  - `@nextclaw/nextclaw-narp-runtime-codex-sdk@0.1.6`：已发布。
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-codex-sdk@0.1.29`：已发布。
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk@0.1.63`：已发布。
+  - `@go-usb-ai/go-usb-ai-narp-runtime-codex-sdk@0.1.6`：已发布。
   - Registry verification：`pnpm release:verify:published` 已确认 3/3 包版本可见。
 - 2026-05-14 Codex bridge live output 修正：
-  - `@nextclaw/nextclaw-ncp-runtime-codex-sdk@0.1.30`：已发布。
-  - `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk@0.1.64`：已发布。
-  - `@nextclaw/nextclaw-narp-runtime-codex-sdk@0.1.7`：已发布。
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-codex-sdk@0.1.30`：已发布。
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk@0.1.64`：已发布。
+  - `@go-usb-ai/go-usb-ai-narp-runtime-codex-sdk@0.1.7`：已发布。
   - Registry verification：`pnpm release:verify:published` 已确认 3/3 包版本可见。
 - 2026-05-14 Claude bridge raw whitespace 同步修正：
-  - `@nextclaw/nextclaw-ncp-runtime-claude-code-sdk@0.1.31`：已发布。
-  - `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk@0.1.62`：已发布。
-  - `@nextclaw/nextclaw-narp-runtime-claude-code-sdk@0.1.6`：已发布。
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-claude-code-sdk@0.1.31`：已发布。
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk@0.1.62`：已发布。
+  - `@go-usb-ai/go-usb-ai-narp-runtime-claude-code-sdk@0.1.6`：已发布。
   - Registry verification：`pnpm release:verify:published` 已确认 3/3 包版本可见。

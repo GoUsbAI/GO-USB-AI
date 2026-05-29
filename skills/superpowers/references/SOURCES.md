@@ -29,4 +29,4 @@ This skill bundles selected upstream workflow references from `obra/superpowers`
 ## Notes
 
 - These files are bundled under the upstream MIT license.
-- The top-level `skills/superpowers/SKILL.md` is the NextClaw adaptation layer.
+- The top-level `skills/superpowers/SKILL.md` is the GoUsbAi adaptation layer.

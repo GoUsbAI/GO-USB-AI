@@ -2,12 +2,12 @@
 
 - 修复 `loadConfig` 在现有 `config.json` 解析/校验失败时仍回退默认配置并写回磁盘的问题；现在仅在配置文件缺失时才持久化默认配置，已有坏配置会保留原文件不再被静默覆盖。
 - 新增回归测试，覆盖“已有无效配置文件不得被默认配置覆盖”的场景，避免旧版本运行时再次把用户配置抹掉。
-- 处理本机运行态冲突：清理残留的全局 `nextclaw` 与旧开发实例，仅保留当前本地开发实例。
-- 基于本机残留证据做了最小可证恢复：恢复 `search.provider = tavily`，并把微信渠道的 `defaultAccountId/baseUrl/allowFrom/accounts` 恢复回 `~/.nextclaw/config.json`；未发现可靠备份的 provider API key 未做臆测填充。
+- 处理本机运行态冲突：清理残留的全局 `go-usb-ai` 与旧开发实例，仅保留当前本地开发实例。
+- 基于本机残留证据做了最小可证恢复：恢复 `search.provider = tavily`，并把微信渠道的 `defaultAccountId/baseUrl/allowFrom/accounts` 恢复回 `~/.go-usb-ai/config.json`；未发现可靠备份的 provider API key 未做臆测填充。
 
 # 测试 / 验证 / 验收方式
 
-- 运行 `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/core test -- src/config/loader.nextclaw-provider.test.ts src/config/loader.nextclaw-api-base-migration.test.ts`
+- 运行 `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/core test -- src/config/loader.go-usb-ai-provider.test.ts src/config/loader.go-usb-ai-api-base-migration.test.ts`
 - 运行 `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainability:guard`
 - 运行 `curl http://127.0.0.1:18793/api/health`
 - 运行 `curl http://127.0.0.1:18793/api/config`
@@ -20,7 +20,7 @@
 # 发布 / 部署方式
 
 - 本次先完成本地源码修复与本机运行态止血，不涉及生产部署。
-- 若后续要把修复带到可安装 CLI，需要合并代码后发布包含 [loader.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/config/loader.ts) 的相关包链路。
+- 若后续要把修复带到可安装 CLI，需要合并代码后发布包含 [loader.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/config/loader.ts) 的相关包链路。
 
 # 用户 / 产品视角的验收步骤
 
@@ -33,9 +33,9 @@
 
 - 本次是否已尽最大努力优化可维护性：是。修复点收敛在单一加载器入口，没有新增旁路补丁或额外兼容分支。
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。没有新增新模块或兜底层，只是在已有加载分支上增加一个“失败时不落盘”的约束，并用一条回归测试锁定。
-- 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：基本做到。总代码净增 `+22` 行，其中非测试代码净增 `+4` 行；增长来自必要的保护条件与回归测试，没有新增文件。目录平铺问题未继续恶化，但 `packages/nextclaw-core/src/config` 仍处于治理警告状态，本次未扩大。
+- 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：基本做到。总代码净增 `+22` 行，其中非测试代码净增 `+4` 行；增长来自必要的保护条件与回归测试，没有新增文件。目录平铺问题未继续恶化，但 `packages/go-usb-ai-core/src/config` 仍处于治理警告状态，本次未扩大。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：更清晰。风险被压回 `loadConfig` 这一真实入口，没有把保护逻辑散落到 UI、service、dev runner 多处重复兜底。
-- 目录结构与文件组织是否满足当前项目治理要求：部分满足。此次未新增目录债务；但 `packages/nextclaw-core/src/config` 目录文件数已超预算，当前守卫仍提示后续应按职责拆分。
+- 目录结构与文件组织是否满足当前项目治理要求：部分满足。此次未新增目录债务；但 `packages/go-usb-ai-core/src/config` 目录文件数已超预算，当前守卫仍提示后续应按职责拆分。
 - 独立于实现阶段的可维护性复核：
   - 可维护性复核结论：通过
   - 本次顺手减债：是
@@ -48,4 +48,4 @@
     - 删除：2 行
     - 净增：+4 行
   - no maintainability findings
-  - 长期目标对齐 / 可维护性推进：本次把“坏配置被静默覆盖”这个高风险隐式副作用从核心加载路径里拿掉了一部分，系统行为更可预测了。剩余维护性观察点是 `packages/nextclaw-core/src/config` 目录仍偏平铺，后续若该目录继续增长，应顺手按加载/迁移/schema 责任拆分。
+  - 长期目标对齐 / 可维护性推进：本次把“坏配置被静默覆盖”这个高风险隐式副作用从核心加载路径里拿掉了一部分，系统行为更可预测了。剩余维护性观察点是 `packages/go-usb-ai-core/src/config` 目录仍偏平铺，后续若该目录继续增长，应顺手按加载/迁移/schema 责任拆分。

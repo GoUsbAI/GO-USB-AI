@@ -2,37 +2,37 @@
 
 ## 迭代完成说明（改了什么）
 
-本次补齐 NextClaw 前端会话管理能力，目标是对齐并增强 OpenClaw 的会话运维体验：
+本次补齐 GoUsbAi 前端会话管理能力，目标是对齐并增强 OpenClaw 的会话运维体验：
 
 - 新增 Sessions 页签与会话管理界面（筛选、历史查看、元信息修改、清空、删除）
-  - [`packages/nextclaw-ui/src/components/config/SessionsConfig.tsx`](../../../packages/nextclaw-ui/src/components/config/SessionsConfig.tsx)
-  - [`packages/nextclaw-ui/src/App.tsx`](../../../packages/nextclaw-ui/src/App.tsx)
-  - [`packages/nextclaw-ui/src/components/layout/Sidebar.tsx`](../../../packages/nextclaw-ui/src/components/layout/Sidebar.tsx)
-  - [`packages/nextclaw-ui/src/stores/ui.store.ts`](../../../packages/nextclaw-ui/src/stores/ui.store.ts)
+  - [`packages/go-usb-ai-ui/src/components/config/SessionsConfig.tsx`](../../../packages/go-usb-ai-ui/src/components/config/SessionsConfig.tsx)
+  - [`packages/go-usb-ai-ui/src/App.tsx`](../../../packages/go-usb-ai-ui/src/App.tsx)
+  - [`packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx`](../../../packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx)
+  - [`packages/go-usb-ai-ui/src/stores/ui.store.ts`](../../../packages/go-usb-ai-ui/src/stores/ui.store.ts)
 - 新增 UI 会话 API：
   - `GET /api/sessions`
   - `GET /api/sessions/:key/history`
   - `PUT /api/sessions/:key`
   - `DELETE /api/sessions/:key`
-  - [`packages/nextclaw-server/src/ui/router.ts`](../../../packages/nextclaw-server/src/ui/router.ts)
-  - [`packages/nextclaw-server/src/ui/config.ts`](../../../packages/nextclaw-server/src/ui/config.ts)
+  - [`packages/go-usb-ai-server/src/ui/router.ts`](../../../packages/go-usb-ai-server/src/ui/router.ts)
+  - [`packages/go-usb-ai-server/src/ui/config.ts`](../../../packages/go-usb-ai-server/src/ui/config.ts)
 - 补齐前后端会话类型定义与前端 hooks：
-  - [`packages/nextclaw-server/src/ui/types.ts`](../../../packages/nextclaw-server/src/ui/types.ts)
-  - [`packages/nextclaw-ui/src/api/types.ts`](../../../packages/nextclaw-ui/src/api/types.ts)
-  - [`packages/nextclaw-ui/src/api/config.ts`](../../../packages/nextclaw-ui/src/api/config.ts)
-  - [`packages/nextclaw-ui/src/hooks/useConfig.ts`](../../../packages/nextclaw-ui/src/hooks/useConfig.ts)
+  - [`packages/go-usb-ai-server/src/ui/types.ts`](../../../packages/go-usb-ai-server/src/ui/types.ts)
+  - [`packages/go-usb-ai-ui/src/api/types.ts`](../../../packages/go-usb-ai-ui/src/api/types.ts)
+  - [`packages/go-usb-ai-ui/src/api/config.ts`](../../../packages/go-usb-ai-ui/src/api/config.ts)
+  - [`packages/go-usb-ai-ui/src/hooks/useConfig.ts`](../../../packages/go-usb-ai-ui/src/hooks/useConfig.ts)
 - 更新使用文档（新增 Session management 说明）：
   - [`docs/USAGE.md`](../../../docs/USAGE.md)
 
 ## 测试 / 验证 / 验收方式
 
 - 工程验证：
-  - `pnpm -C packages/nextclaw-server tsc`
-  - `pnpm -C packages/nextclaw-ui tsc`
-  - `pnpm -C packages/nextclaw-server lint`
-  - `pnpm -C packages/nextclaw-ui lint`
+  - `pnpm -C packages/go-usb-ai-server tsc`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
+  - `pnpm -C packages/go-usb-ai-server lint`
+  - `pnpm -C packages/go-usb-ai-ui lint`
 - 冒烟验证（非仓库目录）：
-  - `NEXTCLAW_HOME=/tmp/... pnpm -C packages/nextclaw-server exec tsx -e "...listSessions/getSessionHistory/patchSession/deleteSession..."`
+  - `GOUSB_AI_HOME=/tmp/... pnpm -C packages/go-usb-ai-server exec tsx -e "...listSessions/getSessionHistory/patchSession/deleteSession..."`
   - 观察点：
     - `listTotal` 返回 > 0
     - `patchedLabel`/`patchedModel` 更新成功
@@ -56,11 +56,11 @@
   1. `pnpm release:version`
   2. `pnpm release:publish`
 - 本次已发布：
-  - `nextclaw@0.6.29`
-  - `@nextclaw/server@0.4.12`
-  - `@nextclaw/ui@0.3.14`
+  - `go-usb-ai@0.6.29`
+  - `@go-usb-ai/server@0.4.12`
+  - `@go-usb-ai/ui@0.3.14`
 - 线上核验：
-  - `npm view nextclaw version` → `0.6.29`
-  - `npm view @nextclaw/server version` → `0.4.12`
-  - `npm view @nextclaw/ui version` → `0.3.14`
+  - `npm view go-usb-ai version` → `0.6.29`
+  - `npm view @go-usb-ai/server version` → `0.4.12`
+  - `npm view @go-usb-ai/ui version` → `0.3.14`
 - 远程 migration：不适用（本次仅 UI/API 与运行时会话管理能力增强）。

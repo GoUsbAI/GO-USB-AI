@@ -1,25 +1,25 @@
-# NextClaw 功能清单（2026-02）
+# GoUsbAi 功能清单（2026-02）
 
 ## 1. 启动与运行
 
-- `nextclaw start`
-- `nextclaw restart`
-- `nextclaw stop`
-- `nextclaw serve`
-- `nextclaw ui`
-- `nextclaw gateway`
-- `nextclaw status`
-- `nextclaw doctor`
-- `nextclaw update`
-- `nextclaw init`
-- `nextclaw onboard`
+- `go-usb-ai start`
+- `go-usb-ai restart`
+- `go-usb-ai stop`
+- `go-usb-ai serve`
+- `go-usb-ai ui`
+- `go-usb-ai gateway`
+- `go-usb-ai status`
+- `go-usb-ai doctor`
+- `go-usb-ai update`
+- `go-usb-ai init`
+- `go-usb-ai onboard`
 
 ## 2. 配置管理
 
-- 配置文件：`~/.nextclaw/config.json`
-- `nextclaw config get <path>`
-- `nextclaw config set <path> <value>`
-- `nextclaw config unset <path>`
+- 配置文件：`~/.go-usb-ai/config.json`
+- `go-usb-ai config get <path>`
+- `go-usb-ai config set <path> <value>`
+- `go-usb-ai config unset <path>`
 - 配置 UI（Model / Providers / Channels）
 - 配置 API（`/api/config*`）
 - 配置变更 WebSocket 推送（`/ws`）
@@ -42,8 +42,8 @@
 
 ## 4. Agent 能力
 
-- CLI 单轮对话：`nextclaw agent -m "..."`
-- CLI 交互式对话：`nextclaw agent`
+- CLI 单轮对话：`go-usb-ai agent -m "..."`
+- CLI 交互式对话：`go-usb-ai agent`
 - Session 管理（列表/历史/发送）
 - Memory 检索（search/get）
 - Subagent 任务编排
@@ -75,8 +75,8 @@
 
 ## 7. 渠道运维命令
 
-- `nextclaw channels status`
-- `nextclaw channels login`
+- `go-usb-ai channels status`
+- `go-usb-ai channels login`
 
 ## 8. 自动化能力
 
@@ -85,15 +85,15 @@
 
 ## 9. Skills 能力
 
-- `nextclaw skills installed`
-- `nextclaw skills info <selector>`
-- `nextclaw skills install <slug>`
-- `nextclaw skills publish <dir>`
-- `nextclaw skills update <dir>`
-- `nextclaw marketplace skills search`
-- `nextclaw marketplace skills info <slug>`
-- `nextclaw marketplace skills recommend`
-- `nextclaw marketplace skills install <slug>`
+- `go-usb-ai skills installed`
+- `go-usb-ai skills info <selector>`
+- `go-usb-ai skills install <slug>`
+- `go-usb-ai skills publish <dir>`
+- `go-usb-ai skills update <dir>`
+- `go-usb-ai marketplace skills search`
+- `go-usb-ai marketplace skills info <slug>`
+- `go-usb-ai marketplace skills recommend`
+- `go-usb-ai marketplace skills install <slug>`
 - 内置 skills 模板注入（init 时种子）
 
 ## 10. 当前已知生效边界

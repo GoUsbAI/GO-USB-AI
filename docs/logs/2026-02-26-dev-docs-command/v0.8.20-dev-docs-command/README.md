@@ -3,7 +3,7 @@
 ## 迭代完成说明（改了什么）
 
 - 在根 `package.json` 新增命令：
-  - `pnpm dev:docs` -> `pnpm --filter @nextclaw/docs dev`
+  - `pnpm dev:docs` -> `pnpm --filter @go-usb-ai/docs dev`
 - 目标：从仓库根目录一键启动 docs 开发服务，减少记忆成本与目录切换。
 
 ## 测试 / 验证 / 验收方式

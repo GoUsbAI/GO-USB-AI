@@ -10,22 +10,22 @@
 ## 测试/验证/验收方式
 
 - 定向测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- src/components/marketplace/mcp/McpMarketplacePage.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- src/components/marketplace/mcp/McpMarketplacePage.test.tsx`
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai build`
 - 可维护性自检：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/marketplace/MarketplacePage.tsx packages/nextclaw-ui/src/components/marketplace/marketplace-localization.ts packages/nextclaw-ui/src/components/marketplace/mcp/McpMarketplacePage.tsx packages/nextclaw-ui/src/components/marketplace/mcp/McpMarketplacePage.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/marketplace/MarketplacePage.tsx packages/go-usb-ai-ui/src/components/marketplace/marketplace-localization.ts packages/go-usb-ai-ui/src/components/marketplace/mcp/McpMarketplacePage.tsx packages/go-usb-ai-ui/src/components/marketplace/mcp/McpMarketplacePage.test.tsx`
   - 结果：`Errors: 0`；`MarketplacePage.tsx` 仍有历史 file-budget warning，但本次比之前减少 50 行。
 
 ## 发布/部署方式
 
 - 本次为前端与打包产物更新，不涉及后端、数据库或 worker 发布。
 - 交付方式：
-  - 更新 `@nextclaw/ui` 源码
-  - 重新执行 `packages/nextclaw` build，同步刷新 `packages/nextclaw/ui-dist`
+  - 更新 `@go-usb-ai/ui` 源码
+  - 重新执行 `packages/go-usb-ai` build，同步刷新 `packages/go-usb-ai/ui-dist`
 - 如需后续正式发布，可沿现有前端/UI-only 发布流程执行 version/publish。
 
 ## 用户/产品视角的验收步骤

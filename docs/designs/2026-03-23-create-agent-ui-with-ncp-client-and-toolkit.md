@@ -32,7 +32,7 @@
 在 toolkit 中提供 `createAgentChatSession`，把 client 和 state manager 连起来：
 
 ```ts
-// @nextclaw/ncp-toolkit
+// @go-usb-ai/ncp-toolkit
 export function createAgentChatSession(client: NcpAgentClientEndpoint) {
   const stateManager = new DefaultNcpAgentConversationStateManager();
   client.subscribe((event) => void stateManager.dispatch(event));
@@ -182,14 +182,14 @@ ChatPage
 ## 九、文件结构建议
 
 ```
-packages/ncp-packages/nextclaw-ncp-toolkit/
+packages/ncp-packages/go-usb-ai-ncp-toolkit/
   src/
     agent/
       agent-conversation-state-manager.ts  (已有)
       create-agent-chat-session.ts         (新增)
     index.ts
 
-apps/agent-chat-ui/  或  packages/nextclaw-chat-ui/
+apps/agent-chat-ui/  或  packages/go-usb-ai-chat-ui/
   src/
     hooks/
       useAgentChatSession.ts

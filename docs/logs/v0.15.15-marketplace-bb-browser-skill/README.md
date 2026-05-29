@@ -3,8 +3,8 @@
 ## 迭代完成说明
 
 - 新增 `skills/bb-browser` marketplace skill，slug 为 `bb-browser`。
-- 将上游 `epiral/bb-browser` 适配为 NextClaw 可上架版本，采用“包装外部运行时而不是搬运整个上游仓库”的接入方式。
-- 新增 NextClaw 化 `SKILL.md`，明确：
+- 将上游 `epiral/bb-browser` 适配为 GoUsbAi 可上架版本，采用“包装外部运行时而不是搬运整个上游仓库”的接入方式。
+- 新增 GoUsbAi 化 `SKILL.md`，明确：
   - 本地 `bb-browser` CLI 安装边界
   - daemon 路径与 `--openclaw` 路径的执行区别
   - 浏览器 / 登录态 / daemon 就绪检查
@@ -12,7 +12,7 @@
   - 写操作必须显式确认的安全边界
 - 新增 `marketplace.json`，补齐中英文 summary / description、标签、来源仓库与主页信息。
 - 新增 `UPSTREAM_LICENSE`，保留上游 MIT License。
-- 已通过项目 CLI 将该 skill 发布到 NextClaw marketplace，并完成远端查询与安装冒烟闭环。
+- 已通过项目 CLI 将该 skill 发布到 GoUsbAi marketplace，并完成远端查询与安装冒烟闭环。
 
 ## 测试 / 验证 / 验收方式
 
@@ -25,13 +25,13 @@ python3 .agents/skills/marketplace-skill-publisher/scripts/validate_marketplace_
 - marketplace 首次上架：
 
 ```bash
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node packages/nextclaw/dist/cli/index.js skills publish skills/bb-browser --meta skills/bb-browser/marketplace.json --api-base https://marketplace-api.nextclaw.io
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node packages/go-usb-ai/dist/cli/index.js skills publish skills/bb-browser --meta skills/bb-browser/marketplace.json --api-base https://marketplace-api.go-usb-ai.io
 ```
 
 - marketplace 远端校验：
 
 ```bash
-curl -sS https://marketplace-api.nextclaw.io/api/v1/skills/items/bb-browser
+curl -sS https://marketplace-api.go-usb-ai.io/api/v1/skills/items/bb-browser
 ```
 
 观察点：
@@ -43,16 +43,16 @@ curl -sS https://marketplace-api.nextclaw.io/api/v1/skills/items/bb-browser
 - marketplace 安装冒烟（非仓库目录）：
 
 ```bash
-tmp_dir=$(mktemp -d /tmp/nextclaw-marketplace-skill.XXXXXX)
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node packages/nextclaw/dist/cli/index.js skills install bb-browser --api-base https://marketplace-api.nextclaw.io --workdir "$tmp_dir"
+tmp_dir=$(mktemp -d /tmp/go-usb-ai-marketplace-skill.XXXXXX)
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node packages/go-usb-ai/dist/cli/index.js skills install bb-browser --api-base https://marketplace-api.go-usb-ai.io --workdir "$tmp_dir"
 find "$tmp_dir/skills/bb-browser" -maxdepth 2 -type f | sort
 ```
 
 - 安装后二次 metadata 校验（非仓库目录）：
 
 ```bash
-tmp_dir=$(mktemp -d /tmp/nextclaw-marketplace-skillcheck.XXXXXX)
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node packages/nextclaw/dist/cli/index.js skills install bb-browser --api-base https://marketplace-api.nextclaw.io --workdir "$tmp_dir"
+tmp_dir=$(mktemp -d /tmp/go-usb-ai-marketplace-skillcheck.XXXXXX)
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node packages/go-usb-ai/dist/cli/index.js skills install bb-browser --api-base https://marketplace-api.go-usb-ai.io --workdir "$tmp_dir"
 python3 .agents/skills/marketplace-skill-publisher/scripts/validate_marketplace_skill.py --skill-dir "$tmp_dir/skills/bb-browser"
 rm -rf "$tmp_dir"
 ```
@@ -71,8 +71,8 @@ PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm
 - 远端详情查询返回正常。
 - 非仓库目录安装冒烟成功，安装后 skill 目录包含 `SKILL.md`、`marketplace.json`、`UPSTREAM_LICENSE`。
 - `pnpm lint:maintainability:guard` 通过；仅保留两个与本次无关的历史 warning：
-  - `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-file-operation.tsx`
-  - `packages/nextclaw-ui/src/components/chat/adapters/chat-message-part.adapter.ts`
+  - `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-file-operation.tsx`
+  - `packages/go-usb-ai-ui/src/components/chat/adapters/chat-message-part.adapter.ts`
 - 曾出现一次发布后紧接着的安装请求短暂返回 `skill item not found: bb-browser`，随后复测安装成功；倾向于远端短暂一致性抖动，不构成本次集成阻塞。
 
 ## 发布 / 部署方式
@@ -80,20 +80,20 @@ PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm
 - 首次上架：
 
 ```bash
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node packages/nextclaw/dist/cli/index.js skills publish skills/bb-browser --meta skills/bb-browser/marketplace.json --api-base https://marketplace-api.nextclaw.io
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node packages/go-usb-ai/dist/cli/index.js skills publish skills/bb-browser --meta skills/bb-browser/marketplace.json --api-base https://marketplace-api.go-usb-ai.io
 ```
 
 - 当前发布结果：
   - marketplace slug：`bb-browser`
-  - 安装命令：`nextclaw skills install bb-browser`
-  - 远端查询：`https://marketplace-api.nextclaw.io/api/v1/skills/items/bb-browser`
+  - 安装命令：`go-usb-ai skills install bb-browser`
+  - 远端查询：`https://marketplace-api.go-usb-ai.io/api/v1/skills/items/bb-browser`
 
 ## 用户 / 产品视角的验收步骤
 
-1. 在任意 NextClaw workspace 或项目目录执行：
+1. 在任意 GoUsbAi workspace 或项目目录执行：
 
 ```bash
-nextclaw skills install bb-browser
+go-usb-ai skills install bb-browser
 ```
 
 2. 进入实际使用场景后，让 AI 执行一个只读检查，例如：

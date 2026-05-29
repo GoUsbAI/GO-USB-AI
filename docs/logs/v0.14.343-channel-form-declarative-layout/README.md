@@ -10,11 +10,11 @@
 
 # 测试 / 验证 / 验收方式
 
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- --run src/components/config/channel-form-fields.test.ts src/components/config/weixin-channel-auth-section.test.tsx`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- --run src/components/config/channel-form-fields.test.ts src/components/config/weixin-channel-auth-section.test.tsx`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc --noEmit`
 - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard`
-  - 本次命令失败的 error 仍来自仓库里已有的无关脏改动：`packages/extensions/nextclaw-channel-plugin-feishu/src/bot.ts` 与 `packages/extensions/nextclaw-channel-plugin-feishu/src/bot.test.ts` 继续超出维护性预算。
-  - 本次声明式框架改动额外带来 `packages/nextclaw-ui/src/components/config` 目录文件数 +1 的既有 exception warning，因为新增了 `channel-form-fields.test.ts`。
+  - 本次命令失败的 error 仍来自仓库里已有的无关脏改动：`packages/extensions/go-usb-ai-channel-plugin-feishu/src/bot.ts` 与 `packages/extensions/go-usb-ai-channel-plugin-feishu/src/bot.test.ts` 继续超出维护性预算。
+  - 本次声明式框架改动额外带来 `packages/go-usb-ai-ui/src/components/config` 目录文件数 +1 的既有 exception warning，因为新增了 `channel-form-fields.test.ts`。
 
 # 发布 / 部署方式
 

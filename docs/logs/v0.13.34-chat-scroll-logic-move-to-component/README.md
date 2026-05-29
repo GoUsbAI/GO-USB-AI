@@ -9,12 +9,12 @@
 - `ChatThreadManager` 删除滚动状态与滚动方法，只保留业务动作（删会话、创建会话、跳转）。
 
 ## 测试/验证/验收方式
-- `pnpm --filter @nextclaw/ui tsc`
-- `pnpm --filter @nextclaw/ui build`
+- `pnpm --filter @go-usb-ai/ui tsc`
+- `pnpm --filter @go-usb-ai/ui build`
 - 结果：均通过。
 
 ## 发布/部署方式
-- 本次仅涉及 `@nextclaw/ui` 前端代码。
+- 本次仅涉及 `@go-usb-ai/ui` 前端代码。
 - 按既有前端发布流程构建并部署即可。
 
 ## 用户/产品视角的验收步骤

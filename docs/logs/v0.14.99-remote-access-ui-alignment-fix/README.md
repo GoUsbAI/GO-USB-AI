@@ -2,27 +2,27 @@
 
 相关方案：
 
-- [账号登录与远程访问产品设计](../../plans/2026-03-21-nextclaw-account-and-remote-access-product-design.md)
-- [远程访问整体执行计划](../../plans/2026-03-21-nextclaw-remote-access-overall-execution-plan.md)
+- [账号登录与远程访问产品设计](../../plans/2026-03-21-go-usb-ai-account-and-remote-access-product-design.md)
+- [远程访问整体执行计划](../../plans/2026-03-21-go-usb-ai-remote-access-overall-execution-plan.md)
 
 ## 迭代完成说明
 
 - 根据真实界面反馈，重新收敛远程访问页面，移除偏离项目既有风格的深色 Hero 设计，改回与现有设置页一致的浅色卡片风格。
 - 删除主流程里残留的“高级设置 / 诊断 / 服务控制”旧心智入口，远程访问页只保留用户必要信息：账号、设备、连接状态、开启/关闭动作、前往设备列表入口。
-- 在远程访问主页面与账号面板中都补上“查看我的设备”入口，直接通往 NextClaw Platform 的设备列表页。
+- 在远程访问主页面与账号面板中都补上“查看我的设备”入口，直接通往 GoUsbAi Platform 的设备列表页。
 - 对“已断开”状态增加直白提示：若本地服务没运行会明确提示；若平台侧主动断开且没有错误文本，会给出平台中继/登录态/云端配额等可能原因说明。
 - 调整设置侧边栏账号入口样式，使其回到项目既有侧边栏语言与视觉体系，不再出现突兀的大卡片样式。
 
 ## 测试/验证/验收方式
 
 - 代码验证：
-  - `pnpm -C packages/nextclaw-ui tsc`
-  - `pnpm -C packages/nextclaw-ui build`
-  - `pnpm -C packages/nextclaw-ui lint`
-  - `pnpm -C packages/nextclaw build`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
+  - `pnpm -C packages/go-usb-ai-ui build`
+  - `pnpm -C packages/go-usb-ai-ui lint`
+  - `pnpm -C packages/go-usb-ai build`
 - 运行态冒烟：
   - 在隔离目录启动实例：
-    - `NEXTCLAW_HOME=/tmp/nextclaw-remote-access-smoke node packages/nextclaw/dist/cli/index.js serve --ui-port 18822`
+    - `GOUSB_AI_HOME=/tmp/go-usb-ai-remote-access-smoke node packages/go-usb-ai/dist/cli/index.js serve --ui-port 18822`
   - 使用 Playwright 打开 `http://127.0.0.1:18822/remote`
   - 观察点：
     - 页面存在“查看我的设备”
@@ -34,7 +34,7 @@
 ## 发布/部署方式
 
 - NPM 发布：
-  - 新增 changeset，覆盖 `@nextclaw/ui`、`nextclaw`，并按发布组联动 `@nextclaw/mcp`、`@nextclaw/server`
+  - 新增 changeset，覆盖 `@go-usb-ai/ui`、`go-usb-ai`，并按发布组联动 `@go-usb-ai/mcp`、`@go-usb-ai/server`
   - 执行 `pnpm release:version`
   - 执行 `pnpm release:publish`
 - 本次未触达平台 console 代码，不需要重新部署 `deploy:platform:console`

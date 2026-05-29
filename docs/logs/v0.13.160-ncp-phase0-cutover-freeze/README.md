@@ -15,8 +15,8 @@
   - 确认 `Phase 0` 两份交付物文档存在且可读
   - 确认主方案文档已引用这两份文档
 - 代码路径核对：
-  - 基于当前实现确认聊天路由入口仍为 `packages/nextclaw-ui/src/App.tsx` 的 `/chat/:sessionId?`
-  - 基于当前实现确认聊天主视图装配点位于 `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
+  - 基于当前实现确认聊天路由入口仍为 `packages/go-usb-ai-ui/src/App.tsx` 的 `/chat/:sessionId?`
+  - 基于当前实现确认聊天主视图装配点位于 `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
 - `build/lint/tsc`：不适用。本次仅触达文档与方案冻结，不修改运行代码路径。
 
 ## 发布/部署方式

@@ -8,7 +8,7 @@
 
 ## 测试/验证/验收方式
 - 前端构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/landing build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/landing build`
 - 发布流水线验证：
   - `desktop-release` workflow（新 run）需包含并通过：
     - `desktop-darwin-arm64`
@@ -17,7 +17,7 @@
     - `publish-release-assets`
 - 发布后抽检：
   - Release 资产必须包含 `...-arm64.dmg` 与 `...-x64.dmg` 以及 `...win32-x64-unpacked.zip`。
-  - macOS 两个 DMG 均做 `codesign --verify --deep --strict`；Windows 包内确认 `NextClaw Desktop.exe` 存在。
+  - macOS 两个 DMG 均做 `codesign --verify --deep --strict`；Windows 包内确认 `GoUsbAi Desktop.exe` 存在。
 
 ## 发布/部署方式
 - 创建新正式版 tag（非 pre-release），触发 `desktop-release` 上传三平台资产。

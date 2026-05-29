@@ -10,15 +10,15 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui tsc`
-- `pnpm --filter @nextclaw/ui test -- src/features/chat/components/conversation/session-header/chat-session-header-actions.test.tsx src/features/chat/components/conversation/chat-conversation-header.test.tsx src/features/chat/managers/ncp-chat-thread.manager.test.ts src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
-- `pnpm --filter @nextclaw/ui exec eslint ...触达文件`
+- `pnpm --filter @go-usb-ai/ui tsc`
+- `pnpm --filter @go-usb-ai/ui test -- src/features/chat/components/conversation/session-header/chat-session-header-actions.test.tsx src/features/chat/components/conversation/chat-conversation-header.test.tsx src/features/chat/managers/ncp-chat-thread.manager.test.ts src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
+- `pnpm --filter @go-usb-ai/ui exec eslint ...触达文件`
 - `pnpm lint:new-code:governance -- ...触达文件`
 - `pnpm check:governance-backlog-ratchet`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths ...触达文件`
 - `curl -I http://127.0.0.1:5185/chat` 与 Vite 源码模块请求，验证本次触达模块能被 dev server 转换。
 
-全量 `pnpm --filter @nextclaw/ui lint` 曾运行超过两分钟无输出后被终止，因此改用触达文件 targeted ESLint 覆盖本次变更表面。全量 `pnpm lint:new-code:governance` 曾被未归属本次任务的 Feishu 扩展改动阻塞，因此本次使用触达文件范围运行并通过。
+全量 `pnpm --filter @go-usb-ai/ui lint` 曾运行超过两分钟无输出后被终止，因此改用触达文件 targeted ESLint 覆盖本次变更表面。全量 `pnpm lint:new-code:governance` 曾被未归属本次任务的 Feishu 扩展改动阻塞，因此本次使用触达文件范围运行并通过。
 
 ## 发布/部署方式
 

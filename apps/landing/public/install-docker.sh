@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-APP_NAME="nextclaw"
-CONTAINER_NAME="${NEXTCLAW_DOCKER_CONTAINER_NAME:-nextclaw}"
-UI_PORT="${NEXTCLAW_DOCKER_UI_PORT:-55667}"
-API_PORT="${NEXTCLAW_DOCKER_API_PORT:-18890}"
-DATA_DIR="${NEXTCLAW_DOCKER_DATA_DIR:-${HOME}/.nextclaw-docker}"
-DOCKER_IMAGE="${NEXTCLAW_DOCKER_IMAGE:-node:22-bookworm-slim}"
-INSTALL_TARGET="${NEXTCLAW_DOCKER_INSTALL_TARGET:-nextclaw@latest}"
-HEALTH_TIMEOUT_SEC="${NEXTCLAW_DOCKER_HEALTH_TIMEOUT_SEC:-180}"
+APP_NAME="go-usb-ai"
+CONTAINER_NAME="${GOUSB_AI_DOCKER_CONTAINER_NAME:-go-usb-ai}"
+UI_PORT="${GOUSB_AI_DOCKER_UI_PORT:-55667}"
+API_PORT="${GOUSB_AI_DOCKER_API_PORT:-18890}"
+DATA_DIR="${GOUSB_AI_DOCKER_DATA_DIR:-${HOME}/.go-usb-ai-docker}"
+DOCKER_IMAGE="${GOUSB_AI_DOCKER_IMAGE:-node:22-bookworm-slim}"
+INSTALL_TARGET="${GOUSB_AI_DOCKER_INSTALL_TARGET:-go-usb-ai@latest}"
+HEALTH_TIMEOUT_SEC="${GOUSB_AI_DOCKER_HEALTH_TIMEOUT_SEC:-180}"
 DRY_RUN=0
 
 log() {
-  printf '[nextclaw-docker-install] %s\n' "$*"
+  printf '[go-usb-ai-docker-install] %s\n' "$*"
 }
 
 warn() {
-  printf '[nextclaw-docker-install] warning: %s\n' "$*" >&2
+  printf '[go-usb-ai-docker-install] warning: %s\n' "$*" >&2
 }
 
 fail() {
-  printf '[nextclaw-docker-install] error: %s\n' "$*" >&2
+  printf '[go-usb-ai-docker-install] error: %s\n' "$*" >&2
   exit 1
 }
 
@@ -31,10 +31,10 @@ Usage: install-docker.sh [options]
 Options:
   --ui-port <port>          UI port (default: 55667)
   --api-port <port>         Gateway API port mapped to host (default: 18890)
-  --data-dir <path>         Persistent data directory mounted to /data (default: ~/.nextclaw-docker)
-  --container-name <name>   Docker container name (default: nextclaw)
+  --data-dir <path>         Persistent data directory mounted to /data (default: ~/.go-usb-ai-docker)
+  --container-name <name>   Docker container name (default: go-usb-ai)
   --image <image>           Docker image for runtime bootstrap (default: node:22-bookworm-slim)
-  --target <pkg>            npm package target inside container (default: nextclaw@latest)
+  --target <pkg>            npm package target inside container (default: go-usb-ai@latest)
   --health-timeout <sec>    Max seconds waiting for service readiness (default: 180)
   --dry-run                 Print docker command only
   -h, --help                Show help
@@ -186,26 +186,26 @@ run_cmd_with_init=(
   --name "${CONTAINER_NAME}"
   --restart unless-stopped
   --init
-  -e NEXTCLAW_HOME=/data
-  -e NEXTCLAW_UI_PORT="${UI_PORT}"
+  -e GOUSB_AI_HOME=/data
+  -e GOUSB_AI_UI_PORT="${UI_PORT}"
   -p "${UI_PORT}:${UI_PORT}"
   -p "${API_PORT}:18790"
   -v "${DATA_DIR}:/data"
   "${DOCKER_IMAGE}"
-  sh -lc "npm i -g ${INSTALL_TARGET} && nextclaw init && exec nextclaw serve --ui-port ${UI_PORT}"
+  sh -lc "npm i -g ${INSTALL_TARGET} && go-usb-ai init && exec go-usb-ai serve --ui-port ${UI_PORT}"
 )
 
 run_cmd_without_init=(
   docker run -d
   --name "${CONTAINER_NAME}"
   --restart unless-stopped
-  -e NEXTCLAW_HOME=/data
-  -e NEXTCLAW_UI_PORT="${UI_PORT}"
+  -e GOUSB_AI_HOME=/data
+  -e GOUSB_AI_UI_PORT="${UI_PORT}"
   -p "${UI_PORT}:${UI_PORT}"
   -p "${API_PORT}:18790"
   -v "${DATA_DIR}:/data"
   "${DOCKER_IMAGE}"
-  sh -lc "npm i -g ${INSTALL_TARGET} && nextclaw init && exec nextclaw serve --ui-port ${UI_PORT}"
+  sh -lc "npm i -g ${INSTALL_TARGET} && go-usb-ai init && exec go-usb-ai serve --ui-port ${UI_PORT}"
 )
 
 if (( DRY_RUN == 1 )); then
@@ -243,7 +243,7 @@ fi
 
 log "Starting ${APP_NAME} docker container..."
 "${run_cmd[@]}" >/dev/null
-log "Bootstrapping runtime inside container (npm install + nextclaw init + first start). This may take 10-120s depending on network."
+log "Bootstrapping runtime inside container (npm install + go-usb-ai init + first start). This may take 10-120s depending on network."
 
 if ! wait_for_health; then
   warn "Health check timeout after ${HEALTH_TIMEOUT_SEC}s: tried http://127.0.0.1:${UI_PORT}/api/health and http://127.0.0.1:${UI_PORT}/"
@@ -256,7 +256,7 @@ log "Health check passed: UI/API is reachable on port ${UI_PORT}"
 echo "UI: http://127.0.0.1:${UI_PORT}"
 echo "API: http://127.0.0.1:${UI_PORT}/api"
 echo "Gateway (direct): http://127.0.0.1:${API_PORT}"
-echo "Public deploy note: NextClaw serves plain HTTP on ${UI_PORT}."
+echo "Public deploy note: GoUsbAi serves plain HTTP on ${UI_PORT}."
 echo "If you need https:// or standard 80/443 access, put Nginx/Caddy in front and proxy to http://127.0.0.1:${UI_PORT}."
 echo "Data dir: ${DATA_DIR}"
 echo "Container: ${CONTAINER_NAME}"

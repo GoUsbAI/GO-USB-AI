@@ -51,19 +51,19 @@ function serializeUnsignedManifest(manifest) {
 }
 
 function resolvePrivateKey(args) {
-  const inlineKey = args["private-key"]?.trim() || process.env.NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY?.trim();
+  const inlineKey = args["private-key"]?.trim() || process.env.GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY?.trim();
   if (inlineKey) {
     return createPrivateKey(normalizePem(inlineKey));
   }
 
   const privateKeyPath =
-    args["private-key-file"]?.trim() || process.env.NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY_FILE?.trim();
+    args["private-key-file"]?.trim() || process.env.GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY_FILE?.trim();
   if (privateKeyPath) {
     return createPrivateKey(readFileSync(resolve(privateKeyPath), "utf8"));
   }
 
   throw new Error(
-    "Missing bundle signing key. Provide --private-key, --private-key-file, NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY, or NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY_FILE."
+    "Missing bundle signing key. Provide --private-key, --private-key-file, GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY, or GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY_FILE."
   );
 }
 
@@ -108,9 +108,9 @@ function main() {
     const keyPair = generateKeyPairSync("ed25519");
     process.stdout.write(
       [
-        "# Example public key for NEXTCLAW_DESKTOP_BUNDLE_PUBLIC_KEY",
+        "# Example public key for GOUSB_AI_DESKTOP_BUNDLE_PUBLIC_KEY",
         keyPair.publicKey.export({ type: "spki", format: "pem" }).toString(),
-        "# Example private key for NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY",
+        "# Example private key for GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY",
         keyPair.privateKey.export({ type: "pkcs8", format: "pem" }).toString()
       ].join("\n")
     );

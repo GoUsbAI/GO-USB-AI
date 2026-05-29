@@ -1,21 +1,21 @@
-# NextClaw
+# GoUsbAi
 
-Homepage: https://nextclaw.io/
-Documentation: https://docs.nextclaw.io/
-Repository: https://github.com/Peiiii/nextclaw
-NPM Package: https://www.npmjs.com/package/nextclaw
+Homepage: https://go-usb-ai.io/
+Documentation: https://docs.go-usb-ai.io/
+Repository: https://github.com/Peiiii/go-usb-ai
+NPM Package: https://www.npmjs.com/package/go-usb-ai
 
 Summary:
-NextClaw is your omnipotent personal assistant, residing above the digital realm.
+GoUsbAi is your omnipotent personal assistant, residing above the digital realm.
 It orchestrates internet resources and raw compute, while staying fully local and under your control.
 
 Recommended entry points:
-- Landing (English): https://nextclaw.io/en/
-- Landing (Simplified Chinese): https://nextclaw.io/zh/
-- Docs (English): https://docs.nextclaw.io/en/
-- Docs (Simplified Chinese): https://docs.nextclaw.io/zh/
-- Roadmap: https://docs.nextclaw.io/en/guide/roadmap
-- Configuration guide: https://docs.nextclaw.io/en/guide/configuration
-- Multi-agent architecture: https://docs.nextclaw.io/en/guide/multi-agent
+- Landing (English): https://go-usb-ai.io/en/
+- Landing (Simplified Chinese): https://go-usb-ai.io/zh/
+- Docs (English): https://docs.go-usb-ai.io/en/
+- Docs (Simplified Chinese): https://docs.go-usb-ai.io/zh/
+- Roadmap: https://docs.go-usb-ai.io/en/guide/roadmap
+- Configuration guide: https://docs.go-usb-ai.io/en/guide/configuration
+- Multi-agent architecture: https://docs.go-usb-ai.io/en/guide/multi-agent
 
 Last updated: 2026-02-27

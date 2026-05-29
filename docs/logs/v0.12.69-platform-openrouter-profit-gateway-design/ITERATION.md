@@ -16,7 +16,7 @@
 - 接入文档：[access-design.md](./access-design.md)
 - 实施计划：[implementation-plan.md](./implementation-plan.md)
 
-### 1.2 后端实现（workers/nextclaw-provider-gateway-api）
+### 1.2 后端实现（workers/go-usb-ai-provider-gateway-api）
 
 - 新增 migration：`0005_openrouter_business_loop.sql`
   - `provider_accounts`
@@ -51,9 +51,9 @@
 
 已执行并通过：
 
-1. `pnpm -C workers/nextclaw-provider-gateway-api build`
-2. `pnpm -C workers/nextclaw-provider-gateway-api lint`
-3. `pnpm -C workers/nextclaw-provider-gateway-api tsc`
+1. `pnpm -C workers/go-usb-ai-provider-gateway-api build`
+2. `pnpm -C workers/go-usb-ai-provider-gateway-api lint`
+3. `pnpm -C workers/go-usb-ai-provider-gateway-api tsc`
 4. `pnpm -C apps/platform-admin build`
 5. `pnpm -C apps/platform-admin lint`
 6. `pnpm -C apps/platform-admin tsc`
@@ -96,17 +96,17 @@
 2. 管理端：
    - `pnpm deploy:platform:admin`
    - Pages 发布成功：
-     - `https://64935817.nextclaw-platform-admin.pages.dev`
+     - `https://64935817.go-usb-ai-platform-admin.pages.dev`
 
 ## 4) 用户/产品视角的验收步骤
 
 ### 4.1 线上发布后最小验收（已执行）
 
-1. `GET https://ai-gateway-api.nextclaw.io/health` 返回 200。
+1. `GET https://ai-gateway-api.go-usb-ai.io/health` 返回 200。
 2. `GET /platform/admin/providers` 未带 token 返回 401（路由已上线且鉴权生效）。
 3. `GET /platform/admin/profit/overview` 未带 token 返回 401（路由已上线且鉴权生效）。
 4. 管理端发布地址访问 200：
-   - `https://64935817.nextclaw-platform-admin.pages.dev`
+   - `https://64935817.go-usb-ai-platform-admin.pages.dev`
 
 ### 4.2 业务验收步骤（运营/产品）
 

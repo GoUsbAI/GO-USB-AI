@@ -9,7 +9,7 @@
 - 增加服务端测试，覆盖“未传 `methodId` 时 MiniMax OAuth 默认走 `cn`”的行为。
 
 ## 测试/验证/验收方式
-- 单测：`pnpm -C packages/nextclaw-server test -- --run src/ui/router.provider-test.test.ts`
+- 单测：`pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.provider-test.test.ts`
 - 全量静态与构建验证：
   - `pnpm build`
   - `pnpm lint`
@@ -18,7 +18,7 @@
 
 ## 发布/部署方式
 - 本次为前后端配置逻辑与 UI 行为调整，无额外 migration。
-- 按常规流程完成合并后发布包含 `nextclaw-server` / `nextclaw-ui` 的版本即可。
+- 按常规流程完成合并后发布包含 `go-usb-ai-server` / `go-usb-ai-ui` 的版本即可。
 
 ## 用户/产品视角的验收步骤
 1. 打开 UI 的 Provider 页面，选择 `minimax-portal`。

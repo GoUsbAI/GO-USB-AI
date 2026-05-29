@@ -1,10 +1,10 @@
-# NextClaw 飞书能力复用与架构设计
+# GoUsbAi 飞书能力复用与架构设计
 
 ## 文档目的
 
 这份文档回答的不是“要不要对齐飞书官方插件能力”，而是：
 
-在 NextClaw 以 AgentOS 为目标、同时要求`最佳可维护性`、`最低新增复杂度`、`最大化复用飞书官方实现`的前提下，我们应该如何吸收飞书官方插件的实现。
+在 GoUsbAi 以 AgentOS 为目标、同时要求`最佳可维护性`、`最低新增复杂度`、`最大化复用飞书官方实现`的前提下，我们应该如何吸收飞书官方插件的实现。
 
 设计基线：
 
@@ -20,7 +20,7 @@
 
 1. 飞书官方插件里`大部分能力代码是可迁移的`
 2. 不能直接拿来用的，主要是少量 OpenClaw 接壳层
-3. 对 NextClaw 最优的方案不是“整体依赖官方包”，也不是“全部重写”，而是：
+3. 对 GoUsbAi 最优的方案不是“整体依赖官方包”，也不是“全部重写”，而是：
 
 `以官方插件为 upstream reference，做选择性代码吸收`
 
@@ -90,7 +90,7 @@
 
 - 可以直接复制逻辑
 - 允许前期保留较接近 upstream 的文件结构
-- 但进入 NextClaw 后，应逐步收敛到 TypeScript、现有命名规范、现有测试规范
+- 但进入 GoUsbAi 后，应逐步收敛到 TypeScript、现有命名规范、现有测试规范
 
 换句话说：
 
@@ -120,7 +120,7 @@
 
 1. 保留内部策略与算法
 2. 重写入口和上下文注入方式
-3. 让这些模块只依赖 NextClaw 的抽象
+3. 让这些模块只依赖 GoUsbAi 的抽象
 
 例如：
 
@@ -140,9 +140,9 @@
 
 我们应该把它改成：
 
-- `NextclawFeishuClient`
-- `NextclawFeishuAuthContext`
-- `NextclawFeishuScopeGuard`
+- `GoUsbAiFeishuClient`
+- `GoUsbAiFeishuAuthContext`
+- `GoUsbAiFeishuScopeGuard`
 
 让“策略复用”和“壳层解耦”同时成立。
 
@@ -163,7 +163,7 @@
 
 - 这些模块直接绑定 OpenClaw 的 channel plugin contract
 - 会话历史、reply dispatch、pairing、directory、CLI command、diagnose command 都按 OpenClaw 结构组织
-- 即使复制进来，也会把 NextClaw 反向拖向 OpenClaw 的模型
+- 即使复制进来，也会把 GoUsbAi 反向拖向 OpenClaw 的模型
 
 这里最好的做法是：
 
@@ -176,7 +176,7 @@
 
 推荐新增：
 
-- `packages/extensions/nextclaw-feishu-core`
+- `packages/extensions/go-usb-ai-feishu-core`
 
 职责：
 
@@ -189,12 +189,12 @@
 
 现有包职责调整如下：
 
-- `packages/extensions/nextclaw-channel-runtime`
+- `packages/extensions/go-usb-ai-channel-runtime`
   - 只保留渠道接入、消息 ingress/egress、session routing、channel-specific runtime glue
-- `packages/extensions/nextclaw-channel-plugin-feishu`
+- `packages/extensions/go-usb-ai-channel-plugin-feishu`
   - 只保留 OpenClaw-compatible 壳层导出
-- `packages/nextclaw-server` 或未来统一 tool/runtime 层
-  - 调用 `nextclaw-feishu-core` 暴露管理能力和工具能力
+- `packages/go-usb-ai-server` 或未来统一 tool/runtime 层
+  - 调用 `go-usb-ai-feishu-core` 暴露管理能力和工具能力
 
 这样做的原因：
 
@@ -205,7 +205,7 @@
 
 ## 通用抽象建议
 
-飞书能力吸收时，不应直接以“飞书产品名”作为顶层能力模型，而应先落入 NextClaw 的通用工作面：
+飞书能力吸收时，不应直接以“飞书产品名”作为顶层能力模型，而应先落入 GoUsbAi 的通用工作面：
 
 - `messaging`
 - `document`
@@ -226,12 +226,12 @@
 
 ### 策略 1：不把官方包作为生产依赖
 
-不建议让 NextClaw 运行时直接依赖 `@larksuiteoapi/feishu-openclaw-plugin`。
+不建议让 GoUsbAi 运行时直接依赖 `@larksuiteoapi/feishu-openclaw-plugin`。
 
 原因：
 
 - 它的公共入口就是 OpenClaw plugin contract
-- 升级会把 NextClaw 绑到 OpenClaw 的接口波动
+- 升级会把 GoUsbAi 绑到 OpenClaw 的接口波动
 - 出问题时很难局部替换
 
 正确方式是：
@@ -244,7 +244,7 @@
 
 - 首次引入时允许直接复制逻辑
 - 保留 upstream 来源说明
-- 一旦进入 NextClaw 仓库，就由 NextClaw 负责后续维护
+- 一旦进入 GoUsbAi 仓库，就由 GoUsbAi 负责后续维护
 
 不要做：
 
@@ -278,7 +278,7 @@
 - 标注 A/B/C 三类文件
 - 明确 license header 保留方式
 
-### Phase 1：先搭 `nextclaw-feishu-core`
+### Phase 1：先搭 `go-usb-ai-feishu-core`
 
 优先吸收：
 
@@ -330,8 +330,8 @@
 
 后果：
 
-- NextClaw 架构边界被污染
-- 未来维护时不断出现 “这段到底是 OpenClaw 逻辑还是 NextClaw 逻辑”
+- GoUsbAi 架构边界被污染
+- 未来维护时不断出现 “这段到底是 OpenClaw 逻辑还是 GoUsbAi 逻辑”
 
 防线：
 
@@ -347,7 +347,7 @@
 防线：
 
 - 允许 bootstrap 期复制
-- 一旦进入主线，就按 NextClaw 风格持续归一
+- 一旦进入主线，就按 GoUsbAi 风格持续归一
 
 ### 风险 3：过早抽象成全平台通用层
 
@@ -358,7 +358,7 @@
 
 防线：
 
-- 先有 `nextclaw-feishu-core`
+- 先有 `go-usb-ai-feishu-core`
 - 后有跨平台通用面
 
 ## 当前推荐决策
@@ -367,7 +367,7 @@
 
 1. 确认 upstream 固定版本和来源清单
 2. 建立 A/B/C 分类清单
-3. 设计并落地 `nextclaw-feishu-core`
+3. 设计并落地 `go-usb-ai-feishu-core`
 4. 先做消息面 P0
 5. 再逐块吸收文档 / 表格 / 日历 / 任务能力
 
@@ -381,7 +381,7 @@
 - 每个文件的处理方式
 - owner
 
-2. `nextclaw-feishu-core implementation plan`
+2. `go-usb-ai-feishu-core implementation plan`
 内容：
 - 包结构
 - 首批要落的模块

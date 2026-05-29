@@ -18,8 +18,8 @@
   - `git log --since='24 hours ago'`
   - `git log --since='24 hours ago' --name-status`
 - 发布状态验证：
-  - `npm view nextclaw dist-tags --json`
-  - `npm view nextclaw versions --json`
+  - `npm view go-usb-ai dist-tags --json`
+  - `npm view go-usb-ai versions --json`
 - 输出文件检查：
   - `docs/logs/v0.12.12-24h-curated-report-and-promo/change-report.md`
   - `docs/logs/v0.12.12-24h-curated-report-and-promo/promo-copy.md`

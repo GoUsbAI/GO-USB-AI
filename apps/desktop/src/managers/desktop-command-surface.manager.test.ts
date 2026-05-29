@@ -26,18 +26,18 @@ function createProfile(root: string, installationKind: DesktopInstallationProfil
 }
 
 test("desktop command surface writes manifest and shims for installed profile", async () => {
-  const root = mkdtempSync(join(tmpdir(), "nextclaw-command-surface-"));
+  const root = mkdtempSync(join(tmpdir(), "go-usb-ai-command-surface-"));
   try {
-    const runtimeScriptPath = join(root, "node_modules", "nextclaw", "dist", "cli", "app", "index.js");
+    const runtimeScriptPath = join(root, "node_modules", "go-usb-ai", "dist", "cli", "app", "index.js");
     mkdirSync(dirname(runtimeScriptPath), { recursive: true });
     writeFileSync(runtimeScriptPath, "");
     const result = await new DesktopCommandSurfaceManager({
       profile: createProfile(root, "installed"),
-      appExecutablePath: "/Applications/NextClaw Desktop.app/Contents/MacOS/NextClaw Desktop",
+      appExecutablePath: "/Applications/GoUsbAi Desktop.app/Contents/MacOS/GoUsbAi Desktop",
       appIsPackaged: false,
       appPath: root,
       resourcesPath: join(root, "resources"),
-      compiledMainDir: "/Applications/NextClaw Desktop.app/Contents/Resources/app.asar/dist/src",
+      compiledMainDir: "/Applications/GoUsbAi Desktop.app/Contents/Resources/app.asar/dist/src",
       launcherVersion: "0.0.189"
     }).ensure();
 
@@ -45,10 +45,10 @@ test("desktop command surface writes manifest and shims for installed profile", 
     assert.equal(manifest.schemaVersion, 1);
     assert.equal(manifest.installationKind, "installed");
     assert.equal(manifest.runtimeHome, join(root, "runtime-home"));
-    assert.equal(result.runtimeEnvPatch.NEXTCLAW_COMMAND_SURFACE_BIN, result.binDir);
+    assert.equal(result.runtimeEnvPatch.GOUSB_AI_COMMAND_SURFACE_BIN, result.binDir);
 
-    const posixShimPath = join(result.binDir, "nextclaw");
-    const windowsShimPath = join(result.binDir, "nextclaw.cmd");
+    const posixShimPath = join(result.binDir, "go-usb-ai");
+    const windowsShimPath = join(result.binDir, "go-usb-ai.cmd");
     assert.equal(existsSync(posixShimPath), true);
     assert.equal(existsSync(windowsShimPath), true);
     assert.match(readFileSync(posixShimPath, "utf8"), /ELECTRON_RUN_AS_NODE=1 exec/);
@@ -61,11 +61,11 @@ test("desktop command surface writes manifest and shims for installed profile", 
 });
 
 test("desktop command surface is idempotent for portable profile", async () => {
-  const root = mkdtempSync(join(tmpdir(), "nextclaw-command-surface-portable-"));
+  const root = mkdtempSync(join(tmpdir(), "go-usb-ai-command-surface-portable-"));
   try {
     const service = new DesktopCommandSurfaceManager({
       profile: createProfile(root, "portable"),
-      appExecutablePath: join(root, "NextClaw Desktop.exe"),
+      appExecutablePath: join(root, "GoUsbAi Desktop.exe"),
       appIsPackaged: true,
       appPath: root,
       resourcesPath: join(root, "resources"),

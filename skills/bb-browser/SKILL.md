@@ -7,9 +7,9 @@ description: Use when the user wants browser-backed web data access, authenticat
 
 ## Overview
 
-Use this skill when the user wants to use the web through their real browser session inside NextClaw.
+Use this skill when the user wants to use the web through their real browser session inside GoUsbAi.
 
-This marketplace skill wraps the upstream `epiral/bb-browser` project for NextClaw users.
+This marketplace skill wraps the upstream `epiral/bb-browser` project for GoUsbAi users.
 
 Be explicit about the boundary:
 
@@ -33,18 +33,18 @@ Do not pretend the environment is ready when it is not.
 - inventing site adapters or flags that `bb-browser` does not expose,
 - pretending a site command is safe when it can write, post, delete, purchase, or change account state,
 - hiding missing prerequisites such as the local CLI, running browser, daemon connectivity, or login state,
-- presenting third-party browser execution as native built-in NextClaw capability,
+- presenting third-party browser execution as native built-in GoUsbAi capability,
 - silently creating or publishing new adapters to the upstream ecosystem.
 
 ## Install Boundary
 
 Always distinguish these paths:
 
-- NextClaw marketplace skill install:
-  `nextclaw skills install bb-browser`
+- GoUsbAi marketplace skill install:
+  `go-usb-ai skills install bb-browser`
 - Upstream runtime install:
   `npm install -g bb-browser`
-- Optional MCP wiring outside NextClaw:
+- Optional MCP wiring outside GoUsbAi:
   configure `bb-browser --mcp` in the target MCP client
 
 Installing the marketplace skill does not install the upstream runtime automatically.
@@ -238,4 +238,4 @@ This skill is working correctly when:
 
 ## Attribution
 
-This skill adapts the upstream `epiral/bb-browser` project for the NextClaw marketplace.
+This skill adapts the upstream `epiral/bb-browser` project for the GoUsbAi marketplace.

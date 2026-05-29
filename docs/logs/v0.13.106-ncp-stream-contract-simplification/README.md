@@ -6,35 +6,35 @@
 - 将字段 `remoteRunId` 替换为 `runId`
 - 将 `NcpAgentClientEndpoint.resume()` 替换为 `stream()`
 - 将 HTTP agent transport 路由从 `GET /reconnect` 替换为 `GET /stream`
-- 同步更新 `@nextclaw/ncp`、`@nextclaw/ncp-http-agent-client`、`@nextclaw/ncp-http-agent-server`、`@nextclaw/ncp-toolkit` 的测试、注释和导出
+- 同步更新 `@go-usb-ai/ncp`、`@go-usb-ai/ncp-http-agent-client`、`@go-usb-ai/ncp-http-agent-server`、`@go-usb-ai/ncp-toolkit` 的测试、注释和导出
 - 修正 `ncp-toolkit` 中一个测试的事件枚举写法，使当前类型系统可以完整通过校验
 
 # 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ncp tsc`
-- `pnpm -C packages/nextclaw-ncp build`
-- `pnpm -C packages/nextclaw-ncp-http-agent-client tsc`
-- `pnpm -C packages/nextclaw-ncp-http-agent-client build`
-- `pnpm -C packages/nextclaw-ncp-http-agent-client test`
-- `pnpm -C packages/nextclaw-ncp-http-agent-server tsc`
-- `pnpm -C packages/nextclaw-ncp-http-agent-server build`
-- `pnpm -C packages/nextclaw-ncp-http-agent-server test`
-- `pnpm -C packages/nextclaw-ncp-toolkit tsc`
-- `pnpm -C packages/nextclaw-ncp-toolkit build`
-- `pnpm -C packages/nextclaw-ncp-toolkit test`
-- `pnpm -C packages/nextclaw-ncp lint`
-- `pnpm -C packages/nextclaw-ncp-http-agent-client lint`
-- `pnpm -C packages/nextclaw-ncp-http-agent-server lint`
-- `pnpm -C packages/nextclaw-ncp-toolkit lint`
+- `pnpm -C packages/go-usb-ai-ncp tsc`
+- `pnpm -C packages/go-usb-ai-ncp build`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-client tsc`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-client build`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-client test`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-server tsc`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-server build`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-server test`
+- `pnpm -C packages/go-usb-ai-ncp-toolkit tsc`
+- `pnpm -C packages/go-usb-ai-ncp-toolkit build`
+- `pnpm -C packages/go-usb-ai-ncp-toolkit test`
+- `pnpm -C packages/go-usb-ai-ncp lint`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-client lint`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-server lint`
+- `pnpm -C packages/go-usb-ai-ncp-toolkit lint`
 
 # 发布/部署方式
 
 - 本次仅优化库内部 contract，未执行发布
 - 后续如需发布，按既有 NPM 发布流程对受影响包联动发版：
-  - `@nextclaw/ncp`
-  - `@nextclaw/ncp-http-agent-client`
-  - `@nextclaw/ncp-http-agent-server`
-  - `@nextclaw/ncp-toolkit`
+  - `@go-usb-ai/ncp`
+  - `@go-usb-ai/ncp-http-agent-client`
+  - `@go-usb-ai/ncp-http-agent-server`
+  - `@go-usb-ai/ncp-toolkit`
 
 # 用户/产品视角的验收步骤
 

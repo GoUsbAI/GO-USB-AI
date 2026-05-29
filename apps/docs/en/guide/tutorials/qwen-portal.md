@@ -5,7 +5,7 @@ This is one provider setup path. The goal is not to compare every model; it is t
 ## Steps
 
 1. Prepare a usable account or authentication details.
-2. Add a provider in the NextClaw UI.
+2. Add a provider in the GoUsbAi UI.
 3. Enter the connection details.
 4. Select a default model.
 5. Save and send one real message.
@@ -13,7 +13,7 @@ This is one provider setup path. The goal is not to compare every model; it is t
 ## Verify
 
 ```bash
-nextclaw doctor
+go-usb-ai doctor
 ```
 
 If the UI returns a normal reply, this provider path works.

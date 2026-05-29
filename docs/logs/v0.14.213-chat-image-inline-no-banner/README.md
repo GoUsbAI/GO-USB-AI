@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-- 修正主聊天消息列表里图片附件的渲染方式，命中真实组件 `@nextclaw/agent-chat-ui`。
+- 修正主聊天消息列表里图片附件的渲染方式，命中真实组件 `@go-usb-ai/agent-chat-ui`。
 - 图片附件不再使用 `figure + figcaption` 卡片样式，去掉底部“图片附件”横幅。
 - 图片附件不再包在圆角裁切容器里，避免圆角导致图片内容边缘被遮挡。
 - 保留非图片文件附件的现有文件卡片展示，不影响普通附件信息。
@@ -11,21 +11,21 @@
 ## 测试/验证/验收方式
 
 - 单测：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui build`
 - 类型验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
 - Lint 验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui lint`
-  - 结果：通过；存在仓库既有 warning，位于 `packages/nextclaw-agent-chat-ui/src/components/chat/utils/copy-text.ts:22`，与本次改动无关。
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui lint`
+  - 结果：通过；存在仓库既有 warning，位于 `packages/go-usb-ai-agent-chat-ui/src/components/chat/utils/copy-text.ts:22`，与本次改动无关。
 - 可维护性自检：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
 
 ## 发布/部署方式
 
 - 本次未执行正式发布。
-- 若要让依赖该组件库的前端界面立即体现改动，需要重新构建并使用最新的 `@nextclaw/agent-chat-ui` 产物；若当前正在运行前端开发服务，需等待热更新或重启前端进程。
+- 若要让依赖该组件库的前端界面立即体现改动，需要重新构建并使用最新的 `@go-usb-ai/agent-chat-ui` 产物；若当前正在运行前端开发服务，需等待热更新或重启前端进程。
 
 ## 用户/产品视角的验收步骤
 

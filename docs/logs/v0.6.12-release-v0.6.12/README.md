@@ -7,13 +7,13 @@
 
 ## 发布范围
 
-- `nextclaw@0.6.12`
-- `@nextclaw/core@0.6.10`
+- `go-usb-ai@0.6.12`
+- `@go-usb-ai/core@0.6.10`
 
 未发布（版本未变更）：
-- `@nextclaw/openclaw-compat@0.1.5`
-- `@nextclaw/server@0.4.2`
-- `@nextclaw/ui@0.3.9`
+- `@go-usb-ai/openclaw-compat@0.1.5`
+- `@go-usb-ai/server@0.4.2`
+- `@go-usb-ai/ui@0.3.9`
 
 ## 执行记录
 
@@ -33,9 +33,9 @@ pnpm release:publish
 
 - 本地校验通过：`build/lint/tsc`（仅仓库既有 warning，无新增 error）。
 - `/tmp` 隔离冒烟通过：
-  - `pnpm -C packages/nextclaw exec tsx /tmp/nextclaw-restart-path-fix-smoke.ts`
-  - `pnpm dlx tsx /tmp/nextclaw-restart-e2e-guard-smoke.ts`
-  - `pnpm dlx tsx /tmp/nextclaw-restart-notify-smoke.ts`
+  - `pnpm -C packages/go-usb-ai exec tsx /tmp/go-usb-ai-restart-path-fix-smoke.ts`
+  - `pnpm dlx tsx /tmp/go-usb-ai-restart-e2e-guard-smoke.ts`
+  - `pnpm dlx tsx /tmp/go-usb-ai-restart-notify-smoke.ts`
 - 本机真实 Discord E2E 通过：
   - 重启前后 PID 发生变化；
   - 频道命中回执 `Gateway restart complete (cli.restart).`。

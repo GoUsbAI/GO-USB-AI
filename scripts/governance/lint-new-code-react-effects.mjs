@@ -18,7 +18,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-react-effects.mjs
   node scripts/governance/lint-new-code-react-effects.mjs --staged
   node scripts/governance/lint-new-code-react-effects.mjs --base origin/main
-  node scripts/governance/lint-new-code-react-effects.mjs -- packages/nextclaw-ui/src
+  node scripts/governance/lint-new-code-react-effects.mjs -- packages/go-usb-ai-ui/src
 
 Checks touched React effects in changed workspace source files.
 Touched useEffect/useLayoutEffect callbacks must stay focused on external-system synchronization.

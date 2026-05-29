@@ -9,8 +9,8 @@
 
 ## 测试/验证/验收方式
 
-- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-ui test src/components/chat/ChatWelcome.test.tsx`
-- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-ui test src/components/chat/ChatWelcome.test.tsx`
+- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
 - `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainability:guard`
 
 ## 发布/部署方式
@@ -31,5 +31,5 @@
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。核心收敛是把“大卡片 + 按钮组 + 当前态提示”压成“轻标签 + 单控件”。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：基本做到。未新增源代码文件，目录平铺度未恶化；当前代码 diff 统计为新增 47 行、删除 39 行、净增 8 行，其中非测试代码新增 40 行、删除 37 行、净增 3 行，属于小幅净增但已接近最小必要。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：更清晰。仅在现有 `ChatWelcome` 内完成结构收敛，没有新增中间层或样式包装组件。
-- 目录结构与文件组织是否满足当前项目治理要求：本次没有新增目录问题，但 `packages/nextclaw-ui/src/components/chat` 与 `packages/nextclaw-ui/src/lib` 仍存在历史目录预算 warning；本次未继续恶化。
+- 目录结构与文件组织是否满足当前项目治理要求：本次没有新增目录问题，但 `packages/go-usb-ai-ui/src/components/chat` 与 `packages/go-usb-ai-ui/src/lib` 仍存在历史目录预算 warning；本次未继续恶化。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：是。本次结论基于对“能否继续删减可见层信息、是否仍有多余 UI 语义”的独立复核得出。

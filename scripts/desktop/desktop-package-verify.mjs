@@ -9,18 +9,18 @@ import { resolveRepoPath } from "../shared/repo-paths.mjs";
 const rootDir = resolveRepoPath(import.meta.url);
 const releaseDir = resolve(rootDir, "apps/desktop/release");
 const channelExtensionPackages = [
-  "nextclaw-channel-extension-feishu",
-  "nextclaw-channel-extension-weixin",
-  "nextclaw-channel-extension-qq",
-  "nextclaw-channel-extension-dingtalk",
-  "nextclaw-channel-extension-telegram",
-  "nextclaw-channel-extension-discord",
-  "nextclaw-channel-extension-email",
-  "nextclaw-channel-extension-slack",
-  "nextclaw-channel-extension-wecom",
-  "nextclaw-channel-extension-whatsapp"
+  "go-usb-ai-channel-extension-feishu",
+  "go-usb-ai-channel-extension-weixin",
+  "go-usb-ai-channel-extension-qq",
+  "go-usb-ai-channel-extension-dingtalk",
+  "go-usb-ai-channel-extension-telegram",
+  "go-usb-ai-channel-extension-discord",
+  "go-usb-ai-channel-extension-email",
+  "go-usb-ai-channel-extension-slack",
+  "go-usb-ai-channel-extension-wecom",
+  "go-usb-ai-channel-extension-whatsapp"
 ];
-const nextclawPackageJsonPath = resolve(rootDir, "packages/nextclaw/package.json");
+const go-usb-aiPackageJsonPath = resolve(rootDir, "packages/go-usb-ai/package.json");
 const isHandoffVerify = process.argv.includes("--handoff");
 const RUNTIME_BUNDLE_FILE_BUDGET = 400;
 
@@ -93,23 +93,23 @@ function cleanReleaseDir() {
 }
 
 function runCommonBuildSteps() {
-  run(binName("pnpm"), ["-C", "packages/nextclaw-core", "build"]);
-  run(binName("pnpm"), ["-C", "packages/nextclaw-runtime", "build"]);
+  run(binName("pnpm"), ["-C", "packages/go-usb-ai-core", "build"]);
+  run(binName("pnpm"), ["-C", "packages/go-usb-ai-runtime", "build"]);
   for (const packageName of channelExtensionPackages) {
     run(binName("pnpm"), ["-C", `packages/extensions/${packageName}`, "build"]);
   }
   for (const packageDir of [
-    "packages/ncp-packages/nextclaw-ncp",
-    "packages/ncp-packages/nextclaw-ncp-toolkit",
-    "packages/ncp-packages/nextclaw-ncp-http-agent-client",
-    "packages/ncp-packages/nextclaw-ncp-react"
+    "packages/ncp-packages/go-usb-ai-ncp",
+    "packages/ncp-packages/go-usb-ai-ncp-toolkit",
+    "packages/ncp-packages/go-usb-ai-ncp-http-agent-client",
+    "packages/ncp-packages/go-usb-ai-ncp-react"
   ]) {
     run(binName("pnpm"), ["-C", packageDir, "build"]);
   }
-  run(binName("pnpm"), ["-C", "packages/nextclaw-ui", "build"]);
-  run(binName("pnpm"), ["-C", "packages/nextclaw-openclaw-compat", "build"]);
-  run(binName("pnpm"), ["-C", "packages/nextclaw-server", "build"]);
-  run(binName("pnpm"), ["-C", "packages/nextclaw", "build"]);
+  run(binName("pnpm"), ["-C", "packages/go-usb-ai-ui", "build"]);
+  run(binName("pnpm"), ["-C", "packages/go-usb-ai-openclaw-compat", "build"]);
+  run(binName("pnpm"), ["-C", "packages/go-usb-ai-server", "build"]);
+  run(binName("pnpm"), ["-C", "packages/go-usb-ai", "build"]);
   run(binName("pnpm"), ["-C", "apps/desktop", "bundle:public-key:ensure"]);
   run(binName("pnpm"), ["-C", "apps/desktop", "bundle:seed", "--", "--channel", "stable"]);
   run(binName("pnpm"), ["-C", "apps/desktop", "lint"]);
@@ -128,10 +128,10 @@ function parsePublicKey(publicKeyPem, context) {
 }
 
 function readExpectedBundleVersion() {
-  const nextclawPackage = JSON.parse(readFileSync(nextclawPackageJsonPath, "utf8"));
-  const version = typeof nextclawPackage.version === "string" ? nextclawPackage.version.trim() : "";
+  const go-usb-aiPackage = JSON.parse(readFileSync(go-usb-aiPackageJsonPath, "utf8"));
+  const version = typeof go-usb-aiPackage.version === "string" ? go-usb-aiPackage.version.trim() : "";
   if (!version) {
-    throw new Error(`Invalid nextclaw package version: ${nextclawPackageJsonPath}`);
+    throw new Error(`Invalid go-usb-ai package version: ${go-usb-aiPackageJsonPath}`);
   }
   return version;
 }
@@ -218,7 +218,7 @@ function assertDesktopPackageExcludesNestedElectron(appRoot) {
 }
 
 function verifySeedBundleRuntimeInit(seedBundlePath) {
-  const tempRoot = mkdtempSync(join(tmpdir(), "nextclaw-seed-runtime-verify-"));
+  const tempRoot = mkdtempSync(join(tmpdir(), "go-usb-ai-seed-runtime-verify-"));
   const extractRoot = resolve(tempRoot, "extract");
   const runtimeHome = resolve(tempRoot, "home");
   try {
@@ -229,7 +229,7 @@ function verifySeedBundleRuntimeInit(seedBundlePath) {
     }
     run(binName("node"), [runtimeScriptPath, "init"], {
       env: {
-        NEXTCLAW_HOME: runtimeHome
+        GOUSB_AI_HOME: runtimeHome
       }
     });
     console.log(`[desktop-verify] seed runtime init verified: ${runtimeScriptPath}`);
@@ -290,7 +290,7 @@ function verifyMacDesktopPackage() {
   if (!dmgPath) {
     throw new Error("No dmg artifact found in apps/desktop/release");
   }
-  const mountedAppRoot = resolve(releaseDir, `mac-${arch}`, "NextClaw Desktop.app");
+  const mountedAppRoot = resolve(releaseDir, `mac-${arch}`, "GoUsbAi Desktop.app");
   const seedBundlePath = resolve(mountedAppRoot, "Contents/Resources/update/seed-product-bundle.zip");
   if (!existsSync(seedBundlePath)) {
     throw new Error(`Packaged seed bundle missing: ${seedBundlePath}`);
@@ -304,7 +304,7 @@ function verifyMacDesktopPackage() {
   parsePublicKey(readFileSync(packagedPublicKeyPath, "utf8"), packagedPublicKeyPath);
   assertManifestSignatureCanBeVerified(
     packagedPublicKeyPath,
-    `https://Peiiii.github.io/nextclaw/desktop-updates/stable/manifest-stable-darwin-${arch}.json`
+    `https://Peiiii.github.io/go-usb-ai/desktop-updates/stable/manifest-stable-darwin-${arch}.json`
   );
   assertDesktopPackageExcludesNestedElectron(mountedAppRoot);
   assertSeedBundleVersion(seedBundlePath);
@@ -313,7 +313,7 @@ function verifyMacDesktopPackage() {
   run("bash", ["apps/desktop/scripts/smoke-macos-dmg.sh", dmgPath, "120"]);
   if (isHandoffVerify) {
     run("bash", ["apps/desktop/scripts/smoke-macos-dmg.sh", dmgPath, "120"], {
-      env: { NEXTCLAW_DESKTOP_SMOKE_PROFILE: "real" }
+      env: { GOUSB_AI_DESKTOP_SMOKE_PROFILE: "real" }
     });
   } else {
     console.log("[desktop-verify] real-profile handoff smoke skipped. Run `pnpm desktop:package:handoff:verify` before giving a clickable local macOS artifact to a human.");
@@ -337,7 +337,7 @@ function verifyWindowsDesktopPackage() {
   ], {
     env: { CSC_IDENTITY_AUTO_DISCOVERY: "false" }
   });
-  const desktopExePath = resolve(releaseDir, "win-unpacked", "NextClaw Desktop.exe");
+  const desktopExePath = resolve(releaseDir, "win-unpacked", "GoUsbAi Desktop.exe");
   if (!existsSync(desktopExePath)) {
     throw new Error(`No Windows desktop executable found: ${desktopExePath}`);
   }

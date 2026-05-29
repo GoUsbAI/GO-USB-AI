@@ -2,16 +2,16 @@
 
 ## 发布目标
 
-- 发布 `@nextclaw/core@0.6.12`，将系统提示词与 OpenClaw 基线对齐（保留 NextClaw 特有能力差异）。
+- 发布 `@go-usb-ai/core@0.6.12`，将系统提示词与 OpenClaw 基线对齐（保留 GoUsbAi 特有能力差异）。
 
 ## 发布范围
 
-- 已发布：`@nextclaw/core@0.6.12`
+- 已发布：`@go-usb-ai/core@0.6.12`
 - 未发布（版本已存在，无新增发布）：
-  - `nextclaw@0.6.13`
-  - `@nextclaw/openclaw-compat@0.1.5`
-  - `@nextclaw/server@0.4.2`
-  - `@nextclaw/ui@0.3.9`
+  - `go-usb-ai@0.6.13`
+  - `@go-usb-ai/openclaw-compat@0.1.5`
+  - `@go-usb-ai/server@0.4.2`
+  - `@go-usb-ai/ui@0.3.9`
 
 ## 执行记录
 
@@ -30,14 +30,14 @@ pnpm release:publish
 
 ## 发布结果
 
-- npm 发布成功：`@nextclaw/core@0.6.12`
-- tag 创建成功：`@nextclaw/core@0.6.12`
-- 远端版本核验：`npm view @nextclaw/core version` 返回 `0.6.12`
+- npm 发布成功：`@go-usb-ai/core@0.6.12`
+- tag 创建成功：`@go-usb-ai/core@0.6.12`
+- 远端版本核验：`npm view @go-usb-ai/core version` 返回 `0.6.12`
 
 ## 验证结果
 
 - `build/lint/tsc` 全通过（仅仓库既有 lint warning，无新增 error）。
-- 对齐改动对应代码：`packages/nextclaw-core/src/agent/context.ts`。
+- 对齐改动对应代码：`packages/go-usb-ai-core/src/agent/context.ts`。
 
 ## 文档复盘
 

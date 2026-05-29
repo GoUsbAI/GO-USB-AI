@@ -13,31 +13,31 @@
 
 - 现场复现：
   - 修复本机数据前，请求 `http://127.0.0.1:55667/api/ncp/sessions/cron%3Aa9e2ee22/messages?limit=300` 返回 `HTTP/1.1 500 Internal Server Error`。
-  - 定位到 `/Users/peiwang/.nextclaw/sessions/.ncp-agent-journal/cron_a9e2ee22.jsonl` 第 23 行为非法 JSONL 裸 HTML。
+  - 定位到 `/Users/peiwang/.go-usb-ai/sessions/.ncp-agent-journal/cron_a9e2ee22.jsonl` 第 23 行为非法 JSONL 裸 HTML。
 - 本机数据恢复：
   - 移除坏行后检查 journal 坏行数为 `0`。
   - 同一 API 请求返回 `HTTP/1.1 200 OK`，响应包含 `ok: true` 与 `total: 21`。
-  - 备份文件：`/Users/peiwang/.nextclaw/sessions/.ncp-agent-journal/cron_a9e2ee22.jsonl.bak-2026-05-18T14-33-08-336Z`。
+  - 备份文件：`/Users/peiwang/.go-usb-ai/sessions/.ncp-agent-journal/cron_a9e2ee22.jsonl.bak-2026-05-18T14-33-08-336Z`。
 - 自动化验证：
-  - `pnpm --filter @nextclaw/kernel test -- src/stores/ncp-agent-session-journal.store.test.ts src/services/ncp-agent-session-store-adapter.service.test.ts`
-  - `pnpm --filter @nextclaw/kernel tsc`
-  - `pnpm --filter @nextclaw/kernel lint`
+  - `pnpm --filter @go-usb-ai/kernel test -- src/stores/ncp-agent-session-journal.store.test.ts src/services/ncp-agent-session-store-adapter.service.test.ts`
+  - `pnpm --filter @go-usb-ai/kernel tsc`
+  - `pnpm --filter @go-usb-ai/kernel lint`
   - `git diff --check`
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-kernel/src/stores/ncp-agent-session-journal.store.ts packages/nextclaw-kernel/src/stores/ncp-agent-session-journal.store.test.ts packages/nextclaw-kernel/src/services/ncp-agent-session-store-adapter.service.ts packages/nextclaw-kernel/src/stores/ncp-agent-legacy-session.store.ts`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-kernel/src/stores/ncp-agent-session-journal.store.ts packages/go-usb-ai-kernel/src/stores/ncp-agent-session-journal.store.test.ts packages/go-usb-ai-kernel/src/services/ncp-agent-session-store-adapter.service.ts packages/go-usb-ai-kernel/src/stores/ncp-agent-legacy-session.store.ts`
   - `pnpm check:governance-backlog-ratchet`
 - 已知阻塞：
-  - `pnpm lint:new-code:governance` 被本轮无关的既有 touched 文件 `packages/nextclaw-openclaw-compat/src/plugins/runtime-npm.ts` 阻塞，错误为该文件缺少批准的 secondary suffix。本轮触达的 `@nextclaw/kernel` 文件已通过 package lint、tsc、定向测试与 maintainability guard。
+  - `pnpm lint:new-code:governance` 被本轮无关的既有 touched 文件 `packages/go-usb-ai-openclaw-compat/src/plugins/runtime-npm.ts` 阻塞，错误为该文件缺少批准的 secondary suffix。本轮触达的 `@go-usb-ai/kernel` 文件已通过 package lint、tsc、定向测试与 maintainability guard。
 
 ## 发布/部署方式
 
 - 本次未执行 NPM 发布、desktop 发布或 runtime update channel 发布。
 - 本机损坏会话已经通过数据修复恢复可读。
-- 源码修复需要随下一次 `@nextclaw/kernel` 所在发布批次进入安装态，才能让其他环境获得 reader 容错与 writer 合同校验。
+- 源码修复需要随下一次 `@go-usb-ai/kernel` 所在发布批次进入安装态，才能让其他环境获得 reader 容错与 writer 合同校验。
 - 不涉及数据库 migration、远程 deploy 或线上 API 冒烟。
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 NextClaw 当前本机服务。
+1. 打开 GoUsbAi 当前本机服务。
 2. 进入 `cron:a9e2ee22` 会话。
 3. 页面应正常展示历史消息，不再出现 “Non-JSON response (500 Internal Server Error)”。
 4. 对仍含单行坏 JSONL 的其他历史 journal，reader 应跳过坏行并保留后续合法消息。
@@ -56,4 +56,4 @@
 ## NPM 包发布记录
 
 - 本次未执行 NPM 发布。
-- 后续若发布，需要把 `@nextclaw/kernel` 及直接受影响的消费包纳入发布评估。
+- 后续若发布，需要把 `@go-usb-ai/kernel` 及直接受影响的消费包纳入发布评估。

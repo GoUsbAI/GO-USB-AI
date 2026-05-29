@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { resolveLocale, type LocaleCode } from '@/i18n/i18n.service';
 
-const STORAGE_KEY = 'nextclaw.platform.locale';
+const STORAGE_KEY = 'go-usb-ai.platform.locale';
 
 function readBrowserLocale(): string | null {
   if (typeof window === 'undefined') {

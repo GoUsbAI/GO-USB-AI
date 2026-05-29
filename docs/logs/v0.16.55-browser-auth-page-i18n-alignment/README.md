@@ -5,7 +5,7 @@
 - 把平台账号浏览器授权页从“纯英文、独立样式、无语言状态”的一次性页面，升级为支持 `zh-CN / en-US` 的国际化页面。
 - 新增浏览器授权页语言 owner，优先级为：显式 `locale` 参数 > 授权页语言 cookie > `Accept-Language` > 默认英文。
 - 登录、注册、重置密码、授权成功、会话失效、错误提示、验证码步骤提示都接入同一套中英文文案，并在表单提交后保持当前语言不丢失。
-- 页面视觉重新收敛到 NextClaw 现有入口风格：双栏品牌说明 + 授权卡片、统一品牌色和层级、移动端响应式布局、显式语言切换入口。
+- 页面视觉重新收敛到 GoUsbAi 现有入口风格：双栏品牌说明 + 授权卡片、统一品牌色和层级、移动端响应式布局、显式语言切换入口。
 - 将被触达的浏览器授权相关文件重命名为符合仓库治理要求的后缀命名：
   - `auth-browser-page-renderer.service.ts`
   - `auth-browser-page-copy.config.ts`
@@ -17,10 +17,10 @@
 
 ## 测试/验证/验收方式
 
-- 通过：`pnpm -C workers/nextclaw-provider-gateway-api build`
-- 通过：`pnpm -C workers/nextclaw-provider-gateway-api tsc`
-- 通过：`pnpm -C workers/nextclaw-provider-gateway-api exec eslint src/auth-browser-page-copy.config.ts src/auth-browser-page-renderer.service.ts src/auth-browser-page-styles.config.ts src/auth-browser-page-support.utils.ts src/auth-browser-route.controller.ts src/auth-browser-session.service.ts src/register-app-routes.service.ts src/index.ts --max-warnings=0`
-- 通过：`node scripts/governance/lint-new-code-governance.mjs -- workers/nextclaw-provider-gateway-api/src`
+- 通过：`pnpm -C workers/go-usb-ai-provider-gateway-api build`
+- 通过：`pnpm -C workers/go-usb-ai-provider-gateway-api tsc`
+- 通过：`pnpm -C workers/go-usb-ai-provider-gateway-api exec eslint src/auth-browser-page-copy.config.ts src/auth-browser-page-renderer.service.ts src/auth-browser-page-styles.config.ts src/auth-browser-page-support.utils.ts src/auth-browser-route.controller.ts src/auth-browser-session.service.ts src/register-app-routes.service.ts src/index.ts --max-warnings=0`
+- 通过：`node scripts/governance/lint-new-code-governance.mjs -- workers/go-usb-ai-provider-gateway-api/src`
 - 通过：`pnpm dlx tsx -e "import { renderBrowserAuthPage, resolveBrowserAuthLocale } ..."`，确认：
   - 中文自动识别生效
   - 英文显式切换生效
@@ -29,18 +29,18 @@
   - 中文注册按钮文案与英文授权按钮文案均已本地化
 - 未通过但与本次改动无关：`pnpm lint:maintainability:guard`
   - 当前失败点来自其它工作区未完成改动：
-    - `packages/nextclaw-core/src/agent` 目录预算跨阈值
-    - `packages/nextclaw-core/src/config/schema.ts` 函数级 maintainability 继续恶化
+    - `packages/go-usb-ai-core/src/agent` 目录预算跨阈值
+    - `packages/go-usb-ai-core/src/config/schema.ts` 函数级 maintainability 继续恶化
   - 本次 worker 目标路径的定向治理已通过。
-- 未通过但与本次改动无关：`pnpm -C workers/nextclaw-provider-gateway-api lint`
+- 未通过但与本次改动无关：`pnpm -C workers/go-usb-ai-provider-gateway-api lint`
   - 失败原因是该包内已有 33 条历史 warning 被 `--max-warnings=0` 放大，不是本次新增 warning。
 
 ## 发布/部署方式
 
-- 本次改动只影响 `workers/nextclaw-provider-gateway-api` 提供的浏览器授权页，不需要单独发布前端静态站点。
+- 本次改动只影响 `workers/go-usb-ai-provider-gateway-api` 提供的浏览器授权页，不需要单独发布前端静态站点。
 - 部署方式：
   - 本地验证完成后执行 `pnpm deploy:platform:backend`
-  - 或只部署 worker：`pnpm -C workers/nextclaw-provider-gateway-api run deploy`
+  - 或只部署 worker：`pnpm -C workers/go-usb-ai-provider-gateway-api run deploy`
 - 若线上已存在进行中的浏览器授权会话，不需要数据库迁移；新页面会在 worker 发布后直接生效。
 
 ## 用户/产品视角的验收步骤
@@ -51,7 +51,7 @@
 4. 在英文状态下切到“注册”或“忘记密码”，发送验证码并继续下一步，确认提交后页面仍保持英文，不会跳回中文。
 5. 刷新当前授权页，确认语言优先沿用刚刚选择的语言。
 6. 用英文浏览器默认打开，再切回中文，确认两种语言都能完整覆盖登录、注册、密码重置、授权成功、会话过期与错误提示。
-7. 对照 NextClaw 现有入口页，确认品牌色、层级、卡片感和移动端布局不再明显割裂。
+7. 对照 GoUsbAi 现有入口页，确认品牌色、层级、卡片感和移动端布局不再明显割裂。
 
 ## 可维护性总结汇总
 
@@ -59,7 +59,7 @@
 
 - 结论：`保留债务经说明接受`
 - 本次顺手减债：`是`
-- 这次改动顺着“统一入口、统一体验、开箱即用”的长期目标推进了一小步。浏览器授权页不再是一个游离在产品外的英文孤岛，而是回到了 NextClaw 统一入口的品牌和语言体系里。
+- 这次改动顺着“统一入口、统一体验、开箱即用”的长期目标推进了一小步。浏览器授权页不再是一个游离在产品外的英文孤岛，而是回到了 GoUsbAi 统一入口的品牌和语言体系里。
 - 同时也顺手偿还了两笔局部维护性债务：
   - 不再把所有文案、样式、语言解析和页面拼接硬塞在一个文件里
   - 不再继续沿用不符合当前仓库治理要求的历史命名
@@ -96,7 +96,7 @@
   - 路由处理、会话校验、页面渲染、文案配置、样式配置、语言与文案辅助函数已分层。
 - 目录结构与文件组织是否满足当前项目治理要求：`部分满足`
   - 本次触达文件的命名治理已经满足。
-  - 但 `workers/nextclaw-provider-gateway-api/src` 根目录平铺仍然偏重，`lint:maintainability:guard` 也继续提示该目录预算偏高；本次未进一步做大规模目录搬迁，是为了避免把需求从“修登录页”扩大成一轮完整目录治理。
+  - 但 `workers/go-usb-ai-provider-gateway-api/src` 根目录平铺仍然偏重，`lint:maintainability:guard` 也继续提示该目录预算偏高；本次未进一步做大规模目录搬迁，是为了避免把需求从“修登录页”扩大成一轮完整目录治理。
 - 下一步整理入口：
   - 若后续平台账号页、remote 错误页、邮件模板页继续增长，应考虑把 browser auth 相关文件进一步收敛到单独子目录，降低 `src` 根目录平铺度。
 

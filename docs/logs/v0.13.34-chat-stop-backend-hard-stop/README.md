@@ -3,7 +3,7 @@
 ## 迭代完成说明（改了什么）
 
 - 面向 `native` 场景修复“点击终止仅停止前端流，后端 run 仍继续执行”的问题。
-- 前端 stop 请求链路增强（`packages/nextclaw-ui/src/components/chat/chat-stream/transport.ts`）：
+- 前端 stop 请求链路增强（`packages/go-usb-ai-ui/src/components/chat/chat-stream/transport.ts`）：
   - stop 请求改为只依赖 `runId`，避免 `sessionKey` 误匹配导致 no-op。
   - 当本地尚未拿到 `ready.runId` 时，按会话短轮询 `queued/running` run 并重试终止。
   - stop 返回 `stopped=false` 时自动继续尝试候选 run，提升真实终止成功率。
@@ -17,16 +17,16 @@
 ## 测试/验证/验收方式
 
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-engine-plugin-codex-sdk tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-engine-plugin-claude-agent-sdk tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-engine-plugin-codex-sdk tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-engine-plugin-claude-agent-sdk tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
 - lint/build（按影响包执行）：
-  - `nextclaw-core`/`nextclaw`/两个引擎插件：`lint`、`build` 均通过（仅既有 warning，无新增 error）。
-  - `nextclaw-ui`：`build` 通过；`lint` 存在仓库既有 `ChatConversationPanel.tsx` React Compiler 规则错误（与本次改动无关）。
+  - `go-usb-ai-core`/`go-usb-ai`/两个引擎插件：`lint`、`build` 均通过（仅既有 warning，无新增 error）。
+  - `go-usb-ai-ui`：`build` 通过；`lint` 存在仓库既有 `ChatConversationPanel.tsx` React Compiler 规则错误（与本次改动无关）。
 - 单测：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw test src/cli/commands/agent-runtime-pool.command.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai test src/cli/commands/agent-runtime-pool.command.test.ts`
   - 结果：5/5 通过（含新增 stop capability 判定用例）。
 - 不适用说明：
   - 未执行端到端 UI 自动化（仓库当前无现成 stop e2e 脚本）；本轮以受影响包编译、构建、单测和本地 run 快照检查作为最小充分验证。
@@ -43,4 +43,4 @@
 3. 预期：
    - 流式输出停止后，不会在刷新后继续增长；
    - 会话列表的 run 状态从 running 退出，不再持续转圈；
-   - `~/.nextclaw/runs/<runId>.json` 的对应 run 最终应为 `aborted`（而非继续 `completed`）。
+   - `~/.go-usb-ai/runs/<runId>.json` 的对应 run 最终应为 `aborted`（而非继续 `completed`）。

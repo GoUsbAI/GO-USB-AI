@@ -2,9 +2,9 @@
 
 ## 背景
 
-2026-05-15 本地出现 `nextclaw status` 显示服务停止、页面打不开的现象。现场证据显示：
+2026-05-15 本地出现 `go-usb-ai status` 显示服务停止、页面打不开的现象。现场证据显示：
 
-- `nextclaw status` 指向 `http://127.0.0.1:55667`。
+- `go-usb-ai status` 指向 `http://127.0.0.1:55667`。
 - `55667` 端口无服务监听，旧 `service.json` 记录的 PID 97079 已不存在。
 - 当前 Desktop 进程 PID 49454 仍在运行，并监听 `http://127.0.0.1:63189`。
 - `http://127.0.0.1:63189/` 返回 HTML，`/api/health` 返回 `ok`。
@@ -20,11 +20,11 @@
 
 本方案要解决三个用户可感知问题：
 
-1. 用户打开 `nextclaw status` 给出的 URL 时不应进入假入口。
+1. 用户打开 `go-usb-ai status` 给出的 URL 时不应进入假入口。
 2. 当旧服务退出后，系统应能说明“页面为什么打不开”，而不是只说 state stale。
 3. 当无法判断旧服务为什么退出时，日志必须给出足够证据，让下一次可直接定位。
 
-这服务于 NextClaw 的“统一入口、自感知、自治”愿景：系统不只要运行，还要知道自己当前入口是否真实可用、哪个入口才是当前真相源、为什么旧入口失效。
+这服务于 GoUsbAi 的“统一入口、自感知、自治”愿景：系统不只要运行，还要知道自己当前入口是否真实可用、哪个入口才是当前真相源、为什么旧入口失效。
 
 ## 非目标
 
@@ -38,7 +38,7 @@
 
 ### 问题一：status 过度信任旧 service state
 
-当前 `nextclaw status` 主要以 `~/.nextclaw/run/service.json` 作为 managed service 真相源。只要该文件存在但 PID 死亡，就显示 stale state，并继续展示其中的旧 URL。
+当前 `go-usb-ai status` 主要以 `~/.go-usb-ai/run/service.json` 作为 managed service 真相源。只要该文件存在但 PID 死亡，就显示 stale state，并继续展示其中的旧 URL。
 
 这会造成两个误导：
 
@@ -53,7 +53,7 @@
 - URL `http://127.0.0.1:63189`
 - health ok
 
-但 `nextclaw status` 的主输出仍围绕旧 managed service 展示，导致用户无法从 status 直接知道“当前其实有一个可用页面”。
+但 `go-usb-ai status` 的主输出仍围绕旧 managed service 展示，导致用户无法从 status 直接知道“当前其实有一个可用页面”。
 
 ### 问题三：旧服务退出原因缺失
 
@@ -80,7 +80,7 @@
 3. **证据优先**：每个异常结论都要能指向具体 PID、端口、状态文件、health probe 和最近退出记录。
 4. **恢复动作显式**：自动清理或重启应作为明确的 `--fix` / UI 控制动作，不在普通 status 中偷偷改变状态。
 5. **低噪声**：remote、渠道、插件错误只有影响当前页面可用性时，才进入页面不可用主诊断。
-6. **复用现有日志系统**：用 `@nextclaw/core` 现有 logging runtime 与 scoped logger；日志点放在真正拥有生命周期事实的 owner 里，不为单个问题新增抽象层。
+6. **复用现有日志系统**：用 `@go-usb-ai/core` 现有 logging runtime 与 scoped logger；日志点放在真正拥有生命周期事实的 owner 里，不为单个问题新增抽象层。
 
 ## 方案一：status 输出区分“旧入口”和“当前可用入口”
 
@@ -106,7 +106,7 @@ Issues:
 
 Recommendations:
 - Open http://127.0.0.1:63189.
-- Run nextclaw status --fix to remove stale managed service state.
+- Run go-usb-ai status --fix to remove stale managed service state.
 ```
 
 ### 实现要点
@@ -146,7 +146,7 @@ logger.warn("runtime.process.exited", {
 
 因此补日志的方式是：
 
-- 继续写入现有 `~/.nextclaw/logs/service.log`。
+- 继续写入现有 `~/.go-usb-ai/logs/service.log`。
 - 每个模块使用自己的 scoped logger。
 - 事件名稳定，字段结构化。
 - 不新增 `RuntimeLifecycleRecorder`、不新增 `service-exit-history.jsonl`、不新增独立生命周期存储。
@@ -182,7 +182,7 @@ service_state.stale_detected
 文件：
 
 ```text
-packages/nextclaw-service/src/shared/services/runtime/service-managed-startup.service.ts
+packages/go-usb-ai-service/src/shared/services/runtime/service-managed-startup.service.ts
 ```
 
 现有位置：
@@ -221,7 +221,7 @@ logger.info("service_state.written", {
 文件：
 
 ```text
-packages/nextclaw-service/src/shared/services/runtime/runtime-command.service.ts
+packages/go-usb-ai-service/src/shared/services/runtime/runtime-command.service.ts
 ```
 
 现有长期进程入口：
@@ -233,7 +233,7 @@ RuntimeCommandService.startGateway(...)
 建议在 `ensureRuntimeLoggingInstalled()` 后，用现有 logger 记录当前进程自身生命周期：
 
 ```ts
-const logger = NextclawCore.getAppLogger("service.runtime");
+const logger = GoUsbAiCore.getAppLogger("service.runtime");
 
 logger.info("runtime.process.started", {
   runtimeKind: "serve-process",
@@ -242,7 +242,7 @@ logger.info("runtime.process.started", {
 });
 ```
 
-`@nextclaw/core` 已有 `getAppLogger(scope)`，不需要为了这个场景新增日志获取抽象。
+`@go-usb-ai/core` 已有 `getAppLogger(scope)`，不需要为了这个场景新增日志获取抽象。
 
 退出日志可以用一个局部函数安装：
 
@@ -320,7 +320,7 @@ this.options.logger.info("runtime.process.stop_requested", {
 
 ### 建议行为
 
-`nextclaw status --fix` 可以清理 stale `service.json`，但应在清理前记录一条 fix action：
+`go-usb-ai status --fix` 可以清理 stale `service.json`，但应在清理前记录一条 fix action：
 
 ```text
 Fix actions:
@@ -330,7 +330,7 @@ Fix actions:
 建议将旧 state 归档到：
 
 ```text
-~/.nextclaw/run/archive/service-<timestamp>-pid-97079.json
+~/.go-usb-ai/run/archive/service-<timestamp>-pid-97079.json
 ```
 
 这样既能恢复用户状态，又不丢排障证据。
@@ -340,7 +340,7 @@ Fix actions:
 新增或增强现有诊断入口，使用户能直接问“为什么页面打不开”：
 
 ```bash
-nextclaw doctor ui
+go-usb-ai doctor ui
 ```
 
 输出按链路切分：
@@ -367,7 +367,7 @@ nextclaw doctor ui
 验收：
 
 - 构造 `service.json` stale + `ui-runtime.json` healthy 场景。
-- `nextclaw status` 不再只给旧 URL。
+- `go-usb-ai status` 不再只给旧 URL。
 - 用户能从输出里直接打开当前可用页面。
 
 ### Phase 2：退出原因留痕
@@ -404,7 +404,7 @@ nextclaw doctor ui
 
 ## 待讨论问题
 
-1. `nextclaw status` 的主语应该是 managed service，还是“当前 NextClaw 本地入口”？
+1. `go-usb-ai status` 的主语应该是 managed service，还是“当前 GoUsbAi 本地入口”？
 2. Desktop 运行时是否应该写入 `service.json`，还是保持 `ui-runtime.json` 独立并由 status 聚合？
 3. `status --fix` 是否默认归档 stale state，还是只在 `--verbose` / `--debug` 下归档？
 4. 是否需要在 Desktop 窗口里提供“复制当前本地 URL”和“一键诊断页面打不开”入口？
@@ -426,18 +426,18 @@ nextclaw doctor ui
 
 已改动：
 
-- `packages/nextclaw-service/src/shared/services/runtime/runtime-command.service.ts`
-  - 复用 `NextclawCore.getAppLogger("service.runtime")`。
+- `packages/go-usb-ai-service/src/shared/services/runtime/runtime-command.service.ts`
+  - 复用 `GoUsbAiCore.getAppLogger("service.runtime")`。
   - 记录 foreground `serve-process` 的 `runtime.process.started`、`runtime.process.ready`、`runtime.process.exited`。
   - 只监听 `process.once("exit")`，不新增 signal handler。
-- `packages/nextclaw-service/src/shared/services/runtime/service-managed-startup.service.ts`
+- `packages/go-usb-ai-service/src/shared/services/runtime/service-managed-startup.service.ts`
   - 在 managed service spawn 与 state write 后记录 `runtime.process.started`、`service_state.written`。
-  - 在 `nextclaw stop` 发起 SIGTERM / SIGKILL 前记录 `runtime.process.stop_requested`。
+  - 在 `go-usb-ai stop` 发起 SIGTERM / SIGKILL 前记录 `runtime.process.stop_requested`。
   - state 清理后记录 `service_state.cleared`，ready 后记录 `runtime.process.ready`。
 - `apps/desktop/src/runtime-service.ts`
   - 在 Desktop embedded runtime 子进程启动、ready、停止请求、退出时记录稳定事件名。
   - 退出日志带 `childPid`、`code`、`signal`、`expected`、`suppressRestart`、`uiPort`、`uiUrl` 与最近输出摘要。
-- `packages/nextclaw-service/src/shared/services/runtime/utils/managed-service-routing.utils.ts`
+- `packages/go-usb-ai-service/src/shared/services/runtime/utils/managed-service-routing.utils.ts`
   - 把原本混在 managed startup service 里的路由与 ready snapshot 纯解析逻辑移出，避免继续膨胀已超预算文件。
 
 本轮刻意没有做：

@@ -6,7 +6,7 @@
 - 本次完成：
   - 引入 `ChannelTypingController` class 并接入 Discord / Telegram。
   - 统一 typing 生命周期：启动、心跳、自动超时回收、按 channel stop/stopAll 清理。
-  - 发布 `@nextclaw/channel-runtime@0.1.2`。
+  - 发布 `@go-usb-ai/channel-runtime@0.1.2`。
 
 ## 测试 / 验证 / 验收方式
 
@@ -23,9 +23,9 @@ pnpm tsc
 ### 发布后冒烟（隔离目录）
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-post-release-typing.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-post-release-typing.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
 rm -rf "$TMP_HOME"
 ```
 
@@ -36,8 +36,8 @@ rm -rf "$TMP_HOME"
 ### 发布结果验收
 
 ```bash
-curl -fsSL https://registry.npmjs.org/@nextclaw%2Fchannel-runtime | jq -r '."dist-tags".latest'
-npm view @nextclaw/channel-runtime version
+curl -fsSL https://registry.npmjs.org/@go-usb-ai%2Fchannel-runtime | jq -r '."dist-tags".latest'
+npm view @go-usb-ai/channel-runtime version
 ```
 
 验收点：
@@ -53,7 +53,7 @@ pnpm release:publish
 ```
 
 本次实际发布：
-- `@nextclaw/channel-runtime@0.1.2` ✅
+- `@go-usb-ai/channel-runtime@0.1.2` ✅
 
 闭环说明：
 - 远程 migration：不适用（无后端/数据库变更）。

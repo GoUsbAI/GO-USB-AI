@@ -14,14 +14,14 @@
 
 **涉及文件：**
 - 新增：`docs/plans/2026-04-10-chat-composer-lexical-parallel-migration-plan.md`
-- 修改：`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/*`
+- 修改：`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/*`
 
 **步骤 1：明确目录拆分规则**
 
 目标目录结构：
 
-- `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/legacy/`
-- `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/`
+- `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/legacy/`
+- `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/`
 - 根目录只保留对外入口和实现切换层
 
 **步骤 2：锁定公共契约不变**
@@ -56,11 +56,11 @@
 ### 任务 3：在 `lexical/` 中并行实现新版本
 
 **涉及文件：**
-- 新增：`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-input-bar-tokenized-composer.tsx`
-- 新增：`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-lexical-adapter.ts`
-- 新增：`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-token-node.tsx`
-- 新增：`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-plugins.tsx`
-- 修改：`packages/nextclaw-agent-chat-ui/package.json`
+- 新增：`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-input-bar-tokenized-composer.tsx`
+- 新增：`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-lexical-adapter.ts`
+- 新增：`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-token-node.tsx`
+- 新增：`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-plugins.tsx`
+- 修改：`packages/go-usb-ai-agent-chat-ui/package.json`
 
 **步骤 1：引入 Lexical 依赖**
 
@@ -104,8 +104,8 @@
 ### 任务 4：通过极薄桥接层完成切换
 
 **涉及文件：**
-- 修改：`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-tokenized-composer.tsx`
-- 修改：`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.tsx`
+- 修改：`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-tokenized-composer.tsx`
+- 修改：`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.tsx`
 
 **步骤 1：新增一个很薄的实现选择层**
 
@@ -118,9 +118,9 @@
 ### 任务 5：在删旧代码前先做行为对齐验证
 
 **涉及文件：**
-- 修改：`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
-- 修改：`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-selection.test.tsx`
-- 补充或修改：`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/` 下相关测试
+- 修改：`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+- 修改：`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-selection.test.tsx`
+- 补充或修改：`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/` 下相关测试
 
 **步骤 1：保住现有用户可见行为测试**
 
@@ -147,7 +147,7 @@
 
 至少执行：
 
-- `pnpm -C packages/nextclaw-agent-chat-ui test`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui test`
 - 若依赖和构建链受影响，再补充目标 `tsc` / build 校验
 
 **步骤 2：执行可维护性守卫**

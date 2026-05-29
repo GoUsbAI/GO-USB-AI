@@ -43,14 +43,14 @@ const lintText = async (filePath, allowFilePaths = []) => {
           }
         },
         plugins: {
-          nextclaw: {
+          go-usb-ai: {
             rules: {
               "no-file-directory-basename-collision": noFileDirectoryBasenameCollisionRule
             }
           }
         },
         rules: {
-          "nextclaw/no-file-directory-basename-collision": [
+          "go-usb-ai/no-file-directory-basename-collision": [
             "error",
             {
               allowFilePaths

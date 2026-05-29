@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * nextclaw WhatsApp Bridge
+ * go-usb-ai WhatsApp Bridge
  * 
- * This bridge connects WhatsApp Web to nextclaw's backend
+ * This bridge connects WhatsApp Web to go-usb-ai's backend
  * via WebSocket. It handles authentication, message forwarding,
  * and reconnection logic.
  * 
@@ -10,7 +10,7 @@
  *   npm run build && npm start
  *   
  * Or with custom settings:
- *   BRIDGE_PORT=3001 AUTH_DIR=~/.nextclaw/whatsapp npm start
+ *   BRIDGE_PORT=3001 AUTH_DIR=~/.go-usb-ai/whatsapp npm start
  */
 
 // Polyfill crypto for Baileys in ESM

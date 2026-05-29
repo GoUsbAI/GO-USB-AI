@@ -89,7 +89,7 @@ async function assertConsoleShell(browser) {
   await installRoutes(page, fixtures);
   await page.addInitScript(() => {
     window.localStorage.clear();
-    window.localStorage.setItem("nextclaw.platform.token", "demo-admin-token");
+    window.localStorage.setItem("go-usb-ai.platform.token", "demo-admin-token");
   });
 
   await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });

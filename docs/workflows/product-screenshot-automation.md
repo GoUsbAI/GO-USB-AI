@@ -28,7 +28,7 @@ REAL_MARKETPLACE=1 pnpm screenshots:refresh
 Optional override for remote source:
 
 ```bash
-REAL_MARKETPLACE=1 REAL_MARKETPLACE_BASE=https://marketplace-api.nextclaw.io pnpm screenshots:refresh
+REAL_MARKETPLACE=1 REAL_MARKETPLACE_BASE=https://marketplace-api.go-usb-ai.io pnpm screenshots:refresh
 ```
 
 When real marketplace fetch fails, script falls back to built-in mock data automatically.
@@ -38,10 +38,10 @@ When real marketplace fetch fails, script falls back to built-in mock data autom
 The command updates both screenshot locations in one run:
 
 - `images/screenshots/*`
-- `apps/landing/public/nextclaw-chat-page-*.png`
-- `apps/landing/public/nextclaw-providers-page-*.png`
-- `apps/landing/public/nextclaw-channels-page-*.png`
-- `apps/landing/public/nextclaw-skills-doc-browser-*.png`
+- `apps/landing/public/go-usb-ai-chat-page-*.png`
+- `apps/landing/public/go-usb-ai-providers-page-*.png`
+- `apps/landing/public/go-usb-ai-channels-page-*.png`
+- `apps/landing/public/go-usb-ai-skills-doc-browser-*.png`
 
 ## CI Automation
 
@@ -57,8 +57,8 @@ After running refresh:
 
 1. `git status` should only show screenshot asset updates (unless UI changed).
 2. Key files should be regenerated:
-   - `images/screenshots/nextclaw-chat-page-en.png`
-   - `images/screenshots/nextclaw-providers-page-en.png`
-   - `images/screenshots/nextclaw-channels-page-en.png`
-   - `images/screenshots/nextclaw-skills-doc-browser-en.png`
+   - `images/screenshots/go-usb-ai-chat-page-en.png`
+   - `images/screenshots/go-usb-ai-providers-page-en.png`
+   - `images/screenshots/go-usb-ai-channels-page-en.png`
+   - `images/screenshots/go-usb-ai-skills-doc-browser-en.png`
 3. Landing public mirrors should stay in sync with screenshot source set.

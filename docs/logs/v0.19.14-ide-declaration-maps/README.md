@@ -4,18 +4,18 @@
 
 本次定位并修复跨 package 跳转定义退回 `dist/*.d.ts` 的开发体验问题。确认当前 TypeScript 解析 package exports 时默认条件为 `import/types/node`，不会命中各包 exports 中的 `development -> src/*.ts` 分支，因此 IDE 会先落到 `types -> dist/*.d.ts`。
 
-直接全局加入 `customConditions: ["development"]` 可以让解析回到源码，但会把依赖包源码中的包内 alias 暴露到消费者项目上下文，导致 `@nextclaw/service` 编译依赖源码时无法解析 `@core/*`、`@kernel/*` 等包内路径。因此最终没有采用全局 development 条件，而是让所有 NPM 包构建统一产出 `.d.ts.map`。这样 TypeScript/IDE 仍按发布 contract 读取 `dist` 声明文件，同时通过 declaration map 跳回真实 `src`。
+直接全局加入 `customConditions: ["development"]` 可以让解析回到源码，但会把依赖包源码中的包内 alias 暴露到消费者项目上下文，导致 `@go-usb-ai/service` 编译依赖源码时无法解析 `@core/*`、`@kernel/*` 等包内路径。因此最终没有采用全局 development 条件，而是让所有 NPM 包构建统一产出 `.d.ts.map`。这样 TypeScript/IDE 仍按发布 contract 读取 `dist` 声明文件，同时通过 declaration map 跳回真实 `src`。
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-service exec tsc -p tsconfig.json --noEmit --traceResolution`：确认当前默认解析仍命中 `@nextclaw/kernel` 的 `types -> dist/index.d.ts`。
+- `pnpm -C packages/go-usb-ai-service exec tsc -p tsconfig.json --noEmit --traceResolution`：确认当前默认解析仍命中 `@go-usb-ai/kernel` 的 `types -> dist/index.d.ts`。
 - 临时使用 `--customConditions development` 复现替代方案：确认可解析到 `src/index.ts`，但会引出跨包源码 alias 编译问题，因此不作为最终方案。
-- `pnpm -C packages/nextclaw-kernel build`：通过，并产出 `dist/index.d.ts.map`。
-- 检查 `packages/nextclaw-kernel/dist/index.d.ts.map`：`sources` 指向 `../src/...`。
-- `pnpm -C packages/nextclaw-service tsc`：通过。
-- `pnpm -C packages/nextclaw-server tsc`：通过。
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-react-ui tsc`：通过。
-- `pnpm -C packages/nextclaw-service build`：通过，并产出服务包声明映射。
+- `pnpm -C packages/go-usb-ai-kernel build`：通过，并产出 `dist/index.d.ts.map`。
+- 检查 `packages/go-usb-ai-kernel/dist/index.d.ts.map`：`sources` 指向 `../src/...`。
+- `pnpm -C packages/go-usb-ai-service tsc`：通过。
+- `pnpm -C packages/go-usb-ai-server tsc`：通过。
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-react-ui tsc`：通过。
+- `pnpm -C packages/go-usb-ai-service build`：通过，并产出服务包声明映射。
 - `pnpm lint:new-code:governance`：通过。
 - `pnpm check:governance-backlog-ratchet`：通过。
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature`：不适用；本次没有 changed code-like files。

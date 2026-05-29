@@ -1,6 +1,6 @@
 # 迭代完成说明
 
-本次修复了聊天输入框中“正向选区可以删除、逆向选区无法删除”的前端 bug，修复位点位于 `packages/nextclaw-agent-chat-ui` 的 Lexical composer 选区读取与文本操作逻辑。
+本次修复了聊天输入框中“正向选区可以删除、逆向选区无法删除”的前端 bug，修复位点位于 `packages/go-usb-ai-agent-chat-ui` 的 Lexical composer 选区读取与文本操作逻辑。
 
 根因已经确认，不是浏览器原生删除能力异常，而是内部选区合同被破坏：
 
@@ -22,9 +22,9 @@
 
 已执行：
 
-- `pnpm -C packages/nextclaw-agent-chat-ui test -- src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx src/components/chat/ui/chat-input-bar/chat-input-bar-selection.test.tsx src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts`
-- `pnpm -C packages/nextclaw-agent-chat-ui tsc`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-lexical-editor-state.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-lexical-operations.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-selection.test.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui test -- src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx src/components/chat/ui/chat-input-bar/chat-input-bar-selection.test.tsx src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-lexical-editor-state.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-lexical-operations.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-selection.test.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
 
@@ -34,7 +34,7 @@
 - TypeScript 检查通过。
 - 可维护性守卫通过，纯 bugfix 场景下非测试代码净变化为 `-1`，满足“非功能改动不得净增非测试代码”的门槛。
 - 仍有两条已有维护性告警未在本次处理：
-  - `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar` 目录文件数仍高于目录预算。
+  - `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar` 目录文件数仍高于目录预算。
   - `chat-input-bar.test.tsx` 接近文件预算上限。
 
 # 发布/部署方式
@@ -63,8 +63,8 @@
 # NPM 包发布记录
 
 - 本次是否需要发包：需要进入后续统一发布批次，但不需要立即单独发包。
-- 需要发布的包：`@nextclaw/agent-chat-ui`
+- 需要发布的包：`@go-usb-ai/agent-chat-ui`
 - 每个包当前是否已经发布：
-  - `@nextclaw/agent-chat-ui`：当前未发布，本次状态为 `待统一发布`
+  - `@go-usb-ai/agent-chat-ui`：当前未发布，本次状态为 `待统一发布`
 - 未立即发布原因：本次只完成 bugfix 与验证，没有触发独立 npm 发布流程。
 - 已知阻塞或触发条件：等待下一次统一前端/包发布批次时一并发布。

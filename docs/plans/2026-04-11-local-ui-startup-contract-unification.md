@@ -4,9 +4,9 @@
 
 **Goal:** 把本地 UI 的“发现 / 复用 / 启动”收敛成统一合同，修复 MAS 桌面端与 CLI 对健康现有实例识别不一致的问题，并顺手删除上一版依赖 CLI 文本输出的临时桥接。
 
-**Architecture:** 以“`nextclaw start` 成功后，目标 UI 一定在目标地址健康可达”为唯一启动合同。CLI 侧把目标端口判断收敛为显式三态：可直接启动、可复用现有健康实例、必须失败。桌面端不再猜 `service.json` 或解析 `UI:` 文本，而是根据同一目标地址合同等待健康状态。
+**Architecture:** 以“`go-usb-ai start` 成功后，目标 UI 一定在目标地址健康可达”为唯一启动合同。CLI 侧把目标端口判断收敛为显式三态：可直接启动、可复用现有健康实例、必须失败。桌面端不再猜 `service.json` 或解析 `UI:` 文本，而是根据同一目标地址合同等待健康状态。
 
-**Tech Stack:** TypeScript、Node.js、Electron、NextClaw CLI runtime、`@nextclaw/core` 配置/路径工具、Vitest、Node test。
+**Tech Stack:** TypeScript、Node.js、Electron、GoUsbAi CLI runtime、`@go-usb-ai/core` 配置/路径工具、Vitest、Node test。
 
 ---
 
@@ -22,9 +22,9 @@
 ### Task 1: 明确本地 UI 目标地址的共享合同
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/utils/helpers.ts`
-- Modify: `packages/nextclaw-core/src/index.ts`
-- Modify: `packages/nextclaw/src/cli/utils.ts`
+- Modify: `packages/go-usb-ai-core/src/utils/helpers.ts`
+- Modify: `packages/go-usb-ai-core/src/index.ts`
+- Modify: `packages/go-usb-ai/src/cli/utils.ts`
 - Test: `apps/desktop/src/runtime-service.test.ts`
 
 **Step 1: 在 core 中新增纯函数 helper**
@@ -37,7 +37,7 @@
 
 **Step 2: 让 CLI utils 复用该 helper**
 
-- `packages/nextclaw/src/cli/utils.ts` 里的 `resolveUiApiBase` 改为调用 core helper，而不是保留本地复制实现。
+- `packages/go-usb-ai/src/cli/utils.ts` 里的 `resolveUiApiBase` 改为调用 core helper，而不是保留本地复制实现。
 
 **Step 3: 为桌面端后续复用准备测试位点**
 
@@ -46,9 +46,9 @@
 ### Task 2: 把 CLI start 的目标端口判断收敛为单一合同
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/service-support/runtime/service-port-probe.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/runtime/tests/service-port-probe.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/runtime/service-port-probe.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/runtime/tests/service-port-probe.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service.ts`
 
 **Step 1: 让 runtime-support 模块提供三态判断**
 
@@ -77,7 +77,7 @@
 
 **Step 1: 让桌面端改为依赖启动合同而不是文本输出**
 
-- `RuntimeServiceProcess.startManagedService()` 在执行 `nextclaw start` 成功后，先看 `service.json`。
+- `RuntimeServiceProcess.startManagedService()` 在执行 `go-usb-ai start` 成功后，先看 `service.json`。
 - 如果 `service.json` 缺失，不再解析 `UI:` 文本输出。
 - 改为根据共享 helper + 当前配置求出“目标 UI 地址”，然后等待健康检查。
 
@@ -101,7 +101,7 @@
 
 **Step 1: 运行最小充分验证**
 
-- Run: `pnpm -C packages/nextclaw test -- --run src/cli/commands/service-support/runtime/tests/service-port-probe.test.ts`
+- Run: `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/service-support/runtime/tests/service-port-probe.test.ts`
 - Run: `pnpm -C apps/desktop tsc -p tsconfig.json --noEmit`
 - 如可行，运行桌面测试对应的可执行命令
 

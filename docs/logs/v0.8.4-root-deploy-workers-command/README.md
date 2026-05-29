@@ -27,7 +27,7 @@
 
 结果：
 - 根命令可正确触发 `workers/*` 下 Worker 的部署脚本。
-- 本次线上部署地址：`https://nextclaw-marketplace-api.15353764479037.workers.dev`
+- 本次线上部署地址：`https://go-usb-ai-marketplace-api.15353764479037.workers.dev`
 - 本次 Version ID：`45fa8d78-b64a-4127-af11-5e7bd84c4d29`
 
 ## 发布 / 部署方式

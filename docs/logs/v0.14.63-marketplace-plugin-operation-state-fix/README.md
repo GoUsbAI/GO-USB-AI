@@ -14,21 +14,21 @@
 ## 测试/验证/验收方式
 
 - 定向测试：
-  - `pnpm -C packages/nextclaw-ui exec vitest run src/components/marketplace/MarketplacePage.test.tsx src/components/marketplace/marketplace-installed-cache.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui exec vitest run src/components/marketplace/MarketplacePage.test.tsx src/components/marketplace/marketplace-installed-cache.test.ts`
 - 定向 lint：
-  - `pnpm -C packages/nextclaw-ui exec eslint src/components/marketplace/MarketplacePage.tsx src/components/marketplace/MarketplacePage.test.tsx src/components/marketplace/marketplace-installed-cache.ts src/components/marketplace/marketplace-installed-cache.test.ts src/components/marketplace/marketplace-page-parts.tsx src/hooks/useMarketplace.ts`
+  - `pnpm -C packages/go-usb-ai-ui exec eslint src/components/marketplace/MarketplacePage.tsx src/components/marketplace/MarketplacePage.test.tsx src/components/marketplace/marketplace-installed-cache.ts src/components/marketplace/marketplace-installed-cache.test.ts src/components/marketplace/marketplace-page-parts.tsx src/hooks/useMarketplace.ts`
 - 类型检查：
-  - `pnpm -C packages/nextclaw-ui tsc`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
 - 构建验证：
-  - `pnpm -C packages/nextclaw-ui build`
+  - `pnpm -C packages/go-usb-ai-ui build`
 - 可维护性闸门：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/marketplace/MarketplacePage.tsx packages/nextclaw-ui/src/components/marketplace/MarketplacePage.test.tsx packages/nextclaw-ui/src/components/marketplace/marketplace-installed-cache.ts packages/nextclaw-ui/src/components/marketplace/marketplace-installed-cache.test.ts packages/nextclaw-ui/src/components/marketplace/marketplace-page-parts.tsx packages/nextclaw-ui/src/hooks/useMarketplace.ts`
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/marketplace/MarketplacePage.tsx packages/go-usb-ai-ui/src/components/marketplace/MarketplacePage.test.tsx packages/go-usb-ai-ui/src/components/marketplace/marketplace-installed-cache.ts packages/go-usb-ai-ui/src/components/marketplace/marketplace-installed-cache.test.ts packages/go-usb-ai-ui/src/components/marketplace/marketplace-page-parts.tsx packages/go-usb-ai-ui/src/hooks/useMarketplace.ts`
 
 ## 发布/部署方式
 
-- 本次仅触达 `@nextclaw/ui` 的 marketplace 前端交互，无后端 migration。
-- 合并后按常规前端发布链路重新构建并发布包含 `@nextclaw/ui` 产物的上层应用。
-- 若仅本地联调，执行 `pnpm -C packages/nextclaw-ui build` 后由依赖该 UI 包的宿主重新加载即可验证生效。
+- 本次仅触达 `@go-usb-ai/ui` 的 marketplace 前端交互，无后端 migration。
+- 合并后按常规前端发布链路重新构建并发布包含 `@go-usb-ai/ui` 产物的上层应用。
+- 若仅本地联调，执行 `pnpm -C packages/go-usb-ai-ui build` 后由依赖该 UI 包的宿主重新加载即可验证生效。
 
 ## 用户/产品视角的验收步骤
 

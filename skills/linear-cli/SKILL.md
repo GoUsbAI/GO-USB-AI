@@ -7,7 +7,7 @@ description: Use when the user wants to list, view, start, create, or update Lin
 
 ## Overview
 
-Use this skill to help the user work through a local [`linear`](https://github.com/schpet/linear-cli) installation from inside NextClaw.
+Use this skill to help the user work through a local [`linear`](https://github.com/schpet/linear-cli) installation from inside GoUsbAi.
 
 This skill is intentionally decoupled:
 
@@ -37,7 +37,7 @@ Do not pretend the environment is ready when it is not.
 - Claiming Linear workspace permissions or plan limits the user does not have.
 - Silently bypassing missing authentication or broken configuration.
 - Silently triggering destructive or write actions without explicit user confirmation.
-- Treating third-party CLI behavior as native NextClaw behavior.
+- Treating third-party CLI behavior as native GoUsbAi behavior.
 
 ## First-Use Workflow
 

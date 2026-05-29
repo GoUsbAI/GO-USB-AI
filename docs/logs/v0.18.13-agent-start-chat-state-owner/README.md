@@ -9,9 +9,9 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui test -- src/features/agents/components/agents-page.test.tsx src/features/chat/managers/chat-session-list.manager.test.ts`：通过，2 个测试文件、13 个用例通过。
-- `pnpm -C packages/nextclaw-ui tsc`：通过。
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/agents/components/agents-page.tsx packages/nextclaw-ui/src/features/agents/components/agents-page.test.tsx packages/nextclaw-ui/src/features/chat/index.ts packages/nextclaw-ui/src/features/chat/managers/chat-session-list.manager.ts packages/nextclaw-ui/src/features/chat/managers/chat-session-list.manager.test.ts`：通过；非测试代码净增 -5 行；保留 1 个既有 `AgentsPage` 函数长度 warning，且本次已下降 12 行。
+- `pnpm -C packages/go-usb-ai-ui test -- src/features/agents/components/agents-page.test.tsx src/features/chat/managers/chat-session-list.manager.test.ts`：通过，2 个测试文件、13 个用例通过。
+- `pnpm -C packages/go-usb-ai-ui tsc`：通过。
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/agents/components/agents-page.tsx packages/go-usb-ai-ui/src/features/agents/components/agents-page.test.tsx packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-list.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-list.manager.test.ts`：通过；非测试代码净增 -5 行；保留 1 个既有 `AgentsPage` 函数长度 warning，且本次已下降 12 行。
 - `pnpm lint:new-code:governance`：通过。
 - `pnpm check:governance-backlog-ratchet`：通过。
 

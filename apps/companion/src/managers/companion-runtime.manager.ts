@@ -99,7 +99,7 @@ export class CompanionRuntimeManager {
       offlineReason: reason ?? null,
       currentView: {
         state: "offline",
-        title: "NextClaw",
+        title: "GoUsbAi",
         subtitle: reason?.summary?.trim() || "Runtime unavailable",
         openUrl: baseUrl
       }
@@ -157,7 +157,7 @@ export class CompanionRuntimeManager {
     if (!runningSession) {
       return {
         state: "idle",
-        title: "NextClaw",
+        title: "GoUsbAi",
         subtitle: "No active agent",
         openUrl: baseUrl
       };

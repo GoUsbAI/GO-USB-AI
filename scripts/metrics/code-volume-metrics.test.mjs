@@ -7,7 +7,7 @@ import test from "node:test";
 import { createBaseScanConfig } from "./code-volume-metrics-profile.mjs";
 import { collectDetailedSnapshot } from "./code-volume-metrics-snapshot.mjs";
 
-const createFixtureRepo = () => mkdtempSync(join(tmpdir(), "nextclaw-code-volume-"));
+const createFixtureRepo = () => mkdtempSync(join(tmpdir(), "go-usb-ai-code-volume-"));
 
 test("source profile excludes vitepress roots", () => {
   const repoRoot = createFixtureRepo();

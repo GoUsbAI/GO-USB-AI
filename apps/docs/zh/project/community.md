@@ -9,7 +9,7 @@ description: GitHub、更新笔记、博客与反馈入口。
 
 ## 主要入口
 
-- GitHub 仓库：[Peiiii/nextclaw](https://github.com/Peiiii/nextclaw)
+- GitHub 仓库：[Peiiii/go-usb-ai](https://github.com/Peiiii/go-usb-ai)
 - 更新笔记：[产品更新笔记](/zh/notes/)
 - 博客：[博客](/zh/blog/)
 - 路线图：[路线图](/zh/project/roadmap)

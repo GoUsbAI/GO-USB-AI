@@ -2,11 +2,11 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** 为 NextClaw 的微信插件补齐“用户发送图片/文件给机器人时，消息会以统一托管资产能力进入运行时，并让原生 agent 也能真正读取非图片附件”的能力。
+**Goal:** 为 GoUsbAi 的微信插件补齐“用户发送图片/文件给机器人时，消息会以统一托管资产能力进入运行时，并让原生 agent 也能真正读取非图片附件”的能力。
 
-**Architecture:** 继续保留 `WeixinChannel` 作为单一入站入口，但不再让微信附件止步于 `InboundAttachment.path`。核心层只补三个最小扩展点：入站附件预处理、用户内容构建钩子、附加工具注入；具体的托管资产实现继续放在 `nextclaw` 包里，复用现有 NCP `LocalAssetStore` 与资产语义。这样微信、插件 runtime 直连附件、未来其它渠道都能走同一条“附件 -> assetUri -> asset_export/asset_stat -> 普通文件路径”的通用链路。
+**Architecture:** 继续保留 `WeixinChannel` 作为单一入站入口，但不再让微信附件止步于 `InboundAttachment.path`。核心层只补三个最小扩展点：入站附件预处理、用户内容构建钩子、附加工具注入；具体的托管资产实现继续放在 `go-usb-ai` 包里，复用现有 NCP `LocalAssetStore` 与资产语义。这样微信、插件 runtime 直连附件、未来其它渠道都能走同一条“附件 -> assetUri -> asset_export/asset_stat -> 普通文件路径”的通用链路。
 
-**Tech Stack:** TypeScript, Node.js 22, NextClaw core/native agent loop, NCP LocalAssetStore, Weixin channel plugin runtime, `fetch`, `crypto`, `fs`, `vitest`
+**Tech Stack:** TypeScript, Node.js 22, GoUsbAi core/native agent loop, NCP LocalAssetStore, Weixin channel plugin runtime, `fetch`, `crypto`, `fs`, `vitest`
 
 ---
 
@@ -14,7 +14,7 @@
 
 - 这次不是给微信单独发明“读 markdown”特判，而是补齐原生 agent 对托管资产的通用能力，让微信附件与前端上传附件尽量收敛到同一语义。
 - 优先删除“非图片附件进入运行时但模型仍读不到”的结构性缺口，而不是继续在微信插件内堆特殊分支。
-- core 只增加必要接缝，不直接依赖 NCP runtime；托管资产的具体实现、工具和格式转换继续收敛在 `nextclaw` 包，避免跨包反向耦合。
+- core 只增加必要接缝，不直接依赖 NCP runtime；托管资产的具体实现、工具和格式转换继续收敛在 `go-usb-ai` 包，避免跨包反向耦合。
 
 ## 范围与边界
 
@@ -38,9 +38,9 @@
 
 **Files:**
 - Create: `docs/plans/2026-04-10-weixin-inbound-attachments-implementation-plan.md`
-- Reference: `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-channel.ts`
-- Reference: `packages/nextclaw-core/src/agent/context.ts`
-- Reference: `packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-message-bridge.ts`
+- Reference: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-channel.ts`
+- Reference: `packages/go-usb-ai-core/src/agent/context.ts`
+- Reference: `packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-message-bridge.ts`
 
 **Step 1: 固定根因与目标**
 
@@ -51,14 +51,14 @@
 
 - 不改宿主 `message` tool。
 - 不改 outbound 契约。
-- 不让 `@nextclaw/core` 直接依赖 `@nextclaw/ncp-agent-runtime`。
+- 不让 `@go-usb-ai/core` 直接依赖 `@go-usb-ai/ncp-agent-runtime`。
 
 ## Task 2: 先写失败测试，覆盖“非图片附件可读”
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/agent/tests/context.test.ts`
-- Create: `packages/nextclaw/src/cli/commands/agent/native-managed-asset-support.test.ts`
-- Modify: `packages/extensions/nextclaw-channel-plugin-weixin/src/tests/weixin-channel-attachments.test.ts`
+- Modify: `packages/go-usb-ai-core/src/agent/tests/context.test.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/agent/native-managed-asset-support.test.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/tests/weixin-channel-attachments.test.ts`
 
 **Step 1: 写“原生上下文支持自定义附件内容构建”失败测试**
 
@@ -80,9 +80,9 @@
 Run:
 
 ```bash
-pnpm -C packages/nextclaw-core exec vitest run src/agent/tests/context.test.ts
-pnpm -C packages/nextclaw exec vitest run src/cli/commands/agent/native-managed-asset-support.test.ts
-pnpm -C packages/extensions/nextclaw-channel-plugin-weixin exec vitest run src/tests/weixin-channel-attachments.test.ts
+pnpm -C packages/go-usb-ai-core exec vitest run src/agent/tests/context.test.ts
+pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/agent/native-managed-asset-support.test.ts
+pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin exec vitest run src/tests/weixin-channel-attachments.test.ts
 ```
 
 Expected:
@@ -92,10 +92,10 @@ Expected:
 ## Task 3: 在 core 增加最小扩展接缝
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/bus/events.ts`
-- Modify: `packages/nextclaw-core/src/agent/context.ts`
-- Modify: `packages/nextclaw-core/src/agent/loop.ts`
-- Modify: `packages/nextclaw-core/src/engine/types.ts`
+- Modify: `packages/go-usb-ai-core/src/bus/events.ts`
+- Modify: `packages/go-usb-ai-core/src/agent/context.ts`
+- Modify: `packages/go-usb-ai-core/src/agent/loop.ts`
+- Modify: `packages/go-usb-ai-core/src/engine/types.ts`
 
 **Step 1: 扩展 `InboundAttachment`**
 
@@ -112,12 +112,12 @@ Expected:
 - 在进入 prompt 前允许外部异步预处理 `attachments`。
 - 允许注入额外 tool，但默认行为不变。
 
-## Task 4: 在 `nextclaw` 侧接入托管资产能力
+## Task 4: 在 `go-usb-ai` 侧接入托管资产能力
 
 **Files:**
-- Create: `packages/nextclaw/src/cli/commands/agent/native-managed-asset-support.ts`
-- Modify: `packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.ts`
-- Modify: `packages/nextclaw/src/cli/runtime.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/agent/native-managed-asset-support.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.ts`
+- Modify: `packages/go-usb-ai/src/cli/runtime.ts`
 
 **Step 1: 新建 native managed asset support 模块**
 
@@ -149,8 +149,8 @@ Expected:
 ## Task 5: 保持微信插件入口简单
 
 **Files:**
-- Modify: `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-inbound-media.service.ts`
-- Modify: `packages/extensions/nextclaw-channel-plugin-weixin/src/tests/weixin-channel-attachments.test.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-inbound-media.service.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/tests/weixin-channel-attachments.test.ts`
 
 **Step 1: 补齐文件 MIME 识别**
 
@@ -172,13 +172,13 @@ Expected:
 Run:
 
 ```bash
-pnpm -C packages/nextclaw-core exec vitest run src/agent/tests/context.test.ts src/agent/tests/loop.tool-catalog.test.ts
-pnpm -C packages/nextclaw exec vitest run src/cli/commands/agent/native-managed-asset-support.test.ts
-pnpm -C packages/extensions/nextclaw-channel-plugin-weixin exec vitest run src/tests/weixin-channel-attachments.test.ts src/tests/weixin-channel.test.ts src/tests/index.test.ts src/tests/weixin-api.client.test.ts
-pnpm -C packages/nextclaw exec vitest run src/cli/commands/agent/agent-runtime-pool.command.test.ts
-pnpm -C packages/nextclaw-core tsc
-pnpm -C packages/nextclaw tsc
-pnpm -C packages/extensions/nextclaw-channel-plugin-weixin tsc
+pnpm -C packages/go-usb-ai-core exec vitest run src/agent/tests/context.test.ts src/agent/tests/loop.tool-catalog.test.ts
+pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/agent/native-managed-asset-support.test.ts
+pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin exec vitest run src/tests/weixin-channel-attachments.test.ts src/tests/weixin-channel.test.ts src/tests/index.test.ts src/tests/weixin-api.client.test.ts
+pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/agent/agent-runtime-pool.command.test.ts
+pnpm -C packages/go-usb-ai-core tsc
+pnpm -C packages/go-usb-ai tsc
+pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin tsc
 ```
 
 **Step 2: 跑维护性守卫**
@@ -192,7 +192,7 @@ pnpm lint:maintainability:guard
 或最小路径：
 
 ```bash
-node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-core/src/bus/events.ts packages/nextclaw-core/src/agent/context.ts packages/nextclaw-core/src/agent/loop.ts packages/nextclaw/src/cli/commands/agent/native-managed-asset-support.ts packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.ts packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-inbound-media.service.ts packages/extensions/nextclaw-channel-plugin-weixin/src/tests/weixin-channel-attachments.test.ts docs/plans/2026-04-10-weixin-inbound-attachments-implementation-plan.md
+node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-core/src/bus/events.ts packages/go-usb-ai-core/src/agent/context.ts packages/go-usb-ai-core/src/agent/loop.ts packages/go-usb-ai/src/cli/commands/agent/native-managed-asset-support.ts packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.ts packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-inbound-media.service.ts packages/extensions/go-usb-ai-channel-plugin-weixin/src/tests/weixin-channel-attachments.test.ts docs/plans/2026-04-10-weixin-inbound-attachments-implementation-plan.md
 ```
 
 **Step 3: 做独立维护性复核**

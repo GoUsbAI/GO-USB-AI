@@ -19,8 +19,8 @@
 ## 测试 / 验证 / 验收方式
 
 ```bash
-pnpm --filter @nextclaw/landing build
-pnpm --filter @nextclaw/landing tsc
+pnpm --filter @go-usb-ai/landing build
+pnpm --filter @go-usb-ai/landing tsc
 rg -n '<section id="faq"|this.copy.comparisonTitle' apps/landing/src/main.ts
 ```
 

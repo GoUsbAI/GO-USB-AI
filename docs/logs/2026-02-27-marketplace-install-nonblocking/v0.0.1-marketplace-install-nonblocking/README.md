@@ -12,11 +12,11 @@
 ## 测试 / 验证 / 验收方式
 
 - 构建：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
 - Lint：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
   - 结果：未通过，存在仓库内既有错误（`CronConfig.tsx`、`SessionsConfig.tsx` 的 `PageBody` 未使用），与本次改动无关。
 - 冒烟（隔离目录 `/tmp`，源码断言）：
   - `cd /tmp && PATH=/opt/homebrew/bin:$PATH node -e "..."`

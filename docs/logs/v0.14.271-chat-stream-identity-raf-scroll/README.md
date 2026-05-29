@@ -10,22 +10,22 @@
 
 相关代码：
 
-- [agent-conversation-state-manager.ts](/Users/tongwenwen/Projects/Peiiii/nextclaw/packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-conversation-state-manager.ts)
-- [chat-message-list.container.tsx](/Users/tongwenwen/Projects/Peiiii/nextclaw/packages/nextclaw-ui/src/components/chat/containers/chat-message-list.container.tsx)
-- [use-sticky-bottom-scroll.ts](/Users/tongwenwen/Projects/Peiiii/nextclaw/packages/nextclaw-agent-chat-ui/src/components/chat/hooks/use-sticky-bottom-scroll.ts)
+- [agent-conversation-state-manager.ts](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-conversation-state-manager.ts)
+- [chat-message-list.container.tsx](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/packages/go-usb-ai-ui/src/components/chat/containers/chat-message-list.container.tsx)
+- [use-sticky-bottom-scroll.ts](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/packages/go-usb-ai-agent-chat-ui/src/components/chat/hooks/use-sticky-bottom-scroll.ts)
 
 ## 测试/验证/验收方式
 
 已执行：
 
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- src/agent/agent-conversation-state-manager.test.ts`
-- `pnpm -C packages/nextclaw-ui test -- src/components/chat/containers/chat-message-list.container.test.tsx`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-agent-chat-ui tsc`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit lint`
-- `pnpm -C packages/nextclaw-ui lint`
-- `pnpm -C packages/nextclaw-agent-chat-ui lint`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- src/agent/agent-conversation-state-manager.test.ts`
+- `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/containers/chat-message-list.container.test.tsx`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit lint`
+- `pnpm -C packages/go-usb-ai-ui lint`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui lint`
 
 验收关注点：
 
@@ -39,9 +39,9 @@
 
 发布时按仓库常规流程执行对应包的 build / lint / tsc / release 流程即可，涉及包包括：
 
-- `@nextclaw/ncp-toolkit`
-- `@nextclaw/agent-chat-ui`
-- `@nextclaw/ui`
+- `@go-usb-ai/ncp-toolkit`
+- `@go-usb-ai/agent-chat-ui`
+- `@go-usb-ai/ui`
 
 ## 用户/产品视角的验收步骤
 

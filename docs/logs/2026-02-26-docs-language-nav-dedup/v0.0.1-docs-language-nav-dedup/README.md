@@ -12,7 +12,7 @@
 ## 测试 / 验证 / 验收方式
 
 - Docs 构建：
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/docs build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/docs build`
 - 全量校验（按规则）：
 - `PATH=/opt/homebrew/bin:$PATH pnpm build`
 - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
@@ -29,7 +29,7 @@
 
 ## 用户 / 产品视角的验收步骤
 
-1. 打开 `https://docs.nextclaw.io/en/`，确认顶部不再出现额外的“简体中文”菜单按钮。
-2. 打开 `https://docs.nextclaw.io/zh/`，确认顶部不再出现额外的“English”菜单按钮。
+1. 打开 `https://docs.go-usb-ai.io/en/`，确认顶部不再出现额外的“简体中文”菜单按钮。
+2. 打开 `https://docs.go-usb-ai.io/zh/`，确认顶部不再出现额外的“English”菜单按钮。
 3. 点击语言图标下拉，确认仍可在中英文之间切换。
 4. 切换到任意文档页（如 getting-started），确认语言切换能跳转对应页面。

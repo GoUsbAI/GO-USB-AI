@@ -2,10 +2,10 @@
 
 ## 迭代完成说明
 
-本次迭代已经把 NextClaw 主执行链收敛成 NCP 单内核，并在此基础上继续把旧 engine / runtime pool 体系整片删除。现在真实用户出口只保留一套执行主链：
+本次迭代已经把 GoUsbAi 主执行链收敛成 NCP 单内核，并在此基础上继续把旧 engine / runtime pool 体系整片删除。现在真实用户出口只保留一套执行主链：
 
 - UI Chat 走 `createUiNcpAgent(...)`
-- CLI `nextclaw agent` 走 NCP session + run
+- CLI `go-usb-ai agent` 走 NCP session + run
 - Service / Gateway 入站消息走 `runGatewayInboundLoop(...)`
 - plugin runtime bridge 走 `dispatchPromptOverNcp(...)`
 
@@ -15,27 +15,27 @@
   - [`docs/plans/2026-04-11-agent-loop-removal-implementation-plan.md`](/Users/peiwang/Projects/nextbot/docs/plans/2026-04-11-agent-loop-removal-implementation-plan.md)
   - [`docs/plans/2026-04-11-legacy-engine-removal-implementation-plan.md`](/Users/peiwang/Projects/nextbot/docs/plans/2026-04-11-legacy-engine-removal-implementation-plan.md)
 - 删除旧 engine 注册体系：
-  - [`packages/nextclaw-core/src/engine/types.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/engine/types.ts)
-  - [`packages/nextclaw-core/src/extensions/types.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/extensions/types.ts)
-  - [`packages/nextclaw-openclaw-compat/src/plugins/types.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-openclaw-compat/src/plugins/types.ts)
-  - [`packages/nextclaw-openclaw-compat/src/plugins/registry.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-openclaw-compat/src/plugins/registry.ts)
-  - [`packages/nextclaw-openclaw-compat/src/plugins/loader.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-openclaw-compat/src/plugins/loader.ts)
-  - [`packages/nextclaw-openclaw-compat/src/plugins/status.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-openclaw-compat/src/plugins/status.ts)
+  - [`packages/go-usb-ai-core/src/engine/types.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/engine/types.ts)
+  - [`packages/go-usb-ai-core/src/extensions/types.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/extensions/types.ts)
+  - [`packages/go-usb-ai-openclaw-compat/src/plugins/types.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-openclaw-compat/src/plugins/types.ts)
+  - [`packages/go-usb-ai-openclaw-compat/src/plugins/registry.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-openclaw-compat/src/plugins/registry.ts)
+  - [`packages/go-usb-ai-openclaw-compat/src/plugins/loader.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-openclaw-compat/src/plugins/loader.ts)
+  - [`packages/go-usb-ai-openclaw-compat/src/plugins/status.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-openclaw-compat/src/plugins/status.ts)
 - 删除两个旧 engine 插件包：
-  - `packages/extensions/nextclaw-engine-plugin-codex-sdk`
-  - `packages/extensions/nextclaw-engine-plugin-claude-agent-sdk`
+  - `packages/extensions/go-usb-ai-engine-plugin-codex-sdk`
+  - `packages/extensions/go-usb-ai-engine-plugin-claude-agent-sdk`
 - 删除旧 runtime pool：
-  - [`packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.ts)
-  - [`packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.command.test.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/agent/agent-runtime-pool.command.test.ts)
+  - [`packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.ts)
+  - [`packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.command.test.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/agent/agent-runtime-pool.command.test.ts)
 - 新增 NCP 薄调度 helper：
-  - [`packages/nextclaw/src/cli/commands/ncp/runtime/nextclaw-ncp-dispatch.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/ncp/runtime/nextclaw-ncp-dispatch.ts)
-  - [`packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-runtime-lifecycle.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-runtime-lifecycle.ts)
+  - [`packages/go-usb-ai/src/cli/commands/ncp/runtime/go-usb-ai-ncp-dispatch.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/ncp/runtime/go-usb-ai-ncp-dispatch.ts)
+  - [`packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-runtime-lifecycle.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-runtime-lifecycle.ts)
 - 同步收敛 direct dispatch / gateway wiring：
-  - [`packages/nextclaw/src/cli/commands/agent/cli-agent-runner.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/agent/cli-agent-runner.ts)
-  - [`packages/nextclaw/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts)
-  - [`packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts)
-  - [`packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-startup.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-startup.ts)
-  - [`packages/nextclaw/src/cli/commands/service.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service.ts)
+  - [`packages/go-usb-ai/src/cli/commands/agent/cli-agent-runner.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/agent/cli-agent-runner.ts)
+  - [`packages/go-usb-ai/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service-support/plugin/service-plugin-runtime-bridge.ts)
+  - [`packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts)
+  - [`packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-startup.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-startup.ts)
+  - [`packages/go-usb-ai/src/cli/commands/service.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service.ts)
 - 更新当前有效架构文档：
   - [`docs/ARCHITECTURE.md`](/Users/peiwang/Projects/nextbot/docs/ARCHITECTURE.md)
 
@@ -45,37 +45,37 @@
 
 ### 已完成自动化验证
 
-- `pnpm -C packages/nextclaw-openclaw-compat tsc`
+- `pnpm -C packages/go-usb-ai-openclaw-compat tsc`
   - 结果：通过
-- `pnpm -C packages/nextclaw-core tsc`
+- `pnpm -C packages/go-usb-ai-core tsc`
   - 结果：通过
-- `pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/runtime/nextclaw-ncp-runner.test.ts src/cli/commands/service-support/plugin/tests/service-plugin-runtime-bridge.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-bootstrap.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts src/cli/commands/service-support/gateway/tests/service-capability-hydration.test.ts`
+- `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/runtime/go-usb-ai-ncp-runner.test.ts src/cli/commands/service-support/plugin/tests/service-plugin-runtime-bridge.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-bootstrap.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts src/cli/commands/service-support/gateway/tests/service-capability-hydration.test.ts`
   - 结果：5 个测试文件、13 条测试全部通过
-- `rg -n "runtimePool|processDirect\\(|registerEngine|engineKinds|AgentEngine|GatewayAgentRuntimePool" packages/nextclaw packages/nextclaw-core packages/nextclaw-openclaw-compat --glob '!**/dist/**'`
+- `rg -n "runtimePool|processDirect\\(|registerEngine|engineKinds|AgentEngine|GatewayAgentRuntimePool" packages/go-usb-ai packages/go-usb-ai-core packages/go-usb-ai-openclaw-compat --glob '!**/dist/**'`
   - 结果：零命中
-- `rg -n "nextclaw-engine-plugin-codex-sdk|nextclaw-engine-plugin-claude-agent-sdk|agent-runtime-pool|GatewayAgentRuntimePool|registerEngine|engineKinds" docs/ARCHITECTURE.md packages/nextclaw/src/cli/commands/README.md docs/USAGE.md packages/nextclaw/resources/USAGE.md`
+- `rg -n "go-usb-ai-engine-plugin-codex-sdk|go-usb-ai-engine-plugin-claude-agent-sdk|agent-runtime-pool|GatewayAgentRuntimePool|registerEngine|engineKinds" docs/ARCHITECTURE.md packages/go-usb-ai/src/cli/commands/README.md docs/USAGE.md packages/go-usb-ai/resources/USAGE.md`
   - 结果：零命中
 
 ### 已执行但未全绿的验证
 
-- `pnpm -C packages/nextclaw tsc`
+- `pnpm -C packages/go-usb-ai tsc`
   - 结果：未通过
-  - 阻塞点 1：[`packages/nextclaw-server/src/ui/ui-routes/marketplace/installed.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-server/src/ui/ui-routes/marketplace/installed.ts)
-  - 阻塞点 2：[`packages/nextclaw/src/cli/runtime-state/local-ui-discovery.service.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/runtime-state/local-ui-discovery.service.ts)
+  - 阻塞点 1：[`packages/go-usb-ai-server/src/ui/ui-routes/marketplace/installed.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-server/src/ui/ui-routes/marketplace/installed.ts)
+  - 阻塞点 2：[`packages/go-usb-ai/src/cli/runtime-state/local-ui-discovery.service.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/runtime-state/local-ui-discovery.service.ts)
   - 判断：两处都是当前工作区已有的类型问题，不是本轮旧 engine / runtime pool 删除链路引入
 - `pnpm lint:maintainability:guard`
   - 结果：未通过
-  - 阻塞点：[`packages/nextclaw-core/src/providers/openai_provider.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/providers/openai_provider.ts) 的既有复杂度问题
-  - 说明：[`packages/nextclaw/src/cli/commands/service.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service.ts) 当前仍有 file-budget warning，但已不是本轮 guard 的 error 阻塞项
+  - 阻塞点：[`packages/go-usb-ai-core/src/providers/openai_provider.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/providers/openai_provider.ts) 的既有复杂度问题
+  - 说明：[`packages/go-usb-ai/src/cli/commands/service.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service.ts) 当前仍有 file-budget warning，但已不是本轮 guard 的 error 阻塞项
   - 判断：guard 失败仍主要来自与本轮无关的 `openai_provider.ts` 存量债务
 
 ### 推荐手工验收
 
 1. CLI 单轮：
-   - `NEXTCLAW_HOME=$(mktemp -d /tmp/nextclaw-agent-cli-once.XXXXXX) pnpm -C packages/nextclaw dev:build agent -m "Reply exactly OK" --session cli:remove-legacy-engine-once`
+   - `GOUSB_AI_HOME=$(mktemp -d /tmp/go-usb-ai-agent-cli-once.XXXXXX) pnpm -C packages/go-usb-ai dev:build agent -m "Reply exactly OK" --session cli:remove-legacy-engine-once`
    - 预期：正常返回 `OK`
 2. CLI 交互式：
-   - `NEXTCLAW_HOME=$(mktemp -d /tmp/nextclaw-agent-cli-chat.XXXXXX) pnpm -C packages/nextclaw dev:build agent --session cli:remove-legacy-engine-chat`
+   - `GOUSB_AI_HOME=$(mktemp -d /tmp/go-usb-ai-agent-cli-chat.XXXXXX) pnpm -C packages/go-usb-ai dev:build agent --session cli:remove-legacy-engine-chat`
    - 预期：可多轮追问，可正常 `exit`
 3. Service / Gateway：
    - 启动 service 后从真实渠道或 UI 发一条普通消息
@@ -94,13 +94,13 @@
 发布前建议顺序：
 
 1. 先处理当前仓库里与本次删除无关但会阻断全量验证的既有问题：
-   - [`packages/nextclaw-server/src/ui/ui-routes/marketplace/installed.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-server/src/ui/ui-routes/marketplace/installed.ts)
-   - [`packages/nextclaw/src/cli/runtime-state/local-ui-discovery.service.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/runtime-state/local-ui-discovery.service.ts)
-   - [`packages/nextclaw-core/src/providers/openai_provider.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/providers/openai_provider.ts)
+   - [`packages/go-usb-ai-server/src/ui/ui-routes/marketplace/installed.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-server/src/ui/ui-routes/marketplace/installed.ts)
+   - [`packages/go-usb-ai/src/cli/runtime-state/local-ui-discovery.service.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/runtime-state/local-ui-discovery.service.ts)
+   - [`packages/go-usb-ai-core/src/providers/openai_provider.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/providers/openai_provider.ts)
 2. 重新执行：
-   - `pnpm -C packages/nextclaw-openclaw-compat tsc`
-   - `pnpm -C packages/nextclaw-core tsc`
-   - `pnpm -C packages/nextclaw tsc`
+   - `pnpm -C packages/go-usb-ai-openclaw-compat tsc`
+   - `pnpm -C packages/go-usb-ai-core tsc`
+   - `pnpm -C packages/go-usb-ai tsc`
    - `pnpm lint:maintainability:guard`
 3. 完成 CLI / Service / Plugin Bridge 的手工冒烟后，再走现有发布流程
 
@@ -108,8 +108,8 @@
 
 从真实用户出口看，这轮要确认的不是“旧代码删得漂不漂亮”，而是“主功能入口没崩，而且只剩单路径”：
 
-1. `nextclaw agent -m` 能正常回复
-2. `nextclaw agent` 交互式模式可多轮会话
+1. `go-usb-ai agent -m` 能正常回复
+2. `go-usb-ai agent` 交互式模式可多轮会话
 3. UI Chat 正常发送、流式显示、继续追问
 4. Gateway 接入的真实渠道消息还能收到回复
 5. 插件桥带文本或附件的消息仍能正常处理
@@ -169,9 +169,9 @@
 
 ### 本次仍保留的维护性债务
 
-1. [`packages/nextclaw-core/src/providers/openai_provider.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/providers/openai_provider.ts) 的既有复杂度仍阻断全仓 maintainability guard
-2. [`packages/nextclaw/src/cli/runtime-state/local-ui-discovery.service.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/runtime-state/local-ui-discovery.service.ts) 当前工作区还有与本轮无关的类型问题
-3. [`packages/nextclaw/src/cli/commands/service.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service.ts) 当前仍有 file-budget warning，但本轮避免为了清 warning 再扩 scope
+1. [`packages/go-usb-ai-core/src/providers/openai_provider.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/providers/openai_provider.ts) 的既有复杂度仍阻断全仓 maintainability guard
+2. [`packages/go-usb-ai/src/cli/runtime-state/local-ui-discovery.service.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/runtime-state/local-ui-discovery.service.ts) 当前工作区还有与本轮无关的类型问题
+3. [`packages/go-usb-ai/src/cli/commands/service.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service.ts) 当前仍有 file-budget warning，但本轮避免为了清 warning 再扩 scope
 4. 历史计划、设计与度量快照文档中仍会出现旧名词留痕，但它们不再代表 live architecture
 
 ### 为什么本次接受这些债务
@@ -181,7 +181,7 @@
 
 ### 下一步最合适的切口
 
-1. 单独处理 [`packages/nextclaw-core/src/providers/openai_provider.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/providers/openai_provider.ts) 的复杂度债务
-2. 单独处理 [`packages/nextclaw/src/cli/runtime-state/local-ui-discovery.service.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/runtime-state/local-ui-discovery.service.ts) 的类型问题，恢复 `packages/nextclaw tsc`
+1. 单独处理 [`packages/go-usb-ai-core/src/providers/openai_provider.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/providers/openai_provider.ts) 的复杂度债务
+2. 单独处理 [`packages/go-usb-ai/src/cli/runtime-state/local-ui-discovery.service.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/runtime-state/local-ui-discovery.service.ts) 的类型问题，恢复 `packages/go-usb-ai tsc`
 3. 等用户当前 `service.ts` 相关并行改动稳定后，再单独做一轮 service 命令可维护性收敛
 4. 如需进一步“删到文档和度量快照都不出现旧名词”，可以再单开一轮历史文档清理，不与主代码链路混做

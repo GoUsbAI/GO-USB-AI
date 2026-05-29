@@ -14,14 +14,14 @@
 ## 测试/验证/验收方式
 
 - 类型检查：
-  - `pnpm -C packages/nextclaw-runtime tsc`
+  - `pnpm -C packages/go-usb-ai-runtime tsc`
 - 定向测试：
-  - `pnpm -C packages/nextclaw-server test -- --run src/ui/router.provider-test.test.ts`
+  - `pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.provider-test.test.ts`
 - API 冒烟：
-  - `pnpm -C packages/nextclaw-server exec tsx --eval '...createUiRouter(...)/api/config/meta...'`
+  - `pnpm -C packages/go-usb-ai-server exec tsx --eval '...createUiRouter(...)/api/config/meta...'`
   - 观察点：`minimax.defaultModels` 只包含 `M2.7 / M2.7-highspeed / M2.5 / M2.5-highspeed`
 - 可维护性自检：
-  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-runtime/src/providers/plugins/builtin.ts packages/nextclaw-server/src/ui/router.provider-test.test.ts`
+  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-runtime/src/providers/plugins/builtin.ts packages/go-usb-ai-server/src/ui/router.provider-test.test.ts`
 - 结果：
   - `tsc` 通过
   - `router.provider-test.test.ts` 15/15 通过
@@ -35,7 +35,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 NextClaw UI 的 Provider 配置页，选择 `MiniMax`。
+1. 打开 GoUsbAi UI 的 Provider 配置页，选择 `MiniMax`。
 2. 确认默认模型列表中不再出现 `MiniMax-M2`。
 3. 确认仍可见：
    - `MiniMax-M2.7`

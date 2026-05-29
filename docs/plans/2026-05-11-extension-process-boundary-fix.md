@@ -2,7 +2,7 @@
 
 ## 背景
 
-新版 Weixin extension 已经能真实收发消息，但 service 里出现了对 `@nextclaw/channel-extension-weixin` 业务导出的直接 import。这个实现偏离了原始方案：主进程不应该知道微信 schema、扫码登录、账号保存等渠道细节。
+新版 Weixin extension 已经能真实收发消息，但 service 里出现了对 `@go-usb-ai/channel-extension-weixin` 业务导出的直接 import。这个实现偏离了原始方案：主进程不应该知道微信 schema、扫码登录、账号保存等渠道细节。
 
 ## 目标
 
@@ -17,7 +17,7 @@
 
 ## 目标结构
 
-1. Extension 包通过 `nextclaw.extension.json` 声明 `contributes.channels`。
+1. Extension 包通过 `go-usb-ai.extension.json` 声明 `contributes.channels`。
 2. Service discovery 读取 manifest，并从 manifest 生成通用 channel binding 和 UI metadata。
 3. 如果 channel 声明 `auth`，service 生成通用 auth handler。
 4. 通用 auth handler 不调用渠道代码，只通过 app event bus 发 `extension.request`。
@@ -34,7 +34,7 @@
 ```json
 {
   "requestId": "uuid",
-  "extensionId": "nextclaw-channel-extension-weixin",
+  "extensionId": "go-usb-ai-channel-extension-weixin",
   "kind": "channel.auth.start",
   "payload": {
     "channelId": "weixin",
@@ -76,13 +76,13 @@
 - `ServiceExtensionRuntime` 成为 extension manifest contribution 与 request/response 协议 owner。
 - `ExtensionLifecycleService` 保留 manifest 读取和进程生命周期，不承载渠道业务。
 - Weixin extension 的 `main.ts` 监听通用 request，并把 auth 请求交给 `WeixinLoginService`。
-- `nextclaw.extension.json` 补齐 channel metadata、config UI hints 和 auth 声明。
+- `go-usb-ai.extension.json` 补齐 channel metadata、config UI hints 和 auth 声明。
 
 ## 验收
 
-- `rg "from \"@nextclaw/channel-extension-weixin\"|WeixinLoginService|WEIXIN_" packages/nextclaw-service/src` 无输出。
-- `rg "WeixinLoginService|WEIXIN_" packages/nextclaw-service/src` 无输出。
+- `rg "from \"@go-usb-ai/channel-extension-weixin\"|WeixinLoginService|WEIXIN_" packages/go-usb-ai-service/src` 无输出。
+- `rg "WeixinLoginService|WEIXIN_" packages/go-usb-ai-service/src` 无输出。
 - Service tests 覆盖 manifest 生成 channel binding 和 request/response auth。
 - Weixin extension tests 覆盖 auth request 处理。
-- `@nextclaw/service` 与 `@nextclaw/channel-extension-weixin` 的 `tsc`、targeted tests、lint 通过。
+- `@go-usb-ai/service` 与 `@go-usb-ai/channel-extension-weixin` 的 `tsc`、targeted tests、lint 通过。
 - 旧版 Weixin plugin 仍不被引入。

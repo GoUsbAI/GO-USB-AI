@@ -6,7 +6,7 @@
 
 ## 决策
 
-- 移除 `nextclaw start/stop` 的产品命令条目
+- 移除 `go-usb-ai start/stop` 的产品命令条目
 
 ## 变更内容
 

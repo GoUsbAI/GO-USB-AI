@@ -22,53 +22,53 @@
 
 本次成功发布的公开包如下：
 
-- `nextclaw@0.18.2`
-- `@nextclaw/ui@0.12.11`
-- `@nextclaw/server@0.12.10`
-- `@nextclaw/core@0.12.10`
-- `@nextclaw/runtime@0.2.42`
-- `@nextclaw/remote@0.1.87`
-- `@nextclaw/mcp@0.1.75`
-- `@nextclaw/openclaw-compat@1.0.10`
-- `@nextclaw/agent-chat-ui@0.3.8`
-- `@nextclaw/channel-runtime@0.4.27`
-- `@nextclaw/channel-plugin-dingtalk@0.2.41`
-- `@nextclaw/channel-plugin-discord@0.2.41`
-- `@nextclaw/channel-plugin-email@0.2.41`
-- `@nextclaw/channel-plugin-feishu@0.2.27`
-- `@nextclaw/channel-plugin-mochat@0.2.41`
-- `@nextclaw/channel-plugin-qq@0.2.41`
-- `@nextclaw/channel-plugin-slack@0.2.41`
-- `@nextclaw/channel-plugin-telegram@0.2.41`
-- `@nextclaw/channel-plugin-wecom@0.2.41`
-- `@nextclaw/channel-plugin-weixin@0.1.35`
-- `@nextclaw/channel-plugin-whatsapp@0.2.41`
-- `@nextclaw/ncp@0.5.4`
-- `@nextclaw/ncp-agent-runtime@0.3.14`
-- `@nextclaw/ncp-http-agent-client@0.3.16`
-- `@nextclaw/ncp-http-agent-server@0.3.16`
-- `@nextclaw/ncp-mcp@0.1.77`
-- `@nextclaw/ncp-react@0.4.24`
-- `@nextclaw/ncp-react-ui@0.2.16`
-- `@nextclaw/ncp-toolkit@0.5.9`
-- `@nextclaw/nextclaw-hermes-acp-bridge@0.1.3`
-- `@nextclaw/nextclaw-ncp-runtime-adapter-hermes-http@0.1.3`
-- `@nextclaw/nextclaw-ncp-runtime-http-client@0.1.3`
-- `@nextclaw/nextclaw-ncp-runtime-stdio-client@0.1.4`
-- `@nextclaw/nextclaw-ncp-runtime-claude-code-sdk@0.1.24`
-- `@nextclaw/nextclaw-ncp-runtime-codex-sdk@0.1.21`
-- `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk@0.1.54`
-- `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk@0.1.54`
+- `go-usb-ai@0.18.2`
+- `@go-usb-ai/ui@0.12.11`
+- `@go-usb-ai/server@0.12.10`
+- `@go-usb-ai/core@0.12.10`
+- `@go-usb-ai/runtime@0.2.42`
+- `@go-usb-ai/remote@0.1.87`
+- `@go-usb-ai/mcp@0.1.75`
+- `@go-usb-ai/openclaw-compat@1.0.10`
+- `@go-usb-ai/agent-chat-ui@0.3.8`
+- `@go-usb-ai/channel-runtime@0.4.27`
+- `@go-usb-ai/channel-plugin-dingtalk@0.2.41`
+- `@go-usb-ai/channel-plugin-discord@0.2.41`
+- `@go-usb-ai/channel-plugin-email@0.2.41`
+- `@go-usb-ai/channel-plugin-feishu@0.2.27`
+- `@go-usb-ai/channel-plugin-mochat@0.2.41`
+- `@go-usb-ai/channel-plugin-qq@0.2.41`
+- `@go-usb-ai/channel-plugin-slack@0.2.41`
+- `@go-usb-ai/channel-plugin-telegram@0.2.41`
+- `@go-usb-ai/channel-plugin-wecom@0.2.41`
+- `@go-usb-ai/channel-plugin-weixin@0.1.35`
+- `@go-usb-ai/channel-plugin-whatsapp@0.2.41`
+- `@go-usb-ai/ncp@0.5.4`
+- `@go-usb-ai/ncp-agent-runtime@0.3.14`
+- `@go-usb-ai/ncp-http-agent-client@0.3.16`
+- `@go-usb-ai/ncp-http-agent-server@0.3.16`
+- `@go-usb-ai/ncp-mcp@0.1.77`
+- `@go-usb-ai/ncp-react@0.4.24`
+- `@go-usb-ai/ncp-react-ui@0.2.16`
+- `@go-usb-ai/ncp-toolkit@0.5.9`
+- `@go-usb-ai/go-usb-ai-hermes-acp-bridge@0.1.3`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-adapter-hermes-http@0.1.3`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-http-client@0.1.3`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-stdio-client@0.1.4`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-claude-code-sdk@0.1.24`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-codex-sdk@0.1.21`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk@0.1.54`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk@0.1.54`
 
 本次发布同时联动更新了若干私有工作区包的版本元数据与 changelog，用于保持工作区依赖关系一致，但这些私有包不会发布到 npm：
 
-- `@nextclaw/desktop@0.0.146`
-- `@nextclaw/ncp-demo-backend@0.0.31`
-- `@nextclaw/ncp-demo-frontend@0.0.33`
+- `@go-usb-ai/desktop@0.0.146`
+- `@go-usb-ai/ncp-demo-backend@0.0.31`
+- `@go-usb-ai/ncp-demo-frontend@0.0.33`
 
-同批次收尾补丁中，又发现并定位了一个 `nextclaw@0.18.2` 的发布后回归：用户执行 `nextclaw update && nextclaw restart` 时，会报 `UI frontend bundle not found`，即使全局安装目录里实际已经存在 `ui-dist/`。根因不是 tarball 漏带静态资源，而是 `resolveUiStaticDir()` 仍然依赖当前模块文件位置的相对层级去反推包根；在发布后的 `dist/cli/app/index.js` 产物里，模块层级和源码目录不同，导致它把包根错误算成了全局 `node_modules` 目录，而不是 `nextclaw` 自身根目录。
+同批次收尾补丁中，又发现并定位了一个 `go-usb-ai@0.18.2` 的发布后回归：用户执行 `go-usb-ai update && go-usb-ai restart` 时，会报 `UI frontend bundle not found`，即使全局安装目录里实际已经存在 `ui-dist/`。根因不是 tarball 漏带静态资源，而是 `resolveUiStaticDir()` 仍然依赖当前模块文件位置的相对层级去反推包根；在发布后的 `dist/cli/app/index.js` 产物里，模块层级和源码目录不同，导致它把包根错误算成了全局 `node_modules` 目录，而不是 `go-usb-ai` 自身根目录。
 
-本次补丁命中根因的方式是改为先解析 `nextclaw/package.json` 所在的真实包根绝对路径，再从该根目录拼接 `ui-dist`；同时补了一条针对“发布后 dist 入口布局”的回归测试，并顺手删掉了这片 util 中几层无意义薄包装，保证这次纯 bugfix 的非测试代码没有净增长。补丁随后通过单包 patch 方式重新发布为 `nextclaw@0.18.3`，并在真实全局安装链路上完成 `update -> restart` 复验。
+本次补丁命中根因的方式是改为先解析 `go-usb-ai/package.json` 所在的真实包根绝对路径，再从该根目录拼接 `ui-dist`；同时补了一条针对“发布后 dist 入口布局”的回归测试，并顺手删掉了这片 util 中几层无意义薄包装，保证这次纯 bugfix 的非测试代码没有净增长。补丁随后通过单包 patch 方式重新发布为 `go-usb-ai@0.18.3`，并在真实全局安装链路上完成 `update -> restart` 复验。
 
 ## 测试 / 验证 / 验收方式
 
@@ -92,32 +92,32 @@
   - `pnpm release:report:health`
   - 结果：`Repository release health is clean.`
 - 关键线上版本核验：
-  - `npm view nextclaw version`
-  - `npm view @nextclaw/ui version`
-  - `npm view @nextclaw/core version`
-  - `npm view @nextclaw/server version`
+  - `npm view go-usb-ai version`
+  - `npm view @go-usb-ai/ui version`
+  - `npm view @go-usb-ai/core version`
+  - `npm view @go-usb-ai/server version`
   - 结果：分别返回 `0.18.2`、`0.12.11`、`0.12.10`、`0.12.10`
 - CLI 安装冒烟：
-  - `HOME="$(mktemp -d /tmp/nextclaw-release-npx.XXXXXX)/home" npm exec nextclaw@0.18.2 -- --help`
-  - `NEXTCLAW_HOME="$(mktemp -d /tmp/nextclaw-release-pnpm.XXXXXX)/home" pnpm --config.store-dir="$(mktemp -d /tmp/nextclaw-pnpm-store.XXXXXX)" dlx nextclaw@0.18.2 --help`
-  - 结果：两条命令都成功输出 `nextclaw` CLI 帮助；`pnpm dlx` 过程中仅出现第三方依赖 deprecation warning，没有阻断安装或运行。
+  - `HOME="$(mktemp -d /tmp/go-usb-ai-release-npx.XXXXXX)/home" npm exec go-usb-ai@0.18.2 -- --help`
+  - `GOUSB_AI_HOME="$(mktemp -d /tmp/go-usb-ai-release-pnpm.XXXXXX)/home" pnpm --config.store-dir="$(mktemp -d /tmp/go-usb-ai-pnpm-store.XXXXXX)" dlx go-usb-ai@0.18.2 --help`
+  - 结果：两条命令都成功输出 `go-usb-ai` CLI 帮助；`pnpm dlx` 过程中仅出现第三方依赖 deprecation warning，没有阻断安装或运行。
 - 发布后回归修复验证：
-  - `pnpm -C packages/nextclaw test -- run src/cli/shared/utils/cli.utils.ui-static-dir.test.ts src/cli/shared/utils/cli.utils.which.test.ts`
-  - `pnpm -C packages/nextclaw tsc`
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw/src/cli/shared/utils/cli.utils.ts packages/nextclaw/src/cli/shared/utils/cli.utils.ui-static-dir.test.ts packages/nextclaw/src/cli/shared/services/workspace/workspace-manager.service.ts`
+  - `pnpm -C packages/go-usb-ai test -- run src/cli/shared/utils/cli.utils.ui-static-dir.test.ts src/cli/shared/utils/cli.utils.which.test.ts`
+  - `pnpm -C packages/go-usb-ai tsc`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai/src/cli/shared/utils/cli.utils.ts packages/go-usb-ai/src/cli/shared/utils/cli.utils.ui-static-dir.test.ts packages/go-usb-ai/src/cli/shared/services/workspace/workspace-manager.service.ts`
   - `pnpm lint:new-code:governance`
   - `pnpm check:governance-backlog-ratchet`
-  - `pnpm -C packages/nextclaw build`
-  - `HOME="$(mktemp -d /tmp/nextclaw-rootfix-restart.XXXXXX)" node packages/nextclaw/dist/cli/app/index.js start --ui-port 55741 --start-timeout 15000`
-  - `HOME="<same-temp-home>" node packages/nextclaw/dist/cli/app/index.js restart --ui-port 55741 --start-timeout 15000`
-  - `HOME="<same-temp-home>" node packages/nextclaw/dist/cli/app/index.js stop`
+  - `pnpm -C packages/go-usb-ai build`
+  - `HOME="$(mktemp -d /tmp/go-usb-ai-rootfix-restart.XXXXXX)" node packages/go-usb-ai/dist/cli/app/index.js start --ui-port 55741 --start-timeout 15000`
+  - `HOME="<same-temp-home>" node packages/go-usb-ai/dist/cli/app/index.js restart --ui-port 55741 --start-timeout 15000`
+  - `HOME="<same-temp-home>" node packages/go-usb-ai/dist/cli/app/index.js stop`
   - `pnpm release:version`
   - `pnpm release:publish`
-  - `npm view nextclaw version`
-  - `nextclaw update && nextclaw restart`
-  - `nextclaw --version`
-  - `nextclaw status --json`
-  - 结果：定向单测 `9/9` 通过，`tsc` 通过，非功能改动 maintainability guard 通过且 `非测试代码增减报告` 为净减，治理检查通过；构建后的 CLI 在隔离 HOME 下可成功执行 `start -> restart -> stop`，不再出现 `UI frontend bundle not found`。随后 `nextclaw@0.18.3` 发布成功，`npm view nextclaw version` 返回 `0.18.3`；在当前机器真实执行 `nextclaw update && nextclaw restart` 后，CLI 已从 `0.18.2` 升到 `0.18.3` 并成功重启，`nextclaw status --json` 显示服务健康、UI 地址可用。
+  - `npm view go-usb-ai version`
+  - `go-usb-ai update && go-usb-ai restart`
+  - `go-usb-ai --version`
+  - `go-usb-ai status --json`
+  - 结果：定向单测 `9/9` 通过，`tsc` 通过，非功能改动 maintainability guard 通过且 `非测试代码增减报告` 为净减，治理检查通过；构建后的 CLI 在隔离 HOME 下可成功执行 `start -> restart -> stop`，不再出现 `UI frontend bundle not found`。随后 `go-usb-ai@0.18.3` 发布成功，`npm view go-usb-ai version` 返回 `0.18.3`；在当前机器真实执行 `go-usb-ai update && go-usb-ai restart` 后，CLI 已从 `0.18.2` 升到 `0.18.3` 并成功重启，`go-usb-ai status --json` 显示服务健康、UI 地址可用。
 
 ## 发布 / 部署方式
 
@@ -130,39 +130,39 @@
   5. `pnpm release:publish`
   6. `pnpm release:report:health`
   7. `npm view <pkg> version`
-  8. 在非仓库临时目录运行 `npm exec nextclaw@<version> -- --help` 或隔离 store 的 `pnpm dlx`
+  8. 在非仓库临时目录运行 `npm exec go-usb-ai@<version> -- --help` 或隔离 store 的 `pnpm dlx`
 - 当前状态：
   - npm 发布：已完成
   - registry 版本核验：已完成
   - git tag：已完成
-  - release health：本次热修发布已完成，但当前重新执行 `pnpm release:report:health` 仍会提示一批历史包存在 tag 与 HEAD 的版本漂移；`nextclaw@0.18.3` 本身的发布和安装验证不受影响
+  - release health：本次热修发布已完成，但当前重新执行 `pnpm release:report:health` 仍会提示一批历史包存在 tag 与 HEAD 的版本漂移；`go-usb-ai@0.18.3` 本身的发布和安装验证不受影响
   - CLI 安装冒烟：已完成
-  - `nextclaw@0.18.2` 发布后回归 hotfix：已补发 `nextclaw@0.18.3`，并完成真实全局更新重启验证
+  - `go-usb-ai@0.18.2` 发布后回归 hotfix：已补发 `go-usb-ai@0.18.3`，并完成真实全局更新重启验证
 
 ## 用户 / 产品视角的验收步骤
 
-1. 执行 `npm view nextclaw version`，确认返回 `0.18.3`。
-2. 执行 `npm view @nextclaw/ui version`、`npm view @nextclaw/core version`、`npm view @nextclaw/server version`，确认分别为 `0.12.11`、`0.12.10`、`0.12.10`。
-3. 在任意非仓库临时目录执行 `npm exec nextclaw@0.18.3 -- --help`。
+1. 执行 `npm view go-usb-ai version`，确认返回 `0.18.3`。
+2. 执行 `npm view @go-usb-ai/ui version`、`npm view @go-usb-ai/core version`、`npm view @go-usb-ai/server version`，确认分别为 `0.12.11`、`0.12.10`、`0.12.10`。
+3. 在任意非仓库临时目录执行 `npm exec go-usb-ai@0.18.3 -- --help`。
 4. 确认 CLI 能成功安装并输出完整帮助与命令列表。
-5. 如果业务侧依赖 channel runtime、NCP 或 NextClaw runtime 相关公开包，安装本次新版本并确认依赖解析无缺包、无版本冲突。
-6. 若本地已安装 `nextclaw@0.18.2` 或更早版本，执行 `nextclaw update && nextclaw restart`，确认可以升级到 `0.18.3` 且后台服务成功重启。
-7. 执行 `nextclaw --version` 与 `nextclaw status --json`，确认版本为 `0.18.3`，且健康状态为正常。
+5. 如果业务侧依赖 channel runtime、NCP 或 GoUsbAi runtime 相关公开包，安装本次新版本并确认依赖解析无缺包、无版本冲突。
+6. 若本地已安装 `go-usb-ai@0.18.2` 或更早版本，执行 `go-usb-ai update && go-usb-ai restart`，确认可以升级到 `0.18.3` 且后台服务成功重启。
+7. 执行 `go-usb-ai --version` 与 `go-usb-ai status --json`，确认版本为 `0.18.3`，且健康状态为正常。
 8. 若要进一步验证本次发布后回归的修复，在隔离 HOME 下执行构建后的 `start -> restart -> stop` 链路，确认后台服务可正常重启，不再出现 `UI frontend bundle not found`。
 
 ## 可维护性总结汇总
 
 - 长期目标对齐 / 可维护性推进：
-  - 本次不是增加孤立功能，而是让 NextClaw 作为统一入口产品的“仓库状态、公开包版本、用户可安装版本”重新对齐，减少交付链路上的漂移与不确定性。
+  - 本次不是增加孤立功能，而是让 GoUsbAi 作为统一入口产品的“仓库状态、公开包版本、用户可安装版本”重新对齐，减少交付链路上的漂移与不确定性。
   - 本次在可维护性上的推进是继续复用既有 release 自动化，而不是新增一套手工发布清单、旁路脚本或 incident-specific workaround。
 - 本次是否已尽最大努力优化可维护性：
   - 是。统一 release 部分继续走既有 `release:auto:prepare -> release:version -> release:publish` 主链路；发布后回归补丁也没有加 incident-specific 相对路径猜测，而是收敛为“先找绝对包根，再找 `ui-dist`”。
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：
   - 是。release 主体通过自动 batch 一次性收口；回归补丁则顺手删除了 util 里的薄包装和重复路径判断，没有为修复去叠加新的脆弱分支。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：
-  - release 主体新增主要是 changelog、版本号、tag 与日志留痕；发布后回归补丁在排除测试后为净减。`packages/nextclaw/ui-dist` 的变更属于随 CLI 打包流程同步生成的构建产物更新，而不是额外新增一套实现。
+  - release 主体新增主要是 changelog、版本号、tag 与日志留痕；发布后回归补丁在排除测试后为净减。`packages/go-usb-ai/ui-dist` 的变更属于随 CLI 打包流程同步生成的构建产物更新，而不是额外新增一套实现。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：
-  - 是。发布逻辑仍由既有 release 脚本负责；`nextclaw` 回归补丁也没有新增一层路径适配器，而是把“包根定位”收敛到现有 util 边界内，避免继续把复杂度往调用方扩散。
+  - 是。发布逻辑仍由既有 release 脚本负责；`go-usb-ai` 回归补丁也没有新增一层路径适配器，而是把“包根定位”收敛到现有 util 边界内，避免继续把复杂度往调用方扩散。
 - 目录结构与文件组织是否满足当前项目治理要求：
   - 是。新增留痕仅位于 `docs/logs/v0.16.82-apr20-unified-npm-release-batch/README.md`；其余改动都在既有包目录下的 `package.json`、`CHANGELOG.md` 与必要构建产物范围内。
 - 若本次涉及代码可维护性评估，是否基于独立于实现阶段的 `post-edit-maintainability-review` 填写：
@@ -184,53 +184,53 @@
 - 本次是否需要发包：
   - 需要。原因是仓库存在 37 个公开包的 unpublished drift，继续不发会让仓库版本、tag 和用户可安装版本长期漂移。
 - 本次已发布的公开包：
-  - `nextclaw@0.18.2`：已发布
-  - `@nextclaw/ui@0.12.11`：已发布
-  - `@nextclaw/server@0.12.10`：已发布
-  - `@nextclaw/core@0.12.10`：已发布
-  - `@nextclaw/runtime@0.2.42`：已发布
-  - `@nextclaw/remote@0.1.87`：已发布
-  - `@nextclaw/mcp@0.1.75`：已发布
-  - `@nextclaw/openclaw-compat@1.0.10`：已发布
-  - `@nextclaw/agent-chat-ui@0.3.8`：已发布
-  - `@nextclaw/channel-runtime@0.4.27`：已发布
-  - `@nextclaw/channel-plugin-dingtalk@0.2.41`：已发布
-  - `@nextclaw/channel-plugin-discord@0.2.41`：已发布
-  - `@nextclaw/channel-plugin-email@0.2.41`：已发布
-  - `@nextclaw/channel-plugin-feishu@0.2.27`：已发布
-  - `@nextclaw/channel-plugin-mochat@0.2.41`：已发布
-  - `@nextclaw/channel-plugin-qq@0.2.41`：已发布
-  - `@nextclaw/channel-plugin-slack@0.2.41`：已发布
-  - `@nextclaw/channel-plugin-telegram@0.2.41`：已发布
-  - `@nextclaw/channel-plugin-wecom@0.2.41`：已发布
-  - `@nextclaw/channel-plugin-weixin@0.1.35`：已发布
-  - `@nextclaw/channel-plugin-whatsapp@0.2.41`：已发布
-  - `@nextclaw/ncp@0.5.4`：已发布
-  - `@nextclaw/ncp-agent-runtime@0.3.14`：已发布
-  - `@nextclaw/ncp-http-agent-client@0.3.16`：已发布
-  - `@nextclaw/ncp-http-agent-server@0.3.16`：已发布
-  - `@nextclaw/ncp-mcp@0.1.77`：已发布
-  - `@nextclaw/ncp-react@0.4.24`：已发布
-  - `@nextclaw/ncp-react-ui@0.2.16`：已发布
-  - `@nextclaw/ncp-toolkit@0.5.9`：已发布
-  - `@nextclaw/nextclaw-hermes-acp-bridge@0.1.3`：已发布
-  - `@nextclaw/nextclaw-ncp-runtime-adapter-hermes-http@0.1.3`：已发布
-  - `@nextclaw/nextclaw-ncp-runtime-http-client@0.1.3`：已发布
-  - `@nextclaw/nextclaw-ncp-runtime-stdio-client@0.1.4`：已发布
-  - `@nextclaw/nextclaw-ncp-runtime-claude-code-sdk@0.1.24`：已发布
-  - `@nextclaw/nextclaw-ncp-runtime-codex-sdk@0.1.21`：已发布
-  - `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk@0.1.54`：已发布
-  - `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk@0.1.54`：已发布
+  - `go-usb-ai@0.18.2`：已发布
+  - `@go-usb-ai/ui@0.12.11`：已发布
+  - `@go-usb-ai/server@0.12.10`：已发布
+  - `@go-usb-ai/core@0.12.10`：已发布
+  - `@go-usb-ai/runtime@0.2.42`：已发布
+  - `@go-usb-ai/remote@0.1.87`：已发布
+  - `@go-usb-ai/mcp@0.1.75`：已发布
+  - `@go-usb-ai/openclaw-compat@1.0.10`：已发布
+  - `@go-usb-ai/agent-chat-ui@0.3.8`：已发布
+  - `@go-usb-ai/channel-runtime@0.4.27`：已发布
+  - `@go-usb-ai/channel-plugin-dingtalk@0.2.41`：已发布
+  - `@go-usb-ai/channel-plugin-discord@0.2.41`：已发布
+  - `@go-usb-ai/channel-plugin-email@0.2.41`：已发布
+  - `@go-usb-ai/channel-plugin-feishu@0.2.27`：已发布
+  - `@go-usb-ai/channel-plugin-mochat@0.2.41`：已发布
+  - `@go-usb-ai/channel-plugin-qq@0.2.41`：已发布
+  - `@go-usb-ai/channel-plugin-slack@0.2.41`：已发布
+  - `@go-usb-ai/channel-plugin-telegram@0.2.41`：已发布
+  - `@go-usb-ai/channel-plugin-wecom@0.2.41`：已发布
+  - `@go-usb-ai/channel-plugin-weixin@0.1.35`：已发布
+  - `@go-usb-ai/channel-plugin-whatsapp@0.2.41`：已发布
+  - `@go-usb-ai/ncp@0.5.4`：已发布
+  - `@go-usb-ai/ncp-agent-runtime@0.3.14`：已发布
+  - `@go-usb-ai/ncp-http-agent-client@0.3.16`：已发布
+  - `@go-usb-ai/ncp-http-agent-server@0.3.16`：已发布
+  - `@go-usb-ai/ncp-mcp@0.1.77`：已发布
+  - `@go-usb-ai/ncp-react@0.4.24`：已发布
+  - `@go-usb-ai/ncp-react-ui@0.2.16`：已发布
+  - `@go-usb-ai/ncp-toolkit@0.5.9`：已发布
+  - `@go-usb-ai/go-usb-ai-hermes-acp-bridge@0.1.3`：已发布
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-adapter-hermes-http@0.1.3`：已发布
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-http-client@0.1.3`：已发布
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-stdio-client@0.1.4`：已发布
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-claude-code-sdk@0.1.24`：已发布
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-codex-sdk@0.1.21`：已发布
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk@0.1.54`：已发布
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk@0.1.54`：已发布
 - 本次检查到但无需再次发布的公开包：
-  - `@nextclaw/feishu-core@0.2.6`：无需发布，原因是该版本已在 npm 上存在
-  - `@nextclaw/agent-chat@0.1.10`：无需发布，原因是该版本已在 npm 上存在
-  - `@nextclaw/app-runtime@0.4.1`：无需发布，原因是该版本已在 npm 上存在
-  - `@nextclaw/app-sdk@0.1.0`：无需发布，原因是该版本已在 npm 上存在
+  - `@go-usb-ai/feishu-core@0.2.6`：无需发布，原因是该版本已在 npm 上存在
+  - `@go-usb-ai/agent-chat@0.1.10`：无需发布，原因是该版本已在 npm 上存在
+  - `@go-usb-ai/app-runtime@0.4.1`：无需发布，原因是该版本已在 npm 上存在
+  - `@go-usb-ai/app-sdk@0.1.0`：无需发布，原因是该版本已在 npm 上存在
 - 本次联动更新但不发布到 npm 的私有工作区包：
-  - `@nextclaw/desktop@0.0.146`：未发布，原因是私有包
-  - `@nextclaw/ncp-demo-backend@0.0.31`：未发布，原因是私有包
-  - `@nextclaw/ncp-demo-frontend@0.0.33`：未发布，原因是私有包
+  - `@go-usb-ai/desktop@0.0.146`：未发布，原因是私有包
+  - `@go-usb-ai/ncp-demo-backend@0.0.31`：未发布，原因是私有包
+  - `@go-usb-ai/ncp-demo-frontend@0.0.33`：未发布，原因是私有包
 - 同批次补发的公开包：
-  - `nextclaw@0.18.3`：已发布。原因是 `0.18.2` 存在发布后 `restart` 回归，需要单包 patch 补发。
+  - `go-usb-ai@0.18.3`：已发布。原因是 `0.18.2` 存在发布后 `restart` 回归，需要单包 patch 补发。
 - 待统一发布 / 外部阻塞：
   - 无。当前已知与本批次相关的公开包发布和补发均已完成，未发现额外待补发阻塞。

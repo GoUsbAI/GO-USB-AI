@@ -4,7 +4,7 @@
 
 本次将 beta 发布默认语义从“只为有 publish drift 的包生成 changeset”改为“为所有 `private=false` workspace 包生成统一 beta changeset”。这样用户只说发布 beta 时，`pnpm release:beta` 与 `pnpm release:beta:npm` 默认都会覆盖完整 public 包闭包，避免出现本地看到某个 beta 版本号，但 UI 静态资源或依赖包实际没有进入同一批发布的错觉。
 
-同步完善了 `npm-beta-release` 与 `npm-release-contract-guard` skill：默认全量发布、缩小范围必须先说明例外原因、发布后必须用真实 `nextclaw@beta` 全局安装态验证，不能把 workspace link 或开发态当作用户安装态。
+同步完善了 `npm-beta-release` 与 `npm-release-contract-guard` skill：默认全量发布、缩小范围必须先说明例外原因、发布后必须用真实 `go-usb-ai@beta` 全局安装态验证，不能把 workspace link 或开发态当作用户安装态。
 
 ## 测试/验证/验收方式
 
@@ -30,8 +30,8 @@ pnpm release:beta
 ## 用户/产品视角的验收步骤
 
 1. 运行 `pnpm release:beta -- --dry-run`，确认默认 batch 是 full public workspace beta batch。
-2. 真实发布后运行 `npm install -g nextclaw@beta`。
-3. 用 `npm ls -g nextclaw --depth=0`、`nextclaw --version` 与服务进程路径确认安装态来自全局 npm 包，而不是仓库 workspace。
+2. 真实发布后运行 `npm install -g go-usb-ai@beta`。
+3. 用 `npm ls -g go-usb-ai --depth=0`、`go-usb-ai --version` 与服务进程路径确认安装态来自全局 npm 包，而不是仓库 workspace。
 4. 用 `/api/app/meta`、hashed UI assets 和浏览器行为确认用户看到的是已发布包内容。
 
 ## 可维护性总结汇总

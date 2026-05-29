@@ -11,20 +11,20 @@
 
 涉及文件：
 
-- `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
-- `packages/nextclaw-ui/src/components/chat/ChatConversationPanel.tsx`
-- `packages/nextclaw-ui/src/components/chat/ChatInputBar.tsx`
-- `packages/nextclaw-ui/src/lib/i18n.ts`
+- `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatConversationPanel.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatInputBar.tsx`
+- `packages/go-usb-ai-ui/src/lib/i18n.ts`
 
 ## 测试/验证/验收方式
 
 ### 执行命令
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
 - UI 冒烟（非仓库写入）：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui preview --host 127.0.0.1 --port 4180`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui preview --host 127.0.0.1 --port 4180`
   - `curl -fsS http://127.0.0.1:4180/chat`
 
 ### 结果

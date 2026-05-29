@@ -10,28 +10,28 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --dir packages/ncp-packages/nextclaw-ncp-agent-runtime test`：通过，5 个测试文件、15 个用例通过。
-- `pnpm --dir packages/ncp-packages/nextclaw-ncp-agent-runtime tsc`：通过。
-- `pnpm --dir packages/ncp-packages/nextclaw-ncp-agent-runtime build`：通过；`tsdown` 提示当前 Node.js `v22.16.0` deprecated，需后续升级到 `22.18.0+`，不影响本次构建结果。
-- `pnpm --dir packages/ncp-packages/nextclaw-ncp tsc`：通过。
-- `pnpm --dir packages/ncp-packages/nextclaw-ncp-toolkit tsc`：通过。
-- `pnpm --dir packages/nextclaw tsc`：通过。
+- `pnpm --dir packages/ncp-packages/go-usb-ai-ncp-agent-runtime test`：通过，5 个测试文件、15 个用例通过。
+- `pnpm --dir packages/ncp-packages/go-usb-ai-ncp-agent-runtime tsc`：通过。
+- `pnpm --dir packages/ncp-packages/go-usb-ai-ncp-agent-runtime build`：通过；`tsdown` 提示当前 Node.js `v22.16.0` deprecated，需后续升级到 `22.18.0+`，不影响本次构建结果。
+- `pnpm --dir packages/ncp-packages/go-usb-ai-ncp tsc`：通过。
+- `pnpm --dir packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`：通过。
+- `pnpm --dir packages/go-usb-ai tsc`：通过。
 - 真实 AI 验证：构造带小 PNG data URL 的 synthetic screenshot 工具结果，经 `ToolResultContentManager.normalizeToolCallResult` 与 `appendToolRoundToInput` 后发送给真实 `custom-1/gpt-5.4`；请求中存在 `image_url` content part，工具文本摘要为 473 chars，模型回答右侧方块颜色为 `green`，确认模型确实看到图片而不是只读文本摘要。
-- `pnpm --dir packages/ncp-packages/nextclaw-ncp-agent-runtime lint`：通过退出码 0；仍报告既有 `user-content.ts` context destructuring warning，本次未触达。
+- `pnpm --dir packages/ncp-packages/go-usb-ai-ncp-agent-runtime lint`：通过退出码 0；仍报告既有 `user-content.ts` context destructuring warning，本次未触达。
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths ...`：通过，0 error；目录预算因 `src/README.md` 已记录豁免降级为 warning。曾额外跑过 `--non-feature`，因本次已从纯止血升级为“工具图片可被模型视觉输入消费”的新增协议能力，非测试净增长硬门槛不适用。
 - `pnpm check:governance-backlog-ratchet`：通过。
-- `pnpm lint:new-code:governance`：未通过。阻塞点是 file-role-boundaries 对“触达旧文件必须补角色后缀”的治理要求；本次触达的若干历史文件如 `types/message.ts`、`types/events.ts`、`agent-runtime/tool.ts`、`context-builder.ts`、`nextclaw-ncp-message-bridge.ts` 等原本就不满足新后缀规则。曾评估直接重命名，但会级联触达大量协议/上下文/CLI 模块并把本次需求扩大成仓库级命名迁移，因此本次不扩大处理；另有工作区无关 gateway 测试文件也被同一命令扫描到。
+- `pnpm lint:new-code:governance`：未通过。阻塞点是 file-role-boundaries 对“触达旧文件必须补角色后缀”的治理要求；本次触达的若干历史文件如 `types/message.ts`、`types/events.ts`、`agent-runtime/tool.ts`、`context-builder.ts`、`go-usb-ai-ncp-message-bridge.ts` 等原本就不满足新后缀规则。曾评估直接重命名，但会级联触达大量协议/上下文/CLI 模块并把本次需求扩大成仓库级命名迁移，因此本次不扩大处理；另有工作区无关 gateway 测试文件也被同一命令扫描到。
 
 ## 发布/部署方式
 
 - 暂未发布；本次仅完成源码修复与本地验证。
-- 若进入统一发包，需要发布 `@nextclaw/ncp-agent-runtime`，并由依赖该 package 的上层 CLI/desktop 构建跟随集成。
+- 若进入统一发包，需要发布 `@go-usb-ai/ncp-agent-runtime`，并由依赖该 package 的上层 CLI/desktop 构建跟随集成。
 
 ## 用户/产品视角的验收步骤
 
 - 使用 native NCP agent 触发会产生大截图或大 JSON 的工具调用。
 - 观察工具卡片仍能显示可读摘要，但 `result` 不再持久化百万字符级 base64/tool payload；图片本体改由结构化 `resultContentItems/input_image` 承载，后续再收敛到压缩/asset 化策略。
-- 继续同一 run 的下一轮模型请求，应看到模型收到的是带 `NextClaw tool result truncated` 标记的安全文本摘要；MCP 图片结果会作为 `input_image` / `image_url` visual observation 进入模型输入，让视觉模型真实看图。
+- 继续同一 run 的下一轮模型请求，应看到模型收到的是带 `GoUsbAi tool result truncated` 标记的安全文本摘要；MCP 图片结果会作为 `input_image` / `image_url` visual observation 进入模型输入，让视觉模型真实看图。
 - 长循环多次工具调用时，旧 tool message 会被替换为 `older tool result omitted from active model context`，最新工具结果仍保留足够上下文。
 
 ## 可维护性总结汇总
@@ -46,7 +46,7 @@
 ## NPM 包发布记录
 
 - 本次是否需要发包：需要在后续统一发布中发包；当前未单独发布。
-- 需要发布的包：`@nextclaw/ncp-agent-runtime`。
+- 需要发布的包：`@go-usb-ai/ncp-agent-runtime`。
 - 当前发布状态：未发布。
 - 未发布原因：本次仅完成本地修复与验证，尚未进入统一 NPM release 流程。
-- 后续状态：`@nextclaw/ncp-agent-runtime` 标记为待统一发布；若上层 CLI/desktop release 需要包含该修复，应在统一发布时跟随补发并重新集成验证。
+- 后续状态：`@go-usb-ai/ncp-agent-runtime` 标记为待统一发布；若上层 CLI/desktop release 需要包含该修复，应在统一发布时跟随补发并重新集成验证。

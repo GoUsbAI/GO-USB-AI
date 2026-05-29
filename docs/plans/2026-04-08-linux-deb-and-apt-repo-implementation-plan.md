@@ -1,8 +1,8 @@
-# NextClaw Linux DEB And APT Repo Implementation Plan
+# GoUsbAi Linux DEB And APT Repo Implementation Plan
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Ship the NextClaw Linux desktop as a signed `.deb` published through a GitHub Pages APT repository so Debian/Ubuntu users can install once, then upgrade through `apt update && apt upgrade`.
+**Goal:** Ship the GoUsbAi Linux desktop as a signed `.deb` published through a GitHub Pages APT repository so Debian/Ubuntu users can install once, then upgrade through `apt update && apt upgrade`.
 
 **Architecture:** Reuse the existing Electron desktop release pipeline as the single source of desktop artifacts. Extend Linux packaging from `AppImage`-only to `AppImage + deb`, then generate a static APT repository (`pool/` + `dists/stable/...`) from the release `.deb`, sign the repository metadata with a dedicated GPG key stored in GitHub Actions secrets, and publish the resulting static files to GitHub Pages. Human-facing release downloads stay on GitHub Releases; machine-facing package metadata stays on GitHub Pages.
 
@@ -23,14 +23,14 @@
 ### Phase 1
 
 - Extend CI and release packaging so Linux builds produce:
-  - `NextClaw.Desktop-<version>-linux-x64.AppImage`
-  - `nextclaw-desktop_<version>_amd64.deb`
+  - `GoUsbAi.Desktop-<version>-linux-x64.AppImage`
+  - `go-usb-ai-desktop_<version>_amd64.deb`
 
 ### Phase 2
 
 - Publish the Linux `.deb` into a signed APT repository hosted on GitHub Pages.
 - Keep GitHub Releases as the human-facing download surface.
-- Users add the NextClaw APT source once, then future upgrades happen through:
+- Users add the GoUsbAi APT source once, then future upgrades happen through:
 
 ```bash
 sudo apt update
@@ -39,7 +39,7 @@ sudo apt upgrade
 
 ## Long-Term Alignment / Maintainability
 
-- This plan moves NextClaw closer to the product vision of being a natural default entry point by letting Linux users install and upgrade it through native system mechanisms instead of a custom updater path.
+- This plan moves GoUsbAi closer to the product vision of being a natural default entry point by letting Linux users install and upgrade it through native system mechanisms instead of a custom updater path.
 - The plan deliberately avoids building a Linux-specific self-update subsystem inside the app. That keeps the product surface smaller and reuses the operating system's package lifecycle rather than competing with it.
 - Code growth stays constrained by reusing the existing `electron-builder` release flow, adding only the minimum new pieces required for APT publishing:
   - one Linux packaging expansion
@@ -54,14 +54,14 @@ sudo apt upgrade
 
 ```bash
 sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://peiiii.github.io/nextclaw/apt/nextclaw-archive-keyring.gpg \
-  | sudo tee /etc/apt/keyrings/nextclaw-archive-keyring.gpg >/dev/null
+curl -fsSL https://peiiii.github.io/go-usb-ai/apt/go-usb-ai-archive-keyring.gpg \
+  | sudo tee /etc/apt/keyrings/go-usb-ai-archive-keyring.gpg >/dev/null
 
-echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/nextclaw-archive-keyring.gpg] https://peiiii.github.io/nextclaw/apt stable main" \
-  | sudo tee /etc/apt/sources.list.d/nextclaw.list >/dev/null
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/go-usb-ai-archive-keyring.gpg] https://peiiii.github.io/go-usb-ai/apt stable main" \
+  | sudo tee /etc/apt/sources.list.d/go-usb-ai.list >/dev/null
 
 sudo apt update
-sudo apt install nextclaw-desktop
+sudo apt install go-usb-ai-desktop
 ```
 
 ### Upgrade
@@ -74,33 +74,33 @@ sudo apt upgrade
 ### Uninstall
 
 ```bash
-sudo apt remove nextclaw-desktop
+sudo apt remove go-usb-ai-desktop
 ```
 
 Full removal:
 
 ```bash
-sudo apt purge nextclaw-desktop
-sudo rm -f /etc/apt/sources.list.d/nextclaw.list
-sudo rm -f /etc/apt/keyrings/nextclaw-archive-keyring.gpg
+sudo apt purge go-usb-ai-desktop
+sudo rm -f /etc/apt/sources.list.d/go-usb-ai.list
+sudo rm -f /etc/apt/keyrings/go-usb-ai-archive-keyring.gpg
 sudo apt update
 ```
 
 Optional user-data cleanup:
 
 ```bash
-rm -rf ~/.config/"NextClaw Desktop"
-rm -rf ~/.cache/"NextClaw Desktop"
-rm -rf ~/.local/share/"NextClaw Desktop"
+rm -rf ~/.config/"GoUsbAi Desktop"
+rm -rf ~/.cache/"GoUsbAi Desktop"
+rm -rf ~/.local/share/"GoUsbAi Desktop"
 ```
 
-## How `apt upgrade` Actually Updates NextClaw
+## How `apt upgrade` Actually Updates GoUsbAi
 
 This is the mechanism we are implementing and validating:
 
-1. The user installs `nextclaw-desktop` from the NextClaw APT source.
+1. The user installs `go-usb-ai-desktop` from the GoUsbAi APT source.
 2. APT records the installed package name and version locally, for example:
-   - package: `nextclaw-desktop`
+   - package: `go-usb-ai-desktop`
    - installed version: `0.0.130`
 3. We publish a newer `.deb` with the same package name and a higher Debian-comparable version, for example `0.0.131`.
 4. We regenerate and republish the APT repository metadata:
@@ -110,7 +110,7 @@ This is the mechanism we are implementing and validating:
    - `InRelease`
    - `Release.gpg`
 5. The user runs `sudo apt update`.
-6. APT downloads the updated repository metadata and computes the new candidate version for `nextclaw-desktop`.
+6. APT downloads the updated repository metadata and computes the new candidate version for `go-usb-ai-desktop`.
 7. The user runs `sudo apt upgrade`.
 8. APT sees that:
    - `Installed < Candidate`
@@ -119,15 +119,15 @@ This is the mechanism we are implementing and validating:
 
 Operationally, the critical requirements are:
 
-- the package name must stay stable: `nextclaw-desktop`
+- the package name must stay stable: `go-usb-ai-desktop`
 - the version must monotonically increase
 - the package must be listed in the signed APT metadata
-- the user must have the NextClaw source configured in `sources.list.d`
+- the user must have the GoUsbAi source configured in `sources.list.d`
 
 The best local inspection command for debugging the upgrade path is:
 
 ```bash
-apt policy nextclaw-desktop
+apt policy go-usb-ai-desktop
 ```
 
 If `Candidate` is newer than `Installed`, `apt upgrade` can upgrade it.
@@ -138,7 +138,7 @@ The published GitHub Pages directory should look like this:
 
 ```text
 apt/
-  nextclaw-archive-keyring.gpg
+  go-usb-ai-archive-keyring.gpg
   dists/
     stable/
       InRelease
@@ -151,9 +151,9 @@ apt/
   pool/
     main/
       n/
-        nextclaw-desktop/
-          nextclaw-desktop_0.0.130_amd64.deb
-          nextclaw-desktop_0.0.131_amd64.deb
+        go-usb-ai-desktop/
+          go-usb-ai-desktop_0.0.130_amd64.deb
+          go-usb-ai-desktop_0.0.131_amd64.deb
 ```
 
 The repository may retain historical `.deb` files in `pool/`, but only the latest package version needs to be installable through the default `stable` channel.
@@ -162,16 +162,16 @@ The repository may retain historical `.deb` files in `pool/`, but only the lates
 
 Add release-time secrets:
 
-- `NEXTCLAW_APT_GPG_PRIVATE_KEY`
+- `GOUSB_AI_APT_GPG_PRIVATE_KEY`
   - ASCII-armored private key for signing repository metadata
-- `NEXTCLAW_APT_GPG_PASSPHRASE`
+- `GOUSB_AI_APT_GPG_PASSPHRASE`
   - passphrase for the signing key
-- `NEXTCLAW_APT_GPG_KEY_ID`
+- `GOUSB_AI_APT_GPG_KEY_ID`
   - fingerprint or key id used by the signing step
 
 Public artifact to publish with the repo:
 
-- `nextclaw-archive-keyring.gpg`
+- `go-usb-ai-archive-keyring.gpg`
   - dearmored public key file downloaded by users into `/etc/apt/keyrings`
 
 Do not use a developer personal desktop signing key. Use a dedicated repository-signing key with a clear name and rotation procedure.
@@ -187,7 +187,7 @@ Do not use a developer personal desktop signing key. Use a dedicated repository-
 
 **Step 1: Freeze package naming**
 
-- Debian package name: `nextclaw-desktop`
+- Debian package name: `go-usb-ai-desktop`
 - Distribution channel: `stable`
 - Component: `main`
 - Architecture: `amd64`
@@ -220,7 +220,7 @@ Do not use a developer personal desktop signing key. Use a dedicated repository-
 
 **Step 2: Normalize Linux artifact naming**
 
-- normalize `.deb` to a predictable name such as `nextclaw-desktop_<version>_amd64.deb`
+- normalize `.deb` to a predictable name such as `go-usb-ai-desktop_<version>_amd64.deb`
 - keep the existing normalized AppImage naming
 - ensure release upload globs include the `.deb`
 
@@ -250,14 +250,14 @@ Do not use a developer personal desktop signing key. Use a dedicated repository-
 
 ```bash
 apt-get update
-apt-get install -y ./nextclaw-desktop_<version>_amd64.deb
-dpkg -s nextclaw-desktop
-apt-get remove -y nextclaw-desktop
+apt-get install -y ./go-usb-ai-desktop_<version>_amd64.deb
+dpkg -s go-usb-ai-desktop
+apt-get remove -y go-usb-ai-desktop
 ```
 
 **Step 2: Verify package metadata**
 
-- assert package name is `nextclaw-desktop`
+- assert package name is `go-usb-ai-desktop`
 - assert package version matches the release version
 - assert the package registers cleanly in `dpkg`
 
@@ -278,7 +278,7 @@ apt-get remove -y nextclaw-desktop
 - input: one or more Linux `.deb` artifacts
 - output root: temporary `dist/linux-apt-repo/apt`
 - place packages under:
-  - `apt/pool/main/n/nextclaw-desktop/`
+  - `apt/pool/main/n/go-usb-ai-desktop/`
 - generate:
   - `Packages`
   - `Packages.gz`
@@ -291,7 +291,7 @@ apt-get remove -y nextclaw-desktop
   - `InRelease`
   - `Release.gpg`
 - export a dearmored public key as:
-  - `apt/nextclaw-archive-keyring.gpg`
+  - `apt/go-usb-ai-archive-keyring.gpg`
 
 **Step 3: Keep the script predictable**
 
@@ -354,14 +354,14 @@ apt-get remove -y nextclaw-desktop
 
 - spin up an Ubuntu container
 - serve the generated `apt/` directory through a local HTTP server or use a mounted `file:` source
-- add the NextClaw source inside the container
+- add the GoUsbAi source inside the container
 - run:
 
 ```bash
 apt-get update
-apt-cache policy nextclaw-desktop
-apt-get install -y nextclaw-desktop
-dpkg -s nextclaw-desktop
+apt-cache policy go-usb-ai-desktop
+apt-get install -y go-usb-ai-desktop
+dpkg -s go-usb-ai-desktop
 ```
 
 **Step 2: Validate uninstall semantics**
@@ -369,8 +369,8 @@ dpkg -s nextclaw-desktop
 - run:
 
 ```bash
-apt-get remove -y nextclaw-desktop
-apt-get purge -y nextclaw-desktop
+apt-get remove -y go-usb-ai-desktop
+apt-get purge -y go-usb-ai-desktop
 ```
 
 **Step 3: Validate upgrade semantics with two package versions**
@@ -382,11 +382,11 @@ apt-get purge -y nextclaw-desktop
 
 ```bash
 apt-get update
-apt-get install -y nextclaw-desktop=<older-version>
+apt-get install -y go-usb-ai-desktop=<older-version>
 apt-get update
-apt-cache policy nextclaw-desktop
+apt-cache policy go-usb-ai-desktop
 apt-get upgrade -y
-dpkg -s nextclaw-desktop
+dpkg -s go-usb-ai-desktop
 ```
 
 - assert the installed version after upgrade matches the newer candidate version
@@ -410,12 +410,12 @@ dpkg -s nextclaw-desktop
 
 - add the keyring command
 - add the `sources.list.d` command
-- add `apt install nextclaw-desktop`
+- add `apt install go-usb-ai-desktop`
 
 **Step 2: Add upgrade instructions**
 
 - explain that Linux upgrades happen through `apt update && apt upgrade`
-- explain how to inspect versions with `apt policy nextclaw-desktop`
+- explain how to inspect versions with `apt policy go-usb-ai-desktop`
 
 **Step 3: Add uninstall instructions**
 
@@ -446,7 +446,7 @@ dpkg -s nextclaw-desktop
 **Step 3: Validate repository metadata**
 
 - verify that `Packages.gz`, `Release`, `InRelease`, and `Release.gpg` exist
-- verify that `apt-cache policy nextclaw-desktop` sees the expected candidate version in smoke
+- verify that `apt-cache policy go-usb-ai-desktop` sees the expected candidate version in smoke
 
 **Step 4: Validate the install/upgrade/remove lifecycle**
 
@@ -481,8 +481,8 @@ dpkg -s nextclaw-desktop
 - Linux desktop CI emits `.deb` and `AppImage`
 - GitHub Release uploads the `.deb`
 - GitHub Pages serves a signed APT repo under `/apt`
-- Fresh Ubuntu/Debian install works through `apt install nextclaw-desktop`
-- `apt policy nextclaw-desktop` shows the expected candidate version
+- Fresh Ubuntu/Debian install works through `apt install go-usb-ai-desktop`
+- `apt policy go-usb-ai-desktop` shows the expected candidate version
 - `apt upgrade` upgrades from an older published version to a newer one
 - `apt remove` and `apt purge` behave as documented
 - Linux docs explain install, upgrade, and uninstall clearly

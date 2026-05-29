@@ -10,27 +10,27 @@
 ## 测试/验证/验收方式
 
 - 定向测试：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw test -- --run src/cli/commands/remote-connector-runtime.test.ts`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai test -- --run src/cli/commands/remote-connector-runtime.test.ts`
 - 类型检查：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-remote tsc --pretty false`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-remote tsc --pretty false`
 - 定向 lint：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm exec eslint packages/nextclaw-remote/src/remote-connector.ts packages/nextclaw-remote/src/remote-connector-retry.utils.ts packages/nextclaw/src/cli/commands/remote-connector-runtime.test.ts`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm exec eslint packages/go-usb-ai-remote/src/remote-connector.ts packages/go-usb-ai-remote/src/remote-connector-retry.utils.ts packages/go-usb-ai/src/cli/commands/remote-connector-runtime.test.ts`
 - 构建验证：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-remote build`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-remote build`
 - 冒烟测试：
-  - 在 `/tmp/nextclaw-remote-backoff-smoke.mjs` 中加载编译后的 `@nextclaw/remote`，模拟持续 websocket `ECONNREFUSED`，观察延迟序列。
+  - 在 `/tmp/go-usb-ai-remote-backoff-smoke.mjs` 中加载编译后的 `@go-usb-ai/remote`，模拟持续 websocket `ECONNREFUSED`，观察延迟序列。
   - 实际观察结果：`3000, 6000, 12000, 24000, 48000, 96000, 192000, 384000, 768000, 1536000, 1800000`，确认已经退避到 30 分钟上限。
 - 可维护性闸门：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-remote/src/remote-connector.ts packages/nextclaw-remote/src/remote-connector-retry.utils.ts packages/nextclaw/src/cli/commands/remote-connector-runtime.test.ts`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-remote/src/remote-connector.ts packages/go-usb-ai-remote/src/remote-connector-retry.utils.ts packages/go-usb-ai/src/cli/commands/remote-connector-runtime.test.ts`
   - 结果：无阻塞项；`remote-connector.ts` 仅保留“接近预算线”警告，但本次文件体积是下降的。
 
 ## 发布/部署方式
 
 - 本次需要发包的组件：
-  - `@nextclaw/remote`
-  - `nextclaw`
-  - `@nextclaw/server`
-  - `@nextclaw/mcp`
+  - `@go-usb-ai/remote`
+  - `go-usb-ai`
+  - `@go-usb-ai/server`
+  - `@go-usb-ai/mcp`
 - 发布流程：
   1. 创建 changeset。
   2. 运行 `pnpm release:version`。
@@ -39,7 +39,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 安装本次发布后的 `nextclaw` 新版本并保持 remote access 开启。
+1. 安装本次发布后的 `go-usb-ai` 新版本并保持 remote access 开启。
 2. 在平台短暂不可用或本地网络波动时，观察日志，确认远程访问不会在 6 次失败后直接停死。
 3. 继续观察日志，确认重连间隔持续拉长，并最终能退避到 30 分钟量级。
 4. 在平台恢复后，无需手动 repair，等待下一次自动重连即可恢复在线。

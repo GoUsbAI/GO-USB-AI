@@ -1,16 +1,16 @@
 # Chat Session Project Root Design
 
-**Goal:** 让 NextClaw 的聊天会话重新具备“围绕本地项目工作”的体验，同时避免引入沉重的新实体或 Codex 特判；项目绑定能力必须成为 `native / codex / claude / future runtimes` 共用的最小产品抽象。
+**Goal:** 让 GoUsbAi 的聊天会话重新具备“围绕本地项目工作”的体验，同时避免引入沉重的新实体或 Codex 特判；项目绑定能力必须成为 `native / codex / claude / future runtimes` 共用的最小产品抽象。
 
 **Architecture:** 不新增独立 `Project` 数据模型，直接把“项目 = 本地目录”收敛为会话元数据字段 `project_root`。`session` 仍然是唯一产品主语，`project_root` 只是让会话获得明确的本地目录上下文；运行时、skills、memory、sidebar 视图都围绕这一字段做统一消费与派生。
 
-**Tech Stack:** TypeScript, NextClaw UI, Hono UI router, NCP session API, runtime plugin registry, existing session metadata pipeline
+**Tech Stack:** TypeScript, GoUsbAi UI, Hono UI router, NCP session API, runtime plugin registry, existing session metadata pipeline
 
 ---
 
 ## 1. 这份文档解决什么问题
 
-当前 NextClaw 已经集成了 `Codex` 等外部 runtime，但产品体验仍然是“会话中心”，还不是“项目中心”。
+当前 GoUsbAi 已经集成了 `Codex` 等外部 runtime，但产品体验仍然是“会话中心”，还不是“项目中心”。
 
 这会带来几个直接问题：
 
@@ -50,17 +50,17 @@
   - `设置项目目录`
   - `清除项目目录`
   - `删除会话`
-- `设置项目目录` 使用服务端驱动的目录选择器，浏览的是运行 NextClaw 服务的那台机器上的目录，而不是浏览器本机目录
+- `设置项目目录` 使用服务端驱动的目录选择器，浏览的是运行 GoUsbAi 服务的那台机器上的目录，而不是浏览器本机目录
 - 用户可以在会话创建后的任意时刻设置或清除项目目录
 - 设置成功后，header 显示轻量 project badge
 - `project_root` 通过现有 session metadata 持久化
 - `project_root` 真正接入 `native / codex / claude` 的有效工作目录解析
 - runtime prompt 会显式区分：
   - `Current project directory`
-  - `NextClaw host workspace directory`
+  - `GoUsbAi host workspace directory`
   - 两者都是真实上下文，而不是谁伪装成谁：
     - `Current project directory` 表示当前正在工作的项目目录
-    - `NextClaw host workspace directory` 表示 runtime memory、workspace-local skills、bootstrap 所在目录
+    - `GoUsbAi host workspace directory` 表示 runtime memory、workspace-local skills、bootstrap 所在目录
 
 本次明确不做：
 
@@ -264,12 +264,12 @@ effective_working_directory =
 但 runtime 暴露给模型的上下文不应只剩这一层目录。更准确的语义是：
 
 - `Current project directory = effective_working_directory`
-- `NextClaw host workspace directory = runtime host workspace`
+- `GoUsbAi host workspace directory = runtime host workspace`
 
 二者同时存在，并承担不同职责：
 
 - 当前项目目录：repo 理解、文件操作、项目级 bootstrap
-- host workspace：memory、workspace-local skills、宿主 bootstrap、NextClaw 自身工作区信息
+- host workspace：memory、workspace-local skills、宿主 bootstrap、GoUsbAi 自身工作区信息
 
 这意味着当用户把会话绑定到某个 `project_root` 后：
 
@@ -290,7 +290,7 @@ effective_working_directory =
 除此之外，prompt 暴露给模型的语义也必须调整：
 
 - `project_root` 存在时，它应成为“当前项目”的主语
-- `NextClaw workspace` 仍可提供给模型，但只能作为宿主环境背景，不得替代当前项目语义
+- `GoUsbAi workspace` 仍可提供给模型，但只能作为宿主环境背景，不得替代当前项目语义
 - 即使当前项目目录下没有 `AGENTS.md` / `SOUL.md` 等 bootstrap 文件，也必须显式告诉模型当前项目目录是什么，避免模型退回到“只看见 workspace”的状态
 
 换句话说，不能只把 `cwd` 设对，还要把“你现在围绕哪个项目工作”说清楚。
@@ -441,37 +441,37 @@ v1 应新增：
 
 主要影响：
 
-- [`packages/nextclaw-server/src/ui/session-preference-patch.ts`](../../packages/nextclaw-server/src/ui/session-preference-patch.ts)
-- [`packages/nextclaw-server/src/ui/router/ncp-session.controller.ts`](../../packages/nextclaw-server/src/ui/router/ncp-session.controller.ts)
-- [`packages/nextclaw-server/src/ui/session-list-metadata.ts`](../../packages/nextclaw-server/src/ui/session-list-metadata.ts)
-- [`packages/nextclaw-server/src/ui/types.ts`](../../packages/nextclaw-server/src/ui/types.ts)
+- [`packages/go-usb-ai-server/src/ui/session-preference-patch.ts`](../../packages/go-usb-ai-server/src/ui/session-preference-patch.ts)
+- [`packages/go-usb-ai-server/src/ui/router/ncp-session.controller.ts`](../../packages/go-usb-ai-server/src/ui/router/ncp-session.controller.ts)
+- [`packages/go-usb-ai-server/src/ui/session-list-metadata.ts`](../../packages/go-usb-ai-server/src/ui/session-list-metadata.ts)
+- [`packages/go-usb-ai-server/src/ui/types.ts`](../../packages/go-usb-ai-server/src/ui/types.ts)
 
 ### 12.2 前端
 
 主要影响：
 
-- [`packages/nextclaw-ui/src/api/types.ts`](../../packages/nextclaw-ui/src/api/types.ts)
-- [`packages/nextclaw-ui/src/components/chat/ncp/ncp-session-adapter.ts`](../../packages/nextclaw-ui/src/components/chat/ncp/ncp-session-adapter.ts)
-- [`packages/nextclaw-ui/src/components/chat/ncp/use-ncp-session-list-view.ts`](../../packages/nextclaw-ui/src/components/chat/ncp/use-ncp-session-list-view.ts)
-- [`packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx`](../../packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx)
-- [`packages/nextclaw-ui/src/components/chat/stores/chat-session-list.store.ts`](../../packages/nextclaw-ui/src/components/chat/stores/chat-session-list.store.ts)
+- [`packages/go-usb-ai-ui/src/api/types.ts`](../../packages/go-usb-ai-ui/src/api/types.ts)
+- [`packages/go-usb-ai-ui/src/components/chat/ncp/ncp-session-adapter.ts`](../../packages/go-usb-ai-ui/src/components/chat/ncp/ncp-session-adapter.ts)
+- [`packages/go-usb-ai-ui/src/components/chat/ncp/use-ncp-session-list-view.ts`](../../packages/go-usb-ai-ui/src/components/chat/ncp/use-ncp-session-list-view.ts)
+- [`packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx`](../../packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx)
+- [`packages/go-usb-ai-ui/src/components/chat/stores/chat-session-list.store.ts`](../../packages/go-usb-ai-ui/src/components/chat/stores/chat-session-list.store.ts)
 
 ### 12.3 Runtime
 
 主要影响：
 
-- [`packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/index.ts`](../../packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/index.ts)
-- [`packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/codex-input-builder.ts`](../../packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/codex-input-builder.ts)
-- [`packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/claude-runtime-context.ts`](../../packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/claude-runtime-context.ts)
-- [`packages/nextclaw-openclaw-compat/src/plugins/runtime.ts`](../../packages/nextclaw-openclaw-compat/src/plugins/runtime.ts)
-- [`packages/nextclaw-core/src/agent/bootstrap-context.ts`](../../packages/nextclaw-core/src/agent/bootstrap-context.ts)
-- [`packages/nextclaw-core/src/agent/runtime-user-prompt.ts`](../../packages/nextclaw-core/src/agent/runtime-user-prompt.ts)
+- [`packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/index.ts`](../../packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/index.ts)
+- [`packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/codex-input-builder.ts`](../../packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/codex-input-builder.ts)
+- [`packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/claude-runtime-context.ts`](../../packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/claude-runtime-context.ts)
+- [`packages/go-usb-ai-openclaw-compat/src/plugins/runtime.ts`](../../packages/go-usb-ai-openclaw-compat/src/plugins/runtime.ts)
+- [`packages/go-usb-ai-core/src/agent/bootstrap-context.ts`](../../packages/go-usb-ai-core/src/agent/bootstrap-context.ts)
+- [`packages/go-usb-ai-core/src/agent/runtime-user-prompt.ts`](../../packages/go-usb-ai-core/src/agent/runtime-user-prompt.ts)
 
 后续 `claude` 与 `native` runtime 也应消费相同字段，但不需要新抽象层。
 
 ## 12.4 Remote-aware Path Picker
 
-由于 NextClaw 可能部署在远程机器上，前端页面所在设备与服务端文件系统并不一定是同一台机器，所以项目目录选择不能依赖浏览器或桌面本地文件选择器。
+由于 GoUsbAi 可能部署在远程机器上，前端页面所在设备与服务端文件系统并不一定是同一台机器，所以项目目录选择不能依赖浏览器或桌面本地文件选择器。
 
 本方案补充一条全局能力：
 
@@ -522,7 +522,7 @@ v1 明确不做：
 
 这件事的关键，不是“给 Codex 增加一个更像本地产品的参数”，而是：
 
-**让 NextClaw 的 `session` 恢复对本地项目目录的明确归属。**
+**让 GoUsbAi 的 `session` 恢复对本地项目目录的明确归属。**
 
 一旦 `project_root` 成为会话的一等上下文字段：
 
@@ -531,7 +531,7 @@ v1 明确不做：
 - sidebar 可以自然切出 project 视图
 - 产品保持简单，没有过度抽象
 
-这是当前最符合 NextClaw 方向的方案：
+这是当前最符合 GoUsbAi 方向的方案：
 
 - 抽象更少
 - 通用性足够

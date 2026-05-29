@@ -38,25 +38,25 @@
     - 给社区建议点赞和评论
     - 在官方事项详情里直接看到关联建议
 - 同批次收尾继续完成了真实 live 落地：
-  - 创建远端 D1：`nextclaw-public-roadmap-portal`
+  - 创建远端 D1：`go-usb-ai-public-roadmap-portal`
   - 远端应用 migration：
     - `0001_public_roadmap_portal.sql`
     - `0002_community_feedback.sql`
   - 用真实 Linear `NC` team 数据完成首次远端同步，共写入 `59` 条官方事项和 `59` 条 source links
   - Cloudflare Worker 已部署到：
-    - `https://nextclaw-public-roadmap-feedback-portal.15353764479037.workers.dev`
+    - `https://go-usb-ai-public-roadmap-feedback-portal.15353764479037.workers.dev`
   - 当前 Worker live 配置：
     - `PUBLIC_ROADMAP_FEEDBACK_PORTAL_DATA_MODE=live`
     - `PUBLIC_ROADMAP_FEEDBACK_PORTAL_LINEAR_TEAM_KEY=NC`
     - `PUBLIC_ROADMAP_FEEDBACK_PORTAL_LINEAR_PUBLIC_LABELS=all`
   - 当前对外主入口已切到自定义域名：
-    - `https://roadmap.nextclaw.io`
-    - 备用入口仍保留：`https://nextclaw-public-roadmap-feedback-portal.15353764479037.workers.dev`
+    - `https://roadmap.go-usb-ai.io`
+    - 备用入口仍保留：`https://go-usb-ai-public-roadmap-feedback-portal.15353764479037.workers.dev`
   - 当前 live 版本：
     - `19b9b097-231c-4153-a220-67ccb8e0702a`
   - 门户静态入口元信息已对齐主域名：
-    - `canonical=https://roadmap.nextclaw.io`
-    - `og:url=https://roadmap.nextclaw.io`
+    - `canonical=https://roadmap.go-usb-ai.io`
+    - `og:url=https://roadmap.go-usb-ai.io`
   - 补强 Linear provider：
     - 改为根级 `issues` 分页查询，避免 team issues 嵌套查询在真实工作区触发 complexity 超限
     - 支持显式 `all/*` 语义，在当前 team 没有 `public` 标签时也能同步全量公开事项
@@ -109,8 +109,8 @@
       - board 的超宽只存在于局部 scroller 内部
   - 线上发布后验证：
     - `pnpm deploy:public-roadmap:portal`
-    - `curl -I https://roadmap.nextclaw.io` 返回 `HTTP/2 200`
-    - `curl https://roadmap.nextclaw.io/api/overview` 返回 `mode=live`，官方事项仍为 `59`
+    - `curl -I https://roadmap.go-usb-ai.io` 返回 `HTTP/2 200`
+    - `curl https://roadmap.go-usb-ai.io/api/overview` 返回 `mode=live`，官方事项仍为 `59`
     - 线上 Playwright 宽度专项冒烟通过：`live-board-width-smoke: ok`
     - 线上 Playwright 多列专项冒烟通过：`live-board-multi-column-smoke: ok`
   - 本地多列专项验证：
@@ -138,18 +138,18 @@
     - `SELECT COUNT(*) FROM item_source_links WHERE provider = 'linear'` 返回 `59`
     - `SELECT title, public_phase, item_type FROM public_items WHERE source = 'linear' ORDER BY updated_at DESC LIMIT 5`
   - `pnpm -C apps/public-roadmap-feedback-portal run deploy`
-  - `curl -I https://roadmap.nextclaw.io`
-  - `curl https://roadmap.nextclaw.io/api/overview`
-  - `curl 'https://roadmap.nextclaw.io/api/items?sort=recent&view=board'`
-  - `curl https://roadmap.nextclaw.io/api/feedback`
-  - `curl -I https://roadmap.nextclaw.io` 返回 `HTTP/2 200`
-  - `curl https://roadmap.nextclaw.io/api/overview` 返回 `mode=live`，官方事项仍为 `59`
+  - `curl -I https://roadmap.go-usb-ai.io`
+  - `curl https://roadmap.go-usb-ai.io/api/overview`
+  - `curl 'https://roadmap.go-usb-ai.io/api/items?sort=recent&view=board'`
+  - `curl https://roadmap.go-usb-ai.io/api/feedback`
+  - `curl -I https://roadmap.go-usb-ai.io` 返回 `HTTP/2 200`
+  - `curl https://roadmap.go-usb-ai.io/api/overview` 返回 `mode=live`，官方事项仍为 `59`
   - 线上吸顶导航专项冒烟通过：`live-sticky-threshold-nav-smoke: ok`
   - Playwright 浏览器侧只读冒烟：
-    - 访问 `https://roadmap.nextclaw.io`
+    - 访问 `https://roadmap.go-usb-ai.io`
     - 确认页面渲染出 `公开路线图与产品进展`
     - 确认页面渲染出 `社区建议与反馈`
-    - 确认页面渲染出真实 Linear 事项：`NextClaw Apps`
+    - 确认页面渲染出真实 Linear 事项：`GoUsbAi Apps`
     - 确认页面渲染出真实 Linear 事项：`有时候发了第一条消息后就被吞了`
 - 冒烟覆盖的真实链路：
   - 打开首页并确认预览模式与社区反馈区可见
@@ -174,8 +174,8 @@
   - `pnpm -C apps/public-roadmap-feedback-portal db:migrate:remote`
 - Cloudflare Worker 部署：
   - `pnpm deploy:public-roadmap:portal`
-  - 当前线上主域名：`https://roadmap.nextclaw.io`
-  - 当前备用域名：`https://nextclaw-public-roadmap-feedback-portal.15353764479037.workers.dev`
+  - 当前线上主域名：`https://roadmap.go-usb-ai.io`
+  - 当前备用域名：`https://go-usb-ai-public-roadmap-feedback-portal.15353764479037.workers.dev`
 - live mode 说明：
   - 官方路线图当前已走 `PUBLIC_ROADMAP_FEEDBACK_PORTAL_DATA_MODE=live + D1 + Linear sync`
   - 社区建议、评论、投票在 live mode 下写入 D1
@@ -194,12 +194,12 @@
 5. 在事项详情里继续评论或点赞后，页面应刷新出最新信号。
 6. 把环境切到 `live` 并执行 D1 migration 后，社区建议、评论、投票应持久化到 D1，而不是只存在 preview 内存态。
 7. 当前版本已经接入 `NC` team 的真实 Linear 事项；至少可以在远端 D1 中确认 `59` 条官方事项已存在。
-8. 通过 `https://roadmap.nextclaw.io/api/overview` 或首页 UI，应能看到真实事项，例如 `NextClaw Apps`、`有时候发了第一条消息后就被吞了`。
+8. 通过 `https://roadmap.go-usb-ai.io/api/overview` 或首页 UI，应能看到真实事项，例如 `GoUsbAi Apps`、`有时候发了第一条消息后就被吞了`。
 
 ## 可维护性总结汇总
 
 - 长期目标对齐 / 可维护性推进：
-  - 这期不是单纯给路线图页加几个按钮，而是把“官方进展 + 外部反馈”统一进同一个公开入口，向 NextClaw 的统一入口目标推进了一步。
+  - 这期不是单纯给路线图页加几个按钮，而是把“官方进展 + 外部反馈”统一进同一个公开入口，向 GoUsbAi 的统一入口目标推进了一步。
   - 同时仍然坚持“官方执行系统”和“社区互动数据面”分离，不把 Linear 直接变成公开评论系统，保持后续替换数据源和扩展反馈治理的空间。
 - 可维护性复核结论：通过
 - 本次顺手减债：是

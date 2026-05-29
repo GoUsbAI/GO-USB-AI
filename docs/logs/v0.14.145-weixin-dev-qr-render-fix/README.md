@@ -9,15 +9,15 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui test -- --run src/components/config/ChannelsList.test.tsx`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui build`
-- `pnpm -C packages/nextclaw test -- --run src/cli/utils.ui-static-dir.test.ts`
-- `pnpm -C packages/nextclaw tsc`
+- `pnpm -C packages/go-usb-ai-ui test -- --run src/components/config/ChannelsList.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `pnpm -C packages/go-usb-ai test -- --run src/cli/utils.ui-static-dir.test.ts`
+- `pnpm -C packages/go-usb-ai tsc`
 - `node --check scripts/dev-runner.mjs`
-- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths scripts/dev-runner.mjs packages/nextclaw/src/cli/utils.ts packages/nextclaw/src/cli/utils.ui-static-dir.test.ts packages/nextclaw-ui/src/components/config/weixin-channel-auth-section.tsx packages/nextclaw-ui/src/components/config/ChannelsList.test.tsx packages/nextclaw-ui/src/qrcode.d.ts`
+- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths scripts/dev-runner.mjs packages/go-usb-ai/src/cli/utils.ts packages/go-usb-ai/src/cli/utils.ui-static-dir.test.ts packages/go-usb-ai-ui/src/components/config/weixin-channel-auth-section.tsx packages/go-usb-ai-ui/src/components/config/ChannelsList.test.tsx packages/go-usb-ai-ui/src/qrcode.d.ts`
 - 真实冒烟：
-  - `NEXTCLAW_HOME=$(mktemp -d /tmp/nextclaw-weixin-ui-smoke.XXXXXX) NEXTCLAW_DEV_BACKEND_PORT=18820 NEXTCLAW_DEV_FRONTEND_PORT=5180 pnpm dev start`
+  - `GOUSB_AI_HOME=$(mktemp -d /tmp/go-usb-ai-weixin-ui-smoke.XXXXXX) GOUSB_AI_DEV_BACKEND_PORT=18820 GOUSB_AI_DEV_FRONTEND_PORT=5180 pnpm dev start`
   - `POST http://127.0.0.1:18820/api/config/channels/weixin/auth/start` 返回二维码会话。
   - Playwright 打开 `http://127.0.0.1:5180/channels`，点击微信扫码后校验页面二维码 `src` 为 `data:image/...`，确认前端内嵌展示成功。
 

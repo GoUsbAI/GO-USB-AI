@@ -7,13 +7,13 @@
 
 ## 发布范围
 
-- `nextclaw@0.6.9`
-- `@nextclaw/core@0.6.8`
+- `go-usb-ai@0.6.9`
+- `@go-usb-ai/core@0.6.8`
 
 未发布（版本未变更）：
-- `@nextclaw/openclaw-compat@0.1.5`
-- `@nextclaw/server@0.4.2`
-- `@nextclaw/ui@0.3.9`
+- `@go-usb-ai/openclaw-compat@0.1.5`
+- `@go-usb-ai/server@0.4.2`
+- `@go-usb-ai/ui@0.3.9`
 
 ## 执行记录
 
@@ -37,21 +37,21 @@ pnpm release:publish
   - 自动回执可回到原会话（含 Slack thread 元数据）。
   - 无法立即投递时，事件写入 `pending_system_events` 并在下一条消息注入 `[System Message]`。
 - npm 发布成功：
-  - `nextclaw@0.6.9`
-  - `@nextclaw/core@0.6.8`
+  - `go-usb-ai@0.6.9`
+  - `@go-usb-ai/core@0.6.8`
 - npm 线上版本校验：
-  - `npm view nextclaw version` -> `0.6.9`
-  - `npm view @nextclaw/core version` -> `0.6.8`
+  - `npm view go-usb-ai version` -> `0.6.9`
+  - `npm view @go-usb-ai/core version` -> `0.6.8`
 - tag 创建成功：
-  - `nextclaw@0.6.9`
-  - `@nextclaw/core@0.6.8`
+  - `go-usb-ai@0.6.9`
+  - `@go-usb-ai/core@0.6.8`
 
 ## 文档复盘
 
 - 本次已同步：
   - `docs/USAGE.md`
-  - `packages/nextclaw/templates/USAGE.md`
-  - `packages/nextclaw-core/src/agent/skills/nextclaw-self-manage/SKILL.md`
+  - `packages/go-usb-ai/templates/USAGE.md`
+  - `packages/go-usb-ai-core/src/agent/skills/go-usb-ai-self-manage/SKILL.md`
   - `docs/logs/v0.6.9-restart-sentinel-auto-ping/README.md`
   - 发布日志索引
 - 不涉及数据库/后端 migration（不适用）。

@@ -3,9 +3,9 @@
 **Goal:** 把误放在 `packages/extensions/` 下的内建 runtime 执行层包与 Hermes HTTP bridge 包移回 `packages/` 顶层，纠正“非插件实现层被误读成插件”的目录主语问题。  
 **Scope:** 仅搬迁以下三个包，不扩展到真正的 plugin 包：
 
-- `@nextclaw/nextclaw-ncp-runtime-http-client`
-- `@nextclaw/nextclaw-ncp-runtime-stdio-client`
-- `@nextclaw/nextclaw-ncp-runtime-adapter-hermes-http`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-http-client`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-stdio-client`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-adapter-hermes-http`
 
 ## Why
 
@@ -15,9 +15,9 @@
 
 搬迁后目录应为：
 
-- `packages/nextclaw-ncp-runtime-http-client`
-- `packages/nextclaw-ncp-runtime-stdio-client`
-- `packages/nextclaw-ncp-runtime-adapter-hermes-http`
+- `packages/go-usb-ai-ncp-runtime-http-client`
+- `packages/go-usb-ai-ncp-runtime-stdio-client`
+- `packages/go-usb-ai-ncp-runtime-adapter-hermes-http`
 
 包名保持不变，外部 import specifier 不变，避免引入发布名或运行时行为变更。
 

@@ -10,31 +10,31 @@
 ## 测试/验证/验收方式
 
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/nextclaw-ui tsc --noEmit`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/go-usb-ai-ui tsc --noEmit`
 - 回归测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/nextclaw-ui exec vitest run src/components/chat/chat-page-runtime.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/go-usb-ai-ui exec vitest run src/components/chat/chat-page-runtime.test.ts`
 - 受影响文件 lint：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/nextclaw-ui exec eslint src/components/chat/chat-page-runtime.ts src/components/chat/chat-page-data.ts src/components/chat/ncp/ncp-chat-page-data.ts src/components/chat/ncp/NcpChatPage.tsx src/components/chat/legacy/LegacyChatPage.tsx src/components/chat/chat-page-runtime.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --dir packages/go-usb-ai-ui exec eslint src/components/chat/chat-page-runtime.ts src/components/chat/chat-page-data.ts src/components/chat/ncp/ncp-chat-page-data.ts src/components/chat/ncp/NcpChatPage.tsx src/components/chat/legacy/LegacyChatPage.tsx src/components/chat/chat-page-runtime.test.ts`
 - 可维护性自检：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/chat/chat-page-runtime.ts packages/nextclaw-ui/src/components/chat/chat-page-data.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page-data.ts packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx packages/nextclaw-ui/src/components/chat/legacy/LegacyChatPage.tsx packages/nextclaw-ui/src/components/chat/chat-page-runtime.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/chat/chat-page-runtime.ts packages/go-usb-ai-ui/src/components/chat/chat-page-data.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page-data.ts packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx packages/go-usb-ai-ui/src/components/chat/legacy/LegacyChatPage.tsx packages/go-usb-ai-ui/src/components/chat/chat-page-runtime.test.ts`
 - 说明：
-  - 全量 `pnpm --dir packages/nextclaw-ui lint` 仍会被仓库内既有无关错误阻塞（如 `src/components/ui/input.tsx`、`src/components/ui/label.tsx`），不属于本次改动引入。
+  - 全量 `pnpm --dir packages/go-usb-ai-ui lint` 仍会被仓库内既有无关错误阻塞（如 `src/components/ui/input.tsx`、`src/components/ui/label.tsx`），不属于本次改动引入。
 
 ## 发布/部署方式
 
 - 前端受影响包按 UI-only 路径发布：
-  - `@nextclaw/ui`
-  - `nextclaw`
+  - `@go-usb-ai/ui`
+  - `go-usb-ai`
 - 版本化路径：
   - `PATH=/opt/homebrew/bin:$PATH pnpm release:version`
 - 发布路径：
   - 因仓库全量 `release:publish` 会被既有无关 lint 问题阻塞，本次采用“已完成定向验证 + changeset publish/tag”的闭环方式发布目标包。
 - 发布结果：
-  - `@nextclaw/ui@0.9.2`
-  - `nextclaw@0.12.6`
+  - `@go-usb-ai/ui@0.9.2`
+  - `go-usb-ai@0.12.6`
   - 远端验证：
-    - `PATH=/opt/homebrew/bin:$PATH npm view @nextclaw/ui version` -> `0.9.2`
-    - `PATH=/opt/homebrew/bin:$PATH npm view nextclaw version` -> `0.12.6`
+    - `PATH=/opt/homebrew/bin:$PATH npm view @go-usb-ai/ui version` -> `0.9.2`
+    - `PATH=/opt/homebrew/bin:$PATH npm view go-usb-ai version` -> `0.12.6`
 
 ## 用户/产品视角的验收步骤
 

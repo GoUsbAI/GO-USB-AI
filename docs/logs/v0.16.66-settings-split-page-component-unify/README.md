@@ -6,19 +6,19 @@
 
 - 根因：设置页把 pane 滚动、页面滚动和 `/channels` 的 route 特判混在一起；窄布局后内部 pane 还持有桌面端滚动责任，导致滚动无法自然传给外层页面，底部卡片可见高度也不一致。
 - 第一轮统一布局虽然方向对，但又拆出了过多中间层，复杂度被搬家，非功能代码体积失控。
-- 本次最终做法：保留 [config-split-page.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/components/config/config-split-page.tsx) 这套唯一共享 pane 组件，删除 `config-layout.ts`、`AppLayout` 的 `/channels` 特判、多余 wrapper，以及 `provider-form-sections.tsx`、`use-provider-form-state.ts`、`use-provider-auth-flow.ts`、`search-provider-fields.tsx`、`channel-form-layout-blocks.tsx`、`use-provider-form-view-options.ts`、`provider-form-actions.ts`，把 `Channels / Providers / Search / ChannelForm / ProviderForm` 回收到更紧凑的 owner 文件。
+- 本次最终做法：保留 [config-split-page.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/components/config/config-split-page.tsx) 这套唯一共享 pane 组件，删除 `config-layout.ts`、`AppLayout` 的 `/channels` 特判、多余 wrapper，以及 `provider-form-sections.tsx`、`use-provider-form-state.ts`、`use-provider-auth-flow.ts`、`search-provider-fields.tsx`、`channel-form-layout-blocks.tsx`、`use-provider-form-view-options.ts`、`provider-form-actions.ts`，把 `Channels / Providers / Search / ChannelForm / ProviderForm` 回收到更紧凑的 owner 文件。
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui test -- --run src/components/config/ChannelsList.test.tsx src/components/config/providers-list.test.tsx src/components/config/SearchConfig.test.tsx src/components/config/ChannelForm.test.tsx src/components/layout/app-layout.test.tsx`
-- `pnpm -C packages/nextclaw-ui build`
-- `pnpm -C packages/nextclaw-ui exec tsc --noEmit`
+- `pnpm -C packages/go-usb-ai-ui test -- --run src/components/config/ChannelsList.test.tsx src/components/config/providers-list.test.tsx src/components/config/SearchConfig.test.tsx src/components/config/ChannelForm.test.tsx src/components/layout/app-layout.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `pnpm -C packages/go-usb-ai-ui exec tsc --noEmit`
 - 结果：全部通过。
 
 ## 发布/部署方式
 
 - 本次仅涉及前端设置页和组件组织，无额外部署链路变更。
-- 若随产品发布，沿用既有前端流程，发布前执行 `pnpm -C packages/nextclaw-ui build`。
+- 若随产品发布，沿用既有前端流程，发布前执行 `pnpm -C packages/go-usb-ai-ui build`。
 
 ## 用户/产品视角的验收步骤
 

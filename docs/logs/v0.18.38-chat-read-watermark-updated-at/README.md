@@ -10,13 +10,13 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui test -- src/features/chat/components/layout/chat-sidebar.test.tsx src/shared/lib/api/ncp-session-query-cache.test.ts`：覆盖前端侧边栏和 query cache 按 `lastMessageAt ?? createdAt` 排序，metadata `updatedAt` 更新不重排。
-- `pnpm -C packages/nextclaw-kernel test -- src/services/ncp-session-api.service.test.ts`：覆盖 kernel list 按消息时间/创建时间排序，metadata-only update 不进入排序时钟。
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- src/agent/in-memory-agent-backend.test.ts`：覆盖 agent backend list 按最后消息时间排序，空会话用 `createdAt` 兜底。
-- `pnpm -C packages/ncp-packages/nextclaw-ncp tsc`：通过。
-- `pnpm -C packages/nextclaw-kernel tsc`：通过。
-- `pnpm -C packages/nextclaw-ui tsc`：当前工作区未通过，阻塞点是未提交的 `chat-session-list.manager.ts` 返回类型变化使现有 sidebar `goToSession(sessionKey)` 看到 `sessionKey` 为 `void`；该 manager 改动不属于本次排序提交。
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`：当前工作区未通过，阻塞点是未提交的 NCP event payload materialization 类型变化使 `MessageRequest` payload 变为可选 `sessionId`；该 materialization 改动不属于本次排序提交。
+- `pnpm -C packages/go-usb-ai-ui test -- src/features/chat/components/layout/chat-sidebar.test.tsx src/shared/lib/api/ncp-session-query-cache.test.ts`：覆盖前端侧边栏和 query cache 按 `lastMessageAt ?? createdAt` 排序，metadata `updatedAt` 更新不重排。
+- `pnpm -C packages/go-usb-ai-kernel test -- src/services/ncp-session-api.service.test.ts`：覆盖 kernel list 按消息时间/创建时间排序，metadata-only update 不进入排序时钟。
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- src/agent/in-memory-agent-backend.test.ts`：覆盖 agent backend list 按最后消息时间排序，空会话用 `createdAt` 兜底。
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp tsc`：通过。
+- `pnpm -C packages/go-usb-ai-kernel tsc`：通过。
+- `pnpm -C packages/go-usb-ai-ui tsc`：当前工作区未通过，阻塞点是未提交的 `chat-session-list.manager.ts` 返回类型变化使现有 sidebar `goToSession(sessionKey)` 看到 `sessionKey` 为 `void`；该 manager 改动不属于本次排序提交。
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`：当前工作区未通过，阻塞点是未提交的 NCP event payload materialization 类型变化使 `MessageRequest` payload 变为可选 `sessionId`；该 materialization 改动不属于本次排序提交。
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths ...`：未通过，阻塞项为非功能改动非测试代码净增。当前工作区含大量同批次/既有未提交改动，guard 按 diff 聚合统计，不能只归因于本次排序修复。
 - `pnpm lint:new-code:governance`：未通过，阻塞在当前工作区已触达文件的历史命名/角色后缀治理项。
 - `pnpm check:governance-backlog-ratchet`：通过。

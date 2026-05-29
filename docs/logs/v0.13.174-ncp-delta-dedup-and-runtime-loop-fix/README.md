@@ -25,8 +25,8 @@
 
 已执行验证：
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw exec vitest run src/cli/commands/ncp/provider-manager-ncp-llm-api.test.ts src/cli/commands/ncp/create-ui-ncp-agent.test.ts src/cli/commands/ncp/stream-encoder-order.test.ts src/cli/commands/ncp/nextclaw-agent-session-store.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai exec vitest run src/cli/commands/ncp/provider-manager-ncp-llm-api.test.ts src/cli/commands/ncp/create-ui-ncp-agent.test.ts src/cli/commands/ncp/stream-encoder-order.test.ts src/cli/commands/ncp/go-usb-ai-agent-session-store.test.ts`
 
 本次重点回归点：
 
@@ -36,14 +36,14 @@
   - 验证 tool round 续跑时仍保留 `reasoning_content`
 - `stream-encoder-order.test.ts`
   - 验证 reasoning / text 顺序仍正确
-- `nextclaw-agent-session-store.test.ts`
+- `go-usb-ai-agent-session-store.test.ts`
   - 验证 session reload 后 part 顺序仍保真
 
 # 发布/部署方式
 
 本次未执行正式发布。
 
-如需在本地继续验收，建议直接基于当前工作区重新启动使用中的 NextClaw/NCP 服务进程，确保实际运行的是最新代码路径。
+如需在本地继续验收，建议直接基于当前工作区重新启动使用中的 GoUsbAi/NCP 服务进程，确保实际运行的是最新代码路径。
 
 # 用户/产品视角的验收步骤
 

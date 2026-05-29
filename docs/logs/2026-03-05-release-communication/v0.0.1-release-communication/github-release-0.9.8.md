@@ -1,4 +1,4 @@
-# nextclaw v0.9.8 + @nextclaw/ui v0.6.6
+# go-usb-ai v0.9.8 + @go-usb-ai/ui v0.6.6
 
 延续最近的前端体验优化节奏，本次发布聚焦 UI 细节收敛与可用性提升。
 
@@ -10,6 +10,6 @@
 
 ## Released Packages
 
-- `nextclaw@0.9.8`
-- `@nextclaw/ui@0.6.6`
+- `go-usb-ai@0.9.8`
+- `@go-usb-ai/ui@0.6.6`
 

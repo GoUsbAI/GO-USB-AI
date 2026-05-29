@@ -9,11 +9,11 @@
 
 ## 发布范围
 
-- `nextclaw@0.5.0`
-- `@nextclaw/core@0.5.0`
-- `@nextclaw/openclaw-compat@0.1.3`（依赖联动升版）
-- `@nextclaw/server@0.3.6`（依赖联动升版）
-- `@nextclaw/ui@0.3.7`（未重发，registry 已存在同版本）
+- `go-usb-ai@0.5.0`
+- `@go-usb-ai/core@0.5.0`
+- `@go-usb-ai/openclaw-compat@0.1.3`（依赖联动升版）
+- `@go-usb-ai/server@0.3.6`（依赖联动升版）
+- `@go-usb-ai/ui@0.3.7`（未重发，registry 已存在同版本）
 
 ## 执行过程
 
@@ -38,23 +38,23 @@ pnpm release:publish
 发布后验证命令：
 
 ```bash
-npm view nextclaw version
-npm view @nextclaw/core version
-npm view @nextclaw/openclaw-compat version
-npm view @nextclaw/server version
+npm view go-usb-ai version
+npm view @go-usb-ai/core version
+npm view @go-usb-ai/openclaw-compat version
+npm view @go-usb-ai/server version
 ```
 
 验收结果：
 
-- `nextclaw` → `0.5.0`
-- `@nextclaw/core` → `0.5.0`
-- `@nextclaw/openclaw-compat` → `0.1.3`
-- `@nextclaw/server` → `0.3.6`
+- `go-usb-ai` → `0.5.0`
+- `@go-usb-ai/core` → `0.5.0`
+- `@go-usb-ai/openclaw-compat` → `0.1.3`
+- `@go-usb-ai/server` → `0.3.6`
 - 本地 tags 已创建：
-  - `nextclaw@0.5.0`
-  - `@nextclaw/core@0.5.0`
-  - `@nextclaw/openclaw-compat@0.1.3`
-  - `@nextclaw/server@0.3.6`
+  - `go-usb-ai@0.5.0`
+  - `@go-usb-ai/core@0.5.0`
+  - `@go-usb-ai/openclaw-compat@0.1.3`
+  - `@go-usb-ai/server@0.3.6`
 
 ## 发布 / 部署闭环说明
 
@@ -65,4 +65,4 @@ npm view @nextclaw/server version
 ## 风险与回滚
 
 - 风险：CLI 选项边界调整 + 热应用范围变化可能影响旧脚本行为。
-- 回滚：发布侧通过回退到前版本依赖（`nextclaw@0.4.17` / `@nextclaw/core@0.4.14`）临时止损，代码侧按提交回退。
+- 回滚：发布侧通过回退到前版本依赖（`go-usb-ai@0.4.17` / `@go-usb-ai/core@0.4.14`）临时止损，代码侧按提交回退。

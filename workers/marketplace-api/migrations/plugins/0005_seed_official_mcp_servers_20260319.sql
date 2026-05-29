@@ -31,8 +31,8 @@ INSERT INTO marketplace_mcp_items (
   'Chrome DevTools MCP',
   'Connect MCP clients to Chrome DevTools for browser inspection and automation.',
   '{"en":"Connect MCP clients to Chrome DevTools for browser inspection and automation.","zh":"把 MCP 客户端接入 Chrome DevTools，用于浏览器检查与自动化。"}',
-  'Official Chrome DevTools MCP server recipe for NextClaw. It runs as a stdio server through npx and is a good default example for marketplace-managed MCP installation.',
-  '{"en":"Official Chrome DevTools MCP server recipe for NextClaw. It runs as a stdio server through npx and is a good default example for marketplace-managed MCP installation.","zh":"面向 NextClaw 的官方 Chrome DevTools MCP server recipe。它通过 npx 以 stdio 方式运行，也是 marketplace 管理 MCP 安装的默认示例。"}',
+  'Official Chrome DevTools MCP server recipe for GoUsbAi. It runs as a stdio server through npx and is a good default example for marketplace-managed MCP installation.',
+  '{"en":"Official Chrome DevTools MCP server recipe for GoUsbAi. It runs as a stdio server through npx and is a good default example for marketplace-managed MCP installation.","zh":"面向 GoUsbAi 的官方 Chrome DevTools MCP server recipe。它通过 npx 以 stdio 方式运行，也是 marketplace 管理 MCP 安装的默认示例。"}',
   '["mcp","browser","chrome","devtools","automation"]',
   'Chrome DevTools',
   'https://github.com/ChromeDevTools/chrome-devtools-mcp',
@@ -44,7 +44,7 @@ INSERT INTO marketplace_mcp_items (
   'Official recipe derived from the upstream Chrome DevTools MCP project.',
   'template',
   'chrome-devtools',
-  'nextclaw mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest',
+  'go-usb-ai mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest',
   'chrome-devtools',
   '{"enabled":true,"transport":{"type":"stdio","command":"npx","args":["-y","chrome-devtools-mcp@latest"],"cwd":"","env":{},"stderr":"pipe"},"scope":{"allAgents":true,"agents":[]},"policy":{"trust":"explicit","start":"eager"},"metadata":{"source":"marketplace","catalogSlug":"chrome-devtools","displayName":"Chrome DevTools MCP","vendor":"Chrome DevTools","docsUrl":"https://github.com/ChromeDevTools/chrome-devtools-mcp","homepage":"https://github.com/ChromeDevTools/chrome-devtools-mcp","trustLevel":"official"}}',
   '[]',
@@ -56,7 +56,7 @@ Official MCP server from the Chrome DevTools team.
 
 - Browser inspection through Chrome DevTools
 - Automation and debugging workflows backed by the Chrome DevTools protocol
-- A clean stdio transport recipe that works well as a NextClaw marketplace example
+- A clean stdio transport recipe that works well as a GoUsbAi marketplace example
 
 ## Installed command
 

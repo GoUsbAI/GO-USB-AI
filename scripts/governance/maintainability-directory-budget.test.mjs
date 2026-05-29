@@ -12,7 +12,7 @@ import {
 import { isProtocolFlatRoleDirectory } from "./module-structure/module-structure-flat-role-directories.mjs";
 
 function withTempRoot(run) {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "nextclaw-directory-budget-"));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "go-usb-ai-directory-budget-"));
   try {
     return run(tempRoot);
   } finally {
@@ -91,14 +91,14 @@ test("evaluateDirectoryBudget downgrades to warn when a complete exception is re
 });
 
 test("protocol flat role directories are exempt from directory budget escalation", () => {
-  assert.equal(isProtocolFlatRoleDirectory("packages/nextclaw-kernel/src/services"), true);
+  assert.equal(isProtocolFlatRoleDirectory("packages/go-usb-ai-kernel/src/services"), true);
 
   const finding = evaluateDirectoryBudget({
-    directoryPath: "packages/nextclaw-kernel/src/services",
+    directoryPath: "packages/go-usb-ai-kernel/src/services",
     currentCount: 16,
     previousCount: 11,
     exception: {
-      readmePath: "packages/nextclaw-kernel/src/services/README.md",
+      readmePath: "packages/go-usb-ai-kernel/src/services/README.md",
       found: false,
       missingFields: ["原因"],
       reason: null

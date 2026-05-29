@@ -13,7 +13,7 @@
 
 ## 关键文件
 
-- `packages/nextclaw/src/cli/commands/service.ts`
+- `packages/go-usb-ai/src/cli/commands/service.ts`
 
 ## 验证
 
@@ -28,7 +28,7 @@ pnpm tsc
 ### 2) /tmp 隔离冒烟
 
 ```bash
-pnpm -C packages/nextclaw exec tsx /tmp/nextclaw-restart-ai-wake-smoke.ts
+pnpm -C packages/go-usb-ai exec tsx /tmp/go-usb-ai-restart-ai-wake-smoke.ts
 ```
 
 ### 3) 本机真实 Discord E2E

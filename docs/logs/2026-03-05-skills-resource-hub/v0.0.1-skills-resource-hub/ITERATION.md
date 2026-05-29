@@ -7,12 +7,12 @@
 1. 将资源页聚焦到「自带 skill 已提到的 skills 仓库」。
 2. 中英文资源页均改为 phase 1 版本，暂不混入其它泛资源。
 3. 仓库清单来源限定在：
-   - `packages/nextclaw-core/src/agent/skills/nextclaw-skill-resource-hub/references/source-map.md`
-   - `packages/nextclaw-core/src/agent/skills/README.md`
+   - `packages/go-usb-ai-core/src/agent/skills/go-usb-ai-skill-resource-hub/references/source-map.md`
+   - `packages/go-usb-ai-core/src/agent/skills/README.md`
 
 已整理仓库：
 
-- https://github.com/Peiiii/nextclaw
+- https://github.com/Peiiii/go-usb-ai
 - https://github.com/openclaw/skills
 - https://github.com/openclaw/openclaw
 - https://github.com/openai/skills
@@ -25,7 +25,7 @@
 1. `pnpm build`
 2. `pnpm lint`
 3. `pnpm tsc`
-4. `pnpm --filter @nextclaw/docs build`
+4. `pnpm --filter @go-usb-ai/docs build`
 
 本地结果：
 

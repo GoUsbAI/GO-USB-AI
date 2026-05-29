@@ -1,0 +1,13 @@
+{
+  ".url": {
+    "fnnas.go-usb-ai.Application": {
+      "title": "GoUsbAi",
+      "icon": "images/icon-{0}.png",
+      "type": "url",
+      "protocol": "http",
+      "port": "__GOUSB_AI_SERVICE_PORT__",
+      "url": "/",
+      "allUsers": true
+    }
+  }
+}

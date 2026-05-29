@@ -22,10 +22,10 @@ This stable release promotes the verified Windows startup investigation fix from
 
 ### Notes
 
-- This release targets the same `nextclaw 0.17.11` bundle, but upgrades the stable desktop launcher from `0.0.140` to `0.0.141`.
+- This release targets the same `go-usb-ai 0.17.11` bundle, but upgrades the stable desktop launcher from `0.0.140` to `0.0.141`.
 - If GitHub release API lookup fails, the landing-page stable fallback now also points to this release instead of the older `0.0.140` desktop package.
 
-**Full Changelog**: https://github.com/Peiiii/nextclaw/compare/v0.17.11-desktop.1...v0.17.11-desktop.2
+**Full Changelog**: https://github.com/Peiiii/go-usb-ai/compare/v0.17.11-desktop.1...v0.17.11-desktop.2
 
 ## 中文版
 
@@ -51,7 +51,7 @@ Bundle 版本：`0.17.11`
 
 ### 说明
 
-- 这次正式版保持 `nextclaw 0.17.11` bundle 不变，但把 stable 桌面 launcher 从 `0.0.140` 升级到了 `0.0.141`。
+- 这次正式版保持 `go-usb-ai 0.17.11` bundle 不变，但把 stable 桌面 launcher 从 `0.0.140` 升级到了 `0.0.141`。
 - 如果 GitHub release API 临时不可用，官网 landing 页的 stable fallback 现在也会落到这个正式版，而不是旧的 `0.0.140` 安装包。
 
-**完整变更**: https://github.com/Peiiii/nextclaw/compare/v0.17.11-desktop.1...v0.17.11-desktop.2
+**完整变更**: https://github.com/Peiiii/go-usb-ai/compare/v0.17.11-desktop.1...v0.17.11-desktop.2

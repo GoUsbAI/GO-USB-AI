@@ -8,10 +8,10 @@
   - `2026-02-21-openclaw-alignment-gap-report.md`
   - `multi-agent-architecture-reference.md`
 - 用户向文档链接统一改为 docs 站点：
-  - `docs/USAGE.md` 中多 Agent 文档链接改为 `https://docs.nextclaw.io/guide/multi-agent`
+  - `docs/USAGE.md` 中多 Agent 文档链接改为 `https://docs.go-usb-ai.io/guide/multi-agent`
   - `docs/feature-universe.md` 中对应链接改为 docs 站点
 - 同步更新历史日志中的相关路径，确保仓库内不再出现 `docs/guides/**` 引用。
-- 同步模板文档：执行 `packages/nextclaw/scripts/sync-usage-template.mjs` 更新 `packages/nextclaw/templates/USAGE.md`。
+- 同步模板文档：执行 `packages/go-usb-ai/scripts/sync-usage-template.mjs` 更新 `packages/go-usb-ai/templates/USAGE.md`。
 
 ## 测试 / 验证 / 验收方式
 
@@ -19,7 +19,7 @@
   - `rg -n "docs/guides/|guides/multi-agent-architecture" docs README.md packages --glob '!**/dist/**' --glob '!**/node_modules/**'`
   - 预期：无匹配结果。
 - 文档构建冒烟：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/docs build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/docs build`
   - 观察点：文档站构建成功。
 - 全仓验证：
   - `PATH=/opt/homebrew/bin:$PATH pnpm build`

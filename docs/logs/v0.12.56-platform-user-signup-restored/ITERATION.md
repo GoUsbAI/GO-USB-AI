@@ -13,7 +13,7 @@
 - 执行一键平台验证：
   - `pnpm validate:platform:mvp`
 - 本次验证结果：
-  - `workers/nextclaw-provider-gateway-api`：`build/lint/tsc` 通过
+  - `workers/go-usb-ai-provider-gateway-api`：`build/lint/tsc` 通过
   - `apps/platform-console`：`build/lint/tsc` 通过
   - `apps/platform-admin`：`build/lint/tsc` 通过
   - `scripts/platform-mvp-smoke.mjs` 通过（含注册、登录锁定、双额度、充值、账本不可变）
@@ -22,18 +22,18 @@
 
 1. 后端：
    - `pnpm platform:db:migrate:remote`
-   - `pnpm -C workers/nextclaw-provider-gateway-api run deploy`
+   - `pnpm -C workers/go-usb-ai-provider-gateway-api run deploy`
 2. 前端：
    - `pnpm -C apps/platform-console build`
-   - `pnpm dlx wrangler pages deploy apps/platform-console/dist --project-name nextclaw-platform-console --branch master --commit-dirty=true`
+   - `pnpm dlx wrangler pages deploy apps/platform-console/dist --project-name go-usb-ai-platform-console --branch master --commit-dirty=true`
 3. 可选复验：
    - `POST /platform/auth/register`（用户站可用）
    - 管理站仅保留登录入口
 
 ## 用户/产品视角的验收步骤
 
-1. 打开用户站 `platform.nextclaw.io`，确认有“注册”入口。
+1. 打开用户站 `platform.go-usb-ai.io`，确认有“注册”入口。
 2. 使用新邮箱注册并自动进入用户控制台。
 3. 用同邮箱再次注册，预期返回“邮箱已注册”（409）。
-4. 打开管理站 `platform-admin.nextclaw.io`，确认只有登录入口，无注册入口。
+4. 打开管理站 `platform-admin.go-usb-ai.io`，确认只有登录入口，无注册入口。
 5. 使用普通用户 token 请求管理员接口，预期 403。

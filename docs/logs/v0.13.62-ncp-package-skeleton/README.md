@@ -2,9 +2,9 @@
 
 ## 迭代完成说明（改了什么）
 
-- 新增通用协议包 `@nextclaw/ncp`：`packages/nextclaw-ncp`。
+- 新增通用协议包 `@go-usb-ai/ncp`：`packages/go-usb-ai-ncp`。
 - 完成包级基础设施：
-  - `package.json`（`build/lint/tsc` 脚本、`exports`、`workspace:*` 依赖 `@nextclaw/core`）
+  - `package.json`（`build/lint/tsc` 脚本、`exports`、`workspace:*` 依赖 `@go-usb-ai/core`）
   - `tsconfig.json`
   - `.eslintrc.cjs`（含 `max-lines` 与 `max-lines-per-function`）
   - `README.md`、`CHANGELOG.md`
@@ -13,16 +13,16 @@
   - `AbstractEndpoint`、`AbstractAgentEndpoint` 抽象基类
   - `config-readers`、`prompt-builder` 共享工具
 - 根脚本链路接入新包：
-  - 根 `package.json` 的 `build` / `lint` / `tsc` 增加 `packages/nextclaw-ncp`。
+  - 根 `package.json` 的 `build` / `lint` / `tsc` 增加 `packages/go-usb-ai-ncp`。
 
 ## 测试/验证/验收方式
 
 - 依赖与锁文件更新：
   - `PATH=/opt/homebrew/bin:$PATH pnpm install`
 - 新包静态校验：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ncp lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ncp tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ncp build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ncp lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ncp tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ncp build`
 - 结果：
   - 三项均通过，`dist/index.js` 与 `dist/index.d.ts` 正常产出。
 - 不适用项：
@@ -35,7 +35,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 在仓库中确认存在新包目录：`packages/nextclaw-ncp`。
+1. 在仓库中确认存在新包目录：`packages/go-usb-ai-ncp`。
 2. 查看 `src/types`，确认已具备通用协议轮廓（manifest/message/stream/endpoint）。
 3. 查看 `src/endpoint`，确认已具备通用抽象基类与 Agent 兼容基类。
-4. 执行 `pnpm -C packages/nextclaw-ncp build`，确认新包可独立构建。
+4. 执行 `pnpm -C packages/go-usb-ai-ncp build`，确认新包可独立构建。

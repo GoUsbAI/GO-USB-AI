@@ -2,19 +2,19 @@
 
 ## 迭代完成说明
 
-- 目标：完成“对齐 OpenClaw 的最终形态”收尾，确保 NextClaw 所有内置渠道均以独立插件包形式存在，并可被公网安装。
+- 目标：完成“对齐 OpenClaw 的最终形态”收尾，确保 GoUsbAi 所有内置渠道均以独立插件包形式存在，并可被公网安装。
 - 本次完成：
   - 将已发布但默认不可见的 9 个 scoped 渠道插件包统一切换为 `public` 可见性：
-    - `@nextclaw/channel-plugin-telegram@0.1.0`
-    - `@nextclaw/channel-plugin-whatsapp@0.1.0`
-    - `@nextclaw/channel-plugin-discord@0.1.0`
-    - `@nextclaw/channel-plugin-feishu@0.1.0`
-    - `@nextclaw/channel-plugin-mochat@0.1.0`
-    - `@nextclaw/channel-plugin-dingtalk@0.1.0`
-    - `@nextclaw/channel-plugin-email@0.1.0`
-    - `@nextclaw/channel-plugin-slack@0.1.0`
-    - `@nextclaw/channel-plugin-qq@0.1.0`
-  - 清理 compat 中已无引用的历史遗留实现：`packages/nextclaw-openclaw-compat/src/plugins/bundled/` 整目录删除，避免双轨代码继续造成误导。
+    - `@go-usb-ai/channel-plugin-telegram@0.1.0`
+    - `@go-usb-ai/channel-plugin-whatsapp@0.1.0`
+    - `@go-usb-ai/channel-plugin-discord@0.1.0`
+    - `@go-usb-ai/channel-plugin-feishu@0.1.0`
+    - `@go-usb-ai/channel-plugin-mochat@0.1.0`
+    - `@go-usb-ai/channel-plugin-dingtalk@0.1.0`
+    - `@go-usb-ai/channel-plugin-email@0.1.0`
+    - `@go-usb-ai/channel-plugin-slack@0.1.0`
+    - `@go-usb-ai/channel-plugin-qq@0.1.0`
+  - 清理 compat 中已无引用的历史遗留实现：`packages/go-usb-ai-openclaw-compat/src/plugins/bundled/` 整目录删除，避免双轨代码继续造成误导。
 
 ## 测试 / 验证 / 验收方式
 
@@ -32,33 +32,33 @@ pnpm tsc
 ### 冒烟验证（隔离目录，避免污染仓库）
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-final-align.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
-NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0 NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-final-align.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
+GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0 GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
 rm -rf "$TMP_HOME"
 ```
 
 验收点：
 - `channels status` 显示 9 个渠道均由 `builtin-channel-*` 插件接管。
 - `plugins list --enabled` 显示 9 个内置渠道插件全部加载。
-- 关闭外部插件发现（`NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0`）后，9 个 bundled 渠道插件仍可正常加载。
+- 关闭外部插件发现（`GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0`）后，9 个 bundled 渠道插件仍可正常加载。
 
 ### npm 公网可见性验证
 
 ```bash
 for p in telegram whatsapp discord feishu mochat dingtalk email slack qq; do
-  npm access set status=public "@nextclaw/channel-plugin-$p"
+  npm access set status=public "@go-usb-ai/channel-plugin-$p"
 done
 
 for p in openclaw-compat channel-plugin-telegram channel-plugin-whatsapp channel-plugin-discord channel-plugin-feishu channel-plugin-mochat channel-plugin-dingtalk channel-plugin-email channel-plugin-slack channel-plugin-qq; do
-  curl -fsSL "https://registry.npmjs.org/@nextclaw%2F${p}" | jq -r '."dist-tags".latest'
+  curl -fsSL "https://registry.npmjs.org/@go-usb-ai%2F${p}" | jq -r '."dist-tags".latest'
 done
 ```
 
 验收点：
 - 9 个渠道插件均可从 npm registry 直接查询到版本（`0.1.0`）。
-- `@nextclaw/openclaw-compat` 可查询到 `0.1.8`，并依赖上述独立渠道插件包。
+- `@go-usb-ai/openclaw-compat` 可查询到 `0.1.8`，并依赖上述独立渠道插件包。
 
 ## 发布 / 部署方式
 

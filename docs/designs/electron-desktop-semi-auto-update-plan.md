@@ -3,7 +3,7 @@
 ## 1. 决策摘要
 
 - 桌面端技术路线选择为 Electron。
-- 保持单一业务代码源：复用现有 `@nextclaw/core`、`@nextclaw/server`、`@nextclaw/ui`，不维护两套前端。
+- 保持单一业务代码源：复用现有 `@go-usb-ai/core`、`@go-usb-ai/server`、`@go-usb-ai/ui`，不维护两套前端。
 - 桌面用户安装不依赖系统 Node/npm；通过安装包即可运行。
 - 更新策略采用半自动更新：应用内检查、下载、提示重启安装，同时保留手动下载兜底。
 
@@ -23,8 +23,8 @@
 ## 4. 总体架构
 
 - `apps/desktop`：Electron 壳层（main、preload、打包配置）。
-- `packages/nextclaw-ui`：继续作为 renderer 前端。
-- `packages/nextclaw` + `packages/nextclaw-server` + `packages/nextclaw-core`：继续作为本地服务运行时。
+- `packages/go-usb-ai-ui`：继续作为 renderer 前端。
+- `packages/go-usb-ai` + `packages/go-usb-ai-server` + `packages/go-usb-ai-core`：继续作为本地服务运行时。
 - 桌面壳负责进程编排、窗口、托盘、更新，不承载业务逻辑。
 
 ## 5. 启动与退出模型
@@ -48,9 +48,9 @@
   - 不要求预装 Node/npm。
   - 下载安装包后可直接启动桌面应用。
 - 构建原则：
-  - Electron 包内携带运行 NextClaw 所需资产。
+  - Electron 包内携带运行 GoUsbAi 所需资产。
   - Electron 主进程负责拉起服务，不依赖用户本机全局 npm install。
-  - 开发者渠道保留 `npm install nextclaw`，但不作为桌面版主路径。
+  - 开发者渠道保留 `npm install go-usb-ai`，但不作为桌面版主路径。
 
 ## 7. 半自动更新方案
 
@@ -72,7 +72,7 @@
 
 - 建议维护两个语义版本：
   - 桌面壳版本（Electron App）。
-  - 内置运行时版本（NextClaw runtime）。
+  - 内置运行时版本（GoUsbAi runtime）。
 - 发布时记录版本映射，避免“壳版本升级但运行时未对齐”。
 - 升级兼容原则：
   - 小版本优先做平滑升级。

@@ -6,9 +6,9 @@
 
 1. 将上一轮 Marketplace 相关能力从 patch 级别提升为 **minor** 级别发布。
 2. 使用 changeset 为以下包执行 minor 升版：
-- `nextclaw`
-- `@nextclaw/server`
-- `@nextclaw/ui`
+- `go-usb-ai`
+- `@go-usb-ai/server`
+- `@go-usb-ai/ui`
 3. 保持联动发布一致性，避免“功能已明显增强但版本仍表现为修复级”带来的认知偏差。
 
 ## 测试 / 验证 / 验收方式
@@ -23,7 +23,7 @@
 
 ### 冒烟验证（发布后）
 
-在隔离目录（`NEXTCLAW_HOME=/tmp/...`）完成 API 冒烟：
+在隔离目录（`GOUSB_AI_HOME=/tmp/...`）完成 API 冒烟：
 
 1. `GET /api/marketplace/items`
 2. `GET /api/marketplace/recommendations`
@@ -38,7 +38,7 @@
 2. `pnpm release:publish`
 
 发布产物：
-- NPM 包（`nextclaw` / `@nextclaw/server` / `@nextclaw/ui`）
+- NPM 包（`go-usb-ai` / `@go-usb-ai/server` / `@go-usb-ai/ui`）
 - 对应 git tags
 
 ## 用户/产品视角验收步骤

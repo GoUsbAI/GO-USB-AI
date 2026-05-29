@@ -13,7 +13,7 @@ export const HOTSPOT_LOG_REQUIRED_FIELDS = ["本次是否减债", "说明", "下
 export const MAINTAINABILITY_HOTSPOTS = [
   {
     chain: "core-runtime",
-    path: "packages/nextclaw-core/src/agent/loop.ts",
+    path: "packages/go-usb-ai-core/src/agent/loop.ts",
     rationale: "主循环同时承担 session 驱动、tool orchestration、事件分发与响应收尾。",
     allowedAdditions: ["主循环既有阶段内的 bug fix", "拆分为独立阶段模块所需的最小接线代码"],
     prohibitedAdditions: ["新增 prompt 组装职责", "新增 tool 策略分支", "新增持久化/事件副作用编排"],
@@ -21,7 +21,7 @@ export const MAINTAINABILITY_HOTSPOTS = [
   },
   {
     chain: "cli-service-runtime",
-    path: "packages/nextclaw/src/cli/commands/diagnostics.ts",
+    path: "packages/go-usb-ai/src/cli/commands/diagnostics.ts",
     rationale: "诊断入口已同时承担状态采集、健康检查、格式化输出与错误整理。",
     allowedAdditions: ["诊断结果字段级修正", "向独立采集器/渲染器迁移时的桥接代码"],
     prohibitedAdditions: ["新增运行时探测流程编排", "新增用户输出格式分支", "新增服务生命周期控制逻辑"],
@@ -29,7 +29,7 @@ export const MAINTAINABILITY_HOTSPOTS = [
   },
   {
     chain: "server-ui-backend",
-    path: "packages/nextclaw-server/src/features/config/stores/server-config.store.ts",
+    path: "packages/go-usb-ai-server/src/features/config/stores/server-config.store.ts",
     rationale: "配置入口已成为多页面配置聚合与运行逻辑混杂的总对象。",
     allowedAdditions: ["配置结构修正", "向按页面/按域拆分配置模块时的最小导出适配"],
     prohibitedAdditions: ["新增页面业务逻辑", "新增运行时副作用", "继续堆积跨页面配置拼装"],
@@ -37,7 +37,7 @@ export const MAINTAINABILITY_HOTSPOTS = [
   },
   {
     chain: "channel-extension-discord",
-    path: "packages/extensions/nextclaw-channel-extension-discord/src/services/discord-channel.service.ts",
+    path: "packages/extensions/go-usb-ai-channel-extension-discord/src/services/discord-channel.service.ts",
     rationale: "渠道文件同时处理 inbound normalize、policy gating、stream flush 与平台发送细节。",
     allowedAdditions: ["平台 API 兼容修复", "向共享 sender/normalizer 下沉逻辑时的最小接线"],
     prohibitedAdditions: ["新增独立 streaming 策略", "新增消息归一化分支", "复制其它渠道已有 flush/send 逻辑"],
@@ -45,7 +45,7 @@ export const MAINTAINABILITY_HOTSPOTS = [
   },
   {
     chain: "channel-extension-telegram",
-    path: "packages/extensions/nextclaw-channel-extension-telegram/src/services/telegram-channel.service.ts",
+    path: "packages/extensions/go-usb-ai-channel-extension-telegram/src/services/telegram-channel.service.ts",
     rationale: "Telegram 渠道已同时承载 flush orchestration、incoming handling 与平台适配。",
     allowedAdditions: ["平台兼容修复", "向共享 stream flush / attachment adapter 下沉时的最小桥接"],
     prohibitedAdditions: ["新增长流程 branching", "新增 incoming policy 编排", "新增重复的 platform send/edit 逻辑"],
@@ -53,7 +53,7 @@ export const MAINTAINABILITY_HOTSPOTS = [
   },
   {
     chain: "ui-config-forms",
-    path: "packages/nextclaw-ui/src/components/config/ProviderForm.tsx",
+    path: "packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx",
     rationale: "单个表单容器长期持有 state、auth flow、normalization 与 mutation orchestration。",
     allowedAdditions: ["字段级 UI 修复", "向 hook/section/adapter 下沉逻辑时的最小拼接"],
     prohibitedAdditions: ["新增 auth polling 流程", "新增 submit normalization 分支", "新增跨 section 状态编排"],

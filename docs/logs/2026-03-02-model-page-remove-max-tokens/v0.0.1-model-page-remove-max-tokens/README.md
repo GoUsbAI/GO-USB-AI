@@ -10,47 +10,47 @@
 
 - 配置 Schema 断代移除：
   - 删除 `agents.defaults.maxTokens` 与 `agents.list.*.maxTokens`。
-  - 文件：`packages/nextclaw-core/src/config/schema.ts`
+  - 文件：`packages/go-usb-ai-core/src/config/schema.ts`
 - 配置 UI 元信息同步：
   - 删除上述路径的 help/label/reload 标记。
   - 文件：
-    - `packages/nextclaw-core/src/config/schema.help.ts`
-    - `packages/nextclaw-core/src/config/schema.labels.ts`
-    - `packages/nextclaw-core/src/config/reload.ts`
+    - `packages/go-usb-ai-core/src/config/schema.help.ts`
+    - `packages/go-usb-ai-core/src/config/schema.labels.ts`
+    - `packages/go-usb-ai-core/src/config/reload.ts`
 - 运行时传参链路收敛：
   - agent runtime pool / CLI runtime 不再读取和注入 agent profile 的 `maxTokens`。
   - 文件：
-    - `packages/nextclaw/src/cli/commands/agent-runtime-pool.ts`
-    - `packages/nextclaw/src/cli/runtime.ts`
+    - `packages/go-usb-ai/src/cli/commands/agent-runtime-pool.ts`
+    - `packages/go-usb-ai/src/cli/runtime.ts`
 - Provider 请求策略调整：
   - OpenAI/LiteLLM provider 不再强制注入 `4096`，仅在显式传入时透传 `max_tokens`。
   - 文件：
-    - `packages/nextclaw-core/src/providers/openai_provider.ts`
-    - `packages/nextclaw-core/src/providers/litellm_provider.ts`
+    - `packages/go-usb-ai-core/src/providers/openai_provider.ts`
+    - `packages/go-usb-ai-core/src/providers/litellm_provider.ts`
 - UI/API/服务端模型接口收敛：
   - Model 页面移除 “Generation Parameters / Max Tokens” 区域。
   - `/api/config/model` 仅接受并返回 `model`。
   - UI/API 类型删除 `maxTokens` 字段。
   - 文件：
-    - `packages/nextclaw-ui/src/components/config/ModelConfig.tsx`
-    - `packages/nextclaw-ui/src/components/config/RuntimeConfig.tsx`
-    - `packages/nextclaw-ui/src/api/config.ts`
-    - `packages/nextclaw-ui/src/api/types.ts`
-    - `packages/nextclaw-ui/src/lib/i18n.ts`
-    - `packages/nextclaw-server/src/ui/router.ts`
-    - `packages/nextclaw-server/src/ui/config.ts`
-    - `packages/nextclaw-server/src/ui/types.ts`
+    - `packages/go-usb-ai-ui/src/components/config/ModelConfig.tsx`
+    - `packages/go-usb-ai-ui/src/components/config/RuntimeConfig.tsx`
+    - `packages/go-usb-ai-ui/src/api/config.ts`
+    - `packages/go-usb-ai-ui/src/api/types.ts`
+    - `packages/go-usb-ai-ui/src/lib/i18n.ts`
+    - `packages/go-usb-ai-server/src/ui/router.ts`
+    - `packages/go-usb-ai-server/src/ui/config.ts`
+    - `packages/go-usb-ai-server/src/ui/types.ts`
 - 文档同步（非历史日志）：
   - 移除当前文档中对 UI `maxTokens` 与 `agents.defaults.maxTokens` 的过期描述。
   - 文件：
     - `docs/USAGE.md`
-    - `packages/nextclaw/templates/USAGE.md`
+    - `packages/go-usb-ai/templates/USAGE.md`
     - `apps/docs/en/guide/configuration.md`
     - `apps/docs/zh/guide/configuration.md`
     - `docs/prd/current-feature-list.md`
-    - `docs/prd/nextclaw-ui-prd.md`
+    - `docs/prd/go-usb-ai-ui-prd.md`
     - `docs/designs/2026-02-12-ui-gateway-api.md`
-    - `docs/nextclaw-ui-design-brief.md`
+    - `docs/go-usb-ai-ui-design-brief.md`
 - 规则变更：
   - `AGENTS.md` 的 `Project Rulebook` 新增 `prefer-local-openclaw-sibling-source`。
 
@@ -59,7 +59,7 @@
 - 已对照本地兄弟仓库 `../openclaw`：
   - OpenClaw 不使用 `agents.defaults.maxTokens`（对应 schema/type 均无该字段）。
 - 本次对齐策略：
-  - 移除 nextclaw 的 agent defaults/profile `maxTokens` 配置位。
+  - 移除 go-usb-ai 的 agent defaults/profile `maxTokens` 配置位。
   - 保留 provider 连接测试探测值 `maxTokens >= 16`（仅用于连通性探测，不是运行时用户配置项）。
 
 ## 测试 / 验证 / 验收方式
@@ -82,10 +82,10 @@ PATH=/opt/homebrew/bin:$PATH pnpm tsc
 
 ```bash
 # 1) 构建前端
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build
 
 # 2) 确认 Model 页面产物不再包含旧文案/旧参数入口
-rg -n "Generation Parameters|maxTokens|Max Tokens" packages/nextclaw-ui/dist/assets/ModelConfig-*.js
+rg -n "Generation Parameters|maxTokens|Max Tokens" packages/go-usb-ai-ui/dist/assets/ModelConfig-*.js
 ```
 
 冒烟观察点：

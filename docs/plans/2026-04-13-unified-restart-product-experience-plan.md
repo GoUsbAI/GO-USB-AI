@@ -2,11 +2,11 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** 为 NextClaw 提供一套跨 Desktop 与 Web 一致、可理解、可恢复、可扩展的产品化重启能力，让用户可以在前端主动触发合适层级的重启，而不是被动依赖 CLI 或模糊报错。
+**Goal:** 为 GoUsbAi 提供一套跨 Desktop 与 Web 一致、可理解、可恢复、可扩展的产品化重启能力，让用户可以在前端主动触发合适层级的重启，而不是被动依赖 CLI 或模糊报错。
 
 **Architecture:** 采用“统一产品合同，不同执行 owner”的方案。前端始终消费同一套 `runtime control` 语义与状态模型；Desktop 由 Electron 主进程作为稳定 supervisor 执行 `restart service` / `restart app`，Web 则由 server runtime 暴露可用能力并通过 restart coordinator 或宿主控制面执行 `restart service`。所有环境都通过 capability discovery 决定“显示什么按钮、按钮是否可用、影响范围是什么”，而不是让前端硬编码环境分支。
 
-**Tech Stack:** Electron、TypeScript、React、Zustand、Hono、WebSocket realtime、NextClaw CLI runtime、RestartCoordinator、RuntimeServiceProcess。
+**Tech Stack:** Electron、TypeScript、React、Zustand、Hono、WebSocket realtime、GoUsbAi CLI runtime、RestartCoordinator、RuntimeServiceProcess。
 
 ---
 
@@ -29,7 +29,7 @@
 
 本方案只讨论一件事：
 
-- 当用户明确想要重启时，NextClaw 是否在前端提供这项能力
+- 当用户明确想要重启时，GoUsbAi 是否在前端提供这项能力
 - 如果提供，Desktop 与 Web 是否能呈现一致且产品化的体验
 - 这项能力应由哪一层执行，怎样才符合最佳实践
 
@@ -58,7 +58,7 @@
 ### 推荐的两级重启模型
 
 1. `Restart Service`
-- 重启当前 NextClaw runtime / 后台服务。
+- 重启当前 GoUsbAi runtime / 后台服务。
 - 这是默认主按钮，覆盖大多数“恢复运行时”“清理异常状态”“应用本轮需重启变更”的场景。
 
 2. `Restart App`
@@ -118,7 +118,7 @@
 
 重启被接受后，前端不能只等报错，而要进入明确的“重启进行中”体验：
 
-- 全局显示 `Restarting NextClaw service...`
+- 全局显示 `Restarting GoUsbAi service...`
 - 暂存当前草稿
 - 屏蔽新的发送动作
 - 自动等待恢复并重连
@@ -132,7 +132,7 @@
 定义：
 
 - UI 运行在 Electron 渲染层
-- NextClaw runtime 由 Electron 主进程拉起和监督
+- GoUsbAi runtime 由 Electron 主进程拉起和监督
 
 能力：
 
@@ -153,7 +153,7 @@
 
 定义：
 
-- UI 由浏览器访问本地或自管的 NextClaw 服务
+- UI 由浏览器访问本地或自管的 GoUsbAi 服务
 - 当前 UI 页本身由被重启的服务提供
 
 能力：
@@ -174,7 +174,7 @@
 
 定义：
 
-- 用户通过 Web 管理自己部署的 NextClaw 实例
+- 用户通过 Web 管理自己部署的 GoUsbAi 实例
 
 能力：
 
@@ -339,7 +339,7 @@ type RuntimeControlView = {
 
 - React UI
 - `RuntimeControlManager`
-- `window.nextclawDesktop.restartService()` 或 `restartApp()`
+- `window.go-usb-aiDesktop.restartService()` 或 `restartApp()`
 - Electron main process
 - `RuntimeServiceProcess.stop() -> start()` 或 `app.relaunch()`
 
@@ -403,15 +403,15 @@ type RuntimeControlView = {
 ### 说明文案
 
 - `Restart Service`:
-  `Restart the local NextClaw runtime. The page may disconnect briefly while the service comes back.`
+  `Restart the local GoUsbAi runtime. The page may disconnect briefly while the service comes back.`
 
 - `Restart App`:
-  `Restart the entire NextClaw desktop app. This closes the current app window and relaunches it immediately.`
+  `Restart the entire GoUsbAi desktop app. This closes the current app window and relaunches it immediately.`
 
 ### 进行中文案
 
-- `正在重启 NextClaw 运行时...`
-- `正在重新启动 NextClaw 应用...`
+- `正在重启 GoUsbAi 运行时...`
+- `正在重新启动 GoUsbAi 应用...`
 - `正在等待服务恢复连接...`
 
 ### 失败文案
@@ -496,10 +496,10 @@ type RuntimeControlView = {
 ### Task 1: 定义统一 runtime control contract
 
 **Files:**
-- Modify: `packages/nextclaw-server/src/ui/types.ts`
-- Modify: `packages/nextclaw-ui/src/api/types.ts`
-- Modify: `packages/nextclaw-ui/src/transport/transport.types.ts`
-- Test: `packages/nextclaw-server/src/ui/router.runtime-control.test.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/types.ts`
+- Modify: `packages/go-usb-ai-ui/src/api/types.ts`
+- Modify: `packages/go-usb-ai-ui/src/transport/transport.types.ts`
+- Test: `packages/go-usb-ai-server/src/ui/router.runtime-control.test.ts`
 
 **Step 1**
 - 新增 `RuntimeControlView`、`RuntimeLifecycleState`、runtime restart 事件类型。
@@ -513,12 +513,12 @@ type RuntimeControlView = {
 ### Task 2: 新增 Web runtime control host 与路由
 
 **Files:**
-- Create: `packages/nextclaw-server/src/ui/ui-routes/runtime-control.controller.ts`
-- Modify: `packages/nextclaw-server/src/ui/ui-routes/types.ts`
-- Modify: `packages/nextclaw-server/src/ui/router.ts`
-- Modify: `packages/nextclaw/src/cli/runtime.ts`
-- Modify: `packages/nextclaw/src/cli/restart-coordinator.ts`
-- Test: `packages/nextclaw-server/src/ui/router.runtime-control.test.ts`
+- Create: `packages/go-usb-ai-server/src/ui/ui-routes/runtime-control.controller.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/ui-routes/types.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/router.ts`
+- Modify: `packages/go-usb-ai/src/cli/runtime.ts`
+- Modify: `packages/go-usb-ai/src/cli/restart-coordinator.ts`
+- Test: `packages/go-usb-ai-server/src/ui/router.runtime-control.test.ts`
 
 **Step 1**
 - 定义 `UiRuntimeControlHost`。
@@ -535,7 +535,7 @@ type RuntimeControlView = {
 - Modify: `apps/desktop/src/preload.ts`
 - Modify: `apps/desktop/src/main.ts`
 - Modify: `apps/desktop/src/runtime-service.ts`
-- Create: `packages/nextclaw-ui/src/desktop/desktop-runtime-control.types.ts`
+- Create: `packages/go-usb-ai-ui/src/desktop/desktop-runtime-control.types.ts`
 - Test: `apps/desktop/src/runtime-service.test.ts`
 
 **Step 1**
@@ -550,14 +550,14 @@ type RuntimeControlView = {
 ### Task 4: UI 统一 Runtime Control Manager 与全局入口
 
 **Files:**
-- Create: `packages/nextclaw-ui/src/runtime-control/managers/runtime-control.manager.ts`
-- Create: `packages/nextclaw-ui/src/runtime-control/stores/runtime-control.store.ts`
-- Create: `packages/nextclaw-ui/src/runtime-control/runtime-control.query.ts`
-- Create: `packages/nextclaw-ui/src/components/runtime-control/RuntimeControlPanel.tsx`
-- Modify: `packages/nextclaw-ui/src/stores/ui.store.ts`
-- Modify: `packages/nextclaw-ui/src/hooks/use-realtime-query-bridge.ts`
-- Modify: `packages/nextclaw-ui/src/transport/local.transport.ts`
-- Test: `packages/nextclaw-ui/src/components/runtime-control/RuntimeControlPanel.test.tsx`
+- Create: `packages/go-usb-ai-ui/src/runtime-control/managers/runtime-control.manager.ts`
+- Create: `packages/go-usb-ai-ui/src/runtime-control/stores/runtime-control.store.ts`
+- Create: `packages/go-usb-ai-ui/src/runtime-control/runtime-control.query.ts`
+- Create: `packages/go-usb-ai-ui/src/components/runtime-control/RuntimeControlPanel.tsx`
+- Modify: `packages/go-usb-ai-ui/src/stores/ui.store.ts`
+- Modify: `packages/go-usb-ai-ui/src/hooks/use-realtime-query-bridge.ts`
+- Modify: `packages/go-usb-ai-ui/src/transport/local.transport.ts`
+- Test: `packages/go-usb-ai-ui/src/components/runtime-control/RuntimeControlPanel.test.tsx`
 
 **Step 1**
 - 增加 runtime lifecycle store，收 runtime control query + events。
@@ -571,10 +571,10 @@ type RuntimeControlView = {
 ### Task 5: 文案、恢复体验与任务中断保护
 
 **Files:**
-- Modify: `packages/nextclaw-ui/src/lib/i18n.ts`
-- Modify: `packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`
-- Modify: `packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx`
-- Test: `packages/nextclaw-ui/src/components/chat/chat-runtime-restart.test.tsx`
+- Modify: `packages/go-usb-ai-ui/src/lib/i18n.ts`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx`
+- Test: `packages/go-usb-ai-ui/src/components/chat/chat-runtime-restart.test.tsx`
 
 **Step 1**
 - 新增运行中重启确认文案与恢复提示文案。

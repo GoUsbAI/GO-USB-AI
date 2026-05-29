@@ -10,7 +10,7 @@
 
 阶段 2 继续收敛剩余 NCP 主链路依赖：`SessionRequestManager` 运行时实现从 core 迁到 kernel，core 只保留 request 的纯类型和纯工具函数；`sessions_spawn`、`sessions_request`、`sessions_list`、`sessions_history` 和 learning-loop 不再直接读写 legacy `SessionManager`。request accepted/completed/failed 状态改为 NCP session event，写入 journal，不再写 legacy event store。
 
-runtime context 侧也完成职责收敛：`NextclawNcpContextBuilder` 不再拿 `SessionManager.getOrCreate()`，只消费 runtime 提供的 session metadata snapshot；model/thinking/channel 等 metadata 前置到 `AgentRunRequestManager` / `SessionRunManager` mutation 链路。context compaction 收敛为 `ContextCompactionManager` 语义 owner，内部负责预算、checkpoint、summary、timeline 和 context window projection，但不再持有 legacy `SessionManager` 或直接 `save()` 旧 session。
+runtime context 侧也完成职责收敛：`GoUsbAiNcpContextBuilder` 不再拿 `SessionManager.getOrCreate()`，只消费 runtime 提供的 session metadata snapshot；model/thinking/channel 等 metadata 前置到 `AgentRunRequestManager` / `SessionRunManager` mutation 链路。context compaction 收敛为 `ContextCompactionManager` 语义 owner，内部负责预算、checkpoint、summary、timeline 和 context window projection，但不再持有 legacy `SessionManager` 或直接 `save()` 旧 session。
 
 direct prompt 侧移除 NCP dispatch 对完整 legacy `SessionManager` 的强依赖，CLI/plugin runtime dispatch 不再传 `kernel.sessions`。仍保留的 `SessionManager` 使用集中在 channel/extension compat、gateway restart route fallback 等非 NCP 主链路兼容面。
 
@@ -20,21 +20,21 @@ direct prompt 侧移除 NCP dispatch 对完整 legacy `SessionManager` 的强依
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/kernel tsc`
-- `pnpm --filter @nextclaw/core tsc`
-- `pnpm --filter @nextclaw/service tsc`
-- `pnpm --filter @nextclaw/ncp tsc`
-- `pnpm --filter @nextclaw/kernel test`
-- `pnpm --filter @nextclaw/kernel exec vitest run src/tools/session-history.tools.test.ts src/features/session-request/managers/session-request.manager.test.ts`
-- `pnpm --filter @nextclaw/core test -- --run`
-- `pnpm --filter @nextclaw/kernel build`
-- `pnpm --filter @nextclaw/core build`
-- `pnpm --filter @nextclaw/kernel lint`
-- `pnpm --filter @nextclaw/core lint`
-- `pnpm --filter @nextclaw/service lint`
-- `pnpm --filter @nextclaw/ncp lint`
+- `pnpm --filter @go-usb-ai/kernel tsc`
+- `pnpm --filter @go-usb-ai/core tsc`
+- `pnpm --filter @go-usb-ai/service tsc`
+- `pnpm --filter @go-usb-ai/ncp tsc`
+- `pnpm --filter @go-usb-ai/kernel test`
+- `pnpm --filter @go-usb-ai/kernel exec vitest run src/tools/session-history.tools.test.ts src/features/session-request/managers/session-request.manager.test.ts`
+- `pnpm --filter @go-usb-ai/core test -- --run`
+- `pnpm --filter @go-usb-ai/kernel build`
+- `pnpm --filter @go-usb-ai/core build`
+- `pnpm --filter @go-usb-ai/kernel lint`
+- `pnpm --filter @go-usb-ai/core lint`
+- `pnpm --filter @go-usb-ai/service lint`
+- `pnpm --filter @go-usb-ai/ncp lint`
 - `node --test scripts/governance/module-structure/lint-new-code-module-structure.test.mjs`
-- `pnpm --filter @nextclaw/kernel exec vitest run src/managers/__tests__`
+- `pnpm --filter @go-usb-ai/kernel exec vitest run src/managers/__tests__`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths <touched files>`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
@@ -65,7 +65,7 @@ direct prompt 侧移除 NCP dispatch 对完整 legacy `SessionManager` 的强依
 
 ## 红区触达与减债记录
 
-### packages/nextclaw-server/src/app/router.ncp-agent.test.ts
+### packages/go-usb-ai-server/src/app/router.ncp-agent.test.ts
 
 - 本次是否减债：否。
 - 说明：仅同步 mock 字段名从 `ncpSessionApi` 到 `ncpSessionManager`，未扩大该文件体积。

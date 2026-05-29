@@ -14,10 +14,10 @@
 ## 测试/验证/验收方式
 
 - 已执行：
-  - `pnpm --filter @nextclaw/ui tsc`
-  - `pnpm --filter @nextclaw/ui lint`
-  - `pnpm --filter @nextclaw/ui build`
-  - `pnpm --filter @nextclaw/ui dev --host 127.0.0.1 --port 4173` + `curl -s http://127.0.0.1:4173/`
+  - `pnpm --filter @go-usb-ai/ui tsc`
+  - `pnpm --filter @go-usb-ai/ui lint`
+  - `pnpm --filter @go-usb-ai/ui build`
+  - `pnpm --filter @go-usb-ai/ui dev --host 127.0.0.1 --port 4173` + `curl -s http://127.0.0.1:4173/`
 - 结果：
   - `tsc/build` 通过。
   - `lint` 无 error，仅存在仓库既有 warning。

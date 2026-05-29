@@ -1,0 +1,36 @@
+{
+  "name": "@go-usb-ai/channel-extension-qq",
+  "version": "0.1.5",
+  "private": false,
+  "description": "GoUsbAi QQ channel extension process.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "go-usb-ai.extension.json"
+  ],
+  "scripts": {
+    "build": "tsdown src/index.ts src/main.ts --dts.sourcemap --clean --target es2022 --no-fixedExtension --unbundle",
+    "prepack": "pnpm run build",
+    "lint": "eslint src --max-warnings=0",
+    "test": "node --import tsx --test src/tests/*.test.ts",
+    "tsc": "tsc -p tsconfig.json",
+    "prepublishOnly": "node ../../../scripts/release/ensure-pnpm-publish.mjs"
+  },
+  "dependencies": {
+    "@go-usb-ai/extension-sdk": "workspace:*",
+    "qq-official-bot": "1.0.12"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

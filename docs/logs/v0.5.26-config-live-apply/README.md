@@ -2,8 +2,8 @@
 
 ## 背景 / 问题
 
-- 在 VPS 首次 `nextclaw start` 后，用户在 UI 里补全 provider/model/channel 配置，Discord 有概率暂时不回消息。
-- 现状常常需要手动 `nextclaw restart`，与“配置即生效”的体验目标冲突。
+- 在 VPS 首次 `go-usb-ai start` 后，用户在 UI 里补全 provider/model/channel 配置，Discord 有概率暂时不回消息。
+- 现状常常需要手动 `go-usb-ai restart`，与“配置即生效”的体验目标冲突。
 
 ## 决策
 
@@ -17,17 +17,17 @@
   - 运行中的网关现在会自动应用 provider/channel/model/context 变更，无需手动重启。
   - 日志会输出 `Config reload: channels restarted.`、`Config reload: provider settings applied.`、`Config reload: agent defaults applied.`。
 - 关键实现点：
-  - `packages/nextclaw-core/src/config/reload.ts` 新增 `reloadAgent` 规则。
-  - `packages/nextclaw-core/src/agent/loop.ts` 增加 `applyRuntimeConfig`，动态更新 model/max iterations/context/tool runtime options。
-  - `packages/nextclaw-core/src/agent/context.ts` 新增 `setContextConfig`，复用统一 merge 逻辑。
-  - `packages/nextclaw-core/src/agent/subagent.ts` 新增 `updateRuntimeOptions`。
-  - `packages/nextclaw/src/cli/runtime.ts` 的 `ConfigReloader` 支持 agent runtime 回调；并引入 `MissingProvider`，避免“无 provider 时网关挂起不可热恢复”。
+  - `packages/go-usb-ai-core/src/config/reload.ts` 新增 `reloadAgent` 规则。
+  - `packages/go-usb-ai-core/src/agent/loop.ts` 增加 `applyRuntimeConfig`，动态更新 model/max iterations/context/tool runtime options。
+  - `packages/go-usb-ai-core/src/agent/context.ts` 新增 `setContextConfig`，复用统一 merge 逻辑。
+  - `packages/go-usb-ai-core/src/agent/subagent.ts` 新增 `updateRuntimeOptions`。
+  - `packages/go-usb-ai/src/cli/runtime.ts` 的 `ConfigReloader` 支持 agent runtime 回调；并引入 `MissingProvider`，避免“无 provider 时网关挂起不可热恢复”。
 
 ## 验证（怎么确认符合预期）
 
 ```bash
-pnpm -C packages/nextclaw-core tsc
-pnpm -C packages/nextclaw tsc
+pnpm -C packages/go-usb-ai-core tsc
+pnpm -C packages/go-usb-ai tsc
 ```
 
 验收点：

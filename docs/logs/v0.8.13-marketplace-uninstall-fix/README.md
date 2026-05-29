@@ -7,9 +7,9 @@
 
 ## 迭代完成说明（改了什么）
 
-- `packages/nextclaw-server/src/ui/router.ts`
+- `packages/go-usb-ai-server/src/ui/router.ts`
   - `resolvePluginManageTargetId` 新增 `spec` 兜底匹配：当 `id` 无法解析时，使用 `spec` 映射到真实插件 ID。
-- `packages/nextclaw-server/src/ui/router.marketplace-manage.test.ts`
+- `packages/go-usb-ai-server/src/ui/router.marketplace-manage.test.ts`
   - 新增用例：当 `id` 不可解析但 `spec` 正确时，仍可正确映射并执行 disable。
 
 ## 测试 / 验证 / 验收方式
@@ -25,14 +25,14 @@ pnpm tsc
 API 冒烟（在临时目录，不写仓库）：
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-market-uninstall.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" pnpm -C packages/nextclaw dev:build serve --ui-port 18999
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-market-uninstall.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" pnpm -C packages/go-usb-ai dev:build serve --ui-port 18999
 
 # 观察点：禁用/卸载请求不会因为 id 解析失败而报错
 curl -sf http://127.0.0.1:18999/api/marketplace/installed
 curl -sf -X POST http://127.0.0.1:18999/api/marketplace/manage \
   -H 'content-type: application/json' \
-  -d '{"type":"plugin","action":"disable","id":"channel-plugin-discord","spec":"@nextclaw/channel-plugin-discord"}'
+  -d '{"type":"plugin","action":"disable","id":"channel-plugin-discord","spec":"@go-usb-ai/channel-plugin-discord"}'
 
 rm -rf "$TMP_HOME"
 ```
@@ -53,6 +53,6 @@ rm -rf "$TMP_HOME"
 
 ## 影响范围 / 风险
 
-- 影响范围：`@nextclaw/server`、`nextclaw`。
+- 影响范围：`@go-usb-ai/server`、`go-usb-ai`。
 - Breaking change：否。
 - 风险：仅增加解析兜底逻辑，风险低。

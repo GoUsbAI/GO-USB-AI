@@ -1,6 +1,6 @@
 # Background & Autostart
 
-`nextclaw start` starts NextClaw, but it is not the same as host-level long-running management.
+`go-usb-ai start` starts GoUsbAi, but it is not the same as host-level long-running management.
 
 This page explains when you need background runtime and autostart, and how the NPM install path enables it explicitly.
 
@@ -8,7 +8,7 @@ This page explains when you need background runtime and autostart, and how the N
 
 Consider autostart when:
 
-- you use NextClaw every day
+- you use GoUsbAi every day
 - you want it available after login
 - you do not want to restart it manually after reboot
 - you have connected channels or automations
@@ -16,7 +16,7 @@ Consider autostart when:
 ## NPM install does not register autostart
 
 ```bash
-npm i -g nextclaw
+npm i -g go-usb-ai
 ```
 
 This only installs the CLI. It does not silently modify system startup entries.
@@ -28,37 +28,37 @@ If you want autostart, install the host-managed entry explicitly.
 Linux user service:
 
 ```bash
-nextclaw service install-systemd --user
+go-usb-ai service install-systemd --user
 ```
 
 Linux system service:
 
 ```bash
-sudo nextclaw service install-systemd --system
+sudo go-usb-ai service install-systemd --system
 ```
 
 macOS:
 
 ```bash
-nextclaw service install-launch-agent
+go-usb-ai service install-launch-agent
 ```
 
 Windows:
 
 ```bash
-nextclaw service install-task
+go-usb-ai service install-task
 ```
 
 ## Check status
 
 ```bash
-nextclaw service autostart status
-nextclaw service autostart doctor
+go-usb-ai service autostart status
+go-usb-ai service autostart doctor
 ```
 
 ## When you do not need it
 
-If you are only trying NextClaw or using the local UI occasionally, `nextclaw start` is enough.
+If you are only trying GoUsbAi or using the local UI occasionally, `go-usb-ai start` is enough.
 
 ## Related docs
 

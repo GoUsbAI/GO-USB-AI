@@ -6,17 +6,17 @@
 - 本轮核心覆盖了今天新增的聊天能力与运行链路改动，包括：
   - skill token 在消息中的渲染与最近使用 skill 排序更新
   - 聊天运行中禁用 Enter 直接发送
-  - tool argument 校验在 `@nextclaw/core / @nextclaw/ncp / @nextclaw/ncp-agent-runtime` 链路上的收紧
-- 发布校验过程中暴露出 `packages/nextclaw-ui/src/components/chat/chat-input/chat-input-bar.controller.ts` 的 React Compiler lint 阻塞；已将该 hook 从整对象 `params` 闭包改为显式字段解构依赖，消除 `preserve-manual-memoization` error，并重新完成整轮发布。
+  - tool argument 校验在 `@go-usb-ai/core / @go-usb-ai/ncp / @go-usb-ai/ncp-agent-runtime` 链路上的收紧
+- 发布校验过程中暴露出 `packages/go-usb-ai-ui/src/components/chat/chat-input/chat-input-bar.controller.ts` 的 React Compiler lint 阻塞；已将该 hook 从整对象 `params` 闭包改为显式字段解构依赖，消除 `preserve-manual-memoization` error，并重新完成整轮发布。
 - 已发布包：
-  - `@nextclaw/agent-chat-ui@0.2.17`
-  - `@nextclaw/core@0.11.14`
-  - `@nextclaw/ui@0.11.19`
-  - `@nextclaw/ncp@0.4.4`
-  - `@nextclaw/ncp-agent-runtime@0.3.4`
-  - `@nextclaw/ncp-react-ui@0.2.9`
-  - `nextclaw@0.16.29`
-  - 以及依赖闭环联动包：`@nextclaw/channel-*`、`@nextclaw/channel-runtime`、`@nextclaw/mcp`、`@nextclaw/ncp-*`、`@nextclaw/nextclaw-engine-*`、`@nextclaw/nextclaw-ncp-runtime-*`、`@nextclaw/openclaw-compat`、`@nextclaw/remote`、`@nextclaw/runtime`、`@nextclaw/server`
+  - `@go-usb-ai/agent-chat-ui@0.2.17`
+  - `@go-usb-ai/core@0.11.14`
+  - `@go-usb-ai/ui@0.11.19`
+  - `@go-usb-ai/ncp@0.4.4`
+  - `@go-usb-ai/ncp-agent-runtime@0.3.4`
+  - `@go-usb-ai/ncp-react-ui@0.2.9`
+  - `go-usb-ai@0.16.29`
+  - 以及依赖闭环联动包：`@go-usb-ai/channel-*`、`@go-usb-ai/channel-runtime`、`@go-usb-ai/mcp`、`@go-usb-ai/ncp-*`、`@go-usb-ai/go-usb-ai-engine-*`、`@go-usb-ai/go-usb-ai-ncp-runtime-*`、`@go-usb-ai/openclaw-compat`、`@go-usb-ai/remote`、`@go-usb-ai/runtime`、`@go-usb-ai/server`
 
 ## 测试/验证/验收方式
 
@@ -28,10 +28,10 @@
   - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH" NPM_CONFIG_USERCONFIG=/Users/peiwang/Projects/nextbot/.npmrc pnpm release:publish`
   - 结果：整轮 `build / lint / tsc` 通过；仓库既有 warning 保留，但无 error；`changeset publish` 输出 `packages published successfully`，并完成对应 git tags 创建。
 - 定向修复复验：
-  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH" pnpm -C packages/nextclaw-ui lint`
-  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH" pnpm -C packages/nextclaw-ui tsc`
+  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH" pnpm -C packages/go-usb-ai-ui lint`
+  - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH" pnpm -C packages/go-usb-ai-ui tsc`
 - 发布后冒烟：
-  - `TMP_DIR=$(mktemp -d /tmp/nextclaw-release-smoke.XXXXXX) && cd "$TMP_DIR" && npm init -y && NEXTCLAW_HOME="$TMP_DIR/home" npm install nextclaw@0.16.29 && NEXTCLAW_HOME="$TMP_DIR/home" npx --yes nextclaw --version`
+  - `TMP_DIR=$(mktemp -d /tmp/go-usb-ai-release-smoke.XXXXXX) && cd "$TMP_DIR" && npm init -y && GOUSB_AI_HOME="$TMP_DIR/home" npm install go-usb-ai@0.16.29 && GOUSB_AI_HOME="$TMP_DIR/home" npx --yes go-usb-ai --version`
   - 结果：成功安装，输出 `0.16.29`
 
 ## 发布/部署方式
@@ -44,7 +44,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 在任意隔离目录执行 `npm install nextclaw@0.16.29` 或 `npx --yes nextclaw@0.16.29 --version`。
+1. 在任意隔离目录执行 `npm install go-usb-ai@0.16.29` 或 `npx --yes go-usb-ai@0.16.29 --version`。
 2. 确认 CLI 返回版本号 `0.16.29`，说明用户已拿到本轮发布结果。
 3. 启动聊天界面后验证：
    - 运行中的会话按 Enter 不会重复触发发送。

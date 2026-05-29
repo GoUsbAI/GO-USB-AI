@@ -4,17 +4,17 @@
 
 - 将桌面更新页中 `desktopUpdatesCurrentBundleVersion` 的中文文案从“当前产品版本”调整为“当前内核版本”。
 - 将对应英文文案从 `Current Product Version` 调整为 `Current Kernel Version`，让“桌面壳版本 / 内核运行版本”的页面心智更一致。
-- 重新构建 `@nextclaw/ui` 并同步 `packages/nextclaw/ui-dist`，确保实际随产品分发的前端产物也带上新文案。
+- 重新构建 `@go-usb-ai/ui` 并同步 `packages/go-usb-ai/ui-dist`，确保实际随产品分发的前端产物也带上新文案。
 
 ## 测试/验证/验收方式
 
 - 已通过：`pnpm build:ui`
-  - 结果：`@nextclaw/ui` 构建成功。
-- 已通过：`node packages/nextclaw/scripts/copy-ui-dist.mjs`
-  - 结果：最新 `dist` 已复制到 `packages/nextclaw/ui-dist`。
+  - 结果：`@go-usb-ai/ui` 构建成功。
+- 已通过：`node packages/go-usb-ai/scripts/copy-ui-dist.mjs`
+  - 结果：最新 `dist` 已复制到 `packages/go-usb-ai/ui-dist`。
 - 已通过：`pnpm lint:new-code:governance`
   - 结果：本次触达文件的增量治理检查全部通过。
-- 已通过：`rg -n "当前内核版本|Current Kernel Version" packages/nextclaw/ui-dist`
+- 已通过：`rg -n "当前内核版本|Current Kernel Version" packages/go-usb-ai/ui-dist`
   - 结果：打包产物中已包含新文案。
 
 ## 发布/部署方式
@@ -24,7 +24,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 NextClaw Desktop。
+1. 打开 GoUsbAi Desktop。
 2. 进入设置页的“更新”模块。
 3. 在“当前状态”卡片区确认仍能看到“桌面壳版本”“可用版本”“上次检查时间”等信息。
 4. 确认原先显示“当前产品版本”的位置现在显示为“当前内核版本”。

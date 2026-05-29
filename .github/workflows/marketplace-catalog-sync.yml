@@ -87,6 +87,6 @@ jobs:
 
       - name: Smoke check
         run: |
-          curl -fsS https://marketplace-api.nextclaw.io/health
-          curl -fsS 'https://marketplace-api.nextclaw.io/api/v1/plugins/items?page=1&pageSize=5' > /dev/null
-          curl -fsS 'https://marketplace-api.nextclaw.io/api/v1/skills/items?page=1&pageSize=5' > /dev/null
+          curl -fsS https://marketplace-api.go-usb-ai.io/health
+          curl -fsS 'https://marketplace-api.go-usb-ai.io/api/v1/plugins/items?page=1&pageSize=5' > /dev/null
+          curl -fsS 'https://marketplace-api.go-usb-ai.io/api/v1/skills/items?page=1&pageSize=5' > /dev/null

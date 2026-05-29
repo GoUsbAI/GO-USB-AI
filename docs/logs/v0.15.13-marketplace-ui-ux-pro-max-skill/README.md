@@ -3,15 +3,15 @@
 ## 迭代完成说明
 
 - 新增 `skills/ui-ux-pro-max` marketplace skill，slug 为 `ui-ux-pro-max`。
-- 将上游 `nextlevelbuilder/ui-ux-pro-max-skill` 适配为 NextClaw 可上架版本，采用“继承上游 skill + 本地运行资产内置”的方式集成。
-- 内置上游所需的 `data/` 与 `scripts/` 运行资产，并附带 `UPSTREAM_LICENSE`，避免要求 NextClaw 用户额外安装上游 `uipro-cli`。
-- 新增 NextClaw 化 `SKILL.md` 与 `marketplace.json`，明确：
+- 将上游 `nextlevelbuilder/ui-ux-pro-max-skill` 适配为 GoUsbAi 可上架版本，采用“继承上游 skill + 本地运行资产内置”的方式集成。
+- 内置上游所需的 `data/` 与 `scripts/` 运行资产，并附带 `UPSTREAM_LICENSE`，避免要求 GoUsbAi 用户额外安装上游 `uipro-cli`。
+- 新增 GoUsbAi 化 `SKILL.md` 与 `marketplace.json`，明确：
   - `python3` 就绪检查
   - 只读搜索 / 设计系统生成 / 技术栈检索工作流
   - `--persist` 写入前必须显式确认
-  - NextClaw marketplace 安装路径与上游独立 CLI 的边界
+  - GoUsbAi marketplace 安装路径与上游独立 CLI 的边界
 - 为满足仓库 maintainability 约束，将上游单个超长 `design_system.py` 拆分为生成、终端格式化、文档格式化、覆写推导、持久化等多个脚本模块，保持功能不变。
-- 已通过项目 CLI 将该 skill 发布到 NextClaw marketplace，并在远端完成更新同步。
+- 已通过项目 CLI 将该 skill 发布到 GoUsbAi marketplace，并在远端完成更新同步。
 
 ## 测试 / 验证 / 验收方式
 
@@ -44,7 +44,7 @@ python3 skills/ui-ux-pro-max/scripts/search.py "beauty spa wellness" --design-sy
 - marketplace 远端校验：
 
 ```bash
-curl -sS https://marketplace-api.nextclaw.io/api/v1/skills/items/ui-ux-pro-max
+curl -sS https://marketplace-api.go-usb-ai.io/api/v1/skills/items/ui-ux-pro-max
 ```
 
 观察点：
@@ -56,8 +56,8 @@ curl -sS https://marketplace-api.nextclaw.io/api/v1/skills/items/ui-ux-pro-max
 - marketplace 安装冒烟（非仓库目录）：
 
 ```bash
-tmp_dir=$(mktemp -d /tmp/nextclaw-marketplace-skill.XXXXXX)
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node packages/nextclaw/dist/cli/index.js skills install ui-ux-pro-max --api-base https://marketplace-api.nextclaw.io --workdir "$tmp_dir"
+tmp_dir=$(mktemp -d /tmp/go-usb-ai-marketplace-skill.XXXXXX)
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node packages/go-usb-ai/dist/cli/index.js skills install ui-ux-pro-max --api-base https://marketplace-api.go-usb-ai.io --workdir "$tmp_dir"
 python3 "$tmp_dir/skills/ui-ux-pro-max/scripts/search.py" "beauty spa wellness" --design-system -f markdown
 rm -rf "$tmp_dir"
 ```
@@ -65,9 +65,9 @@ rm -rf "$tmp_dir"
 - marketplace 持久化冒烟（非仓库目录）：
 
 ```bash
-tmp_dir=$(mktemp -d /tmp/nextclaw-marketplace-persist.XXXXXX)
+tmp_dir=$(mktemp -d /tmp/go-usb-ai-marketplace-persist.XXXXXX)
 mkdir -p "$tmp_dir/project"
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node packages/nextclaw/dist/cli/index.js skills install ui-ux-pro-max --api-base https://marketplace-api.nextclaw.io --workdir "$tmp_dir/project"
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node packages/go-usb-ai/dist/cli/index.js skills install ui-ux-pro-max --api-base https://marketplace-api.go-usb-ai.io --workdir "$tmp_dir/project"
 python3 "$tmp_dir/project/skills/ui-ux-pro-max/scripts/search.py" "beauty spa wellness" --design-system --persist -p "Serenity Spa" -o "$tmp_dir/project"
 test -f "$tmp_dir/project/design-system/serenity-spa/MASTER.md"
 rm -rf "$tmp_dir"
@@ -82,8 +82,8 @@ PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainabil
 结果说明：
 - `skills/ui-ux-pro-max` 相关问题已清零。
 - 命令仍因仓库内并行改动的两个非本次文件失败：
-  - `packages/nextclaw-openclaw-compat/src/plugins/runtime.ts`
-  - `packages/nextclaw-server/src/ui/router/ncp-session.controller.ts`
+  - `packages/go-usb-ai-openclaw-compat/src/plugins/runtime.ts`
+  - `packages/go-usb-ai-server/src/ui/router/ncp-session.controller.ts`
 
 - `build / lint / tsc`：
   - 不适用。本次未触达 TypeScript 构建链路，也未改动前端/后端业务源码编译入口。
@@ -93,26 +93,26 @@ PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainabil
 - 首次上架：
 
 ```bash
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node packages/nextclaw/dist/cli/index.js skills publish skills/ui-ux-pro-max --meta skills/ui-ux-pro-max/marketplace.json --api-base https://marketplace-api.nextclaw.io
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node packages/go-usb-ai/dist/cli/index.js skills publish skills/ui-ux-pro-max --meta skills/ui-ux-pro-max/marketplace.json --api-base https://marketplace-api.go-usb-ai.io
 ```
 
 - 修正本地文件拆分后，同步更新远端：
 
 ```bash
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node packages/nextclaw/dist/cli/index.js skills update skills/ui-ux-pro-max --meta skills/ui-ux-pro-max/marketplace.json --api-base https://marketplace-api.nextclaw.io
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node packages/go-usb-ai/dist/cli/index.js skills update skills/ui-ux-pro-max --meta skills/ui-ux-pro-max/marketplace.json --api-base https://marketplace-api.go-usb-ai.io
 ```
 
 - 当前发布结果：
   - marketplace slug：`ui-ux-pro-max`
-  - 安装命令：`nextclaw skills install ui-ux-pro-max`
-  - 远端查询：`https://marketplace-api.nextclaw.io/api/v1/skills/items/ui-ux-pro-max`
+  - 安装命令：`go-usb-ai skills install ui-ux-pro-max`
+  - 远端查询：`https://marketplace-api.go-usb-ai.io/api/v1/skills/items/ui-ux-pro-max`
 
 ## 用户 / 产品视角的验收步骤
 
-1. 在任意 NextClaw workspace 或项目目录执行：
+1. 在任意 GoUsbAi workspace 或项目目录执行：
 
 ```bash
-nextclaw skills install ui-ux-pro-max
+go-usb-ai skills install ui-ux-pro-max
 ```
 
 2. 进入使用场景后，让 AI 执行只读设计查询，例如：

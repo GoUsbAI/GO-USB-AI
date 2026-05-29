@@ -10,10 +10,10 @@
 
 ## 测试/验证/验收方式
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/landing build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/landing build`
 - 路由产物验证：
   - 检查 `dist/en/download/index.html` 与 `dist/zh/download/index.html` 存在。
-  - 检查打包 JS 中包含 `__NEXTCLAW_ROUTE__` 路由分支逻辑。
+  - 检查打包 JS 中包含 `__GOUSB_AI_ROUTE__` 路由分支逻辑。
 - 冒烟验证（页面内容分离）：
   - 首页保留产品介绍模块，不出现下载大卡片。
   - 下载页显示下载大卡片和小白教程。
@@ -21,8 +21,8 @@
 ## 发布/部署方式
 - 前端发布：执行 `pnpm deploy:landing`。
 - 发布后检查：
-  - `https://nextclaw.io/en/download/`
-  - `https://nextclaw.io/zh/download/`
+  - `https://go-usb-ai.io/en/download/`
+  - `https://go-usb-ai.io/zh/download/`
   - 首页下载按钮跳转到对应语言下载页。
 
 ## 用户/产品视角的验收步骤

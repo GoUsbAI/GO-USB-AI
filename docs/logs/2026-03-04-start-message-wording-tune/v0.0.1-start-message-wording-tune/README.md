@@ -2,8 +2,8 @@
 
 ## 迭代完成说明
 
-- 调整 `nextclaw start` 的停止提示文案，移除“Stop later ... only a hint”的表达。
-- 新文案改为更直接的动作引导：`If you need to stop the service, run: nextclaw stop`。
+- 调整 `go-usb-ai start` 的停止提示文案，移除“Stop later ... only a hint”的表达。
+- 新文案改为更直接的动作引导：`If you need to stop the service, run: go-usb-ai stop`。
 
 ## 验证与验收
 

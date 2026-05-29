@@ -11,10 +11,10 @@
 # 测试/验证/验收方式
 
 - 已执行：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx src/components/chat/ui/chat-input-bar/chat-input-bar-selection.test.tsx src/components/chat/ui/chat-input-bar/chat-composer-controller.test.ts src/components/chat/ui/chat-input-bar/chat-composer-dom.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer.utils.test.ts`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-runtime.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx src/components/chat/ui/chat-input-bar/chat-input-bar-selection.test.tsx src/components/chat/ui/chat-input-bar/chat-composer-controller.test.ts src/components/chat/ui/chat-input-bar/chat-composer-dom.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer.utils.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-runtime.ts`
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard`
 - 未执行：
   - Windows 真机 Electron 冒烟。
@@ -23,7 +23,7 @@
 # 发布/部署方式
 
 - 本次未执行发布。
-- 如需随版本发出，按既有前端/桌面发布流程打包即可；如果要把修复带到桌面用户，需确保包含本次 `@nextclaw/agent-chat-ui` 源码变更的桌面构建重新产物化。
+- 如需随版本发出，按既有前端/桌面发布流程打包即可；如果要把修复带到桌面用户，需确保包含本次 `@go-usb-ai/agent-chat-ui` 源码变更的桌面构建重新产物化。
 - 发布前建议补一次 Windows 桌面真机冒烟，再推进桌面安装包更新。
 
 # 用户/产品视角的验收步骤
@@ -47,7 +47,7 @@
   - 更清晰。IME 保护现在明确属于 `ChatComposerRuntime` 的 DOM ownership / input lifecycle 边界；
   - 没有把复杂度转移到 presenter、store 或 React effect，也没有新增额外抽象层。
 - 目录结构与文件组织是否满足当前项目治理要求：
-  - `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar` 目录仍存在历史性平铺超预算问题；
+  - `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar` 目录仍存在历史性平铺超预算问题；
   - 本次 `pnpm lint:maintainability:guard` 给出目录预算警告，但该问题并非本次引入，且本次未新增新的直接文件；
   - 下一步整理入口：按输入 surface / runtime / tests / toolbar 等职责进一步拆目录，降低该子树平铺度。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：

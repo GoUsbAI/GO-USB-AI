@@ -30,5 +30,5 @@
 
 1. 打开对应 tag 的 GitHub Release 页面，确认存在 macOS DMG/mac zip 与 Windows unpacked zip 资产。
 2. 在 macOS 下载 DMG，安装后启动桌面端，确认能正常进入并健康检查可用。
-3. 在 Windows 下载 unpacked zip，解压后启动 `NextClaw Desktop.exe`，确认启动可用且健康检查可用。
+3. 在 Windows 下载 unpacked zip，解压后启动 `GoUsbAi Desktop.exe`，确认启动可用且健康检查可用。
 4. 确认 Release 说明为双语双区块：先 `English Version`，再 `中文版`。

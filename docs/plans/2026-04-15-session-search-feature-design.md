@@ -4,19 +4,19 @@
 
 相关文档：
 
-- [NextClaw 产品愿景](../VISION.md)
-- [NextClaw Hermes-Inspired Learning Loop Implementation Plan](./2026-04-14-nextclaw-hermes-learning-loop-plan.md)
+- [GoUsbAi 产品愿景](../VISION.md)
+- [GoUsbAi Hermes-Inspired Learning Loop Implementation Plan](./2026-04-14-go-usb-ai-hermes-learning-loop-plan.md)
 - [Chat Global Content Search Deferred Design](./2026-04-13-chat-global-content-search-design.md)
 - [Cross-Session Request And Child Session Design](./2026-04-03-cross-session-request-and-child-session-design.md)
-- [nextclaw-agent-session-store.ts](../../packages/nextclaw/src/cli/commands/ncp/nextclaw-agent-session-store.ts)
-- [create-ui-ncp-agent.ts](../../packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts)
-- [nextclaw-ncp-tool-registry.ts](../../packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-tool-registry.ts)
+- [go-usb-ai-agent-session-store.ts](../../packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-agent-session-store.ts)
+- [create-ui-ncp-agent.ts](../../packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts)
+- [go-usb-ai-ncp-tool-registry.ts](../../packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-tool-registry.ts)
 
 ## 1. 这份设计要解决什么
 
 这份设计只回答一件事：
 
-**我们要怎样实现 `session_search`，才能既满足 Hermes-inspired learning loop 的下一阶段需求，又尽量不把 NextClaw 代码库做脏。**
+**我们要怎样实现 `session_search`，才能既满足 Hermes-inspired learning loop 的下一阶段需求，又尽量不把 GoUsbAi 代码库做脏。**
 
 这里的重点不是“搜索能不能做出来”，而是：
 
@@ -32,9 +32,9 @@
 
 最终推荐方案如下：
 
-1. `session_search` 作为 **NextClaw 产品层 feature module** 实现。
-2. 主实现全部放在 `packages/nextclaw/src/cli/commands/ncp/session-search/`。
-3. **不把主实现放进** `packages/ncp-packages/nextclaw-ncp-toolkit/`。
+1. `session_search` 作为 **GoUsbAi 产品层 feature module** 实现。
+2. 主实现全部放在 `packages/go-usb-ai/src/cli/commands/ncp/session-search/`。
+3. **不把主实现放进** `packages/ncp-packages/go-usb-ai-ncp-toolkit/`。
 4. 首版只做：
    - 本地关键词 / FTS 搜索
    - 独立 `session_search` tool
@@ -55,7 +55,7 @@
 
 这次最关键的设计判断之一，就是：
 
-**`nextclaw-ncp-toolkit` 不应该承载 `session_search` 的主实现。**
+**`go-usb-ai-ncp-toolkit` 不应该承载 `session_search` 的主实现。**
 
 原因有四个：
 
@@ -66,7 +66,7 @@
    - 是否默认排除当前 session
    - 将来是否更偏 agent recall 还是 UI 搜索
 
-2. 这些都不是“基础设施最小公约数”，而是 **NextClaw 产品层选择**。
+2. 这些都不是“基础设施最小公约数”，而是 **GoUsbAi 产品层选择**。
 
 3. 如果主实现进了 toolkit，未来要删除或重做 `session_search` 时，就会把产品能力和基础设施耦死。
 
@@ -117,9 +117,9 @@ P1 `session_search` 的目标只有这些：
 
 `session_search` 的大部分代码必须集中在一个独立目录里，而不是散落进：
 
-- `packages/nextclaw-core/src/agent/tools/sessions.ts`
-- `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend-session-persistence.ts`
-- `packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-tool-registry.ts`
+- `packages/go-usb-ai-core/src/agent/tools/sessions.ts`
+- `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend-session-persistence.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-tool-registry.ts`
 
 ### 5.2 Independent query surface
 
@@ -153,7 +153,7 @@ P1 `session_search` 的目标只有这些：
 
 如果未来决定删除 `session_search`，理想情况应该是：
 
-1. 删除 `packages/nextclaw/src/cli/commands/ncp/session-search/`
+1. 删除 `packages/go-usb-ai/src/cli/commands/ncp/session-search/`
 2. 删掉一个初始化点
 3. 删掉一个注册点
 4. 删掉一个 session update hook
@@ -165,7 +165,7 @@ P1 `session_search` 的目标只有这些：
 推荐目录如下：
 
 ```text
-packages/nextclaw/src/cli/commands/ncp/session-search/
+packages/go-usb-ai/src/cli/commands/ncp/session-search/
 ├── session-search.types.ts
 ├── session-search-store.service.ts
 ├── session-search-index.manager.ts
@@ -224,7 +224,7 @@ packages/nextclaw/src/cli/commands/ncp/session-search/
 
 建议职责：
 
-1. 在 NextClaw 启动时初始化索引存储
+1. 在 GoUsbAi 启动时初始化索引存储
 2. 在启动后做一次轻量 reconcile
 3. 响应 `onSessionUpdated(sessionId)` 事件
 4. 暴露 `createTool()` 或 `getTool()` 给 tool registry
@@ -288,13 +288,13 @@ class SessionSearchFeatureService {
 
 `session_search` 不直接接触 toolkit 内部实现细节，而是使用已经存在的会话读模型：
 
-- [NextclawAgentSessionStore](../../packages/nextclaw/src/cli/commands/ncp/nextclaw-agent-session-store.ts)
+- [GoUsbAiAgentSessionStore](../../packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-agent-session-store.ts)
 
 这是一个非常关键的设计点。
 
 理由：
 
-1. 它已经是 NextClaw 产品层的 session 读取抽象
+1. 它已经是 GoUsbAi 产品层的 session 读取抽象
 2. 它隔离了底层 session manager / backend 差异
 3. `session_search` 只需要“读 session record”，不应该知道更多底层细节
 
@@ -303,7 +303,7 @@ class SessionSearchFeatureService {
 建议用独立 SQLite 文件，例如：
 
 ```text
-<nextclaw-data-dir>/session-search.db
+<go-usb-ai-data-dir>/session-search.db
 ```
 
 不要把搜索索引塞进现有 session record。
@@ -384,7 +384,7 @@ type SessionSearchParams = {
 
 ### 11.1 启动接入
 
-在 [create-ui-ncp-agent.ts](../../packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts) 初始化 `SessionSearchFeatureService`。
+在 [create-ui-ncp-agent.ts](../../packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts) 初始化 `SessionSearchFeatureService`。
 
 这里只做两件事：
 
@@ -397,7 +397,7 @@ type SessionSearchParams = {
 
 这个接缝已经存在于：
 
-- `NextclawAgentSessionStore`
+- `GoUsbAiAgentSessionStore`
 - `UiSessionService`
 - `SessionCreationService`
 - `SessionRequestBroker`
@@ -418,16 +418,16 @@ type SessionSearchParams = {
 
 利用现有 `getAdditionalTools` 扩展点，而不是修改 core tool registry 的默认工具集合。
 
-也就是说，在 [create-ui-ncp-agent.ts](../../packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts) 里：
+也就是说，在 [create-ui-ncp-agent.ts](../../packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts) 里：
 
 1. 继续保留已有 asset / MCP tool 注入
 2. 再追加 `sessionSearchFeature.createTool(...)`
 
 这样我们就不需要：
 
-1. 修改 `@nextclaw/core` 的工具集合
+1. 修改 `@go-usb-ai/core` 的工具集合
 2. 修改 `sessions.ts`
-3. 修改 `nextclaw-ncp-tool-registry.ts` 的默认注册逻辑
+3. 修改 `go-usb-ai-ncp-tool-registry.ts` 的默认注册逻辑
 
 这是 feature 可插拔设计里最重要的一步。
 
@@ -440,7 +440,7 @@ type SessionSearchParams = {
 
 reconcile 逻辑：
 
-1. 遍历 `NextclawAgentSessionStore.listSessions()`
+1. 遍历 `GoUsbAiAgentSessionStore.listSessions()`
 2. 对比 `session.updatedAt` 与本地索引 meta
 3. 只重建缺失或过期 session
 
@@ -455,7 +455,7 @@ reconcile 逻辑：
 
 不要把 `session_search` 继续塞进：
 
-- [sessions.ts](../../packages/nextclaw-core/src/agent/tools/sessions.ts)
+- [sessions.ts](../../packages/go-usb-ai-core/src/agent/tools/sessions.ts)
 
 原因：
 
@@ -472,7 +472,7 @@ reconcile 逻辑：
 
 如果按本方案实现，未来删除 `session_search` 的路径应收敛为：
 
-1. 删除 `packages/nextclaw/src/cli/commands/ncp/session-search/`
+1. 删除 `packages/go-usb-ai/src/cli/commands/ncp/session-search/`
 2. 删除 `create-ui-ncp-agent.ts` 中的初始化
 3. 删除 `onSessionUpdated` 的 feature 链接
 4. 删除 `getAdditionalTools` 中的 tool 注入
@@ -488,7 +488,7 @@ reconcile 逻辑：
 
 ### 15.1 我认为好的地方
 
-1. 主实现完全留在 NextClaw 产品层，没有污染 toolkit。
+1. 主实现完全留在 GoUsbAi 产品层，没有污染 toolkit。
 2. 接入点很少，主要利用已存在的两个缝：
    - `onSessionUpdated`
    - `getAdditionalTools`
@@ -520,4 +520,4 @@ reconcile 逻辑：
 
 最终建议只保留一句话：
 
-**把 `session_search` 做成 NextClaw 产品层自己的独立 feature module，通过 `onSessionUpdated` 和 `getAdditionalTools` 两个最小接缝轻量接入；不要把主实现塞进 toolkit，也不要继续堆进现有 sessions 工具文件。**
+**把 `session_search` 做成 GoUsbAi 产品层自己的独立 feature module，通过 `onSessionUpdated` 和 `getAdditionalTools` 两个最小接缝轻量接入；不要把主实现塞进 toolkit，也不要继续堆进现有 sessions 工具文件。**

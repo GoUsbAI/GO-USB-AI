@@ -10,9 +10,9 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui exec vitest run src/components/chat/ChatSidebar.test.tsx src/components/chat/ChatConversationPanel.test.tsx src/components/chat/managers/chat-session-list.manager.test.ts`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui exec eslint src/components/chat/ChatSidebar.tsx src/components/chat/ChatConversationPanel.tsx src/components/chat/legacy/LegacyChatPage.tsx src/components/chat/ncp/NcpChatPage.tsx src/components/chat/stores/chat-thread.store.ts src/components/chat/ChatSidebar.test.tsx src/components/chat/ChatConversationPanel.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui exec vitest run src/components/chat/ChatSidebar.test.tsx src/components/chat/ChatConversationPanel.test.tsx src/components/chat/managers/chat-session-list.manager.test.ts`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/ChatSidebar.tsx src/components/chat/ChatConversationPanel.tsx src/components/chat/legacy/LegacyChatPage.tsx src/components/chat/ncp/NcpChatPage.tsx src/components/chat/stores/chat-thread.store.ts src/components/chat/ChatSidebar.test.tsx src/components/chat/ChatConversationPanel.test.tsx`
 
 ## 发布/部署方式
 

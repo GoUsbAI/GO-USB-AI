@@ -2,7 +2,7 @@
 
 ## Goal
 
-把 `packages/nextclaw/src/cli` 从当前“真实命令、项目内共享能力、历史过渡目录混在一起”的状态，收敛成一套可解释、可治理、可持续迁移的结构。
+把 `packages/go-usb-ai/src/cli` 从当前“真实命令、项目内共享能力、历史过渡目录混在一起”的状态，收敛成一套可解释、可治理、可持续迁移的结构。
 
 这次计划要解决的不是单个目录名字不好看，而是下面三个系统性问题：
 
@@ -47,7 +47,7 @@
 - `lib/` 默认不带项目语义
 - `lib/` 默认不带业务语义
 - `lib/` 默认不带运行时语义
-- 只要一个模块还能被自然描述成 `nextclaw`、`gateway`、`plugin`、`marketplace`、`session runtime`、`service lifecycle` 之类项目内能力，它就不属于 `lib/`
+- 只要一个模块还能被自然描述成 `go-usb-ai`、`gateway`、`plugin`、`marketplace`、`session runtime`、`service lifecycle` 之类项目内能力，它就不属于 `lib/`
 
 ## What This Means For Current CLI
 
@@ -94,7 +94,7 @@
 - `session bridge`
 - `plugin runtime bridge`
 
-这些即使不是用户直接感知的业务 feature，它们仍然强烈绑定 `NextClaw CLI` 项目和运行时语义，因此应优先判定为：
+这些即使不是用户直接感知的业务 feature，它们仍然强烈绑定 `GoUsbAi CLI` 项目和运行时语义，因此应优先判定为：
 
 - 项目内共享能力
 
@@ -141,7 +141,7 @@
 如果某段代码满足下面条件：
 
 - 被多个命令稳定复用
-- 仍然带 `NextClaw CLI` 项目语义
+- 仍然带 `GoUsbAi CLI` 项目语义
 - 不是跨项目通用逻辑
 
 那么它应进入：
@@ -160,7 +160,7 @@
 
 如果某段代码满足下面条件：
 
-- 不带 `NextClaw` 项目语义
+- 不带 `GoUsbAi` 项目语义
 - 不带某个命令语义
 - 脱离当前项目后仍然成立
 
@@ -175,7 +175,7 @@
 ## Target Structure
 
 ```text
-packages/nextclaw/src/cli/
+packages/go-usb-ai/src/cli/
 ├── app/
 │   ├── index.ts
 │   ├── runtime.ts
@@ -335,7 +335,7 @@ packages/nextclaw/src/cli/
 
 改造过程中，每一阶段都要至少通过：
 
-- `pnpm --filter nextclaw tsc`
+- `pnpm --filter go-usb-ai tsc`
 - 受影响命令的定向 `vitest`
 - `pnpm lint:new-code:governance -- <touched files>`
 - 非功能改造时的 maintainability guard

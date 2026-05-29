@@ -35,7 +35,7 @@ type FAQItem = {
 
 type ComparisonRow = {
   dimension: string;
-  values: string[]; // [NextClaw, OpenClaw, NanoBot, ...]
+  values: string[]; // [GoUsbAi, OpenClaw, NanoBot, ...]
 };
 
 type DownloadOption = {
@@ -127,12 +127,12 @@ type LandingCopy = {
 
 declare global {
   interface Window {
-    __NEXTCLAW_LOCALE__?: string;
-    __NEXTCLAW_ROUTE__?: string;
+    __GOUSB_AI_LOCALE__?: string;
+    __GOUSB_AI_ROUTE__?: string;
   }
 }
 
-const LOCALE_STORAGE_KEY = 'nextclaw.landing.locale';
+const LOCALE_STORAGE_KEY = 'go-usb-ai.landing.locale';
 
 const ROUTES: Record<Locale, Record<PageRoute, string>> = {
   en: {
@@ -151,13 +151,13 @@ const LOCALE_OPTIONS: Array<{ value: Locale; label: string }> = [
 ];
 
 const LINKS: Record<'github' | 'npm' | 'discord' | 'wechatGroupImage', string> & { docs: Record<Locale, string> } = {
-  github: 'https://github.com/Peiiii/nextclaw',
-  npm: 'https://www.npmjs.com/package/nextclaw',
+  github: 'https://github.com/Peiiii/go-usb-ai',
+  npm: 'https://www.npmjs.com/package/go-usb-ai',
   discord: 'https://discord.gg/j4Skbgye',
-  wechatGroupImage: '/contact/nextclaw-contact-wechat-group-2026-05-23.png',
+  wechatGroupImage: '/contact/go-usb-ai-contact-wechat-group-2026-05-23.png',
   docs: {
-    en: 'https://docs.nextclaw.io/en/',
-    zh: 'https://docs.nextclaw.io/zh/'
+    en: 'https://docs.go-usb-ai.io/en/',
+    zh: 'https://docs.go-usb-ai.io/zh/'
   }
 };
 
@@ -167,12 +167,12 @@ const COPY: Record<Locale, LandingCopy> = {
     navFeatures: 'Features',
     navDocs: 'Docs',
     navCommunity: 'Community',
-    heroTitleLine1: 'NextClaw',
+    heroTitleLine1: 'GO-USB-AI',
     heroTitleLine2: '',
     heroDescription:
       'Turn your computer into a powerful AI assistant that coordinates agents, skills, CLI tools, automations, and messaging apps.',
     heroDownloadButton: 'Download Desktop',
-    downloadTitle: 'Download NextClaw Desktop',
+    downloadTitle: 'Download GoUsbAi Desktop',
     downloadSubtitle: 'Official installer assets from the latest stable desktop release (macOS + Windows + Linux).',
     downloadVersionLabel: 'Current desktop version',
     downloadDetectedLabel: 'Detected device',
@@ -186,21 +186,21 @@ const COPY: Record<Locale, LandingCopy> = {
     downloadWindowsGuideTitle: 'Windows first launch',
     downloadLinuxGuideTitle: 'Linux first launch',
     downloadMacGuideSteps: [
-      'Open the .dmg and drag NextClaw Desktop.app into Applications.',
+      'Open the .dmg and drag GoUsbAi Desktop.app into Applications.',
       'Double-click the app once. If blocked, click Done.',
       'Go to System Settings -> Privacy & Security, then click Open Anyway.',
-      'If still blocked as damaged, run: xattr -cr "/Applications/NextClaw Desktop.app".'
+      'If still blocked as damaged, run: xattr -cr "/Applications/GoUsbAi Desktop.app".'
     ],
     downloadWindowsGuideSteps: [
       'Run the Setup.exe installer.',
       'Choose the install location and create shortcuts if needed.',
-      'Launch NextClaw Desktop from the desktop or Start menu.',
+      'Launch GoUsbAi Desktop from the desktop or Start menu.',
       'If SmartScreen appears, click More info -> Run anyway.'
     ],
     downloadLinuxGuideSteps: [
       'Download the AppImage file.',
-      'Run: chmod +x NextClaw.Desktop-*.AppImage',
-      'Run: ./NextClaw.Desktop-*.AppImage'
+      'Run: chmod +x GoUsbAi.Desktop-*.AppImage',
+      'Run: ./GoUsbAi.Desktop-*.AppImage'
     ],
     downloadWindowsPortableLabel: 'Need the portable ZIP instead?',
     downloadWindowsPortableDescription: 'Use the unpacked ZIP when you want a no-install fallback or portable copy.',
@@ -240,17 +240,17 @@ const COPY: Record<Locale, LandingCopy> = {
     installOptionDocker: 'Docker Install',
     docsButton: 'Read the Docs',
     githubButton: 'View on GitHub',
-    screenshotChatAlt: 'NextClaw Agent chat',
-    screenshotChatSrc: '/nextclaw-chat-page-en.png',
-    screenshotAlt: 'NextClaw provider management',
-    screenshotSrc: '/nextclaw-providers-page-en.png',
-    screenshotChannelsAlt: 'NextClaw message channels',
-    screenshotChannelsSrc: '/nextclaw-channels-page-en.png',
-    screenshotBrowserAlt: 'NextClaw skills with detail browser',
-    screenshotBrowserSrc: '/nextclaw-skills-doc-browser-en.png',
+    screenshotChatAlt: 'GoUsbAi Agent chat',
+    screenshotChatSrc: '/go-usb-ai-chat-page-en.png',
+    screenshotAlt: 'GoUsbAi provider management',
+    screenshotSrc: '/go-usb-ai-providers-page-en.png',
+    screenshotChannelsAlt: 'GoUsbAi message channels',
+    screenshotChannelsSrc: '/go-usb-ai-channels-page-en.png',
+    screenshotBrowserAlt: 'GoUsbAi skills with detail browser',
+    screenshotBrowserSrc: '/go-usb-ai-skills-doc-browser-en.png',
     featuresTitle: 'Everything you need.',
     featuresSubtitle:
-      'A powerful core wrapped in a seamless interface. Run NextClaw locally or expose it safely.',
+      'A powerful core wrapped in a seamless interface. Run GoUsbAi locally or expose it safely.',
     features: [
       {
         icon: 'layers',
@@ -285,9 +285,9 @@ const COPY: Record<Locale, LandingCopy> = {
       }
     ],
     ctaTitle: 'Ready to upgrade your AI?',
-    ctaDescription: 'Get started with NextClaw in seconds. One command and your gateway is operational.',
+    ctaDescription: 'Get started with GoUsbAi in seconds. One command and your gateway is operational.',
     ctaButton: 'View Documentation',
-    footerProject: 'NextClaw Project',
+    footerProject: 'GoUsbAi Project',
     footerLicense: 'Released under the MIT License.',
     footerDocs: 'Docs',
     footerNpm: 'NPM',
@@ -298,8 +298,8 @@ const COPY: Record<Locale, LandingCopy> = {
     communityWechatLabel: 'WeChat Group QR',
     communityDiscordLabel: 'Join Discord',
     communityScanHint: 'Scan to join',
-    terminalHeader: 'nextclaw - bash',
-    terminalStarted: 'NextClaw started',
+    terminalHeader: 'go-usb-ai - bash',
+    terminalStarted: 'GoUsbAi started',
     copiedText: 'Copied',
     providersTitle: '10+ AI Providers',
     providersSubtitle: 'Switch between any major AI provider. No lock-in, no rewiring.',
@@ -340,16 +340,16 @@ const COPY: Record<Locale, LandingCopy> = {
       { icon: 'box', label: 'Docker' }
     ],
     faqTitle: 'Frequently Asked Questions',
-    faqSubtitle: 'Quick answers to common questions about NextClaw.',
+    faqSubtitle: 'Quick answers to common questions about GoUsbAi.',
     faq: [
       {
-        question: 'What is the difference between NextClaw and OpenClaw?',
-        answer: 'NextClaw is inspired by OpenClaw and stays compatible with its plugin ecosystem. The main differences are: (1) One-command startup with a built-in UI for configuration, (2) Smaller codebase (~1/20 of OpenClaw) for easier maintenance, (3) Better support for Chinese domestic channels like QQ, Feishu, and DingTalk.'
+        question: 'What is the difference between GoUsbAi and OpenClaw?',
+        answer: 'GoUsbAi is inspired by OpenClaw and stays compatible with its plugin ecosystem. The main differences are: (1) One-command startup with a built-in UI for configuration, (2) Smaller codebase (~1/20 of OpenClaw) for easier maintenance, (3) Better support for Chinese domestic channels like QQ, Feishu, and DingTalk.'
       }
     ],
     comparisonTitle: 'Ecosystem Comparison',
-    comparisonSubtitle: 'How NextClaw compares to other projects in the Claw ecosystem.',
-    comparisonProjects: ['NextClaw', 'OpenClaw', 'NanoBot', 'NanoClaw', 'ZeroClaw', 'PicoClaw'],
+    comparisonSubtitle: 'How GoUsbAi compares to other projects in the Claw ecosystem.',
+    comparisonProjects: ['GoUsbAi', 'OpenClaw', 'NanoBot', 'NanoClaw', 'ZeroClaw', 'PicoClaw'],
     comparison: [
       {
         dimension: 'Positioning',
@@ -382,11 +382,11 @@ const COPY: Record<Locale, LandingCopy> = {
     navFeatures: '功能',
     navDocs: '文档',
     navCommunity: '社群',
-    heroTitleLine1: 'NextClaw',
+    heroTitleLine1: 'GO-USB-AI',
     heroTitleLine2: '',
     heroDescription: '把你的电脑变成一个强大的 AI 助手，协调 Agent、技能、CLI 工具、自动化和消息应用。',
     heroDownloadButton: '下载桌面版',
-    downloadTitle: '下载 NextClaw Desktop',
+    downloadTitle: '下载 GoUsbAi Desktop',
     downloadSubtitle: '官网直连最新稳定版 Desktop 产物（macOS + Windows + Linux）。',
     downloadVersionLabel: '当前桌面端版本',
     downloadDetectedLabel: '检测到的设备',
@@ -400,21 +400,21 @@ const COPY: Record<Locale, LandingCopy> = {
     downloadWindowsGuideTitle: 'Windows 首次打开',
     downloadLinuxGuideTitle: 'Linux 首次打开',
     downloadMacGuideSteps: [
-      '打开 .dmg，把 NextClaw Desktop.app 拖到“应用程序”。',
+      '打开 .dmg，把 GoUsbAi Desktop.app 拖到“应用程序”。',
       '先双击一次应用；若系统拦截，先点“完成”。',
       '进入“系统设置 -> 隐私与安全性”，在页面底部点“仍要打开”。',
-      '若仍提示已损坏，执行：xattr -cr "/Applications/NextClaw Desktop.app"。'
+      '若仍提示已损坏，执行：xattr -cr "/Applications/GoUsbAi Desktop.app"。'
     ],
     downloadWindowsGuideSteps: [
       '运行 Setup.exe 安装器。',
       '按向导选择安装目录，并按需勾选桌面或开始菜单快捷方式。',
-      '安装完成后，从桌面快捷方式或开始菜单启动 NextClaw Desktop。',
+      '安装完成后，从桌面快捷方式或开始菜单启动 GoUsbAi Desktop。',
       '若出现 SmartScreen，点“更多信息” -> “仍要运行”。'
     ],
     downloadLinuxGuideSteps: [
       '下载 AppImage 文件。',
-      '执行：chmod +x NextClaw.Desktop-*.AppImage',
-      '执行：./NextClaw.Desktop-*.AppImage'
+      '执行：chmod +x GoUsbAi.Desktop-*.AppImage',
+      '执行：./GoUsbAi.Desktop-*.AppImage'
     ],
     downloadWindowsPortableLabel: '需要便携版 ZIP？',
     downloadWindowsPortableDescription: '如果你想保留免安装备用路径或便携拷贝，可以直接下载解压版 ZIP。',
@@ -454,14 +454,14 @@ const COPY: Record<Locale, LandingCopy> = {
     installOptionDocker: 'Docker 安装',
     docsButton: '查看文档',
     githubButton: '查看 GitHub',
-    screenshotChatAlt: 'NextClaw Agent 对话',
-    screenshotChatSrc: '/nextclaw-chat-page-cn.png',
-    screenshotAlt: 'NextClaw 提供商管理',
-    screenshotSrc: '/nextclaw-providers-page-cn.png',
-    screenshotChannelsAlt: 'NextClaw 消息渠道',
-    screenshotChannelsSrc: '/nextclaw-channels-page-cn.png',
-    screenshotBrowserAlt: 'NextClaw 技能详情浏览器',
-    screenshotBrowserSrc: '/nextclaw-skills-doc-browser-cn.png',
+    screenshotChatAlt: 'GoUsbAi Agent 对话',
+    screenshotChatSrc: '/go-usb-ai-chat-page-cn.png',
+    screenshotAlt: 'GoUsbAi 提供商管理',
+    screenshotSrc: '/go-usb-ai-providers-page-cn.png',
+    screenshotChannelsAlt: 'GoUsbAi 消息渠道',
+    screenshotChannelsSrc: '/go-usb-ai-channels-page-cn.png',
+    screenshotBrowserAlt: 'GoUsbAi 技能详情浏览器',
+    screenshotBrowserSrc: '/go-usb-ai-skills-doc-browser-cn.png',
     featuresTitle: '你需要的能力都在这里。',
     featuresSubtitle: '强大的核心能力与顺手的交互体验统一在一个入口中。',
     features: [
@@ -497,9 +497,9 @@ const COPY: Record<Locale, LandingCopy> = {
       }
     ],
     ctaTitle: '准备好升级你的 AI 工作流了吗？',
-    ctaDescription: '一条命令启动 NextClaw，快速进入可用状态。',
+    ctaDescription: '一条命令启动 GoUsbAi，快速进入可用状态。',
     ctaButton: '进入文档',
-    footerProject: 'NextClaw 项目',
+    footerProject: 'GoUsbAi 项目',
     footerLicense: '基于 MIT License 发布。',
     footerDocs: '文档',
     footerNpm: 'NPM',
@@ -510,8 +510,8 @@ const COPY: Record<Locale, LandingCopy> = {
     communityWechatLabel: '微信群二维码',
     communityDiscordLabel: '加入 Discord',
     communityScanHint: '扫码加群',
-    terminalHeader: 'nextclaw - bash',
-    terminalStarted: 'NextClaw 已启动',
+    terminalHeader: 'go-usb-ai - bash',
+    terminalStarted: 'GoUsbAi 已启动',
     copiedText: '已复制',
     providersTitle: '10+ AI 提供商',
     providersSubtitle: '随时切换任意主流 AI 提供商，不锁定，不重新配置。',
@@ -552,16 +552,16 @@ const COPY: Record<Locale, LandingCopy> = {
       { icon: 'box', label: 'Docker' }
     ],
     faqTitle: '常见问题',
-    faqSubtitle: '关于 NextClaw 的常见问题解答。',
+    faqSubtitle: '关于 GoUsbAi 的常见问题解答。',
     faq: [
       {
-        question: 'NextClaw 和 OpenClaw 有什么区别？',
-        answer: 'NextClaw 受 OpenClaw 启发，但当前定位不是 OpenClaw 兼容层。它更关注把 Agent、技能、CLI 工具、自动化和消息应用集成到一个可控制的本机 AI 助手工作台。'
+        question: 'GoUsbAi 和 OpenClaw 有什么区别？',
+        answer: 'GoUsbAi 受 OpenClaw 启发，但当前定位不是 OpenClaw 兼容层。它更关注把 Agent、技能、CLI 工具、自动化和消息应用集成到一个可控制的本机 AI 助手工作台。'
       }
     ],
     comparisonTitle: '生态对比',
-    comparisonSubtitle: 'NextClaw 与 Claw 生态其他项目的横向对比。',
-    comparisonProjects: ['NextClaw', 'OpenClaw', 'NanoBot', 'NanoClaw', 'ZeroClaw', 'PicoClaw'],
+    comparisonSubtitle: 'GoUsbAi 与 Claw 生态其他项目的横向对比。',
+    comparisonProjects: ['GoUsbAi', 'OpenClaw', 'NanoBot', 'NanoClaw', 'ZeroClaw', 'PicoClaw'],
     comparison: [
       {
         dimension: '核心定位',
@@ -621,8 +621,8 @@ function persistLocale(locale: Locale): void {
 }
 
 function resolvePageLocale(): Locale {
-  if (isLocale(window.__NEXTCLAW_LOCALE__)) {
-    return window.__NEXTCLAW_LOCALE__;
+  if (isLocale(window.__GOUSB_AI_LOCALE__)) {
+    return window.__GOUSB_AI_LOCALE__;
   }
 
   const pathLocale = window.location.pathname.split('/')[1];
@@ -640,8 +640,8 @@ function resolvePageLocale(): Locale {
 }
 
 function resolvePageRoute(): PageRoute {
-  if (isPageRoute(window.__NEXTCLAW_ROUTE__)) {
-    return window.__NEXTCLAW_ROUTE__;
+  if (isPageRoute(window.__GOUSB_AI_ROUTE__)) {
+    return window.__GOUSB_AI_ROUTE__;
   }
 
   const [, maybeLocale, maybeRoute] = window.location.pathname.split('/');
@@ -719,8 +719,8 @@ class LandingPage {
         <header class="fixed top-0 w-full z-50 glass border-b transition-all duration-300">
           <div class="container mx-auto px-6 h-16 flex items-center justify-between">
             <a id="home-link" href="${homeRoute}" class="flex items-center gap-2 group cursor-pointer">
-              <img src="/logo-phoenix.svg" alt="NextClaw" class="w-8 h-8 transition-transform group-hover:scale-105" />
-              <span class="font-semibold text-lg tracking-tight">NextClaw</span>
+              <img src="/logo-phoenix.svg" alt="GoUsbAi" class="w-8 h-8 transition-transform group-hover:scale-105" />
+              <span class="font-semibold text-lg tracking-tight">GoUsbAi</span>
             </a>
             <nav class="hidden md:flex gap-8 text-sm font-medium">
               <a href="${downloadRoute}" class="text-muted-foreground hover:text-foreground transition-colors">${this.copy.navDownload}</a>
@@ -983,13 +983,13 @@ class LandingPage {
         ${this.locale === 'zh' ? `
         <section class="py-20 px-6 z-10 w-full max-w-5xl mx-auto">
           <div class="text-center mb-10">
-            <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">一图看懂 NextClaw</h2>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">一图看懂 GoUsbAi</h2>
             <p class="text-muted-foreground text-lg max-w-2xl mx-auto">核心优势、生态定位与技术对比，一目了然。</p>
           </div>
           <div class="glass-card rounded-2xl overflow-hidden border border-border/50 shadow-xl">
             <img
-              src="/nextclaw-omni-assistant-cn.jpg"
-              alt="NextClaw 产品全景：核心优势、生态对比与自动化功能"
+              src="/go-usb-ai-omni-assistant-cn.jpg"
+              alt="GoUsbAi 产品全景：核心优势、生态对比与自动化功能"
               class="w-full h-auto"
               loading="lazy"
             />
@@ -1096,7 +1096,7 @@ class LandingPage {
                 <svg class="w-12 h-12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.075.075 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
               </div>
               <span class="font-medium text-foreground text-lg">${this.copy.communityDiscordLabel}</span>
-              <span class="text-sm text-muted-foreground">NextClaw / OpenClaw</span>
+              <span class="text-sm text-muted-foreground">GoUsbAi / OpenClaw</span>
             </a>
           </div>
         </section>
@@ -1105,7 +1105,7 @@ class LandingPage {
         <footer class="w-full border-t border-border/40 py-10 z-10 bg-background/50 backdrop-blur-sm mt-auto">
           <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-2 opacity-80">
-              <img src="/logo-phoenix.svg" alt="NextClaw" class="w-6 h-6" />
+              <img src="/logo-phoenix.svg" alt="GoUsbAi" class="w-6 h-6" />
               <span class="font-medium text-sm">${this.copy.footerProject}</span>
             </div>
             <div class="text-sm text-muted-foreground">${this.copy.footerLicense}</div>
@@ -1346,9 +1346,9 @@ class LandingPage {
 
   private getInstallCommand = (mode: InstallMode = this.activeInstallMode): string => {
     if (mode === 'docker') {
-      return 'curl -fsSL https://nextclaw.io/install-docker.sh | bash';
+      return 'curl -fsSL https://go-usb-ai.io/install-docker.sh | bash';
     }
-    return 'npm install -g nextclaw && nextclaw start';
+    return 'npm install -g go-usb-ai && go-usb-ai start';
   };
 
   private runTerminalAnimation = (): void => {

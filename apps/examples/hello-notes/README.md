@@ -10,8 +10,8 @@
 napp inspect ./apps/examples/hello-notes
 napp pack ./apps/examples/hello-notes
 napp install ./apps/examples/hello-notes
-napp grant nextclaw.hello-notes --document notes=/absolute/path/to/notes
-napp run nextclaw.hello-notes
+napp grant go-usb-ai.hello-notes --document notes=/absolute/path/to/notes
+napp run go-usb-ai.hello-notes
 ```
 
 ## Publish workflow

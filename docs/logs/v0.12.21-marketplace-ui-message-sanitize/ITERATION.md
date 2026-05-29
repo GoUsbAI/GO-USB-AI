@@ -12,18 +12,18 @@
 ## 测试/验证/验收方式
 
 - 单测：
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/service.summary.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/service.summary.test.ts`
 - 构建与静态检查：
-  - `pnpm -C packages/nextclaw build`
-  - `pnpm -C packages/nextclaw lint`
-  - `pnpm -C packages/nextclaw tsc`
+  - `pnpm -C packages/go-usb-ai build`
+  - `pnpm -C packages/go-usb-ai lint`
+  - `pnpm -C packages/go-usb-ai tsc`
 - 冒烟（真实调用服务安装流程，模拟子命令输出含绝对路径）：
-  - `pnpm -C packages/nextclaw exec tsx -e "import { ServiceCommands } from './src/cli/commands/service.ts'; (async () => { const svc:any = new ServiceCommands({ requestRestart: async () => {} }); svc.runCliSubcommand = async () => '✓ Installed docx (marketplace)\\nPath: /Users/tongwenwen/.nextclaw/workspace/skills/docx'; const res = await svc.installMarketplaceSkill({ slug: 'docx', kind: 'marketplace' }); console.log(JSON.stringify(res)); })();"`
+  - `pnpm -C packages/go-usb-ai exec tsx -e "import { ServiceCommands } from './src/cli/commands/service.ts'; (async () => { const svc:any = new ServiceCommands({ requestRestart: async () => {} }); svc.runCliSubcommand = async () => '✓ Installed docx (marketplace)\\nPath: /Users/tongwenwen/.go-usb-ai/workspace/skills/docx'; const res = await svc.installMarketplaceSkill({ slug: 'docx', kind: 'marketplace' }); console.log(JSON.stringify(res)); })();"`
   - 预期输出：`{"message":"✓ Installed docx (marketplace)"}`（无绝对路径）。
 
 ## 发布/部署方式
 
-- 此变更在 `nextclaw` CLI/UI API 层，按常规发布 `nextclaw` 包即可。
+- 此变更在 `go-usb-ai` CLI/UI API 层，按常规发布 `go-usb-ai` 包即可。
 - 若与 marketplace worker 同轮发布，沿用既有 worker 发布闭环，不影响本改动生效判定。
 
 ## 用户/产品视角的验收步骤

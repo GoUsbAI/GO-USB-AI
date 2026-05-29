@@ -3,26 +3,26 @@
 ## 迭代完成说明（改了什么）
 - 新增 GitHub Actions 工作流 [`ncp-smoke.yml`](../../../.github/workflows/ncp-smoke.yml)：
   - 触发条件：`pull_request`、`push`（`master/main`）和 `workflow_dispatch`。
-  - 触发范围：`@nextclaw/ncp`、`@nextclaw/ncp-agent-runtime`、`@nextclaw/ncp-http-agent-server`、`@nextclaw/ncp-http-agent-client` 相关路径及锁文件/根脚本变更。
+  - 触发范围：`@go-usb-ai/ncp`、`@go-usb-ai/ncp-agent-runtime`、`@go-usb-ai/ncp-http-agent-server`、`@go-usb-ai/ncp-http-agent-client` 相关路径及锁文件/根脚本变更。
   - 校验项：受影响包 `lint`、`tsc`、`build`、测试（server/client）以及 runtime 端到端冒烟（`run.started -> message.completed -> run.finished`）。
 - 本次未修改用户并行进行中的业务实现文件，仅新增 workflow 与迭代日志。
 
 ## 测试/验证/验收方式
 - 本地按 workflow 同等命令完整执行（作为 workflow 可行性预验证）：
-  - `pnpm -C packages/nextclaw-ncp lint`
-  - `pnpm -C packages/nextclaw-ncp-agent-runtime lint`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-server lint`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-client lint`
-  - `pnpm -C packages/nextclaw-ncp tsc`
-  - `pnpm -C packages/nextclaw-ncp-agent-runtime tsc`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-server tsc`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-client tsc`
-  - `pnpm -C packages/nextclaw-ncp build`
-  - `pnpm -C packages/nextclaw-ncp-agent-runtime build`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-server build`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-client build`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-server test`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-client test`
+  - `pnpm -C packages/go-usb-ai-ncp lint`
+  - `pnpm -C packages/go-usb-ai-ncp-agent-runtime lint`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-server lint`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-client lint`
+  - `pnpm -C packages/go-usb-ai-ncp tsc`
+  - `pnpm -C packages/go-usb-ai-ncp-agent-runtime tsc`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-server tsc`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-client tsc`
+  - `pnpm -C packages/go-usb-ai-ncp build`
+  - `pnpm -C packages/go-usb-ai-ncp-agent-runtime build`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-server build`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-client build`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-server test`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-client test`
   - `node --input-type=module <<'EOF' ... EOF`（与 workflow 一致的 runtime 冒烟脚本）
 - 验证通过标准：
   - 全部命令退出码为 `0`

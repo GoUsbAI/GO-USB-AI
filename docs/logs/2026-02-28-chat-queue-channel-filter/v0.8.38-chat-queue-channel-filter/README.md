@@ -14,9 +14,9 @@
 
 关键文件：
 
-- `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
-- `packages/nextclaw-ui/src/lib/chat-message.ts`
-- `packages/nextclaw-ui/src/lib/i18n.ts`
+- `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
+- `packages/go-usb-ai-ui/src/lib/chat-message.ts`
+- `packages/go-usb-ai-ui/src/lib/i18n.ts`
 - `docs/USAGE.md`
 
 ## 测试 / 验证 / 验收方式
@@ -24,14 +24,14 @@
 已执行：
 
 - 定向验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
 - 全量验证（发布链路内执行）：
   - `PATH=/opt/homebrew/bin:$PATH pnpm build`
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`
-- 冒烟（非仓库目录，隔离 `NEXTCLAW_HOME`）：
-  - 启动：`NEXTCLAW_HOME=/tmp/... node packages/nextclaw/dist/cli/index.js ui --port 18812 --no-open`
+- 冒烟（非仓库目录，隔离 `GOUSB_AI_HOME`）：
+  - 启动：`GOUSB_AI_HOME=/tmp/... node packages/go-usb-ai/dist/cli/index.js ui --port 18812 --no-open`
   - `GET /api/health` 返回 `{"ok":true,"data":{"status":"ok"}}`
   - `POST /api/chat/turn/stream` 可收到 `event: ready`，未配置 provider 时返回明确 `event: error`（预期）
 - 归并逻辑冒烟：
@@ -45,12 +45,12 @@
 
 本轮发布结果：
 
-- `nextclaw@0.8.38`
-- `@nextclaw/ui@0.5.26`
+- `go-usb-ai@0.8.38`
+- `@go-usb-ai/ui@0.5.26`
 
 ## 用户 / 产品视角的验收步骤
 
-1. 启动：`nextclaw start`
+1. 启动：`go-usb-ai start`
 2. 打开 UI：`http://127.0.0.1:18791`，进入 Chat 页面。
 3. 发送一条会触发工具调用的问题，确认“工具结果 + 紧随解释”在同一卡片内展示。
 4. 在 AI 还在回复时继续输入并点击发送，确认新消息进入队列并在当前回复结束后自动发送。

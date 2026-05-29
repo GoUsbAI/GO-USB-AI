@@ -3,14 +3,14 @@
 ## 迭代完成说明
 
 - 根因：`pnpm dev start` 在真正启动 Vite 前会先等待后端 ready；原先 30 秒超时在冷启动、并发 dev 实例或插件加载较慢时偏短，导致 runner 已打印前端 URL 但尚未 spawn 前端进程就失败退出。
-- 确认方式：使用隔离 `NEXTCLAW_HOME` 和独立端口复现，观察到后端有时超过 30 秒才开始监听；前端日志只会在后端 ready 后出现。
+- 确认方式：使用隔离 `GOUSB_AI_HOME` 和独立端口复现，观察到后端有时超过 30 秒才开始监听；前端日志只会在后端 ready 后出现。
 - 修复：保持 30 秒后端 ready 超时；ready 判定改为真实 HTTP API 探测；前端 URL 只在后端 ready、即将启动 Vite 时打印；启动失败时清理已启动子进程，避免残留进程继续占端口并诱发下一轮 fallback。
 
 ## 测试/验证/验收方式
 
 - `node --check scripts/dev/dev-runner.mjs`
 - `pnpm exec eslint scripts/dev/dev-runner.mjs`
-- `NEXTCLAW_HOME=$(mktemp -d /tmp/nextclaw-dev-smoke4.XXXXXX) NEXTCLAW_DEV_BACKEND_PORT=19062 NEXTCLAW_DEV_FRONTEND_PORT=5262 pnpm dev start`
+- `GOUSB_AI_HOME=$(mktemp -d /tmp/go-usb-ai-dev-smoke4.XXXXXX) GOUSB_AI_DEV_BACKEND_PORT=19062 GOUSB_AI_DEV_FRONTEND_PORT=5262 pnpm dev start`
 - `curl http://127.0.0.1:19062/api/app/meta`
 - `curl http://127.0.0.1:5262/`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths scripts/dev/dev-runner.mjs`

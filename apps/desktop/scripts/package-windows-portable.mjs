@@ -81,9 +81,9 @@ async function packagePortable() {
   }
 
   const stagingRoot = resolve(releaseDir, `portable-${arch}-staging`);
-  const portableRoot = join(stagingRoot, "NextClaw-Portable");
+  const portableRoot = join(stagingRoot, "GoUsbAi-Portable");
   const outputPath = resolve(
-    readArgValue("--output", join(releaseDir, `NextClaw-Portable-${version}-win-${arch}.zip`))
+    readArgValue("--output", join(releaseDir, `GoUsbAi-Portable-${version}-win-${arch}.zip`))
   );
 
   rmSync(stagingRoot, { recursive: true, force: true });
@@ -93,8 +93,8 @@ async function packagePortable() {
     filter: (source) => basename(source) !== "debug.log"
   });
   await writeFile(
-    join(portableRoot, "nextclaw-portable.json"),
-    `${JSON.stringify({ kind: "nextclaw-portable", version: 1 }, null, 2)}\n`,
+    join(portableRoot, "go-usb-ai-portable.json"),
+    `${JSON.stringify({ kind: "go-usb-ai-portable", version: 1 }, null, 2)}\n`,
     "utf8"
   );
 

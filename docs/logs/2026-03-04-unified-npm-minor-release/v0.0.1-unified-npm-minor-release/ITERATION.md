@@ -5,17 +5,17 @@
 - 按统一 `minor` 策略完成本轮累计变更发布。
 - 执行发布流程：`release:version` -> `release:publish`（含 readme 同步检查、build/lint/tsc）。
 - 实际发布到 npm 的包：
-  - `nextclaw@0.9.0`
-  - `@nextclaw/ui@0.6.0`
-  - `@nextclaw/core@0.7.0`
-  - `@nextclaw/server@0.6.0`
-  - `@nextclaw/openclaw-compat@0.2.0`
-  - `@nextclaw/channel-runtime@0.1.29`
-  - `@nextclaw/nextclaw-engine-codex-sdk@0.2.0`
-  - `@nextclaw/nextclaw-engine-claude-agent-sdk@0.2.0`
+  - `go-usb-ai@0.9.0`
+  - `@go-usb-ai/ui@0.6.0`
+  - `@go-usb-ai/core@0.7.0`
+  - `@go-usb-ai/server@0.6.0`
+  - `@go-usb-ai/openclaw-compat@0.2.0`
+  - `@go-usb-ai/channel-runtime@0.1.29`
+  - `@go-usb-ai/go-usb-ai-engine-codex-sdk@0.2.0`
+  - `@go-usb-ai/go-usb-ai-engine-claude-agent-sdk@0.2.0`
 - 对首次发布的 engine 包补做 npm 访问级别设置：
-  - `npm access set status=public @nextclaw/nextclaw-engine-codex-sdk`
-  - `npm access set status=public @nextclaw/nextclaw-engine-claude-agent-sdk`
+  - `npm access set status=public @go-usb-ai/go-usb-ai-engine-codex-sdk`
+  - `npm access set status=public @go-usb-ai/go-usb-ai-engine-claude-agent-sdk`
 
 ## 测试/验证/验收方式
 
@@ -24,18 +24,18 @@
 - `PATH=/opt/homebrew/bin:$PATH pnpm release:version`
 - `PATH=/opt/homebrew/bin:$PATH pnpm release:publish`
 - 发布后版本核验（/tmp 环境）：
-  - `npm view nextclaw version`
-  - `npm view @nextclaw/ui version`
-  - `npm view @nextclaw/core version`
-  - `npm view @nextclaw/server version`
-  - `npm view @nextclaw/openclaw-compat version`
-  - `npm view @nextclaw/channel-runtime version`
-  - `npm view @nextclaw/nextclaw-engine-codex-sdk version`
-  - `npm view @nextclaw/nextclaw-engine-claude-agent-sdk version`
+  - `npm view go-usb-ai version`
+  - `npm view @go-usb-ai/ui version`
+  - `npm view @go-usb-ai/core version`
+  - `npm view @go-usb-ai/server version`
+  - `npm view @go-usb-ai/openclaw-compat version`
+  - `npm view @go-usb-ai/channel-runtime version`
+  - `npm view @go-usb-ai/go-usb-ai-engine-codex-sdk version`
+  - `npm view @go-usb-ai/go-usb-ai-engine-claude-agent-sdk version`
 - 冒烟（非仓库目录）：
-  - 在 `/tmp` 下执行 `npm init -y && npm install nextclaw@0.9.0`
-  - 执行 `./node_modules/.bin/nextclaw --version`
-  - 执行 `./node_modules/.bin/nextclaw --help`
+  - 在 `/tmp` 下执行 `npm init -y && npm install go-usb-ai@0.9.0`
+  - 执行 `./node_modules/.bin/go-usb-ai --version`
+  - 执行 `./node_modules/.bin/go-usb-ai --help`
 
 ### 结果
 
@@ -52,9 +52,9 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 在任意干净目录执行：`npm i nextclaw@0.9.0`。
-2. 执行：`nextclaw --version`，应输出 `0.9.0`。
-3. 执行：`nextclaw --help`，应正常展示命令列表。
+1. 在任意干净目录执行：`npm i go-usb-ai@0.9.0`。
+2. 执行：`go-usb-ai --version`，应输出 `0.9.0`。
+3. 执行：`go-usb-ai --help`，应正常展示命令列表。
 4. 如使用 UI 集成能力，安装后启动并确认 UI 资源可正常加载。
 
 ## 文档影响检查

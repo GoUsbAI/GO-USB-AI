@@ -6,8 +6,8 @@
 
 根因说明：
 
-- 根因不是后端把资源强制做成下载。资源内容接口 [`ncp-attachment.controller.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-server/src/ui/ui-routes/ncp-attachment.controller.ts) 已经返回 `content-disposition: inline`。
-- 真正的根因在前端附件渲染层：[`chat-message-file/index.tsx`](/Users/peiwang/Projects/nextbot/packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx) 只给图片做了内联预览；即便 [`meta.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/meta.ts) 已经把文件分成 `audio` / `video`，最终仍统一降级成带链接的文件卡片。
+- 根因不是后端把资源强制做成下载。资源内容接口 [`ncp-attachment.controller.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-server/src/ui/ui-routes/ncp-attachment.controller.ts) 已经返回 `content-disposition: inline`。
+- 真正的根因在前端附件渲染层：[`chat-message-file/index.tsx`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx) 只给图片做了内联预览；即便 [`meta.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/meta.ts) 已经把文件分成 `audio` / `video`，最终仍统一降级成带链接的文件卡片。
 - 在继续排查真实 MP3 会话后确认还有第二层根因：历史 `asset_put` 产物里存在 `chill_beats.mp3` 这类文件名正确、文件内容正确，但资产元数据 `mimeType` 被记成 `application/octet-stream` 的情况。前端播放器此前把这个泛型 MIME 原样写进 `<source type>`，浏览器会把它当作不支持的媒体源，结果就是界面出现播放器壳子，但时长始终 `0:00 / 0:00`、播放按钮不可用。
 - 根因确认方式：
   - 对比前端分类逻辑与渲染逻辑，发现 `audio/video` 仅参与配色与图标，不参与播放器渲染分支。
@@ -30,25 +30,25 @@
 
 主要代码入口：
 
-- [chat-message-file/index.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx)
-- [chat-message-file/meta.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/meta.ts)
-- [chat-message-list.attachments.test.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/chat-message-list.attachments.test.tsx)
-- [asset-store.ts](/Users/peiwang/Projects/nextbot/packages/ncp-packages/nextclaw-ncp-agent-runtime/src/asset-store.ts)
-- [ncp-attachment.controller.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-server/src/ui/ui-routes/ncp-attachment.controller.ts)
+- [chat-message-file/index.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx)
+- [chat-message-file/meta.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/meta.ts)
+- [chat-message-list.attachments.test.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/chat-message-list.attachments.test.tsx)
+- [asset-store.ts](/Users/peiwang/Projects/nextbot/packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/asset-store.ts)
+- [ncp-attachment.controller.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-server/src/ui/ui-routes/ncp-attachment.controller.ts)
 
 ## 测试/验证/验收方式
 
 已执行：
 
-- `pnpm exec eslint packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/chat-message-list.attachments.test.tsx`
-- `pnpm exec eslint packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/meta.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/chat-message-list.attachments.test.tsx packages/ncp-packages/nextclaw-ncp-agent-runtime/src/asset-store.ts packages/ncp-packages/nextclaw-ncp-agent-runtime/src/attachment-store.test.ts packages/nextclaw-server/src/ui/ui-routes/ncp-attachment.controller.ts packages/nextclaw-server/src/ui/router.ncp-agent.test.ts`
-- `pnpm --dir packages/nextclaw-agent-chat-ui test src/components/chat/ui/chat-message-list/__tests__/chat-message-list.attachments.test.tsx`
-- `pnpm --dir packages/ncp-packages/nextclaw-ncp-agent-runtime test src/attachment-store.test.ts`
-- `pnpm --dir packages/nextclaw-server test src/ui/router.ncp-agent.test.ts`
-- `pnpm --dir packages/nextclaw-agent-chat-ui tsc`
-- `pnpm --dir packages/ncp-packages/nextclaw-ncp-agent-runtime tsc`
-- `pnpm --dir packages/nextclaw-server tsc`
-- `pnpm --dir packages/nextclaw-agent-chat-ui lint`
+- `pnpm exec eslint packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/chat-message-list.attachments.test.tsx`
+- `pnpm exec eslint packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/index.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file/meta.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/chat-message-list.attachments.test.tsx packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/asset-store.ts packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/attachment-store.test.ts packages/go-usb-ai-server/src/ui/ui-routes/ncp-attachment.controller.ts packages/go-usb-ai-server/src/ui/router.ncp-agent.test.ts`
+- `pnpm --dir packages/go-usb-ai-agent-chat-ui test src/components/chat/ui/chat-message-list/__tests__/chat-message-list.attachments.test.tsx`
+- `pnpm --dir packages/ncp-packages/go-usb-ai-ncp-agent-runtime test src/attachment-store.test.ts`
+- `pnpm --dir packages/go-usb-ai-server test src/ui/router.ncp-agent.test.ts`
+- `pnpm --dir packages/go-usb-ai-agent-chat-ui tsc`
+- `pnpm --dir packages/ncp-packages/go-usb-ai-ncp-agent-runtime tsc`
+- `pnpm --dir packages/go-usb-ai-server tsc`
+- `pnpm --dir packages/go-usb-ai-agent-chat-ui lint`
 
 结果：
 
@@ -56,11 +56,11 @@
 - 附件测试通过，现有 7 条附件相关测试全部通过，其中包含 `application/octet-stream + .mp3` 的回归测试。
 - 资产存储测试通过，确认未来新入库 `.mp3` 会默认写成 `audio/mpeg`。
 - 服务端路由测试通过，确认历史 `octet-stream` 音频资产会以推断后的 `audio/mpeg` 响应。
-- `@nextclaw/agent-chat-ui`、`@nextclaw/ncp-agent-runtime`、`@nextclaw/server` 的 `tsc` 均通过。
+- `@go-usb-ai/agent-chat-ui`、`@go-usb-ai/ncp-agent-runtime`、`@go-usb-ai/server` 的 `tsc` 均通过。
 - 包级 `lint` 仍失败，但失败项均为历史存量，未包含本次触达文件。当前已确认的历史失败文件包括：
-  - `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
-  - `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-plugins.tsx`
-  - `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-input-bar-tokenized-composer.tsx`
+  - `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+  - `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-plugins.tsx`
+  - `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-input-bar-tokenized-composer.tsx`
 
 ## 发布/部署方式
 
@@ -68,8 +68,8 @@
 
 按现有交付链路处理即可：
 
-- 仓库内集成交付时，随 NextClaw 前端正常构建发布。
-- 若后续需要对外发布共享聊天 UI 包，则在统一 release batch 中带上 `@nextclaw/agent-chat-ui`。
+- 仓库内集成交付时，随 GoUsbAi 前端正常构建发布。
+- 若后续需要对外发布共享聊天 UI 包，则在统一 release batch 中带上 `@go-usb-ai/agent-chat-ui`。
 
 ## 用户/产品视角的验收步骤
 
@@ -135,7 +135,7 @@
 - 本次是否需要发包：本次不单独发包。
 - 原因：当前任务目标是修正聊天附件媒体体验，代码已落在共享 UI 包中，但本次未执行统一 release batch。
 - 涉及包：
-  - `@nextclaw/agent-chat-ui`：本次已变更代码，当前状态为 `待统一发布`。
+  - `@go-usb-ai/agent-chat-ui`：本次已变更代码，当前状态为 `待统一发布`。
 - 已知阻塞或触发条件：
   - 需要等下一次统一前端/共享 UI 发布批次一起处理。
   - 本次未执行 `changeset`、`version` 或 `publish` 流程。

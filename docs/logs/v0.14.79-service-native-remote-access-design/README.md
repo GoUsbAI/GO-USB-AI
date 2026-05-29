@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-- 新增长期方案设计文档，明确 NextClaw remote access 的长期主线应从“前台 `remote connect` 命令”升级为“主服务内建 remote capability”。
+- 新增长期方案设计文档，明确 GoUsbAi remote access 的长期主线应从“前台 `remote connect` 命令”升级为“主服务内建 remote capability”。
 - 文档重点给出：
   - Service-Native Remote Access 的总体架构
   - 可插拔但不过度抽象的模块边界
@@ -12,7 +12,7 @@
   - 认证与安全升级方向
   - 迁移路径与验收标准
 - 设计文档：
-  - [NextClaw Service-Native Remote Access Design](../../../docs/plans/2026-03-19-nextclaw-service-native-remote-design.md)
+  - [GoUsbAi Service-Native Remote Access Design](../../../docs/plans/2026-03-19-go-usb-ai-service-native-remote-design.md)
 
 ## 测试 / 验证 / 验收方式
 
@@ -32,7 +32,7 @@
 1. 阅读设计文档，确认长期主张已经收敛为“remote 并入主服务”，而不是继续维护独立前台 connector 主路径。
 2. 确认可插拔边界只落在 relay、registry、ticket、forwarder 等变化点，没有把整个 remote 做成重量级插件系统。
 3. 确认未来用户主路径已经定义为：
-   - `nextclaw remote enable`
-   - `nextclaw start`
-   - `nextclaw remote status`
+   - `go-usb-ai remote enable`
+   - `go-usb-ai start`
+   - `go-usb-ai remote status`
 4. 确认文档中明确要求日志脱敏和短期 relay ticket，避免当前 token 直接暴露的问题继续存在。

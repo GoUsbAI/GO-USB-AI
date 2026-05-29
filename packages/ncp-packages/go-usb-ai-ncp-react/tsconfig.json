@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "noEmit": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "types": ["node", "react"],
+    "baseUrl": ".",
+    "paths": {
+      "@go-usb-ai/ncp": ["../go-usb-ai-ncp/src/index.ts"],
+      "@go-usb-ai/ncp/*": ["../go-usb-ai-ncp/src/*"],
+      "@go-usb-ai/ncp-toolkit": ["../go-usb-ai-ncp-toolkit/src/index.ts"],
+      "@go-usb-ai/ncp-toolkit/*": ["../go-usb-ai-ncp-toolkit/src/*"],
+      "@go-usb-ai/shared": ["../../go-usb-ai-shared/src/index.ts"],
+      "@go-usb-ai/shared/*": ["../../go-usb-ai-shared/src/*"]
+    }
+  },
+  "include": ["src"]
+}

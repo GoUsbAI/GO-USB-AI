@@ -8,16 +8,16 @@
 
 ## 测试/验证/验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- MarketplacePage.test.tsx`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/marketplace/MarketplacePage.tsx src/components/marketplace/MarketplacePage.test.tsx`
-- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/marketplace/MarketplacePage.tsx packages/nextclaw-ui/src/components/marketplace/MarketplacePage.test.tsx`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- MarketplacePage.test.tsx`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/marketplace/MarketplacePage.tsx src/components/marketplace/MarketplacePage.test.tsx`
+- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/marketplace/MarketplacePage.tsx packages/go-usb-ai-ui/src/components/marketplace/MarketplacePage.test.tsx`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
   - 当前失败，原因是仓库内既有 chat 相关类型错误，与本次 marketplace 改动无关。
 
 ## 发布/部署方式
 
 - 本次仅为前端 UI 微调，无需单独发布。
-- 随下一次前端常规发布进入产线；若需单独验证，可在前端发布流程中包含 `@nextclaw/ui` 的构建与分发。
+- 随下一次前端常规发布进入产线；若需单独验证，可在前端发布流程中包含 `@go-usb-ai/ui` 的构建与分发。
 
 ## 用户/产品视角的验收步骤
 

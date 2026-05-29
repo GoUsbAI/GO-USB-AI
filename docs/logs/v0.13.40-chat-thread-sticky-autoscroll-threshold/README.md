@@ -11,10 +11,10 @@
 
 ## 测试/验证/验收方式
 
-- 影响面：`packages/nextclaw-ui`（Chat 页面滚动体验）。
+- 影响面：`packages/go-usb-ai-ui`（Chat 页面滚动体验）。
 - 执行命令：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 - 结果：`tsc` 与 `build` 均通过。
 - 冒烟验收建议：
   - 打开 chat 会话，确保滚动条处于底部（或底部 10px 内）；

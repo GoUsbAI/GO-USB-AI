@@ -2,12 +2,12 @@
 
 ## 这份文档回答什么
 
-这份文档沉淀本轮关于 `OpenClaw ACP / acpx / sessions_spawn` 与 `NextClaw` 当前 `NCP runtime plugin` 体系的讨论结论，重点回答：
+这份文档沉淀本轮关于 `OpenClaw ACP / acpx / sessions_spawn` 与 `GoUsbAi` 当前 `NCP runtime plugin` 体系的讨论结论，重点回答：
 
 1. `OpenClaw` 在 `Codex ACP` 这条路径上到底做了什么。
 2. `acpx` 是什么，它在架构中处于哪一层。
 3. 为什么我们不应把系统直接绑死到 `acpx`，但又应认真吸收它的优势。
-4. `NextClaw` 当前已经有什么基础，缺的又是什么。
+4. `GoUsbAi` 当前已经有什么基础，缺的又是什么。
 5. 我们接下来应该把系统演进到什么方向。
 
 这不是一份“立刻实现某个小功能”的任务单，而是一份上层架构收敛文档，用于后续继续讨论、拆计划或直接进入实现。
@@ -20,7 +20,7 @@
 - 它真正做出来的是一套“外部 coding agent 会话托管框架”。
 - `Codex` 只是这套框架当前支持的一个外部 harness。
 
-与此同时，`NextClaw` 当前并不是一片空白。
+与此同时，`GoUsbAi` 当前并不是一片空白。
 
 我们仓库已经有：
 
@@ -81,11 +81,11 @@ Codex / Claude / Cursor / Gemini
 
 这使得 `OpenClaw` 的系统气质从“有多个功能”升级成了“有一套更高阶的 Agent orchestration shell”。
 
-## 对 NextClaw 当前状态的关键判断
+## 对 GoUsbAi 当前状态的关键判断
 
 ### 1. 我们已经有对的底座
 
-`NextClaw` 当前并不是缺少 runtime 插件化。
+`GoUsbAi` 当前并不是缺少 runtime 插件化。
 
 相反，我们已经有：
 
@@ -146,11 +146,11 @@ Codex / Claude / Cursor / Gemini
 
 因此，长期正确方向不是：
 
-- “把 NextClaw 做成 acpx 的 UI 壳”
+- “把 GoUsbAi 做成 acpx 的 UI 壳”
 
 而应该是：
 
-- “让 NextClaw 拥有自己的统一外部 Agent 会话框架，而 `acpx` 只是未来的一个 adapter / backend”
+- “让 GoUsbAi 拥有自己的统一外部 Agent 会话框架，而 `acpx` 只是未来的一个 adapter / backend”
 
 这并不是排斥 `acpx`，而是在架构 ownership 上做出清晰边界。
 
@@ -160,7 +160,7 @@ Codex / Claude / Cursor / Gemini
 
 ### 第一层：产品 / 会话层
 
-这是 `NextClaw` 自己必须拥有的核心资产。
+这是 `GoUsbAi` 自己必须拥有的核心资产。
 
 职责包括：
 
@@ -184,7 +184,7 @@ Codex / Claude / Cursor / Gemini
 - 如何 `close`
 - 如何返回 event / status / `backend_session_id`
 
-这一层也应由 `NextClaw` 主导，因为它决定我们未来是否能统一容纳：
+这一层也应由 `GoUsbAi` 主导，因为它决定我们未来是否能统一容纳：
 
 - 官方 SDK runtime
 - ACP runtime
@@ -297,7 +297,7 @@ Codex / Claude / Cursor / Gemini
 - 是否支持 approval / permission profile
 - 是否支持严格 sandbox
 - 是否支持结构化 status / progress
-- 是否支持将 OpenClaw / NextClaw 的 tools 透传到 runtime
+- 是否支持将 OpenClaw / GoUsbAi 的 tools 透传到 runtime
 
 因此建议统一定义一份 `RuntimeCapabilitySnapshot`，至少覆盖：
 
@@ -459,7 +459,7 @@ sessions_spawn({
 也就是说：
 
 ```text
-NextClaw External Agent Session Framework
+GoUsbAi External Agent Session Framework
   -> Native runtime adapter
   -> SDK runtime adapters
      - Codex SDK
@@ -600,7 +600,7 @@ NextClaw External Agent Session Framework
 - `sessions_spawn`
 - backend / adapter contract
 
-而不是一上来就在 `NextClaw` 内完整复刻 `OpenClaw ACP` 或自研一整套重量级协议系统。
+而不是一上来就在 `GoUsbAi` 内完整复刻 `OpenClaw ACP` 或自研一整套重量级协议系统。
 
 在正式证明业务价值和结构必要性之前：
 
@@ -678,7 +678,7 @@ NextClaw External Agent Session Framework
 
 ### 结论 2
 
-`NextClaw` 当前已经有一半正确答案：
+`GoUsbAi` 当前已经有一半正确答案：
 
 - 插件化 runtime
 - `Codex` / `Claude` 的独立 session type
@@ -700,7 +700,7 @@ NextClaw External Agent Session Framework
 
 长期正确方向不是“把系统直接绑死到 acpx”，而是：
 
-**让 NextClaw 升级成统一的外部 Agent 会话框架，而 acpx 作为未来生态接入的一个 backend / adapter。**
+**让 GoUsbAi 升级成统一的外部 Agent 会话框架，而 acpx 作为未来生态接入的一个 backend / adapter。**
 
 ### 结论 5
 

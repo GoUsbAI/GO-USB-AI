@@ -11,7 +11,7 @@ $ErrorActionPreference = "Stop"
 function Invoke-SilentUninstall {
   param([string]$InstallDir)
 
-  $uninstallerPath = Join-Path $InstallDir "Uninstall NextClaw Desktop.exe"
+  $uninstallerPath = Join-Path $InstallDir "Uninstall GoUsbAi Desktop.exe"
   if (Test-Path $uninstallerPath) {
     Write-Host "[desktop-installer-smoke] uninstalling existing install: $uninstallerPath"
     $uninstallProc = Start-Process -FilePath $uninstallerPath -ArgumentList "/S" -PassThru -Wait
@@ -31,7 +31,7 @@ function Stop-DesktopProcesses {
     if (-not (Test-Path $taskkill)) {
       return
     }
-    $killProc = Start-Process -FilePath $taskkill -ArgumentList "/IM", "NextClaw Desktop.exe", "/T", "/F" -PassThru -Wait -WindowStyle Hidden
+    $killProc = Start-Process -FilePath $taskkill -ArgumentList "/IM", "GoUsbAi Desktop.exe", "/T", "/F" -PassThru -Wait -WindowStyle Hidden
     if ($killProc.ExitCode -ne 0) {
       Write-Warning "[desktop-installer-smoke] process cleanup exited with code $($killProc.ExitCode)"
     }
@@ -75,7 +75,7 @@ function Write-InstallerCrashDiagnostics {
   )
 
   $installerName = Split-Path -Leaf $InstallerPath
-  $expectedExePath = Join-Path $InstallDir "NextClaw Desktop.exe"
+  $expectedExePath = Join-Path $InstallDir "GoUsbAi Desktop.exe"
   Write-Host "[desktop-installer-smoke] install dir exists after failure: $(Test-Path $InstallDir)"
   Write-Host "[desktop-installer-smoke] installed exe exists after failure: $(Test-Path $expectedExePath)"
 
@@ -125,7 +125,7 @@ function Resolve-InstalledDesktopExecutable {
     return ""
   }
 
-  $candidate = Get-ChildItem -Path $programsDir -Filter "NextClaw Desktop.exe" -Recurse -File -ErrorAction SilentlyContinue |
+  $candidate = Get-ChildItem -Path $programsDir -Filter "GoUsbAi Desktop.exe" -Recurse -File -ErrorAction SilentlyContinue |
     Sort-Object LastWriteTimeUtc -Descending |
     Select-Object -First 1
   if ($null -eq $candidate) {
@@ -136,8 +136,8 @@ function Resolve-InstalledDesktopExecutable {
 }
 
 $resolvedInstaller = (Resolve-Path $InstallerPath).Path
-$installDir = Join-Path $env:LOCALAPPDATA "Programs\NextClaw Desktop"
-$installedExePath = Join-Path $installDir "NextClaw Desktop.exe"
+$installDir = Join-Path $env:LOCALAPPDATA "Programs\GoUsbAi Desktop"
+$installedExePath = Join-Path $installDir "GoUsbAi Desktop.exe"
 
 Write-Host "[desktop-installer-smoke] installer: $resolvedInstaller"
 Write-Host "[desktop-installer-smoke] install dir: $installDir"

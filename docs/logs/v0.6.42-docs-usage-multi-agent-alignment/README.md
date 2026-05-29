@@ -12,7 +12,7 @@
 - 在 Discord/Telegram 配置示例中补齐 `accountId/dmPolicy/groupPolicy/groupAllowFrom/requireMention/mentionPatterns/groups`。
 
 2. 同步模板文档
-- 运行脚本将 `docs/USAGE.md` 同步到 `packages/nextclaw/templates/USAGE.md`，确保初始化模板一致。
+- 运行脚本将 `docs/USAGE.md` 同步到 `packages/go-usb-ai/templates/USAGE.md`，确保初始化模板一致。
 
 3. 补齐缺失架构指南
 - 新增架构指南，系统化描述单 Gateway、多 Agent、bindings、dmScope、mention gate、验收清单（当前用户入口为 `apps/docs/guide/multi-agent.md`）。
@@ -26,7 +26,7 @@
 - 本次改动为文档与模板同步，不涉及运行时代码逻辑变更。
 - 验证方式：
   - 检查 `docs/USAGE.md` 是否包含新章节与示例。
-  - 检查 `packages/nextclaw/templates/USAGE.md` 是否已同步（含 generated header）。
+  - 检查 `packages/go-usb-ai/templates/USAGE.md` 是否已同步（含 generated header）。
   - 检查 `apps/docs/guide/multi-agent.md` 可访问且内容完整。
   - 检查 README 链接目标文件是否存在。
 

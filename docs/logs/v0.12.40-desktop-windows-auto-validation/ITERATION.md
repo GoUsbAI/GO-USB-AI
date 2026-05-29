@@ -4,7 +4,7 @@
 - 新增 GitHub Actions 工作流 `.github/workflows/desktop-validate.yml`，在 `push/pull_request/workflow_dispatch` 下自动执行桌面端验证。
 - 自动验证覆盖两条链路：
   - Linux 侧桌面运行时基础校验：`lint + tsc + smoke`。
-  - Windows 侧完整安装器校验：构建 `nextclaw-ui`/`nextclaw`、打包 Desktop NSIS 安装器并执行真实安装烟测。
+  - Windows 侧完整安装器校验：构建 `go-usb-ai-ui`/`go-usb-ai`、打包 Desktop NSIS 安装器并执行真实安装烟测。
 - 修复 `apps/desktop/scripts/smoke-windows-installer.ps1`：
   - 避免使用 PowerShell 只读自动变量 `$PID/$pid` 作为循环变量，消除脚本直接失败问题。
   - 增加临时目录回退策略（`RUNNER_TEMP -> TEMP -> TMP -> 系统临时目录`）。

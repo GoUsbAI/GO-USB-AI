@@ -20,7 +20,7 @@ print_macos_policy_diagnostics() {
     return
   fi
   echo "[desktop-smoke] recent macOS AMFI / AppleSystemPolicy logs:"
-  /usr/bin/log show --last 5m --style compact --predicate 'eventMessage CONTAINS "NextClaw Desktop" OR eventMessage CONTAINS "AppleSystemPolicy" OR eventMessage CONTAINS "AMFI"' 2>/dev/null | tail -n 160 || true
+  /usr/bin/log show --last 5m --style compact --predicate 'eventMessage CONTAINS "GoUsbAi Desktop" OR eventMessage CONTAINS "AppleSystemPolicy" OR eventMessage CONTAINS "AMFI"' 2>/dev/null | tail -n 160 || true
 }
 
 print_desktop_diagnostics() {
@@ -43,7 +43,7 @@ main_log_has() {
 desktop_startup_blocker() {
   current_main_log | grep -E -m 1 \
     "ENAMETOOLONG|ENOTEMPTY|ERR_FAILED|render-process-gone|Failed to bootstrap runtime|Library load denied|AppleSystemPolicy|AMFI|Another desktop instance is already running" || true
-  grep -E -m 1 "Extension nextclaw-channel-extension-(feishu|weixin) (failed|exited)" "${APP_MAIN_LOG%/launcher/main.log}/service.log" 2>/dev/null || true
+  grep -E -m 1 "Extension go-usb-ai-channel-extension-(feishu|weixin) (failed|exited)" "${APP_MAIN_LOG%/launcher/main.log}/service.log" 2>/dev/null || true
 }
 
 desktop_window_ready() {

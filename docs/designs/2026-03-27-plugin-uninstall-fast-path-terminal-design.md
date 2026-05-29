@@ -4,7 +4,7 @@
 
 这份文档回答一个很具体的问题：
 
-- 为什么现在 NextClaw 的插件卸载慢
+- 为什么现在 GoUsbAi 的插件卸载慢
 - 为什么它没有做到接近 VSCode 的体验
 - 如果接受架构级调整，终局应该怎么设计
 
@@ -83,7 +83,7 @@
 
 - 受控全局扩展目录
 - install record 记录目录
-- `workspace/.nextclaw/extensions/<pluginId>`
+- `workspace/.go-usb-ai/extensions/<pluginId>`
 
 这说明当前插件安装路径不是单一 canonical source，而是历史兼容后的多副本清理模型。
 
@@ -166,7 +166,7 @@
       "version": "0.1.0",
       "kind": "agent-runtime",
       "installSource": "npm",
-      "installSpec": "@nextclaw/xxx",
+      "installSpec": "@go-usb-ai/xxx",
       "generation": "20260327T120102Z-abcd",
       "installPath": ".../plugins-store/<pluginId>/<generation>",
       "manifestPath": ".../openclaw.plugin.json",
@@ -240,9 +240,9 @@ PluginInstance
 建议统一为：
 
 ```text
-<NEXTCLAW_HOME>/plugins-store/<pluginId>/<generation>/
-<NEXTCLAW_HOME>/plugins-trash/<pluginId>/<generation>/
-<NEXTCLAW_HOME>/plugin-index.json
+<GOUSB_AI_HOME>/plugins-store/<pluginId>/<generation>/
+<GOUSB_AI_HOME>/plugins-trash/<pluginId>/<generation>/
+<GOUSB_AI_HOME>/plugin-index.json
 ```
 
 优点：

@@ -1,5 +1,5 @@
 {
-  "name": "@nextclaw/platform-console",
+  "name": "@go-usb-ai/platform-console",
   "version": "0.0.1",
   "private": true,
   "type": "module",

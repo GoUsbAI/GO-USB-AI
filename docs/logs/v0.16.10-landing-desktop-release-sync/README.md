@@ -4,13 +4,13 @@
 
 - 更新 landing 页桌面下载兜底元数据 [`apps/landing/src/main.ts`](/Users/peiwang/Projects/nextbot/apps/landing/src/main.ts)，把旧正式版 `v0.13.24-desktop.5 / 0.0.60` 对齐到当前最新正式版 `v0.17.8-desktop.1 / 0.0.136`。
 - 修复下载页运行时的正式 release 识别逻辑：
-  - 将 `DESKTOP_ASSET_PATTERNS.windowsX64Zip` 从“只匹配旧的无版本 Windows zip 文件名”调整为同时兼容旧格式与新版 `NextClaw.Desktop-<version>-win32-x64-unpacked.zip`。
+  - 将 `DESKTOP_ASSET_PATTERNS.windowsX64Zip` 从“只匹配旧的无版本 Windows zip 文件名”调整为同时兼容旧格式与新版 `GoUsbAi.Desktop-<version>-win32-x64-unpacked.zip`。
   - 根因是 `v0.17.8-desktop.1` 的 Windows 资产已带版本号，旧正则无法命中，导致页面运行时把最新正式版整条跳过，错误回退到 `v0.15.51-desktop.1 / 0.0.130`。
 - 四个平台兜底下载地址已统一切换到当前正式 release 资产：
-  - `NextClaw.Desktop-0.0.136-arm64.dmg`
-  - `NextClaw.Desktop-0.0.136-x64.dmg`
-  - `NextClaw.Desktop-0.0.136-win32-x64-unpacked.zip`
-  - `NextClaw.Desktop-0.0.136-linux-x64.AppImage`
+  - `GoUsbAi.Desktop-0.0.136-arm64.dmg`
+  - `GoUsbAi.Desktop-0.0.136-x64.dmg`
+  - `GoUsbAi.Desktop-0.0.136-win32-x64-unpacked.zip`
+  - `GoUsbAi.Desktop-0.0.136-linux-x64.AppImage`
 - 更新四个 landing HTML 的结构化 `downloadUrl`，避免 SEO / 分享抓取继续命中旧 release：
   - [`apps/landing/en/index.html`](/Users/peiwang/Projects/nextbot/apps/landing/en/index.html)
   - [`apps/landing/en/download/index.html`](/Users/peiwang/Projects/nextbot/apps/landing/en/download/index.html)
@@ -19,14 +19,14 @@
 - 线上 release 核对结果：
   - 正式 release tag：`v0.17.8-desktop.1`
   - 发布时间：`2026-04-12T17:56:12Z`
-  - release 页面：`https://github.com/Peiiii/nextclaw/releases/tag/v0.17.8-desktop.1`
+  - release 页面：`https://github.com/Peiiii/go-usb-ai/releases/tag/v0.17.8-desktop.1`
   - `v0.17.10-desktop-beta.2` 为 pre-release，本次未作为官网默认下载目标
 
 ## 测试 / 验证 / 验收方式
 
 - 线上 release 核对：
-  - `gh release view v0.17.8-desktop.1 --repo Peiiii/nextclaw --json tagName,name,isPrerelease,url,publishedAt`
-  - `gh release view v0.17.8-desktop.1 --repo Peiiii/nextclaw --json assets --jq '.assets[].name' | rg 'NextClaw\\.Desktop-0\\.0\\.136-(arm64|x64)\\.dmg|NextClaw\\.Desktop-0\\.0\\.136-win32-x64-unpacked\\.zip|NextClaw\\.Desktop-0\\.0\\.136-linux-x64\\.AppImage'`
+  - `gh release view v0.17.8-desktop.1 --repo Peiiii/go-usb-ai --json tagName,name,isPrerelease,url,publishedAt`
+  - `gh release view v0.17.8-desktop.1 --repo Peiiii/go-usb-ai --json assets --jq '.assets[].name' | rg 'GoUsbAi\\.Desktop-0\\.0\\.136-(arm64|x64)\\.dmg|GoUsbAi\\.Desktop-0\\.0\\.136-win32-x64-unpacked\\.zip|GoUsbAi\\.Desktop-0\\.0\\.136-linux-x64\\.AppImage'`
   - 结果：确认 `v0.17.8-desktop.1` 是线上最新正式桌面 release，且四个平台资产齐全。
 - 源码 / 静态页校验：
   - `rg -n "v0\\.17\\.8-desktop\\.1|0\\.0\\.136" apps/landing/src/main.ts apps/landing/en/index.html apps/landing/en/download/index.html apps/landing/zh/index.html apps/landing/zh/download/index.html`
@@ -36,7 +36,7 @@
   - 结果：首个命中的正式 release 已变为：
     - `tag = v0.17.8-desktop.1`
     - `version = 0.0.136`
-    - `windows asset = NextClaw.Desktop-0.0.136-win32-x64-unpacked.zip`
+    - `windows asset = GoUsbAi.Desktop-0.0.136-win32-x64-unpacked.zip`
 - 构建验证：
   - `pnpm -C apps/landing build`
   - 结果：通过。
@@ -65,9 +65,9 @@
 
 1. 打开 landing 首页或下载页，确认当前桌面版版本号显示为 `0.0.136`。
 2. 点击 release 链接，确认跳转到 `v0.17.8-desktop.1`，而不是旧的 `v0.13.24-desktop.5`。
-3. 在 macOS Apple Silicon / Intel 下载卡片上，确认分别落到 `NextClaw.Desktop-0.0.136-arm64.dmg` 与 `NextClaw.Desktop-0.0.136-x64.dmg`。
-4. 在 Windows 与 Linux 下载卡片上，确认分别落到 `NextClaw.Desktop-0.0.136-win32-x64-unpacked.zip` 与 `NextClaw.Desktop-0.0.136-linux-x64.AppImage`。
-5. 刷新 `https://nextclaw.io/zh/download/` 后，确认页面中“当前桌面端版本”不再显示 `0.0.130`，而是 `0.0.136`，发布标签不再显示 `v0.15.51-desktop.1`。
+3. 在 macOS Apple Silicon / Intel 下载卡片上，确认分别落到 `GoUsbAi.Desktop-0.0.136-arm64.dmg` 与 `GoUsbAi.Desktop-0.0.136-x64.dmg`。
+4. 在 Windows 与 Linux 下载卡片上，确认分别落到 `GoUsbAi.Desktop-0.0.136-win32-x64-unpacked.zip` 与 `GoUsbAi.Desktop-0.0.136-linux-x64.AppImage`。
+5. 刷新 `https://go-usb-ai.io/zh/download/` 后，确认页面中“当前桌面端版本”不再显示 `0.0.130`，而是 `0.0.136`，发布标签不再显示 `v0.15.51-desktop.1`。
 6. 即使浏览器没有成功拉到 GitHub API 动态元数据，也应因为 fallback 已更新而继续下载到 `v0.17.8-desktop.1` 的正式资产，而不是旧版。
 
 ## 可维护性总结汇总

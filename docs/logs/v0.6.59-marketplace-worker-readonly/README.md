@@ -56,7 +56,7 @@
 ### 本次已执行部署
 
 - 命令：`pnpm -C workers/marketplace-api run deploy`
-- 部署地址：`https://nextclaw-marketplace-api.15353764479037.workers.dev`
+- 部署地址：`https://go-usb-ai-marketplace-api.15353764479037.workers.dev`
 - Cloudflare Worker Version ID：`3dcfead2-3e87-4260-971d-10684f377290`
 
 ### 线上冒烟（已执行）
@@ -74,7 +74,7 @@
 
 ## 用户/产品视角验收步骤
 
-1. 打开 `https://nextclaw-marketplace-api.15353764479037.workers.dev/health`，确认服务在线。
+1. 打开 `https://go-usb-ai-marketplace-api.15353764479037.workers.dev/health`，确认服务在线。
 2. 访问：
 - `/api/v1/items?page=1&pageSize=20`
 - `/api/v1/items?q=runtime&type=plugin`

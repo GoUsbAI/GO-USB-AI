@@ -2,7 +2,7 @@
 
 ## 背景
 
-- 现状：NextClaw 在 `gateway(action="update.run")` 后可自重启，但重启后不会自动通知用户会话；失败场景下也缺少可恢复“系统事件”记忆。
+- 现状：GoUsbAi 在 `gateway(action="update.run")` 后可自重启，但重启后不会自动通知用户会话；失败场景下也缺少可恢复“系统事件”记忆。
 - 目标：对齐 OpenClaw 的“重启哨兵 + 启动后自动回执 + 失败回退”机制，且保持最小复杂度。
 
 ## 设计要点
@@ -14,24 +14,24 @@
 
 ## 关键改动
 
-- `packages/nextclaw/src/cli/restart-sentinel.ts`
+- `packages/go-usb-ai/src/cli/restart-sentinel.ts`
   - 新增哨兵读写/消费、消息格式化、会话系统事件入队。
-- `packages/nextclaw/src/cli/gateway/controller.ts`
+- `packages/go-usb-ai/src/cli/gateway/controller.ts`
   - `config.apply` / `config.patch` / `update.run` 在触发重启前写入哨兵。
   - 从 `SessionManager` 解析投递上下文（channel/chatId/replyTo/accountId/metadata）。
-- `packages/nextclaw/src/cli/commands/service.ts`
+- `packages/go-usb-ai/src/cli/commands/service.ts`
   - 网关启动后消费哨兵并自动发送回执。
   - 发送失败回退为会话 `pending_system_events`。
-- `packages/nextclaw-core/src/agent/tools/gateway.ts`
+- `packages/go-usb-ai-core/src/agent/tools/gateway.ts`
   - 新增会话上下文注入，默认携带当前 `sessionKey`。
-- `packages/nextclaw-core/src/agent/loop.ts`
+- `packages/go-usb-ai-core/src/agent/loop.ts`
   - 记录 `last_delivery_context`。
   - 消费并注入 `pending_system_events` 为 `[System Message]`。
 - 文档与提示词
-  - `packages/nextclaw-core/src/agent/context.ts`
-  - `packages/nextclaw-core/src/agent/skills/nextclaw-self-manage/SKILL.md`
+  - `packages/go-usb-ai-core/src/agent/context.ts`
+  - `packages/go-usb-ai-core/src/agent/skills/go-usb-ai-self-manage/SKILL.md`
   - `docs/USAGE.md`
-  - `packages/nextclaw/templates/USAGE.md`
+  - `packages/go-usb-ai/templates/USAGE.md`
 
 ## 验证计划
 
@@ -48,5 +48,5 @@ pnpm tsc
 
 ## 发布计划
 
-- 采用 changeset patch：`@nextclaw/core` + `nextclaw`
+- 采用 changeset patch：`@go-usb-ai/core` + `go-usb-ai`
 - 执行 `pnpm release:version && pnpm release:publish`

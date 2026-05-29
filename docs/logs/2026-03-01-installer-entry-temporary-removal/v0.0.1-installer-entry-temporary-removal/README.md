@@ -11,18 +11,18 @@
   - [`apps/docs/en/guide/desktop-installer-beta.md`](../../../../apps/docs/en/guide/desktop-installer-beta.md)
   - [`apps/docs/zh/guide/desktop-installer-beta.md`](../../../../apps/docs/zh/guide/desktop-installer-beta.md)
 - 将主使用文档恢复为 npm 安装主路径：[`docs/USAGE.md`](../../../../docs/USAGE.md)
-- 同步 CLI 初始化模板文档：[`packages/nextclaw/templates/USAGE.md`](../../../../packages/nextclaw/templates/USAGE.md)
+- 同步 CLI 初始化模板文档：[`packages/go-usb-ai/templates/USAGE.md`](../../../../packages/go-usb-ai/templates/USAGE.md)
 
 ## 测试 / 验证 / 验收方式
 
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/docs build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/docs build`
   - `PATH=/opt/homebrew/bin:$PATH pnpm build`
 - 静态检查与类型检查：
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`
 - 入口清理校验：
-  - `rg -n "desktop-installer-beta|Desktop Installer|桌面安装包（Beta）|实验性 Beta" README.md README.zh-CN.md apps/docs/.vitepress/config.ts apps/docs/en apps/docs/zh docs/USAGE.md packages/nextclaw/templates/USAGE.md`
+  - `rg -n "desktop-installer-beta|Desktop Installer|桌面安装包（Beta）|实验性 Beta" README.md README.zh-CN.md apps/docs/.vitepress/config.ts apps/docs/en apps/docs/zh docs/USAGE.md packages/go-usb-ai/templates/USAGE.md`
   - 观察点：入口与页面文件不再出现上述内容
 
 ## 发布 / 部署方式
@@ -35,8 +35,8 @@
 
 ## 用户/产品视角验收步骤
 
-1. 打开 `https://docs.nextclaw.io/en/`，确认导航中不再出现 `Desktop Installer (Beta)`。
-2. 打开 `https://docs.nextclaw.io/zh/`，确认导航中不再出现“桌面安装包（Beta）”。
+1. 打开 `https://docs.go-usb-ai.io/en/`，确认导航中不再出现 `Desktop Installer (Beta)`。
+2. 打开 `https://docs.go-usb-ai.io/zh/`，确认导航中不再出现“桌面安装包（Beta）”。
 3. 打开仓库 `README.md`，确认无安装器 Beta 入口与章节。
 4. 打开仓库 `README.zh-CN.md`，确认无安装器 Beta 入口与章节。
 5. 直接访问历史安装器文档路径（`/en/guide/desktop-installer-beta`、`/zh/guide/desktop-installer-beta`）应不可用（404 或不存在）。

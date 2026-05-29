@@ -1,4 +1,4 @@
-# NextClaw vs OpenClaw 能力对比报告（对齐差距）
+# GoUsbAi vs OpenClaw 能力对比报告（对齐差距）
 
 > 日期：2026-02-20  
 > 范围：以你提出的多 Agent 目标能力为准，逐项对比 `nextbot` 与 `/Users/peiwang/Projects/openclaw` 当前代码实现。
@@ -19,7 +19,7 @@
 - ChannelForm 已补齐 Discord/Telegram 的 `accountId/dmPolicy/groupPolicy/groupAllowFrom/requireMention/mentionPatterns/groups`
 
 > 注：本文后续“对比矩阵/结论摘要”保留了早期差距分析上下文，作为历史基线参考；
-> 最新可用能力与实际使用方式以 `docs/USAGE.md` 与 `https://docs.nextclaw.io/en/guide/multi-agent` 为准。
+> 最新可用能力与实际使用方式以 `docs/USAGE.md` 与 `https://docs.go-usb-ai.io/en/guide/multi-agent` 为准。
 
 ## 结论摘要
 
@@ -27,9 +27,9 @@
   - 单 Gateway 承载消息接入与统一处理。
   - Workspace 规则文件注入机制（`AGENTS.md`/`SOUL.md` 等）有基础。
 - **部分对齐（3项）**：
-  - 多账号能力（NextClaw 仅在插件网关启动层支持 accountId，未进入路由中枢）。
-  - 群聊策略（NextClaw 只在 Slack 具备一部分，Discord/Telegram 不完整）。
-  - 记忆能力（NextClaw 仅轻量注入；OpenClaw 有 memory backend + per-agent memorySearch）。
+  - 多账号能力（GoUsbAi 仅在插件网关启动层支持 accountId，未进入路由中枢）。
+  - 群聊策略（GoUsbAi 只在 Slack 具备一部分，Discord/Telegram 不完整）。
+  - 记忆能力（GoUsbAi 仅轻量注入；OpenClaw 有 memory backend + per-agent memorySearch）。
 - **未对齐（3项，核心缺口）**：
   - `bindings: channel + accountId (+peer) -> agentId` 的平台级路由分诊。
   - 多 Agent 常驻并行（profiles/list）与独立 workspace 实例化运行。
@@ -37,7 +37,7 @@
 
 ## 对比矩阵（按你的目标能力）
 
-| 能力 | OpenClaw 现状 | NextClaw 现状 | 对齐结论 |
+| 能力 | OpenClaw 现状 | GoUsbAi 现状 | 对齐结论 |
 |---|---|---|---|
 | 单 Gateway 统一承载 | 统一在 gateway/runtime + channel monitor 下处理 | `service` 内单 `AgentLoop` + `ChannelManager` + `MessageBus` | **已对齐** |
 | 多 Agent 固定角色并行 | `agents.list[]` + `AgentEntrySchema`（含 `id/workspace/model/groupChat`） | 只有 `agents.defaults`，无 `agents.list` | **未对齐** |
@@ -83,33 +83,33 @@
   - `/Users/peiwang/Projects/openclaw/src/agents/tools/sessions-send-helpers.ts:158`
   - `/Users/peiwang/Projects/openclaw/src/agents/tools/sessions-send-tool.a2a.ts:60`
 
-### NextClaw（当前现状）
+### GoUsbAi（当前现状）
 
 - 顶层配置只有 `agents/channels/providers/plugins/gateway/ui/tools`，无 `bindings/session`：
-  - `packages/nextclaw-core/src/config/schema.ts:268`
+  - `packages/go-usb-ai-core/src/config/schema.ts:268`
 - 仅单 Agent 默认项，无 `agents.list[]`：
-  - `packages/nextclaw-core/src/config/schema.ts:183`
+  - `packages/go-usb-ai-core/src/config/schema.ts:183`
 - 服务启动是单 `AgentLoop` 实例：
-  - `packages/nextclaw/src/cli/commands/service.ts:136`
+  - `packages/go-usb-ai/src/cli/commands/service.ts:136`
 - 通道入站直接 `publishInbound`，无 agent 分诊路由：
-  - `packages/nextclaw-core/src/channels/base.ts:38`
-  - `packages/nextclaw-core/src/bus/queue.ts:36`
+  - `packages/go-usb-ai-core/src/channels/base.ts:38`
+  - `packages/go-usb-ai-core/src/bus/queue.ts:36`
 - 会话键默认 `channel:chatId`（无 `dmScope`）：
-  - `packages/nextclaw-core/src/agent/loop.ts:365`
+  - `packages/go-usb-ai-core/src/agent/loop.ts:365`
 - Discord/Telegram 配置较基础（无 groupPolicy/requireMention）：
-  - `packages/nextclaw-core/src/config/schema.ts:17`
-  - `packages/nextclaw-core/src/config/schema.ts:40`
+  - `packages/go-usb-ai-core/src/config/schema.ts:17`
+  - `packages/go-usb-ai-core/src/config/schema.ts:40`
 - Discord 入站未做 mention gate；仅收消息后入总线：
-  - `packages/extensions/nextclaw-channel-runtime/src/channels/discord.ts:133`
-  - `packages/extensions/nextclaw-channel-runtime/src/channels/discord.ts:184`
+  - `packages/extensions/go-usb-ai-channel-runtime/src/channels/discord.ts:133`
+  - `packages/extensions/go-usb-ai-channel-runtime/src/channels/discord.ts:184`
 - 当前“部分能力”只在 Slack 具备：
-  - `packages/nextclaw-core/src/config/schema.ts:122`
-  - `packages/extensions/nextclaw-channel-runtime/src/channels/slack.ts:167`
+  - `packages/go-usb-ai-core/src/config/schema.ts:122`
+  - `packages/extensions/go-usb-ai-channel-runtime/src/channels/slack.ts:167`
 - accountId 在插件网关层可启动，但未形成路由中枢：
-  - `packages/nextclaw-openclaw-compat/src/plugins/types.ts:87`
-  - `packages/nextclaw-openclaw-compat/src/plugins/channel-runtime.ts:115`
+  - `packages/go-usb-ai-openclaw-compat/src/plugins/types.ts:87`
+  - `packages/go-usb-ai-openclaw-compat/src/plugins/channel-runtime.ts:115`
 - 记忆仅上下文注入上限配置：
-  - `packages/nextclaw-core/src/config/schema.ts:173`
+  - `packages/go-usb-ai-core/src/config/schema.ts:173`
 
 ## 未对齐项优先级（建议实施顺序）
 
@@ -138,4 +138,4 @@
 
 ## 一句话判断
 
-当前 NextClaw 已有“能跑的单 Agent 网关底座”，但距离你描述的 OpenClaw 多 Agent 协作体系，**核心差距集中在“路由层 + 会话层 + 角色运行时层”三层**。
+当前 GoUsbAi 已有“能跑的单 Agent 网关底座”，但距离你描述的 OpenClaw 多 Agent 协作体系，**核心差距集中在“路由层 + 会话层 + 角色运行时层”三层**。

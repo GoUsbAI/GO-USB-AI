@@ -17,7 +17,7 @@ async function withTempDir(prefix: string, job: (rootDir: string) => Promise<voi
 }
 
 test("stable packaged apps resolve the latest stable manifest URL by default", async () =>
-  await withTempDir("nextclaw-update-source-stable-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-source-stable-", async (rootDir) => {
     const stateStore = new DesktopLauncherStateStore(join(rootDir, "launcher-state.json"));
     const service = new DesktopUpdateSourceService({
       isPackaged: true,
@@ -27,7 +27,7 @@ test("stable packaged apps resolve the latest stable manifest URL by default", a
       arch: "arm64",
       publishTarget: {
         owner: "Peiiii",
-        repo: "nextclaw"
+        repo: "go-usb-ai"
       },
       stateStore
     });
@@ -35,13 +35,13 @@ test("stable packaged apps resolve the latest stable manifest URL by default", a
     const manifestUrl = await service.resolveManifestUrl();
     assert.equal(
       manifestUrl,
-      "https://Peiiii.github.io/nextclaw/desktop-updates/stable/manifest-stable-darwin-arm64.json"
+      "https://Peiiii.github.io/go-usb-ai/desktop-updates/stable/manifest-stable-darwin-arm64.json"
     );
     assert.equal(service.resolveChannel(), "stable");
   }));
 
 test("beta packaged apps resolve the published beta channel manifest URL", async () =>
-  await withTempDir("nextclaw-update-source-beta-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-source-beta-", async (rootDir) => {
     const resourcesPath = join(rootDir, "resources");
     await mkdir(join(resourcesPath, "update"), { recursive: true });
     await writeFile(
@@ -59,7 +59,7 @@ test("beta packaged apps resolve the published beta channel manifest URL", async
       arch: "arm64",
       publishTarget: {
         owner: "Peiiii",
-        repo: "nextclaw"
+        repo: "go-usb-ai"
       },
       stateStore
     });
@@ -67,12 +67,12 @@ test("beta packaged apps resolve the published beta channel manifest URL", async
     assert.equal(service.resolveChannel(), "beta");
     assert.equal(
       await service.resolveManifestUrl(),
-      "https://Peiiii.github.io/nextclaw/desktop-updates/beta/manifest-beta-darwin-arm64.json"
+      "https://Peiiii.github.io/go-usb-ai/desktop-updates/beta/manifest-beta-darwin-arm64.json"
     );
   }));
 
 test("packaged metadata manifest base url can drive a local validation update source", async () =>
-  await withTempDir("nextclaw-update-source-packaged-base-url-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-source-packaged-base-url-", async (rootDir) => {
     const resourcesPath = join(rootDir, "resources");
     await mkdir(join(resourcesPath, "update"), { recursive: true });
     await writeFile(
@@ -122,7 +122,7 @@ test("packaged metadata manifest base url can drive a local validation update so
       arch: "arm64",
       publishTarget: {
         owner: "Peiiii",
-        repo: "nextclaw"
+        repo: "go-usb-ai"
       },
       stateStore
     });
@@ -136,8 +136,8 @@ test("packaged metadata manifest base url can drive a local validation update so
 
 test("builds a deterministic published channel manifest URL", () => {
   assert.equal(
-    getDesktopUpdateChannelManifestUrl({ owner: "Peiiii", repo: "nextclaw" }, "beta", "darwin", "arm64"),
-    "https://Peiiii.github.io/nextclaw/desktop-updates/beta/manifest-beta-darwin-arm64.json"
+    getDesktopUpdateChannelManifestUrl({ owner: "Peiiii", repo: "go-usb-ai" }, "beta", "darwin", "arm64"),
+    "https://Peiiii.github.io/go-usb-ai/desktop-updates/beta/manifest-beta-darwin-arm64.json"
   );
   assert.equal(
     getDesktopUpdateChannelManifestUrlFromBaseUrl("http://127.0.0.1:4010/desktop-updates", "beta", "darwin", "arm64"),
@@ -147,7 +147,7 @@ test("builds a deterministic published channel manifest URL", () => {
 });
 
 test("explicit manifest base url keeps channel-aware resolution for unpackaged smoke environments", async () =>
-  await withTempDir("nextclaw-update-source-base-url-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-source-base-url-", async (rootDir) => {
     const stateStore = new DesktopLauncherStateStore(join(rootDir, "launcher-state.json"));
     await stateStore.write({
       channel: "beta",
@@ -178,7 +178,7 @@ test("explicit manifest base url keeps channel-aware resolution for unpackaged s
       appPath: rootDir,
       resourcesPath: rootDir,
       env: {
-        NEXTCLAW_DESKTOP_UPDATE_MANIFEST_BASE_URL: "http://127.0.0.1:4010/desktop-updates"
+        GOUSB_AI_DESKTOP_UPDATE_MANIFEST_BASE_URL: "http://127.0.0.1:4010/desktop-updates"
       },
       platform: "darwin",
       arch: "arm64",
@@ -194,15 +194,15 @@ test("explicit manifest base url keeps channel-aware resolution for unpackaged s
   }));
 
 test("explicit manifest url still wins over manifest base url", async () =>
-  await withTempDir("nextclaw-update-source-explicit-url-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-source-explicit-url-", async (rootDir) => {
     const stateStore = new DesktopLauncherStateStore(join(rootDir, "launcher-state.json"));
     const service = new DesktopUpdateSourceService({
       isPackaged: false,
       appPath: rootDir,
       resourcesPath: rootDir,
       env: {
-        NEXTCLAW_DESKTOP_UPDATE_MANIFEST_URL: "http://127.0.0.1:4010/custom-manifest.json",
-        NEXTCLAW_DESKTOP_UPDATE_MANIFEST_BASE_URL: "http://127.0.0.1:4010/desktop-updates"
+        GOUSB_AI_DESKTOP_UPDATE_MANIFEST_URL: "http://127.0.0.1:4010/custom-manifest.json",
+        GOUSB_AI_DESKTOP_UPDATE_MANIFEST_BASE_URL: "http://127.0.0.1:4010/desktop-updates"
       },
       platform: "darwin",
       arch: "arm64",
@@ -214,7 +214,7 @@ test("explicit manifest url still wins over manifest base url", async () =>
   }));
 
 test("persisted launcher state channel overrides packaged metadata", async () =>
-  await withTempDir("nextclaw-update-source-state-channel-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-source-state-channel-", async (rootDir) => {
     const resourcesPath = join(rootDir, "resources");
     await mkdir(join(resourcesPath, "update"), { recursive: true });
     await writeFile(
@@ -255,7 +255,7 @@ test("persisted launcher state channel overrides packaged metadata", async () =>
       arch: "arm64",
       publishTarget: {
         owner: "Peiiii",
-        repo: "nextclaw"
+        repo: "go-usb-ai"
       },
       stateStore
     });

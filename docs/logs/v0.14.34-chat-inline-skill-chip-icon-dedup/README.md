@@ -8,9 +8,9 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-agent-chat-ui lint`
-- `pnpm -C packages/nextclaw-ui build`
-- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-textarea.tsx`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui lint`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-textarea.tsx`
 - 观察点：
   - 输入框内联 skill chip 图标与下方 skill picker 按钮图标不再重复。
   - 输入框整体布局、chip 尺寸与文本对齐保持稳定。

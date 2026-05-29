@@ -2,7 +2,7 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** 在 NextClaw 仓库中落地一个可部署到 Cloudflare 的“公开路线图 + 社区反馈门户”应用，首版支持官方路线图展示、公开阶段映射、类型筛选、用户建议提交、投票、评论与官方事项关联。
+**Goal:** 在 GoUsbAi 仓库中落地一个可部署到 Cloudflare 的“公开路线图 + 社区反馈门户”应用，首版支持官方路线图展示、公开阶段映射、类型筛选、用户建议提交、投票、评论与官方事项关联。
 
 **Architecture:** 新应用保持单 app root，但在 `src/` 内按 `app / features / managers / stores / services / shared` 的 L1 结构展开，避免一开始铺满空壳目录。后端围绕统一公开领域模型构建，使用 `SourceAdapter -> SourceSyncManager -> Repository / QueryService / WriteService` 链路承接 Linear 与 D1；前端采用严格的 `Presenter -> Manager -> Store -> Business Component -> UI Component` 边界，避免把业务流程散落到组件和 effect 中。
 
@@ -13,7 +13,7 @@
 ## 相关文档
 
 - [Public Roadmap and Feedback Portal Design](./2026-04-14-public-roadmap-feedback-portal-design.md)
-- [NextClaw 产品愿景](../VISION.md)
+- [GoUsbAi 产品愿景](../VISION.md)
 - [Unified Desktop and Web Presence Lifecycle Design](./2026-04-14-unified-desktop-web-presence-lifecycle-design.md)
 
 ## 先冻结的维护性约束
@@ -506,7 +506,7 @@ Run:
 
 ## 长期目标对齐 / 可维护性推进
 
-- 这次实现不是“把 Linear 网页化”，而是在为 NextClaw 增加一个新的统一入口：对外它是产品脉搏与参与入口，对内它是公开表达层与反馈聚合层。
+- 这次实现不是“把 Linear 网页化”，而是在为 GoUsbAi 增加一个新的统一入口：对外它是产品脉搏与参与入口，对内它是公开表达层与反馈聚合层。
 - 维护性上，最关键的推进不是功能点，而是提前锁定结构：
   - 上游系统通过 adapter 接入，而不是渗透到各层。
   - 前端通过 presenter/manager/store 收敛，而不是让组件和 effect 接管业务流程。

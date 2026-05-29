@@ -1,10 +1,10 @@
-name = "nextclaw-competitive-leaderboard"
+name = "go-usb-ai-competitive-leaderboard"
 main = "worker/index.ts"
 compatibility_date = "2026-04-14"
 workers_dev = true
 
 [[routes]]
-pattern = "clawboard.nextclaw.io"
+pattern = "clawboard.go-usb-ai.io"
 custom_domain = true
 
 [assets]

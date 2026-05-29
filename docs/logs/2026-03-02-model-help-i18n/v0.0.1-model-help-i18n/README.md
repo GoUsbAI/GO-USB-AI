@@ -6,8 +6,8 @@
 - 新增 i18n 文案键：`modelIdentifierHelp`（中英双语）。
 - Model 页面读取文案逻辑改为优先使用 `t('modelIdentifierHelp')`，并保留后端 hint 兜底。
 - 变更文件：
-  - [`packages/nextclaw-ui/src/lib/i18n.ts`](../../../../packages/nextclaw-ui/src/lib/i18n.ts)
-  - [`packages/nextclaw-ui/src/components/config/ModelConfig.tsx`](../../../../packages/nextclaw-ui/src/components/config/ModelConfig.tsx)
+  - [`packages/go-usb-ai-ui/src/lib/i18n.ts`](../../../../packages/go-usb-ai-ui/src/lib/i18n.ts)
+  - [`packages/go-usb-ai-ui/src/components/config/ModelConfig.tsx`](../../../../packages/go-usb-ai-ui/src/components/config/ModelConfig.tsx)
 
 ## 测试 / 验证 / 验收方式
 
@@ -28,7 +28,7 @@ pnpm tsc
 冒烟验证（用户可见改动）：
 
 ```bash
-rg -n "modelIdentifierHelp|Default model identifier used by the agent|Agent 默认模型标识" packages/nextclaw-ui/dist/assets/*.js -S
+rg -n "modelIdentifierHelp|Default model identifier used by the agent|Agent 默认模型标识" packages/go-usb-ai-ui/dist/assets/*.js -S
 ```
 
 观察点：

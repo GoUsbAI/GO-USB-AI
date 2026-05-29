@@ -20,7 +20,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-file-role-boundaries.mjs
   node scripts/governance/lint-new-code-file-role-boundaries.mjs --staged
   node scripts/governance/lint-new-code-file-role-boundaries.mjs --base origin/main
-  node scripts/governance/lint-new-code-file-role-boundaries.mjs -- packages/nextclaw-ui/src
+  node scripts/governance/lint-new-code-file-role-boundaries.mjs -- packages/go-usb-ai-ui/src
 
 Blocks changed workspace source files whose file names violate the repository's
 directory-to-suffix mapping or the default role-suffix whitelist.

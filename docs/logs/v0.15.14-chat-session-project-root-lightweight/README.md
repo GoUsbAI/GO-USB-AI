@@ -8,7 +8,7 @@
 - 新增服务端驱动的通用路径浏览能力：
   - `GET /api/server-paths/browse`
   - 前端通用 `ServerPathPickerDialog`
-  - 会话项目目录改为浏览“运行 NextClaw 服务的那台机器上的目录”，兼容远程部署语义。
+  - 会话项目目录改为浏览“运行 GoUsbAi 服务的那台机器上的目录”，兼容远程部署语义。
 - 继续收敛目录选择器交互：
   - 弹框主体改为固定尺寸，目录切换时不再因条目数量变化导致整体抖动
   - 滚动被限制在目录列表内部，header / path input / footer 保持稳定
@@ -29,13 +29,13 @@
   - 当服务端 session summary 回流后，前端会自动清理对应的草稿暂存状态，避免本地残留
 - 调整 runtime 项目语义暴露：
   - prompt 里始终显式写出 `Current project directory`
-  - 若存在宿主 workspace，则同时显式写出 `NextClaw host workspace directory`
+  - 若存在宿主 workspace，则同时显式写出 `GoUsbAi host workspace directory`
   - 两者都被视为真实且同时存在的上下文：
     - `Current project directory` 表示当前正在工作的项目目录
-    - `NextClaw host workspace directory` 表示宿主 runtime 的 memory / workspace-local skills / bootstrap 所在目录
+    - `GoUsbAi host workspace directory` 表示宿主 runtime 的 memory / workspace-local skills / bootstrap 所在目录
   - 宿主 workspace 的 bootstrap 文件与 workspace-local skills 在项目目录切换后不会丢失
 - 收敛前端会话语义：线程态统一使用 `sessionKey` 表示当前线程，避免在同层重复引入 `activeSessionKey` 语义。
-- 修正 React hook 治理：会话相关 hook 统一落在 `packages/nextclaw-ui/src/components/chat/hooks/`，并使用 `use-*.ts` 命名。
+- 修正 React hook 治理：会话相关 hook 统一落在 `packages/go-usb-ai-ui/src/components/chat/hooks/`，并使用 `use-*.ts` 命名。
 - 本次配套设计文档：
   - [chat-session-project-root-design](../../plans/2026-04-01-chat-session-project-root-design.md)
   - [chat-session-project-root-retrospective](../../internal/2026-04-02-chat-session-project-root-retrospective.md)
@@ -45,45 +45,45 @@
 - UI 定向测试：
 
 ```bash
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-ui test -- --run src/components/chat/chat-session-display.test.ts src/components/chat/ncp/ncp-session-adapter.test.ts src/components/chat/ChatConversationPanel.test.tsx
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- --run src/components/path-picker/server-path-picker-dialog.test.tsx
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- src/components/chat/hooks/use-chat-session-project.test.tsx src/components/chat/ncp/ncp-chat-page-data.test.ts
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- --run src/components/chat/chat-session-display.test.ts src/components/chat/ncp/ncp-session-adapter.test.ts src/components/chat/ChatConversationPanel.test.tsx
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- --run src/components/path-picker/server-path-picker-dialog.test.tsx
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- src/components/chat/hooks/use-chat-session-project.test.tsx src/components/chat/ncp/ncp-chat-page-data.test.ts
 ```
 
-- Nextclaw session/runtime 定向测试：
+- GoUsbAi session/runtime 定向测试：
 
 ```bash
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/nextclaw-ncp-context-builder.test.ts src/cli/commands/ncp/ui-session-service.test.ts
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/go-usb-ai-ncp-context-builder.test.ts src/cli/commands/ncp/ui-session-service.test.ts
 ```
 
 - NCP backend 真实更新链路定向测试：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- --run src/agent/in-memory-agent-backend.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- --run src/agent/in-memory-agent-backend.test.ts
 ```
 
 - OpenClaw compat runtime 定向测试：
 
 ```bash
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-openclaw-compat test -- --run src/plugins/runtime.test.ts
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-openclaw-compat test -- --run src/plugins/runtime.test.ts
 ```
 
 - Server 路由定向测试：
 
 ```bash
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-server test -- --run src/ui/router.ncp-agent.test.ts src/ui/router/server-path.controller.test.ts
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.ncp-agent.test.ts src/ui/router/server-path.controller.test.ts
 ```
 
 - 受影响包类型检查：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-ui exec tsc -p tsconfig.json --noEmit
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-ui exec tsc -p tsconfig.json --noEmit
 PATH=/opt/homebrew/bin:$PATH pnpm tsc:ui
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk exec tsc -p tsconfig.json --noEmit
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk exec tsc -p tsconfig.json --noEmit
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-openclaw-compat exec tsc -p tsconfig.json --noEmit
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit exec tsc -p tsconfig.json --noEmit
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk exec tsc -p tsconfig.json --noEmit
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk exec tsc -p tsconfig.json --noEmit
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-openclaw-compat exec tsc -p tsconfig.json --noEmit
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit exec tsc -p tsconfig.json --noEmit
 ```
 
 - maintainability / 新代码治理：
@@ -108,7 +108,7 @@ PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainabil
 
 ## 红区触达与减债记录
 
-### packages/nextclaw-core/src/agent/loop.ts
+### packages/go-usb-ai-core/src/agent/loop.ts
 
 - 本次是否减债：否
 - 说明：这次触达仅用于跟随 `agent` 目录内的文件归位更新 import path，没有继续把“会话项目目录”逻辑塞进这个热点编排文件里。项目目录能力的新增与修复被收敛在 session metadata、runtime context、runtime plugin 边界内，避免继续扩大 `loop.ts` 的职责面。
@@ -121,10 +121,10 @@ PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainabil
 
 ```bash
 PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainability:guard
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-ui test -- --run src/components/chat/chat-session-display.test.ts src/components/chat/ncp/ncp-session-adapter.test.ts src/components/chat/ChatConversationPanel.test.tsx
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/nextclaw-ncp-context-builder.test.ts src/cli/commands/ncp/ui-session-service.test.ts
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-openclaw-compat test -- --run src/plugins/runtime.test.ts
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw-server test -- --run src/ui/router.ncp-agent.test.ts src/ui/router/server-path.controller.test.ts
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- --run src/components/chat/chat-session-display.test.ts src/components/chat/ncp/ncp-session-adapter.test.ts src/components/chat/ChatConversationPanel.test.tsx
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/go-usb-ai-ncp-context-builder.test.ts src/cli/commands/ncp/ui-session-service.test.ts
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-openclaw-compat test -- --run src/plugins/runtime.test.ts
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.ncp-agent.test.ts src/ui/router/server-path.controller.test.ts
 ```
 
 ## 用户 / 产品视角的验收步骤
@@ -137,7 +137,7 @@ PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextc
    - 可在弹窗内直接搜索当前目录下的子目录名/路径片段
    - 会话再次打开后项目目录仍然保留
    - sidebar 搜索项目名时能命中该会话
-   - 问 `Codex`“当前项目目录是什么”时，回答应优先围绕绑定目录，而不是把 `NextClaw workspace` 当成当前项目
+   - 问 `Codex`“当前项目目录是什么”时，回答应优先围绕绑定目录，而不是把 `GoUsbAi workspace` 当成当前项目
 4. 在该会话里继续发消息给 `native / codex / claude` 任一 runtime。
 5. 验收点：
    - runtime 后续操作围绕该目录工作
@@ -145,7 +145,7 @@ PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextc
    - 刷新页面后也不会回显旧目录
    - runtime 会同时保留两层清晰语义：
      - 当前项目目录：当前工作的 repo / directory
-     - NextClaw host workspace：memory、workspace-local skills、bootstrap 所在目录
+     - GoUsbAi host workspace：memory、workspace-local skills、bootstrap 所在目录
 6. 新建一个草稿会话，不先发送消息，直接在“更多操作”里设置项目目录。
 7. 验收点：
    - 设置成功后不会报错
@@ -157,9 +157,9 @@ PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextc
 
 - 本次是否已尽最大努力优化可维护性：是。本次没有继续沿着“为草稿态额外创建一个轻量 session”去叠加前后端耦合，而是把问题收敛为前端 draft 状态与首条消息 metadata 透传，保持真实会话的创建时机仍然只有发送消息这一条主链路。
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。相比继续扩张后端草稿 upsert 语义，这次选择复用已有 `draftSessionId + message metadata` 机制，只新增最小必要的两个前端状态字段来表达“这个草稿目录属于哪个 draft 会话”。
-- 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：基本做到没有继续恶化。中途新增的 `packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.test.ts` 已在收尾时删除并并回现有测试文件，避免把 `ncp/` 目录推过治理阈值；最终只保留最小必要的状态接线与测试补强。
+- 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：基本做到没有继续恶化。中途新增的 `packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.test.ts` 已在收尾时删除并并回现有测试文件，避免把 `ncp/` 目录推过治理阈值；最终只保留最小必要的状态接线与测试补强。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：是。目录暂存落在 `chat-input.store`，服务端持久化仍走既有 `use-chat-session-update`，首条消息透传集中在 `NcpChatPage` 的 send metadata 组装处，没有再新增一层临时 manager / service。
-- 目录结构与文件组织是否满足当前项目治理要求；若未满足，必须记录具体现状、为何本次未处理、以及下一步整理入口：部分满足。`packages/nextclaw-ui/src/components/chat/ncp/` 仍是一个已被治理 warning 标记的混合职责目录，但这次没有继续新增直系文件；下一步整理入口仍是把 `ncp/` 下的页面壳、manager、adapter、tests 按职责拆成更明确的子边界。
+- 目录结构与文件组织是否满足当前项目治理要求；若未满足，必须记录具体现状、为何本次未处理、以及下一步整理入口：部分满足。`packages/go-usb-ai-ui/src/components/chat/ncp/` 仍是一个已被治理 warning 标记的混合职责目录，但这次没有继续新增直系文件；下一步整理入口仍是把 `ncp/` 下的页面壳、manager、adapter、tests 按职责拆成更明确的子边界。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：是。独立复核结论如下：
   - 可维护性复核结论：保留债务经说明接受
   - 本次顺手减债：是

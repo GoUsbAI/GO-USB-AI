@@ -12,7 +12,7 @@
 
 这份文档要解决的是下一阶段的基础架构问题：
 
-**我们如何在 NextClaw 内部，以尽可能轻量、优雅、可插拔、可删除的方式，做出 Hermes 风格的自动复盘 / 自动沉淀 skill 能力。**
+**我们如何在 GoUsbAi 内部，以尽可能轻量、优雅、可插拔、可删除的方式，做出 Hermes 风格的自动复盘 / 自动沉淀 skill 能力。**
 
 这里的关键不是先写一个“learning review 功能”，而是先把它赖以成立的系统底座设计对：
 
@@ -31,7 +31,7 @@
 我的最终设计判断如下：
 
 1. 不复用现有 `MessageBus`，也不把 learning review 直接挂在已有 callback 拼接链上。
-2. 在 `@nextclaw/core` 中单独引入一个新的全局 typed event bus 机制。
+2. 在 `@go-usb-ai/core` 中单独引入一个新的全局 typed event bus 机制。
 3. 这个 bus 只负责事件发布与订阅，不承担 message queue、state bus、service bus、resource bus 等额外职责。
 4. NCP runtime/backend 通过一个很薄的 bridge，把已有生命周期事件映射到这个新 bus。
 5. learning review 以独立 feature 的形式订阅 `agent.run.finished` 等事件，执行 root session 过滤、阈值判断、后台 review 子会话触发。
@@ -77,7 +77,7 @@ core 全局 typed event bus
 
 ## 4. 为什么必须新建一个 bus
 
-当前仓库里已经有 [`queue.ts`](../../packages/nextclaw-core/src/bus/queue.ts)，但它的职责是 message queue，不是系统级 lifecycle event hub。
+当前仓库里已经有 [`queue.ts`](../../packages/go-usb-ai-core/src/bus/queue.ts)，但它的职责是 message queue，不是系统级 lifecycle event hub。
 
 它的问题不在于“代码不好”，而在于“语义不是为这个场景设计的”：
 
@@ -104,13 +104,13 @@ core 全局 typed event bus
 建议分成三个模块层次：
 
 ```text
-packages/nextclaw-core/src/typed-event-bus/
+packages/go-usb-ai-core/src/typed-event-bus/
   - 纯底座
 
-packages/nextclaw/src/cli/commands/ncp/lifecycle-events/
+packages/go-usb-ai/src/cli/commands/ncp/lifecycle-events/
   - NCP 领域事件 key、payload、bridge
 
-packages/nextclaw/src/cli/commands/ncp/learning-review/
+packages/go-usb-ai/src/cli/commands/ncp/learning-review/
   - Hermes 风格后台复盘 feature
 ```
 
@@ -134,10 +134,10 @@ packages/nextclaw/src/cli/commands/ncp/learning-review/
 
 ### 6.1 建议目录
 
-建议在 `@nextclaw/core` 中新增：
+建议在 `@go-usb-ai/core` 中新增：
 
 ```text
-packages/nextclaw-core/src/typed-event-bus/
+packages/go-usb-ai-core/src/typed-event-bus/
   typed-event-key.ts
   typed-event-bus.ts
   global-typed-event-bus.ts
@@ -234,8 +234,8 @@ bridge 的职责只有一个：
 
 当前 NCP 层已经有自己的事件结构：
 
-1. [`events.ts`](../../packages/ncp-packages/nextclaw-ncp/src/types/events.ts) 定义了 `RunFinished`、`MessageSent` 等事件。
-2. [`runtime.ts`](../../packages/ncp-packages/nextclaw-ncp-agent-runtime/src/runtime.ts) 会发出这些运行时事件。
+1. [`events.ts`](../../packages/ncp-packages/go-usb-ai-ncp/src/types/events.ts) 定义了 `RunFinished`、`MessageSent` 等事件。
+2. [`runtime.ts`](../../packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/runtime.ts) 会发出这些运行时事件。
 3. backend 也已经有 event publisher 能把事件暴露出来。
 
 这些事件已经够好，但它们仍然是 **NCP 事件**，不是 **系统全局事件总线事件**。
@@ -248,7 +248,7 @@ bridge 的价值就是保持两件事同时成立：
 ### 7.3 建议目录
 
 ```text
-packages/nextclaw/src/cli/commands/ncp/lifecycle-events/
+packages/go-usb-ai/src/cli/commands/ncp/lifecycle-events/
   ncp-lifecycle-event.keys.ts
   ncp-lifecycle-event.types.ts
   ncp-lifecycle-event-bridge.ts
@@ -302,7 +302,7 @@ type AgentRunFinishedEvent = {
 
 ### 7.6 bridge 接入点
 
-建议通过 [`create-ui-ncp-agent.ts`](../../packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts) 做接入装配。
+建议通过 [`create-ui-ncp-agent.ts`](../../packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts) 做接入装配。
 
 原因：
 
@@ -339,12 +339,12 @@ learning review 的实现思想，直接借鉴 Hermes，但不硬抄其线程细
 
 **Python thread**
 
-在 NextClaw 中，更适合的承载体是现有 child session / multi-agent 能力。
+在 GoUsbAi 中，更适合的承载体是现有 child session / multi-agent 能力。
 
 ### 8.2 建议目录
 
 ```text
-packages/nextclaw/src/cli/commands/ncp/learning-review/
+packages/go-usb-ai/src/cli/commands/ncp/learning-review/
   learning-review-feature.ts
   learning-review.types.ts
   learning-review.constants.ts

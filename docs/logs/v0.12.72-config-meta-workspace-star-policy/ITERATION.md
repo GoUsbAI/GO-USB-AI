@@ -2,7 +2,7 @@
 
 ## 迭代完成说明（改了什么）
 - 在 `AGENTS.md` 的 `Project Rulebook` 新增规则 `workspace-star-for-internal-packages`。
-- 规则明确：本仓库内部 `@nextclaw/*` 包之间依赖默认统一使用 `workspace:*`，避免打包/构建链路解析到旧发布版本。
+- 规则明确：本仓库内部 `@go-usb-ai/*` 包之间依赖默认统一使用 `workspace:*`，避免打包/构建链路解析到旧发布版本。
 - 该规则用于固化近期 desktop 启动失败根因修复经验（内部依赖版本混装导致运行时导出不匹配）。
 
 ## 测试/验证/验收方式

@@ -8,13 +8,13 @@
 - 顶部横向导航 + 卡片堆叠的结构不够稳定
 - 用户平台和管理后台看起来像两套独立产品，而不是同一体系下的两个入口
 
-这会直接削弱 NextClaw 作为统一入口和统一控制面的产品感知。用户从 `platform.nextclaw.io` 切到 `platform-admin.nextclaw.io` 时，不应该感觉像进入了完全不同的产品。
+这会直接削弱 GoUsbAi 作为统一入口和统一控制面的产品感知。用户从 `platform.go-usb-ai.io` 切到 `platform-admin.go-usb-ai.io` 时，不应该感觉像进入了完全不同的产品。
 
 ## 长期目标对齐
 
 这次改动服务三个长期方向：
 
-- 统一入口：用户平台和管理后台要显得属于同一个 NextClaw 控制面体系
+- 统一入口：用户平台和管理后台要显得属于同一个 GoUsbAi 控制面体系
 - 统一体验：视觉、密度、页面骨架和可复用组件需要收敛
 - 可持续扩展：后续再新增用户侧页面时，不应该继续临时拼布局
 
@@ -23,7 +23,7 @@
 推荐方案是：
 
 - 直接把 `platform-console` 收敛到和 `platform-admin` 同一套经典控制台骨架
-- 视觉继续沿用 NextClaw UI 的暖中性色 + olive brand
+- 视觉继续沿用 GoUsbAi UI 的暖中性色 + olive brand
 - 但用户侧保留更轻的“工作台”感，不做成强治理语气
 
 不推荐只做换色或局部打磨，因为那样只能让页面“更像一点”，无法解决骨架和信息架构不统一的问题。
@@ -122,5 +122,5 @@
 3. `pnpm -C apps/platform-console build`
 4. 本地预览 + `PLATFORM_CONSOLE_BASE_URL=http://127.0.0.1:4173 pnpm smoke:platform:console`
 5. `pnpm deploy:platform:console`
-6. `curl -I https://platform.nextclaw.io`
-7. `PLATFORM_CONSOLE_BASE_URL=https://platform.nextclaw.io pnpm smoke:platform:console`
+6. `curl -I https://platform.go-usb-ai.io`
+7. `PLATFORM_CONSOLE_BASE_URL=https://platform.go-usb-ai.io pnpm smoke:platform:console`

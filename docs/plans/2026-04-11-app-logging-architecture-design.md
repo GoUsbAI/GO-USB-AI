@@ -1,10 +1,10 @@
 # App Logging Architecture Design
 
-**Goal:** 为 NextClaw 建立一套轻量、长期可维护、跨模块可复用的应用级日志方案，让服务崩溃、启动失败、运行异常都能稳定落到 `NEXTCLAW_HOME/logs/`，同时不把日志能力错误地绑死在 CLI 包里。
+**Goal:** 为 GoUsbAi 建立一套轻量、长期可维护、跨模块可复用的应用级日志方案，让服务崩溃、启动失败、运行异常都能稳定落到 `GOUSB_AI_HOME/logs/`，同时不把日志能力错误地绑死在 CLI 包里。
 
-**Architecture:** 采用 `@nextclaw/core` 提供通用 `logging` 模块、`packages/nextclaw` 负责 CLI 宿主接入的分层设计。日志核心抽象统一命名为 `AppLogger`，本地文件落盘由 `FileLogSink` 承担，进程启动阶段的日志初始化由 `LoggingRuntime` 承担，CLI 只负责调用和暴露 `logs` 命令，不拥有日志系统本身。
+**Architecture:** 采用 `@go-usb-ai/core` 提供通用 `logging` 模块、`packages/go-usb-ai` 负责 CLI 宿主接入的分层设计。日志核心抽象统一命名为 `AppLogger`，本地文件落盘由 `FileLogSink` 承担，进程启动阶段的日志初始化由 `LoggingRuntime` 承担，CLI 只负责调用和暴露 `logs` 命令，不拥有日志系统本身。
 
-**Tech Stack:** TypeScript、Node.js、`@nextclaw/core`、`NEXTCLAW_HOME` 数据目录、CLI Runtime、Vitest。
+**Tech Stack:** TypeScript、Node.js、`@go-usb-ai/core`、`GOUSB_AI_HOME` 数据目录、CLI Runtime、Vitest。
 
 ---
 
@@ -12,10 +12,10 @@
 
 上一版思路的核心问题不是“有没有日志文件”，而是“日志 owner 放错层了”。
 
-如果把日志 owner 放在 `packages/nextclaw` 的 CLI 包里，会直接带来两个结构性问题：
+如果把日志 owner 放在 `packages/go-usb-ai` 的 CLI 包里，会直接带来两个结构性问题：
 
 1. 其它模块无法正当复用
-   `nextclaw-server`、`nextclaw-remote`、未来更多 runtime 模块，不应该反向依赖 CLI 壳层才能写日志。
+   `go-usb-ai-server`、`go-usb-ai-remote`、未来更多 runtime 模块，不应该反向依赖 CLI 壳层才能写日志。
 2. “写日志”和“看日志”被混成一件事
    写日志是基础运行时能力；看日志才是 CLI 用户入口。两者需要分层，而不是揉进同一个包。
 
@@ -26,7 +26,7 @@
 这次方案只追求四件事：
 
 1. 任何模块都能通过同一个 `AppLogger` 抽象写日志。
-2. 所有本地日志统一落在 `NEXTCLAW_HOME/logs/`。
+2. 所有本地日志统一落在 `GOUSB_AI_HOME/logs/`。
 3. 用户可以通过 CLI 快速找到并查看日志。
 4. 抽象足够薄，后面能扩展，但现在不做成重型系统。
 
@@ -62,7 +62,7 @@
 
 “全局安装”这个词不准确。这里真正发生的事情只是：
 
-- 在 `nextclaw serve` 这样的进程启动时，
+- 在 `go-usb-ai serve` 这样的进程启动时，
 - 做一次进程级日志初始化，
 - 让当前进程后续的日志有统一出口。
 
@@ -72,7 +72,7 @@
 
 推荐分为三层。
 
-### 第一层：`@nextclaw/core` 的日志抽象层
+### 第一层：`@go-usb-ai/core` 的日志抽象层
 
 这一层负责给所有模块提供统一写日志的能力。
 
@@ -89,7 +89,7 @@
 - 终端展示
 - 具体是哪个进程入口装配的
 
-### 第二层：`@nextclaw/core` 的本地文件 sink 层
+### 第二层：`@go-usb-ai/core` 的本地文件 sink 层
 
 这一层负责本地文件落盘。
 
@@ -106,26 +106,26 @@
 - CLI 输出文案
 - 具体哪个业务模块调用它
 
-### 第三层：`packages/nextclaw` 的 CLI 宿主层
+### 第三层：`packages/go-usb-ai` 的 CLI 宿主层
 
 这一层只负责两件事：
 
 1. 在服务进程入口初始化日志运行时
-2. 暴露 `nextclaw logs path` / `nextclaw logs tail`
+2. 暴露 `go-usb-ai logs path` / `go-usb-ai logs tail`
 
 它不拥有日志系统本身。
 
 所以正确关系是：
 
 - `core/logging` 提供“能写”
-- `nextclaw/cli` 提供“能看”和“在进程入口接起来”
+- `go-usb-ai/cli` 提供“能看”和“在进程入口接起来”
 
 ## 推荐目录结构
 
-日志核心应该放在 `@nextclaw/core`，目录建议如下：
+日志核心应该放在 `@go-usb-ai/core`，目录建议如下：
 
 ```text
-packages/nextclaw-core/src/
+packages/go-usb-ai-core/src/
   logging/
     app-logger.ts
     file-log-sink.ts
@@ -136,14 +136,14 @@ packages/nextclaw-core/src/
 CLI 层只保留非常薄的接入点：
 
 ```text
-packages/nextclaw/src/cli/
+packages/go-usb-ai/src/cli/
   commands/
     logs.ts
   logging/
     logging-bootstrap.ts
 ```
 
-如果后面发现 `logging-bootstrap.ts` 过薄，也可以不单独建目录，直接在 service/runtime 入口里调用 `@nextclaw/core/logging`。
+如果后面发现 `logging-bootstrap.ts` 过薄，也可以不单独建目录，直接在 service/runtime 入口里调用 `@go-usb-ai/core/logging`。
 
 ## 每个文件的职责
 
@@ -191,7 +191,7 @@ type AppLogger = {
 建议这里把当前文件布局固定为：
 
 ```text
-NEXTCLAW_HOME/
+GOUSB_AI_HOME/
   logs/
     service.log
     crash.log
@@ -225,9 +225,9 @@ getAppLogPaths()
 
 职责非常简单：
 
-- `nextclaw logs path`
-- `nextclaw logs tail`
-- `nextclaw logs tail --crash`
+- `go-usb-ai logs path`
+- `go-usb-ai logs tail`
+- `go-usb-ai logs tail --crash`
 
 它只调用 core 的 logging 能力，不拥有任何底层文件逻辑。
 
@@ -238,9 +238,9 @@ getAppLogPaths()
 正确依赖方向必须是：
 
 ```text
-nextclaw-server / nextclaw-remote / nextclaw / future modules
+go-usb-ai-server / go-usb-ai-remote / go-usb-ai / future modules
                   ↓
-            @nextclaw/core/logging
+            @go-usb-ai/core/logging
                   ↑
         CLI 只是一个 host，不是 owner
 ```
@@ -248,7 +248,7 @@ nextclaw-server / nextclaw-remote / nextclaw / future modules
 错误方向是：
 
 ```text
-other modules -> packages/nextclaw/cli/logging
+other modules -> packages/go-usb-ai/cli/logging
 ```
 
 这条必须避免。
@@ -318,7 +318,7 @@ type AppLogRecord = {
 以后任何模块写日志，都应该类似这样：
 
 ```ts
-import { getAppLogger } from "@nextclaw/core";
+import { getAppLogger } from "@go-usb-ai/core";
 
 const logger = getAppLogger("remote.connector");
 
@@ -344,7 +344,7 @@ CLI 层要做的事情非常有限。
 
 例如：
 
-- `nextclaw serve`
+- `go-usb-ai serve`
 - 后台 service 子进程启动入口
 
 在这里做一次：
@@ -357,8 +357,8 @@ CLI 层要做的事情非常有限。
 
 例如：
 
-- `nextclaw logs path`
-- `nextclaw logs tail`
+- `go-usb-ai logs path`
+- `go-usb-ai logs tail`
 
 用户排障只需要记住 CLI，不需要自己去猜隐藏目录。
 
@@ -382,7 +382,7 @@ CLI 层要做的事情非常有限。
 
 等真正开始改代码时，建议按下面原则推进：
 
-1. 先把日志核心迁到 `@nextclaw/core/logging`
+1. 先把日志核心迁到 `@go-usb-ai/core/logging`
 2. 再让 CLI 改成只调用 core
 3. 再逐步把少量现有 ad-hoc logger 迁到 `AppLogger`
 4. 不做全仓一次性替换
@@ -401,9 +401,9 @@ CLI 层要做的事情非常有限。
 1. 不使用 `observability` 作为模块名
 2. 统一使用 `logging` 作为目录与能力命名
 3. 主抽象统一命名为 `AppLogger`
-4. 日志核心放在 `packages/nextclaw-core/src/logging/`
-5. `packages/nextclaw` 只负责 CLI 宿主接入与 `logs` 命令
-6. 日志文件继续统一落在 `NEXTCLAW_HOME/logs/`
+4. 日志核心放在 `packages/go-usb-ai-core/src/logging/`
+5. `packages/go-usb-ai` 只负责 CLI 宿主接入与 `logs` 命令
+6. 日志文件继续统一落在 `GOUSB_AI_HOME/logs/`
 7. 继续采用：
    - `service.log`
    - `crash.log`

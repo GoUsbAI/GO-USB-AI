@@ -6,11 +6,11 @@
 
 ## 决策
 
-- `nextclaw init` 增加 `--force`，覆盖已存在的模板文件。
+- `go-usb-ai init` 增加 `--force`，覆盖已存在的模板文件。
 
 ## 变更内容
 
-- 用户可见变化：`nextclaw init --force` 会重写模板文件。
+- 用户可见变化：`go-usb-ai init --force` 会重写模板文件。
 - 关键实现点：
   - `init` 传递 `force` 给模板生成逻辑。
   - 模板生成在 `force` 下跳过“存在即跳过”的判断。
@@ -25,8 +25,8 @@ env PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C /Users/pei
 
 # smoke-check（非仓库目录）
 cd /tmp
-NEXTCLAW_HOME=/tmp/nextclaw-force-test /Users/peiwang/.nvm/versions/node/v22.16.0/bin/node /Users/peiwang/Projects/nextbot/packages/nextclaw/dist/cli/index.js init
-NEXTCLAW_HOME=/tmp/nextclaw-force-test /Users/peiwang/.nvm/versions/node/v22.16.0/bin/node /Users/peiwang/Projects/nextbot/packages/nextclaw/dist/cli/index.js init --force
+GOUSB_AI_HOME=/tmp/go-usb-ai-force-test /Users/peiwang/.nvm/versions/node/v22.16.0/bin/node /Users/peiwang/Projects/nextbot/packages/go-usb-ai/dist/cli/index.js init
+GOUSB_AI_HOME=/tmp/go-usb-ai-force-test /Users/peiwang/.nvm/versions/node/v22.16.0/bin/node /Users/peiwang/Projects/nextbot/packages/go-usb-ai/dist/cli/index.js init --force
 ```
 
 验收点：

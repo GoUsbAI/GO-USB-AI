@@ -9,9 +9,9 @@
 # 测试/验证/验收方式
 
 - 单测：
-  - `pnpm -C packages/nextclaw-core test -- openai_provider.test.ts`
+  - `pnpm -C packages/go-usb-ai-core test -- openai_provider.test.ts`
 - 类型检查：
-  - `pnpm -C packages/nextclaw-core tsc`
+  - `pnpm -C packages/go-usb-ai-core tsc`
 - 定向真实链路复核：
   - 使用用户提供的 3 组配置，按 UI `测试连接` 同等调用形态执行真实探针：`LiteLLMProvider` + `wireApi=responses` + `messages=[ping]` + `maxTokens=16`
   - 实测结果：
@@ -21,12 +21,12 @@
 - 维护性守卫：
   - `pnpm lint:maintainability:guard`
   - 结果：本次 `responses` 相关新改动未引入新的 util 级 maintainability error，但全仓命令仍被工作区其它进行中改动阻断
-  - 剩余失败原因：当前失败集中在 `packages/ncp-packages/nextclaw-ncp-toolkit/*`、`packages/nextclaw-ncp-runtime-stdio-client/*`、`packages/nextclaw-ui/src/components/chat/ncp/ncp-session-adapter.test.ts`、`packages/nextclaw-hermes-acp-bridge/*` 等与本次 provider 修复无关的既有脏改链路
+  - 剩余失败原因：当前失败集中在 `packages/ncp-packages/go-usb-ai-ncp-toolkit/*`、`packages/go-usb-ai-ncp-runtime-stdio-client/*`、`packages/go-usb-ai-ui/src/components/chat/ncp/ncp-session-adapter.test.ts`、`packages/go-usb-ai-hermes-acp-bridge/*` 等与本次 provider 修复无关的既有脏改链路
 
 # 发布/部署方式
 
 - 本次未执行正式发布。
-- 如需对外生效，需要发布包含 `@nextclaw/core` 的受影响包，并重启当前本地 NextClaw 实例。
+- 如需对外生效，需要发布包含 `@go-usb-ai/core` 的受影响包，并重启当前本地 GoUsbAi 实例。
 - 本地源码环境验证时，重启服务后重新点击对应 provider 的“测试连接”即可。
 
 # 用户/产品视角的验收步骤

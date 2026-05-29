@@ -2,11 +2,11 @@
 
 ## 迭代完成说明
 
-本轮完成 `packages/nextclaw-kernel/src/agent-runtime` 的第一阶段结构梳理，先抽离纯上下文窗口与压缩逻辑，保留 kernel 侧的 NCP/session/provider 编排。
+本轮完成 `packages/go-usb-ai-kernel/src/agent-runtime` 的第一阶段结构梳理，先抽离纯上下文窗口与压缩逻辑，保留 kernel 侧的 NCP/session/provider 编排。
 
-- 将 `ContextCompactionService` 移到 `@nextclaw/core` 的 `runtime-context/services`。
-- 将 `ContextWindowBudgetService` 移到 `@nextclaw/core` 的 `runtime-context/services`。
-- 将 `ContextWindowSnapshot` 构建逻辑移到 `@nextclaw/core` 的 `runtime-context/utils`。
+- 将 `ContextCompactionService` 移到 `@go-usb-ai/core` 的 `runtime-context/services`。
+- 将 `ContextWindowBudgetService` 移到 `@go-usb-ai/core` 的 `runtime-context/services`。
+- 将 `ContextWindowSnapshot` 构建逻辑移到 `@go-usb-ai/core` 的 `runtime-context/utils`。
 - `ContextCompactionPreflightService` 继续留在 kernel，因为它负责 session metadata、timeline message、provider summary generation 与 NCP 消息适配。
 - 删除未使用的 `buildPersistedCompactionCheckpoint` 与 `compactForModelInput` convenience method，避免把旧的内部辅助面变成新的 core 公共面。
 
@@ -14,11 +14,11 @@
 
 已执行并通过：
 
-- `pnpm -C packages/nextclaw-core tsc`
-- `pnpm -C packages/nextclaw-kernel tsc`
-- `pnpm -C packages/nextclaw-core lint`，通过，仍有既有 warning。
-- `pnpm -C packages/nextclaw-kernel lint`
-- `pnpm lint:new-code:governance -- packages/nextclaw-core/src/features/runtime-context packages/nextclaw-kernel/src/agent-runtime/context packages/nextclaw-kernel/src/agent-runtime/nextclaw-ncp-context-builder.service.ts packages/nextclaw-kernel/src/managers/agent-runtime.manager.ts`
+- `pnpm -C packages/go-usb-ai-core tsc`
+- `pnpm -C packages/go-usb-ai-kernel tsc`
+- `pnpm -C packages/go-usb-ai-core lint`，通过，仍有既有 warning。
+- `pnpm -C packages/go-usb-ai-kernel lint`
+- `pnpm lint:new-code:governance -- packages/go-usb-ai-core/src/features/runtime-context packages/go-usb-ai-kernel/src/agent-runtime/context packages/go-usb-ai-kernel/src/agent-runtime/go-usb-ai-ncp-context-builder.service.ts packages/go-usb-ai-kernel/src/managers/agent-runtime.manager.ts`
 - `pnpm check:governance-backlog-ratchet`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths <runtime-context and agent-runtime context extraction files>`
 
@@ -35,8 +35,8 @@
 ## 用户/产品视角的验收步骤
 
 - 启动或运行 NCP agent session 时，上下文窗口统计与压缩行为保持不变。
-- kernel 的 `agent-runtime/context` 目录只保留 NextClaw/NCP/session 编排相关文件，不再承载纯预算和 checkpoint 算法。
-- core 的 `runtime-context` 提供可复用的上下文窗口预算、压缩计划和 snapshot 能力，服务 NextClaw 统一入口的长期上下文连续性。
+- kernel 的 `agent-runtime/context` 目录只保留 GoUsbAi/NCP/session 编排相关文件，不再承载纯预算和 checkpoint 算法。
+- core 的 `runtime-context` 提供可复用的上下文窗口预算、压缩计划和 snapshot 能力，服务 GoUsbAi 统一入口的长期上下文连续性。
 
 ## 可维护性总结汇总
 
@@ -47,7 +47,7 @@
 - 正向减债动作：删除、职责收敛、必要解耦抽象。
 - 抽离后 core 拥有纯 runtime-context 算法，kernel 只负责 NCP/session/provider 编排。
 - 已删除两个未使用内部辅助入口，避免 core 公共面膨胀。
-- 剩余观察点：`packages/nextclaw-kernel/src/managers/agent-runtime.manager.ts` 已接近文件预算，下一阶段应优先抽出 runtime provider registration / native runtime factory / tool registry wiring。
+- 剩余观察点：`packages/go-usb-ai-kernel/src/managers/agent-runtime.manager.ts` 已接近文件预算，下一阶段应优先抽出 runtime provider registration / native runtime factory / tool registry wiring。
 
 ## NPM 包发布记录
 

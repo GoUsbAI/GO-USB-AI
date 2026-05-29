@@ -4,10 +4,10 @@
 在commands目录上运行治理脚本显示了显著的组织问题：
 
 ```
-🔍 Analyzing directory: ./packages/nextclaw/src/cli/commands
+🔍 Analyzing directory: ./packages/go-usb-ai/src/cli/commands
 
-⚠️  Directory ./packages/nextclaw/src/cli/commands has 62 source files (threshold: 15)
-⚠️  Directory packages/nextclaw/src/cli/commands/ncp has 28 source files (threshold: 15)
+⚠️  Directory ./packages/go-usb-ai/src/cli/commands has 62 source files (threshold: 15)
+⚠️  Directory packages/go-usb-ai/src/cli/commands/ncp has 28 source files (threshold: 15)
 ```
 
 ## 推荐结构

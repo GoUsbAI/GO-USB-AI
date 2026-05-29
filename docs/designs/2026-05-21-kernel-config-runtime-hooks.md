@@ -2,7 +2,7 @@
 
 ## 背景
 
-`NextclawGatewayRuntime` 目前通过 `installConfigRuntimeHooks` 给 kernel `ConfigManager` 注入多类 hook：
+`GoUsbAiGatewayRuntime` 目前通过 `installConfigRuntimeHooks` 给 kernel `ConfigManager` 注入多类 hook：
 
 - channel config view 生成。
 - extension channel registry 读取。
@@ -23,11 +23,11 @@
 ## 方案
 
 1. `ConfigManager.installRuntimeHooks` 改为合并式安装，后安装的同名 hook 覆盖旧 hook。
-2. `NextclawKernel` 构造完成 `extensions` 与 `mcpManager` 后，安装 kernel-owned hooks：
+2. `GoUsbAiKernel` 构造完成 `extensions` 与 `mcpManager` 后，安装 kernel-owned hooks：
    - `resolveChannelConfig`: 使用 `extensions.toConfigView(config)`。
    - `getExtensionChannels`: 使用 `extensions.getExtensionRegistry().channels`。
    - `reloadMcp`: 使用 `mcpManager.applyConfig(config)`。
-3. `NextclawGatewayRuntime` 保留 host hooks：
+3. `GoUsbAiGatewayRuntime` 保留 host hooks：
    - `reloadCompanion`。
    - `reloadPlugins`，因为当前仍负责 plugin gateway handles restart 与 config updated events。
    - `onRestartRequired`。
@@ -40,7 +40,7 @@
 
 ## 验收
 
-- `NextclawGatewayRuntime` 不再 import 或调用 `resolveChannelConfigView`。
-- `NextclawGatewayRuntime` 不再通过 hook 暴露 `getExtensionChannels` / `reloadMcp`。
+- `GoUsbAiGatewayRuntime` 不再 import 或调用 `resolveChannelConfigView`。
+- `GoUsbAiGatewayRuntime` 不再通过 hook 暴露 `getExtensionChannels` / `reloadMcp`。
 - config reload 后 channel view、extension channel、MCP reload 行为保持。
 - kernel/service TypeScript 与相关测试通过。

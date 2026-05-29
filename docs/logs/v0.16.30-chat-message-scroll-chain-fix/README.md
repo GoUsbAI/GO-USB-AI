@@ -3,24 +3,24 @@
 ## 迭代完成说明
 
 - 修复聊天消息列表中嵌套滚动区偶发“外层会话明明没到底却继续滚不下去”的问题。
-- 具体做法是在推理块 [`chat-reasoning-block.tsx`](../../../packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-reasoning-block.tsx) 和文件操作预览滚动区 [`tool-card-file-operation.tsx`](../../../packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-file-operation.tsx) 中移除 `overscroll-contain`，恢复浏览器默认的祖先滚动链，让内层滚到边界后继续把滚轮交给外层会话列表。
+- 具体做法是在推理块 [`chat-reasoning-block.tsx`](../../../packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-reasoning-block.tsx) 和文件操作预览滚动区 [`tool-card-file-operation.tsx`](../../../packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-file-operation.tsx) 中移除 `overscroll-contain`，恢复浏览器默认的祖先滚动链，让内层滚到边界后继续把滚轮交给外层会话列表。
 - 补充两个回归断言，明确这两个滚动区不应再重新引入 `overscroll-contain`：
-  - [`chat-message-list.test.tsx`](../../../packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx)
-  - [`chat-message-list.file-operation.test.tsx`](../../../packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx)
+  - [`chat-message-list.test.tsx`](../../../packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx)
+  - [`chat-message-list.file-operation.test.tsx`](../../../packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx)
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx`
-- `pnpm --filter @nextclaw/agent-chat-ui tsc`
-- `pnpm --filter @nextclaw/agent-chat-ui lint`
+- `pnpm --filter @go-usb-ai/agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx`
+- `pnpm --filter @go-usb-ai/agent-chat-ui tsc`
+- `pnpm --filter @go-usb-ai/agent-chat-ui lint`
 - `pnpm lint:maintainability:guard`
 
 结果说明：
 
 - `vitest` 通过，2 个测试文件共 26 个用例通过。
 - `tsc` 通过。
-- `pnpm --filter @nextclaw/agent-chat-ui lint` 未通过，但失败项来自工作区既有的 `chat-input-bar*`、`chat-message-file/index.tsx` 等文件，与本次滚动链修复无直接关系；本次修改的 4 个文件未引入新的 lint error。
-- `pnpm lint:maintainability:guard` 未通过，阻塞点来自工作区中未由本次改动触达的 [`ChatSidebar.tsx`](../../../packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx) 既有体量超预算问题，不是本次消息列表修复新增的问题。
+- `pnpm --filter @go-usb-ai/agent-chat-ui lint` 未通过，但失败项来自工作区既有的 `chat-input-bar*`、`chat-message-file/index.tsx` 等文件，与本次滚动链修复无直接关系；本次修改的 4 个文件未引入新的 lint error。
+- `pnpm lint:maintainability:guard` 未通过，阻塞点来自工作区中未由本次改动触达的 [`ChatSidebar.tsx`](../../../packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx) 既有体量超预算问题，不是本次消息列表修复新增的问题。
 
 ## 发布/部署方式
 
@@ -42,7 +42,7 @@
 
 ### 长期目标对齐 / 可维护性推进
 
-- 这次修复顺着“统一体验、减少 surprise failure”的方向推进了一小步。聊天区作为用户与 NextClaw 交互的主入口，不应因为消息内部有二级滚动区就制造“看起来没到底但滚不动”的体验断层。
+- 这次修复顺着“统一体验、减少 surprise failure”的方向推进了一小步。聊天区作为用户与 GoUsbAi 交互的主入口，不应因为消息内部有二级滚动区就制造“看起来没到底但滚不动”的体验断层。
 - 我优先选择删减而不是补一个新的滚轮转发逻辑：直接移除会切断祖先滚动链的 `overscroll-contain`，比新增事件桥接代码更小、更直接、更符合浏览器默认行为。
 
 ### 代码增减报告

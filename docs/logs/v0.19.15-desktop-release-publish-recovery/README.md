@@ -28,7 +28,7 @@
 - 已通过第三次 workflow_dispatch run `26331213225`，最终 job 结论全部为 success。
 - 已确认 GitHub Release `v0.19.26-desktop.1` 为正式 release，包含 34 个 assets。
 - 已确认 `origin/gh-pages` 与公开 Pages 的 stable manifests 均指向 bundle `0.19.26`，`minimumLauncherVersion=0.0.141`。
-- 已确认 `origin/gh-pages` 与公开 Pages 的 APT Packages 均包含 `nextclaw-desktop 0.0.189`。
+- 已确认 `origin/gh-pages` 与公开 Pages 的 APT Packages 均包含 `go-usb-ai-desktop 0.0.189`。
 - 已更新官网 landing fallback 到 `v0.19.26-desktop.1 / 0.0.189`，并把 release utils 从 `src` 根目录迁移到 `src/shared`，满足 module-structure 规则。
 - 已更新 landing 静态 HTML 结构化数据中的 `downloadUrl`，避免部署后页面源码仍指向旧稳定版。
 - 已通过 landing 验证：`pnpm -C apps/landing tsc`、`pnpm -C apps/landing lint`、`pnpm -C apps/landing build`。lint 仅保留 `apps/landing/src/main.ts` 既有超长文件/方法 warning。
@@ -48,9 +48,9 @@
 ## 用户/产品视角的验收步骤
 
 1. 打开 GitHub Release `v0.19.26-desktop.1`，确认 macOS、Windows、Linux 安装物和 update bundle/manifest assets 存在。
-2. 在 Windows 下载 `NextClaw.Desktop-Setup-0.0.189-x64.exe` 或 portable zip，启动后确认窗口可缩小、标题栏空白区域可拖拽。
+2. 在 Windows 下载 `GoUsbAi.Desktop-Setup-0.0.189-x64.exe` 或 portable zip，启动后确认窗口可缩小、标题栏空白区域可拖拽。
 3. 在桌面端 stable 更新频道检查更新，确认 manifest 指向 bundle `0.19.26` 且 `minimumLauncherVersion=0.0.141`。
-4. 在 Linux 通过 `install-apt.sh` 安装 stable APT 源，确认可安装或升级到 `nextclaw-desktop 0.0.189`。
+4. 在 Linux 通过 `install-apt.sh` 安装 stable APT 源，确认可安装或升级到 `go-usb-ai-desktop 0.0.189`。
 5. 检查官网/下载页在 GitHub API 不可用时的 fallback 是否指向本次稳定版；若仍指向旧版，需要在 release 闭环完成后单独更新并部署。
 
 ## 可维护性总结汇总

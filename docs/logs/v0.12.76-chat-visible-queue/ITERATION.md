@@ -22,8 +22,8 @@
 - 已执行：
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc:ui`（通过）
   - `PATH=/opt/homebrew/bin:$PATH pnpm build:ui`（通过）
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/useChatStreamController.ts`（通过，无 warning）
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/ChatInputBar.tsx src/components/chat/ChatPage.tsx src/components/chat/ChatConversationPanel.tsx src/components/chat/useChatStreamController.ts src/lib/i18n.ts`（通过，无 error，仅 max-lines 类 warning）
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/useChatStreamController.ts`（通过，无 warning）
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/ChatInputBar.tsx src/components/chat/ChatPage.tsx src/components/chat/ChatConversationPanel.tsx src/components/chat/useChatStreamController.ts src/lib/i18n.ts`（通过，无 error，仅 max-lines 类 warning）
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint:ui`（未通过）
 - `lint:ui` 结果说明：失败由仓库既有问题导致（`src/components/common/MaskedInput.tsx` 的未使用变量 error + 若干历史 max-lines warning）；本次改动文件未新增 lint error。
 - 冒烟验证：

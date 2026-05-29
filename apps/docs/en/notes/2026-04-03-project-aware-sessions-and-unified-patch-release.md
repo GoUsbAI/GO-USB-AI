@@ -32,30 +32,30 @@ Tags: `release` `chat` `project context`
 
 This is a coordinated npm patch release, not a one-package hotfix. Key published packages include:
 
-- `nextclaw@0.16.32`
-- `@nextclaw/core@0.11.16`
-- `@nextclaw/server@0.11.23`
-- `@nextclaw/ui@0.11.22`
-- `@nextclaw/openclaw-compat@0.3.57`
-- `@nextclaw/agent-chat-ui@0.2.20`
-- `@nextclaw/channel-runtime@0.4.15`
-- `@nextclaw/ncp-toolkit@0.4.16`
-- `@nextclaw/ncp-react@0.4.13`
-- `@nextclaw/ncp-mcp@0.1.65`
-- `@nextclaw/mcp@0.1.63`
-- `@nextclaw/remote@0.1.75`
-- `@nextclaw/runtime@0.2.30`
-- `@nextclaw/nextclaw-engine-claude-agent-sdk@0.3.14`
-- `@nextclaw/nextclaw-engine-codex-sdk@0.3.15`
-- `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk@0.1.42`
-- `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk@0.1.42`
+- `go-usb-ai@0.16.32`
+- `@go-usb-ai/core@0.11.16`
+- `@go-usb-ai/server@0.11.23`
+- `@go-usb-ai/ui@0.11.22`
+- `@go-usb-ai/openclaw-compat@0.3.57`
+- `@go-usb-ai/agent-chat-ui@0.2.20`
+- `@go-usb-ai/channel-runtime@0.4.15`
+- `@go-usb-ai/ncp-toolkit@0.4.16`
+- `@go-usb-ai/ncp-react@0.4.13`
+- `@go-usb-ai/ncp-mcp@0.1.65`
+- `@go-usb-ai/mcp@0.1.63`
+- `@go-usb-ai/remote@0.1.75`
+- `@go-usb-ai/runtime@0.2.30`
+- `@go-usb-ai/go-usb-ai-engine-claude-agent-sdk@0.3.14`
+- `@go-usb-ai/go-usb-ai-engine-codex-sdk@0.3.15`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk@0.1.42`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk@0.1.42`
 
 Related channel plugin patches were published in the same batch to keep dependency alignment clean.
 
 ## Verification
 
 - `pnpm release:publish`
-- `pnpm -C packages/nextclaw tsc`
+- `pnpm -C packages/go-usb-ai tsc`
 - `pnpm -C apps/docs build`
 - `pnpm lint:maintainability:guard`
 - `npm view <pkg> version` checks against published versions

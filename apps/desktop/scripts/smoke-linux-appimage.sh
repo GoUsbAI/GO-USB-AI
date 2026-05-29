@@ -25,9 +25,9 @@ if ! [[ "${STARTUP_TIMEOUT_SEC}" =~ ^[0-9]+$ ]]; then
 fi
 
 TEMP_ROOT="${RUNNER_TEMP:-${TMPDIR:-/tmp}}"
-SMOKE_HOME="${TEMP_ROOT}/nextclaw-desktop-smoke-home"
-LOG_ROOT="${TEMP_ROOT}/nextclaw-desktop-smoke-logs"
-EXTRACT_ROOT="${TEMP_ROOT}/nextclaw-desktop-appimage-extract"
+SMOKE_HOME="${TEMP_ROOT}/go-usb-ai-desktop-smoke-home"
+LOG_ROOT="${TEMP_ROOT}/go-usb-ai-desktop-smoke-logs"
+EXTRACT_ROOT="${TEMP_ROOT}/go-usb-ai-desktop-appimage-extract"
 APP_HEALTH_LOG="${LOG_ROOT}/health.json"
 RUNTIME_STDOUT_LOG="${LOG_ROOT}/runtime-stdout.log"
 APPIMAGE_LOG="${LOG_ROOT}/appimage-extract.log"
@@ -48,16 +48,16 @@ trap cleanup EXIT
 find_runtime_script() {
   local extract_dir="$1"
   local candidates=(
-    "${extract_dir}/resources/app.asar/node_modules/nextclaw/dist/cli/app/index.js"
-    "${extract_dir}/resources/app.asar/node_modules/nextclaw/dist/cli/index.js"
-    "${extract_dir}/resources/app/node_modules/nextclaw/dist/cli/app/index.js"
-    "${extract_dir}/resources/app/node_modules/nextclaw/dist/cli/index.js"
-    "${extract_dir}/resources/node_modules/nextclaw/dist/cli/app/index.js"
-    "${extract_dir}/resources/node_modules/nextclaw/dist/cli/index.js"
-    "${extract_dir}/usr/lib/nextclaw-desktop/resources/app.asar/node_modules/nextclaw/dist/cli/app/index.js"
-    "${extract_dir}/usr/lib/nextclaw-desktop/resources/app.asar/node_modules/nextclaw/dist/cli/index.js"
-    "${extract_dir}/usr/lib/nextclaw-desktop/resources/app/node_modules/nextclaw/dist/cli/app/index.js"
-    "${extract_dir}/usr/lib/nextclaw-desktop/resources/app/node_modules/nextclaw/dist/cli/index.js"
+    "${extract_dir}/resources/app.asar/node_modules/go-usb-ai/dist/cli/app/index.js"
+    "${extract_dir}/resources/app.asar/node_modules/go-usb-ai/dist/cli/index.js"
+    "${extract_dir}/resources/app/node_modules/go-usb-ai/dist/cli/app/index.js"
+    "${extract_dir}/resources/app/node_modules/go-usb-ai/dist/cli/index.js"
+    "${extract_dir}/resources/node_modules/go-usb-ai/dist/cli/app/index.js"
+    "${extract_dir}/resources/node_modules/go-usb-ai/dist/cli/index.js"
+    "${extract_dir}/usr/lib/go-usb-ai-desktop/resources/app.asar/node_modules/go-usb-ai/dist/cli/app/index.js"
+    "${extract_dir}/usr/lib/go-usb-ai-desktop/resources/app.asar/node_modules/go-usb-ai/dist/cli/index.js"
+    "${extract_dir}/usr/lib/go-usb-ai-desktop/resources/app/node_modules/go-usb-ai/dist/cli/app/index.js"
+    "${extract_dir}/usr/lib/go-usb-ai-desktop/resources/app/node_modules/go-usb-ai/dist/cli/index.js"
   )
 
   local candidate
@@ -83,12 +83,12 @@ find_runtime_script() {
 find_app_bin() {
   local extract_dir="$1"
   local candidates=(
-    "${extract_dir}/@nextclawdesktop"
-    "${extract_dir}/nextclaw-desktop"
-    "${extract_dir}/NextClaw Desktop"
-    "${extract_dir}/usr/bin/@nextclawdesktop"
-    "${extract_dir}/usr/bin/nextclaw-desktop"
-    "${extract_dir}/usr/bin/NextClaw Desktop"
+    "${extract_dir}/@go-usb-aidesktop"
+    "${extract_dir}/go-usb-ai-desktop"
+    "${extract_dir}/GoUsbAi Desktop"
+    "${extract_dir}/usr/bin/@go-usb-aidesktop"
+    "${extract_dir}/usr/bin/go-usb-ai-desktop"
+    "${extract_dir}/usr/bin/GoUsbAi Desktop"
     "${extract_dir}/AppRun"
   )
 
@@ -166,13 +166,13 @@ if [[ -z "${RUNTIME_PORT}" ]]; then
 fi
 
 echo "[desktop-smoke] runtime fallback: init"
-if ! NEXTCLAW_HOME="${SMOKE_HOME}" ELECTRON_RUN_AS_NODE=1 "${APP_BIN}" "${RUNTIME_SCRIPT}" init >"${RUNTIME_STDOUT_LOG}" 2>&1; then
+if ! GOUSB_AI_HOME="${SMOKE_HOME}" ELECTRON_RUN_AS_NODE=1 "${APP_BIN}" "${RUNTIME_SCRIPT}" init >"${RUNTIME_STDOUT_LOG}" 2>&1; then
   echo "[desktop-smoke] runtime init failed. See ${RUNTIME_STDOUT_LOG}" >&2
   exit 1
 fi
 
 echo "[desktop-smoke] runtime fallback: serve on ${RUNTIME_PORT}"
-NEXTCLAW_HOME="${SMOKE_HOME}" ELECTRON_RUN_AS_NODE=1 "${APP_BIN}" "${RUNTIME_SCRIPT}" serve --ui-port "${RUNTIME_PORT}" >>"${RUNTIME_STDOUT_LOG}" 2>&1 &
+GOUSB_AI_HOME="${SMOKE_HOME}" ELECTRON_RUN_AS_NODE=1 "${APP_BIN}" "${RUNTIME_SCRIPT}" serve --ui-port "${RUNTIME_PORT}" >>"${RUNTIME_STDOUT_LOG}" 2>&1 &
 RUNTIME_PID="$!"
 
 STARTED_AT="$(date +%s)"

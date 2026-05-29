@@ -7,13 +7,13 @@
 ## 决策
 
 - 将模板内容拆分为独立文件并随包发布。
-- 运行时读取模板文件，支持 `NEXTCLAW_TEMPLATE_DIR` 覆盖目录。
+- 运行时读取模板文件，支持 `GOUSB_AI_TEMPLATE_DIR` 覆盖目录。
 
 ## 变更内容
 
 - 用户可见变化：`onboard` 生成的模板来自模板文件，便于后续维护。
 - 关键实现点：
-  - 新增 `packages/nextclaw/templates/*` 模板文件。
+  - 新增 `packages/go-usb-ai/templates/*` 模板文件。
   - `createWorkspaceTemplates` 读取模板目录并写入 workspace。
   - `package.json` 发布文件包含 `templates`。
 
@@ -27,9 +27,9 @@ env PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C /Users/pei
 
 # smoke-check（非仓库目录）
 cd /tmp
-NEXTCLAW_HOME=/tmp/nextclaw-template-test /Users/peiwang/.nvm/versions/node/v22.16.0/bin/node /Users/peiwang/Projects/nextbot/packages/nextclaw/dist/cli/index.js onboard
-test -f /tmp/nextclaw-template-test/workspace/AGENTS.md
-grep -q "I am nextclaw" /tmp/nextclaw-template-test/workspace/SOUL.md
+GOUSB_AI_HOME=/tmp/go-usb-ai-template-test /Users/peiwang/.nvm/versions/node/v22.16.0/bin/node /Users/peiwang/Projects/nextbot/packages/go-usb-ai/dist/cli/index.js onboard
+test -f /tmp/go-usb-ai-template-test/workspace/AGENTS.md
+grep -q "I am go-usb-ai" /tmp/go-usb-ai-template-test/workspace/SOUL.md
 ```
 
 验收点：

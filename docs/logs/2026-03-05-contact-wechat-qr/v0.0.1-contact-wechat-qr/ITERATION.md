@@ -5,19 +5,19 @@
 本次将对外联系方式从 QQ 群二维码切换为微信群二维码。
 
 1. 官网落地页联系方式二维码资源切换为微信群二维码：
-   - `/contact/nextclaw-contact-wechat-group.jpg`
+   - `/contact/go-usb-ai-contact-wechat-group.jpg`
 2. 官网文案同步替换：
    - `QQ Group / QQ 群` 改为 `WeChat Group / 微信群`
    - 社群描述改为“微信群 + Discord”
 3. GitHub README（英文 + 中文）社群联系方式由 QQ 群改为微信群二维码。
 4. 将图片文件同步到 landing 公共资源目录：
-   - `apps/landing/public/contact/nextclaw-contact-wechat-group.jpg`
+   - `apps/landing/public/contact/go-usb-ai-contact-wechat-group.jpg`
 
 ## 测试/验证/验收方式
 
 执行：
 
-1. `pnpm --filter @nextclaw/landing build`
+1. `pnpm --filter @go-usb-ai/landing build`
 2. `pnpm build`
 3. `pnpm lint`
 4. `pnpm tsc`

@@ -7,7 +7,7 @@
 - 将 DeepSeek 默认 `defaultApiBase` 从 `https://api.deepseek.com/v1` 调整为 `https://api.deepseek.com`。
 
 涉及文件：
-- [`packages/nextclaw-core/src/providers/registry.ts`](../../../../packages/nextclaw-core/src/providers/registry.ts)
+- [`packages/go-usb-ai-core/src/providers/registry.ts`](../../../../packages/go-usb-ai-core/src/providers/registry.ts)
 
 参考来源：
 - [DeepSeek API Docs - Your First API Call](https://api-docs.deepseek.com/)

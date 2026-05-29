@@ -10,7 +10,7 @@ export class DesktopRuntimeCommandService {
 
   resolve = async (): Promise<RuntimeCommand> => {
     const resolver = this.createResolver();
-    const envScript = process.env.NEXTCLAW_DESKTOP_RUNTIME_SCRIPT?.trim();
+    const envScript = process.env.GOUSB_AI_DESKTOP_RUNTIME_SCRIPT?.trim();
     if (envScript) {
       return resolver.resolveCommand();
     }

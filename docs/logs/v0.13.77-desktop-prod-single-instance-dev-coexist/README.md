@@ -3,11 +3,11 @@
 ## 迭代完成说明（改了什么）
 
 - 调整 Desktop runtime 启动策略：
-  - 生产态（`app.isPackaged=true`）改为走 `nextclaw start` 管理模式，不再直接 `serve --ui-port` 拉起前台 runtime。
-  - 生产态通过读取 `NEXTCLAW_HOME/run/service.json` 获取已运行 service 的 UI 地址并复用，满足“已启动即跳过重复启动”。
+  - 生产态（`app.isPackaged=true`）改为走 `go-usb-ai start` 管理模式，不再直接 `serve --ui-port` 拉起前台 runtime。
+  - 生产态通过读取 `GOUSB_AI_HOME/run/service.json` 获取已运行 service 的 UI 地址并复用，满足“已启动即跳过重复启动”。
 - 保留开发态并发调试能力：
   - 开发态（`app.isPackaged=false`）继续使用嵌入式 `serve` 路径。
-  - 若未显式设置 `NEXTCLAW_HOME`，开发态自动设置隔离目录（`userData/nextclaw-dev-home`），避免与生产态共享同一服务与配置。
+  - 若未显式设置 `GOUSB_AI_HOME`，开发态自动设置隔离目录（`userData/go-usb-ai-dev-home`），避免与生产态共享同一服务与配置。
 - 修复退出清理闭环：
   - Desktop 在 `before-quit` 阶段增加 runtime 停止流程，避免开发态嵌入 `serve` 子进程残留成为孤儿进程。
 
@@ -30,7 +30,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 在生产环境先启动一次常驻服务（`nextclaw start`），确认服务可用。
-2. 启动打包版 Desktop，多次打开/关闭后检查系统进程：不应出现多个重复的 `nextclaw ... serve --ui-port` 实例。
+1. 在生产环境先启动一次常驻服务（`go-usb-ai start`），确认服务可用。
+2. 启动打包版 Desktop，多次打开/关闭后检查系统进程：不应出现多个重复的 `go-usb-ai ... serve --ui-port` 实例。
 3. 在同一机器上再启动开发态 Desktop（`pnpm -C apps/desktop dev`）。
-4. 验证开发态与生产态可并存：开发态不应复用/污染生产态 `NEXTCLAW_HOME`，QQ 等通道不会因双实例共享配置导致重复回复。
+4. 验证开发态与生产态可并存：开发态不应复用/污染生产态 `GOUSB_AI_HOME`，QQ 等通道不会因双实例共享配置导致重复回复。

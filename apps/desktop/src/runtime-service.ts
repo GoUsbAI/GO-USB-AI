@@ -63,7 +63,7 @@ export class RuntimeServiceProcess {
   };
 
   private startEmbeddedServe = async (port: number): Promise<{ port: number; baseUrl: string }> => {
-    this.options.logger.info(`[runtime] launching embedded serve with NEXTCLAW_HOME=${this.options.runtimeEnv.NEXTCLAW_HOME ?? ""}`);
+    this.options.logger.info(`[runtime] launching embedded serve with GOUSB_AI_HOME=${this.options.runtimeEnv.GOUSB_AI_HOME ?? ""}`);
     const child = spawnRuntimeScript(this.options.scriptPath, ["serve", "--ui-port", String(port)], this.options.runtimeEnv);
     this.options.logger.info(
       [

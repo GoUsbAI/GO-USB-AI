@@ -218,7 +218,7 @@ src/
 - 该能力不属于主链路 owner，只是监听已有事实、投影派生状态、写回已有 owner 或补充内部体验。
 - kernel 只需要管理该能力的生命周期，不需要理解它的内部业务逻辑。
 - contribution 内部不应成为其他模块复用的公共实现来源；外部默认只依赖它的 contribution class。
-- kernel contribution 构造器默认直接接收 `NextclawKernel` 这类 kernel owner；不要从外部把 `toolManager`、`eventBus`、`sessionManager` 等依赖拆碎后传入 contribution。若 contribution 需要的能力还不是 kernel 上的稳定 owner，应先补齐 kernel owner / 访问点，而不是用 options bag 绕过边界。
+- kernel contribution 构造器默认直接接收 `GoUsbAiKernel` 这类 kernel owner；不要从外部把 `toolManager`、`eventBus`、`sessionManager` 等依赖拆碎后传入 contribution。若 contribution 需要的能力还不是 kernel 上的稳定 owner，应先补齐 kernel owner / 访问点，而不是用 options bag 绕过边界。
 
 `contributions/<name>/` 是一个独立 contribution root。该 root 默认只暴露 `index.ts` 作为唯一入口，内部实现按角色进入 `utils/`、`types/`、`services/` 等子目录。若某个 contribution 需要隔离自己的局部分支能力，可以在内部继续使用 `contributions/<child>/index.ts` 嵌套 contribution root；嵌套 root 仍遵循唯一入口和内部角色目录规则。不要把 contribution root 当成平铺文件夹，也不要把 contribution 的内部工具通过入口重新导出。
 
@@ -434,8 +434,8 @@ import { formatDate } from "@/shared/lib/date-format/index";
 
 一个 workspace package 导入另一个 workspace package 时，只能使用对方 package 根公共入口。
 
-- 允许：`import { RuntimeCommandService } from "@nextclaw-service"`
-- 禁止：`import { RuntimeCommandService } from "@nextclaw-service/shared/services/runtime/runtime-command.service.js"`
+- 允许：`import { RuntimeCommandService } from "@go-usb-ai-service"`
+- 禁止：`import { RuntimeCommandService } from "@go-usb-ai-service/shared/services/runtime/runtime-command.service.js"`
 
 包内部可以继续使用该包已有的内部 alias 或相对路径；这条规则约束的是跨 workspace 依赖边界。新增或触达跨包导入时，必须确认 `pnpm lint:new-code:package-public-imports` 或 `pnpm lint:new-code:governance` 能拦住 deep import 漂移。
 

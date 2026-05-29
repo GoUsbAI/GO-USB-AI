@@ -1,19 +1,19 @@
 # 飞书配置
 
-飞书适合把 NextClaw 接进团队协作入口。第一次配置时，只做最小可用接入。
+飞书适合把 GoUsbAi 接进团队协作入口。第一次配置时，只做最小可用接入。
 
 ## 配置前确认
 
-- NextClaw 已经跑通
+- GoUsbAi 已经跑通
 - 模型 provider 可用
 - 你有飞书应用或接入所需权限
 
 ## 配置步骤
 
 1. 准备飞书应用信息和凭据。
-2. 在 NextClaw 中添加飞书渠道。
+2. 在 GoUsbAi 中添加飞书渠道。
 3. 保存配置。
-4. 运行 `nextclaw channels status`。
+4. 运行 `go-usb-ai channels status`。
 5. 在飞书里发送一条测试消息。
 
 ## 常见问题

@@ -6,7 +6,7 @@
 
 - 在 [`docs/USAGE.md`](../../../docs/USAGE.md) 明确 `session.dmScope` 仅允许 4 个值，并补充非法示例说明。
 - 在 [`docs/USAGE.md`](../../../docs/USAGE.md) 的“internal AI operations”补充强制配置流程：`config.get -> config.schema -> config.patch -> config.get`。
-- 在 [`packages/nextclaw-core/src/agent/context.ts`](../../../packages/nextclaw-core/src/agent/context.ts) 增加运行时提示词护栏，要求 AI 严格按 `config.schema` 枚举写入，禁止猜测/拼接新值。
+- 在 [`packages/go-usb-ai-core/src/agent/context.ts`](../../../packages/go-usb-ai-core/src/agent/context.ts) 增加运行时提示词护栏，要求 AI 严格按 `config.schema` 枚举写入，禁止猜测/拼接新值。
 
 ## 测试 / 验证 / 验收方式
 

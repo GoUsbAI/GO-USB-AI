@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-本轮为 Skill Marketplace 精选货架式展示的第一版可视化草案，不是最终交付闭环。实现重点是把 Marketplace tab 从纯平铺列表推进为更有发现感的入口，同时保持 NextClaw 当前工作台风格。
+本轮为 Skill Marketplace 精选货架式展示的第一版可视化草案，不是最终交付闭环。实现重点是把 Marketplace tab 从纯平铺列表推进为更有发现感的入口，同时保持 GoUsbAi 当前工作台风格。
 
 本次完成：
 
@@ -10,7 +10,7 @@
 2. 新增 `curated-shelves/marketplace-curated-shelves.config.ts`，把场景定义和 tone 样式从渲染组件中拆出，避免组件文件膨胀。
 3. 在 Skill Marketplace 的 `Marketplace` tab 中按条件展示货架：只在技能市场、无搜索、非 loading/error、已加载至少 4 个技能时展示。
 4. 保留原完整技能列表、安装按钮、已安装状态、详情打开和无限滚动链路，不改变安装/管理业务行为。
-5. 根据方案讨论稿统一命名为 `NextClaw 官方`，不再使用 `NextClaw 维护`。
+5. 根据方案讨论稿统一命名为 `GoUsbAi 官方`，不再使用 `GoUsbAi 维护`。
 6. 根据用户反馈移除 Skill Marketplace 页内冗余标题区，避免重复标题占据首屏空间。
 7. 将第一版过强的 demo 风格 bento 收敛为更紧凑的白底弱边框卡片，降低彩色块和展示感，提高工作台信息密度。
 8. 将场景卡片点击从“写入搜索框”改为进入子路由模块页：`/skills/scenes/:scene`，模块内只显示相关技能，搜索框保持不变，并在左上角提供返回上一级。
@@ -32,94 +32,94 @@
 24. 优化 marketplace 骨架屏高度：骨架数量不再绑定分页条数，列表加载态和场景二级页加载态使用可填满滚动容器的 grid，尽量覆盖不同屏幕高度，避免高屏 loading 态下方大片空白。
 25. 为“场景”入口图标恢复轻量颜色：每个场景沿用已有 tone 配置，仅图标块使用实色识别色，卡片背景仍保持白底弱边框，避免界面再次变得花哨。
 26. 优化普通 skill 列表卡操作区：默认用图标展示已安装/已禁用状态，安装、启用/禁用、卸载等高频操作在 hover / focus 时直接浮现，不收进更多菜单。
-27. 修复 skill marketplace 首页接口冷启动和并发加载不稳定：普通 `items?page/pageSize` 不再完整拉取全量 catalog，而是只请求远端当前页；`scene` 过滤、`scenes` 列表、skill 详情和 recommendations 下沉到 marketplace API worker 的 D1 原生查询，NextClaw server 只透传远端契约，不再在 BFF 本地用 tag 规则全量过滤；远端 marketplace fetch 增加明确超时，避免上游网络卡住时前端无限 loading。
+27. 修复 skill marketplace 首页接口冷启动和并发加载不稳定：普通 `items?page/pageSize` 不再完整拉取全量 catalog，而是只请求远端当前页；`scene` 过滤、`scenes` 列表、skill 详情和 recommendations 下沉到 marketplace API worker 的 D1 原生查询，GoUsbAi server 只透传远端契约，不再在 BFF 本地用 tag 规则全量过滤；远端 marketplace fetch 增加明确超时，避免上游网络卡住时前端无限 loading。
 28. 修复 skill 场景二级页无限滚动失效：场景页原本复用 infinite query，但底部加载 sentinel 被 `isSceneRoute` 条件挡掉，导致接近底部不会自动请求下一页；现在场景页也渲染同一个无限滚动状态，并补充回归测试。
 29. 将 skill/plugin marketplace 普通列表默认分页从 `12` 调整为 `20`，减少用户滚动到列表底部时的加载频率；MCP marketplace 保持独立分页策略不变。
 30. 恢复 Skill Marketplace 首页模块化加载态：初始加载时直接展示“场景 / 最近更新 / 全部技能”三块小骨架，不再先闪现单个“技能列表”大骨架；普通列表标题改为 `全部技能` / `All Skills`，避免把整个模块误命名为“技能列表”。
 
 ## 测试/验证/验收方式
 
-- 定向测试：`pnpm -C packages/nextclaw-ui test src/features/marketplace/components/marketplace-page.test.tsx`
+- 定向测试：`pnpm -C packages/go-usb-ai-ui test src/features/marketplace/components/marketplace-page.test.tsx`
   - 结果：通过。
-- 定向测试：`pnpm -C packages/nextclaw-ui test src/features/marketplace/components/marketplace-page.test.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx`
+- 定向测试：`pnpm -C packages/go-usb-ai-ui test src/features/marketplace/components/marketplace-page.test.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx`
   - 结果：通过，`7` 个测试通过；覆盖“点击目标卡片进入子路由、不污染搜索、场景页无搜索/目录外壳、返回上一级”。
-- TypeScript：`pnpm -C packages/nextclaw-ui tsc`
+- TypeScript：`pnpm -C packages/go-usb-ai-ui tsc`
   - 结果：通过。
-- 定向 ESLint：`pnpm -C packages/nextclaw-ui exec eslint src/features/marketplace/components/marketplace-page.tsx src/features/marketplace/components/marketplace-page.test.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.config.ts src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-module-state.ts`
+- 定向 ESLint：`pnpm -C packages/go-usb-ai-ui exec eslint src/features/marketplace/components/marketplace-page.tsx src/features/marketplace/components/marketplace-page.test.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.config.ts src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-module-state.ts`
   - 结果：无错误；保留既有 `MarketplacePage` `max-statements` warning，数值未继续恶化。
 - Playwright 冒烟：
   - 打开 `http://127.0.0.1:5174/skills`。
   - 概览截图通过，`Skill Catalog` 标题出现 1 次；点击 `Development` 后进入 `http://127.0.0.1:5174/skills/scenes/development-debugging`，`Back` 可见，场景页搜索框不可见。
-  - 最新截图路径：`/tmp/nextclaw-marketplace-all-title.png`、`/tmp/nextclaw-marketplace-scene-route.png` 与 `/tmp/nextclaw-marketplace-scene-route-mobile.png`。
+  - 最新截图路径：`/tmp/go-usb-ai-marketplace-all-title.png`、`/tmp/go-usb-ai-marketplace-scene-route.png` 与 `/tmp/go-usb-ai-marketplace-scene-route-mobile.png`。
 - Playwright 二级场景页顶部冒烟：
   - 打开 `http://127.0.0.1:5174/skills/scenes/development-debugging`。
   - 结果：返回按钮可见，搜索框不可见；桌面与窄屏截图通过。
-  - 最新截图路径：`/tmp/nextclaw-marketplace-scene-header-two-line.png` 与 `/tmp/nextclaw-marketplace-scene-header-two-line-mobile.png`。
+  - 最新截图路径：`/tmp/go-usb-ai-marketplace-scene-header-two-line.png` 与 `/tmp/go-usb-ai-marketplace-scene-header-two-line-mobile.png`。
 - Playwright 清爽版视觉冒烟：
   - 打开 `http://127.0.0.1:5174/skills` 与 `http://127.0.0.1:5174/skills/scenes/development-debugging`。
   - 结果：返回按钮可见，场景页搜索框不可见；概览、场景页、窄屏场景页截图通过。
-  - 最新截图路径：`/tmp/nextclaw-marketplace-clean-overview.png`、`/tmp/nextclaw-marketplace-clean-scene.png` 与 `/tmp/nextclaw-marketplace-clean-scene-mobile.png`。
+  - 最新截图路径：`/tmp/go-usb-ai-marketplace-clean-overview.png`、`/tmp/go-usb-ai-marketplace-clean-scene.png` 与 `/tmp/go-usb-ai-marketplace-clean-scene-mobile.png`。
 - Maintainability guard：
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/features/marketplace/components/marketplace-page.tsx packages/nextclaw-ui/src/features/marketplace/components/marketplace-page.test.tsx packages/nextclaw-ui/src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.tsx packages/nextclaw-ui/src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.config.ts packages/nextclaw-ui/src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx packages/nextclaw-ui/src/features/marketplace/components/curated-shelves/marketplace-curated-module-state.ts`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/features/marketplace/components/marketplace-page.tsx packages/go-usb-ai-ui/src/features/marketplace/components/marketplace-page.test.tsx packages/go-usb-ai-ui/src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.tsx packages/go-usb-ai-ui/src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.config.ts packages/go-usb-ai-ui/src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx packages/go-usb-ai-ui/src/features/marketplace/components/curated-shelves/marketplace-curated-module-state.ts`
   - 结果：无错误；保留 `MarketplacePage` 接近文件预算、既有函数复杂度 warning，以及货架主文件接近预算 warning。
 - Governance ratchet：`pnpm check:governance-backlog-ratchet`
   - 结果：通过。
 - Governance full suite：`pnpm lint:new-code:governance`
-  - 结果：此前通过；本次视觉清理后重跑被当前工作区其它已改文件阻塞，阻塞项在 `packages/nextclaw-core/src/features/channels/services/extension-channel.service.ts` 的 module-structure-drift，与 Skill Marketplace 改动无关。
+  - 结果：此前通过；本次视觉清理后重跑被当前工作区其它已改文件阻塞，阻塞项在 `packages/go-usb-ai-core/src/features/channels/services/extension-channel.service.ts` 的 module-structure-drift，与 Skill Marketplace 改动无关。
 - 本次视觉清理相关定向检查：
-  - `pnpm -C packages/nextclaw-ui exec eslint src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.config.ts`
+  - `pnpm -C packages/go-usb-ai-ui exec eslint src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.config.ts`
   - `node scripts/governance/lint-new-code-context-destructuring.mjs -- <本次视觉清理触达文件>`
   - 结果：通过。
 - 本次相关 context destructuring 定向检查：
   - `node scripts/governance/lint-new-code-context-destructuring.mjs -- <本次触达的 marketplace 文件>`
   - 结果：通过。
 - 本次 scene 契约化改造补充验证：
-  - `pnpm -C packages/nextclaw-server build`
-    - 结果：通过；用于刷新本地 `@nextclaw/server` 类型产物，build 保留第三方依赖 warning。
-  - `pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-server build`
+    - 结果：通过；用于刷新本地 `@go-usb-ai/server` 类型产物，build 保留第三方依赖 warning。
+  - `pnpm -C packages/go-usb-ai-ui tsc --noEmit`
     - 结果：通过。
-  - `pnpm -C packages/nextclaw-server tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-server tsc --noEmit`
     - 结果：通过。
-  - `pnpm -C packages/nextclaw-client-sdk tsc`
+  - `pnpm -C packages/go-usb-ai-client-sdk tsc`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
     - 结果：通过，`7` 个测试通过。
-  - `pnpm --dir packages/nextclaw-server exec vitest run src/app/router.marketplace-manage.test.ts`
+  - `pnpm --dir packages/go-usb-ai-server exec vitest run src/app/router.marketplace-manage.test.ts`
     - 结果：通过，`6` 个测试通过。
   - 定向 ESLint：
     - UI 触达文件：通过；保留 `MarketplacePage` 既有 `max-statements` warning，指标维持 `42`，未继续恶化。
     - Server / client-sdk 触达文件：通过。
   - `pnpm lint:new-code:governance`
-    - 结果：通过；仅提示 `packages/nextclaw-ui/src/shared/lib/api/utils` 仍是历史 flat mixed-responsibility 目录 warning。
+    - 结果：通过；仅提示 `packages/go-usb-ai-ui/src/shared/lib/api/utils` 仍是历史 flat mixed-responsibility 目录 warning。
   - `pnpm check:governance-backlog-ratchet`
     - 结果：通过。
 - 本次详情预览暖色与 Markdown 语义渲染补充验证：
-  - `pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-ui tsc --noEmit`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-ui exec vitest run src/features/marketplace/components/detail-doc/marketplace-detail-doc.test.ts src/features/marketplace/components/marketplace-page-detail.test.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec vitest run src/features/marketplace/components/detail-doc/marketplace-detail-doc.test.ts src/features/marketplace/components/marketplace-page-detail.test.tsx`
     - 结果：通过，`5` 个测试通过；覆盖 metadata key-value 渲染、Markdown 标题/列表/行内代码/代码块渲染，以及 HTML escape。
-  - `pnpm --dir packages/nextclaw-ui exec eslint src/features/marketplace/components/marketplace-detail-doc.ts src/features/marketplace/components/detail-doc/marketplace-detail-doc-renderer.ts src/features/marketplace/components/detail-doc/marketplace-detail-doc.test.ts src/shared/components/doc-browser/doc-browser.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec eslint src/features/marketplace/components/marketplace-detail-doc.ts src/features/marketplace/components/detail-doc/marketplace-detail-doc-renderer.ts src/features/marketplace/components/detail-doc/marketplace-detail-doc.test.ts src/shared/components/doc-browser/doc-browser.tsx`
     - 结果：无错误；保留 `DocBrowser` 既有 `max-lines-per-function` warning。
   - Playwright 冒烟：
     - 打开 `http://127.0.0.1:5174/marketplace/skills`，拦截 skill content 返回 Markdown + key-value metadata 后点击技能。
-    - 结果：右侧详情 metadata 显示为 `<dl>`，正文显示 `<h1>`、`<strong>`、`<code>`、`<li>` 与代码块，不再把 Markdown 标题作为裸 `<pre>` 展示；详情页与 active tab 均无蓝色残留，使用项目 warm 色系。截图路径：`/tmp/nextclaw-marketplace-detail-markdown-rendered-split.png`、`/tmp/nextclaw-marketplace-detail-warm-tab.png`。
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/features/marketplace/components/marketplace-detail-doc.ts packages/nextclaw-ui/src/features/marketplace/components/detail-doc/marketplace-detail-doc-renderer.ts packages/nextclaw-ui/src/features/marketplace/components/detail-doc/marketplace-detail-doc.test.ts packages/nextclaw-ui/src/shared/components/doc-browser/doc-browser.tsx`
+    - 结果：右侧详情 metadata 显示为 `<dl>`，正文显示 `<h1>`、`<strong>`、`<code>`、`<li>` 与代码块，不再把 Markdown 标题作为裸 `<pre>` 展示；详情页与 active tab 均无蓝色残留，使用项目 warm 色系。截图路径：`/tmp/go-usb-ai-marketplace-detail-markdown-rendered-split.png`、`/tmp/go-usb-ai-marketplace-detail-warm-tab.png`。
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/features/marketplace/components/marketplace-detail-doc.ts packages/go-usb-ai-ui/src/features/marketplace/components/detail-doc/marketplace-detail-doc-renderer.ts packages/go-usb-ai-ui/src/features/marketplace/components/detail-doc/marketplace-detail-doc.test.ts packages/go-usb-ai-ui/src/shared/components/doc-browser/doc-browser.tsx`
     - 结果：通过；保留 `DocBrowser` 接近文件预算与既有超长函数 warning。解析逻辑已收敛到 `components/detail-doc/` 子目录，避免继续挤压 `components/` 根目录预算。
   - `pnpm lint:new-code:governance`
     - 结果：通过。
   - `pnpm check:governance-backlog-ratchet`
     - 结果：通过。
 - 本次详情预览视觉与加载态补充验证：
-  - `pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-ui tsc --noEmit`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-ui exec vitest run src/features/marketplace/components/marketplace-page-detail.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec vitest run src/features/marketplace/components/marketplace-page-detail.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
     - 结果：通过，`8` 个测试通过；覆盖点击技能后先打开骨架态详情，且初始详情不再包含 `Loading` 文案。
-  - `pnpm --dir packages/nextclaw-ui exec eslint src/features/marketplace/components/marketplace-detail-doc.ts src/features/marketplace/components/marketplace-page.tsx src/features/marketplace/components/marketplace-page-detail.test.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec eslint src/features/marketplace/components/marketplace-detail-doc.ts src/features/marketplace/components/marketplace-page.tsx src/features/marketplace/components/marketplace-page-detail.test.tsx`
     - 结果：无错误；保留 `MarketplacePage` 既有 `max-statements` warning，数值仍为 `42`。
   - Playwright 冒烟：
     - 拦截 `http://127.0.0.1:5174/marketplace/skills` 的 skill content 请求后点击技能。
-    - 结果：初始右侧详情 iframe 包含 `aria-busy="true"` 骨架态，不包含 `Loading` 文案；接口返回后 `aria-busy` 消失，页面不再包含旧蓝色渐变样式，使用中性背景并显示真实内容。截图路径：`/tmp/nextclaw-marketplace-detail-skeleton.png`、`/tmp/nextclaw-marketplace-detail-loaded-neutral.png`。
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/features/marketplace/components/marketplace-detail-doc.ts packages/nextclaw-ui/src/features/marketplace/components/marketplace-page.tsx packages/nextclaw-ui/src/features/marketplace/components/marketplace-page-detail.test.tsx`
+    - 结果：初始右侧详情 iframe 包含 `aria-busy="true"` 骨架态，不包含 `Loading` 文案；接口返回后 `aria-busy` 消失，页面不再包含旧蓝色渐变样式，使用中性背景并显示真实内容。截图路径：`/tmp/go-usb-ai-marketplace-detail-skeleton.png`、`/tmp/go-usb-ai-marketplace-detail-loaded-neutral.png`。
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/features/marketplace/components/marketplace-detail-doc.ts packages/go-usb-ai-ui/src/features/marketplace/components/marketplace-page.tsx packages/go-usb-ai-ui/src/features/marketplace/components/marketplace-page-detail.test.tsx`
     - 结果：通过；保留 `MarketplacePage` 接近文件预算和既有超长函数 warning。
   - `pnpm lint:new-code:governance`
     - 结果：通过。
@@ -134,11 +134,11 @@
   - 浏览器截图 smoke：
     - 本轮尝试使用 Chrome DevTools MCP 打开 `http://127.0.0.1:5174/skills`，但该 MCP profile 已被占用，工具返回 “browser is already running”；因此改用上述 HTTP smoke 和定向 UI 测试作为替代证明。
 - 本次 scene 加载态修复补充验证：
-  - `pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-ui tsc --noEmit`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
     - 结果：通过，`8` 个测试通过；新增覆盖“场景页加载中显示 skeleton，不显示旧目录项”。
-  - `pnpm -C packages/nextclaw-ui exec eslint <本次触达 UI 文件>`
+  - `pnpm -C packages/go-usb-ai-ui exec eslint <本次触达 UI 文件>`
     - 结果：无错误；保留 `MarketplacePage` 既有 `max-statements` warning，指标维持 `42`。
   - `pnpm lint:new-code:governance`
     - 结果：通过；保留 `shared/lib/api/utils` 历史 flat mixed-responsibility 目录 warning。
@@ -147,17 +147,17 @@
   - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths <本次加载态修复触达文件>`
     - 结果：无错误；保留 `MarketplacePage` 接近预算和既有超长函数 warning。
 - 本次 scene 数量与紧凑卡片补充验证：
-  - `pnpm -C packages/nextclaw-server tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-server tsc --noEmit`
     - 结果：通过。
-  - `pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-ui tsc --noEmit`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-server exec vitest run src/app/router.marketplace-manage.test.ts`
+  - `pnpm --dir packages/go-usb-ai-server exec vitest run src/app/router.marketplace-manage.test.ts`
     - 结果：通过，`6` 个测试通过；覆盖 scenes 返回 `count` 且不返回 `type`。
-  - `pnpm --dir packages/nextclaw-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
     - 结果：通过，`8` 个测试通过。
-  - `pnpm -C packages/nextclaw-server build`
-    - 结果：通过；用于刷新本地 `@nextclaw/server` 类型产物，build 保留第三方依赖 warning。
-  - `pnpm -C packages/nextclaw-client-sdk tsc`
+  - `pnpm -C packages/go-usb-ai-server build`
+    - 结果：通过；用于刷新本地 `@go-usb-ai/server` 类型产物，build 保留第三方依赖 warning。
+  - `pnpm -C packages/go-usb-ai-client-sdk tsc`
     - 结果：通过。
   - 定向 ESLint：
     - UI / Server 触达文件：通过。
@@ -168,56 +168,56 @@
   - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths <本次 scene count 与紧凑卡片触达文件>`
     - 结果：无错误；保留历史目录预算 warning 与 API types 接近预算 warning。
 - 本次“最近更新”卡片 header 补充验证：
-  - `pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-ui tsc --noEmit`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-ui exec eslint src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec eslint src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
     - 结果：通过，`8` 个测试通过。
   - `pnpm lint:new-code:governance`
     - 结果：通过；保留 `shared/lib/api/utils` 历史 flat mixed-responsibility 目录 warning。
   - `pnpm check:governance-backlog-ratchet`
     - 结果：通过。
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx`
     - 结果：未通过；该文件在当前工作区相对 `HEAD` 仍是本批次新增文件，guard 按非功能新增文件统计为非测试净增 `+140` 行。此次 header 微调本身已删除旧 `SourceLabel` 渲染路径并复用同一 `SkillShelfCard` owner，没有新增并行组件。
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx`
     - 结果：通过；作为整个精选货架新增能力批次的 scoped guard，未发现可维护性问题。
   - Playwright 冒烟：
     - 打开 `http://127.0.0.1:5174/skills`。
-    - 结果：页面返回 `200 OK`，正文可见 `Recently updated`；卡片文本呈现为 `Codex NARP Runtime` / `codex-narp-runtime` 这类两行 header 信息。截图路径：`/tmp/nextclaw-skill-marketplace-shelf-card.png`。
+    - 结果：页面返回 `200 OK`，正文可见 `Recently updated`；卡片文本呈现为 `Codex NARP Runtime` / `codex-narp-runtime` 这类两行 header 信息。截图路径：`/tmp/go-usb-ai-skill-marketplace-shelf-card.png`。
     - 备注：Chrome DevTools MCP 因 profile 已被占用无法新开页面，已用 Playwright headless 作为替代视觉冒烟。
 - 本次“最近更新”卡片轻量配色补充验证：
-  - `pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-ui tsc --noEmit`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-ui exec eslint src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec eslint src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
     - 结果：通过，`8` 个测试通过。
   - Playwright 冒烟：
     - 打开 `http://127.0.0.1:5174/skills`。
-    - 结果：`Recently updated` 区域仍显示 slug 与 tag 行；skill 头像与下方普通技能列表共用同一套实色识别色。截图路径：`/tmp/nextclaw-skill-marketplace-shelf-card-color.png`。
+    - 结果：`Recently updated` 区域仍显示 slug 与 tag 行；skill 头像与下方普通技能列表共用同一套实色识别色。截图路径：`/tmp/go-usb-ai-skill-marketplace-shelf-card-color.png`。
 - 本次骨架屏高度补充验证：
-  - `pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-ui tsc --noEmit`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-ui exec eslint src/features/marketplace/components/marketplace-page.tsx src/features/marketplace/components/marketplace-page.test.tsx src/features/marketplace/components/marketplace-catalog-grid.tsx src/features/marketplace/components/marketplace-page-parts.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.tsx src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec eslint src/features/marketplace/components/marketplace-page.tsx src/features/marketplace/components/marketplace-page.test.tsx src/features/marketplace/components/marketplace-catalog-grid.tsx src/features/marketplace/components/marketplace-page-parts.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.tsx src/features/marketplace/components/curated-shelves/marketplace-shelf-card.tsx`
     - 结果：无错误；保留 `MarketplacePage` 既有 `max-statements` warning，数值仍为 `42`。
-  - `pnpm --dir packages/nextclaw-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
     - 结果：通过，`8` 个测试通过；列表页骨架数量更新为 `36`。
   - Playwright 挂起 `items` 请求冒烟：
-    - `http://127.0.0.1:5174/skills` 桌面视口 `1366x900`：骨架 `36` 张，grid 高度约 `2076px`。截图路径：`/tmp/nextclaw-marketplace-skeleton-fill-desktop.png`。
-    - `http://127.0.0.1:5174/skills` 移动视口 `390x844`：骨架 `36` 张，grid 高度约 `4164px`。截图路径：`/tmp/nextclaw-marketplace-skeleton-fill-mobile.png`。
-    - `http://127.0.0.1:5174/skills/scenes/development-debugging` 桌面视口 `1366x900`：骨架 `24` 张，grid 高度约 `1412px`。截图路径：`/tmp/nextclaw-marketplace-scene-skeleton-fill-desktop.png`。
+    - `http://127.0.0.1:5174/skills` 桌面视口 `1366x900`：骨架 `36` 张，grid 高度约 `2076px`。截图路径：`/tmp/go-usb-ai-marketplace-skeleton-fill-desktop.png`。
+    - `http://127.0.0.1:5174/skills` 移动视口 `390x844`：骨架 `36` 张，grid 高度约 `4164px`。截图路径：`/tmp/go-usb-ai-marketplace-skeleton-fill-mobile.png`。
+    - `http://127.0.0.1:5174/skills/scenes/development-debugging` 桌面视口 `1366x900`：骨架 `24` 张，grid 高度约 `1412px`。截图路径：`/tmp/go-usb-ai-marketplace-scene-skeleton-fill-desktop.png`。
 - 本次模块化加载态恢复补充验证：
-  - `pnpm --dir packages/nextclaw-ui exec vitest run src/features/marketplace/components/marketplace-page.test.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec vitest run src/features/marketplace/components/marketplace-page.test.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx`
     - 结果：通过，`10` 个测试通过；覆盖首页初始加载期间仍显示“最近更新”“All Skills”和小骨架，以及 scenes 仍在 loading 时保持货架布局稳定。
-  - `pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-ui tsc --noEmit`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-ui exec eslint src/features/marketplace/components/marketplace-page.tsx src/features/marketplace/components/marketplace-page.test.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.tsx src/features/marketplace/hooks/use-marketplace-curated-scene-route.ts`
+  - `pnpm --dir packages/go-usb-ai-ui exec eslint src/features/marketplace/components/marketplace-page.tsx src/features/marketplace/components/marketplace-page.test.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/curated-shelves/marketplace-curated-shelves.tsx src/features/marketplace/hooks/use-marketplace-curated-scene-route.ts`
     - 结果：无错误；保留 `MarketplacePage` 既有 `max-statements` warning，数值仍为 `42`。
   - Playwright 慢加载冒烟：
     - 打开 `http://127.0.0.1:5174/skills`，同时延迟 `items` 与 `scenes` 接口。
     - 结果：延迟期间第一屏已包含 `Scenes`、`Recently updated`、`All Skills`；`marketplace-scenes-skeleton`、`marketplace-recent-skeleton`、`marketplace-list-skeleton` 均存在各 `1` 个，不再先出现单块大骨架后抖动切换。
-  - Package 级 ESLint：`pnpm -C packages/nextclaw-ui lint`
+  - Package 级 ESLint：`pnpm -C packages/go-usb-ai-ui lint`
     - 结果：未通过；阻塞项为当前包内既有无关错误，例如 chat、system-status、doc-browser 等文件的 unused import、`consistent-type-imports` 与 React refs 规则问题。本次触达文件的定向 ESLint 已通过且只保留 `MarketplacePage` 既有复杂度 warning。
   - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths <本次模块化加载态恢复触达文件>`
     - 结果：通过；保留 `marketplace-curated-shelves.tsx` 与 `MarketplacePage` 接近文件预算 warning，以及 `MarketplacePage` 既有 `max-statements=42` warning，指标未恶化。
@@ -226,73 +226,73 @@
   - `pnpm check:governance-backlog-ratchet`
     - 结果：通过。
 - 本次列表卡操作区补充验证：
-  - `pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-ui tsc --noEmit`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-ui exec eslint <本次 marketplace 触达文件>`
+  - `pnpm --dir packages/go-usb-ai-ui exec eslint <本次 marketplace 触达文件>`
     - 结果：无错误；保留 `MarketplacePage` 既有 `max-statements` warning，数值仍为 `42`。
-  - `pnpm --dir packages/nextclaw-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec vitest run src/features/marketplace/components/curated-shelves/marketplace-curated-scene-route.test.tsx src/features/marketplace/components/marketplace-page.test.tsx`
     - 结果：通过，`8` 个测试通过。
   - Playwright 冒烟：
     - 使用 mock marketplace 数据打开 `http://127.0.0.1:5174/skills`。
-    - 结果：已安装卡片默认存在 `Installed` 状态图标；`Uninstall` 动作默认 opacity 为 `0` 且 pointer events 为 `none`，hover 后 opacity 为 `1` 且 pointer events 为 `auto`。截图路径：`/tmp/nextclaw-marketplace-list-hover-actions.png`。
+    - 结果：已安装卡片默认存在 `Installed` 状态图标；`Uninstall` 动作默认 opacity 为 `0` 且 pointer events 为 `none`，hover 后 opacity 为 `1` 且 pointer events 为 `auto`。截图路径：`/tmp/go-usb-ai-marketplace-list-hover-actions.png`。
 - 本次列表卡状态与简介截断补充验证：
-  - `pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-ui tsc --noEmit`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-ui exec eslint src/features/marketplace/components/marketplace-list-card.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec eslint src/features/marketplace/components/marketplace-list-card.tsx`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-ui exec vitest run src/features/marketplace/components/marketplace-page.test.tsx`
+  - `pnpm --dir packages/go-usb-ai-ui exec vitest run src/features/marketplace/components/marketplace-page.test.tsx`
     - 结果：通过，`5` 个测试通过。
   - Playwright 冒烟：
     - 打开 `http://127.0.0.1:5174/marketplace/skills`。
-    - 结果：已安装状态为裸 `CheckCircle2` / `PowerOff` 图标，无背景色；列表卡操作区默认不再占用大宽度，hover 后操作按钮显示；简介从强制单行调整为最多两行。截图路径：`/tmp/nextclaw-marketplace-list-card-status-clean-v2.png`。
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/marketplace/components/marketplace-list-card.tsx`
+    - 结果：已安装状态为裸 `CheckCircle2` / `PowerOff` 图标，无背景色；列表卡操作区默认不再占用大宽度，hover 后操作按钮显示；简介从强制单行调整为最多两行。截图路径：`/tmp/go-usb-ai-marketplace-list-card-status-clean-v2.png`。
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/marketplace/components/marketplace-list-card.tsx`
     - 结果：未通过；guard 按整个未提交 diff 统计该文件，包含前面列表卡 hover 操作区的用户可见改造，非测试净增 `+93` 行。
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/features/marketplace/components/marketplace-list-card.tsx`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/features/marketplace/components/marketplace-list-card.tsx`
     - 结果：通过；作为本批 UI 体验改造的 scoped guard，未发现可维护性问题。
   - `pnpm lint:new-code:governance`
     - 结果：通过。
   - `pnpm check:governance-backlog-ratchet`
     - 结果：通过。
 - 本次 skill marketplace 接口不返回问题补充验证：
-  - 根因：场景货架加入后，NextClaw server 曾在 BFF 层把远端 skill catalog 全量拉回本地，再用本地 scene -> tag 规则过滤和计数；冷启动或并发请求时，本地 Node `fetch` 到远端 marketplace 的 HTTPS 路径偶发慢请求会被放大成前端长时间 loading。
+  - 根因：场景货架加入后，GoUsbAi server 曾在 BFF 层把远端 skill catalog 全量拉回本地，再用本地 scene -> tag 规则过滤和计数；冷启动或并发请求时，本地 Node `fetch` 到远端 marketplace 的 HTTPS 路径偶发慢请求会被放大成前端长时间 loading。
   - 修复：普通 `items` 只透传当前页；`scene` 查询、`scenes` 计数、skill 详情和 recommendations 改由 marketplace API worker 原生 D1 查询支持。缓存已移除，避免掩盖真实链路问题。
-  - `pnpm -C packages/nextclaw-server tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-server tsc --noEmit`
     - 结果：通过。
   - `pnpm -C workers/marketplace-api tsc`
     - 结果：通过。
   - `pnpm -C workers/marketplace-api lint`
     - 结果：通过。
-  - `pnpm --dir packages/nextclaw-server exec vitest run src/app/router.marketplace-manage.test.ts src/app/router.marketplace-content.test.ts`
+  - `pnpm --dir packages/go-usb-ai-server exec vitest run src/app/router.marketplace-manage.test.ts src/app/router.marketplace-content.test.ts`
     - 结果：通过，`15` 个测试通过；覆盖普通 `items` 保留 `page/pageSize` 透传，`scene` 查询透传到远端 marketplace API。
-  - `pnpm --dir packages/nextclaw-server exec eslint src/features/marketplace/controllers/skill-marketplace.controller.ts src/features/marketplace/utils/marketplace-catalog.utils.ts src/features/marketplace/index.ts src/app/router.marketplace-manage.test.ts`
+  - `pnpm --dir packages/go-usb-ai-server exec eslint src/features/marketplace/controllers/skill-marketplace.controller.ts src/features/marketplace/utils/marketplace-catalog.utils.ts src/features/marketplace/index.ts src/app/router.marketplace-manage.test.ts`
     - 结果：通过。
   - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths ...`
-    - 结果：无错误；保留 `packages/nextclaw-server/src/app` 历史目录预算 warning，以及 worker `main.ts` / `d1-marketplace-skill.repository.ts` 接近文件预算 warning。
+    - 结果：无错误；保留 `packages/go-usb-ai-server/src/app` 历史目录预算 warning，以及 worker `main.ts` / `d1-marketplace-skill.repository.ts` 接近文件预算 warning。
   - `pnpm check:governance-backlog-ratchet`
     - 结果：通过。
   - `pnpm lint:new-code:governance`
     - 结果：通过。
   - 远端契约状态：
-    - 当前线上 `https://marketplace-api.nextclaw.io/api/v1/skills/scenes` 仍返回 `404`，说明 worker 代码需要发布后，NextClaw server 的 `scenes` 代理才能在线上闭环。
+    - 当前线上 `https://marketplace-api.go-usb-ai.io/api/v1/skills/scenes` 仍返回 `404`，说明 worker 代码需要发布后，GoUsbAi server 的 `scenes` 代理才能在线上闭环。
 
 ## 发布/部署方式
 
 已执行前端 NPM 发布闭环。
 
 - 发布入口：`NPM_CONFIG_USERCONFIG=/Users/peiwang/Projects/nextbot/.npmrc pnpm release:frontend`
-- 发布基线：以已发布的 `0a4910e8` 为临时 release worktree 基线，摘入本轮 `Restore skill marketplace loading shelves` 改动，避免从本地旧 package 版本发布造成 `nextclaw` 依赖闭包回退。
+- 发布基线：以已发布的 `0a4910e8` 为临时 release worktree 基线，摘入本轮 `Restore skill marketplace loading shelves` 改动，避免从本地旧 package 版本发布造成 `go-usb-ai` 依赖闭包回退。
 - 发布版本：
-  - `@nextclaw/ui@0.12.27`
-  - `nextclaw@0.19.16`
+  - `@go-usb-ai/ui@0.12.27`
+  - `go-usb-ai@0.19.16`
 - 发布验证：
   - `pnpm release:publish:frontend` 内部 `release:verify:published` 通过，确认 `2/2` 个 package version 已发布。
-  - `npm view @nextclaw/ui@0.12.27 version` 返回 `0.12.27`。
-  - `npm view nextclaw@0.19.16 version` 返回 `0.19.16`。
-  - `npm view nextclaw dist-tags --json` 显示 `latest: 0.19.16`。
-  - `npm view @nextclaw/ui dist-tags --json` 显示 `latest: 0.12.27`。
-  - `npm pack nextclaw@0.19.16 --dry-run --json` 确认包内包含 `resources/update-bundle-public.pem`、`dist/cli/launcher/index.js` 与 `dist/cli/app/index.js`。
-  - 临时目录安装 `nextclaw@0.19.16` 后运行 `nextclaw --version` 返回 `0.19.16`。
-  - 隔离 `NEXTCLAW_HOME` 运行 `nextclaw update --check` 返回当前 runtime 已是 `0.19.16`。
+  - `npm view @go-usb-ai/ui@0.12.27 version` 返回 `0.12.27`。
+  - `npm view go-usb-ai@0.19.16 version` 返回 `0.19.16`。
+  - `npm view go-usb-ai dist-tags --json` 显示 `latest: 0.19.16`。
+  - `npm view @go-usb-ai/ui dist-tags --json` 显示 `latest: 0.12.27`。
+  - `npm pack go-usb-ai@0.19.16 --dry-run --json` 确认包内包含 `resources/update-bundle-public.pem`、`dist/cli/launcher/index.js` 与 `dist/cli/app/index.js`。
+  - 临时目录安装 `go-usb-ai@0.19.16` 后运行 `go-usb-ai --version` 返回 `0.19.16`。
+  - 隔离 `GOUSB_AI_HOME` 运行 `go-usb-ai update --check` 返回当前 runtime 已是 `0.19.16`。
 
 ## 用户/产品视角的验收步骤
 
@@ -331,7 +331,7 @@
 
 已发布：
 
-- `@nextclaw/ui@0.12.27`，dist-tag：`latest`
-- `nextclaw@0.19.16`，dist-tag：`latest`
+- `@go-usb-ai/ui@0.12.27`，dist-tag：`latest`
+- `go-usb-ai@0.19.16`，dist-tag：`latest`
 
-未发布 runtime update channel；本次是前端 NPM 包发布，验证了已发布 `nextclaw@0.19.16` 的 packaged update public key 与 `update --check` 可用性。
+未发布 runtime update channel；本次是前端 NPM 包发布，验证了已发布 `go-usb-ai@0.19.16` 的 packaged update public key 与 `update --check` 可用性。

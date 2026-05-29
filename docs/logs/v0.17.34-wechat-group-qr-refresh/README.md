@@ -2,9 +2,9 @@
 
 ## 迭代完成说明
 
-- 将 GitHub README 使用的 `images/contact/nextclaw-contact-wechat-group.png` 替换为 2026-05-07 收到的新微信群二维码。
-- 将官网 landing 使用的微信群二维码切换到 `apps/landing/public/contact/nextclaw-contact-wechat-group-2026-05-07.png`。
-- 同步更新 `apps/landing/public/contact/nextclaw-contact-wechat-group.png`，保留通用路径可继续复用。
+- 将 GitHub README 使用的 `images/contact/go-usb-ai-contact-wechat-group.png` 替换为 2026-05-07 收到的新微信群二维码。
+- 将官网 landing 使用的微信群二维码切换到 `apps/landing/public/contact/go-usb-ai-contact-wechat-group-2026-05-07.png`。
+- 同步更新 `apps/landing/public/contact/go-usb-ai-contact-wechat-group.png`，保留通用路径可继续复用。
 - 补充 `apps/landing/module-structure.config.json` 的 `main.ts` 根入口声明，让 landing 的真实 Vite 入口与 module-structure 合同一致。
 
 ## 测试/验证/验收方式
@@ -15,13 +15,13 @@
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths apps/landing/src/main.ts`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
-- 检查构建产物中包含 `/contact/nextclaw-contact-wechat-group-2026-05-07.png`，并确认 `apps/landing/dist/contact/nextclaw-contact-wechat-group-2026-05-07.png` 是有效 PNG。
-- 线上验收 `https://a29d556d.nextclaw-landing.pages.dev/assets/main-DCojBDWZ.js` 包含 `nextclaw-contact-wechat-group-2026-05-07.png`。
-- 线上验收 `https://a29d556d.nextclaw-landing.pages.dev/contact/nextclaw-contact-wechat-group-2026-05-07.png` 返回 `HTTP/2 200` 与 `content-type: image/png`。
+- 检查构建产物中包含 `/contact/go-usb-ai-contact-wechat-group-2026-05-07.png`，并确认 `apps/landing/dist/contact/go-usb-ai-contact-wechat-group-2026-05-07.png` 是有效 PNG。
+- 线上验收 `https://a29d556d.go-usb-ai-landing.pages.dev/assets/main-DCojBDWZ.js` 包含 `go-usb-ai-contact-wechat-group-2026-05-07.png`。
+- 线上验收 `https://a29d556d.go-usb-ai-landing.pages.dev/contact/go-usb-ai-contact-wechat-group-2026-05-07.png` 返回 `HTTP/2 200` 与 `content-type: image/png`。
 
 ## 发布/部署方式
 
-- 官网 landing 已通过 `pnpm deploy:landing` 发布到 Cloudflare Pages：`https://a29d556d.nextclaw-landing.pages.dev`。
+- 官网 landing 已通过 `pnpm deploy:landing` 发布到 Cloudflare Pages：`https://a29d556d.go-usb-ai-landing.pages.dev`。
 - 不涉及后端、数据库、migration 或远程 API 冒烟。
 
 ## 用户/产品视角的验收步骤

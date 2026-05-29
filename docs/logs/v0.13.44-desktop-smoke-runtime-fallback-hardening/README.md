@@ -4,13 +4,13 @@
 
 - 修复桌面冒烟脚本在 CI 环境下的稳定性问题：
   - `apps/desktop/scripts/smoke-macos-dmg.sh`
-    - 运行时回退路径新增 `app.asar` 内部 `nextclaw` CLI 检测。
+    - 运行时回退路径新增 `app.asar` 内部 `go-usb-ai` CLI 检测。
     - 移除固定 `18791` 端口种子，避免误命中非本次进程的本地服务。
   - `apps/desktop/scripts/smoke-windows-desktop.ps1`
     - 新增 runtime fallback（`init` + `serve`）路径，支持通过 `ELECTRON_RUN_AS_NODE` 直接验证打包内 CLI。
     - 新增 app/runtime 日志输出与失败时日志回显，便于定位 CI 启动问题。
     - 移除固定 `18791` 端口种子，避免假阳性。
-- 调整 `.github/workflows/desktop-release.yml` 的 Windows 冒烟日志上传路径，补充 `${{ runner.temp }}/nextclaw-desktop-smoke-logs/**`。
+- 调整 `.github/workflows/desktop-release.yml` 的 Windows 冒烟日志上传路径，补充 `${{ runner.temp }}/go-usb-ai-desktop-smoke-logs/**`。
 
 ## 测试/验证/验收方式
 

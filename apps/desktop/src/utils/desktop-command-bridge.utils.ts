@@ -2,7 +2,7 @@ import { spawnSync, type SpawnSyncReturns } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import type { DesktopCommandSurfaceManifest } from "../managers/desktop-command-surface.manager";
-import { NEXTCLAW_COMMAND_SURFACE_BIN_ENV } from "../managers/desktop-command-surface.manager";
+import { GOUSB_AI_COMMAND_SURFACE_BIN_ENV } from "../managers/desktop-command-surface.manager";
 
 type DesktopCommandBridgeArgs = {
   manifestPath: string;
@@ -145,12 +145,12 @@ function createRuntimeEnv(manifest: DesktopCommandSurfaceManifest, baseEnv: Node
   const env: NodeJS.ProcessEnv = {
     ...baseEnv,
     ELECTRON_RUN_AS_NODE: "1",
-    NEXTCLAW_HOME: manifest.runtimeHome,
-    NEXTCLAW_DESKTOP_COMMAND_SURFACE: "1",
-    [NEXTCLAW_COMMAND_SURFACE_BIN_ENV]: manifest.commandSurfaceBinDir
+    GOUSB_AI_HOME: manifest.runtimeHome,
+    GOUSB_AI_DESKTOP_COMMAND_SURFACE: "1",
+    [GOUSB_AI_COMMAND_SURFACE_BIN_ENV]: manifest.commandSurfaceBinDir
   };
-  delete env.NEXTCLAW_RUNTIME_BUNDLE_CHILD;
-  delete env.NEXTCLAW_DISABLE_RUNTIME_BUNDLE_LAUNCHER;
+  delete env.GOUSB_AI_RUNTIME_BUNDLE_CHILD;
+  delete env.GOUSB_AI_DISABLE_RUNTIME_BUNDLE_LAUNCHER;
   return env;
 }
 
@@ -186,9 +186,9 @@ function main(): void {
   } catch (error) {
     process.stderr.write(
       [
-        "NextClaw desktop command surface is unavailable.",
+        "GoUsbAi desktop command surface is unavailable.",
         `reason: ${error instanceof Error ? error.message : String(error)}`,
-        "recovery: open NextClaw Desktop once, or run the desktop package repair/update path.",
+        "recovery: open GoUsbAi Desktop once, or run the desktop package repair/update path.",
         ""
       ].join("\n")
     );

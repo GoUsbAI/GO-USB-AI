@@ -1,23 +1,23 @@
 # Claude Code / Codex / Hermes 集成
 
-这类集成适合已经理解 NextClaw 基础运行方式的用户。它不是第一次跑通的最短路径。
+这类集成适合已经理解 GoUsbAi 基础运行方式的用户。它不是第一次跑通的最短路径。
 
 ## 什么时候使用
 
 - 你已经有 Claude Code、Codex 或 Hermes 运行环境
-- 你希望把外部 agent runtime 接入 NextClaw
+- 你希望把外部 agent runtime 接入 GoUsbAi
 - 你需要在不同 runtime 之间做会话或任务路由
 
 ## 接入前确认
 
-- NextClaw 本体已经跑通
+- GoUsbAi 本体已经跑通
 - 外部 runtime 可以独立工作
 - 你知道希望哪个任务走哪个 runtime
 
 ## 基本步骤
 
 1. 先验证外部 runtime 自己可用。
-2. 在 NextClaw 中添加对应集成配置。
+2. 在 GoUsbAi 中添加对应集成配置。
 3. 保存并重启或重载需要的服务。
 4. 创建一个测试会话。
 5. 用低风险任务验证路由是否正确。

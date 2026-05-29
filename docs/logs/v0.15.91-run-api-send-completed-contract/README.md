@@ -26,34 +26,34 @@
 ## 测试/验证/验收方式
 
 - toolkit 定向测试：
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- run src/agent/agent-backend-finalize-status.test.ts src/agent/in-memory-agent-backend.test.ts`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- run src/agent/agent-backend-finalize-status.test.ts src/agent/in-memory-agent-backend.test.ts`
   - 结果：通过（`3` 个测试文件，`16` 个测试全部通过）
 - toolkit 类型检查：
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
   - 结果：通过
-- nextclaw 定向测试：
-  - `pnpm -C packages/nextclaw test -- run src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.reasoning-normalization.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.child-session-request.test.ts`
+- go-usb-ai 定向测试：
+  - `pnpm -C packages/go-usb-ai test -- run src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.reasoning-normalization.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.child-session-request.test.ts`
   - 结果：通过（`3` 个测试文件，`11` 个测试全部通过）
-- nextclaw 定向成功路径测试：
-  - `pnpm -C packages/nextclaw test -- run src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts -t "keeps codex sessions on the codex runtime for non-GPT OpenAI-compatible models"`
+- go-usb-ai 定向成功路径测试：
+  - `pnpm -C packages/go-usb-ai test -- run src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts -t "keeps codex sessions on the codex runtime for non-GPT OpenAI-compatible models"`
   - 结果：通过（`1` 条目标测试通过）
-- nextclaw 全量类型检查：
-  - `pnpm -C packages/nextclaw tsc`
+- go-usb-ai 全量类型检查：
+  - `pnpm -C packages/go-usb-ai tsc`
   - 结果：未通过
-  - 阻塞原因：仓库中已有无关错误，位于 `packages/nextclaw-server/src/ui/ui-routes/marketplace/installed.ts:230` 与 `packages/nextclaw-server/src/ui/ui-routes/marketplace/installed.ts:238`
-- nextclaw Claude 定向测试：
-  - `pnpm -C packages/nextclaw test -- run src/cli/commands/ncp/runtime/create-ui-ncp-agent.claude.test.ts -t "runs claude session messages through the configured Claude CLI entrypoint"`
+  - 阻塞原因：仓库中已有无关错误，位于 `packages/go-usb-ai-server/src/ui/ui-routes/marketplace/installed.ts:230` 与 `packages/go-usb-ai-server/src/ui/ui-routes/marketplace/installed.ts:238`
+- go-usb-ai Claude 定向测试：
+  - `pnpm -C packages/go-usb-ai test -- run src/cli/commands/ncp/runtime/create-ui-ncp-agent.claude.test.ts -t "runs claude session messages through the configured Claude CLI entrypoint"`
   - 结果：未通过
   - 阻塞原因：该用例命中现有 `5000ms` timeout，失败形态是 fixture 超时，不是本次 `MessageCompleted` 断言失败
 - runtime 续改类型检查：
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk tsc`
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk tsc`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk tsc`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk tsc`
   - 结果：通过
 - core 定向测试：
-  - `pnpm -C packages/nextclaw-core test openai_provider.test.ts`
+  - `pnpm -C packages/go-usb-ai-core test openai_provider.test.ts`
   - 结果：通过（`1` 个测试文件，`8` 个测试全部通过）
 - core 类型检查：
-  - `pnpm -C packages/nextclaw-core tsc`
+  - `pnpm -C packages/go-usb-ai-core tsc`
   - 结果：通过
 - `native + custom-1/gpt-5.4` provider 级直连验证：
   - 使用 `ProviderManager.chatStream(...)` 直接读取 `custom-1/gpt-5.4`
@@ -63,7 +63,7 @@
   - metadata：`session_type=native`、`model=custom-1/gpt-5.4`
   - 结果：`HTTP 200`，真实收到 `message.text-delta = "OK"` 与 `message.completed`，不再复现原来的立即 `HTTP 500`
 - toolkit 续改定向测试：
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test src/agent/agent-conversation-state-manager.test.ts src/agent/agent-backend-finalize-status.test.ts`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test src/agent/agent-conversation-state-manager.test.ts src/agent/agent-backend-finalize-status.test.ts`
   - 结果：通过（`2` 个测试文件，`22` 个测试全部通过）
 - 可维护性守卫：
   - `pnpm lint:maintainability:guard`
@@ -76,7 +76,7 @@
 ## 发布/部署方式
 
 - 本次未执行发布。
-- 若后续发布，需要包含 `nextclaw-ncp-toolkit` 与 `nextclaw` 中这批 send contract 变更一并构建发布。
+- 若后续发布，需要包含 `go-usb-ai-ncp-toolkit` 与 `go-usb-ai` 中这批 send contract 变更一并构建发布。
 - 不适用项：
   - 数据库 migration：不适用
   - 服务部署：不适用
@@ -84,7 +84,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 启动 `nextclaw` service，并确保 live NCP agent ready。
+1. 启动 `go-usb-ai` service，并确保 live NCP agent ready。
 2. 触发 heartbeat 或 cron，让它们通过 `UiNcpAgentHandle.runApi.send(...)` 执行一次标准 NCP run。
 3. 确认调用方成功路径能在事件流里收到 `MessageCompleted`，且其顺序早于 `RunFinished`。
 4. 确认 session-request / child-session 跟随请求可以直接消费该 `MessageCompleted`，不需要额外回读 session history。
@@ -95,7 +95,7 @@
 ## 可维护性总结汇总
 
 - 长期目标对齐 / 可维护性推进：
-  - 本次顺着“统一入口、统一成功语义、行为可预测”推进了一小步。heartbeat、cron、session-request 不再各自补最后一跳，而是统一依赖 backend 暴露的单一 send contract，这更符合 NextClaw 作为统一操作层的方向。
+  - 本次顺着“统一入口、统一成功语义、行为可预测”推进了一小步。heartbeat、cron、session-request 不再各自补最后一跳，而是统一依赖 backend 暴露的单一 send contract，这更符合 GoUsbAi 作为统一操作层的方向。
   - primary contract 是 `runApi.send()` 对调用方暴露成功结果的协议；这里属于执行路径，不是纯观察路径，也不应依赖调用方自行补救。自动触发调用方（heartbeat、cron）若被迫各自 fallback，会把运行时协议错误伪装成局部成功；本次明确拒绝这种路径。
   - 本次顺手减债点：删掉消费者侧 fallback，把“最后一条 assistant message 的成立条件”收回 backend 单点处理。
   - 本次续改已经把 codex / claude runtime 的成功终态向这条原则继续推近了一步；而这轮 `native` 续改则把“同一个 provider 在不同 runtime 下行为分裂”的问题继续往收敛方向推了一步，避免用户看到 `codex` 能用、`native` 却直接 500 的惊讶失败。

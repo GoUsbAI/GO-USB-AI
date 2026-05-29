@@ -30,7 +30,7 @@ export const PORTAL_PREVIEW_ITEMS: PublicItem[] = [
       sourceLabel: "Phase 3 preview",
       sourceStatus: "In Progress",
       sourceUrl: null,
-      teamName: "NextClaw",
+      teamName: "GoUsbAi",
       labelNames: ["feature", "public"]
     }
   },
@@ -58,7 +58,7 @@ export const PORTAL_PREVIEW_ITEMS: PublicItem[] = [
       sourceLabel: "Phase 2 live sync",
       sourceStatus: "Todo",
       sourceUrl: null,
-      teamName: "NextClaw",
+      teamName: "GoUsbAi",
       labelNames: ["integration", "source-adapter"]
     }
   },
@@ -86,7 +86,7 @@ export const PORTAL_PREVIEW_ITEMS: PublicItem[] = [
       sourceLabel: "Phase 3 building",
       sourceStatus: "In Progress",
       sourceUrl: null,
-      teamName: "NextClaw",
+      teamName: "GoUsbAi",
       labelNames: ["feedback", "community"]
     }
   },
@@ -114,7 +114,7 @@ export const PORTAL_PREVIEW_ITEMS: PublicItem[] = [
       sourceLabel: "Design review",
       sourceStatus: "In Review",
       sourceUrl: null,
-      teamName: "NextClaw",
+      teamName: "GoUsbAi",
       labelNames: ["model", "public-phase"]
     }
   },
@@ -124,7 +124,7 @@ export const PORTAL_PREVIEW_ITEMS: PublicItem[] = [
     title: "Project Pulse 方案沉淀",
     summary: "沉淀公开产品脉搏页面的目标、口径、数据来源和验收方式。",
     description:
-      "早期 Project Pulse 方案确认了 NextClaw 需要一个能展示持续演进、持续交付和工程克制的公开入口。本门户是这个方向的产品化延伸。",
+      "早期 Project Pulse 方案确认了 GoUsbAi 需要一个能展示持续演进、持续交付和工程克制的公开入口。本门户是这个方向的产品化延伸。",
     publicPhase: "shipped",
     type: "research",
     source: "manual-official",
@@ -142,7 +142,7 @@ export const PORTAL_PREVIEW_ITEMS: PublicItem[] = [
       sourceLabel: "Design shipped",
       sourceStatus: "Done",
       sourceUrl: null,
-      teamName: "NextClaw",
+      teamName: "GoUsbAi",
       labelNames: ["docs", "planning"]
     }
   },
@@ -170,7 +170,7 @@ export const PORTAL_PREVIEW_ITEMS: PublicItem[] = [
       sourceLabel: "Phase 1 shipped",
       sourceStatus: "Done",
       sourceUrl: null,
-      teamName: "NextClaw",
+      teamName: "GoUsbAi",
       labelNames: ["architecture", "quality"]
     }
   }
@@ -196,7 +196,7 @@ export const PORTAL_PREVIEW_FEEDBACK_ENTRIES: StoredFeedbackEntry[] = [
     id: "feedback-002",
     slug: "public-roadmap-filter-by-channel",
     title: "想按渠道或产品线筛选路线图",
-    description: "如果后面 NextClaw 同时覆盖桌面端、Web 和插件，希望我能快速筛出自己关心的那一块。",
+    description: "如果后面 GoUsbAi 同时覆盖桌面端、Web 和插件，希望我能快速筛出自己关心的那一块。",
     category: "improvement",
     status: "open",
     authorLabel: "社区观察员",

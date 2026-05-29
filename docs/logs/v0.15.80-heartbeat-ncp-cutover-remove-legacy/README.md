@@ -15,38 +15,38 @@
 ## 测试/验证/验收方式
 
 - 定向测试：
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts`
   - 结果：通过（`2` 个测试文件，`5` 个测试全部通过）
 - 轻量冒烟：
-  - `pnpm -C packages/nextclaw exec tsx <<'TS' ... createHeartbeatJobHandler(...) ... TS`
+  - `pnpm -C packages/go-usb-ai exec tsx <<'TS' ... createHeartbeatJobHandler(...) ... TS`
   - 验证点：
     - 返回 `response = "HEARTBEAT_OK"`
     - 发送 envelope 的 `sessionId = "heartbeat"`
     - metadata 中包含 `agentId/agent_id = main`、`channel = cli`、`chatId/chat_id = direct`、`session_origin = heartbeat`
   - 结果：通过
 - 定向治理：
-  - `pnpm lint:new-code:governance -- packages/nextclaw/src/cli/commands/service-support/gateway/service-cron-job-handler.ts packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts packages/nextclaw/src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts packages/nextclaw/src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts docs/plans/2026-04-10-heartbeat-ncp-cutover-plan.md`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai/src/cli/commands/service-support/gateway/service-cron-job-handler.ts packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts packages/go-usb-ai/src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts packages/go-usb-ai/src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts docs/plans/2026-04-10-heartbeat-ncp-cutover-plan.md`
   - 结果：通过
 - 局部类型回归：
-  - `pnpm -C packages/nextclaw exec tsc -p tsconfig.json --pretty false --noEmit 2>&1 | rg "service-cron-job-handler|service-gateway-context|service-gateway-startup|service-cron-job-handler.test|service-gateway-startup.test"`
+  - `pnpm -C packages/go-usb-ai exec tsc -p tsconfig.json --pretty false --noEmit 2>&1 | rg "service-cron-job-handler|service-gateway-context|service-gateway-startup|service-cron-job-handler.test|service-gateway-startup.test"`
   - 结果：无输出，说明本次触达文件未新增局部 TypeScript 错误
-- 全量 `nextclaw` 类型检查：
-  - `pnpm -C packages/nextclaw tsc`
+- 全量 `go-usb-ai` 类型检查：
+  - `pnpm -C packages/go-usb-ai tsc`
   - 结果：未通过
-  - 阻塞原因：仓库中已有无关错误，位于 `../nextclaw-server/src/ui/ui-routes/marketplace/installed.ts:230` 与 `../nextclaw-server/src/ui/ui-routes/marketplace/installed.ts:238`
+  - 阻塞原因：仓库中已有无关错误，位于 `../go-usb-ai-server/src/ui/ui-routes/marketplace/installed.ts:230` 与 `../go-usb-ai-server/src/ui/ui-routes/marketplace/installed.ts:238`
 - 可维护性守卫：
   - `pnpm lint:maintainability:guard`
   - 结果：命令仍以非零退出
   - 非本次阻断原因：
-    - `packages/extensions/nextclaw-channel-plugin-weixin/src` 目录预算错误
-    - `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-lexical-adapter.ts` 文件预算错误
-    - `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-input-bar-tokenized-composer.tsx` 复杂度错误
+    - `packages/extensions/go-usb-ai-channel-plugin-weixin/src` 目录预算错误
+    - `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-lexical-adapter.ts` 文件预算错误
+    - `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-input-bar-tokenized-composer.tsx` 复杂度错误
   - 结论：本次 heartbeat 触达文件未新增守卫阻断
 
 ## 发布/部署方式
 
 - 本次未执行发布。
-- 若后续发布 `nextclaw`，需包含这批 service runtime 变更一并构建与发布。
+- 若后续发布 `go-usb-ai`，需包含这批 service runtime 变更一并构建与发布。
 - 不适用项：
   - 数据库 migration：不适用
   - 服务部署：不适用
@@ -54,7 +54,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 启动 `nextclaw` service，并等待 deferred startup 完成，使 live NCP agent ready。
+1. 启动 `go-usb-ai` service，并等待 deferred startup 完成，使 live NCP agent ready。
 2. 在当前 workspace 写入带实际待办的 `HEARTBEAT.md`。
 3. 等待 heartbeat 触发，或在代码侧调用 `heartbeat.triggerNow()` 做一次即时触发。
 4. 确认 heartbeat 走的是 NCP session `heartbeat`，而不是旧的 `runtimePool.processDirect(...)` 直驱。
@@ -64,7 +64,7 @@
 ## 可维护性总结汇总
 
 - 长期目标对齐 / 可维护性推进：
-  - 本次继续沿着“统一入口、统一体验、统一能力编排”的长期方向推进，把 heartbeat 也从 legacy 直驱收敛到了 NCP 主链路。这样后台自动执行不再分成 cron 一套、heartbeat 一套两种执行哲学，符合 NextClaw 作为统一操作层而不是兼容集合的方向。
+  - 本次继续沿着“统一入口、统一体验、统一能力编排”的长期方向推进，把 heartbeat 也从 legacy 直驱收敛到了 NCP 主链路。这样后台自动执行不再分成 cron 一套、heartbeat 一套两种执行哲学，符合 GoUsbAi 作为统一操作层而不是兼容集合的方向。
   - 本次顺手减债点：删除 heartbeat 在 gateway 装配层对 `runtimePool.processDirect(...)` 的依赖，不再保留双轨执行入口。
   - 下一步维护性切入口：如果后续还要继续统一后台自动执行，应优先看 cron/heartbeat 之间是否需要抽出稳定共享 core，而不是重新引入第三种后台执行旁路。
 - 可维护性复核结论：通过

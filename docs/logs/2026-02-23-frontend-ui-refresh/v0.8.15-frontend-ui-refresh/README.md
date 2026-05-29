@@ -13,7 +13,7 @@
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`（有历史 max-lines 警告，无错误）
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`
 - 冒烟测试（非仓库目录）：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui exec tsx --tsconfig tsconfig.json /tmp/nextclaw-ui-smoke.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui exec tsx --tsconfig tsconfig.json /tmp/go-usb-ai-ui-smoke.tsx`
   - 观察点：组件可正常 render，不抛异常（输出 `rendered:731`）。
 
 ## 发布 / 部署方式
@@ -23,13 +23,13 @@
   2. `pnpm release:version`
   3. `pnpm release:publish`
 - 执行结果：已发布并打 tag。
-  - `@nextclaw/ui@0.5.8`
-  - `nextclaw@0.8.15`
+  - `@go-usb-ai/ui@0.5.8`
+  - `go-usb-ai@0.8.15`
   - 受本地未发布版本影响同步发布：
-    - `@nextclaw/channel-plugin-discord@0.1.6`
-    - `@nextclaw/channel-runtime@0.1.18`
-    - `@nextclaw/openclaw-compat@0.1.26`
-    - `@nextclaw/server@0.5.9`
+    - `@go-usb-ai/channel-plugin-discord@0.1.6`
+    - `@go-usb-ai/channel-runtime@0.1.18`
+    - `@go-usb-ai/openclaw-compat@0.1.26`
+    - `@go-usb-ai/server@0.5.9`
 
 ## 用户 / 产品视角验收步骤
 

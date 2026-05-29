@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-本次将 learning loop 从 kernel 顶层 manager 调整为 `LearningLoopContribution`，并将配置读取、prompt 构造和运行判断收拢到 `packages/nextclaw-kernel/src/contributions/learning-loop/`。
+本次将 learning loop 从 kernel 顶层 manager 调整为 `LearningLoopContribution`，并将配置读取、prompt 构造和运行判断收拢到 `packages/go-usb-ai-kernel/src/contributions/learning-loop/`。
 
 同时删除 `NcpLifecycleEventBridge`、lifecycle event key/type，以及 `SessionRunManager` 到 kernel 的 `handleNcpEvent` 回调。现在 learning loop 直接监听 `eventKeys.ncpEvent`，只响应 `NcpEventType.RunFinished`。
 
@@ -10,13 +10,13 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-shared tsc`
-- `pnpm -C packages/nextclaw-kernel tsc`
-- `pnpm -C packages/nextclaw-kernel test -- src/managers/agent-run-request.manager.test.ts`
-- `pnpm -C packages/nextclaw-server test -- src/app/tests/router.ncp-agent-runtime-manager.test.ts`
-- `pnpm -C packages/nextclaw-kernel exec eslint src/app/nextclaw-kernel.ts src/managers/session-run.manager.ts src/managers/agent-run-request.manager.ts src/managers/agent-run-request.manager.test.ts src/contributions/learning-loop/index.ts src/contributions/learning-loop/config.ts src/contributions/learning-loop/utils/learning-loop-prompt.utils.ts`
-- `pnpm -C packages/nextclaw-shared exec eslint src/index.ts`
-- `pnpm -C packages/nextclaw-server exec eslint src/app/tests/router.ncp-agent-runtime-manager.test.ts`
+- `pnpm -C packages/go-usb-ai-shared tsc`
+- `pnpm -C packages/go-usb-ai-kernel tsc`
+- `pnpm -C packages/go-usb-ai-kernel test -- src/managers/agent-run-request.manager.test.ts`
+- `pnpm -C packages/go-usb-ai-server test -- src/app/tests/router.ncp-agent-runtime-manager.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel exec eslint src/app/go-usb-ai-kernel.ts src/managers/session-run.manager.ts src/managers/agent-run-request.manager.ts src/managers/agent-run-request.manager.test.ts src/contributions/learning-loop/index.ts src/contributions/learning-loop/config.ts src/contributions/learning-loop/utils/learning-loop-prompt.utils.ts`
+- `pnpm -C packages/go-usb-ai-shared exec eslint src/index.ts`
+- `pnpm -C packages/go-usb-ai-server exec eslint src/app/tests/router.ncp-agent-runtime-manager.test.ts`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths ...`
@@ -27,7 +27,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 启动 NextClaw 后正常发送 Agent 消息，核心会话运行链路不依赖 learning loop。
+1. 启动 GoUsbAi 后正常发送 Agent 消息，核心会话运行链路不依赖 learning loop。
 2. 配置启用 learning loop 且主会话 tool call 数达到阈值后，后台 review session 仍可由 `RunFinished` 触发。
 3. 如果从 kernel contributions 数组移除 `LearningLoopContribution`，核心 Agent run、session messages、stream 和 runtime 创建能力不受影响。
 

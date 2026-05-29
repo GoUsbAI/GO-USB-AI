@@ -2,29 +2,29 @@
 
 ## 迭代完成说明
 
-- 修复 `packages/nextclaw-agent-chat-ui` 中工具卡片文件预览/差异视图的长行背景覆盖异常：当 diff 或 preview 行内容很长时，文本会继续横向溢出，但绿色/红色/普通底色没有一起扩展，导致一部分文本跑到“无底色区域”上。
-- 根因已确认：问题出在 [tool-card-file-operation-lines.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-file-operation-lines.tsx)。原实现把紧凑视图的每一行做成 `grid + 1fr`，同时代码单元格使用 `min-w-full`。这样一来，行容器与文本内容不是同一个宽度 owner：长文本可以继续溢出，但带背景色的代码单元格只覆盖到原来的 track 宽度，所以出现“文本超出底色”的错位。这个根因通过代码路径比对，以及长行定向测试的 DOM 结构断言共同确认。
+- 修复 `packages/go-usb-ai-agent-chat-ui` 中工具卡片文件预览/差异视图的长行背景覆盖异常：当 diff 或 preview 行内容很长时，文本会继续横向溢出，但绿色/红色/普通底色没有一起扩展，导致一部分文本跑到“无底色区域”上。
+- 根因已确认：问题出在 [tool-card-file-operation-lines.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-file-operation-lines.tsx)。原实现把紧凑视图的每一行做成 `grid + 1fr`，同时代码单元格使用 `min-w-full`。这样一来，行容器与文本内容不是同一个宽度 owner：长文本可以继续溢出，但带背景色的代码单元格只覆盖到原来的 track 宽度，所以出现“文本超出底色”的错位。这个根因通过代码路径比对，以及长行定向测试的 DOM 结构断言共同确认。
 - 最终修复方式不是继续补额外宽度兜底，而是把宽度 owner 从“每一行自己算”收敛成“整块代码区共享同一个最长行宽度”：先为整个 block 计算最长代码列宽，再把这个宽度统一挂到 `data-file-code-stack`；每一行自身只保留 `w-full`，代码单元格只负责铺满这块共享宽度。这样短行也会继续被同一块底色覆盖到最右侧，不会再出现“只有最长那一行有完整底色，其它行右半边露白”的现象。
-- 同时确认了一个交付链路根因：如果界面是从 `nextclaw` 包自带的 `ui-dist` 提供，而不是直接跑源码，那么仅修改 `@nextclaw/agent-chat-ui` 源码并不会立刻改变用户看到的页面；必须继续重建 `@nextclaw/ui` 并刷新 `packages/nextclaw/ui-dist`。本次已完成这一步，新的 bundle 中已经不再包含旧的 `grid + 1fr` 实现。
-- 同步补了 [tool-card-file-operation-lines.test.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/tool-card-file-operation-lines.test.tsx) 的定向测试，锁定 compact/workspace 两种布局下的行容器和代码单元格宽度合同，防止后续回归。
+- 同时确认了一个交付链路根因：如果界面是从 `go-usb-ai` 包自带的 `ui-dist` 提供，而不是直接跑源码，那么仅修改 `@go-usb-ai/agent-chat-ui` 源码并不会立刻改变用户看到的页面；必须继续重建 `@go-usb-ai/ui` 并刷新 `packages/go-usb-ai/ui-dist`。本次已完成这一步，新的 bundle 中已经不再包含旧的 `grid + 1fr` 实现。
+- 同步补了 [tool-card-file-operation-lines.test.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/tool-card-file-operation-lines.test.tsx) 的定向测试，锁定 compact/workspace 两种布局下的行容器和代码单元格宽度合同，防止后续回归。
 
 ## 测试/验证/验收方式
 
-- 通过：`pnpm --filter @nextclaw/agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/__tests__/tool-card-file-operation-lines.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx`
-- 通过：`pnpm --filter @nextclaw/agent-chat-ui tsc`
-- 通过：`pnpm -C packages/nextclaw-ui build`
-- 通过：`pnpm -C packages/nextclaw build`
-- 通过：`pnpm --filter @nextclaw/agent-chat-ui build`
-- 通过：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-file-operation-lines.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/tool-card-file-operation-lines.test.tsx`
-- 通过：`pnpm lint:new-code:governance -- --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-file-operation-lines.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/tool-card-file-operation-lines.test.tsx`
+- 通过：`pnpm --filter @go-usb-ai/agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/__tests__/tool-card-file-operation-lines.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx`
+- 通过：`pnpm --filter @go-usb-ai/agent-chat-ui tsc`
+- 通过：`pnpm -C packages/go-usb-ai-ui build`
+- 通过：`pnpm -C packages/go-usb-ai build`
+- 通过：`pnpm --filter @go-usb-ai/agent-chat-ui build`
+- 通过：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-file-operation-lines.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/tool-card-file-operation-lines.test.tsx`
+- 通过：`pnpm lint:new-code:governance -- --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-file-operation-lines.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/__tests__/tool-card-file-operation-lines.test.tsx`
 - 通过：`pnpm check:governance-backlog-ratchet`
-- 通过：检查新生成的 `packages/nextclaw/ui-dist/assets/chat-page-*.js` 与 `packages/nextclaw-ui/dist/assets/chat-page-*.js`，确认 bundle 已切换到新的“共享最长行宽度”实现，不再包含旧的 `grid + 1fr` 代码路径。
-- 未作为本次通过条件：`pnpm --filter @nextclaw/agent-chat-ui lint` 仍被包内既有历史问题阻塞，报错集中在 `chat-input-bar*` 与 `lexical/*` 等未触达文件，不属于本次修复引入的问题。
+- 通过：检查新生成的 `packages/go-usb-ai/ui-dist/assets/chat-page-*.js` 与 `packages/go-usb-ai-ui/dist/assets/chat-page-*.js`，确认 bundle 已切换到新的“共享最长行宽度”实现，不再包含旧的 `grid + 1fr` 代码路径。
+- 未作为本次通过条件：`pnpm --filter @go-usb-ai/agent-chat-ui lint` 仍被包内既有历史问题阻塞，报错集中在 `chat-input-bar*` 与 `lexical/*` 等未触达文件，不属于本次修复引入的问题。
 
 ## 发布/部署方式
 
 - 本次不涉及独立部署。
-- 若需要把修复带到消费方，按现有流程重新构建并发布/集成 `@nextclaw/agent-chat-ui` 即可。
+- 若需要把修复带到消费方，按现有流程重新构建并发布/集成 `@go-usb-ai/agent-chat-ui` 即可。
 
 ## 用户/产品视角的验收步骤
 

@@ -8,8 +8,8 @@
 
 # 测试/验证/验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
   - 结果：0 errors，存在既有 warning（含本次涉及文件的 `prefer-destructuring` 与 `max-lines-per-function` 警告）。
 
 # 发布/部署方式

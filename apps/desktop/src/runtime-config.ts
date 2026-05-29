@@ -14,7 +14,7 @@ export type RuntimeCommand = {
 
 export class RuntimeConfigResolver {
   resolveCommand = (): RuntimeCommand => {
-    const envScript = process.env.NEXTCLAW_DESKTOP_RUNTIME_SCRIPT?.trim();
+    const envScript = process.env.GOUSB_AI_DESKTOP_RUNTIME_SCRIPT?.trim();
     if (envScript) {
       return {
         scriptPath: envScript,
@@ -34,8 +34,8 @@ export class RuntimeConfigResolver {
 
     throw new Error(
       [
-        "Unable to locate nextclaw runtime script.",
-        "Provide a current desktop bundle or set NEXTCLAW_DESKTOP_RUNTIME_SCRIPT."
+        "Unable to locate go-usb-ai runtime script.",
+        "Provide a current desktop bundle or set GOUSB_AI_DESKTOP_RUNTIME_SCRIPT."
       ].join(" ")
     );
   };
@@ -62,7 +62,7 @@ export class RuntimeConfigResolver {
 
   private resolvePackagedRuntime = (): RuntimeCommand | null => {
     const scriptPath = app.isPackaged
-      ? join(process.resourcesPath, "app.asar", "node_modules", "nextclaw", "dist", "cli", "app", "index.js")
+      ? join(process.resourcesPath, "app.asar", "node_modules", "go-usb-ai", "dist", "cli", "app", "index.js")
       : "";
     if (!scriptPath || !existsSync(scriptPath)) {
       return null;

@@ -6,11 +6,11 @@
 - 新增方案文档：[Windows Installer Dual-Track Implementation Plan](../../plans/2026-04-18-windows-installer-dual-track-plan.md)。
 - 更新 [apps/desktop/package.json](../../../apps/desktop/package.json)：
   - 保持现有 `electron-builder + nsis` Windows target。
-  - 新增安装器文件名约定 `NextClaw.Desktop-Setup-<version>-<arch>.exe`。
+  - 新增安装器文件名约定 `GoUsbAi.Desktop-Setup-<version>-<arch>.exe`。
   - 新增正式安装体验配置：非 one-click、允许改安装目录、创建桌面/开始菜单快捷方式、保留正式卸载项。
 - 新增 [apps/desktop/scripts/smoke-windows-installer.ps1](../../../apps/desktop/scripts/smoke-windows-installer.ps1)：
   - 静默安装 `Setup.exe`
-  - 定位安装后的 `NextClaw Desktop.exe`
+  - 定位安装后的 `GoUsbAi Desktop.exe`
   - 复用既有 [smoke-windows-desktop.ps1](../../../apps/desktop/scripts/smoke-windows-desktop.ps1) 做启动与 `/api/health` 烟测
   - 收尾静默卸载，避免污染 runner
 - 更新 [scripts/desktop/desktop-package-build.mjs](../../../scripts/desktop/desktop-package-build.mjs)：
@@ -24,14 +24,14 @@
   - 新增 `desktop-windows-installer-smoke`
   - 两条 Windows 路径分别上传自己的产物与 smoke logs
 - 更新 [desktop-release.yml](../../../.github/workflows/desktop-release.yml)：
-  - 继续构建并上传 `NextClaw.Desktop-<version>-win32-x64-unpacked.zip`
-  - 新增构建并上传 `NextClaw.Desktop-Setup-<version>-x64.exe`、`latest.yml`、`*.exe.blockmap`
+  - 继续构建并上传 `GoUsbAi.Desktop-<version>-win32-x64-unpacked.zip`
+  - 新增构建并上传 `GoUsbAi.Desktop-Setup-<version>-x64.exe`、`latest.yml`、`*.exe.blockmap`
   - Release 资产层面形成并存双轨
 - 更新 [apps/desktop/README.md](../../../apps/desktop/README.md) 与 [docs/internal/desktop-install-unsigned.md](../../../docs/internal/desktop-install-unsigned.md)，统一成“推荐安装器、保留 zip 备用”的说明。
 - 补充更新官网 landing 下载入口：
   - 更新 [apps/landing/src/main.ts](../../../apps/landing/src/main.ts) 的桌面 release fallback 到 `v0.18.0-desktop.1 / 0.0.143`
-  - Windows 主下载按钮改为 `NextClaw.Desktop-Setup-0.0.143-x64.exe`
-  - 继续显式保留 `NextClaw.Desktop-0.0.143-win32-x64-unpacked.zip` 作为备用便携下载入口
+  - Windows 主下载按钮改为 `GoUsbAi.Desktop-Setup-0.0.143-x64.exe`
+  - 继续显式保留 `GoUsbAi.Desktop-0.0.143-win32-x64-unpacked.zip` 作为备用便携下载入口
   - 同步更新四个 landing HTML 的结构化 `downloadUrl`，避免官网首页与下载页继续把搜索引擎或分享抓取导向旧 release
 
 ## 测试/验证/验收方式
@@ -48,26 +48,26 @@
 - 已通过治理回归：
   - `pnpm check:governance-backlog-ratchet`
 - 已通过官网发布入口定向核对：
-  - `gh release view v0.18.0-desktop.1 --repo Peiiii/nextclaw --json tagName,url,assets`
+  - `gh release view v0.18.0-desktop.1 --repo Peiiii/go-usb-ai --json tagName,url,assets`
     - 已确认线上正式 release 资产同时包含：
-      - `NextClaw.Desktop-Setup-0.0.143-x64.exe`
-      - `NextClaw.Desktop-0.0.143-win32-x64-unpacked.zip`
-  - `rg -n "v0\\.18\\.0-desktop\\.1|0\\.0\\.143|NextClaw\\.Desktop-Setup-0\\.0\\.143-x64\\.exe|NextClaw\\.Desktop-0\\.0\\.143-win32-x64-unpacked\\.zip" apps/landing/src/main.ts apps/landing/src/desktop-release.service.ts apps/landing/en/index.html apps/landing/en/download/index.html apps/landing/zh/index.html apps/landing/zh/download/index.html`
+      - `GoUsbAi.Desktop-Setup-0.0.143-x64.exe`
+      - `GoUsbAi.Desktop-0.0.143-win32-x64-unpacked.zip`
+  - `rg -n "v0\\.18\\.0-desktop\\.1|0\\.0\\.143|GoUsbAi\\.Desktop-Setup-0\\.0\\.143-x64\\.exe|GoUsbAi\\.Desktop-0\\.0\\.143-win32-x64-unpacked\\.zip" apps/landing/src/main.ts apps/landing/src/desktop-release.service.ts apps/landing/en/index.html apps/landing/en/download/index.html apps/landing/zh/index.html apps/landing/zh/download/index.html`
   - `pnpm -C apps/landing lint`
   - `pnpm -C apps/landing tsc`
   - `pnpm -C apps/landing build`
-  - `rg -n "v0\\.18\\.0-desktop\\.1|0\\.0\\.143|NextClaw\\.Desktop-Setup-0\\.0\\.143-x64\\.exe|NextClaw\\.Desktop-0\\.0\\.143-win32-x64-unpacked\\.zip" apps/landing/dist -S`
+  - `rg -n "v0\\.18\\.0-desktop\\.1|0\\.0\\.143|GoUsbAi\\.Desktop-Setup-0\\.0\\.143-x64\\.exe|GoUsbAi\\.Desktop-0\\.0\\.143-win32-x64-unpacked\\.zip" apps/landing/dist -S`
   - `pnpm deploy:landing`
-  - `curl -s https://nextclaw.io/en/download/ | rg 'v0\\.18\\.0-desktop\\.1'`
-  - `curl -s https://nextclaw.io/zh/download/ | rg 'v0\\.18\\.0-desktop\\.1'`
+  - `curl -s https://go-usb-ai.io/en/download/ | rg 'v0\\.18\\.0-desktop\\.1'`
+  - `curl -s https://go-usb-ai.io/zh/download/ | rg 'v0\\.18\\.0-desktop\\.1'`
   - 浏览器快照核对：
-    - `https://nextclaw.io/en/download/` 已显示 `Download Installer`，并保留 Windows 便携 zip 链接
-    - `https://nextclaw.io/zh/download/` 已显示 `下载安装器`，并保留 Windows 便携 zip 链接
+    - `https://go-usb-ai.io/en/download/` 已显示 `Download Installer`，并保留 Windows 便携 zip 链接
+    - `https://go-usb-ai.io/zh/download/` 已显示 `下载安装器`，并保留 Windows 便携 zip 链接
 - 未通过但确认非本次 installer 改动新增的问题：
   - `pnpm lint:new-code:governance`
-    - 失败点来自当前工作区其它既有改动：`packages/nextclaw-core/src/agent/context.ts`、`packages/nextclaw-core/src/config/provider-runtime-resolution.ts`、`packages/nextclaw-core/src/config/schema.ts`、`packages/nextclaw-core/src/runtime-context/runtime-user-prompt.ts` 以及若干 Python / fixture 文件命名治理问题，不是本次 Windows installer 双轨改动触达的文件。
+    - 失败点来自当前工作区其它既有改动：`packages/go-usb-ai-core/src/agent/context.ts`、`packages/go-usb-ai-core/src/config/provider-runtime-resolution.ts`、`packages/go-usb-ai-core/src/config/schema.ts`、`packages/go-usb-ai-core/src/runtime-context/runtime-user-prompt.ts` 以及若干 Python / fixture 文件命名治理问题，不是本次 Windows installer 双轨改动触达的文件。
   - `pnpm lint:maintainability:guard`
-    - 失败点来自当前工作区其它既有改动：`packages/nextclaw-core/src/agent` 目录预算超限、`workers/nextclaw-provider-gateway-api/src` 目录预算超限，不是本次 Windows installer 双轨改动新增的问题。
+    - 失败点来自当前工作区其它既有改动：`packages/go-usb-ai-core/src/agent` 目录预算超限、`workers/go-usb-ai-provider-gateway-api/src` 目录预算超限，不是本次 Windows installer 双轨改动新增的问题。
   - `pnpm desktop:package:verify`
     - 当前在 `bundle:seed` 阶段被仓库已有桌面发布合同问题挡住：`minimum launcher version 0.0.143 does not match the stable channel contract floor 0.0.141`
     - 该失败发生在 [prepare-seed-bundle.service.mjs](../../../apps/desktop/scripts/update/services/prepare-seed-bundle.service.mjs) 既有合同检查，不是本次新增 installer / zip 并存逻辑引入的问题。
@@ -79,8 +79,8 @@
 
 - 继续沿用现有 [desktop-release.yml](../../../.github/workflows/desktop-release.yml)。
 - Windows 平台发布后会同时对外提供两类资产：
-  - `NextClaw.Desktop-<version>-win32-x64-unpacked.zip`
-  - `NextClaw.Desktop-Setup-<version>-x64.exe`
+  - `GoUsbAi.Desktop-<version>-win32-x64-unpacked.zip`
+  - `GoUsbAi.Desktop-Setup-<version>-x64.exe`
 - 同时保留安装器相关元数据：
   - `latest.yml`
   - `*.exe.blockmap`
@@ -89,19 +89,19 @@
 - 官网入口发布保持沿用 landing 既有流程：
   - 合并当前改动后执行 `pnpm deploy:landing`
   - 发布后官网首页与下载页都会把 Windows 主入口落到 installer，同时保留 zip 备用入口
-  - 本次已实际执行 `pnpm deploy:landing`，Cloudflare Pages 返回部署地址：`https://8b812fb8.nextclaw-landing.pages.dev`
-  - 随后已核对 `https://nextclaw.io/en/download/` 与 `https://nextclaw.io/zh/download/`，确认正式域名已同步到新 release
+  - 本次已实际执行 `pnpm deploy:landing`，Cloudflare Pages 返回部署地址：`https://8b812fb8.go-usb-ai-landing.pages.dev`
+  - 随后已核对 `https://go-usb-ai.io/en/download/` 与 `https://go-usb-ai.io/zh/download/`，确认正式域名已同步到新 release
 
 ## 用户/产品视角的验收步骤
 
 1. 打开 GitHub Release 页面，确认 Windows 资产同时存在：
-   - `NextClaw.Desktop-Setup-<version>-x64.exe`
-   - `NextClaw.Desktop-<version>-win32-x64-unpacked.zip`
+   - `GoUsbAi.Desktop-Setup-<version>-x64.exe`
+   - `GoUsbAi.Desktop-<version>-win32-x64-unpacked.zip`
 2. 在普通用户路径上，优先下载 `Setup.exe`。
 3. 双击安装器，若出现 SmartScreen，点击 `More info -> Run anyway`。
-4. 在安装向导中完成安装，确认可从桌面快捷方式或开始菜单启动 `NextClaw Desktop`。
+4. 在安装向导中完成安装，确认可从桌面快捷方式或开始菜单启动 `GoUsbAi Desktop`。
 5. 进入主界面后确认应用可交互、首屏可打开。
-6. 在兼容/便携场景下，再下载 zip，解压并直接运行 `NextClaw Desktop.exe`，确认也能正常启动。
+6. 在兼容/便携场景下，再下载 zip，解压并直接运行 `GoUsbAi Desktop.exe`，确认也能正常启动。
 7. 二次升级时，确认重新运行新的 `Setup.exe` 后不破坏已有核心配置；若走便携路径，替换目录后也可正常运行。
 8. 打开官网首页与下载页，确认：
    - 页面显示当前桌面端版本为 `0.0.143`
@@ -139,7 +139,7 @@
   - 本次官网同步续改也保持在 landing 现有 owner 中完成，只替换 release 常量与下载入口，不新增第二套下载配置层。
 - 目录结构与文件组织是否满足当前项目治理要求：
   - 本次新增文件位置符合当前治理要求。
-  - 当前工作区仍存在与本次无关的历史治理债务入口：`packages/nextclaw-core/src/agent`、`workers/nextclaw-provider-gateway-api/src`，本次未越界处理。
+  - 当前工作区仍存在与本次无关的历史治理债务入口：`packages/go-usb-ai-core/src/agent`、`workers/go-usb-ai-provider-gateway-api/src`，本次未越界处理。
 - 独立于实现阶段的主观复核：
   - no maintainability findings
   - 当前剩余风险不是结构失衡，而是需要等待真实 Windows runner 验证 `NSIS /S` 静默安装路径在 CI 环境下稳定通过。

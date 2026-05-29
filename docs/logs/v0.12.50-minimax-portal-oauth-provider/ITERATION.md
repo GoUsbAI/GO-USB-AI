@@ -15,10 +15,10 @@
 
 ## 测试/验证/验收方式
 - 单测（server provider 路由）：
-  - `pnpm -C packages/nextclaw-server test -- --run src/ui/router.provider-test.test.ts`
+  - `pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.provider-test.test.ts`
 - 类型检查：
-  - `pnpm -C packages/nextclaw-server tsc`
-  - `pnpm -C packages/nextclaw-ui tsc`
+  - `pnpm -C packages/go-usb-ai-server tsc`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
 - 全量构建/校验（按项目规则）：
   - `pnpm build`
   - `pnpm lint`
@@ -33,9 +33,9 @@
 - 若走 npm/版本发布，按项目既有 release 流程执行（changeset version/publish）。
 
 ## 用户/产品视角的验收步骤
-1. 打开 NextClaw UI 的 `Providers` 页面，确认可看到 `MiniMax Portal`。
+1. 打开 GoUsbAi UI 的 `Providers` 页面，确认可看到 `MiniMax Portal`。
 2. 进入 `MiniMax Portal` 配置卡，确认授权区可选择 `Global` / `China Mainland (CN)`。
 3. 选择 `CN` 后点击“浏览器授权”，按页面提示完成 MiniMax 授权。
-4. 返回 NextClaw，等待授权完成提示，确认 provider 状态变为已配置。
+4. 返回 GoUsbAi，等待授权完成提示，确认 provider 状态变为已配置。
 5. 检查 `apiBase` 自动为 `https://api.minimaxi.com/v1`（CN）或 `https://api.minimax.io/v1`（Global）。
 6. 在对话页选择 `minimax-portal/*` 模型发送测试消息，确认模型可正常返回。

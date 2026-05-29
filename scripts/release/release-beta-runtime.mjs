@@ -4,7 +4,7 @@ import { execFileSync } from "node:child_process";
 import { verifyPublicRuntimeManifests } from "./release-runtime-manifest-verify.mjs";
 
 const ROOT_DIR = process.cwd();
-const REPO = "Peiiii/nextclaw";
+const REPO = "Peiiii/go-usb-ai";
 const BETA_CHANNEL = "beta";
 const RUNTIME_WORKFLOW = "npm-runtime-update-release.yml";
 const RUNTIME_MANIFEST_TARGETS = [
@@ -22,14 +22,14 @@ Usage:
 Options:
   --dry-run                             Print the intended runtime-channel closure without mutating anything
   --branch <branch>                     Override the git branch used for workflow dispatch
-  --version <version>                   Override the nextclaw beta version to publish to the runtime channel
+  --version <version>                   Override the go-usb-ai beta version to publish to the runtime channel
   --release-tag <tag>                   Override the GitHub release tag used for runtime bundle assets
   --minimum-launcher-version-override <version>
                                         Recovery-only runtime manifest floor override
   --help                                Show this help
 
 Default behavior:
-  1. resolve the target nextclaw beta version (default: npm view nextclaw@beta version)
+  1. resolve the target go-usb-ai beta version (default: npm view go-usb-ai@beta version)
   2. trigger npm-runtime-update-release for the beta channel
   3. wait for workflow success
   4. verify GitHub release assets
@@ -109,7 +109,7 @@ function readCurrentBranch() {
 }
 
 function readPublishedBetaVersion() {
-  return run("npm", ["view", "nextclaw@beta", "version"], { capture: true }).trim();
+  return run("npm", ["view", "go-usb-ai@beta", "version"], { capture: true }).trim();
 }
 
 function sleep(ms) {
@@ -189,7 +189,7 @@ function watchWorkflowRun(runId) {
   return runSummary;
 }
 
-function verifyRuntimeReleaseAssets(releaseTag, nextclawVersion) {
+function verifyRuntimeReleaseAssets(releaseTag, go-usb-aiVersion) {
   const releaseSummary = readJsonCommand("gh", [
     "release",
     "view",
@@ -201,7 +201,7 @@ function verifyRuntimeReleaseAssets(releaseTag, nextclawVersion) {
   ]);
   const assetNames = new Set((releaseSummary.assets ?? []).map((asset) => asset.name));
   for (const target of RUNTIME_MANIFEST_TARGETS) {
-    const expectedAssetName = `nextclaw-runtime-${target.platform}-${target.arch}-${nextclawVersion}.zip`;
+    const expectedAssetName = `go-usb-ai-runtime-${target.platform}-${target.arch}-${go-usb-aiVersion}.zip`;
     if (!assetNames.has(expectedAssetName)) {
       throw new Error(`Missing runtime bundle asset on release ${releaseTag}: ${expectedAssetName}`);
     }
@@ -209,11 +209,11 @@ function verifyRuntimeReleaseAssets(releaseTag, nextclawVersion) {
   return releaseSummary;
 }
 
-function buildDryRunPlan({ branch, nextclawVersion, releaseTag, minimumLauncherVersionOverride }) {
+function buildDryRunPlan({ branch, go-usb-aiVersion, releaseTag, minimumLauncherVersionOverride }) {
   return [
     `- channel: ${BETA_CHANNEL}`,
     `- branch: ${branch}`,
-    `- nextclaw version: ${nextclawVersion}`,
+    `- go-usb-ai version: ${go-usb-aiVersion}`,
     `- release tag: ${releaseTag}`,
     minimumLauncherVersionOverride
       ? `- minimum launcher version override: ${minimumLauncherVersionOverride}`
@@ -237,18 +237,18 @@ async function main() {
   ensureCommandAvailable("npm", ["--version"]);
 
   const branch = options.branch ?? readCurrentBranch();
-  const nextclawVersion = options.version?.trim() || readPublishedBetaVersion();
-  if (!nextclawVersion) {
-    throw new Error("Could not resolve the published nextclaw@beta version.");
+  const go-usb-aiVersion = options.version?.trim() || readPublishedBetaVersion();
+  if (!go-usb-aiVersion) {
+    throw new Error("Could not resolve the published go-usb-ai@beta version.");
   }
-  const releaseTag = options.releaseTag?.trim() || `nextclaw@${nextclawVersion}`;
+  const releaseTag = options.releaseTag?.trim() || `go-usb-ai@${go-usb-aiVersion}`;
 
   if (options.dryRun) {
     console.log("release:beta:runtime dry run");
     console.log(
       buildDryRunPlan({
         branch,
-        nextclawVersion,
+        go-usb-aiVersion,
         releaseTag,
         minimumLauncherVersionOverride: options.minimumLauncherVersionOverride
       }).join("\n")
@@ -264,10 +264,10 @@ async function main() {
   });
   const workflowRun = await waitForWorkflowRun(branch, dispatchStartedAtMs);
   const runtimeRunSummary = watchWorkflowRun(workflowRun.databaseId);
-  const runtimeReleaseSummary = verifyRuntimeReleaseAssets(releaseTag, nextclawVersion);
+  const runtimeReleaseSummary = verifyRuntimeReleaseAssets(releaseTag, go-usb-aiVersion);
   const publicManifestSummary = await verifyPublicRuntimeManifests({
     channel: BETA_CHANNEL,
-    expectedVersion: nextclawVersion,
+    expectedVersion: go-usb-aiVersion,
     readJsonCommand,
     repo: REPO,
     run,
@@ -277,7 +277,7 @@ async function main() {
 
   console.log("release:beta:runtime completed");
   console.log(`- branch: ${branch}`);
-  console.log(`- nextclaw version: ${nextclawVersion}`);
+  console.log(`- go-usb-ai version: ${go-usb-aiVersion}`);
   console.log(`- runtime workflow: ${runtimeRunSummary.url}`);
   console.log(`- runtime release: ${runtimeReleaseSummary.url}`);
   console.log(`- runtime manifest verification: ${publicManifestSummary.source} (${publicManifestSummary.pagesStatus})`);

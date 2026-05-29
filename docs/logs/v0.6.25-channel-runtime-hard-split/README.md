@@ -4,12 +4,12 @@
 
 - 目标：彻底消除“插件壳 + core 里保留旧渠道实现”的半拆分状态，落地真正的渠道实现外置。
 - 本次完成：
-  - 新增独立运行时包 `@nextclaw/channel-runtime`，承载 9 个渠道实现：
+  - 新增独立运行时包 `@go-usb-ai/channel-runtime`，承载 9 个渠道实现：
     - telegram / whatsapp / discord / feishu / mochat / dingtalk / email / slack / qq
-  - 9 个渠道插件包改为直接依赖 `@nextclaw/channel-runtime`，不再通过 `@nextclaw/core` 的 `listBuiltinChannelPlugins` 取实现。
-  - `@nextclaw/core` 删除上述 9 个渠道实现文件，仅保留渠道管理抽象与 builtin channel id 列表。
-  - `@nextclaw/openclaw-compat` 的 plugin-sdk 改为通过 `@nextclaw/channel-runtime` 生成 builtin channel 插件桥接。
-  - 根脚本 `build/lint/tsc` 纳入 `packages/nextclaw-channel-runtime`，保证发布前统一校验。
+  - 9 个渠道插件包改为直接依赖 `@go-usb-ai/channel-runtime`，不再通过 `@go-usb-ai/core` 的 `listBuiltinChannelPlugins` 取实现。
+  - `@go-usb-ai/core` 删除上述 9 个渠道实现文件，仅保留渠道管理抽象与 builtin channel id 列表。
+  - `@go-usb-ai/openclaw-compat` 的 plugin-sdk 改为通过 `@go-usb-ai/channel-runtime` 生成 builtin channel 插件桥接。
+  - 根脚本 `build/lint/tsc` 纳入 `packages/go-usb-ai-channel-runtime`，保证发布前统一校验。
 
 ## 测试 / 验证 / 验收方式
 
@@ -28,17 +28,17 @@ pnpm tsc
 ### 冒烟验证（隔离目录）
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-runtime-split.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
-NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0 NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-runtime-split.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
+GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0 GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
 rm -rf "$TMP_HOME"
 ```
 
 验收点：
 - `channels status` 显示 9 个渠道均由 `builtin-channel-*` 插件接管。
 - `plugins list --enabled` 显示 9 个渠道插件全部成功加载。
-- 关闭外部插件发现后（`NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0`），9 个 bundled 渠道插件仍可加载。
+- 关闭外部插件发现后（`GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0`），9 个 bundled 渠道插件仍可加载。
 
 ## 发布 / 部署方式
 
@@ -55,10 +55,10 @@ pnpm release:publish
 ```
 
 建议发布组件：
-- `@nextclaw/channel-runtime`（新增）
-- `@nextclaw/channel-plugin-*`（9 个，更新依赖）
-- `@nextclaw/openclaw-compat`（plugin-sdk 依赖调整）
-- `@nextclaw/core`（移除内置渠道实现）
+- `@go-usb-ai/channel-runtime`（新增）
+- `@go-usb-ai/channel-plugin-*`（9 个，更新依赖）
+- `@go-usb-ai/openclaw-compat`（plugin-sdk 依赖调整）
+- `@go-usb-ai/core`（移除内置渠道实现）
 
 闭环说明：
 - 远程 migration：不适用（无后端/数据库变更）。

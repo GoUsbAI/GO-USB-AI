@@ -2,21 +2,21 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Remove the `sessions_send` tool completely from NextClaw so the product no longer exposes, documents, or prompts a standalone fire-and-forget session-send abstraction.
+**Goal:** Remove the `sessions_send` tool completely from GoUsbAi so the product no longer exposes, documents, or prompts a standalone fire-and-forget session-send abstraction.
 
 **Architecture:** Delete the tool implementation and every active registration path, then rewrite the remaining guidance so cross-session notification uses the still-supported primitives (`message`, `sessions_list`, `sessions_history`, `sessions_request`, `spawn`) without keeping compatibility glue. Keep behavior explicit and fail-fast instead of preserving the old abstraction behind aliases or hidden routing bridges.
 
-**Tech Stack:** TypeScript, Vitest, Markdown docs, NextClaw core agent loop, NCP tool registry
+**Tech Stack:** TypeScript, Vitest, Markdown docs, GoUsbAi core agent loop, NCP tool registry
 
 ---
 
 ### Task 1: Remove the tool implementation and runtime registration
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/agent/tools/sessions.ts`
-- Modify: `packages/nextclaw-core/src/agent/loop.ts`
-- Modify: `packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-tool-registry.ts`
-- Modify: `packages/nextclaw/src/cli/commands/plugin/plugin-command-utils.ts`
+- Modify: `packages/go-usb-ai-core/src/agent/tools/sessions.ts`
+- Modify: `packages/go-usb-ai-core/src/agent/loop.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-tool-registry.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/plugin/plugin-command-utils.ts`
 
 **Steps:**
 1. Delete `SessionsSendTool` and its helper types/helpers from `sessions.ts`.
@@ -27,9 +27,9 @@
 ### Task 2: Remove active prompt, skill, and catalog residue
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/agent/context.ts`
-- Modify: `packages/nextclaw-core/src/agent/tools/tool-catalog.utils.ts`
-- Modify: `packages/nextclaw-core/src/agent/skills/cross-channel-messaging/SKILL.md`
+- Modify: `packages/go-usb-ai-core/src/agent/context.ts`
+- Modify: `packages/go-usb-ai-core/src/agent/tools/tool-catalog.utils.ts`
+- Modify: `packages/go-usb-ai-core/src/agent/skills/cross-channel-messaging/SKILL.md`
 - Modify: `docs/prd/current-feature-list.md`
 - Modify: `docs/feature-universe.md`
 - Modify: `docs/designs/2026-02-21-openclaw-alignment-gap-report.md`
@@ -43,8 +43,8 @@
 ### Task 3: Remove tests tied to the deleted abstraction and keep the surviving coverage
 
 **Files:**
-- Modify or move: `packages/nextclaw-core/src/agent/tools/sessions-send.test.ts`
-- Modify: `packages/nextclaw-core/src/agent/tests/context.test.ts`
+- Modify or move: `packages/go-usb-ai-core/src/agent/tools/sessions-send.test.ts`
+- Modify: `packages/go-usb-ai-core/src/agent/tests/context.test.ts`
 
 **Steps:**
 1. Delete `SessionsSendTool` tests entirely.

@@ -13,7 +13,7 @@
 - 全量发布前校验：
   - `pnpm release:check`
 - 发布前补充冒烟（CLI 用户可见能力）：
-  - `node packages/nextclaw/dist/cli/index.js skills --help`
+  - `node packages/go-usb-ai/dist/cli/index.js skills --help`
 
 验收点：
 

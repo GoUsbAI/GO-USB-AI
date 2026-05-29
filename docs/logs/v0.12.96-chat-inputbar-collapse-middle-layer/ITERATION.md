@@ -6,8 +6,8 @@
 - `ChatInputBarView` 直接读取 presenter/store，并直接调用 `useChatInputBarController`，不再经过额外包装层。
 
 ## 测试/验证/验收方式
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc --noEmit`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/ChatInputBar.tsx src/components/chat/chat-input/ChatInputBarView.tsx src/components/chat/chat-input/useChatInputBarController.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc --noEmit`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/ChatInputBar.tsx src/components/chat/chat-input/ChatInputBarView.tsx src/components/chat/chat-input/useChatInputBarController.ts`
 - `PATH=/opt/homebrew/bin:$PATH pnpm build:ui`
 
 ## 发布/部署方式

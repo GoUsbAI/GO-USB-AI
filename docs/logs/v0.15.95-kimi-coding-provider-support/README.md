@@ -2,41 +2,41 @@
 
 ## 迭代完成说明
 
-- 为 NextClaw 增加原生 `kimi-coding` provider，使项目可以直接按 Kimi Coding 的接入方式发起请求，而不是再走“伪装成别的 coding agent 名字”的旁路。
-- `@nextclaw/core` 新增 [`AnthropicMessagesProvider`](../../../packages/nextclaw-core/src/providers/anthropic/anthropic-messages.provider.ts)，把内部消息、tool schema、tool_use / tool_result 转成 Anthropic Messages 协议，并兼容 `https://api.kimi.com/coding` 与 `https://api.kimi.com/coding/v1` 两种 base URL 入口。
+- 为 GoUsbAi 增加原生 `kimi-coding` provider，使项目可以直接按 Kimi Coding 的接入方式发起请求，而不是再走“伪装成别的 coding agent 名字”的旁路。
+- `@go-usb-ai/core` 新增 [`AnthropicMessagesProvider`](../../../packages/go-usb-ai-core/src/providers/anthropic/anthropic-messages.provider.ts)，把内部消息、tool schema、tool_use / tool_result 转成 Anthropic Messages 协议，并兼容 `https://api.kimi.com/coding` 与 `https://api.kimi.com/coding/v1` 两种 base URL 入口。
 - 新协议实现最终落在 `providers/anthropic/` 子目录，而不是继续把 `providers/` 顶层目录摊平增长；这样既满足目录治理，也让协议 owner 边界更清晰。
 - provider 规格增加 `apiProtocol` 与 `defaultHeaders` 元数据：
-  - [`types.ts`](../../../packages/nextclaw-core/src/providers/types.ts)
-  - [`litellm_provider.ts`](../../../packages/nextclaw-core/src/providers/litellm_provider.ts)
+  - [`types.ts`](../../../packages/go-usb-ai-core/src/providers/types.ts)
+  - [`litellm_provider.ts`](../../../packages/go-usb-ai-core/src/providers/litellm_provider.ts)
   - `LiteLLMProvider` 现在会按 provider spec 选择 `openai-compatible` 或 `anthropic-messages` 协议 owner，并合并 spec 默认 headers 与用户自定义 headers。
-- `@nextclaw/runtime` 新增 [`kimi-coding.provider.ts`](../../../packages/nextclaw-runtime/src/providers/plugins/kimi-coding.provider.ts)，把 Kimi Coding 作为内建 provider 暴露：
+- `@go-usb-ai/runtime` 新增 [`kimi-coding.provider.ts`](../../../packages/go-usb-ai-runtime/src/providers/plugins/kimi-coding.provider.ts)，把 Kimi Coding 作为内建 provider 暴露：
   - `name: "kimi-coding"`
   - `defaultApiBase: "https://api.kimi.com/coding"`
   - `defaultModel: "kimi-coding/kimi-for-coding"`
   - `defaultHeaders.User-Agent = "claude-code/0.1.0"`
-- `@nextclaw/server` 与 `@nextclaw/ui` 已补齐元数据和配置链路：
-  - [`config.ts`](../../../packages/nextclaw-server/src/ui/config.ts) 把 `kimi-coding` 纳入 provider 展示顺序
-  - [`router.provider-test.test.ts`](../../../packages/nextclaw-server/src/ui/router.provider-test.test.ts) 覆盖 provider meta 暴露
-  - [`router-provider-probe.test.ts`](../../../packages/nextclaw-server/src/ui/router-provider-probe.test.ts) 单独覆盖 provider probe 时 `maxTokens >= 16` 的约束，避免继续把旧测试热点文件做大
-  - [`ProviderForm.tsx`](../../../packages/nextclaw-ui/src/components/config/ProviderForm.tsx) 修正 custom provider 的 `wireApi` 支持判定，避免 UI 把 custom provider 当成“不支持 wireApi”
+- `@go-usb-ai/server` 与 `@go-usb-ai/ui` 已补齐元数据和配置链路：
+  - [`config.ts`](../../../packages/go-usb-ai-server/src/ui/config.ts) 把 `kimi-coding` 纳入 provider 展示顺序
+  - [`router.provider-test.test.ts`](../../../packages/go-usb-ai-server/src/ui/router.provider-test.test.ts) 覆盖 provider meta 暴露
+  - [`router-provider-probe.test.ts`](../../../packages/go-usb-ai-server/src/ui/router-provider-probe.test.ts) 单独覆盖 provider probe 时 `maxTokens >= 16` 的约束，避免继续把旧测试热点文件做大
+  - [`ProviderForm.tsx`](../../../packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx) 修正 custom provider 的 `wireApi` 支持判定，避免 UI 把 custom provider 当成“不支持 wireApi”
 - 这轮还顺手修了一个阻塞验证的既有类型错误：
-  - [`installed.ts`](../../../packages/nextclaw-server/src/ui/ui-routes/marketplace/installed.ts) 现在会先过滤掉 `undefined` 的 record id，再构造 `Set<string>`，使 `pnpm -C packages/nextclaw-server tsc` 恢复通过。
+  - [`installed.ts`](../../../packages/go-usb-ai-server/src/ui/ui-routes/marketplace/installed.ts) 现在会先过滤掉 `undefined` 的 record id，再构造 `Set<string>`，使 `pnpm -C packages/go-usb-ai-server tsc` 恢复通过。
 - 本次方案文档沉淀在：
   - [`2026-04-11-kimi-coding-provider-implementation-plan.md`](../../plans/2026-04-11-kimi-coding-provider-implementation-plan.md)
 
 ## 测试/验证/验收方式
 
-- 已执行：`pnpm -C packages/nextclaw-core test -- run src/providers/anthropic/anthropic-messages.provider.test.ts src/providers/litellm_provider.test.ts src/config/schema.provider-routing.test.ts`
+- 已执行：`pnpm -C packages/go-usb-ai-core test -- run src/providers/anthropic/anthropic-messages.provider.test.ts src/providers/litellm_provider.test.ts src/config/schema.provider-routing.test.ts`
   - 结果：通过，`3` 个测试文件、`12` 个测试全部通过。
-- 已执行：`pnpm -C packages/nextclaw-server test -- run src/ui/router.provider-test.test.ts src/ui/router-provider-probe.test.ts`
+- 已执行：`pnpm -C packages/go-usb-ai-server test -- run src/ui/router.provider-test.test.ts src/ui/router-provider-probe.test.ts`
   - 结果：通过，`2` 个测试文件、`16` 个测试全部通过。
-- 已执行：`pnpm -C packages/nextclaw-core tsc`
+- 已执行：`pnpm -C packages/go-usb-ai-core tsc`
   - 结果：通过。
-- 已执行：`pnpm -C packages/nextclaw-runtime tsc`
+- 已执行：`pnpm -C packages/go-usb-ai-runtime tsc`
   - 结果：通过。
-- 已执行：`pnpm -C packages/nextclaw-ui tsc`
+- 已执行：`pnpm -C packages/go-usb-ai-ui tsc`
   - 结果：通过。
-- 已执行：`pnpm -C packages/nextclaw-server tsc`
+- 已执行：`pnpm -C packages/go-usb-ai-server tsc`
   - 结果：通过。
 - 已执行：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths ...`
   - 结果：通过；本次 Kimi Coding 相关文件没有新的 maintainability error，仅剩仓库既有热点 warning。
@@ -58,7 +58,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 NextClaw 配置中心的 provider 页面。
+1. 打开 GoUsbAi 配置中心的 provider 页面。
 2. 确认 provider 列表中能看到 `Kimi Coding`，并且默认 base URL 显示为 `https://api.kimi.com/coding`。
 3. 进入 `Kimi Coding` 配置页，填入有效的 `KIMI_CODING_API_KEY`。
 4. 确认默认模型为 `kimi-coding/kimi-for-coding`，保存配置。
@@ -71,7 +71,7 @@
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。虽然这是新增能力，总代码净增长不可避免，但已经避免走 Claude/Codex 插件链路的补丁式方案，也顺手修掉了 server 里阻塞类型检查的 `Set<string | undefined>` 历史错误。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：部分做到。总代码与文件数因为新增 provider 能力而上升，但协议适配与 provider catalog 责任边界更清晰，没有把 Kimi 支持继续叠加到现有热点函数里；同时新增的 Anthropics 协议实现已收进 `providers/anthropic/` 子目录，避免继续让 `providers/` 顶层目录平铺增长。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：是。`AnthropicMessagesProvider` 负责协议转换和请求发送，`LiteLLMProvider` 只负责根据 provider spec 选路，runtime provider plugin 只负责 catalog 元数据，UI 只补齐配置面板与元数据暴露。
-- 目录结构与文件组织是否满足当前项目治理要求：部分满足。`packages/nextclaw-server/src/ui/config.ts` 与 `packages/nextclaw-ui/src/components/config/ProviderForm.tsx` 仍是历史热点；本次已经把新的 Anthropics 协议实现下沉到独立子目录，并补齐热点债务说明，但下一步仍应继续拆分。
+- 目录结构与文件组织是否满足当前项目治理要求：部分满足。`packages/go-usb-ai-server/src/ui/config.ts` 与 `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx` 仍是历史热点；本次已经把新的 Anthropics 协议实现下沉到独立子目录，并补齐热点债务说明，但下一步仍应继续拆分。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：是。以下结论基于实现完成后的独立复核，而不是只复述 test / tsc / guard 输出。
 
 可维护性复核结论：保留债务经说明接受
@@ -79,7 +79,7 @@
 本次顺手减债：是
 
 长期目标对齐 / 可维护性推进：
-- 这次改动顺着 NextClaw “统一入口、统一能力编排”的长期方向推进了一小步。用户不需要再通过 Roo Code / OpenCode 的兼容壳去碰运气，而是能在 NextClaw 里直接声明一个真正的 `kimi-coding` provider。
+- 这次改动顺着 GoUsbAi “统一入口、统一能力编排”的长期方向推进了一小步。用户不需要再通过 Roo Code / OpenCode 的兼容壳去碰运气，而是能在 GoUsbAi 里直接声明一个真正的 `kimi-coding` provider。
 - 这次没有把协议差异继续埋进一个越来越胖的通用 provider，而是明确补出 `anthropic-messages` 协议 owner，属于“边界更清晰，而不是把复杂度换个位置藏起来”。
 - 下一步最值得继续推进的 seam，是继续把 `config.ts` 与 `ProviderForm.tsx` 的热点职责往更窄的域边界里拆，让 provider 支持扩展不再依赖大文件增量修改。
 
@@ -96,12 +96,12 @@
 - 净增：+593 行
 
 可维护性 finding 1：
-- [`packages/nextclaw-ui/src/components/config/ProviderForm.tsx`](../../../packages/nextclaw-ui/src/components/config/ProviderForm.tsx) 仍是超预算热点文件，本次虽然没有继续把它明显做大，但它依然同时承担表单状态、认证流程和提交编排。
+- [`packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx`](../../../packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx) 仍是超预算热点文件，本次虽然没有继续把它明显做大，但它依然同时承担表单状态、认证流程和提交编排。
 - 这会持续抬高 provider 配置面的修改成本，也让后续再接入新的 provider 字段时更容易触发预算回归。
 - 更小更简单的修正方向：继续把 auth flow、wireApi / header normalization 和 submit patch 计算下沉到独立 hook 或 adapter。
 
 可维护性 finding 2：
-- [`packages/nextclaw-server/src/ui/config.ts`](../../../packages/nextclaw-server/src/ui/config.ts) 仍是 server UI 配置聚合热点。
+- [`packages/go-usb-ai-server/src/ui/config.ts`](../../../packages/go-usb-ai-server/src/ui/config.ts) 仍是 server UI 配置聚合热点。
 - 这次只增加了 provider 排序项，没有扩展更多逻辑分支，但后续如果继续往这里堆 provider-specific 视图拼装，热点会继续恶化。
 - 更小更简单的修正方向：按 provider / session / search 等域继续拆分配置构建逻辑，让 `config.ts` 退回装配层。
 
@@ -110,12 +110,12 @@
 
 ## 红区触达与减债记录
 
-### packages/nextclaw-server/src/ui/config.ts
+### packages/go-usb-ai-server/src/ui/config.ts
 - 本次是否减债：否，未新增债务但也未实质减债
 - 说明：本次只在 provider 顺序中挂入 `kimi-coding`，没有把新的 provider 视图构建、patch 写回或业务逻辑继续堆进 `config.ts`，因此没有让热点继续变坏；但该文件仍是历史聚合热点，本轮没有跨 scope 去做结构拆分。
 - 下一步拆分缝：先按 chat/session/provider 三个域拆分配置构建与默认值归一化。
 
-### packages/nextclaw-ui/src/components/config/ProviderForm.tsx
+### packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx
 - 本次是否减债：是，局部减债
 - 说明：修复 custom provider `wireApi` 判定时，没有继续引入新的 section 或 effect 分支，而是通过复用既有 `supportsWireApi` 判断收口多处判定，并顺手把新增的派生文案内联，避免热点函数指标继续恶化。
 - 下一步拆分缝：先拆 form state hook、auth flow hook、field sections、submit adapter。

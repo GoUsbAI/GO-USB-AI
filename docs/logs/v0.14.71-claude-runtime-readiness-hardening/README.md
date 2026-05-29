@@ -5,9 +5,9 @@
 - 收紧 Claude NCP runtime 的连接策略：
   - 默认 `settingSources` 改为 `["user"]`
   - 默认优先 Claude 自身 settings / auth / gateway
-  - 不再默认把 NextClaw provider 的 `apiKey/apiBase` 强行覆盖给 Claude Agent SDK
+  - 不再默认把 GoUsbAi provider 的 `apiKey/apiBase` 强行覆盖给 Claude Agent SDK
 - 修复 Claude 插件的真实加载回归：
-  - `nextclaw-ncp-runtime-plugin-claude-code-sdk` 拆出 `claude-runtime-context.ts` 后，`dist/index.js` 一度引用了不存在的相对模块
+  - `go-usb-ai-ncp-runtime-plugin-claude-code-sdk` 拆出 `claude-runtime-context.ts` 后，`dist/index.js` 一度引用了不存在的相对模块
   - 现已改为打包单文件产物，插件加载、runtime 注册与 `claude` session type 恢复正常
 - 收紧 Claude session type 的 readiness 判定：
   - 不再仅凭 `supportedModels()` 判定 ready
@@ -26,31 +26,31 @@
 ## 测试/验证/验收方式
 
 - 类型与构建：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/nextclaw-ncp-runtime-claude-code-sdk tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/nextclaw-ncp-runtime-claude-code-sdk build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-claude-code-sdk tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-claude-code-sdk build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai build`
 - lint：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/nextclaw-ncp-runtime-claude-code-sdk lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui exec eslint src/components/chat/useChatSessionTypeState.ts src/components/chat/useChatSessionTypeState.test.tsx src/components/chat/ChatSidebar.tsx src/components/chat/ChatSidebar.test.tsx src/components/chat/ncp/ncp-chat-page-data.ts src/components/chat/ncp/ncp-chat-page-data.test.ts src/components/chat/stores/chat-input.store.ts src/api/types.ts`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/openclaw-compat exec eslint src/plugins/types.ts src/plugins/plugin-capability-registration.ts`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server exec eslint src/ui/types.ts`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw exec eslint src/cli/commands/plugins.ts src/cli/commands/ncp/ui-ncp-runtime-registry.ts src/cli/commands/ncp/create-ui-ncp-agent.ts src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
-  - 说明：`pnpm --filter @nextclaw/ui lint` 仍会被仓库内既有的两个无关 ESLint error 卡住：
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-claude-code-sdk lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui exec eslint src/components/chat/useChatSessionTypeState.ts src/components/chat/useChatSessionTypeState.test.tsx src/components/chat/ChatSidebar.tsx src/components/chat/ChatSidebar.test.tsx src/components/chat/ncp/ncp-chat-page-data.ts src/components/chat/ncp/ncp-chat-page-data.test.ts src/components/chat/stores/chat-input.store.ts src/api/types.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/openclaw-compat exec eslint src/plugins/types.ts src/plugins/plugin-capability-registration.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server exec eslint src/ui/types.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai exec eslint src/cli/commands/plugins.ts src/cli/commands/ncp/ui-ncp-runtime-registry.ts src/cli/commands/ncp/create-ui-ncp-agent.ts src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
+  - 说明：`pnpm --filter @go-usb-ai/ui lint` 仍会被仓库内既有的两个无关 ESLint error 卡住：
     - `src/components/ui/input.tsx`
     - `src/components/ui/label.tsx`
     - 本轮改动文件的定向 lint 已通过
 - 集成测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui exec vitest run src/components/chat/useChatSessionTypeState.test.tsx src/components/chat/ChatSidebar.test.tsx src/components/chat/ncp/ncp-chat-page-data.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui exec vitest run src/components/chat/useChatSessionTypeState.test.tsx src/components/chat/ChatSidebar.test.tsx src/components/chat/ncp/ncp-chat-page-data.test.ts`
 - 真实运行态验证：
-  - 使用启用了 Claude 插件的隔离 `NEXTCLAW_HOME`
-  - 启动：`PATH=/opt/homebrew/bin:$PATH NEXTCLAW_HOME=<tmp-home> pnpm -C packages/nextclaw exec tsx src/cli/index.ts serve --ui-port 19994`
+  - 使用启用了 Claude 插件的隔离 `GOUSB_AI_HOME`
+  - 启动：`PATH=/opt/homebrew/bin:$PATH GOUSB_AI_HOME=<tmp-home> pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts serve --ui-port 19994`
   - `GET /api/ncp/session-types` 真实返回：
     - `claude.ready=false`
     - `claude.reason=authentication_failed`
@@ -60,7 +60,7 @@
     - 错误文本与 readiness 探测一致
   - 同一实例下 native 正向冒烟通过：
     - `dashscope/qwen3-coder-next`
-    - 返回 `NEXTCLAW_NATIVE_STILL_OK`
+    - 返回 `GOUSB_AI_NATIVE_STILL_OK`
   - 额外核对：
     - `GET /api/ncp/sessions/claude-real-1` 中 `metadata.session_type=claude`
     - `metadata.claude_session_id` 已落盘
@@ -76,7 +76,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 用启用了 Claude 插件的配置启动 NextClaw。
+1. 用启用了 Claude 插件的配置启动 GoUsbAi。
 2. 打开聊天页或请求 `/api/ncp/session-types`。
 3. 确认 `Claude` 不再显示为可直接使用，而是展示 setup/错误态。
 4. 切到 `Claude` 时，确认模型列表只显示该 runtime 宣布支持的模型，并优先选中推荐模型。

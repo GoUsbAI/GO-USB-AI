@@ -2,30 +2,30 @@
 
 ## 迭代完成说明
 
-- 修复共享模型选择组件 [`ProviderScopedModelInput.tsx`](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/components/common/ProviderScopedModelInput.tsx) 在切换 provider 时会把当前值直接清空的问题。此前这会导致 UI 退回“选择提供商”占位，用户刚选中的 provider 立即丢失。
+- 修复共享模型选择组件 [`ProviderScopedModelInput.tsx`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/components/common/ProviderScopedModelInput.tsx) 在切换 provider 时会把当前值直接清空的问题。此前这会导致 UI 退回“选择提供商”占位，用户刚选中的 provider 立即丢失。
 - 优化 provider 切换体验：当新 provider 已配置模型列表时，切换后会立即回填该 provider 的第一个可用模型，不再要求用户再额外点一次 model。
 - 保留“无预置模型时仍可手输”的能力：当 provider 没有候选模型时，组件会保留 provider 选中态，并继续允许用户手动输入 model id。
-- 补充模型页回归测试 [`ModelConfig.test.tsx`](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/components/config/ModelConfig.test.tsx)，覆盖：
+- 补充模型页回归测试 [`ModelConfig.test.tsx`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/components/config/ModelConfig.test.tsx)，覆盖：
   - 切换 provider 后不再退回占位，并自动带出默认模型。
   - 共享输入组件在无预置模型的 provider 上仍保持 provider 选中并允许手输。
 
 ## 测试 / 验证 / 验收方式
 
 - 定向 UI 测试：
-  - `pnpm -C packages/nextclaw-ui exec vitest run src/components/config/ModelConfig.test.tsx`
+  - `pnpm -C packages/go-usb-ai-ui exec vitest run src/components/config/ModelConfig.test.tsx`
   - 结果：通过。
 - 定向 lint：
-  - `pnpm -C packages/nextclaw-ui exec eslint src/components/common/ProviderScopedModelInput.tsx src/components/config/ModelConfig.test.tsx`
+  - `pnpm -C packages/go-usb-ai-ui exec eslint src/components/common/ProviderScopedModelInput.tsx src/components/config/ModelConfig.test.tsx`
   - 结果：通过。
 - 类型检查：
-  - `pnpm -C packages/nextclaw-ui exec tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-ui exec tsc --noEmit`
   - 结果：通过。
 - 构建验证：
-  - `pnpm -C packages/nextclaw-ui build`
+  - `pnpm -C packages/go-usb-ai-ui build`
   - 结果：通过。
 - 真实页面轻量冒烟（未点击保存，不改持久配置）：
   - 先在现网本地服务 `http://127.0.0.1:55667/model` 复现旧问题：2026-04-13 切换 `DashScope -> MiniMax` 后，provider 退回“选择提供商”，model 输入框被禁用。
-  - 再用当前源码启动临时前端 `http://127.0.0.1:4174/model`（`VITE_API_BASE=http://127.0.0.1:55667 pnpm -C packages/nextclaw-ui exec vite --port 4174 --host 127.0.0.1`），同样切换 `DashScope -> MiniMax`。
+  - 再用当前源码启动临时前端 `http://127.0.0.1:4174/model`（`VITE_API_BASE=http://127.0.0.1:55667 pnpm -C packages/go-usb-ai-ui exec vite --port 4174 --host 127.0.0.1`），同样切换 `DashScope -> MiniMax`。
   - 观察结果：provider 保持为 `MiniMax`，model 自动回填为 `MiniMax-M2.7`，符合预期。
 - 维护性守卫：
   - `pnpm lint:maintainability:guard`
@@ -39,7 +39,7 @@
 ## 发布 / 部署方式
 
 - 本次只修改前端源码与测试，未执行正式发布。
-- 如需让本地运行中的 NextClaw 立即带上修复后的前端，可重建并替换 UI 产物，或按现有前端发布流程发布包含本次修复的新版本。
+- 如需让本地运行中的 GoUsbAi 立即带上修复后的前端，可重建并替换 UI 产物，或按现有前端发布流程发布包含本次修复的新版本。
 - 本次不涉及数据库、服务端配置或迁移步骤。
 
 ## 用户 / 产品视角的验收步骤

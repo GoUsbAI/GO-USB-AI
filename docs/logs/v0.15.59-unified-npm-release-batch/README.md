@@ -6,34 +6,34 @@
 
 本次实际发布的包版本如下：
 
-- `nextclaw@0.17.3`
-- `@nextclaw/core@0.12.2`
-- `@nextclaw/server@0.12.2`
-- `@nextclaw/ui@0.12.2`
-- `@nextclaw/runtime@0.2.34`
-- `@nextclaw/remote@0.1.79`
-- `@nextclaw/mcp@0.1.67`
-- `@nextclaw/openclaw-compat@1.0.2`
-- `@nextclaw/agent-chat@0.1.8`
-- `@nextclaw/feishu-core@0.2.4`
-- `@nextclaw/channel-runtime@0.4.19`
-- `@nextclaw/channel-plugin-dingtalk@0.2.33`
-- `@nextclaw/channel-plugin-discord@0.2.33`
-- `@nextclaw/channel-plugin-email@0.2.33`
-- `@nextclaw/channel-plugin-mochat@0.2.33`
-- `@nextclaw/channel-plugin-qq@0.2.33`
-- `@nextclaw/channel-plugin-slack@0.2.33`
-- `@nextclaw/channel-plugin-telegram@0.2.33`
-- `@nextclaw/channel-plugin-wecom@0.2.33`
-- `@nextclaw/channel-plugin-weixin@0.1.27`
-- `@nextclaw/channel-plugin-whatsapp@0.2.33`
-- `@nextclaw/ncp-mcp@0.1.69`
-- `@nextclaw/ncp-react@0.4.17`
-- `@nextclaw/ncp-toolkit@0.5.2`
-- `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk@0.1.46`
-- `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk@0.1.46`
+- `go-usb-ai@0.17.3`
+- `@go-usb-ai/core@0.12.2`
+- `@go-usb-ai/server@0.12.2`
+- `@go-usb-ai/ui@0.12.2`
+- `@go-usb-ai/runtime@0.2.34`
+- `@go-usb-ai/remote@0.1.79`
+- `@go-usb-ai/mcp@0.1.67`
+- `@go-usb-ai/openclaw-compat@1.0.2`
+- `@go-usb-ai/agent-chat@0.1.8`
+- `@go-usb-ai/feishu-core@0.2.4`
+- `@go-usb-ai/channel-runtime@0.4.19`
+- `@go-usb-ai/channel-plugin-dingtalk@0.2.33`
+- `@go-usb-ai/channel-plugin-discord@0.2.33`
+- `@go-usb-ai/channel-plugin-email@0.2.33`
+- `@go-usb-ai/channel-plugin-mochat@0.2.33`
+- `@go-usb-ai/channel-plugin-qq@0.2.33`
+- `@go-usb-ai/channel-plugin-slack@0.2.33`
+- `@go-usb-ai/channel-plugin-telegram@0.2.33`
+- `@go-usb-ai/channel-plugin-wecom@0.2.33`
+- `@go-usb-ai/channel-plugin-weixin@0.1.27`
+- `@go-usb-ai/channel-plugin-whatsapp@0.2.33`
+- `@go-usb-ai/ncp-mcp@0.1.69`
+- `@go-usb-ai/ncp-react@0.4.17`
+- `@go-usb-ai/ncp-toolkit@0.5.2`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk@0.1.46`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk@0.1.46`
 
-同时完成了对应 `CHANGELOG.md`、`package.json`、`packages/nextclaw/ui-dist` 与本地 git tags 的同步。
+同时完成了对应 `CHANGELOG.md`、`package.json`、`packages/go-usb-ai/ui-dist` 与本地 git tags 的同步。
 
 ## 测试 / 验证 / 验收方式
 
@@ -41,10 +41,10 @@
 - 版本推进：`PATH=/opt/homebrew/bin:/usr/local/bin:$PATH pnpm release:version`
 - 正式发布与注册表校验：`PATH=/opt/homebrew/bin:/usr/local/bin:$PATH pnpm release:publish`
 - 线上版本回查：
-  - `PATH=/opt/homebrew/bin:/usr/local/bin:$PATH npm view nextclaw version` -> `0.17.3`
-  - `PATH=/opt/homebrew/bin:/usr/local/bin:$PATH npm view @nextclaw/core version` -> `0.12.2`
+  - `PATH=/opt/homebrew/bin:/usr/local/bin:$PATH npm view go-usb-ai version` -> `0.17.3`
+  - `PATH=/opt/homebrew/bin:/usr/local/bin:$PATH npm view @go-usb-ai/core version` -> `0.12.2`
 - 非仓库目录 CLI 冒烟：
-  - `tmpdir=$(mktemp -d /tmp/nextclaw-release-smoke.XXXXXX) && cd "$tmpdir" && PATH=/opt/homebrew/bin:/usr/local/bin:$PATH pnpm dlx nextclaw@0.17.3 --version`
+  - `tmpdir=$(mktemp -d /tmp/go-usb-ai-release-smoke.XXXXXX) && cd "$tmpdir" && PATH=/opt/homebrew/bin:/usr/local/bin:$PATH pnpm dlx go-usb-ai@0.17.3 --version`
   - 观察点：输出 `0.17.3`
 
 说明：`release:publish` 已内置执行本批次包的 `build`、`tsc`、`changeset publish`、registry verify 与 `changeset tag`。
@@ -60,11 +60,11 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 在 npm registry 查看 `nextclaw` 最新版本，确认已显示 `0.17.3`。
-2. 在 npm registry 查看 `@nextclaw/core` 最新版本，确认已显示 `0.12.2`。
-3. 在任意非仓库临时目录执行 `pnpm dlx nextclaw@0.17.3 --version`。
+1. 在 npm registry 查看 `go-usb-ai` 最新版本，确认已显示 `0.17.3`。
+2. 在 npm registry 查看 `@go-usb-ai/core` 最新版本，确认已显示 `0.12.2`。
+3. 在任意非仓库临时目录执行 `pnpm dlx go-usb-ai@0.17.3 --version`。
 4. 确认 CLI 能成功安装并输出 `0.17.3`。
-5. 若业务侧依赖 `@nextclaw/server`、`@nextclaw/ui`、channel/runtime 相关包，安装对应新版本并确认依赖解析无缺包或版本冲突。
+5. 若业务侧依赖 `@go-usb-ai/server`、`@go-usb-ai/ui`、channel/runtime 相关包，安装对应新版本并确认依赖解析无缺包或版本冲突。
 
 ## 可维护性总结汇总
 

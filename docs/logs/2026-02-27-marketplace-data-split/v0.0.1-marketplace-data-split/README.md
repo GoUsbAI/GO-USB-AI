@@ -11,7 +11,7 @@
 
 ## 测试 / 验证 / 验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server test`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server test`
 - `PATH=/opt/homebrew/bin:$PATH pnpm build`
 - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
 - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`
@@ -22,7 +22,7 @@
 
 ## 发布 / 部署方式
 
-- 本次涉及前端 UI + `nextclaw-server` 路由行为，属于 npm 包发布变更。
+- 本次涉及前端 UI + `go-usb-ai-server` 路由行为，属于 npm 包发布变更。
 - 依照项目发布流程执行：`changeset -> release:version -> release:publish`。
 - 无后端数据库 schema 变更：远程 migration 不适用。
 

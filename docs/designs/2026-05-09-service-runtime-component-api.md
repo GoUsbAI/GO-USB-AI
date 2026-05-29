@@ -2,7 +2,7 @@
 
 ## Goal
 
-`NextclawServiceRuntime` is the composition root for the CLI-facing service runtime. Its API should expose real runtime components directly instead of flattening every command into another wrapper method.
+`GoUsbAiServiceRuntime` is the composition root for the CLI-facing service runtime. Its API should expose real runtime components directly instead of flattening every command into another wrapper method.
 
 This is a refactor, not a new user feature. The expected result is less forwarding code and a clearer ownership model.
 
@@ -43,7 +43,7 @@ Expose command adapters under `runtime.commands`:
 - `runtime.commands.logs.tail(...)`
 - `runtime.commands.usage.show(...)`
 
-Gateway runtime capabilities are not part of `NextclawServiceRuntime`. They only exist during a concrete gateway startup. `startGatewayUiShell` builds one complete `NextclawGatewayRuntime` for that startup and passes it to `startUiServer`.
+Gateway runtime capabilities are not part of `GoUsbAiServiceRuntime`. They only exist during a concrete gateway startup. `startGatewayUiShell` builds one complete `GoUsbAiGatewayRuntime` for that startup and passes it to `startUiServer`.
 
 The gateway runtime includes:
 
@@ -60,7 +60,7 @@ The gateway runtime includes:
 - `gateway.getPluginChannelBindings(...)`
 - `gateway.getPluginUiMetadata(...)`
 
-Do not hang gateway runtime state on `NextclawServiceRuntime` during construction. That creates a partially initialized object and couples consumers to startup order. Cross-module CLI registration boundaries should pass `nextclaw` itself; UI server startup should pass the concrete gateway runtime for that startup.
+Do not hang gateway runtime state on `GoUsbAiServiceRuntime` during construction. That creates a partially initialized object and couples consumers to startup order. Cross-module CLI registration boundaries should pass `go-usb-ai` itself; UI server startup should pass the concrete gateway runtime for that startup.
 
 `commands` is the adapter boundary for CLI registration and user command handlers. It is not a wrapper layer around gateway capabilities.
 
@@ -79,7 +79,7 @@ The runtime should not duplicate public methods that only forward to a component
 ## Acceptance
 
 - CLI registration uses first-level runtime components.
-- `NextclawServiceRuntime` no longer contains flat wrappers such as `pluginsList`, `configGet`, `mcpAdd`, `cronRun`, `logsTail`, or `usageShow`.
+- `GoUsbAiServiceRuntime` no longer contains flat wrappers such as `pluginsList`, `configGet`, `mcpAdd`, `cronRun`, `logsTail`, or `usageShow`.
 - CLI registration helpers receive the whole `runtime` object and read from `runtime.commands` internally.
 - Component methods use concise names within their own owner, such as `commands.plugins.list()` instead of `plugins.pluginsList()`.
 - TypeScript, ESLint, governance checks, and a minimal CLI smoke pass.

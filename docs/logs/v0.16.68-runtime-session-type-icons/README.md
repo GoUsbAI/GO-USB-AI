@@ -9,21 +9,21 @@
   - `agents.runtimes.entries.*.icon`
   - server/ui 的 session type 与 runtime entry view
   - 前端新建会话下拉、项目分组新建会话下拉、侧边栏会话上下文、当前会话头部 badge
-- 第一方官方图标已从官方来源下载并落库到 [packages/nextclaw-ui/public/runtime-icons](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/public/runtime-icons)：
+- 第一方官方图标已从官方来源下载并落库到 [packages/go-usb-ai-ui/public/runtime-icons](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/public/runtime-icons)：
   - `codex-openai.svg`
   - `claude.ico`
   - `hermes-agent.png`
 - `Codex` 与 `Claude` 插件现在由 runtime 自己声明 `app://runtime-icons/...` 图标 URI，不再要求 UI 做品牌判断。
 - `Hermes` 这类 entry-based runtime 现在通过 `agents.runtimes.entries.<id>.icon` 正式声明图标；同时补齐了 config schema，避免 icon 在配置解析阶段被吞掉。
 - UI 边界层新增统一 `app:// -> /...` 解析器，让会话类型图标消费的是统一 Resource URI，而不是散落的站内绝对路径。
-- 前端收尾时把重复的会话类型菜单项抽到 [chat-session-type-option-item.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/components/chat/chat-session-type-option-item.tsx)，避免为了图标能力继续膨胀 [ChatSidebar.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx)。
+- 前端收尾时把重复的会话类型菜单项抽到 [chat-session-type-option-item.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/components/chat/chat-session-type-option-item.tsx)，避免为了图标能力继续膨胀 [ChatSidebar.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx)。
 - 同批次验收修正里把会话类型下拉宽度从 `18.75rem` 先收窄到 `16rem`，随后继续微调到 `15rem`，再进一步收窄到 `14rem`，让开发态侧边栏里的新建会话菜单更克制，不再显得过宽。
-- 开发态 `pnpm dev:start` 的真实根因也已补上：之前 dev backend 只会根据 `plugins.installs` 记录把第一方插件切到 workspace 源码；当用户本地 `~/.nextclaw/extensions` 已有全局安装副本、但 `plugins.installs` 为空时，开发态仍会继续加载全局插件，导致新图标能力在 dev UI 里看不到。
-- 本次在 [first-party-plugin-load-paths.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/plugin/development-source/first-party-plugin-load-paths.ts) 把这条逻辑收敛为单一路径：dev 模式会扫描 `NEXTCLAW_HOME/extensions` 中已安装的第一方插件，并按 package name 映射回 workspace `packages/extensions/*`，同时把对应 installed root 排除掉，并默认 `source = development`。这次命中的是真正的 dev source 选择根因，不是只把生产构建或全局安装链路修好。
+- 开发态 `pnpm dev:start` 的真实根因也已补上：之前 dev backend 只会根据 `plugins.installs` 记录把第一方插件切到 workspace 源码；当用户本地 `~/.go-usb-ai/extensions` 已有全局安装副本、但 `plugins.installs` 为空时，开发态仍会继续加载全局插件，导致新图标能力在 dev UI 里看不到。
+- 本次在 [first-party-plugin-load-paths.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/plugin/development-source/first-party-plugin-load-paths.ts) 把这条逻辑收敛为单一路径：dev 模式会扫描 `GOUSB_AI_HOME/extensions` 中已安装的第一方插件，并按 package name 映射回 workspace `packages/extensions/*`，同时把对应 installed root 排除掉，并默认 `source = development`。这次命中的是真正的 dev source 选择根因，不是只把生产构建或全局安装链路修好。
 
 ### 红区触达与减债记录
 
-### packages/nextclaw-server/src/ui/config.ts
+### packages/go-usb-ai-server/src/ui/config.ts
 
 - 本次是否减债：否
 - 说明：
@@ -36,17 +36,17 @@
 ## 测试/验证/验收方式
 
 - 已执行：
-  - `pnpm -C packages/nextclaw-core exec vitest run src/config/schema.runtime-entry-icon.test.ts`
-  - `pnpm -C packages/nextclaw-ui exec vitest run src/lib/session-context.utils.test.ts`
-  - `pnpm -C packages/nextclaw-ui exec vitest run src/components/chat/chat-session-type-option-item.test.tsx`
-  - `pnpm -C packages/nextclaw-ui exec tsc --noEmit`
-  - `pnpm -C packages/nextclaw-server exec vitest run src/ui/router.ncp-agent.test.ts`
-  - `pnpm -C packages/nextclaw exec vitest run src/cli/commands/ncp/runtime/create-ui-ncp-agent.http-runtime.test.ts -t 'lists narp-http as unavailable when the configured healthcheck is unreachable|runs session messages through the configured HTTP adapter'`
-  - `pnpm -C packages/nextclaw exec vitest run src/cli/commands/ncp/runtime/create-ui-ncp-agent.hermes-http-runtime.test.ts -t 'runs through the Hermes adapter server and persists assistant output'`
-  - `pnpm -C packages/nextclaw exec vitest run src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts -t 'does not expose a codex supported model whitelist by default|exposes codex supported models when an explicit allowlist is configured|treats codex supportedModels' --testTimeout 20000`
-  - `pnpm -C packages/nextclaw exec vitest run src/cli/commands/ncp/runtime/create-ui-ncp-agent.claude.test.ts -t 'lists claude as an available session type when the runtime plugin is enabled|does not publish a Claude-only supportedModels whitelist when provider routing is available|treats a credentialed provider as Claude-ready by default even without an explicit compatibility whitelist' --testTimeout 40000`
-  - `pnpm -C packages/nextclaw exec vitest run src/cli/commands/plugin/dev-first-party-plugin-load-paths.test.ts src/cli/commands/plugin/dev-first-party-plugin-load-paths.path-install.test.ts`
-  - `NEXTCLAW_DEV_FIRST_PARTY_PLUGIN_DIR=/Users/peiwang/Projects/nextbot/packages/extensions NEXTCLAW_HOME=/Users/peiwang/.nextclaw pnpm -C packages/nextclaw exec tsx src/cli/index.ts plugins list --verbose --json`
+  - `pnpm -C packages/go-usb-ai-core exec vitest run src/config/schema.runtime-entry-icon.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui exec vitest run src/lib/session-context.utils.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui exec vitest run src/components/chat/chat-session-type-option-item.test.tsx`
+  - `pnpm -C packages/go-usb-ai-ui exec tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-server exec vitest run src/ui/router.ncp-agent.test.ts`
+  - `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/ncp/runtime/create-ui-ncp-agent.http-runtime.test.ts -t 'lists narp-http as unavailable when the configured healthcheck is unreachable|runs session messages through the configured HTTP adapter'`
+  - `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/ncp/runtime/create-ui-ncp-agent.hermes-http-runtime.test.ts -t 'runs through the Hermes adapter server and persists assistant output'`
+  - `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts -t 'does not expose a codex supported model whitelist by default|exposes codex supported models when an explicit allowlist is configured|treats codex supportedModels' --testTimeout 20000`
+  - `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/ncp/runtime/create-ui-ncp-agent.claude.test.ts -t 'lists claude as an available session type when the runtime plugin is enabled|does not publish a Claude-only supportedModels whitelist when provider routing is available|treats a credentialed provider as Claude-ready by default even without an explicit compatibility whitelist' --testTimeout 40000`
+  - `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/plugin/dev-first-party-plugin-load-paths.test.ts src/cli/commands/plugin/dev-first-party-plugin-load-paths.path-install.test.ts`
+  - `GOUSB_AI_DEV_FIRST_PARTY_PLUGIN_DIR=/Users/peiwang/Projects/nextbot/packages/extensions GOUSB_AI_HOME=/Users/peiwang/.go-usb-ai pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts plugins list --verbose --json`
   - `curl -s http://127.0.0.1:18792/api/ncp/session-types`
   - `curl -I -s http://127.0.0.1:5174/runtime-icons/codex-openai.svg`
   - `curl -I -s http://127.0.0.1:5174/runtime-icons/claude.ico`
@@ -70,12 +70,12 @@
 
 ## 发布/部署方式
 
-- 前端静态资源位于 [packages/nextclaw-ui/public/runtime-icons](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/public/runtime-icons)，会随 UI 构建与发布一起带出。
+- 前端静态资源位于 [packages/go-usb-ai-ui/public/runtime-icons](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/public/runtime-icons)，会随 UI 构建与发布一起带出。
 - 运行时插件侧无需额外部署脚本；`Codex` / `Claude` runtime 插件重新构建后，运行时会直接返回本地静态资源路径。
 - 若后续随产品发版：
-  - 先构建 `@nextclaw/ui`
+  - 先构建 `@go-usb-ai/ui`
   - 再构建相关 runtime 插件包
-  - 最终按现有 NextClaw 桌面/UI 发布流程发布即可
+  - 最终按现有 GoUsbAi 桌面/UI 发布流程发布即可
 
 ## 用户/产品视角的验收步骤
 
@@ -118,9 +118,9 @@
   - 总体代码有小幅净增，但核心热点文件没有继续恶化成新的 hard error；新增文件数控制在最小范围内，仅新增一个共享菜单组件、一个前端纯函数测试、一个 schema 回归测试。
 - 目录结构与文件组织是否满足当前项目治理要求：
   - 本次新增文件遵循现有职责目录。
-  - 全仓守卫仍被当前工作区其它热点文件阻断，例如 `packages/nextclaw-server/src/ui/config.ts`、`packages/nextclaw-ui/src/components/config/*`、`packages/nextclaw/src/cli/index.ts` 等；这些不是本次 runtime icon 能力新引入的 error。
+  - 全仓守卫仍被当前工作区其它热点文件阻断，例如 `packages/go-usb-ai-server/src/ui/config.ts`、`packages/go-usb-ai-ui/src/components/config/*`、`packages/go-usb-ai/src/cli/index.ts` 等；这些不是本次 runtime icon 能力新引入的 error。
 - no maintainability findings
-- 可维护性总结：这次改动把 runtime 图标能力收敛成一条可预测的薄合同，而不是在 UI 各处塞品牌分支。虽然总代码有小幅增长，但增长集中在真正必要的合同、静态资源和回归测试上，同时通过抽取共享菜单项把侧边栏热点重新压回可控区间；后续最值得继续减债的缝仍是 `packages/nextclaw-server/src/ui/config.ts` 的 runtime-entry 归一化拆分。
+- 可维护性总结：这次改动把 runtime 图标能力收敛成一条可预测的薄合同，而不是在 UI 各处塞品牌分支。虽然总代码有小幅增长，但增长集中在真正必要的合同、静态资源和回归测试上，同时通过抽取共享菜单项把侧边栏热点重新压回可控区间；后续最值得继续减债的缝仍是 `packages/go-usb-ai-server/src/ui/config.ts` 的 runtime-entry 归一化拆分。
 
 ## NPM 包发布记录
 

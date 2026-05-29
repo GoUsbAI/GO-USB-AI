@@ -2,7 +2,7 @@
 
 ## 背景
 
-`@nextclaw/app-runtime` 已经具备 `napp create / inspect / run / pack / install / publish` 等独立 runtime/CLI 闭环，但旧的 `main` 模型主要是固定导出函数的 core Wasm demo。它更像 action bridge，不像普通前后端应用，也无法自然表达 Todo List 这类“前端调用后端 API，后端持久化数据”的基础应用。
+`@go-usb-ai/app-runtime` 已经具备 `napp create / inspect / run / pack / install / publish` 等独立 runtime/CLI 闭环，但旧的 `main` 模型主要是固定导出函数的 core Wasm demo。它更像 action bridge，不像普通前后端应用，也无法自然表达 Todo List 这类“前端调用后端 API，后端持久化数据”的基础应用。
 
 新的方向不是推倒现有目录合同，也不是自研一套应用协议，而是在现有 `manifest.json + main/ + ui/ + assets/` 结构上，把 `main/app.wasm` 的主流后端语义升级为官方 WASI HTTP component。
 

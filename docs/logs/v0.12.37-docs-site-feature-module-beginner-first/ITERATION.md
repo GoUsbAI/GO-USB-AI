@@ -12,7 +12,7 @@
   - 将复杂配置下沉到“进阶配置（可选）”。
 - `apps/docs/zh/guide/secrets.md`
   - 从 CLI 步骤改为 UI 优先路径。
-  - 仅保留一句 `nextclaw secrets` 进阶入口说明。
+  - 仅保留一句 `go-usb-ai secrets` 进阶入口说明。
 - `apps/docs/zh/guide/tools.md`
   - 改为“信息获取类 / 执行动作类”能力说明。
   - 移除配置代码块，保留安全建议与进阶链接。

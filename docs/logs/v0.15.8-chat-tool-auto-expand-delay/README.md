@@ -11,14 +11,14 @@
 
 ## 测试 / 验证 / 验收方式
 
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui test -- chat-message-list.test.tsx`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui test -- chat-message-list.test.tsx`
   - 结果：`1 passed, 17 passed`
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui lint`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui lint`
   - 结果：通过；仅存在该包既有 warning，无新增 error
-- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui tsc`
+- 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui tsc`
   - 结果：通过
 - 已执行：`PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard`
-  - 结果：本次聊天 UI 相关文件未报新增 error，但命令最终失败于工作区内既有脏改动 `packages/nextclaw-core/src/agent/tools/shell.ts` / `shell.test.ts` 触发的治理守卫，不属于本次修复引入的问题
+  - 结果：本次聊天 UI 相关文件未报新增 error，但命令最终失败于工作区内既有脏改动 `packages/go-usb-ai-core/src/agent/tools/shell.ts` / `shell.test.ts` 触发的治理守卫，不属于本次修复引入的问题
 
 ## 发布 / 部署方式
 

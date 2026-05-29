@@ -2,7 +2,7 @@
 
 ## 背景
 
-当前 `nextclaw usage` 只能查看最近一次 LLM usage 快照，已经满足“看最近一次 prompt cache usage”的最低闭环，但还缺两类能力：
+当前 `go-usb-ai usage` 只能查看最近一次 LLM usage 快照，已经满足“看最近一次 prompt cache usage”的最低闭环，但还缺两类能力：
 
 1. 历史记录可查，便于 AI 或用户判断最近几次请求是否命中 cache、用了哪个模型、来自哪条运行链路；
 2. 轻量统计可查，便于不依赖 UI 面板也能直接在 CLI 上做 usage 观察。
@@ -11,7 +11,7 @@
 
 ## 目标
 
-- 保持 `nextclaw usage` 作为统一入口。
+- 保持 `go-usb-ai usage` 作为统一入口。
 - 默认行为不变，仍显示最近一次快照。
 - 新增可机读、可复用的 usage history / stats 查询能力。
 - 采集、存储、查询分层，避免把格式化、落盘和统计揉进主流程。
@@ -34,13 +34,13 @@
 
 ## 命令设计
 
-- `nextclaw usage`
+- `go-usb-ai usage`
   - 保持现状，显示最近一次 usage snapshot。
-- `nextclaw usage --history`
+- `go-usb-ai usage --history`
   - 显示最近 N 条 usage 记录，默认按时间倒序。
-- `nextclaw usage --stats`
+- `go-usb-ai usage --stats`
   - 聚合当前 history 文件中的统计信息，例如记录数、来源分布、模型分布、总 token、总 cached token、cache hit 次数。
-- `nextclaw usage --history --limit 20 --json`
+- `go-usb-ai usage --history --limit 20 --json`
   - 返回机器可读 history 数据，供 AI 自查。
 
 原则：
@@ -50,8 +50,8 @@
 
 ## 数据格式
 
-- 最近一次快照文件继续沿用 `${NEXTCLAW_HOME:-~/.nextclaw}/run/llm-usage.json`
-- 历史文件新增 `${NEXTCLAW_HOME:-~/.nextclaw}/logs/llm-usage.jsonl`
+- 最近一次快照文件继续沿用 `${GOUSB_AI_HOME:-~/.go-usb-ai}/run/llm-usage.json`
+- 历史文件新增 `${GOUSB_AI_HOME:-~/.go-usb-ai}/logs/llm-usage.jsonl`
 - 每条 history record 与 snapshot 尽量复用同一结构，避免双 schema 漂移
 
 ## Deferred

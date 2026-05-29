@@ -156,6 +156,6 @@ gateway inbound loop 只负责 `MessageBus.consumeInbound()` 和把消息交给 
   - sessionId override 仍工作。
   - 缺失最终 assistant message 仍 fail fast。
 - TypeScript 编译通过：
-  - `pnpm -C packages/nextclaw-kernel tsc`
-  - `pnpm -C packages/nextclaw-service tsc`
+  - `pnpm -C packages/go-usb-ai-kernel tsc`
+  - `pnpm -C packages/go-usb-ai-service tsc`
 - 本次作为非功能重构，非测试生产代码净增必须 `<= 0`。

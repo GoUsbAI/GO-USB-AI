@@ -10,21 +10,21 @@
 
 ## 测试 / 验证 / 验收方式
 
-- `pnpm --filter @nextclaw/ui exec tsc --noEmit`
-- `pnpm --filter @nextclaw/server exec tsc --noEmit`
-- `pnpm --filter nextclaw exec tsc --noEmit`
-- `pnpm --filter @nextclaw/ui exec vitest run src/components/chat/ChatSidebar.test.tsx src/components/chat/chat-session-preference-sync.test.ts src/components/chat/ncp/ncp-chat-page-data.test.ts`
-- `pnpm --filter @nextclaw/server exec vitest run src/ui/router.ncp-agent.test.ts`
-- `pnpm --filter nextclaw exec vitest run src/cli/commands/service-deferred-ncp-agent.test.ts`
+- `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+- `pnpm --filter @go-usb-ai/server exec tsc --noEmit`
+- `pnpm --filter go-usb-ai exec tsc --noEmit`
+- `pnpm --filter @go-usb-ai/ui exec vitest run src/components/chat/ChatSidebar.test.tsx src/components/chat/chat-session-preference-sync.test.ts src/components/chat/ncp/ncp-chat-page-data.test.ts`
+- `pnpm --filter @go-usb-ai/server exec vitest run src/ui/router.ncp-agent.test.ts`
+- `pnpm --filter go-usb-ai exec vitest run src/cli/commands/service-deferred-ncp-agent.test.ts`
 
 ## 发布 / 部署方式
 
 - 本次未执行发布。
-- 后续如需发布，按现有 `nextclaw` / `@nextclaw/server` / `@nextclaw/ui` 流程走常规版本发布即可，无需存储迁移。
+- 后续如需发布，按现有 `go-usb-ai` / `@go-usb-ai/server` / `@go-usb-ai/ui` 流程走常规版本发布即可，无需存储迁移。
 
 ## 用户 / 产品视角的验收步骤
 
-1. 启动 `nextclaw service`，打开 UI。
+1. 启动 `go-usb-ai service`，打开 UI。
 2. 进入聊天页，确认直接进入当前 NCP 聊天界面，不再存在 legacy 回退入口。
 3. 创建新会话、发送消息、停止运行、删除会话，确认聊天和会话管理都正常。
 4. 进入 Sessions 页面，确认可以查看 NCP 会话、查看消息、修改标签/模型、删除会话。

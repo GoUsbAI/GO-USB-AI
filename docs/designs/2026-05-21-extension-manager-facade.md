@@ -90,7 +90,7 @@ installHost(...)
 extensionManagerDeps
 ```
 
-`NextclawKernel` 只向 `ExtensionManager` 提供它无法自知的基础设施端口，例如 config manager、event bus、ingress、message bus。领域加载动作不能再通过 constructor deps 外包给 service。
+`GoUsbAiKernel` 只向 `ExtensionManager` 提供它无法自知的基础设施端口，例如 config manager、event bus、ingress、message bus。领域加载动作不能再通过 constructor deps 外包给 service。
 
 ## 迁移步骤
 
@@ -110,6 +110,6 @@ extensionManagerDeps
 - `ExtensionManager` 是 `ExtensionSnapshot` 的唯一构建者和写入者。
 - service 中不再存在 `ServiceExtensionRuntime`。
 - service 不再向 kernel 构造 `extensionManagerDeps`。
-- `NEXTCLAW_DEV_PLUGIN_OVERRIDES` 与 first-party dev path/excludeRoots 语义继续可用。
+- `GOUSB_AI_DEV_PLUGIN_OVERRIDES` 与 first-party dev path/excludeRoots 语义继续可用。
 - gateway plugin manager 定向测试通过。
 - kernel extension manager 定向测试通过。

@@ -92,7 +92,7 @@ function traverseDirectory(rootDir) {
 
 // Main execution
 if (require.main === module) {
-  const targetDir = process.argv[2] || './packages/nextclaw/src/cli/commands';
+  const targetDir = process.argv[2] || './packages/go-usb-ai/src/cli/commands';
   console.log(`🔍 Analyzing directory: ${targetDir}\n`);
   
   const issues = traverseDirectory(targetDir);

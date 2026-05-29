@@ -21,8 +21,8 @@
 
 ## 关键文件
 
-- `packages/nextclaw/src/cli/restart-sentinel.ts`
-- `packages/nextclaw/src/cli/commands/service.ts`
+- `packages/go-usb-ai/src/cli/restart-sentinel.ts`
+- `packages/go-usb-ai/src/cli/commands/service.ts`
 
 ## 验证（含端到端）
 
@@ -37,7 +37,7 @@ pnpm tsc
 ### 2) /tmp 隔离冒烟
 
 ```bash
-pnpm dlx tsx /tmp/nextclaw-restart-e2e-guard-smoke.ts
+pnpm dlx tsx /tmp/go-usb-ai-restart-e2e-guard-smoke.ts
 ```
 
 覆盖点：
@@ -48,7 +48,7 @@ pnpm dlx tsx /tmp/nextclaw-restart-e2e-guard-smoke.ts
 
 ### 3) 本机真实服务端到端
 
-- 向 `~/.nextclaw/run/restart-sentinel.json` 注入超长 reason 哨兵并重启服务。
+- 向 `~/.go-usb-ai/run/restart-sentinel.json` 注入超长 reason 哨兵并重启服务。
 - 观察结果：
   - 哨兵被消费（文件消失）；
   - 服务重启后 Discord 通道恢复连接；

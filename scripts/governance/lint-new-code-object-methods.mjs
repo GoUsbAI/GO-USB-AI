@@ -17,7 +17,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-object-methods.mjs
   node scripts/governance/lint-new-code-object-methods.mjs --staged
   node scripts/governance/lint-new-code-object-methods.mjs --base origin/main
-  node scripts/governance/lint-new-code-object-methods.mjs -- packages/nextclaw/src
+  node scripts/governance/lint-new-code-object-methods.mjs -- packages/go-usb-ai/src
 
 Checks every touched object literal in changed TypeScript workspace files.
 Once an object literal is touched by the diff, all eligible object methods in that object must use foo: () => {}.

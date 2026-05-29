@@ -1,4 +1,4 @@
-# nextclaw v0.9.7 + @nextclaw/ui v0.6.5
+# go-usb-ai v0.9.7 + @go-usb-ai/ui v0.6.5
 
 本次是“最近多项体验优化”的集中对外发布，重点在于聊天体验流畅度与文档导览可达性。
 
@@ -13,8 +13,8 @@
 
 ## Released Packages
 
-- `nextclaw@0.9.7`
-- `@nextclaw/ui@0.6.5`
+- `go-usb-ai@0.9.7`
+- `@go-usb-ai/ui@0.6.5`
 
 ## Notes
 

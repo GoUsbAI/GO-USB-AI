@@ -13,7 +13,7 @@
 - 把 child session 侧栏从 `useQuery(fetchNcpSessionMessages)` 静态历史读取切换为共享 hook 驱动的实时会话运行时
 - 为 session messages 接口补齐 `status`，让 seed 自带 `messages + status`，删除页面再去拼运行态的边界
 - 为共享 hook 补充测试，验证 seed 语义和 viewer 级 endpoint 隔离
-- `nextclaw.session_request` / `spawn` tool result 增加 `agentId` 透传，但工具 action 仍只感知 `agentId`，不依赖 `displayName` / `avatarUrl`
+- `go-usb-ai.session_request` / `spawn` tool result 增加 `agentId` 透传，但工具 action 仍只感知 `agentId`，不依赖 `displayName` / `avatarUrl`
 - 抽出统一 Agent 标识基础设施：业务层新增只接收 `agentId` 的 `AgentIdentityAvatar`，内部统一解析头像与展示名
 - 工具卡片 header 增加轻量直达入口，未展开时即可打开 child session；若存在 `agentId`，通过业务层注入的 Agent 标识组件展示头像
 - 补齐 tool invocation 运行态的 `agentId` 解析：统一从 `parsedArgs / args / result` 提取，避免只有 result 卡片能显示 Agent 标识、running call 卡片不显示
@@ -39,18 +39,18 @@
 
 已执行：
 
-- `pnpm -C packages/nextclaw-ui test -- src/components/chat/ncp/session-conversation/use-ncp-session-conversation.test.tsx src/components/chat/useHydratedNcpAgent.test.tsx src/components/chat/useNcpAgentRuntime.test.tsx`
-- `pnpm -C packages/nextclaw-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts src/components/chat/ChatConversationPanel.test.tsx`
-- `pnpm -C packages/nextclaw-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts src/components/chat/containers/chat-message-list.container.test.tsx src/components/chat/ChatConversationPanel.test.tsx`
-- `pnpm -C packages/nextclaw-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts`
-- `pnpm -C packages/nextclaw-ui test -- src/components/chat/ChatConversationPanel.test.tsx`
-- `pnpm -C packages/nextclaw-agent-chat-ui test -- src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-agent-chat-ui tsc`
-- `pnpm -C packages/nextclaw test -- src/cli/commands/ncp/runtime/create-ui-ncp-agent.subagent-completion.test.ts`
-- `pnpm -C packages/nextclaw-server test -- src/ui/router.ncp-agent.test.ts -t "mounts parallel ncp agent and session routes"`
-- `pnpm -C packages/nextclaw-server tsc`
-- `pnpm -C packages/nextclaw tsc`
+- `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/ncp/session-conversation/use-ncp-session-conversation.test.tsx src/components/chat/useHydratedNcpAgent.test.tsx src/components/chat/useNcpAgentRuntime.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts src/components/chat/ChatConversationPanel.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts src/components/chat/containers/chat-message-list.container.test.tsx src/components/chat/ChatConversationPanel.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts`
+- `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/ChatConversationPanel.test.tsx`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui test -- src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+- `pnpm -C packages/go-usb-ai test -- src/cli/commands/ncp/runtime/create-ui-ncp-agent.subagent-completion.test.ts`
+- `pnpm -C packages/go-usb-ai-server test -- src/ui/router.ncp-agent.test.ts -t "mounts parallel ncp agent and session routes"`
+- `pnpm -C packages/go-usb-ai-server tsc`
+- `pnpm -C packages/go-usb-ai tsc`
 - `pnpm lint:maintainability:guard`
 
 验证结论：
@@ -60,8 +60,8 @@
 - `agentId -> Agent 标识组件 -> 工具卡片 header / child session tab` 这条展示链路测试通过
 - child session 面板头部简化与 i18n 补齐相关测试通过
 - UI 类型检查通过
-- `@nextclaw/agent-chat-ui` 类型检查通过
-- `nextclaw` CLI / session-request 相关类型检查通过
+- `@go-usb-ai/agent-chat-ui` 类型检查通过
+- `go-usb-ai` CLI / session-request 相关类型检查通过
 - 子代理完成链路相关测试通过
 - 受影响的服务端路由测试通过，确认 session messages 返回已包含 `status`
 - 服务端类型检查通过
@@ -69,8 +69,8 @@
 
 已知说明：
 
-- `pnpm -C packages/nextclaw-server test -- src/ui/router.ncp-agent.test.ts` 全文件运行时，仍有一条既有失败：`proxies ncp send, patch, and abort flows` 断言 `content-type` 包含 `text/event-stream`。这次未修改该链路，故未顺手扩大处理范围。
-- `pnpm -C packages/nextclaw test -- src/cli/commands/ncp/session/nextclaw-ncp-tool-registry.mcp.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.subagent-completion.test.ts` 联跑时，仍有一条既有 MCP 预热断言失败；本次已单独验证受影响的 `create-ui-ncp-agent.subagent-completion.test.ts` 通过，未扩大处理无关失败。
+- `pnpm -C packages/go-usb-ai-server test -- src/ui/router.ncp-agent.test.ts` 全文件运行时，仍有一条既有失败：`proxies ncp send, patch, and abort flows` 断言 `content-type` 包含 `text/event-stream`。这次未修改该链路，故未顺手扩大处理范围。
+- `pnpm -C packages/go-usb-ai test -- src/cli/commands/ncp/session/go-usb-ai-ncp-tool-registry.mcp.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.subagent-completion.test.ts` 联跑时，仍有一条既有 MCP 预热断言失败；本次已单独验证受影响的 `create-ui-ncp-agent.subagent-completion.test.ts` 通过，未扩大处理无关失败。
 
 ## 发布 / 部署方式
 
@@ -110,7 +110,7 @@
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：基本是。总代码有净增长，但增长主要来自新增统一 Agent 标识基础设施和回归测试，而不是又加一条平行链路；与此同时删除了基础层 monogram、child tab 的派生头像字段透传，以及部分重复按钮与旧单详情状态，避免系统继续以补丁方式膨胀。
 - 若总代码或非测试代码净增长，是否已做到最佳删减：是，已到当前最佳实践下的最小必要增长。因为这次新增的是此前缺失的共享能力边界：`AgentIdentityAvatar` / `useAgentIdentity`、基础包 render slot、tool card `agentId` 透传链路和对应回归测试。若继续压缩，只会重新把业务解析塞回基础包，或把 child panel / tool header 各写一份局部逻辑，长期更差。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰：是。页面回到页面职责，child panel 回到展示与切换职责，tab 展示解析沉淀为专用 hook，tool card 保持只认 `agentId` 的轻依赖边界，Agent 标识解析统一沉淀到业务层共享组件，session request broker 回到 orchestration 职责。
-- 目录结构与文件组织是否满足当前项目治理要求：基本满足。本次新增逻辑已放入 `packages/nextclaw-ui/src/components/chat/ncp/session-conversation/` 与 `packages/nextclaw/src/cli/commands/ncp/session-request/` 领域目录中，避免继续挤占已接近预算的 `ncp/` 顶层目录。
+- 目录结构与文件组织是否满足当前项目治理要求：基本满足。本次新增逻辑已放入 `packages/go-usb-ai-ui/src/components/chat/ncp/session-conversation/` 与 `packages/go-usb-ai/src/cli/commands/ncp/session-request/` 领域目录中，避免继续挤占已接近预算的 `ncp/` 顶层目录。
 - 若本次涉及代码可维护性评估，是否基于独立于实现阶段的 `post-edit-maintainability-review`：是。复核结论如下：
   - no maintainability findings
-  - 仍需关注的维护性观察点是 [packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-views.tsx](/Users/tongwenwen/Projects/Peiiii/nextclaw/packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-views.tsx) 与 [packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.test.ts](/Users/tongwenwen/Projects/Peiiii/nextclaw/packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.test.ts) 已接近预算；若后续继续扩展 tool card 视图或适配器测试，应优先拆出 view registry / 专项 fixture，而不是继续向这两个热点文件平铺。
+  - 仍需关注的维护性观察点是 [packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-views.tsx](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-views.tsx) 与 [packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.test.ts](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.test.ts) 已接近预算；若后续继续扩展 tool card 视图或适配器测试，应优先拆出 view registry / 专项 fixture，而不是继续向这两个热点文件平铺。

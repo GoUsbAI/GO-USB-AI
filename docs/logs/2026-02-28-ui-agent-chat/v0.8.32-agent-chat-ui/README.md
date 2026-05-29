@@ -9,7 +9,7 @@
   - 发送中状态反馈与会话自动刷新
   - Agent 选择器（多 Agent 场景）
 - 新增 UI API：`POST /api/chat/turn`
-  - 路由：`packages/nextclaw-server/src/ui/router.ts`
+  - 路由：`packages/go-usb-ai-server/src/ui/router.ts`
   - 类型：`ChatTurnRequest` / `ChatTurnView`
   - 能力：把 UI 请求转发到 runtime pool 执行一次对话回合
 - 在 CLI 服务层注入 `chatRuntime`，把 UI API 直接连接到 `GatewayAgentRuntimePool.processDirect`。
@@ -17,21 +17,21 @@
   - 默认首页改为 `/chat`
   - 侧栏新增 `Chat` 导航项
 - 国际化文案补齐（中/英）并新增聊天相关文案。
-- 为新 API 增加测试：`packages/nextclaw-server/src/ui/router.chat.test.ts`。
-- 同步更新发布产物（`packages/nextclaw/ui-dist`）与版本号（`nextclaw@0.8.32`、`@nextclaw/server@0.5.16`、`@nextclaw/ui@0.5.20`）。
+- 为新 API 增加测试：`packages/go-usb-ai-server/src/ui/router.chat.test.ts`。
+- 同步更新发布产物（`packages/go-usb-ai/ui-dist`）与版本号（`go-usb-ai@0.8.32`、`@go-usb-ai/server@0.5.16`、`@go-usb-ai/ui@0.5.20`）。
 
 ## 测试 / 验证 / 验收方式
 
 已执行：
 
 - 单测：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server test -- --run src/ui/router.chat.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.chat.test.ts`
 - 类型与静态检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
 - 全量验证：
   - `PATH=/opt/homebrew/bin:$PATH pnpm build`
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
@@ -44,9 +44,9 @@
 
 冒烟（隔离目录，避免写入仓库）：
 
-- 环境：`NEXTCLAW_HOME=/tmp/nextclaw-chat-smoke.*`
+- 环境：`GOUSB_AI_HOME=/tmp/go-usb-ai-chat-smoke.*`
 - 命令：
-  - 启动：`node packages/nextclaw/dist/cli/index.js ui --port 19097 --no-open`
+  - 启动：`node packages/go-usb-ai/dist/cli/index.js ui --port 19097 --no-open`
   - 健康检查：`GET /api/health` 返回 `ok=true`
   - 聊天回合：`POST /api/chat/turn`
 - 观察点：
@@ -62,18 +62,18 @@
 发布结果：
 
 - 成功发布：
-  - `nextclaw@0.8.32`
-  - `@nextclaw/server@0.5.16`
-  - `@nextclaw/ui@0.5.20`
+  - `go-usb-ai@0.8.32`
+  - `@go-usb-ai/server@0.5.16`
+  - `@go-usb-ai/ui@0.5.20`
 - 自动创建 tag：
-  - `nextclaw@0.8.32`
-  - `@nextclaw/server@0.5.16`
-  - `@nextclaw/ui@0.5.20`
+  - `go-usb-ai@0.8.32`
+  - `@go-usb-ai/server@0.5.16`
+  - `@go-usb-ai/ui@0.5.20`
 
 ## 用户 / 产品视角验收步骤
 
-1. 安装或升级到最新版本：`npm i -g nextclaw@0.8.32`
-2. 启动服务：`nextclaw start`
+1. 安装或升级到最新版本：`npm i -g go-usb-ai@0.8.32`
+2. 启动服务：`go-usb-ai start`
 3. 浏览器打开 `http://127.0.0.1:18791`，进入左侧 `Chat`
 4. 点击“新会话”，输入消息并发送
 5. 观察：

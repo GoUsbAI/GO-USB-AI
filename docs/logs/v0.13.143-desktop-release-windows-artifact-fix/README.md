@@ -30,6 +30,6 @@
 - 确认至少包含：
   - macOS `.dmg`
   - macOS `-mac.zip`
-  - Windows `NextClaw Desktop-win32-x64-unpacked.zip`
+  - Windows `GoUsbAi Desktop-win32-x64-unpacked.zip`
   - Linux `.AppImage`
 - 打开 Actions 运行记录，确认 Windows job 的桌面启动冒烟已通过，不再因日志上传或 zip 归档失败

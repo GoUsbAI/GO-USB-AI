@@ -35,10 +35,10 @@ This skill bundles selected upstream materials from `pbakaus/impeccable`.
   - upstream path: `source/skills/critique/reference/personas.md`
   - upstream URL: `https://github.com/pbakaus/impeccable/blob/main/source/skills/critique/reference/personas.md`
 
-## Adapted NextClaw Files
+## Adapted GoUsbAi Files
 
 - `../SKILL.md`
-  - NextClaw marketplace adaptation layer
+  - GoUsbAi marketplace adaptation layer
   - based on the upstream `source/skills/impeccable/SKILL.md`
 - `../workflows/shape.md`
   - based on the upstream `source/skills/shape/SKILL.md`
@@ -56,4 +56,4 @@ This skill bundles selected upstream materials from `pbakaus/impeccable`.
 ## Notes
 
 - Bundled upstream materials remain under the upstream Apache 2.0 license.
-- The NextClaw adaptation layer adds marketplace packaging, workflow routing, runtime-boundary wording, and explicit readiness rules for the optional detector CLI.
+- The GoUsbAi adaptation layer adds marketplace packaging, workflow routing, runtime-boundary wording, and explicit readiness rules for the optional detector CLI.

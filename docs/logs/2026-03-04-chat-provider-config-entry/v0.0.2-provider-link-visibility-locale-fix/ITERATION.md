@@ -7,27 +7,27 @@
 - 修复文案本地化不一致：
   - 中文文案由 `Provider` 改为 `提供商`。
   - 跳转按钮文案改为 `去配置提供商 / Go to Providers`。
-- 同步重建 `nextclaw` UI 静态产物，确保 `nextclaw serve/start` 能看到最新 UI 改动。
+- 同步重建 `go-usb-ai` UI 静态产物，确保 `go-usb-ai serve/start` 能看到最新 UI 改动。
 
 涉及文件：
 
-- `packages/nextclaw-ui/src/components/chat/ChatConversationPanel.tsx`
-- `packages/nextclaw-ui/src/lib/i18n.ts`
-- `packages/nextclaw/ui-dist/*`（构建同步）
+- `packages/go-usb-ai-ui/src/components/chat/ChatConversationPanel.tsx`
+- `packages/go-usb-ai-ui/src/lib/i18n.ts`
+- `packages/go-usb-ai/ui-dist/*`（构建同步）
 
 ## 测试/验证/验收方式
 
 ### 执行命令
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai build`
 
 ### 结果
 
 - `tsc`：通过。
 - `build`：通过。
-- `nextclaw build`：通过并完成 `ui-dist` 同步。
+- `go-usb-ai build`：通过并完成 `ui-dist` 同步。
 
 ## 发布/部署方式
 
@@ -36,7 +36,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 使用隔离 `NEXTCLAW_HOME` 启动服务，进入 `/chat`。
+1. 使用隔离 `GOUSB_AI_HOME` 启动服务，进入 `/chat`。
 2. 在无可用模型时，确认可见“去配置提供商”入口（欢迎卡片或顶部警示条）。
 3. 点击入口跳转至 `/providers`。
 4. 验证中文界面下文案使用“提供商”，英文界面下文案为 “Providers”。

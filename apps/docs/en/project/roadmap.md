@@ -1,6 +1,6 @@
-# NextClaw Roadmap
+# GoUsbAi Roadmap
 
-This document describes NextClaw's current priorities and next-stage directions. All work serves the [Vision](/en/project/vision).
+This document describes GoUsbAi's current priorities and next-stage directions. All work serves the [Vision](/en/project/vision).
 
 If you want the public-facing dashboard of shipping rhythm, code growth, release cadence, and recent product notes, start with [Project Pulse](/en/project/project-pulse).
 

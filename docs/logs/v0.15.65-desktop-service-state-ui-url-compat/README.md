@@ -6,7 +6,7 @@
   - [runtime-service.ts](../../../../apps/desktop/src/runtime-service.ts)
   - [runtime-service.test.ts](../../../../apps/desktop/src/runtime-service.test.ts)
 - 原问题：
-  - 桌面端在 `managed-service` 启动链里，执行完 `nextclaw start` 后只信任 `~/.nextclaw/run/service.json` 里的 `uiHost/uiPort`。
+  - 桌面端在 `managed-service` 启动链里，执行完 `go-usb-ai start` 后只信任 `~/.go-usb-ai/run/service.json` 里的 `uiHost/uiPort`。
   - CLI 侧对同一份状态文件的契约更宽：`uiUrl` 是稳定入口，`uiHost/uiPort` 只是补充字段；旧状态或过渡态只要 `uiUrl` 可用，CLI 仍能继续工作。
   - 这会导致桌面端在“runtime 已启动，但当前 `service.json` 只有 `uiUrl` 或暂未补齐 `uiHost/uiPort`”时误判失败，并弹出 `Managed runtime is running but UI host/port is unavailable`。
 - 本次修正：
@@ -20,7 +20,7 @@
     - 只有 `uiUrl` 的旧/过渡状态
     - `uiUrl` 非法时回退到 `uiHost/uiPort`
 - 续改现场排查结论：
-  - 用户二次复现时，真实现场并不是“`service.json` 只有 `uiHost/uiPort` 不全”，而是 `~/.nextclaw/run/service.json` 整个缺失，但 `55667` 上仍有一个健康的 NextClaw HTTP 服务在监听。
+  - 用户二次复现时，真实现场并不是“`service.json` 只有 `uiHost/uiPort` 不全”，而是 `~/.go-usb-ai/run/service.json` 整个缺失，但 `55667` 上仍有一个健康的 GoUsbAi HTTP 服务在监听。
   - 该进程属于未被 state file 跟踪到的 orphan service；CLI `status --json` 现场明确显示：
     - `serviceStateExists: false`
     - `orphanSuspected: true`
@@ -28,11 +28,11 @@
     - `configured` 健康检查为 `ok`
   - 第一版 beta 修复解决的是“state 已存在，但只有 `uiUrl` / `uiHost/uiPort` 过渡态”的问题；这次用户命中的则是另一条更底层的失败链：
     1. 有一个健康 orphan service 占住 `55667`
-    2. `nextclaw start` 检测到端口冲突后只打印错误并 `return`
+    2. `go-usb-ai start` 检测到端口冲突后只打印错误并 `return`
     3. 该命令未设置非零退出码，桌面端误以为 `start` 已成功
     4. 桌面端继续读取缺失的 `service.json`，最终弹出误导性的 `Managed runtime is running but UI host/port is unavailable`
 - 本轮补充修正：
-  - 调整 [service.ts](../../../../packages/nextclaw/src/cli/commands/service.ts) 中 `startService` 的失败语义：
+  - 调整 [service.ts](../../../../packages/go-usb-ai/src/cli/commands/service.ts) 中 `startService` 的失败语义：
     - UI 端口已被健康实例占用
     - spawn 失败
     - 后台服务在 ready 前退出
@@ -45,15 +45,15 @@
   - 新增 1 条桌面端单测，覆盖 CLI 失败信息透传
   - 本地打包验收链继续暴露了第二层问题：
     - [smoke-macos-dmg.sh](../../../../apps/desktop/scripts/smoke-macos-dmg.sh) 的 runtime fallback 端口区间写成了 `55667 -> 18840`，起始值大于结束值，导致脚本永远报“no available port”
-    - 修正该脚本后，才继续暴露真正的包内问题：已安装 app 中 `@nextclaw/remote/package.json` 被 asar 归档错位，`nextclaw init` 在 fallback 路径上会报 `ERR_INVALID_PACKAGE_CONFIG`
-  - 为避免桌面包继续依赖这份会被归档错位的 workspace 裸包目录，新增 [tsdown.config.ts](../../../../packages/nextclaw/tsdown.config.ts)，将 `@nextclaw/remote` 强制 bundle 进 `packages/nextclaw/dist/cli/index.js`
+    - 修正该脚本后，才继续暴露真正的包内问题：已安装 app 中 `@go-usb-ai/remote/package.json` 被 asar 归档错位，`go-usb-ai init` 在 fallback 路径上会报 `ERR_INVALID_PACKAGE_CONFIG`
+  - 为避免桌面包继续依赖这份会被归档错位的 workspace 裸包目录，新增 [tsdown.config.ts](../../../../packages/go-usb-ai/tsdown.config.ts)，将 `@go-usb-ai/remote` 强制 bundle 进 `packages/go-usb-ai/dist/cli/index.js`
 - 最终结果：
-  - 桌面包不再依赖已安装 app 内那份损坏的 `@nextclaw/remote/package.json`
+  - 桌面包不再依赖已安装 app 内那份损坏的 `@go-usb-ai/remote/package.json`
   - 本地 DMG 安装冒烟恢复通过
 - 本轮 beta 发布链路补充修正：
   - 调整 [desktop-release.yml](../../../../.github/workflows/desktop-release.yml) 中 Windows 归档步骤，修复 preview/release 产物文件名未带版本号的问题。
-  - 根因不是 `electron-builder` 不产版本号，而是 workflow 在 `Archive desktop artifacts (Windows)` 步骤里把 `win-unpacked` 目录手工压成了固定文件名 `NextClaw Desktop-win32-x64-unpacked.zip`。
-  - 现已改为从 [package.json](../../../../apps/desktop/package.json) 读取桌面版本号，生成 `NextClaw.Desktop-<version>-win32-x64-unpacked.zip`；若版本缺失会直接失败，不再静默产出不符合约定的包名。
+  - 根因不是 `electron-builder` 不产版本号，而是 workflow 在 `Archive desktop artifacts (Windows)` 步骤里把 `win-unpacked` 目录手工压成了固定文件名 `GoUsbAi Desktop-win32-x64-unpacked.zip`。
+  - 现已改为从 [package.json](../../../../apps/desktop/package.json) 读取桌面版本号，生成 `GoUsbAi.Desktop-<version>-win32-x64-unpacked.zip`；若版本缺失会直接失败，不再静默产出不符合约定的包名。
   - 同时把 Windows artifact 上传路径改成版本感知 glob，避免后续再次因为固定文件名导致上传规则与真实产物脱节。
 
 ## 测试/验证/验收方式
@@ -63,16 +63,16 @@
   - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/desktop tsc`
   - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/desktop build:main`
   - `PATH=/opt/homebrew/bin:$PATH node --test apps/desktop/dist/runtime-service.test.js`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai build`
   - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/desktop exec electron-builder --mac dmg --arm64 --publish never`
-  - `PATH=/opt/homebrew/bin:$PATH bash apps/desktop/scripts/smoke-macos-dmg.sh "apps/desktop/release/NextClaw Desktop-0.0.133-arm64.dmg" 120`
+  - `PATH=/opt/homebrew/bin:$PATH bash apps/desktop/scripts/smoke-macos-dmg.sh "apps/desktop/release/GoUsbAi Desktop-0.0.133-arm64.dmg" 120`
   - `PATH=/opt/homebrew/bin:$PATH node scripts/desktop-package-verify.mjs`
 - 续改补充验证：
-  - `env -u ELECTRON_RUN_AS_NODE -u NEXTCLAW_DESKTOP_RUNTIME_SCRIPT -u NEXTCLAW_HOME '/Applications/NextClaw Desktop.app/Contents/MacOS/NextClaw Desktop'`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw exec tsx src/cli/index.ts start`
+  - `env -u ELECTRON_RUN_AS_NODE -u GOUSB_AI_DESKTOP_RUNTIME_SCRIPT -u GOUSB_AI_HOME '/Applications/GoUsbAi Desktop.app/Contents/MacOS/GoUsbAi Desktop'`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts start`
   - `git diff -- .github/workflows/desktop-release.yml`
   - `git diff --numstat -- .github/workflows/desktop-release.yml`
-  - `PATH=/opt/homebrew/bin:$PATH node -e 'const { version } = require("./apps/desktop/package.json"); if (!version) throw new Error("missing version"); console.log(\`NextClaw.Desktop-${version}-win32-x64-unpacked.zip\`)'`
+  - `PATH=/opt/homebrew/bin:$PATH node -e 'const { version } = require("./apps/desktop/package.json"); if (!version) throw new Error("missing version"); console.log(\`GoUsbAi.Desktop-${version}-win32-x64-unpacked.zip\`)'`
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard`
   - `PATH=/opt/homebrew/bin:$PATH gh release view v0.17.6-desktop.1 --json tagName,name,isPrerelease,url`
   - `PATH=/opt/homebrew/bin:$PATH gh run watch 24207242165 --exit-status`
@@ -80,7 +80,7 @@
 - 结果：
   - `lint` 通过
   - `tsc` 通过
-  - `packages/nextclaw build` 通过，且 `dist/cli/index.js` 不再保留 `@nextclaw/remote` 的外部 import
+  - `packages/go-usb-ai build` 通过，且 `dist/cli/index.js` 不再保留 `@go-usb-ai/remote` 的外部 import
   - 3 条桌面端单测通过
   - 本地 macOS arm64 DMG 打包与安装冒烟通过，健康检查返回 `http://127.0.0.1:55667/api/health`
   - `node scripts/desktop-package-verify.mjs` 通过
@@ -89,13 +89,13 @@
     - 删除：3 行
     - 净增：+5 行
   - 使用与 workflow 同一版本源校验后，当前预期 Windows 包名为：
-    - `NextClaw.Desktop-0.0.134-win32-x64-unpacked.zip`
+    - `GoUsbAi.Desktop-0.0.134-win32-x64-unpacked.zip`
   - `pnpm lint:maintainability:guard` 通过；仅报告与本次改动无关的既有目录/文件预算 warning，未发现本次 workflow 续改新增治理违规
   - 正式发布闭环已完成：
     - GitHub 正式 release：`v0.17.6-desktop.1`
-    - release 标题：`NextClaw Desktop v0.17.6`
+    - release 标题：`GoUsbAi Desktop v0.17.6`
     - release 状态：`isPrerelease = false`
-    - release 地址：`https://github.com/Peiiii/nextclaw/releases/tag/v0.17.6-desktop.1`
+    - release 地址：`https://github.com/Peiiii/go-usb-ai/releases/tag/v0.17.6-desktop.1`
     - GitHub Actions run：`24207242165`
   - `desktop-release` run `24207242165` 全量通过：
     - `desktop-darwin-arm64`
@@ -105,27 +105,27 @@
     - `publish-release-assets`
     - `publish-linux-apt-repo`
   - 线上正式 release 资产已包含：
-    - `NextClaw.Desktop-0.0.134-arm64.dmg`
-    - `NextClaw.Desktop-0.0.134-x64.dmg`
-    - `NextClaw.Desktop-0.0.134-arm64-mac.zip`
-    - `NextClaw.Desktop-0.0.134-x64-mac.zip`
-    - `NextClaw.Desktop-0.0.134-win32-x64-unpacked.zip`
-    - `NextClaw.Desktop-0.0.134-linux-x64.AppImage`
-    - `nextclaw-desktop_0.0.134_amd64.deb`
+    - `GoUsbAi.Desktop-0.0.134-arm64.dmg`
+    - `GoUsbAi.Desktop-0.0.134-x64.dmg`
+    - `GoUsbAi.Desktop-0.0.134-arm64-mac.zip`
+    - `GoUsbAi.Desktop-0.0.134-x64-mac.zip`
+    - `GoUsbAi.Desktop-0.0.134-win32-x64-unpacked.zip`
+    - `GoUsbAi.Desktop-0.0.134-linux-x64.AppImage`
+    - `go-usb-ai-desktop_0.0.134_amd64.deb`
 - 额外现场核对：
   - 用户报错时的弹窗文案来自 [runtime-service.ts](../../../../apps/desktop/src/runtime-service.ts)
   - 现场复查确认，用户机器在报错时存在 `serviceStateExists: false` 但 `configuredApiUrl` 健康检查为 `ok` 的 orphan service 场景
-  - 手工停掉 orphan 进程后，用干净环境直接拉起桌面 app，能够重新生成 `~/.nextclaw/run/service.json`
+  - 手工停掉 orphan 进程后，用干净环境直接拉起桌面 app，能够重新生成 `~/.go-usb-ai/run/service.json`
   - 干净启动时实际拉起的是 app 包内 helper：
-    - `/Applications/NextClaw Desktop.app/Contents/Frameworks/NextClaw Desktop Helper.app/... nextclaw/dist/cli/index.js serve --ui-port 55667`
-    - 不是全局 `/opt/homebrew/bin/nextclaw`
-  - 续改后再次执行源码版 `nextclaw start` 复现“端口被健康实例占用”场景，命令已正确以 `exit code 1` 失败
+    - `/Applications/GoUsbAi Desktop.app/Contents/Frameworks/GoUsbAi Desktop Helper.app/... go-usb-ai/dist/cli/index.js serve --ui-port 55667`
+    - 不是全局 `/opt/homebrew/bin/go-usb-ai`
+  - 续改后再次执行源码版 `go-usb-ai start` 复现“端口被健康实例占用”场景，命令已正确以 `exit code 1` 失败
   - 继续检查本地 DMG 产物时确认：
-    - `app.asar` 中仍会带入 `node_modules/nextclaw/node_modules/@nextclaw/remote/` 目录
-    - 但因 `packages/nextclaw/dist/cli/index.js` 已把 `@nextclaw/remote` bundle 进 CLI，桌面 runtime 不再在 `init`/`serve` 启动时读取这份损坏的包内 `package.json`
+    - `app.asar` 中仍会带入 `node_modules/go-usb-ai/node_modules/@go-usb-ai/remote/` 目录
+    - 但因 `packages/go-usb-ai/dist/cli/index.js` 已把 `@go-usb-ai/remote` bundle 进 CLI，桌面 runtime 不再在 `init`/`serve` 启动时读取这份损坏的包内 `package.json`
 - 不适用 / 已知背景：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc` 仍被工作区内与本次无关的既有问题阻断：
-    - `packages/ncp-packages/nextclaw-ncp-agent-runtime/src/user-content.ts:147`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc` 仍被工作区内与本次无关的既有问题阻断：
+    - `packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/user-content.ts:147`
     - 错误：`Type 'string | null' is not assignable to type 'string'`
   - 判定：该错误不由本次桌面启动修复引入，因此未在本迭代里顺手混改无关链路
 - 可维护性守卫：
@@ -139,8 +139,8 @@
 
 - 已完成 GitHub 正式发布：
   - 正式 tag：`v0.17.6-desktop.1`
-  - 正式 release：`NextClaw Desktop v0.17.6`
-  - release 地址：`https://github.com/Peiiii/nextclaw/releases/tag/v0.17.6-desktop.1`
+  - 正式 release：`GoUsbAi Desktop v0.17.6`
+  - release 地址：`https://github.com/Peiiii/go-usb-ai/releases/tag/v0.17.6-desktop.1`
   - 触发方式：手动创建正式 release 后，执行 `desktop-release` workflow 并传入 `release_tag=v0.17.6-desktop.1`
   - 完整验证 run：`24207242165`
 - 已完成的发布闭环：
@@ -155,17 +155,17 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开正式 release 页面：`https://github.com/Peiiii/nextclaw/releases/tag/v0.17.6-desktop.1`。
-2. 确认页面不带 `Pre-release` 标记，标题为 `NextClaw Desktop v0.17.6`。
-3. 确认 release 资产里包含带版本号的 Windows 包：`NextClaw.Desktop-0.0.134-win32-x64-unpacked.zip`，并与 macOS/Linux 一样显式带版本号。
+1. 打开正式 release 页面：`https://github.com/Peiiii/go-usb-ai/releases/tag/v0.17.6-desktop.1`。
+2. 确认页面不带 `Pre-release` 标记，标题为 `GoUsbAi Desktop v0.17.6`。
+3. 确认 release 资产里包含带版本号的 Windows 包：`GoUsbAi.Desktop-0.0.134-win32-x64-unpacked.zip`，并与 macOS/Linux 一样显式带版本号。
 4. 下载对应平台正式包重新安装或覆盖安装。
-5. 保留本机已有 `~/.nextclaw` 数据目录，直接启动桌面端。
+5. 保留本机已有 `~/.go-usb-ai` 数据目录，直接启动桌面端。
 6. 若本机 `55667` 已有健康 orphan service 但 `service.json` 缺失，确认桌面端不再弹出误导性的 `UI host/port is unavailable`；应直接给出准确的 CLI 启动失败信息。
 7. 若后台服务已在运行且 state 正常，桌面端应直接接入现有本地 UI，而不是误判失败。
 8. 在主界面可见后，继续验证最小闭环：
    - 能打开主界面
    - 能进入已有会话或设置页
-   - 不要求用户手工删除 `~/.nextclaw/run/service.json`
+   - 不要求用户手工删除 `~/.go-usb-ai/run/service.json`
 
 ## 可维护性总结汇总
 
@@ -177,7 +177,7 @@
     - 把“CLI 启动失败却返回成功”这条误导链路切断，让失败语义重新可预测
     - 让桌面弹窗直接暴露 CLI 关键失败原因，而不是再经过一次二次误翻译
     - 修正本地 DMG 冒烟脚本自身的错误端口区间，让验证链不再制造假失败
-    - 用 `tsdown` bundling 收敛桌面 runtime 对 `@nextclaw/remote` 裸包目录的依赖，避免继续命中 asar 归档错位
+    - 用 `tsdown` bundling 收敛桌面 runtime 对 `@go-usb-ai/remote` 裸包目录的依赖，避免继续命中 asar 归档错位
     - 把 Windows 发布资产命名收回到“版本号来自桌面 package 元数据”这一条主合同，去掉 workflow 里隐藏的固定文件名分叉
 - 本次是否已尽最大努力优化可维护性：
   - 是。
@@ -200,17 +200,17 @@
       - 让 CLI 失败返回非零退出码
       - 让桌面端把 CLI 失败关键信息透传给用户
       - 修正本地 macOS DMG 冒烟脚本的端口区间 bug
-      - 新增 1 个极小的 `tsdown.config.ts`，把 `@nextclaw/remote` bundle 进 CLI
+      - 新增 1 个极小的 `tsdown.config.ts`，把 `@go-usb-ai/remote` bundle 进 CLI
       - 修正 Windows release 归档命名，让版本号直接来自桌面包版本
       - 1 条补充测试
     - 没有引入自动接管 orphan service 的隐藏兜底路径，也没有给桌面 runtime 增加事故特判分支。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：
   - 是。
   - 现在 `RuntimeServiceProcess` 只负责启动流程；managed service 地址解释与 CLI 失败信息拼装都被收敛为可独立测试的纯函数，没有把兼容处理偷偷塞进启动副作用里。
-  - 打包层面没有给桌面 app 额外再加一个 Electron 特判，而是把 `@nextclaw/remote` bundling 收回 `packages/nextclaw` 自身构建，职责边界更集中。
+  - 打包层面没有给桌面 app 额外再加一个 Electron 特判，而是把 `@go-usb-ai/remote` bundling 收回 `packages/go-usb-ai` 自身构建，职责边界更集中。
 - 目录结构与文件组织是否满足当前项目治理要求：
   - 基本满足。
-  - 仅新增 1 个 `packages/nextclaw/tsdown.config.ts`，用于声明现有构建策略；没有继续扩张目录平铺。
+  - 仅新增 1 个 `packages/go-usb-ai/tsdown.config.ts`，用于声明现有构建策略；没有继续扩张目录平铺。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：
   - 是。
   - 可维护性复核结论：通过

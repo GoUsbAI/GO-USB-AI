@@ -4,9 +4,9 @@
 
 改动包括：
 
-- 在 [channel-runtime.ts](../../../packages/nextclaw-openclaw-compat/src/plugins/channel-runtime.ts) 增加跨渠道 fallback：
+- 在 [channel-runtime.ts](../../../packages/go-usb-ai-openclaw-compat/src/plugins/channel-runtime.ts) 增加跨渠道 fallback：
   - 当当前会话不是插件渠道会话（例如 `ui:web-ui`）时，仍会把已启用插件渠道的 `messageToolHints` 注入给 AI。
-- 在 [index.ts](../../../packages/extensions/nextclaw-channel-plugin-weixin/src/index.ts) 增强微信 hint：
+- 在 [index.ts](../../../packages/extensions/go-usb-ai-channel-plugin-weixin/src/index.ts) 增强微信 hint：
   - 读取 `channels.weixin.defaultAccountId`
   - 读取已保存的微信账号
   - 读取登录时记录的授权用户 `userId`
@@ -20,16 +20,16 @@
 本次触达运行时代码，已执行以下最小充分验证：
 
 - 单元测试：
-  - `pnpm -C packages/nextclaw-openclaw-compat exec vitest run src/plugins/channel-runtime.test.ts`
-  - `pnpm -C packages/nextclaw exec vitest run src/cli/commands/ncp/nextclaw-ncp-context-builder.test.ts`
-  - `packages/nextclaw/node_modules/.bin/vitest run /Users/tongwenwen/Projects/Peiiii/nextclaw/packages/extensions/nextclaw-channel-plugin-weixin/src/index.test.ts`
+  - `pnpm -C packages/go-usb-ai-openclaw-compat exec vitest run src/plugins/channel-runtime.test.ts`
+  - `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/ncp/go-usb-ai-ncp-context-builder.test.ts`
+  - `packages/go-usb-ai/node_modules/.bin/vitest run /Users/tongwenwen/Projects/Peiiii/go-usb-ai/packages/extensions/go-usb-ai-channel-plugin-weixin/src/index.test.ts`
 - 构建验证：
-  - `pnpm -C packages/nextclaw-core build`
-  - `pnpm -C packages/nextclaw-openclaw-compat build`
-  - `pnpm -C packages/extensions/nextclaw-channel-plugin-weixin build`
-  - `pnpm -C packages/nextclaw build`
+  - `pnpm -C packages/go-usb-ai-core build`
+  - `pnpm -C packages/go-usb-ai-openclaw-compat build`
+  - `pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin build`
+  - `pnpm -C packages/go-usb-ai build`
 - 真实微信链路冒烟：
-  - 启动隔离实例：`NEXTCLAW_HOME=/tmp/nextclaw-weixin-smoke.yK7f3t node packages/nextclaw/dist/cli/index.js serve --ui-port 18893`
+  - 启动隔离实例：`GOUSB_AI_HOME=/tmp/go-usb-ai-weixin-smoke.yK7f3t node packages/go-usb-ai/dist/cli/index.js serve --ui-port 18893`
   - 健康检查：`curl -sS http://127.0.0.1:18893/api/health`
   - 真实发送：对 `/api/ncp/agent/send` 发起新 UI 会话，请求 AI 直接通过微信发送唯一标识消息 `NC_WEIXIN_SMOKE_1774797187698`
   - 观察点：
@@ -45,10 +45,10 @@
 
 该改动涉及 runtime 行为，需随包含以下包的新版本一起发布：
 
-- `@nextclaw/core`
-- `@nextclaw/openclaw-compat`
-- `@nextclaw/channel-plugin-weixin`
-- `nextclaw`
+- `@go-usb-ai/core`
+- `@go-usb-ai/openclaw-compat`
+- `@go-usb-ai/channel-plugin-weixin`
+- `go-usb-ai`
 
 本次仅完成本地构建与真实冒烟验证，未执行发布。
 

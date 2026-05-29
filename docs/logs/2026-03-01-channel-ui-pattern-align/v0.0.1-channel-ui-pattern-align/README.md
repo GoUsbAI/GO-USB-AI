@@ -10,10 +10,10 @@
 
 主要文件：
 
-- `packages/nextclaw-ui/src/components/config/ChannelsList.tsx`
-- `packages/nextclaw-ui/src/components/config/ChannelForm.tsx`
-- `packages/nextclaw-ui/src/lib/i18n.ts`
-- `packages/nextclaw-server/src/ui/config.ts`
+- `packages/go-usb-ai-ui/src/components/config/ChannelsList.tsx`
+- `packages/go-usb-ai-ui/src/components/config/ChannelForm.tsx`
+- `packages/go-usb-ai-ui/src/lib/i18n.ts`
+- `packages/go-usb-ai-server/src/ui/config.ts`
 
 ## 测试 / 验证 / 验收方式
 
@@ -26,7 +26,7 @@ pnpm tsc
 配置元数据冒烟（确认仅飞书有教程链接）：
 
 ```bash
-pnpm -C packages/nextclaw-server exec tsx -e "import { buildConfigMeta } from './src/ui/config.ts'; import { loadConfig } from '@nextclaw/core'; const meta=buildConfigMeta(loadConfig()); console.log(meta.channels.map(c=>({name:c.name,tutorialUrl:c.tutorialUrl,tutorialUrls:c.tutorialUrls})));"
+pnpm -C packages/go-usb-ai-server exec tsx -e "import { buildConfigMeta } from './src/ui/config.ts'; import { loadConfig } from '@go-usb-ai/core'; const meta=buildConfigMeta(loadConfig()); console.log(meta.channels.map(c=>({name:c.name,tutorialUrl:c.tutorialUrl,tutorialUrls:c.tutorialUrls})));"
 ```
 
 ## 发布 / 部署方式

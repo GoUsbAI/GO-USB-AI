@@ -2,10 +2,10 @@
 
 ## 迭代完成说明（改了什么）
 
-- 新增 `@nextclaw/ncp-http-agent-server` 首版实现与单元测试：
+- 新增 `@go-usb-ai/ncp-http-agent-server` 首版实现与单元测试：
   - 提供 `createNcpHttpAgentRouter` / `mountNcpHttpAgentRoutes`。
   - 提供 `POST /send`、`GET /reconnect`、`POST /abort`，并将 NCP 事件转为 SSE 输出。
-- 新增 `@nextclaw/ncp-http-agent-client` 首版实现与单元测试：
+- 新增 `@go-usb-ai/ncp-http-agent-client` 首版实现与单元测试：
   - 提供 `createNcpHttpAgentClient` 与 `NcpHttpAgentClientEndpoint`（实现 `NcpClientEndpoint`）。
   - 支持 `send` / `resume` / `abort`，支持 SSE `ncp-event` / `error` 解析与订阅分发。
 - 根工作区脚本接入新包：`build`、`lint`、`tsc`。
@@ -14,15 +14,15 @@
 
 - 依赖同步：`pnpm install`
 - Server 包验证：
-  - `pnpm -C packages/nextclaw-ncp-http-agent-server lint`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-server tsc`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-server build`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-server test`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-server lint`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-server tsc`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-server build`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-server test`
 - Client 包验证：
-  - `pnpm -C packages/nextclaw-ncp-http-agent-client lint`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-client tsc`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-client build`
-  - `pnpm -C packages/nextclaw-ncp-http-agent-client test`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-client lint`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-client tsc`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-client build`
+  - `pnpm -C packages/go-usb-ai-ncp-http-agent-client test`
 - 结果：上述命令全部通过。
 
 ## 发布/部署方式

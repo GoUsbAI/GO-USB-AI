@@ -15,16 +15,16 @@
 - `node --check .codex/skills/post-edit-maintainability-guard/scripts/maintainability-guard-hotspots.mjs`
 - `node --check .codex/skills/post-edit-maintainability-guard/scripts/maintainability-guard-support.mjs`
 - `node --check .codex/skills/post-edit-maintainability-guard/scripts/maintainability-guard-core.mjs`
-- `node scripts/maintainability-hotspots.mjs --paths packages/nextclaw/src/cli/commands/diagnostics.ts`
+- `node scripts/maintainability-hotspots.mjs --paths packages/go-usb-ai/src/cli/commands/diagnostics.ts`
 - `node scripts/maintainability-hotspots.mjs --json`
 - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths scripts/maintainability-hotspots.mjs .codex/skills/post-edit-maintainability-guard/scripts/maintainability-guard-hotspots.mjs .codex/skills/post-edit-maintainability-guard/scripts/maintainability-guard-support.mjs .codex/skills/post-edit-maintainability-guard/scripts/maintainability-guard-core.mjs`
-- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --json --no-fail --paths packages/nextclaw/src/cli/commands/diagnostics.ts`
+- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --json --no-fail --paths packages/go-usb-ai/src/cli/commands/diagnostics.ts`
 
 验收结果要点：
 
 - 红区脚本当前追踪 `8` 个首批热点文件。
 - 守卫脚本对本次新增文件与改动文件检查通过，未新增文件级或函数级维护性债务。
-- 定向检查 `packages/nextclaw/src/cli/commands/diagnostics.ts` 时，守卫能正确报出“缺少红区触达与减债记录”的阻塞项，证明新闸门已生效。
+- 定向检查 `packages/go-usb-ai/src/cli/commands/diagnostics.ts` 时，守卫能正确报出“缺少红区触达与减债记录”的阻塞项，证明新闸门已生效。
 - 守卫支撑逻辑已拆到独立的 `maintainability-guard-hotspots.mjs`，避免 `maintainability-guard-support.mjs` 继续逼近预算线。
 
 ## 发布/部署方式

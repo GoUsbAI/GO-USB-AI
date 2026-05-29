@@ -30,15 +30,15 @@
 ## 测试/验证/验收方式
 
 - 页面级冒烟测试：
-  - `pnpm -C packages/nextclaw-ui test -- AgentsPage.test.tsx`
+  - `pnpm -C packages/go-usb-ai-ui test -- AgentsPage.test.tsx`
 - 变更文件定向 ESLint：
-  - `pnpm -C packages/nextclaw-ui exec eslint src/components/agents/AgentsPage.tsx src/components/agents/AgentsPage.test.tsx src/lib/i18n.agents.ts`
+  - `pnpm -C packages/go-usb-ai-ui exec eslint src/components/agents/AgentsPage.tsx src/components/agents/AgentsPage.test.tsx src/lib/i18n.agents.ts`
 - UI 构建验证：
-  - `pnpm -C packages/nextclaw-ui build`
+  - `pnpm -C packages/go-usb-ai-ui build`
 - 可维护性守卫：
   - `pnpm lint:maintainability:guard`
 - 额外说明：
-  - `pnpm -C packages/nextclaw-ui lint` 未通过，阻塞原因是历史遗留错误 [`packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`](/Users/tongwenwen/Projects/Peiiii/nextclaw/packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx#L24) 存在未使用变量 `sessionDisplayName`；本次未触达该文件。
+  - `pnpm -C packages/go-usb-ai-ui lint` 未通过，阻塞原因是历史遗留错误 [`packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx#L24) 存在未使用变量 `sessionDisplayName`；本次未触达该文件。
 
 ## 发布/部署方式
 
@@ -64,9 +64,9 @@
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。核心做法是删除独立统计大卡、去掉大面积彩色头图与头像额外包裹层、收敛卡片嵌套和留白，而不是在原结构外继续叠加补丁式样式。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：基本做到。页面结构更集中；新增了一个页面级冒烟测试文件，属于本次用户可见改动的最小必要增长，用于补足此前缺失的页面验证。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：是。改动限定在页面组件和文案表内，没有新增多余 helper 或样式抽象，职责边界保持清晰。
-- 目录结构与文件组织是否满足当前项目治理要求：部分未满足但本次未恶化。`packages/nextclaw-ui/src/lib` 仍有历史性的目录预算告警；本次只修改其中现有文案文件，未继续增加该目录平铺度，后续可按职责拆分 `lib` 子目录。
+- 目录结构与文件组织是否满足当前项目治理要求：部分未满足但本次未恶化。`packages/go-usb-ai-ui/src/lib` 仍有历史性的目录预算告警；本次只修改其中现有文案文件，未继续增加该目录平铺度，后续可按职责拆分 `lib` 子目录。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：已执行独立复核。
   - 可维护性复核结论：通过
   - 本次顺手减债：是
   - no maintainability findings
-  - 可维护性总结：本次改动让 Agents 页面信息密度更高、中文表达更统一，同时没有把复杂度转移到新的抽象层。保留债务仅为 `packages/nextclaw-ui/src/lib` 的历史目录预算告警，未在本次任务中继续恶化。
+  - 可维护性总结：本次改动让 Agents 页面信息密度更高、中文表达更统一，同时没有把复杂度转移到新的抽象层。保留债务仅为 `packages/go-usb-ai-ui/src/lib` 的历史目录预算告警，未在本次任务中继续恶化。

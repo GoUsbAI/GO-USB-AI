@@ -11,6 +11,6 @@
 
 涉及文件：
 
-- `packages/nextclaw-ui/src/components/layout/AppLayout.tsx`
-- `packages/nextclaw-ui/src/components/config/ChannelsList.tsx`
-- `packages/nextclaw-ui/src/components/config/ChannelForm.tsx`
+- `packages/go-usb-ai-ui/src/components/layout/AppLayout.tsx`
+- `packages/go-usb-ai-ui/src/components/config/ChannelsList.tsx`
+- `packages/go-usb-ai-ui/src/components/config/ChannelForm.tsx`

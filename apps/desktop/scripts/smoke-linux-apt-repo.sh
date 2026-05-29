@@ -14,7 +14,7 @@ fi
 NEW_REPO_DIR="$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
 shift
 OLD_REPO_DIR=""
-PACKAGE_NAME="nextclaw-desktop"
+PACKAGE_NAME="go-usb-ai-desktop"
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -47,7 +47,7 @@ if [ -n "${OLD_REPO_DIR}" ]; then
   MOUNTS+=(-v "${OLD_REPO_DIR}:/old-repo:ro")
 fi
 
-CONTAINER_NAME="nextclaw-apt-smoke-$$"
+CONTAINER_NAME="go-usb-ai-apt-smoke-$$"
 cleanup() {
   docker rm -f "${CONTAINER_NAME}" >/dev/null 2>&1 || true
 }
@@ -66,16 +66,16 @@ if [ -n "${OLD_REPO_DIR}" ]; then
 
   docker exec "${CONTAINER_NAME}" bash -lc "
     set -euo pipefail
-    cp /old-repo/nextclaw-archive-keyring.gpg /etc/apt/keyrings/nextclaw-archive-keyring.gpg
-    cat >/etc/apt/sources.list.d/nextclaw.list <<'EOF'
-deb [arch=amd64 signed-by=/etc/apt/keyrings/nextclaw-archive-keyring.gpg] file:/old-repo stable main
+    cp /old-repo/go-usb-ai-archive-keyring.gpg /etc/apt/keyrings/go-usb-ai-archive-keyring.gpg
+    cat >/etc/apt/sources.list.d/go-usb-ai.list <<'EOF'
+deb [arch=amd64 signed-by=/etc/apt/keyrings/go-usb-ai-archive-keyring.gpg] file:/old-repo stable main
 EOF
     apt-get update
     apt-get install -y ${PACKAGE_NAME}
     INSTALLED_BEFORE=\$(dpkg-query -W -f='\${Version}' ${PACKAGE_NAME})
-    cp /new-repo/nextclaw-archive-keyring.gpg /etc/apt/keyrings/nextclaw-archive-keyring.gpg
-    cat >/etc/apt/sources.list.d/nextclaw.list <<'EOF'
-deb [arch=amd64 signed-by=/etc/apt/keyrings/nextclaw-archive-keyring.gpg] file:/new-repo stable main
+    cp /new-repo/go-usb-ai-archive-keyring.gpg /etc/apt/keyrings/go-usb-ai-archive-keyring.gpg
+    cat >/etc/apt/sources.list.d/go-usb-ai.list <<'EOF'
+deb [arch=amd64 signed-by=/etc/apt/keyrings/go-usb-ai-archive-keyring.gpg] file:/new-repo stable main
 EOF
     apt-get update
     CANDIDATE_AFTER=\$(apt-cache policy ${PACKAGE_NAME} | awk '/Candidate:/ { print \$2 }')
@@ -100,9 +100,9 @@ else
 
   docker exec "${CONTAINER_NAME}" bash -lc "
     set -euo pipefail
-    cp /new-repo/nextclaw-archive-keyring.gpg /etc/apt/keyrings/nextclaw-archive-keyring.gpg
-    cat >/etc/apt/sources.list.d/nextclaw.list <<'EOF'
-deb [arch=amd64 signed-by=/etc/apt/keyrings/nextclaw-archive-keyring.gpg] file:/new-repo stable main
+    cp /new-repo/go-usb-ai-archive-keyring.gpg /etc/apt/keyrings/go-usb-ai-archive-keyring.gpg
+    cat >/etc/apt/sources.list.d/go-usb-ai.list <<'EOF'
+deb [arch=amd64 signed-by=/etc/apt/keyrings/go-usb-ai-archive-keyring.gpg] file:/new-repo stable main
 EOF
     apt-get update
     CANDIDATE=\$(apt-cache policy ${PACKAGE_NAME} | awk '/Candidate:/ { print \$2 }')

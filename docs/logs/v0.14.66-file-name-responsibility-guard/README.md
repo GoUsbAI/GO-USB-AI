@@ -18,7 +18,7 @@
   - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --json --no-fail --paths .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs .codex/skills/post-edit-maintainability-guard/scripts/maintainability-guard-support.mjs .codex/skills/post-edit-maintainability-guard/scripts/maintainability-guard-core.mjs`
   - 结果：`errors = 0`，`warnings = 0`
 - 命名职责样例验证：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --json --no-fail --paths packages/nextclaw-ui/src/components/marketplace/marketplace-installed-cache.ts`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --json --no-fail --paths packages/go-usb-ai-ui/src/components/marketplace/marketplace-installed-cache.ts`
   - 结果：命中 `filename-role` 警告，识别 `cache` 命名与 pure mapping / updater 语义不一致。
 
 ## 发布/部署方式

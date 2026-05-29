@@ -2,8 +2,8 @@
 
 ## 背景 / 问题
 
-- `nextclaw start` 需要后台运行并输出引导链接
-- 需要 `nextclaw stop` 关闭后台服务
+- `go-usb-ai start` 需要后台运行并输出引导链接
+- 需要 `go-usb-ai stop` 关闭后台服务
 
 ## 决策
 
@@ -23,10 +23,10 @@ pnpm -C /Users/peiwang/Projects/nextbot lint
 pnpm -C /Users/peiwang/Projects/nextbot tsc
 
 # smoke-check（非仓库目录）
-NEXTCLAW_HOME=/tmp/nextclaw-service-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw dev start --ui-port 18810 &
+GOUSB_AI_HOME=/tmp/go-usb-ai-service-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai dev start --ui-port 18810 &
 sleep 2
 curl -s http://127.0.0.1:18810/api/health
-NEXTCLAW_HOME=/tmp/nextclaw-service-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw dev stop
+GOUSB_AI_HOME=/tmp/go-usb-ai-service-smoke pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai dev stop
 lsof -nP -iTCP:18810 -sTCP:LISTEN || true
 ```
 

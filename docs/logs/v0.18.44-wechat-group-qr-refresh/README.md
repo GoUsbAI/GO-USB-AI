@@ -2,17 +2,17 @@
 
 ## 迭代完成说明
 
-- 将 GitHub README 使用的稳定二维码资源 `images/contact/nextclaw-contact-wechat-group.png` 替换为 2026-05-14 收到的新微信群二维码。
-- 将官网 landing 使用的微信群二维码切换到新的防缓存资源 `/contact/nextclaw-contact-wechat-group-2026-05-14.png`。
-- 同步更新 landing 通用资源 `apps/landing/public/contact/nextclaw-contact-wechat-group.png`，保持稳定路径与带日期路径一致。
+- 将 GitHub README 使用的稳定二维码资源 `images/contact/go-usb-ai-contact-wechat-group.png` 替换为 2026-05-14 收到的新微信群二维码。
+- 将官网 landing 使用的微信群二维码切换到新的防缓存资源 `/contact/go-usb-ai-contact-wechat-group-2026-05-14.png`。
+- 同步更新 landing 通用资源 `apps/landing/public/contact/go-usb-ai-contact-wechat-group.png`，保持稳定路径与带日期路径一致。
 
 ## 测试/验证/验收方式
 
-- `shasum -a 256 apps/landing/public/contact/nextclaw-contact-wechat-group-2026-05-14.png apps/landing/public/contact/nextclaw-contact-wechat-group.png images/contact/nextclaw-contact-wechat-group.png`
+- `shasum -a 256 apps/landing/public/contact/go-usb-ai-contact-wechat-group-2026-05-14.png apps/landing/public/contact/go-usb-ai-contact-wechat-group.png images/contact/go-usb-ai-contact-wechat-group.png`
   - 三个资源哈希一致：`ffb98ab3d878f089d756866cf216eec3ad4eece1bc24530d958e690eea9e9614`。
-- `file apps/landing/public/contact/nextclaw-contact-wechat-group-2026-05-14.png apps/landing/public/contact/nextclaw-contact-wechat-group.png images/contact/nextclaw-contact-wechat-group.png`
+- `file apps/landing/public/contact/go-usb-ai-contact-wechat-group-2026-05-14.png apps/landing/public/contact/go-usb-ai-contact-wechat-group.png images/contact/go-usb-ai-contact-wechat-group.png`
   - 三个资源均为有效 PNG，尺寸 `1207 x 1732`。
-- `rg -n "nextclaw-contact-wechat-group-2026-05-14|nextclaw-contact-wechat-group\\.png|WeChat Group|微信群" README.md apps/landing/src/main.ts`
+- `rg -n "go-usb-ai-contact-wechat-group-2026-05-14|go-usb-ai-contact-wechat-group\\.png|WeChat Group|微信群" README.md apps/landing/src/main.ts`
   - README 继续引用稳定资源，landing 指向新的 2026-05-14 防缓存资源。
 - `pnpm -C apps/landing tsc`
   - 通过。
@@ -20,9 +20,9 @@
   - 通过，0 error；保留既有 `apps/landing/src/main.ts` 文件长度与 `render` 方法长度 warning。
 - `pnpm -C apps/landing build`
   - 通过。
-- `rg -n "nextclaw-contact-wechat-group-2026-05-14" apps/landing/dist`
+- `rg -n "go-usb-ai-contact-wechat-group-2026-05-14" apps/landing/dist`
   - 构建产物包含新资源路径。
-- `shasum -a 256 apps/landing/public/contact/nextclaw-contact-wechat-group-2026-05-14.png apps/landing/dist/contact/nextclaw-contact-wechat-group-2026-05-14.png`
+- `shasum -a 256 apps/landing/public/contact/go-usb-ai-contact-wechat-group-2026-05-14.png apps/landing/dist/contact/go-usb-ai-contact-wechat-group-2026-05-14.png`
   - public 与 dist 中的新图片哈希一致。
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths apps/landing/src/main.ts`
   - 通过，非测试代码净增 `0`；提示 `apps/landing/src/main.ts` 仍超过文件预算，这是既有红区。
@@ -40,8 +40,8 @@
 ## 用户/产品视角的验收步骤
 
 - 打开 GitHub 仓库首页，确认 Community 区域的 WeChat Group 二维码显示为 2026-05-14 新图。
-- 打开官网首页社群区域，确认微信群二维码资源请求路径包含 `nextclaw-contact-wechat-group-2026-05-14.png`。
-- 扫码确认进入 `NextClaw 股东许愿 OpenClaw 交流群`。
+- 打开官网首页社群区域，确认微信群二维码资源请求路径包含 `go-usb-ai-contact-wechat-group-2026-05-14.png`。
+- 扫码确认进入 `GoUsbAi 股东许愿 OpenClaw 交流群`。
 
 ## 可维护性总结汇总
 

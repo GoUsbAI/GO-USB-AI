@@ -15,7 +15,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-package-public-imports.mjs
   node scripts/governance/lint-new-code-package-public-imports.mjs --staged
   node scripts/governance/lint-new-code-package-public-imports.mjs --base origin/main
-  node scripts/governance/lint-new-code-package-public-imports.mjs -- packages/nextclaw/src
+  node scripts/governance/lint-new-code-package-public-imports.mjs -- packages/go-usb-ai/src
 
 Blocks cross-workspace package deep imports. A workspace may import another workspace package only through its package root public entry.`;
 

@@ -2,7 +2,7 @@
 
 ## 背景
 
-NextClaw 的会话系统需要承载长期对话、运行事件、会话列表、项目上下文、模型偏好、子会话关系和后续可搜索/可恢复能力。当前讨论先不以现有实现为约束，也暂不把多进程并发作为第一优先级，而是从第一性原理出发，设计一套更简洁、可理解、低出错概率的会话运行态、事件流和文件化持久化模型。
+GoUsbAi 的会话系统需要承载长期对话、运行事件、会话列表、项目上下文、模型偏好、子会话关系和后续可搜索/可恢复能力。当前讨论先不以现有实现为约束，也暂不把多进程并发作为第一优先级，而是从第一性原理出发，设计一套更简洁、可理解、低出错概率的会话运行态、事件流和文件化持久化模型。
 
 设计目标不是堆更多 sidecar、index 或 manager，而是让会话事实源、派生状态和业务 owner 的边界自然清楚。
 
@@ -516,7 +516,7 @@ class AgentRuntime {
 
 ### AgentRun 模型输入装配
 
-旧 `NextclawNcpContextBuilder` 不能整体复用为新模型输入 builder，因为它同时承担 metadata 解析、agent profile 解析、tool registry 副作用准备、prompt 拼接、tool schema 构造、context compaction 投影和 input budget 裁剪。新架构必须把这些能力拆回明确 owner，避免把旧的大壳重新粘进 agent loop。
+旧 `GoUsbAiNcpContextBuilder` 不能整体复用为新模型输入 builder，因为它同时承担 metadata 解析、agent profile 解析、tool registry 副作用准备、prompt 拼接、tool schema 构造、context compaction 投影和 input budget 裁剪。新架构必须把这些能力拆回明确 owner，避免把旧的大壳重新粘进 agent loop。
 
 新链路保留旧链路中真实需要的两段能力，但职责分开：
 
@@ -543,7 +543,7 @@ class AgentRuntime {
 
 - `ContextCompactionPreflightService` 放在 `features/context-compaction/services/`，沉淀可复用算法：profile budget 解析、context-window 估算、是否触发压缩、checkpoint 构造、summary 生成、timeline message 构造。旧 `ContextCompactionManager` 和新链路都复用它，避免两份压缩判断漂移。
 - `AgentRunContextCompactionManager` 放在 `features/agent-run/managers/`，是新链路运行前压缩 owner。它消费 `sessionId`、`agentId`、`messages` 和 session metadata，必要时 patch compaction metadata，并返回 compaction timeline `message.sent` 事件。
-- `DefaultNcpAgentRuntime` 只暴露通用 `runPreflight` hook。hook 运行在 initial `inbox.drain()` 之后、`run.started` 之前，每个 run 只执行一次；runtime 不知道 NextClaw compaction，只负责 apply/yield hook 返回的 events。
+- `DefaultNcpAgentRuntime` 只暴露通用 `runPreflight` hook。hook 运行在 initial `inbox.drain()` 之后、`run.started` 之前，每个 run 只执行一次；runtime 不知道 GoUsbAi compaction，只负责 apply/yield hook 返回的 events。
 - `AgentRunRuntimeContribution` 负责把 branch 的 `AgentRunContextCompactionManager` 接入 runtime hook。这里是装配点，不是算法 owner。
 - `ContextWindowContribution` 是 branch-local contribution，监听新链路 `eventBus ncp.event`，读取 branch `SessionRun` live snapshot 并用同一个 `ContextCompactionPreflightService.preview(...)` 计算展示用 context-window，再发布 `context-window.updated`。
 
@@ -690,10 +690,10 @@ class McpProviderContribution implements KernelContribution {
 
 第一批落地 contributions：
 
-- `ContextProviderContribution`：注册一个 kernel 级 context provider。第一版不把 agent profile、project context、bootstrap files、memory、skills 拆成多个小 provider，而是复用旧链路里已经沉淀的 `ContextBuilder` 和共享的 `resolveNextclawNcpRunContext(...)`。这样先保持旧上下文能力不丢，避免复制 prompt 拼装规则。
+- `ContextProviderContribution`：注册一个 kernel 级 context provider。第一版不把 agent profile、project context、bootstrap files、memory、skills 拆成多个小 provider，而是复用旧链路里已经沉淀的 `ContextBuilder` 和共享的 `resolveGoUsbAiNcpRunContext(...)`。这样先保持旧上下文能力不丢，避免复制 prompt 拼装规则。
 - `ToolProviderContribution`：注册一个 kernel 级 tool provider。它不重新实现工具清单，而是复用旧链路 `ToolManager.createRuntimeRegistry(...)` 和既有 `ToolContribution`，再通过 `prepareForRun(...) -> listTools()` 输出本轮 `AgentTool[]`。内置工具、asset tools、MCP tools、extension tools、session tools 和 session search tools 都继续由旧 tool contribution 统一注册。
 
-旧 native context builder 里的 run context 解析能力抽到共享服务，例如 `resolveNextclawNcpRunContext(...)`。旧 builder、新 context provider 和新 tool provider 都使用同一套 profile、workspace、channel、thinking、tool run context 解析规则，避免新旧链路各自猜一次。
+旧 native context builder 里的 run context 解析能力抽到共享服务，例如 `resolveGoUsbAiNcpRunContext(...)`。旧 builder、新 context provider 和新 tool provider 都使用同一套 profile、workspace、channel、thinking、tool run context 解析规则，避免新旧链路各自猜一次。
 
 如果一个 contribution 同时注册多个 providers，它自己聚合多个 unregister 函数。这样扩展能力的生命周期清晰归 contribution，provider manager 不需要知道 provider 从哪里来。
 
@@ -1260,7 +1260,7 @@ projection 文件会引入同步关系。只要它开始像事实源，就会产
 11. context provider 和 tool provider 的注册范围是 session feature 内部，还是未来抽到 agent-runtime feature？
 12. `ContextBlock` 是否需要结构化 priority / placement / token budget，还是第一版只用 `string`？
 13. `AgentRunRequest` 是否允许保留临时 `metadata` 兼容字段，还是在第一版就全部类型化？
-14. `context-window.updated` 当前仍挂在 `NcpEventType` / `NcpEndpointEvent` / `eventKeys.ncpEvent` 链路上，但它不是 agent runtime 产出的 NCP 事实，而是 NextClaw 自己的辅助观察状态。后续需要把它迁出 NCP event contract，改为独立 app event / projection event；迁移时必须同时处理 kernel 发布者、SSE/WS 传输、前端 live snapshot 消费和旧 NCP enum 删除点，不能只改一处类型。
+14. `context-window.updated` 当前仍挂在 `NcpEventType` / `NcpEndpointEvent` / `eventKeys.ncpEvent` 链路上，但它不是 agent runtime 产出的 NCP 事实，而是 GoUsbAi 自己的辅助观察状态。后续需要把它迁出 NCP event contract，改为独立 app event / projection event；迁移时必须同时处理 kernel 发布者、SSE/WS 传输、前端 live snapshot 消费和旧 NCP enum 删除点，不能只改一处类型。
 
 ## 渐进式落地策略
 
@@ -1268,10 +1268,10 @@ projection 文件会引入同步关系。只要它开始像事实源，就会产
 
 ### KernelBranch：新链路的临时分支主干
 
-在旧 agent run 链路删除前，新链路不直接散挂到 `NextclawKernel` 顶层，也不逐个替换旧 manager。第一阶段先引入一个临时分支主干 `KernelBranch`：
+在旧 agent run 链路删除前，新链路不直接散挂到 `GoUsbAiKernel` 顶层，也不逐个替换旧 manager。第一阶段先引入一个临时分支主干 `KernelBranch`：
 
 - `KernelBranch` 本身实现 `KernelContribution`，通过 kernel 既有 contribution 生命周期挂到主干。
-- `NextclawKernel` 不暴露 `kernelBranch` 顶层字段，只把 `new KernelBranch(...)` 放进 `contributions` 生命周期数组；新链路的每个 manager 都留在分支内部。
+- `GoUsbAiKernel` 不暴露 `kernelBranch` 顶层字段，只把 `new KernelBranch(...)` 放进 `contributions` 生命周期数组；新链路的每个 manager 都留在分支内部。
 - `KernelBranch` 内部持有新链路 owner：`SessionRepository`、`SessionRunManager`、`AgentRuntimeManager`、`ContextProviderManager`、`ToolProviderManager`、`AgentRunContextCompactionManager`、`AgentRunRequestManager`。
 - `KernelBranch` 可以有自己的 branch-local contributions，用来注册 agent runtime entries、context provider、tool provider 和后续其它 provider。
 - branch-local contribution 自己创建并持有只服务自身注册职责的细分对象。例如 `contributions/kernel-branch/contributions/agent-run-runtime/index.ts` 自己创建 `AgentRunModelInputBuilder` 及其 message projector / budgeter，`contributions/kernel-branch/contributions/context-provider/index.ts` 注册 `providers/kernel-context.provider.ts`，`contributions/kernel-branch/contributions/tool-provider/index.ts` 注册 `providers/kernel-tool.provider.ts`，`contributions/kernel-branch/contributions/context-window/index.ts` 监听 branch live session 并发布展示用 context-window；`KernelBranch` 不替它持有这些内部装配细节。
@@ -1281,7 +1281,7 @@ projection 文件会引入同步关系。只要它开始像事实源，就会产
 
 ### LegacyAgentRunContribution：旧链路生命周期收束
 
-旧 agent run 链路在删除前也必须收束成一个清晰的 lifecycle contribution，而不是散落在 `NextclawKernel.start()` / `dispose()` 和多个顶层 contribution 中。
+旧 agent run 链路在删除前也必须收束成一个清晰的 lifecycle contribution，而不是散落在 `GoUsbAiKernel.start()` / `dispose()` 和多个顶层 contribution 中。
 
 `LegacyAgentRunContribution` 负责旧链路专属生命周期：
 

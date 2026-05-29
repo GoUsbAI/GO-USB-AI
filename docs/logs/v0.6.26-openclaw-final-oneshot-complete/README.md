@@ -5,11 +5,11 @@
 - 目标：按“一次性完成全部”要求，完成 OpenClaw 对齐的最终闭环（目录语义、实现外置、发布、发布后验收）。
 - 本次完成：
   - 目录语义化：将插件与运行时包迁移至 `packages/extensions/*`。
-    - `packages/extensions/nextclaw-channel-runtime`
-    - `packages/extensions/nextclaw-channel-plugin-*`（9 个）
-  - 真正实现外置：9 个渠道实现从 `@nextclaw/core` 移除，统一归属 `@nextclaw/channel-runtime`。
-  - 插件直连运行时：9 个渠道插件不再通过 core builtin 列表取实现，改为直接依赖 `@nextclaw/channel-runtime`。
-  - compat 桥接对齐：`@nextclaw/openclaw-compat` plugin-sdk 改为使用 `resolveBuiltinChannelRuntime`。
+    - `packages/extensions/go-usb-ai-channel-runtime`
+    - `packages/extensions/go-usb-ai-channel-plugin-*`（9 个）
+  - 真正实现外置：9 个渠道实现从 `@go-usb-ai/core` 移除，统一归属 `@go-usb-ai/channel-runtime`。
+  - 插件直连运行时：9 个渠道插件不再通过 core builtin 列表取实现，改为直接依赖 `@go-usb-ai/channel-runtime`。
+  - compat 桥接对齐：`@go-usb-ai/openclaw-compat` plugin-sdk 改为使用 `resolveBuiltinChannelRuntime`。
   - workspace/构建链路对齐：根 `workspaces` 与 `build/lint/tsc` 已纳入 `packages/extensions/*`。
 
 ## 测试 / 验证 / 验收方式
@@ -29,10 +29,10 @@ pnpm tsc
 ### 冒烟验证（隔离目录，避免仓库写入）
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-full-final.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
-NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0 NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-full-final.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
+GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0 GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
 rm -rf "$TMP_HOME"
 ```
 
@@ -43,21 +43,21 @@ rm -rf "$TMP_HOME"
 ### 发布后安装验证（全新目录）
 
 ```bash
-TMP_DIR=$(mktemp -d /tmp/nextclaw-install-check.XXXXXX)
+TMP_DIR=$(mktemp -d /tmp/go-usb-ai-install-check.XXXXXX)
 cd "$TMP_DIR"
 npm init -y
-npm i @nextclaw/channel-plugin-discord@0.1.1
-node -e "console.log(require.resolve('@nextclaw/channel-plugin-discord')); console.log(require.resolve('@nextclaw/channel-runtime'));"
+npm i @go-usb-ai/channel-plugin-discord@0.1.1
+node -e "console.log(require.resolve('@go-usb-ai/channel-plugin-discord')); console.log(require.resolve('@go-usb-ai/channel-runtime'));"
 
-TMP_DIR2=$(mktemp -d /tmp/nextclaw-compat-install.XXXXXX)
+TMP_DIR2=$(mktemp -d /tmp/go-usb-ai-compat-install.XXXXXX)
 cd "$TMP_DIR2"
 npm init -y
-npm i @nextclaw/openclaw-compat@0.1.9
-node -e "console.log(require.resolve('@nextclaw/openclaw-compat')); console.log(require.resolve('@nextclaw/channel-plugin-telegram'));"
+npm i @go-usb-ai/openclaw-compat@0.1.9
+node -e "console.log(require.resolve('@go-usb-ai/openclaw-compat')); console.log(require.resolve('@go-usb-ai/channel-plugin-telegram'));"
 ```
 
 验收点：
-- `channel-plugin-*` 安装时可正常解析 `@nextclaw/channel-runtime`。
+- `channel-plugin-*` 安装时可正常解析 `@go-usb-ai/channel-runtime`。
 - `openclaw-compat` 安装后可解析 bundled 渠道插件包。
 
 ## 发布 / 部署方式
@@ -70,18 +70,18 @@ pnpm release:publish
 ```
 
 本次发布结果：
-- `@nextclaw/core@0.6.17`
-- `@nextclaw/openclaw-compat@0.1.9`
-- `@nextclaw/channel-runtime@0.1.1`
-- `@nextclaw/channel-plugin-telegram@0.1.1`
-- `@nextclaw/channel-plugin-whatsapp@0.1.1`
-- `@nextclaw/channel-plugin-discord@0.1.1`
-- `@nextclaw/channel-plugin-feishu@0.1.1`
-- `@nextclaw/channel-plugin-mochat@0.1.1`
-- `@nextclaw/channel-plugin-dingtalk@0.1.1`
-- `@nextclaw/channel-plugin-email@0.1.1`
-- `@nextclaw/channel-plugin-slack@0.1.1`
-- `@nextclaw/channel-plugin-qq@0.1.1`
+- `@go-usb-ai/core@0.6.17`
+- `@go-usb-ai/openclaw-compat@0.1.9`
+- `@go-usb-ai/channel-runtime@0.1.1`
+- `@go-usb-ai/channel-plugin-telegram@0.1.1`
+- `@go-usb-ai/channel-plugin-whatsapp@0.1.1`
+- `@go-usb-ai/channel-plugin-discord@0.1.1`
+- `@go-usb-ai/channel-plugin-feishu@0.1.1`
+- `@go-usb-ai/channel-plugin-mochat@0.1.1`
+- `@go-usb-ai/channel-plugin-dingtalk@0.1.1`
+- `@go-usb-ai/channel-plugin-email@0.1.1`
+- `@go-usb-ai/channel-plugin-slack@0.1.1`
+- `@go-usb-ai/channel-plugin-qq@0.1.1`
 
 闭环说明：
 - 远程 migration：不适用（无后端/数据库变更）。

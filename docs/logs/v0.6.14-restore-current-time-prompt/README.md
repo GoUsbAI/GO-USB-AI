@@ -2,7 +2,7 @@
 
 ## 背景 / 问题
 
-- 在对齐 OpenClaw 提示词过程中，`nextclaw-core` 的系统提示词移除了显式“当前时间”行。
+- 在对齐 OpenClaw 提示词过程中，`go-usb-ai-core` 的系统提示词移除了显式“当前时间”行。
 - 用户确认需要恢复该信息，以便模型在不额外调用工具时也能感知当前时间。
 
 ## 决策
@@ -12,7 +12,7 @@
 
 ## 变更内容
 
-- `packages/nextclaw-core/src/agent/context.ts`
+- `packages/go-usb-ai-core/src/agent/context.ts`
   - 在 `getIdentity()` 中恢复 `now` 计算。
   - 在 `## Runtime` 段落恢复 `Current time: ${now}` 行。
 
@@ -36,5 +36,5 @@ pnpm tsc
 
 ## 影响范围 / 风险
 
-- 影响范围：`@nextclaw/core` 系统提示词文本。
+- 影响范围：`@go-usb-ai/core` 系统提示词文本。
 - 风险：低，仅恢复时间注入。

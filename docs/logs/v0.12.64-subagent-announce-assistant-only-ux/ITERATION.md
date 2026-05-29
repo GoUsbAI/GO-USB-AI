@@ -9,13 +9,13 @@
 
 ## 测试/验证/验收方式
 - 定向测试：
-  - `pnpm -C packages/nextclaw-core test -- --run src/agent/subagent.test.ts src/agent/loop.system-message.test.ts`
+  - `pnpm -C packages/go-usb-ai-core test -- --run src/agent/subagent.test.ts src/agent/loop.system-message.test.ts`
 - 全量验证：
   - `pnpm build`
   - `pnpm lint`
   - `pnpm tsc`
 - 冒烟（隔离目录，不写仓库）：
-  - 在 `/tmp` 下设置 `NEXTCLAW_HOME` 与临时工作目录，执行最小链路脚本。
+  - 在 `/tmp` 下设置 `GOUSB_AI_HOME` 与临时工作目录，执行最小链路脚本。
   - 观察点：`SMOKE_OK roles=assistant internal=true`（无 `user`，有 `system.subagent_completion` 事件）。
 
 ## 发布/部署方式

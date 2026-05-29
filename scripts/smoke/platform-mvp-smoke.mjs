@@ -10,7 +10,7 @@ import { exerciseUserAuthFlows } from "./platform-mvp-auth-smoke-support.mjs";
 import { resolveRepoPath } from "../shared/repo-paths.mjs";
 
 const rootDir = resolveRepoPath(import.meta.url);
-const workerDir = resolve(rootDir, "workers/nextclaw-provider-gateway-api");
+const workerDir = resolve(rootDir, "workers/go-usb-ai-provider-gateway-api");
 const workerConfig = resolve(workerDir, "wrangler.toml");
 const wranglerBin = resolve(
   workerDir,
@@ -134,7 +134,7 @@ async function requestJson({
 }
 
 async function main() {
-  const persistDir = mkdtempSync(resolve(tmpdir(), "nextclaw-platform-smoke-"));
+  const persistDir = mkdtempSync(resolve(tmpdir(), "go-usb-ai-platform-smoke-"));
   const envFile = resolve(persistDir, ".smoke.env");
   const backendPort = await findFreePort();
   const mockUpstreamPort = await findFreePort();
@@ -205,7 +205,7 @@ async function main() {
       "d1",
       "migrations",
       "apply",
-      "NEXTCLAW_PLATFORM_DB",
+      "GOUSB_AI_PLATFORM_DB",
       "--local",
       "--config",
       workerConfig,
@@ -222,7 +222,7 @@ async function main() {
     runOrThrow(wranglerBin, [
       "d1",
       "execute",
-      "NEXTCLAW_PLATFORM_DB",
+      "GOUSB_AI_PLATFORM_DB",
       "--local",
       "--config",
       workerConfig,
@@ -454,7 +454,7 @@ async function main() {
       [
         "d1",
         "execute",
-        "NEXTCLAW_PLATFORM_DB",
+        "GOUSB_AI_PLATFORM_DB",
         "--local",
         "--config",
         workerConfig,

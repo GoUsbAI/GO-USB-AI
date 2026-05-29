@@ -64,7 +64,7 @@ function createTestUpdateCoordinator(options: TestCoordinatorOptions): DesktopUp
 }
 
 test("downloads and installs an update without changing the active version", async () =>
-  await withTempDir("nextclaw-update-download-only-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-download-only-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
@@ -116,7 +116,7 @@ test("downloads and installs an update without changing the active version", asy
   }));
 
 test("download service reports streamed bundle progress", async () =>
-  await withTempDir("nextclaw-update-download-progress-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-download-progress-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const archiveBytes = await createBundleArchive({
@@ -164,7 +164,7 @@ test("download service reports streamed bundle progress", async () =>
   }));
 
 test("coordinator blocks updates for unsupported installation kinds", async () =>
-  await withTempDir("nextclaw-update-coordinator-unsupported-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-coordinator-unsupported-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
     await stateStore.write(createLauncherState({ currentVersion: "0.18.0" }));
@@ -195,7 +195,7 @@ test("coordinator blocks updates for unsupported installation kinds", async () =
   }));
 
 test("coordinator reports an available update without downloading by default", async () =>
-  await withTempDir("nextclaw-update-coordinator-check-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-coordinator-check-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
     await stateStore.write(
@@ -245,7 +245,7 @@ test("coordinator reports an available update without downloading by default", a
   }));
 
 test("coordinator downloads an update and waits for user-triggered apply", async () =>
-  await withTempDir("nextclaw-update-coordinator-apply-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-coordinator-apply-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     await layout.ensureLauncherDirs();
     const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
@@ -340,7 +340,7 @@ test("coordinator downloads an update and waits for user-triggered apply", async
   }));
 
 test("coordinator auto-downloads only when the preference is enabled", async () =>
-  await withTempDir("nextclaw-update-coordinator-auto-download-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-coordinator-auto-download-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
     await stateStore.write(
@@ -396,7 +396,7 @@ test("coordinator auto-downloads only when the preference is enabled", async () 
   }));
 
 test("background update check failures do not replace the primary status with failed", async () =>
-  await withTempDir("nextclaw-update-coordinator-background-failure-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-coordinator-background-failure-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
     await stateStore.write(
@@ -430,7 +430,7 @@ test("background update check failures do not replace the primary status with fa
   }));
 
 test("manual update checks throw without replacing the primary status", async () =>
-  await withTempDir("nextclaw-update-coordinator-manual-failure-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-coordinator-manual-failure-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
     await stateStore.write(
@@ -468,7 +468,7 @@ test("manual update checks throw without replacing the primary status", async ()
   }));
 
 test("channel switching clears stale downloads and refreshes availability without auto-download", async () =>
-  await withTempDir("nextclaw-update-coordinator-channel-switch-", async (rootDir) => {
+  await withTempDir("go-usb-ai-update-coordinator-channel-switch-", async (rootDir) => {
     const layout = new DesktopBundleLayoutStore(rootDir);
     const stateStore = new DesktopLauncherStateStore(layout.getLauncherStatePath());
     await stateStore.write(

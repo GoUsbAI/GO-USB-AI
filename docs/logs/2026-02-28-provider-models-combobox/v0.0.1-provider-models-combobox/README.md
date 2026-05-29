@@ -5,7 +5,7 @@
 本次围绕“模型选择效率 + 自定义模型扩展”完成了前后端联动改造：
 
 - Provider 元数据支持默认模型列表
-  - `packages/nextclaw-core/src/providers/registry.ts`
+  - `packages/go-usb-ai-core/src/providers/registry.ts`
     - 为每个 provider 增加 `defaultModels` 与 `modelPrefix`，并统一默认模型为带前缀格式。
     - DashScope 默认模型收敛为最新一代 Qwen3.5（无日期后缀）：`qwen3.5-plus`、`qwen3.5-flash`、`qwen3.5-397b-a17b`、`qwen3.5-122b-a10b`、`qwen3.5-35b-a3b`、`qwen3.5-27b`。
     - OpenAI 默认模型更新为：`openai/gpt-5.3-codex`、`openai/gpt-5-mini`、`openai/gpt-5-nano`。
@@ -16,20 +16,20 @@
     - Zhipu 默认模型收敛为：`zai/glm-5`。
     - Moonshot 默认模型收敛为：`moonshot/kimi-k2.5`。
     - MiniMax 默认模型收敛为：`minimax/MiniMax-M2.5`。
-  - `packages/nextclaw-server/src/ui/config.ts`
+  - `packages/go-usb-ai-server/src/ui/config.ts`
     - `GET /api/config/meta` 透出 `providers[*].defaultModels`。
     - Provider 列表按产品优先级排序输出：`openai > anthropic > gemini(google) > openrouter > dashscope > deepseek > minimax > moonshot > zhipu`，其余按名称排序。
 
 - Provider 配置支持保存自定义模型列表
-  - `packages/nextclaw-core/src/config/schema.ts`
+  - `packages/go-usb-ai-core/src/config/schema.ts`
     - 新增 `providers.*.models: string[]` 配置字段（默认空数组）。
-  - `packages/nextclaw-server/src/ui/config.ts`
+  - `packages/go-usb-ai-server/src/ui/config.ts`
     - `PUT /api/config/providers/:provider` 支持写入/清空 `models`。
     - `GET /api/config` 的 provider 视图增加 `models`。
 
 - 模型配置页支持“可搜索选择 + 可手动输入”二合一
-  - 新增组件 `packages/nextclaw-ui/src/components/common/SearchableModelInput.tsx`。
-  - `packages/nextclaw-ui/src/components/config/ModelConfig.tsx`
+  - 新增组件 `packages/go-usb-ai-ui/src/components/common/SearchableModelInput.tsx`。
+  - `packages/go-usb-ai-ui/src/components/config/ModelConfig.tsx`
     - 默认模型输入改为双段组合控件：`Provider Select / Model Combobox`。
     - Provider 与模型拆分选择：左侧选择 provider，右侧选择或手输该 provider 下的模型。
     - 保存时自动拼接为标准格式 `provider-prefix/model-id`。
@@ -40,7 +40,7 @@
     - 模型下拉改为“仅排序不按输入过滤”，输入后仍可直接展开并在完整列表中切换模型。
 
 - Provider 页面支持“默认模型 + 自定义模型”管理
-  - `packages/nextclaw-ui/src/components/config/ProviderForm.tsx`
+  - `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx`
     - 新增“可用模型列表”区域。
     - 改为纯输入框添加模型（不使用搜索下拉），支持回车添加与移除自定义模型。
     - 在 Provider 自身表单中使用“无前缀模型 ID”输入；保存时持久化无前缀值。
@@ -51,25 +51,25 @@
     - 兼容旧版“仅自定义增量”数据：旧配置会自动与预置模型合并展示；保存后按当前完整列表持久化。
 
 - 国际化与类型补齐
-  - `packages/nextclaw-ui/src/lib/i18n.ts`
-  - `packages/nextclaw-ui/src/api/types.ts`
-  - `packages/nextclaw-server/src/ui/types.ts`
+  - `packages/go-usb-ai-ui/src/lib/i18n.ts`
+  - `packages/go-usb-ai-ui/src/api/types.ts`
+  - `packages/go-usb-ai-server/src/ui/types.ts`
 
 - 新增后端测试
-  - `packages/nextclaw-server/src/ui/router.provider-test.test.ts`
+  - `packages/go-usb-ai-server/src/ui/router.provider-test.test.ts`
     - 覆盖 provider 模型列表持久化与 meta 默认模型返回。
 
 ## 测试 / 验证 / 验收方式
 
 执行命令（当前 shell 需带 PATH 前缀）：
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server test -- --run src/ui/router.provider-test.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.provider-test.test.ts`
 - `PATH=/opt/homebrew/bin:$PATH pnpm build`
 - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
 - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 
 结果：
 
@@ -88,7 +88,7 @@
 
 1. 合并代码。
 2. 如需发版，执行版本与发布流程（changeset/version/publish）。
-3. 若只验证本地 UI，可直接 `pnpm build` 后由 `packages/nextclaw/scripts/copy-ui-dist.mjs` 同步产物。
+3. 若只验证本地 UI，可直接 `pnpm build` 后由 `packages/go-usb-ai/scripts/copy-ui-dist.mjs` 同步产物。
 
 ## 用户/产品视角的验收步骤
 

@@ -2,20 +2,20 @@
 
 ## 迭代完成说明（改了什么）
 
-- 新增 `@nextclaw/ncp-toolkit` 通用积木：`DefaultNcpInMemoryAgentBackend`
+- 新增 `@go-usb-ai/ncp-toolkit` 通用积木：`DefaultNcpInMemoryAgentBackend`
 - 能力覆盖：会话内存态管理、`send` 运行、`runId` 事件回放（stream）、abort、中间事件广播
 - 在 `run.finished` 阶段自动补齐 `message.completed`，避免上层重复兜底
 - 新增 `apps/ncp-demo` 完整前后端 demo
-- 后端：Hono + `@nextclaw/ncp-http-agent-server`，直接挂载 `/ncp/agent/send|stream|abort`
+- 后端：Hono + `@go-usb-ai/ncp-http-agent-server`，直接挂载 `/ncp/agent/send|stream|abort`
 - 后端：附带 `/demo/sessions`、`/demo/sessions/:sessionId/messages`、`/health` 用于可视化与验收
-- 前端：React + `@nextclaw/ncp-http-agent-client` + `DefaultNcpAgentConversationStateManager`，直接消费 NCP 事件流
+- 前端：React + `@go-usb-ai/ncp-http-agent-client` + `DefaultNcpAgentConversationStateManager`，直接消费 NCP 事件流
 - 根目录新增一键开发命令：`pnpm dev:ncp-demo`
 - 根目录新增 demo 冒烟命令：`pnpm smoke:ncp-demo`
 
 ## 测试/验证/验收方式
 
-- Toolkit 单测：`pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test`
-- Toolkit 类型检查：`pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
+- Toolkit 单测：`pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test`
+- Toolkit 类型检查：`pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
 - Demo 类型检查：`pnpm -C apps/ncp-demo tsc`
 - Demo lint：`pnpm -C apps/ncp-demo lint`
 - Demo 冒烟：`pnpm -C apps/ncp-demo smoke`

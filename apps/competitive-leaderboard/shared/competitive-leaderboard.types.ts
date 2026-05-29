@@ -52,7 +52,7 @@ export type ProductProfile = {
   displayName: string;
   category: ProductCategory;
   comparability: ProductComparability;
-  disclosure: "nextclaw-owned" | "third-party";
+  disclosure: "go-usb-ai-owned" | "third-party";
   shortDescription: string;
   positioning: string;
   bestFor: string;

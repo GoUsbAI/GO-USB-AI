@@ -1,9 +1,9 @@
-# 2026-02-19 Local LOC result output for NextClaw-only flow
+# 2026-02-19 Local LOC result output for GoUsbAi-only flow
 
 ## 背景 / 问题
 
 - 当前 LOC 脚本以写入快照文件为主，本地开发流程里很难快速看到完整结果。
-- 用户希望本地流程直接输出统计结果，且只统计 NextClaw 自身代码。
+- 用户希望本地流程直接输出统计结果，且只统计 GoUsbAi 自身代码。
 
 ## 决策
 

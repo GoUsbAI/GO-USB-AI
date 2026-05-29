@@ -13,8 +13,8 @@
   - `PATH=/opt/homebrew/bin:$PATH pnpm metrics:local`
   - 结果：命令执行成功，输出完整摘要。
 - 口径验证：
-  - `PATH=/opt/homebrew/bin:$PATH node scripts/code-volume-metrics.mjs --output /tmp/nextclaw-metrics-local-check.json`
-  - 验证 `/tmp/nextclaw-metrics-local-check.json` 中的 `byScope`，确认出现 `packages/extensions/nextclaw-channel-runtime`、`packages/ncp-packages/nextclaw-ncp-toolkit` 等真实子项目 scope。
+  - `PATH=/opt/homebrew/bin:$PATH node scripts/code-volume-metrics.mjs --output /tmp/go-usb-ai-metrics-local-check.json`
+  - 验证 `/tmp/go-usb-ai-metrics-local-check.json` 中的 `byScope`，确认出现 `packages/extensions/go-usb-ai-channel-runtime`、`packages/ncp-packages/go-usb-ai-ncp-toolkit` 等真实子项目 scope。
 - 静态检查：
   - `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint scripts/code-volume-metrics.mjs`
   - 结果：通过。
@@ -31,5 +31,5 @@
 
 1. 在仓库根目录执行 `PATH=/opt/homebrew/bin:$PATH pnpm metrics:local`。
 2. 查看终端输出的 `Top scopes by LOC`，确认不会再出现把多个扩展包错误揉成一个父级 scope 的结果。
-3. 如需进一步确认，执行 `PATH=/opt/homebrew/bin:$PATH node scripts/code-volume-metrics.mjs --output /tmp/nextclaw-metrics-local-check.json`。
-4. 打开 `/tmp/nextclaw-metrics-local-check.json`，确认 `byScope` 中存在 `packages/extensions/<name>` 与 `packages/ncp-packages/<name>` 级别的真实子项目条目。
+3. 如需进一步确认，执行 `PATH=/opt/homebrew/bin:$PATH node scripts/code-volume-metrics.mjs --output /tmp/go-usb-ai-metrics-local-check.json`。
+4. 打开 `/tmp/go-usb-ai-metrics-local-check.json`，确认 `byScope` 中存在 `packages/extensions/<name>` 与 `packages/ncp-packages/<name>` 级别的真实子项目条目。

@@ -14,14 +14,14 @@
 ## 测试/验证/验收方式
 
 - 代码静态验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
 - 隔离冒烟（`/tmp`）：
   - 通过 `tsx` 直接调用 `ServiceCommands.installMarketplaceSkill({ kind: 'git', ... })`，
     观察到执行 `npx skild install` 后：

@@ -2,7 +2,7 @@
 
 ## 目标
 
-将 `packages/nextclaw/src/cli/runtime.ts` 从单文件超大类拆解为可维护模块，保持 **零行为变更**（CLI 命令语义、返回、日志、副作用一致）。
+将 `packages/go-usb-ai/src/cli/runtime.ts` 从单文件超大类拆解为可维护模块，保持 **零行为变更**（CLI 命令语义、返回、日志、副作用一致）。
 
 ## 现状问题
 
@@ -15,7 +15,7 @@
 ### P0. 保护栏（先行）
 
 - 每阶段都执行：`pnpm build && pnpm lint && pnpm tsc`。
-- 每阶段补最小 CLI 冒烟（使用 `NEXTCLAW_HOME=/tmp/...`，不污染仓库）。
+- 每阶段补最小 CLI 冒烟（使用 `GOUSB_AI_HOME=/tmp/...`，不污染仓库）。
 - 输出一致性：保持已有错误文案与 exit 行为。
 
 ### P1. 底层可复用模块

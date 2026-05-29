@@ -16,17 +16,17 @@
   - `weixin`
   - `whatsapp`
 - 其中微信插件额外补了 `exports.development -> ./src/index.ts`，让它在工作区开发态下和其它源码包的行为保持一致。
-- 在 [builtin-channels.test.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/channel/builtin-channels.test.ts) 增加守卫测试，要求所有产品内置 channel 插件都必须声明 `openclaw.development.extensions`，并且对应入口文件必须真实存在。
+- 在 [builtin-channels.test.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/channel/builtin-channels.test.ts) 增加守卫测试，要求所有产品内置 channel 插件都必须声明 `openclaw.development.extensions`，并且对应入口文件必须真实存在。
 
 ## 测试/验证/验收方式
 
 - 守卫测试：
-  - `pnpm --filter nextclaw test -- builtin-channels.test.ts dev-first-party-plugin-load-paths.test.ts`
+  - `pnpm --filter go-usb-ai test -- builtin-channels.test.ts dev-first-party-plugin-load-paths.test.ts`
 - 类型检查：
-  - `pnpm --filter nextclaw tsc`
-  - `pnpm --filter @nextclaw/channel-plugin-weixin tsc`
+  - `pnpm --filter go-usb-ai tsc`
+  - `pnpm --filter @go-usb-ai/channel-plugin-weixin tsc`
 - 本地插件开发态真实冒烟：
-  - `pnpm dev:plugin:local -- --plugin-path ./packages/extensions/nextclaw-channel-plugin-weixin --timeout-ms 120000 --no-keep-running --json`
+  - `pnpm dev:plugin:local -- --plugin-path ./packages/extensions/go-usb-ai-channel-plugin-weixin --timeout-ms 120000 --no-keep-running --json`
   - 验证结果：返回 `sourceMode: "development"`，说明微信插件已按预期进入源码模式
 - 治理守卫：
   - `pnpm lint:maintainability:guard`
@@ -36,15 +36,15 @@
 
 - 本次属于开发态加载机制修正，不需要单独发布部署步骤。
 - 若要让本地服务立即吃到微信插件最新源码，直接使用：
-  - `pnpm dev:plugin:local -- --plugin-path ./packages/extensions/nextclaw-channel-plugin-weixin --frontend`
+  - `pnpm dev:plugin:local -- --plugin-path ./packages/extensions/go-usb-ai-channel-plugin-weixin --frontend`
 - 常规仓库开发态下，first-party 插件在声明了 `openclaw.development.extensions` 后，会自动进入 `source: development`，不再依赖手动先 build `dist`。
 
 ## 用户/产品视角的验收步骤
 
 1. 在仓库根目录启动本地插件开发服务：
-   - `pnpm dev:plugin:local -- --plugin-path ./packages/extensions/nextclaw-channel-plugin-weixin --frontend`
+   - `pnpm dev:plugin:local -- --plugin-path ./packages/extensions/go-usb-ai-channel-plugin-weixin --frontend`
 2. 确认启动结果里显示微信插件为开发态源码模式，而不是 production / dist 模式。
-3. 修改 [index.ts](/Users/peiwang/Projects/nextbot/packages/extensions/nextclaw-channel-plugin-weixin/src/index.ts) 或其它微信插件源码文件。
+3. 修改 [index.ts](/Users/peiwang/Projects/nextbot/packages/extensions/go-usb-ai-channel-plugin-weixin/src/index.ts) 或其它微信插件源码文件。
 4. 重启本地插件开发服务后再次验证行为，确认无需手动 build `dist` 也能加载最新代码。
 5. 若新增其它内置 channel 插件或调整其 package manifest，运行 `builtin-channels.test.ts`，确认不会漏掉 `openclaw.development.extensions`。
 

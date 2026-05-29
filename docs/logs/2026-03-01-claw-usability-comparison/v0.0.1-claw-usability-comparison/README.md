@@ -5,7 +5,7 @@
 - 新增易用性综合评估对比文档：
   - `report-03-usability-comprehensive-comparison.md`
 - 文档包含：评分模型、加权矩阵、总分排行、差异分析与改进建议。
-- 对比对象覆盖：openclaw、nanobot、nanoclaw、zeroclaw、picoclaw、nextclaw。
+- 对比对象覆盖：openclaw、nanobot、nanoclaw、zeroclaw、picoclaw、go-usb-ai。
 
 ## 测试 / 验证 / 验收方式
 
@@ -45,7 +45,7 @@ rg -n "评估目标与结论|评分模型|综合评分矩阵|关键差异|提升
 
 1. 打开 `report-03-usability-comprehensive-comparison.md`。
 2. 检查是否包含 6 个项目的统一评分矩阵与总分排行。
-3. 检查“为什么 NextClaw 领先”与“下一步优化建议”是否可直接转化为产品动作。
+3. 检查“为什么 GoUsbAi 领先”与“下一步优化建议”是否可直接转化为产品动作。
 4. 将结论摘要用于对外或内部汇报（保留评估边界说明）。
 
 ## 影响范围 / 风险

@@ -11,7 +11,7 @@
 
 ## 变更内容
 
-- 新增 `packages/nextclaw/src/cli/gateway/controller.ts`：以 class 形式封装 controller 逻辑
+- 新增 `packages/go-usb-ai/src/cli/gateway/controller.ts`：以 class 形式封装 controller 逻辑
 - startGateway 使用 `createGatewayController(...)` 挂载 controller，实现与编排解耦
 
 ## 验证（怎么确认符合预期）
@@ -25,8 +25,8 @@ pnpm tsc
 # smoke-check（非仓库目录）
 cd /tmp
 PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" \
-  /Users/peiwang/Projects/nextbot/packages/nextclaw-core/node_modules/.bin/tsx -e \
-  "import { SessionsListTool } from '/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/tools/sessions.ts';\nimport { SessionManager } from '/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/session/manager.ts';\nconst manager = new SessionManager('/tmp/nextclaw-smoke');\nconst session = manager.getOrCreate('cli:direct');\nmanager.save(session);\nconst tool = new SessionsListTool(manager);\ntool.execute({ limit: 1 }).then((out) => {\n  const ok = out.includes('sessions');\n  console.log(ok ? 'smoke-ok' : 'smoke-fail');\n});"
+  /Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/node_modules/.bin/tsx -e \
+  "import { SessionsListTool } from '/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/tools/sessions.ts';\nimport { SessionManager } from '/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/session/manager.ts';\nconst manager = new SessionManager('/tmp/go-usb-ai-smoke');\nconst session = manager.getOrCreate('cli:direct');\nmanager.save(session);\nconst tool = new SessionsListTool(manager);\ntool.execute({ limit: 1 }).then((out) => {\n  const ok = out.includes('sessions');\n  console.log(ok ? 'smoke-ok' : 'smoke-fail');\n});"
 ```
 
 验收点：

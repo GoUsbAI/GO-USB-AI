@@ -3,13 +3,13 @@
 ## 背景 / 问题
 
 - 现有 README 已有 LOC 徽章，但“轻量级”叙事仍缺少强对比基准。
-- 团队希望把 `openclaw` 代码量纳入自动化对比，让文档持续展示“NextClaw 更轻量”的可验证证据。
+- 团队希望把 `openclaw` 代码量纳入自动化对比，让文档持续展示“GoUsbAi 更轻量”的可验证证据。
 
 ## 决策
 
-- 扩展 LOC 统计脚本：一次执行同时生成 NextClaw 快照和 OpenClaw 对比结果。
+- 扩展 LOC 统计脚本：一次执行同时生成 GoUsbAi 快照和 OpenClaw 对比结果。
 - workflow 自动 checkout `openclaw/openclaw` 并回写对比 JSON。
-- README 增加对比徽章，直接展示 OpenClaw LOC 与 NextClaw 相对比例。
+- README 增加对比徽章，直接展示 OpenClaw LOC 与 GoUsbAi 相对比例。
 
 ## 变更内容
 
@@ -29,8 +29,8 @@
   - 统计命令改为带基准参数运行。
   - 自动提交/制品上传新增 `comparison.json`。
 - `README.md`
-  - 新增 `OpenClaw LOC` 与 `NextClaw vs OpenClaw` 动态徽章。
-  - `Why NextClaw` 中新增 `Measured lightweight` 描述。
+  - 新增 `OpenClaw LOC` 与 `GoUsbAi vs OpenClaw` 动态徽章。
+  - `Why GoUsbAi` 中新增 `Measured lightweight` 描述。
 - 文档更新：
   - `docs/workflows/code-volume-monitoring.md`
   - `docs/metrics/code-volume/README.md`
@@ -46,7 +46,7 @@ pnpm tsc
 
 验收点：
 
-- `comparison.json` 成功生成，包含 NextClaw 与 OpenClaw 的 LOC 对比字段。
+- `comparison.json` 成功生成，包含 GoUsbAi 与 OpenClaw 的 LOC 对比字段。
 - README 徽章 query 指向 `comparison.json` 的有效路径字段。
 - workflow 自动提交文件列表包含 `comparison.json`。
 - `build/lint/tsc` 通过（lint 仅既有 warning）。

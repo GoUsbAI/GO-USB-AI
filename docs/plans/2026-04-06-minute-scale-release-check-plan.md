@@ -102,5 +102,5 @@
 若继续逼近 `1 分钟`，优先级应该是：
 
 1. 继续减少默认 release check 中的重复 type work
-2. 深挖最慢包的 dts 生成成本，特别是 `@nextclaw/core`、`@nextclaw/channel-runtime`、`@nextclaw/mcp`、`@nextclaw/server`
+2. 深挖最慢包的 dts 生成成本，特别是 `@go-usb-ai/core`、`@go-usb-ai/channel-runtime`、`@go-usb-ai/mcp`、`@go-usb-ai/server`
 3. 评估是否要把部分大包拆成更稳定的发布边界，而不是让单包承担过大的声明生成成本

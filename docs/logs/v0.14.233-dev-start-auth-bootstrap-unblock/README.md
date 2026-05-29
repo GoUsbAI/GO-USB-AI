@@ -16,13 +16,13 @@
 ## 测试/验证/验收方式
 
 - 类型检查：
-  - `pnpm -C packages/nextclaw-openclaw-compat tsc -p tsconfig.json`
-  - `pnpm -C packages/nextclaw tsc -p tsconfig.json`
-  - `pnpm -C packages/nextclaw-ui tsc -p tsconfig.json`
+  - `pnpm -C packages/go-usb-ai-openclaw-compat tsc -p tsconfig.json`
+  - `pnpm -C packages/go-usb-ai tsc -p tsconfig.json`
+  - `pnpm -C packages/go-usb-ai-ui tsc -p tsconfig.json`
 - 定向测试：
-  - `pnpm -C packages/nextclaw-ui exec vitest run src/hooks/use-auth.test.ts src/api/client.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui exec vitest run src/hooks/use-auth.test.ts src/api/client.test.ts`
 - 冷启动定点测量：
-  - 使用真实 `NEXTCLAW_HOME=/Users/peiwang/.nextclaw`
+  - 使用真实 `GOUSB_AI_HOME=/Users/peiwang/.go-usb-ai`
   - 同时测 `127.0.0.1:18896/api/auth/status` 与 `127.0.0.1:5278/api/auth/status`
 - 关键结果：
   - 修复前：`direct_auth_ready_ms ~= 16645`，`proxy_auth_ready_ms` 同量级

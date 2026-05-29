@@ -8,12 +8,12 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/kernel test -- session-context-window-contribution.utils.test.ts`
-- `pnpm --filter @nextclaw/kernel tsc`
-- `pnpm --filter @nextclaw/kernel lint`
+- `pnpm --filter @go-usb-ai/kernel test -- session-context-window-contribution.utils.test.ts`
+- `pnpm --filter @go-usb-ai/kernel tsc`
+- `pnpm --filter @go-usb-ai/kernel lint`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-kernel/src/contributions/session-context-window/index.ts packages/nextclaw-kernel/src/contributions/session-context-window/utils/session-context-window-contribution.utils.test.ts packages/nextclaw-kernel/src/app/nextclaw-kernel.ts`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-kernel/src/contributions/session-context-window/index.ts packages/go-usb-ai-kernel/src/contributions/session-context-window/utils/session-context-window-contribution.utils.test.ts packages/go-usb-ai-kernel/src/app/go-usb-ai-kernel.ts`
 
 ## 发布/部署方式
 

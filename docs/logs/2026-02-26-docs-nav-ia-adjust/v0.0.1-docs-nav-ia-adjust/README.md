@@ -21,7 +21,7 @@
 ## 测试 / 验证 / 验收方式
 
 - Docs 构建：
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/docs build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/docs build`
 - 全量验证（按规则）：
 - `PATH=/opt/homebrew/bin:$PATH pnpm build`
 - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
@@ -38,6 +38,6 @@
 
 ## 用户 / 产品视角的验收步骤
 
-1. 访问 `https://docs.nextclaw.io/en/guide/getting-started`，确认顶部显示 `Getting Started / Configuration / Channels / Commands / Roadmap`。
-2. 访问 `https://docs.nextclaw.io/zh/guide/getting-started`，确认顶部显示 `快速开始 / 配置 / 渠道 / 命令 / 路线图`。
+1. 访问 `https://docs.go-usb-ai.io/en/guide/getting-started`，确认顶部显示 `Getting Started / Configuration / Channels / Commands / Roadmap`。
+2. 访问 `https://docs.go-usb-ai.io/zh/guide/getting-started`，确认顶部显示 `快速开始 / 配置 / 渠道 / 命令 / 路线图`。
 3. 点击各入口，确认跳转到对应页面，语言下拉与 GitHub 图标仍正常。

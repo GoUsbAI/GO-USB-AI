@@ -6,7 +6,7 @@
 
 - 明确 MCP 应作为与 skill、plugin 平行的独立域，而不是继续扩张现有泛型 marketplace 类型。
 - 明确前端需要同时覆盖 catalog 发现与 installed/manage 视角，而不是只有“安装”入口。
-- 明确 server、CLI、frontend 都应复用 `@nextclaw/mcp` 域服务，不应各自直接写 config。
+- 明确 server、CLI、frontend 都应复用 `@go-usb-ai/mcp` 域服务，不应各自直接写 config。
 - 明确 marketplace 安装后的默认语义应是公共资源池，默认 scope 为 `all-agents`，`agent` 级 scope 仅作为高级可选能力保留。
 - 明确 marketplace worker、server controller、前端页面、CLI 的推荐文件边界与分阶段落地计划。
 

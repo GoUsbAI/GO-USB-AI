@@ -1,6 +1,6 @@
 # Multi-Agent Architecture (Single Gateway)
 
-This guide describes the OpenClaw-aligned multi-agent runtime model in NextClaw.
+This guide describes the OpenClaw-aligned multi-agent runtime model in GoUsbAi.
 
 ## 1) Single Gateway, multiple resident agents
 
@@ -73,17 +73,17 @@ Use these to keep group collaboration predictable and low-noise.
 ## 5) Where to configure
 
 - UI: `Routing & Runtime` + Channel forms
-- Config file: `~/.nextclaw/config.json`
+- Config file: `~/.go-usb-ai/config.json`
 - CLI:
 
 ```bash
-nextclaw config set agents.list '[{"id":"main","default":true},{"id":"engineer"}]' --json
-nextclaw config set session.dmScope '"per-account-channel-peer"' --json
+go-usb-ai config set agents.list '[{"id":"main","default":true},{"id":"engineer"}]' --json
+go-usb-ai config set session.dmScope '"per-account-channel-peer"' --json
 ```
 
 ## 6) Internal AI capability
 
-Yes — NextClaw internal AI can manage this config surface through the built-in `gateway` tool (`config.get/config.schema/config.apply/config.patch`) when explicitly requested.
+Yes — GoUsbAi internal AI can manage this config surface through the built-in `gateway` tool (`config.get/config.schema/config.apply/config.patch`) when explicitly requested.
 
 ## 7) Product acceptance checklist
 
@@ -96,7 +96,7 @@ Pass criteria: stable routing, no context leakage, predictable group triggering,
 
 ## 8) Input budget alignment (OpenClaw-style)
 
-NextClaw now includes a unified input-budget pruner before each provider call:
+GoUsbAi now includes a unified input-budget pruner before each provider call:
 
 - `agents.defaults.contextTokens` (default `200000`)
 - optional per-agent override: `agents.list[*].contextTokens`

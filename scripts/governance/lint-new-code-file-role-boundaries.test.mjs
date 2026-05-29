@@ -136,24 +136,24 @@ test("allows electron shell root entry files without role suffixes", () => {
 
 test("allows module-contract root files without role suffixes", () => {
   assert.equal(inspectFileRoleBoundaryEntry({
-    filePath: "packages/demo/src/nextclaw-kernel.ts",
+    filePath: "packages/demo/src/go-usb-ai-kernel.ts",
     status: "A"
   }, {
     moduleContract: {
       modulePath: "packages/demo/src",
-      allowedRootFiles: new Set(["index.ts", "nextclaw-kernel.ts"])
+      allowedRootFiles: new Set(["index.ts", "go-usb-ai-kernel.ts"])
     }
   }), null);
 });
 
 test("does not treat nested files as module-contract root files", () => {
   const violation = inspectFileRoleBoundaryEntry({
-    filePath: "packages/demo/src/services/nextclaw-kernel.ts",
+    filePath: "packages/demo/src/services/go-usb-ai-kernel.ts",
     status: "A"
   }, {
     moduleContract: {
       modulePath: "packages/demo/src",
-      allowedRootFiles: new Set(["nextclaw-kernel.ts"])
+      allowedRootFiles: new Set(["go-usb-ai-kernel.ts"])
     }
   });
 

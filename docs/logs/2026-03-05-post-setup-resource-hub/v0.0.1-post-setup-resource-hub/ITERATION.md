@@ -29,7 +29,7 @@
 1. 全项目构建：`pnpm build`
 2. 全项目静态检查：`pnpm lint`
 3. TypeScript 检查：`pnpm tsc`
-4. 文档站构建冒烟：`pnpm --filter @nextclaw/docs build`
+4. 文档站构建冒烟：`pnpm --filter @go-usb-ai/docs build`
 
 验收观察点：
 
@@ -49,8 +49,8 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 `https://docs.nextclaw.io/zh/guide/getting-started`，确认“下一步”中包含“配置后做什么 / 生态资源”。
-2. 进入 `https://docs.nextclaw.io/zh/guide/after-setup`，确认有明确的 5 步行动建议。
-3. 进入 `https://docs.nextclaw.io/zh/guide/resources`，确认能看到官方入口、项目案例和 awesome 列表。
+1. 打开 `https://docs.go-usb-ai.io/zh/guide/getting-started`，确认“下一步”中包含“配置后做什么 / 生态资源”。
+2. 进入 `https://docs.go-usb-ai.io/zh/guide/after-setup`，确认有明确的 5 步行动建议。
+3. 进入 `https://docs.go-usb-ai.io/zh/guide/resources`，确认能看到官方入口、项目案例和 awesome 列表。
 4. 切换英文站，确认 `after-setup` 与 `resources` 页面对应存在且内容对齐。
 5. 从“配置”页底部进入新页面，确认用户路径形成闭环（配置 -> 下一步行动 -> 资源借鉴）。

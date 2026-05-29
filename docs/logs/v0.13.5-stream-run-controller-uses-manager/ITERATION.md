@@ -7,9 +7,9 @@
 
 ## 测试/验证/验收方式
 - ESLint（受影响文件）：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/chat-stream/stream-run-controller.ts src/components/chat/managers/chat-stream.manager.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/chat-stream/stream-run-controller.ts src/components/chat/managers/chat-stream.manager.ts`
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc --noEmit`
 - UI 构建：
   - `PATH=/opt/homebrew/bin:$PATH pnpm -C . build:ui`
 

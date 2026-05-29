@@ -1,0 +1,39 @@
+{
+  "name": "@go-usb-ai/channel-extension-feishu",
+  "version": "0.1.8",
+  "private": false,
+  "description": "GoUsbAi Feishu/Lark lightweight channel extension process.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "go-usb-ai.extension.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsdown src/index.ts src/main.ts --dts.sourcemap --clean --target es2022 --no-fixedExtension --unbundle",
+    "prepack": "pnpm run build",
+    "lint": "eslint src --max-warnings=0",
+    "test": "vitest run",
+    "tsc": "tsc -p tsconfig.json",
+    "prepublishOnly": "node ../../../scripts/release/ensure-pnpm-publish.mjs"
+  },
+  "dependencies": {
+    "@larksuiteoapi/node-sdk": "^1.59.0",
+    "@go-usb-ai/extension-sdk": "workspace:*",
+    "@go-usb-ai/ncp": "workspace:*",
+    "@go-usb-ai/ncp-toolkit": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.2"
+  }
+}

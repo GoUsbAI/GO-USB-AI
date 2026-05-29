@@ -10,10 +10,10 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui tsc`
-- `pnpm --filter @nextclaw/ui test -- src/features/chat/components/layout/chat-sidebar.test.tsx`
-- `pnpm --filter @nextclaw/ui exec eslint src/features/chat/components/layout/chat-sidebar.tsx src/features/chat/components/layout/chat-sidebar-utility-menu.tsx src/features/chat/components/layout/chat-sidebar.test.tsx src/shared/lib/i18n/index.ts`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/features/chat/components/layout/chat-sidebar.tsx packages/nextclaw-ui/src/features/chat/components/layout/chat-sidebar-utility-menu.tsx packages/nextclaw-ui/src/features/chat/components/layout/chat-sidebar.test.tsx`
+- `pnpm --filter @go-usb-ai/ui tsc`
+- `pnpm --filter @go-usb-ai/ui test -- src/features/chat/components/layout/chat-sidebar.test.tsx`
+- `pnpm --filter @go-usb-ai/ui exec eslint src/features/chat/components/layout/chat-sidebar.tsx src/features/chat/components/layout/chat-sidebar-utility-menu.tsx src/features/chat/components/layout/chat-sidebar.test.tsx src/shared/lib/i18n/index.ts`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/features/chat/components/layout/chat-sidebar.tsx packages/go-usb-ai-ui/src/features/chat/components/layout/chat-sidebar-utility-menu.tsx packages/go-usb-ai-ui/src/features/chat/components/layout/chat-sidebar.test.tsx`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
 - Playwright 打开 `http://127.0.0.1:5177/chat`，确认存在一个 `Settings menu` 按钮；展开后一级菜单只显示 `Settings`、`Help Docs`、`Theme / Warm`、`Language / English`，`Cool` 默认不在一级菜单里，点击 `Theme` 选择器后才出现。

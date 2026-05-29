@@ -2,21 +2,21 @@
 
 ## 迭代完成说明
 - 为 `DefaultNcpAgentConversationStateManager` 增加 `reset()` 与 `hydrate(...)`，并补快照缓存，支持稳定的会话基线重建与 `useSyncExternalStore` 订阅。
-- 重构 `@nextclaw/ncp-react` 的 `useNcpAgent` 内部运行时，新增 `useHydratedNcpAgent`、`NcpConversationSeed`、`NcpConversationSeedLoader`，让切会话时可以按最小依赖加载 seed，而不耦合完整 `sessionApi`。
+- 重构 `@go-usb-ai/ncp-react` 的 `useNcpAgent` 内部运行时，新增 `useHydratedNcpAgent`、`NcpConversationSeed`、`NcpConversationSeedLoader`，让切会话时可以按最小依赖加载 seed，而不耦合完整 `sessionApi`。
 - 为 `ncp-demo` 后端新增 `GET /demo/sessions/:sessionId/seed`，前端改为切会话时走 `reset -> load seed -> hydrate -> auto resume running stream`。
 - 移除 `ChatPanel` 对 `key={sessionId}` 重挂的依赖，补会话切换 loading/error 展示，并新增基于 Playwright 的 UI smoke 脚本验证会话切换历史回显。
 
 ## 测试/验证/验收方式
-- `pnpm -C packages/ncp-packages/nextclaw-ncp build`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp lint`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp tsc`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit build`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit lint`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-react build`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-react lint`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-react tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp build`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp lint`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit build`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit lint`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-react build`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-react lint`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-react tsc`
 - `pnpm -C apps/ncp-demo build`
 - `pnpm -C apps/ncp-demo lint`
 - `pnpm -C apps/ncp-demo tsc`

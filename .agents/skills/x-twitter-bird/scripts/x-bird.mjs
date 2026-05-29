@@ -13,8 +13,8 @@ class BirdCredentialStore {
   #resolveAuthFilePath(customPath) {
     const rawPath =
       normalizeOptionalString(customPath) ??
-      normalizeOptionalString(process.env.NEXTCLAW_X_BIRD_AUTH_FILE) ??
-      join(homedir(), ".nextclaw", "secrets", "x-bird.json");
+      normalizeOptionalString(process.env.GOUSB_AI_X_BIRD_AUTH_FILE) ??
+      join(homedir(), ".go-usb-ai", "secrets", "x-bird.json");
     return isAbsolute(rawPath) ? rawPath : resolve(rawPath);
   }
 
@@ -133,7 +133,7 @@ Options:
   --auth-file <path>   Override the local credential file path
 
 Default credential file:
-  ~/.nextclaw/secrets/x-bird.json
+  ~/.go-usb-ai/secrets/x-bird.json
 `);
 }
 

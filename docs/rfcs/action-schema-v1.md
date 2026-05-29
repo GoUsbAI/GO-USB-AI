@@ -3,7 +3,7 @@
 - Status: Proposed (target as project default)
 - Version: `action-schema/v1`
 - Last Updated: 2026-02-19
-- Scope: `nextclaw` config UI + config API
+- Scope: `go-usb-ai` config UI + config API
 
 ## 1. Summary
 
@@ -168,14 +168,14 @@ Response:
   "status": "success",
   "message": "Feishu connection verified",
   "data": {
-    "botName": "nextclaw-bot",
+    "botName": "go-usb-ai-bot",
     "botOpenId": "ou_xxx"
   },
   "patch": {
     "channels": {
       "feishu": {
         "status": {
-          "botName": "nextclaw-bot",
+          "botName": "go-usb-ai-bot",
           "botOpenId": "ou_xxx"
         }
       }

@@ -13,13 +13,13 @@
 
 ## 2) 测试/验证/验收方式
 - ESLint（变更文件）
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/ChatPage.tsx src/components/chat/ChatConversationPanel.tsx src/components/chat/ChatInputBar.tsx src/components/chat/chat-input/ChatInputBarView.tsx src/components/chat/chat-input/useChatInputBarController.ts src/components/chat/stores/chat-input.store.ts src/components/chat/managers/chat-input.manager.ts src/components/chat/presenter/chat.presenter.ts src/components/chat/presenter/chat-presenter-context.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/ChatPage.tsx src/components/chat/ChatConversationPanel.tsx src/components/chat/ChatInputBar.tsx src/components/chat/chat-input/ChatInputBarView.tsx src/components/chat/chat-input/useChatInputBarController.ts src/components/chat/stores/chat-input.store.ts src/components/chat/managers/chat-input.manager.ts src/components/chat/presenter/chat.presenter.ts src/components/chat/presenter/chat-presenter-context.tsx`
 - TypeScript
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc:ui`
 - Build
   - `PATH=/opt/homebrew/bin:$PATH pnpm build:ui`
 - UI 冒烟
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui preview --host 127.0.0.1 --port 4175`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui preview --host 127.0.0.1 --port 4175`
   - `curl -I http://127.0.0.1:4175/`
 
 ## 3) 发布/部署方式

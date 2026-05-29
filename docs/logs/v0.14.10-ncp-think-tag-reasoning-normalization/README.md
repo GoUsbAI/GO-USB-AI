@@ -2,10 +2,10 @@
 
 ## 迭代完成说明
 
-- 在 `@nextclaw/ncp` 新增共享 assistant 推理标记规范化能力：
+- 在 `@go-usb-ai/ncp` 新增共享 assistant 推理标记规范化能力：
   - 支持把以 `<think>` 开头、并通过 `</think>` 或 `<final>` 收束的内容拆成结构化 `reasoning` / `text`
   - 只在显式开启 `think-tags` 模式时生效，默认关闭
-- 在 `@nextclaw/ncp-agent-runtime` 的实时 stream 编码链路接入该能力：
+- 在 `@go-usb-ai/ncp-agent-runtime` 的实时 stream 编码链路接入该能力：
   - native NCP runtime 在实时输出阶段直接发出 `message.reasoning-delta`
   - UI 不再需要把 `<think>` 当普通文本渲染，也不会再因为 `skipHtml` 吞掉标签而出现空气泡
 - 在 native runtime 配置入口接入开关：
@@ -17,17 +17,17 @@
 ## 测试 / 验证 / 验收方式
 
 - 类型检查：
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp tsc`
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp-agent-runtime tsc`
-  - `pnpm -C packages/nextclaw tsc`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp tsc`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp-agent-runtime tsc`
+  - `pnpm -C packages/go-usb-ai tsc`
 - 定向测试：
-  - `pnpm -C packages/nextclaw test -- run src/cli/commands/ncp/stream-encoder-reasoning-normalization.test.ts src/cli/commands/ncp/create-ui-ncp-agent.reasoning-normalization.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- run src/cli/commands/ncp/stream-encoder-reasoning-normalization.test.ts src/cli/commands/ncp/create-ui-ncp-agent.reasoning-normalization.test.ts`
 - 可维护性自检：
-  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/ncp-packages/nextclaw-ncp/src/toolkit/reasoning-normalization.ts packages/ncp-packages/nextclaw-ncp/src/toolkit/index.ts packages/ncp-packages/nextclaw-ncp-agent-runtime/src/stream-encoder.utils.ts packages/ncp-packages/nextclaw-ncp-agent-runtime/src/stream-encoder.ts packages/ncp-packages/nextclaw-ncp-agent-runtime/src/round-collector.ts packages/ncp-packages/nextclaw-ncp-agent-runtime/src/runtime.ts packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts packages/nextclaw/src/cli/commands/ncp/stream-encoder-reasoning-normalization.test.ts packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.reasoning-normalization.test.ts`
+  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/ncp-packages/go-usb-ai-ncp/src/toolkit/reasoning-normalization.ts packages/ncp-packages/go-usb-ai-ncp/src/toolkit/index.ts packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/stream-encoder.utils.ts packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/stream-encoder.ts packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/round-collector.ts packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/runtime.ts packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts packages/go-usb-ai/src/cli/commands/ncp/stream-encoder-reasoning-normalization.test.ts packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.reasoning-normalization.test.ts`
 
 ## 发布 / 部署方式
 
-- 合入后按现有 `nextclaw` 发布流程发布受影响包。
+- 合入后按现有 `go-usb-ai` 发布流程发布受影响包。
 - 若需要开启该能力，在配置中加入：
 
 ```yaml

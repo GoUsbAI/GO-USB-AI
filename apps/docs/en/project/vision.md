@@ -1,6 +1,6 @@
-# NextClaw Vision
+# GoUsbAi Vision
 
-NextClaw's long-term vision is to become the personal operating layer for the AI era.
+GoUsbAi's long-term vision is to become the personal operating layer for the AI era.
 
 It is not a traditional operating system kernel. It is the default entry point through which users interact with software, the internet, systems, services, and cloud computing.
 
@@ -8,27 +8,27 @@ This is the public documentation version of the vision and should stay aligned w
 
 ## What It Is Really Trying to Build
 
-NextClaw is not trying to become "an AI product with many features." It aims to become a native AI entry point that is unified, natural, powerful, and trustworthy enough to be used every day.
+GoUsbAi is not trying to become "an AI product with many features." It aims to become a native AI entry point that is unified, natural, powerful, and trustworthy enough to be used every day.
 
-In the ideal state, users do not first think, "Which app, website, or service should I open?" They start with NextClaw, express the goal, and let NextClaw understand the intent, call tools, connect services, orchestrate the workflow, and deliver the result.
+In the ideal state, users do not first think, "Which app, website, or service should I open?" They start with GoUsbAi, express the goal, and let GoUsbAi understand the intent, call tools, connect services, orchestrate the workflow, and deliver the result.
 
-If traditional operating systems defined how people use computers, NextClaw wants to help define how people use the digital world in the AI era.
+If traditional operating systems defined how people use computers, GoUsbAi wants to help define how people use the digital world in the AI era.
 
 ## How to Read This Vision
 
-"Personal operating layer" is the top-level goal, but it is not an empty slogan. To make it real, NextClaw needs several threads to hold at the same time.
+"Personal operating layer" is the top-level goal, but it is not an empty slogan. To make it real, GoUsbAi needs several threads to hold at the same time.
 
 ### 1. Unified Entry Point
 
-NextClaw should become a unified entry point, not just one more parallel tool.
+GoUsbAi should become a unified entry point, not just one more parallel tool.
 
-- users should increasingly start with NextClaw when they want to get something done
-- software, services, channels, devices, and cloud resources should be brought together through NextClaw
+- users should increasingly start with GoUsbAi when they want to get something done
+- software, services, channels, devices, and cloud resources should be brought together through GoUsbAi
 - it should grow into a default workspace for workflows, conversations, and information flows
 
 ### 2. Capability Orchestration
 
-NextClaw does not create value by rebuilding every tool itself. It creates value by connecting, coordinating, and composing the software, systems, services, and compute that already exist.
+GoUsbAi does not create value by rebuilding every tool itself. It creates value by connecting, coordinating, and composing the software, systems, services, and compute that already exist.
 
 - translating user intent into executable workflows
 - calling tools, connecting services, and organizing multi-step tasks
@@ -47,11 +47,11 @@ We can fold the old "self-knowledge" idea into a broader notion of self-awarenes
 - knowing what it has done, how things went, and where errors came from
 - being able to perform key management actions through tools, such as config changes, channel control, task management, extension management, diagnostics, and recovery
 
-The goal is not to mythologize the agent. The goal is to let users understand and control NextClaw itself through natural language and a unified control surface.
+The goal is not to mythologize the agent. The goal is to let users understand and control GoUsbAi itself through natural language and a unified control surface.
 
 ### 4. Self-Evolution
 
-NextClaw cannot remain a static entry point. It should develop a governable, accumulative, reusable ability to improve over time.
+GoUsbAi cannot remain a static entry point. It should develop a governable, accumulative, reusable ability to improve over time.
 
 - learning from mistakes instead of repeating them
 - reflecting on user feedback, task outcomes, and failure replays
@@ -69,7 +69,7 @@ A personal operating layer cannot grow by inflating the core forever. It needs a
 
 ### 6. Digital World Infrastructure
 
-NextClaw is not just a chatbot. It aims to become a general operating infrastructure for users in the digital world.
+GoUsbAi is not just a chatbot. It aims to become a general operating infrastructure for users in the digital world.
 
 - understanding and using the host system, local services, filesystems, and hardware resources
 - connecting to internet data sources, APIs, and cloud computing resources
@@ -77,7 +77,7 @@ NextClaw is not just a chatbot. It aims to become a general operating infrastruc
 
 ### 7. Out-of-the-Box Experience
 
-If NextClaw is meant to become a personal operating layer, it cannot work only for advanced users. It must also be easy to activate for new users.
+If GoUsbAi is meant to become a personal operating layer, it cannot work only for advanced users. It must also be easy to activate for new users.
 
 - users should quickly understand what it can do on first launch
 - important scenarios should support one-click setup and activation
@@ -107,6 +107,6 @@ This vision does not mean:
 
 ## Relationship with NCP
 
-`NextClaw` is the productized operating layer facing end users. `NCP` is the protocol, runtime, and building-block foundation beneath it.
+`GoUsbAi` is the productized operating layer facing end users. `NCP` is the protocol, runtime, and building-block foundation beneath it.
 
-You can think of NCP as the infrastructure base, and NextClaw as the productized entry point for real users.
+You can think of NCP as the infrastructure base, and GoUsbAi as the productized entry point for real users.

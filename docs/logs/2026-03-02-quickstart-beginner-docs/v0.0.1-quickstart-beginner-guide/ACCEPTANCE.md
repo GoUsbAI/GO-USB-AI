@@ -9,4 +9,4 @@
 2. 打开英文快速开始页 `/en/guide/getting-started`，确认信息完整且与中文对齐。
 3. 打开 `README.zh-CN.md`，确认“快速开始”包含前置准备与终端入口。
 4. 打开 `README.md`，确认“Quick Start”包含 prerequisites 与终端入口。
-5. 随机复制一条命令（如 `nextclaw start`）检查命令格式可直接执行。
+5. 随机复制一条命令（如 `go-usb-ai start`）检查命令格式可直接执行。

@@ -11,18 +11,18 @@
 
 改动文件：
 
-- `packages/nextclaw-core/src/agent/context.ts`
-- `packages/nextclaw-core/src/agent/loop.ts`
-- `packages/nextclaw-core/src/providers/chat-completions-normalizer.ts`
-- `packages/nextclaw-core/src/providers/openai_provider.ts`
+- `packages/go-usb-ai-core/src/agent/context.ts`
+- `packages/go-usb-ai-core/src/agent/loop.ts`
+- `packages/go-usb-ai-core/src/providers/chat-completions-normalizer.ts`
+- `packages/go-usb-ai-core/src/providers/openai_provider.ts`
 
 ## 测试/验证/验收方式
 
 - 影响面判定：本次改动触达核心运行链路（agent prompt 组装、provider usage 解析），需执行 `build`、`lint`、`tsc` 与最小冒烟。
 - 已执行：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core build`（通过）
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core lint`（通过，存在既有 warning，无新增 error）
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core tsc`（通过）
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core build`（通过）
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core lint`（通过，存在既有 warning，无新增 error）
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core tsc`（通过）
 - 冒烟测试：
   - 使用 `AgentLoop + stub providerManager` 进行双消息验证：
     - 时间询问消息会追加 `[time_hint_local_minute]`。

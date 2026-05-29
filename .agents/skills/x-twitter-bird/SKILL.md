@@ -16,7 +16,7 @@ What this skill owns:
 ## Primary contract
 
 - Credentials live in a user-local file, not in the repo:
-  - default path: `~/.nextclaw/secrets/x-bird.json`
+  - default path: `~/.go-usb-ai/secrets/x-bird.json`
 - All X operations go through `scripts/x-bird.mjs`
 - The script passes `--auth-token` and `--ct0` explicitly to `bird`
 - Do not rely on `bird` auto-reading env vars; the installed `bird 0.9.0` in this environment hard-fails unless the CLI args are present

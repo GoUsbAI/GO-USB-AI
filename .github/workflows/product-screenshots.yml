@@ -58,7 +58,7 @@ jobs:
             - Update website/GitHub screenshot assets
           add-paths: |
             images/screenshots/**
-            apps/landing/public/nextclaw-chat-page-*.png
-            apps/landing/public/nextclaw-providers-page-*.png
-            apps/landing/public/nextclaw-channels-page-*.png
-            apps/landing/public/nextclaw-skills-doc-browser-*.png
+            apps/landing/public/go-usb-ai-chat-page-*.png
+            apps/landing/public/go-usb-ai-providers-page-*.png
+            apps/landing/public/go-usb-ai-channels-page-*.png
+            apps/landing/public/go-usb-ai-skills-doc-browser-*.png

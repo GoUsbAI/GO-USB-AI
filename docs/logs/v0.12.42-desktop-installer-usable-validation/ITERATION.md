@@ -17,8 +17,8 @@
 
 ## 测试/验证/验收方式
 - 本地已执行并通过：
-  - `pnpm -C packages/nextclaw-ui build`
-  - `pnpm -C packages/nextclaw build`
+  - `pnpm -C packages/go-usb-ai-ui build`
+  - `pnpm -C packages/go-usb-ai build`
   - `pnpm -C apps/desktop lint`
   - `pnpm -C apps/desktop tsc`
   - `CSC_IDENTITY_AUTO_DISCOVERY=false pnpm -C apps/desktop exec electron-builder --mac dmg --arm64 --publish never`

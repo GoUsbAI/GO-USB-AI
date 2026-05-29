@@ -17,7 +17,7 @@
 5. 新增服务端文本文件预览接口 `GET /api/server-paths/read`，支持基于当前 session `projectRoot` 解析相对路径，并对 binary 文件返回显式不可预览元信息。
 6. 文件预览右栏优先复用现有 markdown 渲染、结构化 diff 行模型与文件卡片解析能力；当前进一步收敛为共享 `FileOperationCodeSurface` 渲染器，由同一个组件提供 `compact`（工具卡）和 `workspace`（右栏全高编辑器）两种布局，避免样式和行号宽度继续漂移。`preview` 只对应文件链接打开，`diff` 只对应工具改文件入口打开。
 7. 删除已经失去生产引用的旧 `ChatChildSessionPanel`，避免“旧子会话面板 + 新 workspace 面板”双轨并存。
-8. 同步补齐 agent-chat-ui、nextclaw-ui、nextclaw-server 三侧测试，覆盖：
+8. 同步补齐 agent-chat-ui、go-usb-ai-ui、go-usb-ai-server 三侧测试，覆盖：
    - markdown 本地文件链接拦截；
    - 工具卡路径点击触发文件打开 action；
    - workspace sidebar 的顶部 tab 显示与同文件 preview/diff 分离；
@@ -28,18 +28,18 @@
 
 已完成：
 
-1. `pnpm -C packages/nextclaw-agent-chat-ui tsc`
-2. `pnpm -C packages/nextclaw-ui tsc`
-3. `pnpm -C packages/nextclaw-server tsc`
-4. `pnpm -C packages/nextclaw-agent-chat-ui test -- src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-markdown.test.tsx`
-5. `pnpm -C packages/nextclaw-ui test -- src/components/chat/chat-conversation-panel.test.tsx src/components/chat/containers/chat-message-list.container.test.tsx src/components/chat/managers/chat-session-list.manager.test.ts src/components/chat/ncp/tests/ncp-chat-thread.manager.test.ts`
-6. `pnpm -C packages/nextclaw-server test -- src/ui/ui-routes/server-path.controller.test.ts`
-7. `pnpm -C packages/nextclaw-agent-chat-ui build`
-8. `pnpm -C packages/nextclaw-server build`
-9. `pnpm -C packages/nextclaw-ui build`
-10. `pnpm -C packages/nextclaw build`
+1. `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+2. `pnpm -C packages/go-usb-ai-ui tsc`
+3. `pnpm -C packages/go-usb-ai-server tsc`
+4. `pnpm -C packages/go-usb-ai-agent-chat-ui test -- src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-markdown.test.tsx`
+5. `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/chat-conversation-panel.test.tsx src/components/chat/containers/chat-message-list.container.test.tsx src/components/chat/managers/chat-session-list.manager.test.ts src/components/chat/ncp/tests/ncp-chat-thread.manager.test.ts`
+6. `pnpm -C packages/go-usb-ai-server test -- src/ui/ui-routes/server-path.controller.test.ts`
+7. `pnpm -C packages/go-usb-ai-agent-chat-ui build`
+8. `pnpm -C packages/go-usb-ai-server build`
+9. `pnpm -C packages/go-usb-ai-ui build`
+10. `pnpm -C packages/go-usb-ai build`
 11. 真实运行态冒烟：
-    - `NEXTCLAW_HOME="$(mktemp -d /tmp/nextclaw-workspace-sidebar-dist-smoke.XXXXXX)" node packages/nextclaw/dist/cli/index.js serve --ui-port 18794`
+    - `GOUSB_AI_HOME="$(mktemp -d /tmp/go-usb-ai-workspace-sidebar-dist-smoke.XXXXXX)" node packages/go-usb-ai/dist/cli/index.js serve --ui-port 18794`
     - `curl -I http://127.0.0.1:18794/chat`
     - `curl -s http://127.0.0.1:18794/chat | head -n 5`
     - `curl -s http://127.0.0.1:18794/api/health`
@@ -47,39 +47,39 @@
     - `pnpm lint:maintainability:guard`
     - `pnpm lint:new-code:governance`
 13. 追加 UI 高度修正回归：
-    - `pnpm -C packages/nextclaw-agent-chat-ui test -- src/components/chat/ui/chat-message-list/__tests__/tool-card-file-operation-lines.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-markdown.test.tsx`
-    - `pnpm -C packages/nextclaw-agent-chat-ui tsc`
-    - `pnpm -C packages/nextclaw-agent-chat-ui build`
-    - `pnpm -C packages/nextclaw-ui tsc`
-    - `pnpm -C packages/nextclaw-ui test -- src/components/chat/chat-session-workspace-file-preview.test.tsx`
-    - `pnpm -C packages/nextclaw-ui build`
+    - `pnpm -C packages/go-usb-ai-agent-chat-ui test -- src/components/chat/ui/chat-message-list/__tests__/tool-card-file-operation-lines.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.file-operation.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-markdown.test.tsx`
+    - `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+    - `pnpm -C packages/go-usb-ai-agent-chat-ui build`
+    - `pnpm -C packages/go-usb-ai-ui tsc`
+    - `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/chat-session-workspace-file-preview.test.tsx`
+    - `pnpm -C packages/go-usb-ai-ui build`
 
 结果：
 
 1. 受影响包类型检查通过。
-2. 受影响测试通过：`agent-chat-ui` 3 个 test files / 12 个 tests，`nextclaw-ui` 5 个 test files / 30 个 tests，`nextclaw-server` 1 个 test file / 5 个 tests。
-3. 三个受影响子包和聚合包 `packages/nextclaw` build 均通过。
-4. `@nextclaw/ui` build 仍保留既有 `chat-page` chunk 大于 500 kB warning，不阻断本次构建。
+2. 受影响测试通过：`agent-chat-ui` 3 个 test files / 12 个 tests，`go-usb-ai-ui` 5 个 test files / 30 个 tests，`go-usb-ai-server` 1 个 test file / 5 个 tests。
+3. 三个受影响子包和聚合包 `packages/go-usb-ai` build 均通过。
+4. `@go-usb-ai/ui` build 仍保留既有 `chat-page` chunk 大于 500 kB warning，不阻断本次构建。
 5. 真实打包产物启动成功，CLI 输出 `UI API: http://0.0.0.0:18794/api`、`UI frontend: http://0.0.0.0:18794`、`UI NCP agent: ready`。
 6. `curl -I http://127.0.0.1:18794/chat` 返回 `HTTP/1.1 200 OK`，`curl -s http://127.0.0.1:18794/chat | head -n 5` 返回 HTML 文档头，`curl -s http://127.0.0.1:18794/api/health` 返回 `{"ok":true,"data":{"status":"ok","services":{"ncpAgent":"ready","cronService":"ready"}}}`。
 7. 浏览器级 DevTools 冒烟尝试过，但本机 Chrome DevTools MCP profile 被占用，未能在本次会话里拿到独占浏览器实例；因此本轮以真实服务 HTTP 冒烟 + 受影响 UI 测试覆盖补位。
-8. `pnpm lint:maintainability:guard` 失败，但 error 项集中在仓库中其它并行改动的 `packages/extensions/nextclaw-ncp-runtime-*` 和既有大测试文件，不在本次 workspace sidebar 核心实现内。
-9. `pnpm lint:new-code:governance` 仍被仓库里其它已 touched 文件阻断；其中也包含本次不得不触达的历史入口文件 `packages/nextclaw-server/src/ui/router.ts`、`packages/nextclaw-ui/src/api/server-path.ts`、`packages/nextclaw-ui/src/lib/i18n.chat.ts` 的命名债务，但本次没有额外引入新的违规命名模式。
+8. `pnpm lint:maintainability:guard` 失败，但 error 项集中在仓库中其它并行改动的 `packages/extensions/go-usb-ai-ncp-runtime-*` 和既有大测试文件，不在本次 workspace sidebar 核心实现内。
+9. `pnpm lint:new-code:governance` 仍被仓库里其它已 touched 文件阻断；其中也包含本次不得不触达的历史入口文件 `packages/go-usb-ai-server/src/ui/router.ts`、`packages/go-usb-ai-ui/src/api/server-path.ts`、`packages/go-usb-ai-ui/src/lib/i18n.chat.ts` 的命名债务，但本次没有额外引入新的违规命名模式。
 
 ## 发布 / 部署方式
 
 本次同时涉及前端与 UI server，但不涉及数据库迁移、配置迁移或额外后台任务。
 
-发布时按正常 NextClaw 包流程处理：
+发布时按正常 GoUsbAi 包流程处理：
 
-1. 发布 `@nextclaw/agent-chat-ui`，包含新的 `onFileOpen` 能力与文件路径点击交互。
-2. 发布 `@nextclaw/server`，包含新的 `/api/server-paths/read` 接口。
-3. 发布 `@nextclaw/ui`，包含新的 session workspace sidebar、顶部 tab 工作区、文件 preview / diff 视图与 child session 集成。
-4. 若随 CLI / 桌面包一起出包，按既有流程重建并同步 `packages/nextclaw/ui-dist`。
+1. 发布 `@go-usb-ai/agent-chat-ui`，包含新的 `onFileOpen` 能力与文件路径点击交互。
+2. 发布 `@go-usb-ai/server`，包含新的 `/api/server-paths/read` 接口。
+3. 发布 `@go-usb-ai/ui`，包含新的 session workspace sidebar、顶部 tab 工作区、文件 preview / diff 视图与 child session 集成。
+4. 若随 CLI / 桌面包一起出包，按既有流程重建并同步 `packages/go-usb-ai/ui-dist`。
 
 ## 用户 / 产品视角的验收步骤
 
-1. 打开 NextClaw 聊天页，进入一个存在 child session 的父会话。
+1. 打开 GoUsbAi 聊天页，进入一个存在 child session 的父会话。
 2. 点击会话头部或左侧列表里的 child session 入口，确认右侧打开的是 workspace sidebar，而不是旧的单一子会话面板。
 3. 确认右侧顶部出现统一 tab 条；child session 和打开的文件共用这一条 tab rail，而不是左右分栏的导航列表。
 4. 切换不同子会话 tab 时，右侧内容区会跟随切换，未读点只留在未读且未激活的子会话 tab 上。
@@ -98,7 +98,7 @@
 
 长期目标对齐 / 可维护性推进：
 
-1. 这次改动顺着 NextClaw “统一入口 / 连续工作台”的长期目标前进了一步：右侧不再只是 child session 特化面板，而是开始承担会话级工作区的角色。
+1. 这次改动顺着 GoUsbAi “统一入口 / 连续工作台”的长期目标前进了一步：右侧不再只是 child session 特化面板，而是开始承担会话级工作区的角色。
 2. 文件 preview / diff 没有另起炉灶做一个平行浏览器，而是复用已有 markdown、diff line model、tool-card file operation adapter，把体验统一在同一条能力链上。
 3. 本次顺手删除了已无生产引用的 `ChatChildSessionPanel`，避免旧 UI 壳继续悬挂为历史债务。
 4. 这次高度修正最终收敛到共享 `FileOperationCodeSurface`：工具卡和 workspace 不再各自维护一套 row/gutter 语义，而是复用同一套 line number 宽度、tone、padding 与 key 逻辑，只在布局层切成 `compact` 和 `workspace` 两种模式。
@@ -140,7 +140,7 @@
 目录结构与文件组织是否满足当前项目治理要求：基本满足，但保留一项已知债务。
 
 1. 新增文件均使用 kebab-case 命名，并保持在现有 chat / server-path 责任域内。
-2. 本次通过删除 `chat-child-session-panel.tsx` 抵消了一部分目录平铺增长，但 `packages/nextclaw-ui/src/components/chat/` 仍然处于异常扁平目录，需要后续进一步收敛。
+2. 本次通过删除 `chat-child-session-panel.tsx` 抵消了一部分目录平铺增长，但 `packages/go-usb-ai-ui/src/components/chat/` 仍然处于异常扁平目录，需要后续进一步收敛。
 3. 下一步最值得继续删减/整理的入口是：把 `workspace file preview` 的状态推导与 `ncp-chat-thread.manager.ts` 的 file-tab 生命周期再向稳定子模块下切，继续压缩 chat 根目录平铺度与 manager 膨胀。
 
 可维护性复核：
@@ -149,7 +149,7 @@
 2. 这会提高后续继续加 pinned file、preview history、diff compare 等能力时的修改半径，使一次 sidebar 需求同时触发路由、会话、文件状态的混合改动。
 3. 更小、更稳的下一步是把 file-tab 生命周期下切成明确的 workspace owner（例如 `chat-workspace-file.manager.ts` 或等价边界），仍由 thread manager 编排，但不让它继续直接承载全部细节。
 
-4. `packages/nextclaw-ui/src/components/chat/` 本次虽然删掉了旧 `chat-child-session-panel.tsx`，但净效果仍是目录继续维持高平铺度。
+4. `packages/go-usb-ai-ui/src/components/chat/` 本次虽然删掉了旧 `chat-child-session-panel.tsx`，但净效果仍是目录继续维持高平铺度。
 5. 这会让聊天入口层越来越像“所有东西都放在根目录”的增长模式，后续查找 sidebar / workspace 相关代码的认知成本继续偏高。
 6. 更小、更稳的下一步是把 `chat-session-workspace-panel.tsx`、`chat-session-workspace-panel-nav.tsx`、`chat-session-workspace-file-preview.tsx` 下沉到稳定子目录，例如 `components/chat/workspace/`，把根目录重新收窄成页面壳和装配层。
 

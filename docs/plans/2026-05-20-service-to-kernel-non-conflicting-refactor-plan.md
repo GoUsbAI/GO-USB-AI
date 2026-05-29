@@ -1,14 +1,14 @@
-# NextClaw Service 到 Kernel 低冲突重构候选方案
+# GoUsbAi Service 到 Kernel 低冲突重构候选方案
 
 ## 背景与目标
 
-当前 `@nextclaw/service` 里混有多类职责：CLI 表现层、长驻服务宿主、UI/remote/launcher 运行链路、插件/扩展加载，以及部分本应属于 kernel 的领域规则。
+当前 `@go-usb-ai/service` 里混有多类职责：CLI 表现层、长驻服务宿主、UI/remote/launcher 运行链路、插件/扩展加载，以及部分本应属于 kernel 的领域规则。
 
-本轮重构的目标不是把 `nextclaw-service` 机械变薄，而是在不干扰并行 `agent runtime` / `extension` / `plugin runtime` 改动的前提下，先处理低冲突、owner 明确的候选项。
+本轮重构的目标不是把 `go-usb-ai-service` 机械变薄，而是在不干扰并行 `agent runtime` / `extension` / `plugin runtime` 改动的前提下，先处理低冲突、owner 明确的候选项。
 
 判断标准：
 
-- `kernel` 承载 NextClaw 的长期内核事实、能力目录、运行时领域编排、自感知状态与可复用业务规则。
+- `kernel` 承载 GoUsbAi 的长期内核事实、能力目录、运行时领域编排、自感知状态与可复用业务规则。
 - `service` 保留本机进程、CLI 输出、UI host、文件监听、restart、launcher、child process、端口探测等宿主职责。
 - `core/shared/openclaw-compat` 承载更底层的协议、纯类型、兼容转换或跨包通用工具。
 
@@ -16,19 +16,19 @@
 
 因为并行改动正在触达 `agent runtime`、`extension`、`plugin runtime` 相关链路，本计划第一阶段暂不改以下路径：
 
-- `packages/nextclaw-kernel/src/managers/agent-runtime.manager.ts`
-- `packages/nextclaw-kernel/src/managers/extension.manager.ts`
-- `packages/nextclaw-kernel/src/features/runtime-registry/`
-- `packages/nextclaw-kernel/src/contributions/agent-runtime/`
-- `packages/nextclaw-service/src/cli/commands/agent/agent-runtime.utils.ts`
-- `packages/nextclaw-service/src/cli/commands/agent/cli-agent-runner.utils.ts`
-- `packages/nextclaw-service/src/commands/plugin/plugin-extension-registry.ts`
-- `packages/nextclaw-service/src/commands/plugin/plugin-registry-loader.utils.ts`
-- `packages/nextclaw-service/src/shared/services/gateway/managers/gateway-plugin.manager.ts`
-- `packages/nextclaw-service/src/shared/services/extensions/`
-- `packages/nextclaw-openclaw-compat/src/plugins/`
-- `packages/extensions/nextclaw-ncp-runtime-*`
-- `packages/extensions/nextclaw-narp-runtime-*`
+- `packages/go-usb-ai-kernel/src/managers/agent-runtime.manager.ts`
+- `packages/go-usb-ai-kernel/src/managers/extension.manager.ts`
+- `packages/go-usb-ai-kernel/src/features/runtime-registry/`
+- `packages/go-usb-ai-kernel/src/contributions/agent-runtime/`
+- `packages/go-usb-ai-service/src/cli/commands/agent/agent-runtime.utils.ts`
+- `packages/go-usb-ai-service/src/cli/commands/agent/cli-agent-runner.utils.ts`
+- `packages/go-usb-ai-service/src/commands/plugin/plugin-extension-registry.ts`
+- `packages/go-usb-ai-service/src/commands/plugin/plugin-registry-loader.utils.ts`
+- `packages/go-usb-ai-service/src/shared/services/gateway/managers/gateway-plugin.manager.ts`
+- `packages/go-usb-ai-service/src/shared/services/extensions/`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/`
+- `packages/extensions/go-usb-ai-ncp-runtime-*`
+- `packages/extensions/go-usb-ai-narp-runtime-*`
 
 这些路径不是“不该重构”，而是当前不适合和并行改动抢同一片地。
 
@@ -38,16 +38,16 @@
 
 候选文件：
 
-- `packages/nextclaw-service/src/shared/services/runtime/utils/skills-loader.utils.ts`
+- `packages/go-usb-ai-service/src/shared/services/runtime/utils/skills-loader.utils.ts`
 
 现状：
 
-该文件在 service 内通过 `(NextclawCore as { SkillsLoader?: ... }).SkillsLoader` 动态探测 core 是否暴露 `SkillsLoader`，再创建 workspace skills loader。
+该文件在 service 内通过 `(GoUsbAiCore as { SkillsLoader?: ... }).SkillsLoader` 动态探测 core 是否暴露 `SkillsLoader`，再创建 workspace skills loader。
 
 问题：
 
 - service 不应该通过动态字段探测来判断 core/kernel 是否有 skill loader。
-- skill discovery/listing 是 NextClaw 自感知与自进化能力的一部分，应由 kernel 暴露稳定入口。
+- skill discovery/listing 是 GoUsbAi 自感知与自进化能力的一部分，应由 kernel 暴露稳定入口。
 - 当前写法让调用方感知 core 内部导出形态，owner 不清。
 
 推荐方案：
@@ -56,11 +56,11 @@
   - `createWorkspaceSkillsLoader(workspace: string)`
   - 或 `listWorkspaceSkills(workspace: string, options?: { filterUnavailable?: boolean })`
 - service 保留 CLI/host 调用入口，只依赖 kernel 公共 API。
-- 删除 service 内对 `NextclawCore.SkillsLoader` 的动态探测。
+- 删除 service 内对 `GoUsbAiCore.SkillsLoader` 的动态探测。
 
 成功标准：
 
-- service 不再直接动态访问 `NextclawCore.SkillsLoader`。
+- service 不再直接动态访问 `GoUsbAiCore.SkillsLoader`。
 - skill 列表/加载的稳定入口归属 kernel。
 - 不触碰 extension / agent runtime / plugin registry 链路。
 
@@ -76,10 +76,10 @@
 
 候选文件：
 
-- `packages/nextclaw-service/src/cli/commands/usage/services/llm-usage-query.service.ts`
-- `packages/nextclaw-service/src/cli/commands/usage/services/llm-usage-command.service.ts`
-- 关联 kernel：`packages/nextclaw-kernel/src/managers/llm-usage.manager.ts`
-- 关联 kernel：`packages/nextclaw-kernel/src/stores/llm-usage.store.ts`
+- `packages/go-usb-ai-service/src/cli/commands/usage/services/llm-usage-query.service.ts`
+- `packages/go-usb-ai-service/src/cli/commands/usage/services/llm-usage-command.service.ts`
+- 关联 kernel：`packages/go-usb-ai-kernel/src/managers/llm-usage.manager.ts`
+- 关联 kernel：`packages/go-usb-ai-kernel/src/stores/llm-usage.store.ts`
 
 现状：
 
@@ -121,7 +121,7 @@ kernel 已有 `LlmUsageManager` 和 `LlmUsageStore`，但 service CLI 侧仍有 
 
 候选文件：
 
-- `packages/nextclaw-service/src/shared/controllers/gateway.controller.ts`
+- `packages/go-usb-ai-service/src/shared/controllers/gateway.controller.ts`
 
 现状：
 
@@ -177,8 +177,8 @@ kernel 已有 `LlmUsageManager` 和 `LlmUsageStore`，但 service CLI 侧仍有 
 
 候选文件：
 
-- `packages/nextclaw-service/src/shared/services/gateway/cron-job-handler.service.ts`
-- 关联 kernel：`packages/nextclaw-kernel/src/managers/automation.manager.ts`
+- `packages/go-usb-ai-service/src/shared/services/gateway/cron-job-handler.service.ts`
+- 关联 kernel：`packages/go-usb-ai-kernel/src/managers/automation.manager.ts`
 
 现状：
 
@@ -186,7 +186,7 @@ kernel 已有 `LlmUsageManager` 和 `LlmUsageStore`，但 service CLI 侧仍有 
 
 问题：
 
-- “自动化任务如何转成 agent/session 执行”属于 NextClaw 自治闭环，不应长期由 service gateway 文件持有。
+- “自动化任务如何转成 agent/session 执行”属于 GoUsbAi 自治闭环，不应长期由 service gateway 文件持有。
 - cron metadata、session id、NCP message 构造规则是领域规则。
 - 当前文件依赖 live agent handle，因此不能在 agent runtime 并行改动期间贸然迁移。
 
@@ -215,7 +215,7 @@ kernel 已有 `LlmUsageManager` 和 `LlmUsageStore`，但 service CLI 侧仍有 
 
 候选文件：
 
-- `packages/nextclaw-service/src/shared/services/workspace/workspace-manager.service.ts`
+- `packages/go-usb-ai-service/src/shared/services/workspace/workspace-manager.service.ts`
 
 现状：
 
@@ -269,9 +269,9 @@ kernel 已有 `LlmUsageManager` 和 `LlmUsageStore`，但 service CLI 侧仍有 
 
 候选文件：
 
-- `packages/nextclaw-service/src/shared/services/gateway/managers/gateway-plugin.manager.ts`
-- `packages/nextclaw-service/src/commands/plugin/plugin-extension-registry.utils.ts`
-- 关联 kernel：`packages/nextclaw-kernel/src/managers/extension.manager.ts`
+- `packages/go-usb-ai-service/src/shared/services/gateway/managers/gateway-plugin.manager.ts`
+- `packages/go-usb-ai-service/src/commands/plugin/plugin-extension-registry.utils.ts`
+- 关联 kernel：`packages/go-usb-ai-kernel/src/managers/extension.manager.ts`
 
 现状与问题：
 
@@ -296,19 +296,19 @@ kernel 已有 `LlmUsageManager` 和 `LlmUsageStore`，但 service CLI 侧仍有 
 
 以下职责应留在 service，或者未来单独拆成 host/runtime package，而不是进入 kernel：
 
-- `packages/nextclaw-service/src/service-runtime.service.ts`
+- `packages/go-usb-ai-service/src/service-runtime.service.ts`
   - CLI 总装配、restart、自启动、子进程 relaunch、命令聚合。
-- `packages/nextclaw-service/src/launcher/`
+- `packages/go-usb-ai-service/src/launcher/`
   - NPM runtime bundle、更新、launcher。
-- `packages/nextclaw-service/src/shared/services/restart/`
+- `packages/go-usb-ai-service/src/shared/services/restart/`
   - restart sentinel、restart coordinator、self relaunch。
-- `packages/nextclaw-service/src/shared/services/ui/`
+- `packages/go-usb-ai-service/src/shared/services/ui/`
   - UI host、runtime control host、remote access、update host。
-- `packages/nextclaw-service/src/shared/stores/`
+- `packages/go-usb-ai-service/src/shared/stores/`
   - managed service state、local UI state、pending restart、companion runtime state。
-- `packages/nextclaw-service/src/shared/utils/service-port-probe.utils.ts`
+- `packages/go-usb-ai-service/src/shared/utils/service-port-probe.utils.ts`
   - 本机端口探测。
-- `packages/nextclaw-service/src/shared/utils/cli.utils.ts`
+- `packages/go-usb-ai-service/src/shared/utils/cli.utils.ts`
   - CLI/host 工具函数，除非其中出现纯协议/领域规则。
 
 ## 推荐执行顺序
@@ -319,10 +319,10 @@ kernel 已有 `LlmUsageManager` 和 `LlmUsageStore`，但 service CLI 侧仍有 
 
 验收：
 
-- service 不再动态探测 `NextclawCore.SkillsLoader`。
+- service 不再动态探测 `GoUsbAiCore.SkillsLoader`。
 - 相关 skill 命令或 agent home 初始化路径仍可列出 skills。
-- `pnpm -C packages/nextclaw-service tsc`
-- `pnpm -C packages/nextclaw-kernel tsc`
+- `pnpm -C packages/go-usb-ai-service tsc`
+- `pnpm -C packages/go-usb-ai-kernel tsc`
 - 相关 targeted tests。
 
 ### Step 2：LLM Usage Query 收敛
@@ -331,10 +331,10 @@ kernel 已有 `LlmUsageManager` 和 `LlmUsageStore`，但 service CLI 侧仍有 
 
 验收：
 
-- `nextclaw usage`、`nextclaw usage --history`、`nextclaw usage --stats` 行为不变。
+- `go-usb-ai usage`、`go-usb-ai usage --history`、`go-usb-ai usage --stats` 行为不变。
 - JSON 输出 contract 不变。
-- `pnpm -C packages/nextclaw-service tsc`
-- `pnpm -C packages/nextclaw-kernel tsc`
+- `pnpm -C packages/go-usb-ai-service tsc`
+- `pnpm -C packages/go-usb-ai-kernel tsc`
 - usage 相关测试。
 
 ### Step 3：Gateway Config Mutation 子域拆分
@@ -346,8 +346,8 @@ kernel 已有 `LlmUsageManager` 和 `LlmUsageStore`，但 service CLI 侧仍有 
 - gateway `config.get`、`config.apply`、`config.patch` contract 不变。
 - restart-required 返回语义不变。
 - sentinel/update/restart 仍由 service 处理。
-- `pnpm -C packages/nextclaw-service tsc`
-- `pnpm -C packages/nextclaw-kernel tsc`
+- `pnpm -C packages/go-usb-ai-service tsc`
+- `pnpm -C packages/go-usb-ai-kernel tsc`
 - gateway controller 相关测试。
 
 ### Step 4：Cron Execution 设计确认后再做

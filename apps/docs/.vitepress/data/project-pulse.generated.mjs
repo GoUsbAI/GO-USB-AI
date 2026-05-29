@@ -849,56 +849,56 @@ export default {
   "breakdown": {
     "topScopes": [
       {
-        "name": "packages/nextclaw-ui",
+        "name": "packages/go-usb-ai-ui",
         "codeLines": 36110,
         "testCodeLines": 12889,
         "files": 419,
         "sharePercent": 20.8
       },
       {
-        "name": "packages/nextclaw-service",
+        "name": "packages/go-usb-ai-service",
         "codeLines": 15718,
         "testCodeLines": 5966,
         "files": 163,
         "sharePercent": 9
       },
       {
-        "name": "packages/nextclaw-core",
+        "name": "packages/go-usb-ai-core",
         "codeLines": 15424,
         "testCodeLines": 4220,
         "files": 159,
         "sharePercent": 8.9
       },
       {
-        "name": "workers/nextclaw-provider-gateway-api",
+        "name": "workers/go-usb-ai-provider-gateway-api",
         "codeLines": 11595,
         "testCodeLines": 0,
         "files": 54,
         "sharePercent": 6.7
       },
       {
-        "name": "packages/nextclaw-kernel",
+        "name": "packages/go-usb-ai-kernel",
         "codeLines": 11206,
         "testCodeLines": 3597,
         "files": 104,
         "sharePercent": 6.4
       },
       {
-        "name": "packages/nextclaw-server",
+        "name": "packages/go-usb-ai-server",
         "codeLines": 8619,
         "testCodeLines": 5971,
         "files": 83,
         "sharePercent": 5
       },
       {
-        "name": "packages/nextclaw-agent-chat-ui",
+        "name": "packages/go-usb-ai-agent-chat-ui",
         "codeLines": 6248,
         "testCodeLines": 2898,
         "files": 67,
         "sharePercent": 3.6
       },
       {
-        "name": "packages/nextclaw-app-runtime",
+        "name": "packages/go-usb-ai-app-runtime",
         "codeLines": 5845,
         "testCodeLines": 1149,
         "files": 66,
@@ -916,18 +916,18 @@ export default {
         "date": "2026-05-24",
         "tagCount": 59,
         "sampleTags": [
-          "@nextclaw/agent-chat-ui@0.3.24",
-          "@nextclaw/agent-chat@0.1.22",
-          "@nextclaw/app-runtime@0.7.12"
+          "@go-usb-ai/agent-chat-ui@0.3.24",
+          "@go-usb-ai/agent-chat@0.1.22",
+          "@go-usb-ai/app-runtime@0.7.12"
         ]
       },
       {
         "date": "2026-05-23",
         "tagCount": 150,
         "sampleTags": [
-          "@nextclaw/agent-chat-ui@0.3.21",
-          "@nextclaw/agent-chat@0.1.19",
-          "@nextclaw/app-runtime@0.7.9"
+          "@go-usb-ai/agent-chat-ui@0.3.21",
+          "@go-usb-ai/agent-chat@0.1.19",
+          "@go-usb-ai/app-runtime@0.7.9"
         ]
       },
       {
@@ -981,12 +981,12 @@ export default {
         ],
         "en": {
           "title": "2026-05-06 · Auto Updates and Long-Context Awareness",
-          "description": "NextClaw now supports auto updates, context window usage, and automatic long-session compaction so daily use feels easier and long tasks stay more continuous.",
+          "description": "GoUsbAi now supports auto updates, context window usage, and automatic long-session compaction so daily use feels easier and long tasks stay more continuous.",
           "href": "/en/notes/2026-05-06-auto-update-and-context-awareness"
         },
         "zh": {
           "title": "2026-05-06 · 自动更新与长会话上下文管理上线",
-          "description": "NextClaw 现在支持自动更新、上下文窗口统计和长会话自动压缩，让日常使用更省心，也让长任务更连续。",
+          "description": "GoUsbAi 现在支持自动更新、上下文窗口统计和长会话自动压缩，让日常使用更省心，也让长任务更连续。",
           "href": "/zh/notes/2026-05-06-auto-update-and-context-awareness"
         }
       },
@@ -999,13 +999,13 @@ export default {
           "chat"
         ],
         "en": {
-          "title": "2026-04-26 · NextClaw Feels Better on Mobile",
-          "description": "NextClaw recently shipped a mobile experience update. Once deployed, opening NextClaw from a mobile browser now shows a cleaner chat, session, and input experience for small screens.",
+          "title": "2026-04-26 · GoUsbAi Feels Better on Mobile",
+          "description": "GoUsbAi recently shipped a mobile experience update. Once deployed, opening GoUsbAi from a mobile browser now shows a cleaner chat, session, and input experience for small screens.",
           "href": "/en/notes/2026-04-26-mobile-experience-update"
         },
         "zh": {
           "title": "2026-04-26 · 手机端访问更顺手了",
-          "description": "NextClaw 最近完成了一轮移动端体验适配。部署后的 NextClaw 用手机浏览器打开，会自动呈现更适合手机的聊天、会话和输入体验。",
+          "description": "GoUsbAi 最近完成了一轮移动端体验适配。部署后的 GoUsbAi 用手机浏览器打开，会自动呈现更适合手机的聊天、会话和输入体验。",
           "href": "/zh/notes/2026-04-26-mobile-experience-update"
         }
       },

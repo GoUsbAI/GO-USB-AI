@@ -19,10 +19,10 @@
 ## 测试/验证/验收方式
 - 影响面判定：本次触达 UI 可运行行为与流控逻辑，执行 UI 侧最小充分验证（eslint 定向 + tsc + build + 冒烟）。
 - 已执行并通过：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/useChatStreamController.ts src/components/chat/chat-stream/types.ts src/components/chat/chat-stream/transport.ts src/components/chat/chat-stream/controller.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/useChatStreamController.ts src/components/chat/chat-stream/types.ts src/components/chat/chat-stream/transport.ts src/components/chat/chat-stream/controller.ts`
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc:ui`
   - `PATH=/opt/homebrew/bin:$PATH pnpm build:ui`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui preview --host 127.0.0.1 --port 4175` + `curl http://127.0.0.1:4175/`（页面含 `<div id="root"></div>`）
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui preview --host 127.0.0.1 --port 4175` + `curl http://127.0.0.1:4175/`（页面含 `<div id="root"></div>`）
 - 额外检查：
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint:ui` 未通过，失败来自仓库既有问题（`src/components/common/MaskedInput.tsx` 未使用参数），非本次改动引入。
 

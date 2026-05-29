@@ -13,26 +13,26 @@
 ## 测试/验证/验收方式
 
 - 通过：
-  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw-core test -- src/config/reload.test.ts`
-  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw-server test -- src/ui/router.weixin-channel-config.test.ts`
-  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw-ui test -- src/components/config/ChannelForm.test.tsx`
-  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw-ui exec vitest run --root /Users/peiwang/Projects/nextbot/packages/extensions/nextclaw-channel-plugin-feishu src/chat.test.ts src/docx.test.ts src/tool-account-routing.test.ts`
-  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw-core tsc`
-  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw-server tsc`
-  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw-ui tsc`
+  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai-core test -- src/config/reload.test.ts`
+  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai-server test -- src/ui/router.weixin-channel-config.test.ts`
+  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui test -- src/components/config/ChannelForm.test.tsx`
+  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui exec vitest run --root /Users/peiwang/Projects/nextbot/packages/extensions/go-usb-ai-channel-plugin-feishu src/chat.test.ts src/docx.test.ts src/tool-account-routing.test.ts`
+  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai-core tsc`
+  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai-server tsc`
+  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui tsc`
   - `pnpm check:governance-backlog-ratchet`
 - 已执行但未全绿：
   - `pnpm lint:maintainability:guard`
-    - 仅剩 1 个 error，来自当前工作区已有的 `packages/nextclaw-core/src/agent` 目录预算越界，不属于本次实现链路。
+    - 仅剩 1 个 error，来自当前工作区已有的 `packages/go-usb-ai-core/src/agent` 目录预算越界，不属于本次实现链路。
   - `pnpm lint:new-code:governance`
-    - 被本次触达的历史 CamelCase 文件名债务阻断：`packages/nextclaw-ui/src/components/config/ChannelForm.tsx`、`packages/nextclaw-ui/src/components/config/ChannelForm.test.tsx`、`packages/nextclaw-ui/src/hooks/useConfig.ts`。
-  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw-core lint`、`pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw-server lint`、`pnpm -C /Users/peiwang/Projects/nextbot/packages/nextclaw-ui lint`
+    - 被本次触达的历史 CamelCase 文件名债务阻断：`packages/go-usb-ai-ui/src/components/config/ChannelForm.tsx`、`packages/go-usb-ai-ui/src/components/config/ChannelForm.test.tsx`、`packages/go-usb-ai-ui/src/hooks/useConfig.ts`。
+  - `pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai-core lint`、`pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai-server lint`、`pnpm -C /Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui lint`
     - 仍有工作区既有错误/警告，不是本次新增问题；本次修改对应的定向测试和 type check 已通过。
 
 ## 发布/部署方式
 
 - 该迭代不要求单独发布流程。
-- 合并后按既有 NextClaw 常规发布链路发布即可；无需额外插件重载步骤。
+- 合并后按既有 GoUsbAi 常规发布链路发布即可；无需额外插件重载步骤。
 - 若需要回归验证，启动 UI 服务后直接修改任一渠道配置并保存，观察是否立即返回以及是否收到后台 apply 状态事件。
 
 ## 用户/产品视角的验收步骤
@@ -52,7 +52,7 @@
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：更清晰。保存职责、后台 apply 职责、渠道生命周期边界、工具注册边界都比之前更明确；没有引入新的声明式 registry 机制，也没有发明额外 provider/provider-like 抽象。
 - 目录结构与文件组织是否满足当前项目治理要求：本次实现保持最小改动面，没有继续扩大文件组织债务；但 `ChannelForm.tsx`、`useConfig.ts` 及历史 CamelCase 文件命名债务仍会触发治理阻断，需要后续做专门命名治理批次。
 - 独立 maintainability review 结论：`保留债务经说明接受`。
-- 长期目标对齐 / 可维护性推进：这次把“渠道配置保存”从隐藏的全局 plugin reload 副作用里拆出来，向“渠道生命周期自洽、插件能力边界清晰、系统行为更可预测”推进了一小步，符合 NextClaw 作为统一入口与能力编排层的长期方向。
+- 长期目标对齐 / 可维护性推进：这次把“渠道配置保存”从隐藏的全局 plugin reload 副作用里拆出来，向“渠道生命周期自洽、插件能力边界清晰、系统行为更可预测”推进了一小步，符合 GoUsbAi 作为统一入口与能力编排层的长期方向。
 - 代码增减报告：
   - 新增：348 行
   - 删除：38 行

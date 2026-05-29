@@ -17,14 +17,14 @@ function resolveDesktopStartupLogPath(): string {
   } catch {
     const home = homedir();
     if (process.platform === "darwin") {
-      return join(home, "Library", "Application Support", "@nextclaw", "desktop", "launcher", "main.log");
+      return join(home, "Library", "Application Support", "@go-usb-ai", "desktop", "launcher", "main.log");
     }
     if (process.platform === "win32") {
       const appData = process.env.APPDATA?.trim();
-      return join(appData ? resolve(appData) : join(home, "AppData", "Roaming"), "@nextclaw", "desktop", "launcher", "main.log");
+      return join(appData ? resolve(appData) : join(home, "AppData", "Roaming"), "@go-usb-ai", "desktop", "launcher", "main.log");
     }
     const configHome = process.env.XDG_CONFIG_HOME?.trim();
-    return join(configHome ? resolve(configHome) : join(home, ".config"), "@nextclaw", "desktop", "launcher", "main.log");
+    return join(configHome ? resolve(configHome) : join(home, ".config"), "@go-usb-ai", "desktop", "launcher", "main.log");
   }
 }
 
@@ -89,8 +89,8 @@ export function logDesktopMainEntryLoaded(logger: DesktopLogger, profile?: Deskt
       `portableRoot=${profile?.portableRoot ?? ""}`,
       `runtimeHome=${resolveDesktopRuntimeHome()}`,
       `desktopDataDir=${resolveDesktopDataDir()}`,
-      `ambientNextclawHome=${process.env.NEXTCLAW_HOME?.trim() || ""}`,
-      `ambientDesktopDataDir=${process.env.NEXTCLAW_DESKTOP_DATA_DIR?.trim() || ""}`
+      `ambientGoUsbAiHome=${process.env.GOUSB_AI_HOME?.trim() || ""}`,
+      `ambientDesktopDataDir=${process.env.GOUSB_AI_DESKTOP_DATA_DIR?.trim() || ""}`
     ].join(" ")
   );
 }

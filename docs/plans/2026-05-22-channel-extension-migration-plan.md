@@ -2,11 +2,11 @@
 
 > **给实施者：** 按任务逐步执行；每个任务完成后先验证，再进入下一步。
 
-**目标：** 把剩余一方渠道从旧的 OpenClaw 兼容 channel plugin 路径迁移到 NextClaw extension channel controller 路径，同时直接删除不再需要的 `mochat` 渠道。
+**目标：** 把剩余一方渠道从旧的 OpenClaw 兼容 channel plugin 路径迁移到 GoUsbAi extension channel controller 路径，同时直接删除不再需要的 `mochat` 渠道。
 
-**架构：** Extension SDK 负责通用的渠道生命周期、配置读取、入站消息提交、NCP 事件转发、outbound text 请求处理、控制消息转发和命令调用协议。每个渠道包只负责自己的账号、平台传输、消息解析和发送行为。最终态不再保留 `@nextclaw/channel-runtime` 作为一方渠道共享运行时；渠道特定实现已经落回各自 extension 包。
+**架构：** Extension SDK 负责通用的渠道生命周期、配置读取、入站消息提交、NCP 事件转发、outbound text 请求处理、控制消息转发和命令调用协议。每个渠道包只负责自己的账号、平台传输、消息解析和发送行为。最终态不再保留 `@go-usb-ai/channel-runtime` 作为一方渠道共享运行时；渠道特定实现已经落回各自 extension 包。
 
-**技术栈：** TypeScript、`@nextclaw/extension-sdk`、NextClaw extension manifest、Vitest、`tsc`、eslint。
+**技术栈：** TypeScript、`@go-usb-ai/extension-sdk`、GoUsbAi extension manifest、Vitest、`tsc`、eslint。
 
 ---
 
@@ -14,16 +14,16 @@
 
 - 新的 extension channel 机制已经用于全部一方渠道：`feishu`、`weixin`、`qq`、`dingtalk`、`wecom`、`slack`、`email`、`whatsapp`、`telegram`、`discord`。
 - `mochat` 已删除，不再作为内置渠道保留。
-- 旧的一方 `channel-plugin-*` 包和 `@nextclaw/channel-runtime` 已删除。
+- 旧的一方 `channel-plugin-*` 包和 `@go-usb-ai/channel-runtime` 已删除。
 - OpenClaw compat 仍保留第三方插件兼容能力，但不再内置加载一方 channel plugin。
-- `ChannelManager` 已删除 `registration.channel.nextclaw.createChannel(...)` in-process 渠道创建路径。
+- `ChannelManager` 已删除 `registration.channel.go-usb-ai.createChannel(...)` in-process 渠道创建路径。
 - Kernel/service/desktop/root scripts 已切到 extension package 和 manifest discovery。
 
 ## 设计原则
 
 - `deletion-first`：`mochat` 产品价值和 owner 不清楚，不迁移，直接删除。
 - `single-domain-owner`：一个渠道迁移后，只保留一个有效贡献路径，不能同时存在 `channel-plugin-*` 和 `channel-extension-*`。
-- `no-legacy-runtime-dependency-final-state`：迁移完成态下，一方 channel extension 不应依赖 `openclaw-compat`、旧 `channel-plugin-*` 或 `@nextclaw/channel-runtime`；`@nextclaw/channel-runtime` 只允许作为迁移期复用旧实现的临时脚手架。
+- `no-legacy-runtime-dependency-final-state`：迁移完成态下，一方 channel extension 不应依赖 `openclaw-compat`、旧 `channel-plugin-*` 或 `@go-usb-ai/channel-runtime`；`@go-usb-ai/channel-runtime` 只允许作为迁移期复用旧实现的临时脚手架。
 - `responsibility-surface-minimization`：SDK 抽象只承载通用 channel extension 协议行为。
 - `protected-variations`：渠道特定协议行为留在渠道实现里。
 - `no-compatibility-by-default`：除非 review 时确认有真实外部兼容要求，否则不保留旧 alias 或重复 plugin 包。
@@ -32,7 +32,7 @@
 
 1. 用 `qq` 作为第一个迁移试点。
 2. 在大批量迁移前先删除 `mochat`。
-3. 迁移期暂时保留 `@nextclaw/channel-runtime` 作为旧渠道实现库；最终清理阶段已删除。
+3. 迁移期暂时保留 `@go-usb-ai/channel-runtime` 作为旧渠道实现库；最终清理阶段已删除。
 4. 在 SDK 里新增一个通用 helper，暂定名 `startBusChannelExtension`。
 5. QQ 试点证明 helper 足够后，再迁移简单渠道。
 6. `telegram` 和 `discord` 最后迁移，因为它们有更多 control message、streaming、typing 和 session 行为。
@@ -40,7 +40,7 @@
 ## 非目标
 
 - 本轮不重构 Feishu 或 Weixin。
-- 不把渠道特定行为加进 `@nextclaw/extension-sdk`。
+- 不把渠道特定行为加进 `@go-usb-ai/extension-sdk`。
 - 在 adapter 路径证明可行前，不重写所有旧渠道实现。
 - 不迁移 `mochat`。
 
@@ -49,8 +49,8 @@
 目标 extension 包启动代码应接近：
 
 ```ts
-import { startBusChannelExtension, warnNcpEventError } from "@nextclaw/extension-sdk";
-import { QQChannel } from "@nextclaw/channel-runtime";
+import { startBusChannelExtension, warnNcpEventError } from "@go-usb-ai/extension-sdk";
+import { QQChannel } from "@go-usb-ai/channel-runtime";
 
 await startBusChannelExtension({
   channelId: "qq",
@@ -82,9 +82,9 @@ await startBusChannelExtension({
 
 **文件：**
 
-- 修改：`packages/nextclaw-extension-sdk/src/services/extension-channel-controller.service.ts`
-- 修改：`packages/nextclaw-extension-sdk/src/index.ts`
-- 修改：`packages/nextclaw-extension-sdk/src/extension-sdk.test.ts`
+- 修改：`packages/go-usb-ai-extension-sdk/src/services/extension-channel-controller.service.ts`
+- 修改：`packages/go-usb-ai-extension-sdk/src/index.ts`
+- 修改：`packages/go-usb-ai-extension-sdk/src/extension-sdk.test.ts`
 
 **步骤：**
 
@@ -98,9 +98,9 @@ await startBusChannelExtension({
 8. 运行：
 
 ```bash
-pnpm -C packages/nextclaw-extension-sdk test
-pnpm -C packages/nextclaw-extension-sdk tsc
-pnpm -C packages/nextclaw-extension-sdk lint
+pnpm -C packages/go-usb-ai-extension-sdk test
+pnpm -C packages/go-usb-ai-extension-sdk tsc
+pnpm -C packages/go-usb-ai-extension-sdk lint
 ```
 
 预期：全部通过。
@@ -109,14 +109,14 @@ pnpm -C packages/nextclaw-extension-sdk lint
 
 **文件：**
 
-- 删除：`packages/extensions/nextclaw-channel-plugin-mochat`
-- 修改：`packages/extensions/nextclaw-channel-runtime/src/index.ts`
-- 删除：`packages/extensions/nextclaw-channel-runtime/src/channels/mochat.ts`
-- 修改：`packages/nextclaw-core/src/features/config/configs/schema.ts`
-- 修改：`packages/nextclaw-runtime/src/channels/builtin-channel.config.ts`
-- 修改：`packages/nextclaw-service/src/commands/channel/index.ts`
+- 删除：`packages/extensions/go-usb-ai-channel-plugin-mochat`
+- 修改：`packages/extensions/go-usb-ai-channel-runtime/src/index.ts`
+- 删除：`packages/extensions/go-usb-ai-channel-runtime/src/channels/mochat.ts`
+- 修改：`packages/go-usb-ai-core/src/features/config/configs/schema.ts`
+- 修改：`packages/go-usb-ai-runtime/src/channels/builtin-channel.config.ts`
+- 修改：`packages/go-usb-ai-service/src/commands/channel/index.ts`
 - 修改枚举 builtin channels 的相关测试。
-- 如果根 `package.json` 的 build/lint/tsc 脚本引用 `nextclaw-channel-plugin-mochat`，同步删除。
+- 如果根 `package.json` 的 build/lint/tsc 脚本引用 `go-usb-ai-channel-plugin-mochat`，同步删除。
 
 **步骤：**
 
@@ -129,10 +129,10 @@ pnpm -C packages/nextclaw-extension-sdk lint
 7. 运行：
 
 ```bash
-pnpm -C packages/nextclaw-core tsc
-pnpm -C packages/nextclaw-runtime tsc
-pnpm -C packages/nextclaw-service test -- src/commands/channel/channels.test.ts --run
-pnpm -C packages/extensions/nextclaw-channel-runtime tsc
+pnpm -C packages/go-usb-ai-core tsc
+pnpm -C packages/go-usb-ai-runtime tsc
+pnpm -C packages/go-usb-ai-service test -- src/commands/channel/channels.test.ts --run
+pnpm -C packages/extensions/go-usb-ai-channel-runtime tsc
 ```
 
 预期：不再存在 active mochat channel code 引用。
@@ -143,31 +143,31 @@ Review 备注：历史 changelog 里的 mochat 记录可以保留，除非我们
 
 **文件：**
 
-- 新增：`packages/extensions/nextclaw-channel-extension-qq/package.json`
-- 新增：`packages/extensions/nextclaw-channel-extension-qq/nextclaw.extension.json`
-- 新增：`packages/extensions/nextclaw-channel-extension-qq/src/main.ts`
-- 新增：`packages/extensions/nextclaw-channel-extension-qq/src/index.ts`
-- 新增：`packages/extensions/nextclaw-channel-extension-qq/tsconfig.json`
-- 新增：`packages/extensions/nextclaw-channel-extension-qq/eslint.config.mjs`
-- 新增：`packages/extensions/nextclaw-channel-extension-qq/module-structure.config.json`
+- 新增：`packages/extensions/go-usb-ai-channel-extension-qq/package.json`
+- 新增：`packages/extensions/go-usb-ai-channel-extension-qq/go-usb-ai.extension.json`
+- 新增：`packages/extensions/go-usb-ai-channel-extension-qq/src/main.ts`
+- 新增：`packages/extensions/go-usb-ai-channel-extension-qq/src/index.ts`
+- 新增：`packages/extensions/go-usb-ai-channel-extension-qq/tsconfig.json`
+- 新增：`packages/extensions/go-usb-ai-channel-extension-qq/eslint.config.mjs`
+- 新增：`packages/extensions/go-usb-ai-channel-extension-qq/module-structure.config.json`
 - 修改：根 `package.json` build/lint/tsc 脚本。
 - 修改：断言一方 extension path 的 discovery 测试。
-- 删除或停用：`packages/extensions/nextclaw-channel-plugin-qq`。
+- 删除或停用：`packages/extensions/go-usb-ai-channel-plugin-qq`。
 
 **步骤：**
 
 1. 新增 extension package 脚手架。
-2. 新增 QQ `nextclaw.extension.json`，`id` 为 `nextclaw-channel-extension-qq`，贡献 channel `qq`。
+2. 新增 QQ `go-usb-ai.extension.json`，`id` 为 `go-usb-ai-channel-extension-qq`，贡献 channel `qq`。
 3. 在 `src/main.ts` 使用 `startBusChannelExtension`。
-4. 复用 `@nextclaw/channel-runtime` 的 `QQChannel`。
+4. 复用 `@go-usb-ai/channel-runtime` 的 `QQChannel`。
 5. 从根脚本里移除旧 QQ plugin 包。
 6. 更新 builtin/discovery 测试，让它们预期 `qq` 来自 extension contribution。
 7. 运行：
 
 ```bash
-pnpm -C packages/extensions/nextclaw-channel-extension-qq tsc
-pnpm -C packages/extensions/nextclaw-channel-extension-qq lint
-pnpm -C packages/nextclaw-kernel test -- src/services/extension-runtime.service.test.ts --run
+pnpm -C packages/extensions/go-usb-ai-channel-extension-qq tsc
+pnpm -C packages/extensions/go-usb-ai-channel-extension-qq lint
+pnpm -C packages/go-usb-ai-kernel test -- src/services/extension-runtime.service.test.ts --run
 ```
 
 预期：QQ 由 extension manifest 贡献，不再需要旧 QQ plugin 路径。
@@ -183,10 +183,10 @@ pnpm -C packages/nextclaw-kernel test -- src/services/extension-runtime.service.
 1. 构建本地 extension 启动所需包：
 
 ```bash
-pnpm -C packages/nextclaw-shared build
-pnpm -C packages/nextclaw-extension-sdk build
-pnpm -C packages/extensions/nextclaw-channel-runtime build
-pnpm -C packages/extensions/nextclaw-channel-extension-qq build
+pnpm -C packages/go-usb-ai-shared build
+pnpm -C packages/go-usb-ai-extension-sdk build
+pnpm -C packages/extensions/go-usb-ai-channel-runtime build
+pnpm -C packages/extensions/go-usb-ai-channel-extension-qq build
 ```
 
 2. 在 QQ disabled 的配置下启动本地 runtime，确认 QQ extension 进程不崩溃。
@@ -210,10 +210,10 @@ pnpm -C packages/extensions/nextclaw-channel-extension-qq build
 
 **每个渠道的步骤：**
 
-1. 创建 `packages/extensions/nextclaw-channel-extension-<id>`。
+1. 创建 `packages/extensions/go-usb-ai-channel-extension-<id>`。
 2. 新增 manifest，贡献 channel `<id>`。
 3. 使用 `startBusChannelExtension` 启动。
-4. 从根脚本中移除旧 `nextclaw-channel-plugin-<id>` 包。
+4. 从根脚本中移除旧 `go-usb-ai-channel-plugin-<id>` 包。
 5. 更新 builtin channel 测试。
 6. 运行该包 `tsc`、该包 `lint` 和 kernel extension discovery 测试。
 7. Review 后提交。
@@ -222,8 +222,8 @@ pnpm -C packages/extensions/nextclaw-channel-extension-qq build
 
 完成记录：
 
-- 已新增 `nextclaw-channel-extension-dingtalk`、`nextclaw-channel-extension-wecom`、`nextclaw-channel-extension-slack`、`nextclaw-channel-extension-email`、`nextclaw-channel-extension-whatsapp`。
-- 已删除对应旧 `nextclaw-channel-plugin-*` wrapper 包。
+- 已新增 `go-usb-ai-channel-extension-dingtalk`、`go-usb-ai-channel-extension-wecom`、`go-usb-ai-channel-extension-slack`、`go-usb-ai-channel-extension-email`、`go-usb-ai-channel-extension-whatsapp`。
+- 已删除对应旧 `go-usb-ai-channel-plugin-*` wrapper 包。
 - 已把 service builtin extension、desktop 依赖、root build/lint/tsc 脚本、kernel discovery 测试切到新 extension 包。
 - 已从 OpenClaw compat bundled channel plugin 列表中移除这 5 个旧包；`telegram` 和 `discord` 仍留在旧路径等待任务 6。
 
@@ -245,8 +245,8 @@ Telegram 和 Discord 有额外的 typing、streaming preview、slash command、r
 
 完成记录：
 
-- 已新增 `nextclaw-channel-extension-telegram` 和 `nextclaw-channel-extension-discord`。
-- Telegram/Discord 的平台实现已从旧 `@nextclaw/channel-runtime` 搬入各自 extension 包。
+- 已新增 `go-usb-ai-channel-extension-telegram` 和 `go-usb-ai-channel-extension-discord`。
+- Telegram/Discord 的平台实现已从旧 `@go-usb-ai/channel-runtime` 搬入各自 extension 包。
 - 通用 extension 协议新增 command list / command execute ingress，用于 Telegram 文本命令和 Discord slash command，不再让渠道包直接依赖 `SessionManager` / `CommandRegistry`。
 - SDK 新增通用 `ChannelTypingController`，替代旧 runtime typing controller。
 - Extension channel outbound 控制消息统一通过 extension outbound bridge 转发，避免 Telegram/Discord 在宿主内进程分支处理。
@@ -275,11 +275,11 @@ Telegram 和 Discord 有额外的 typing、streaming preview、slash command、r
 
 只有同时满足下面条件，才能进入本节清理：
 
-- `telegram`、`whatsapp`、`discord`、`dingtalk`、`wecom`、`email`、`slack` 全部拥有 `nextclaw-channel-extension-<id>` 包和 `nextclaw.extension.json`。
+- `telegram`、`whatsapp`、`discord`、`dingtalk`、`wecom`、`email`、`slack` 全部拥有 `go-usb-ai-channel-extension-<id>` 包和 `go-usb-ai.extension.json`。
 - 旧 `channel-plugin-*` 包不再是任何一方渠道的唯一贡献路径。
 - `ChannelManager` 启动渠道时，所有一方渠道都能通过 manifest channel contribution 进入。
 - `channels list`、配置 UI、auth/login、outbound reply 和真实或替代 smoke 都已经覆盖新 extension 路径。
-- 没有仍依赖旧 `channel.nextclaw.createChannel` 的一方渠道。
+- 没有仍依赖旧 `channel.go-usb-ai.createChannel` 的一方渠道。
 
 ### 必须保留的产品概念
 
@@ -294,44 +294,44 @@ Telegram 和 Discord 有额外的 typing、streaming preview、slash command、r
 
 所有一方渠道迁移完成后的目标依赖边界：
 
-- 一方 `nextclaw-channel-extension-*` 包不依赖 `@nextclaw/openclaw-compat`。
-- 一方 `nextclaw-channel-extension-*` 包不依赖旧 `@nextclaw/channel-plugin-*`。
-- 一方 `nextclaw-channel-extension-*` 包不再依赖 `@nextclaw/channel-runtime`；渠道特定实现应落在各自 extension 包内，或落在明确不是旧 runtime 兼容层的新共享包内。
-- `@nextclaw/channel-runtime` 和旧一方 `channel-plugin-*` 包应删除。
+- 一方 `go-usb-ai-channel-extension-*` 包不依赖 `@go-usb-ai/openclaw-compat`。
+- 一方 `go-usb-ai-channel-extension-*` 包不依赖旧 `@go-usb-ai/channel-plugin-*`。
+- 一方 `go-usb-ai-channel-extension-*` 包不再依赖 `@go-usb-ai/channel-runtime`；渠道特定实现应落在各自 extension 包内，或落在明确不是旧 runtime 兼容层的新共享包内。
+- `@go-usb-ai/channel-runtime` 和旧一方 `channel-plugin-*` 包应删除。
 - `openclaw-compat` 可以继续服务第三方 OpenClaw 兼容插件生态，但不能再承载一方内置渠道的启动路径。
 
 ### 第一批：删除旧渠道运行时包和旧渠道插件包
 
 **可删除：**
 
-- `packages/extensions/nextclaw-channel-runtime`
-- `packages/extensions/nextclaw-channel-plugin-dingtalk`
-- `packages/extensions/nextclaw-channel-plugin-discord`
-- `packages/extensions/nextclaw-channel-plugin-email`
-- `packages/extensions/nextclaw-channel-plugin-slack`
-- `packages/extensions/nextclaw-channel-plugin-telegram`
-- `packages/extensions/nextclaw-channel-plugin-wecom`
-- `packages/extensions/nextclaw-channel-plugin-whatsapp`
-- 已删除或未恢复的 `nextclaw-channel-plugin-mochat`、`nextclaw-channel-plugin-qq` 不应重新引入。
+- `packages/extensions/go-usb-ai-channel-runtime`
+- `packages/extensions/go-usb-ai-channel-plugin-dingtalk`
+- `packages/extensions/go-usb-ai-channel-plugin-discord`
+- `packages/extensions/go-usb-ai-channel-plugin-email`
+- `packages/extensions/go-usb-ai-channel-plugin-slack`
+- `packages/extensions/go-usb-ai-channel-plugin-telegram`
+- `packages/extensions/go-usb-ai-channel-plugin-wecom`
+- `packages/extensions/go-usb-ai-channel-plugin-whatsapp`
+- 已删除或未恢复的 `go-usb-ai-channel-plugin-mochat`、`go-usb-ai-channel-plugin-qq` 不应重新引入。
 
 **同步修改：**
 
 - 根 `package.json` 的 `build`、`lint`、`tsc` 脚本移除这些包。
-- `apps/desktop/package.json` 移除旧 channel plugin 包和 `@nextclaw/channel-runtime`。
-- `packages/nextclaw-openclaw-compat/package.json` 移除旧 channel plugin 包和 `@nextclaw/channel-runtime`。
+- `apps/desktop/package.json` 移除旧 channel plugin 包和 `@go-usb-ai/channel-runtime`。
+- `packages/go-usb-ai-openclaw-compat/package.json` 移除旧 channel plugin 包和 `@go-usb-ai/channel-runtime`。
 - `pnpm-lock.yaml` 删除对应 importer 和依赖边。
 
 **验收：**
 
 ```bash
-rg "@nextclaw/channel-runtime|nextclaw-channel-plugin-|@nextclaw/channel-plugin-" package.json packages apps scripts pnpm-lock.yaml
+rg "@go-usb-ai/channel-runtime|go-usb-ai-channel-plugin-|@go-usb-ai/channel-plugin-" package.json packages apps scripts pnpm-lock.yaml
 ```
 
 预期：除历史 changelog、旧迭代记录或本迁移说明外，active code/package/script 里不再出现旧一方 channel plugin/runtime 依赖。
 
 完成记录：
 
-- 已删除 `packages/extensions/nextclaw-channel-runtime`。
+- 已删除 `packages/extensions/go-usb-ai-channel-runtime`。
 - 已删除旧 Telegram/Discord channel plugin 包，并清理其它已迁移渠道的旧 plugin 残留目录。
 - 已移除 service/desktop/root/package lock 对旧包的依赖。
 - 已更新 desktop package build/verify 脚本，构建一方 channel extension 包，不再构建旧 runtime。
@@ -342,19 +342,19 @@ rg "@nextclaw/channel-runtime|nextclaw-channel-plugin-|@nextclaw/channel-plugin-
 
 **重点文件：**
 
-- `packages/nextclaw-openclaw-compat/src/plugins/bundled-channel-plugin-packages.constants.ts`
-- `packages/nextclaw-openclaw-compat/src/plugins/bundled-channel-plugin-module.utils.ts`
-- `packages/nextclaw-openclaw-compat/src/plugins/openclaw-plugin-loader.utils.ts`
-- `packages/nextclaw-openclaw-compat/src/plugins/progressive-plugin-loader/progressive-bundled-plugin-loader.ts`
-- `packages/nextclaw-openclaw-compat/src/plugins/plugin-status.utils.ts`
-- `packages/nextclaw-openclaw-compat/src/plugin-sdk/index.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/bundled-channel-plugin-packages.constants.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/bundled-channel-plugin-module.utils.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/openclaw-plugin-loader.utils.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/progressive-plugin-loader/progressive-bundled-plugin-loader.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/plugin-status.utils.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugin-sdk/index.ts`
 
 **要删除的语义：**
 
 - `BUNDLED_CHANNEL_PLUGIN_PACKAGES`
 - `loadInProcessBundledPluginModule`
 - bundled channel plugin append/load 分支
-- `createNextclawBuiltinChannelPlugin`
+- `createGoUsbAiBuiltinChannelPlugin`
 - 只为旧一方渠道服务的 bundled enable/status 测试
 
 **注意：**
@@ -365,23 +365,23 @@ rg "@nextclaw/channel-runtime|nextclaw-channel-plugin-|@nextclaw/channel-plugin-
 
 - 已删除 bundled channel plugin 包列表、in-process bundled module loader、progressive bundled loader 和对应 bundled enable/status 测试。
 - 已从 OpenClaw plugin loader/status 路径移除一方 bundled channel append/load 分支。
-- 已删除 `createNextclawBuiltinChannelPlugin`。
+- 已删除 `createGoUsbAiBuiltinChannelPlugin`。
 - `openclaw-compat` 继续保留外部插件 install/load/status/uninstall 能力。
 
 ### 第三批：收敛 ChannelManager 的双路径
 
 当前 `ChannelManager` 同时支持：
 
-- 旧路径：`registration.channel.nextclaw.createChannel(...)`
+- 旧路径：`registration.channel.go-usb-ai.createChannel(...)`
 - 新路径：`new ExtensionChannelAdapter(...)`
 
 所有渠道迁移完成后，旧路径应删除。
 
 **修改目标：**
 
-- `packages/nextclaw-core/src/features/channels/managers/channel.manager.ts`
-- `packages/nextclaw-core/src/features/channels/services/extension-channel.service.ts`
-- `packages/nextclaw-core/src/features/channels/services/base.ts`
+- `packages/go-usb-ai-core/src/features/channels/managers/channel.manager.ts`
+- `packages/go-usb-ai-core/src/features/channels/services/extension-channel.service.ts`
+- `packages/go-usb-ai-core/src/features/channels/services/base.ts`
 
 **预期形态：**
 
@@ -392,14 +392,14 @@ rg "@nextclaw/channel-runtime|nextclaw-channel-plugin-|@nextclaw/channel-plugin-
 
 完成记录：
 
-- `ChannelManager` 已删除 `registration.channel.nextclaw.createChannel(...)` 分支。
-- Core `ExtensionChannel` 类型已删除 `nextclaw` 字段。
+- `ChannelManager` 已删除 `registration.channel.go-usb-ai.createChannel(...)` 分支。
+- Core `ExtensionChannel` 类型已删除 `go-usb-ai` 字段。
 - `ExtensionChannelAdapter` 负责把 outbound/control message 转发给 extension outbound handler。
 
 **验收：**
 
 ```bash
-rg "channel\\.nextclaw|createChannel\\(|resolveBuiltinChannelRuntime|BaseChannel" packages/nextclaw-core packages/nextclaw-openclaw-compat
+rg "channel\\.go-usb-ai|createChannel\\(|resolveBuiltinChannelRuntime|BaseChannel" packages/go-usb-ai-core packages/go-usb-ai-openclaw-compat
 ```
 
 预期：不再存在一方渠道 in-process runtime 创建路径；若 `BaseChannel` 仍存在，必须有清楚的新职责说明。
@@ -410,12 +410,12 @@ rg "channel\\.nextclaw|createChannel\\(|resolveBuiltinChannelRuntime|BaseChannel
 
 **重点文件：**
 
-- `packages/nextclaw-openclaw-compat/src/plugins/channel-runtime.utils.ts`
-- `packages/nextclaw-kernel/src/managers/extension.manager.ts`
-- `packages/nextclaw-server/src/features/config/utils/plugin-channel-config-projection.utils.ts`
-- `packages/nextclaw-service/src/commands/channel/channel-config-view.ts`
-- `packages/nextclaw-service/src/cli/commands/config/services/config-commands.service.ts`
-- `packages/nextclaw-service/src/shared/services/gateway/managers/gateway-plugin.manager.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/channel-runtime.utils.ts`
+- `packages/go-usb-ai-kernel/src/managers/extension.manager.ts`
+- `packages/go-usb-ai-server/src/features/config/utils/plugin-channel-config-projection.utils.ts`
+- `packages/go-usb-ai-service/src/commands/channel/channel-config-view.ts`
+- `packages/go-usb-ai-service/src/cli/commands/config/services/config-commands.service.ts`
+- `packages/go-usb-ai-service/src/shared/services/gateway/managers/gateway-plugin.manager.ts`
 
 **目标：**
 
@@ -427,10 +427,10 @@ rg "channel\\.nextclaw|createChannel\\(|resolveBuiltinChannelRuntime|BaseChannel
 **验收：**
 
 ```bash
-rg "toPluginConfigView|mergePluginConfigView|PluginChannelBinding|getPluginChannelBindings" packages/nextclaw-kernel packages/nextclaw-service packages/nextclaw-server packages/nextclaw-core
+rg "toPluginConfigView|mergePluginConfigView|PluginChannelBinding|getPluginChannelBindings" packages/go-usb-ai-kernel packages/go-usb-ai-service packages/go-usb-ai-server packages/go-usb-ai-core
 ```
 
-预期：一方渠道路径不再依赖这些旧投影函数。若第三方 OpenClaw plugin 兼容仍需要它们，应隔离到 compat 内部，不让 NextClaw 主链路继续感知。
+预期：一方渠道路径不再依赖这些旧投影函数。若第三方 OpenClaw plugin 兼容仍需要它们，应隔离到 compat 内部，不让 GoUsbAi 主链路继续感知。
 
 ### 第五批：收敛配置 schema、labels、help 的渠道硬编码
 
@@ -444,9 +444,9 @@ rg "toPluginConfigView|mergePluginConfigView|PluginChannelBinding|getPluginChann
 
 **清理：**
 
-- `packages/nextclaw-core/src/features/config/configs/schema.ts` 中旧渠道专属 typed schema。
-- `packages/nextclaw-core/src/features/config/configs/schema.labels.ts` 中旧渠道字段硬编码。
-- `packages/nextclaw-core/src/features/config/configs/schema.help.ts` 中旧渠道字段硬编码。
+- `packages/go-usb-ai-core/src/features/config/configs/schema.ts` 中旧渠道专属 typed schema。
+- `packages/go-usb-ai-core/src/features/config/configs/schema.labels.ts` 中旧渠道字段硬编码。
+- `packages/go-usb-ai-core/src/features/config/configs/schema.help.ts` 中旧渠道字段硬编码。
 - 与旧 typed builtin channel schema 强绑定的测试。
 
 **替代来源：**
@@ -461,20 +461,20 @@ rg "toPluginConfigView|mergePluginConfigView|PluginChannelBinding|getPluginChann
 
 **重点文件：**
 
-- `packages/nextclaw-server/src/features/marketplace/configs/marketplace.constants.config.ts`
-- `packages/nextclaw-kernel/src/features/extension-development-source/utils/*`
-- `packages/nextclaw-service/src/shared/services/marketplace/tests/*`
-- marketplace content/router 测试里引用的 `@nextclaw/channel-plugin-*` 示例。
+- `packages/go-usb-ai-server/src/features/marketplace/configs/marketplace.constants.config.ts`
+- `packages/go-usb-ai-kernel/src/features/extension-development-source/utils/*`
+- `packages/go-usb-ai-service/src/shared/services/marketplace/tests/*`
+- marketplace content/router 测试里引用的 `@go-usb-ai/channel-plugin-*` 示例。
 
 **目标：**
 
-- 一方渠道统一展示为 `@nextclaw/channel-extension-<id>`。
+- 一方渠道统一展示为 `@go-usb-ai/channel-extension-<id>`。
 - 旧 `channel-plugin-*` 只允许出现在历史文档、迁移说明或第三方兼容测试里。
 
 ### 推荐执行顺序
 
 1. 迁完剩余 extension channel。
-2. 删除旧 channel plugin 包和 `@nextclaw/channel-runtime`。
+2. 删除旧 channel plugin 包和 `@go-usb-ai/channel-runtime`。
 3. 删除 openclaw-compat 的 bundled channel plugin 装配层。
 4. 收敛 `ChannelManager`，只保留 extension outbound delivery。
 5. 删除 plugin channel config projection 对一方渠道的主链路影响。
@@ -488,10 +488,10 @@ rg "toPluginConfigView|mergePluginConfigView|PluginChannelBinding|getPluginChann
 实施完成前必须通过：
 
 ```bash
-pnpm -C packages/nextclaw-extension-sdk test
-pnpm -C packages/nextclaw-extension-sdk tsc
-pnpm -C packages/nextclaw-kernel tsc
-pnpm -C packages/nextclaw-core tsc
+pnpm -C packages/go-usb-ai-extension-sdk test
+pnpm -C packages/go-usb-ai-extension-sdk tsc
+pnpm -C packages/go-usb-ai-kernel tsc
+pnpm -C packages/go-usb-ai-core tsc
 pnpm check:governance-backlog-ratchet
 git diff --check
 ```
@@ -499,8 +499,8 @@ git diff --check
 每个已迁移 channel package 还要运行：
 
 ```bash
-pnpm -C packages/extensions/nextclaw-channel-extension-<id> tsc
-pnpm -C packages/extensions/nextclaw-channel-extension-<id> lint
+pnpm -C packages/extensions/go-usb-ai-channel-extension-<id> tsc
+pnpm -C packages/extensions/go-usb-ai-channel-extension-<id> lint
 ```
 
 最后运行 `pnpm lint:new-code:governance`，若被无关既有问题阻塞，需要单独记录。
@@ -508,14 +508,14 @@ pnpm -C packages/extensions/nextclaw-channel-extension-<id> lint
 最终清理阶段实际增加的必要验证还包括：
 
 ```bash
-pnpm -C packages/extensions/nextclaw-channel-extension-telegram tsc
-pnpm -C packages/extensions/nextclaw-channel-extension-discord tsc
-pnpm -C packages/nextclaw-core test -- src/features/channels/managers/channel.manager.test.ts --run
-pnpm -C packages/nextclaw-kernel test -- src/services/extension-runtime.service.test.ts src/managers/__tests__/extension.manager.test.ts src/features/extension-development-source/utils/dev-plugin-overrides.utils.test.ts --run
-pnpm -C packages/nextclaw-openclaw-compat test -- src/plugins/plugin-channel-bindings.test.ts src/plugins/install.test.ts src/plugins/uninstall.test.ts src/plugins/status.pure-read.test.ts --run
-pnpm -C packages/nextclaw-service test -- src/commands/channel/builtin-channels.test.ts src/commands/channel/channels.test.ts src/commands/channel/channel-config-view.test.ts src/shared/services/marketplace/tests/marketplace-plugin-management.service.test.ts src/shared/services/marketplace/tests/marketplace-summary.service.test.ts src/shared/services/gateway/tests/gateway-plugin-manager.service.test.ts --run
-pnpm -C packages/nextclaw-server test -- src/app/router.marketplace-content.test.ts src/app/router.marketplace-manage.test.ts --run
-pnpm -C packages/nextclaw-ui test -- src/features/marketplace/components/marketplace-page.test.tsx src/features/marketplace/utils/marketplace-installed-cache.utils.test.ts --run
+pnpm -C packages/extensions/go-usb-ai-channel-extension-telegram tsc
+pnpm -C packages/extensions/go-usb-ai-channel-extension-discord tsc
+pnpm -C packages/go-usb-ai-core test -- src/features/channels/managers/channel.manager.test.ts --run
+pnpm -C packages/go-usb-ai-kernel test -- src/services/extension-runtime.service.test.ts src/managers/__tests__/extension.manager.test.ts src/features/extension-development-source/utils/dev-plugin-overrides.utils.test.ts --run
+pnpm -C packages/go-usb-ai-openclaw-compat test -- src/plugins/plugin-channel-bindings.test.ts src/plugins/install.test.ts src/plugins/uninstall.test.ts src/plugins/status.pure-read.test.ts --run
+pnpm -C packages/go-usb-ai-service test -- src/commands/channel/builtin-channels.test.ts src/commands/channel/channels.test.ts src/commands/channel/channel-config-view.test.ts src/shared/services/marketplace/tests/marketplace-plugin-management.service.test.ts src/shared/services/marketplace/tests/marketplace-summary.service.test.ts src/shared/services/gateway/tests/gateway-plugin-manager.service.test.ts --run
+pnpm -C packages/go-usb-ai-server test -- src/app/router.marketplace-content.test.ts src/app/router.marketplace-manage.test.ts --run
+pnpm -C packages/go-usb-ai-ui test -- src/features/marketplace/components/marketplace-page.test.tsx src/features/marketplace/utils/marketplace-installed-cache.utils.test.ts --run
 node --test scripts/dev/dev-plugin-overrides-support.test.mjs
 ```
 
@@ -525,7 +525,7 @@ node --test scripts/dev/dev-plugin-overrides-support.test.mjs
 - 旧 channel plugin 包应该立即删除，还是保留临时 deprecation stub？
 - `startBusChannelExtension` 这个 SDK 名字是否合适？
 - 该 helper 是否把过多旧 `BaseChannel` 形态暴露到了公开 SDK？
-- `@nextclaw/channel-runtime` 迁移后是否继续公开，还是后续变成内部实现包？
+- `@go-usb-ai/channel-runtime` 迁移后是否继续公开，还是后续变成内部实现包？
 - 从当前用户可见使用情况看，QQ 是否仍然是最佳试点？
 - 对仍包含 `channels.mochat` 的配置是否需要迁移说明？
 

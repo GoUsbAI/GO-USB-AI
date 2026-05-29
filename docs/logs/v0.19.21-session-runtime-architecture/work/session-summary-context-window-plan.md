@@ -8,12 +8,12 @@
 
 当前相关代码位置：
 
-- `packages/nextclaw-kernel/src/managers/ncp-session.manager.ts`
-- `packages/nextclaw-shared/src/configs/event-keys.config.ts`
-- `packages/nextclaw-ui/src/shared/lib/api/ncp-session-query-cache.ts`
-- `packages/nextclaw-ui/src/app/hooks/use-app-event-consumers.ts`
-- `packages/ncp-packages/nextclaw-ncp/src/types/session.ts`
-- `packages/nextclaw-server/src/features/sessions/controllers/sessions.controller.ts`
+- `packages/go-usb-ai-kernel/src/managers/ncp-session.manager.ts`
+- `packages/go-usb-ai-shared/src/configs/event-keys.config.ts`
+- `packages/go-usb-ai-ui/src/shared/lib/api/ncp-session-query-cache.ts`
+- `packages/go-usb-ai-ui/src/app/hooks/use-app-event-consumers.ts`
+- `packages/ncp-packages/go-usb-ai-ncp/src/types/session.ts`
+- `packages/go-usb-ai-server/src/features/sessions/controllers/sessions.controller.ts`
 
 ## 切块 1：Session Summary Event 收敛
 
@@ -48,8 +48,8 @@ sessionSummaryUpdated: createAppEventKey<{ summary: NcpSessionSummary }>(
 
 主要验证：
 
-- `packages/nextclaw-kernel/src/managers/__tests__/ncp-session.manager.test.ts`
-- `packages/nextclaw-ui/src/shared/lib/api/ncp-session-query-cache.test.ts`
+- `packages/go-usb-ai-kernel/src/managers/__tests__/ncp-session.manager.test.ts`
+- `packages/go-usb-ai-ui/src/shared/lib/api/ncp-session-query-cache.test.ts`
 - TypeScript typecheck
 
 ## 切块 2：Context Window 归属剥离
@@ -97,9 +97,9 @@ export type NcpSessionDetail = {
 
 主要验证：
 
-- `packages/nextclaw-server/src/app/router.ncp-agent.test.ts`
-- `packages/nextclaw-ui/src/features/chat/utils/ncp-session-adapter.utils.test.ts`
-- `packages/nextclaw-ui/src/features/chat/hooks/use-ncp-session-conversation.test.tsx`
+- `packages/go-usb-ai-server/src/app/router.ncp-agent.test.ts`
+- `packages/go-usb-ai-ui/src/features/chat/utils/ncp-session-adapter.utils.test.ts`
+- `packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-session-conversation.test.tsx`
 - TypeScript typecheck
 
 ## 推荐执行顺序

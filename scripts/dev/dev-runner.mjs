@@ -14,8 +14,8 @@ import { resolveRepoPath } from "../shared/repo-paths.mjs";
 
 const command = process.argv[2] ?? "start";
 const commandArgs = process.argv.slice(3);
-const DEV_PLUGIN_OVERRIDES_ENV = "NEXTCLAW_DEV_PLUGIN_OVERRIDES";
-const DEV_PLUGIN_HOT_RELOAD_TARGETS_ENV = "NEXTCLAW_DEV_PLUGIN_HOT_RELOAD_TARGETS";
+const DEV_PLUGIN_OVERRIDES_ENV = "GOUSB_AI_DEV_PLUGIN_OVERRIDES";
+const DEV_PLUGIN_HOT_RELOAD_TARGETS_ENV = "GOUSB_AI_DEV_PLUGIN_HOT_RELOAD_TARGETS";
 
 if (command !== "start") {
   console.error("Unsupported dev command. Use: pnpm dev start");
@@ -23,11 +23,11 @@ if (command !== "start") {
 }
 
 const rootDir = resolveRepoPath(import.meta.url);
-const backendDir = resolve(rootDir, "packages/nextclaw");
-const frontendDir = resolve(rootDir, "packages/nextclaw-ui");
+const backendDir = resolve(rootDir, "packages/go-usb-ai");
+const frontendDir = resolve(rootDir, "packages/go-usb-ai-ui");
 const companionDir = resolve(rootDir, "apps/companion");
-const explicitNextclawHome = typeof process.env.NEXTCLAW_HOME === "string" && process.env.NEXTCLAW_HOME.trim().length > 0 ? process.env.NEXTCLAW_HOME : null;
-const nextclawHome = resolve(explicitNextclawHome ?? join(homedir(), ".nextclaw"));
+const explicitGoUsbAiHome = typeof process.env.GOUSB_AI_HOME === "string" && process.env.GOUSB_AI_HOME.trim().length > 0 ? process.env.GOUSB_AI_HOME : null;
+const goUsbAiHome = resolve(explicitGoUsbAiHome ?? join(homedir(), ".go-usb-ai"));
 const normalizeWatchPath = (filePath) => filePath.replaceAll("\\", "/");
 const toRelativeWatchPath = (baseDir, targetPath) => {
   const normalizedRelative = normalizeWatchPath(relative(baseDir, targetPath));
@@ -68,7 +68,7 @@ const firstPartyExtensionDir = resolve(rootDir, "packages/extensions");
 const workspaceWatchablePluginTargets = resolveWatchableFirstPartyPluginTargets(rootDir);
 const workspaceWatchablePluginPaths = workspaceWatchablePluginTargets.map((entry) => entry.pluginPath);
 const tsxWatchExcludeGlobs = buildTsxWatchExcludeGlobs(backendDir, [
-  nextclawHome,
+  goUsbAiHome,
   ...workspaceWatchablePluginTargets.flatMap((entry) => entry.watchPaths),
 ]);
 
@@ -127,9 +127,9 @@ function parsePluginOverrideArg(rawValue) {
 function parseDevStartOptions(argv) {
   const pluginOverrides = [];
   const seenPluginIds = new Set();
-  let backendWatchEnabled = process.env.NEXTCLAW_DEV_BACKEND_WATCH !== "0";
-  let companionEnabled = process.env.NEXTCLAW_DEV_ENABLE_COMPANION === "1";
-  let pluginWatchEnabled = process.env.NEXTCLAW_DEV_PLUGIN_WATCH === "1";
+  let backendWatchEnabled = process.env.GOUSB_AI_DEV_BACKEND_WATCH !== "0";
+  let companionEnabled = process.env.GOUSB_AI_DEV_ENABLE_COMPANION === "1";
+  let pluginWatchEnabled = process.env.GOUSB_AI_DEV_PLUGIN_WATCH === "1";
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -205,8 +205,8 @@ async function resolveFreePort(startPort, host) {
   throw new Error(`Unable to find a free port from ${startPort} (${host})`);
 }
 
-const preferredBackendPort = toPort(process.env.NEXTCLAW_DEV_BACKEND_PORT, DEFAULT_BACKEND_PORT);
-const preferredFrontendPort = toPort(process.env.NEXTCLAW_DEV_FRONTEND_PORT, DEFAULT_FRONTEND_PORT);
+const preferredBackendPort = toPort(process.env.GOUSB_AI_DEV_BACKEND_PORT, DEFAULT_BACKEND_PORT);
+const preferredFrontendPort = toPort(process.env.GOUSB_AI_DEV_FRONTEND_PORT, DEFAULT_FRONTEND_PORT);
 
 const backendPort = await resolveFreePort(preferredBackendPort, "0.0.0.0");
 const frontendPort = await resolveFreePort(preferredFrontendPort, "127.0.0.1");
@@ -224,15 +224,15 @@ if (backendPort !== preferredBackendPort || frontendPort !== preferredFrontendPo
 }
 
 console.log(
-  `[dev] Companion: ${devStartOptions.companionEnabled ? "enabled" : "disabled (pass --companion or set NEXTCLAW_DEV_ENABLE_COMPANION=1 to enable)"}`
+  `[dev] Companion: ${devStartOptions.companionEnabled ? "enabled" : "disabled (pass --companion or set GOUSB_AI_DEV_ENABLE_COMPANION=1 to enable)"}`
 );
 console.log(
-  `[dev] Backend watch: ${devStartOptions.backendWatchEnabled ? "enabled" : "disabled (pass --backend-watch or unset NEXTCLAW_DEV_BACKEND_WATCH=0 to enable)"}`
+  `[dev] Backend watch: ${devStartOptions.backendWatchEnabled ? "enabled" : "disabled (pass --backend-watch or unset GOUSB_AI_DEV_BACKEND_WATCH=0 to enable)"}`
 );
 console.log(
-  `[dev] Plugin watch: ${devStartOptions.pluginWatchEnabled ? "enabled" : "disabled (pass --plugin-watch or set NEXTCLAW_DEV_PLUGIN_WATCH=1 to enable)"}`
+  `[dev] Plugin watch: ${devStartOptions.pluginWatchEnabled ? "enabled" : "disabled (pass --plugin-watch or set GOUSB_AI_DEV_PLUGIN_WATCH=1 to enable)"}`
 );
-console.log(`[dev] NEXTCLAW_HOME: ${nextclawHome}`);
+console.log(`[dev] GOUSB_AI_HOME: ${goUsbAiHome}`);
 if (devStartOptions.pluginOverrides.length > 0) {
   console.log(
     `[dev] Plugin overrides: ${devStartOptions.pluginOverrides
@@ -395,17 +395,17 @@ const backendProcess = spawnProcess(
   backendDir,
   {
     NODE_OPTIONS: developmentNodeOptions,
-    NEXTCLAW_DEV_FIRST_PARTY_EXTENSION_DIR: firstPartyExtensionDir,
+    GOUSB_AI_DEV_FIRST_PARTY_EXTENSION_DIR: firstPartyExtensionDir,
     [DEV_PLUGIN_HOT_RELOAD_TARGETS_ENV]: JSON.stringify(workspaceWatchablePluginTargets),
     ...(devStartOptions.pluginOverrides.length > 0
       ? {
           [DEV_PLUGIN_OVERRIDES_ENV]: JSON.stringify(devStartOptions.pluginOverrides),
         }
       : {}),
-    NEXTCLAW_DISABLE_STATIC_UI: "1",
-    NEXTCLAW_DISABLE_RUNTIME_UPDATE_HOST: "1",
-    NEXTCLAW_REMOTE_LOCAL_ORIGIN: `http://127.0.0.1:${frontendPort}`,
-    NEXTCLAW_HOME: nextclawHome
+    GOUSB_AI_DISABLE_STATIC_UI: "1",
+    GOUSB_AI_DISABLE_RUNTIME_UPDATE_HOST: "1",
+    GOUSB_AI_REMOTE_LOCAL_ORIGIN: `http://127.0.0.1:${frontendPort}`,
+    GOUSB_AI_HOME: goUsbAiHome
   }
 );
 

@@ -14,7 +14,7 @@ import {
 import { compareDesktopVersions } from "../utils/version.utils";
 import type { DesktopBundleLayoutStore } from "../stores/bundle-layout.store";
 import { DesktopLauncherStateStore } from "../stores/launcher-state.store";
-import type { UpdateProgress } from "@nextclaw/kernel";
+import type { UpdateProgress } from "@go-usb-ai/kernel";
 
 type FetchLike = typeof fetch;
 

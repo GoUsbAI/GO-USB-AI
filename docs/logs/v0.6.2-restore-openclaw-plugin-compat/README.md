@@ -1,17 +1,17 @@
-# v0.6.2 restore OpenClaw-compatible plugins (NextClaw-only discovery)
+# v0.6.2 restore OpenClaw-compatible plugins (GoUsbAi-only discovery)
 
 ## 迭代完成说明
 
 - 恢复 OpenClaw 兼容插件系统（CLI 命令、运行时加载、配置链路）。
-- 恢复 `@nextclaw/openclaw-compat` 包，并重新接回 `nextclaw` 运行时。
+- 恢复 `@go-usb-ai/openclaw-compat` 包，并重新接回 `go-usb-ai` 运行时。
 - 恢复插件相关命令：
   - `plugins list|info|install|uninstall|enable|disable|doctor`
   - `channels add`（用于插件通道 setup）
 - 恢复 `plugins.*` 配置 schema 与 reload 规则（`plugins.*` 变更需重启）。
 - 调整插件发现目录：
-  - 保留 NextClaw 目录：`${NEXTCLAW_HOME}/extensions`、`<workspace>/.nextclaw/extensions`、`plugins.load.paths`
+  - 保留 GoUsbAi 目录：`${GOUSB_AI_HOME}/extensions`、`<workspace>/.go-usb-ai/extensions`、`plugins.load.paths`
   - 移除 OpenClaw 目录扫描：`~/.openclaw/extensions`、`<workspace>/.openclaw/extensions`
-- 调整插件开关语义：默认启用；仅当 `NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0` 时关闭。
+- 调整插件开关语义：默认启用；仅当 `GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0` 时关闭。
 
 ## 测试 / 验证 / 验收
 
@@ -31,18 +31,18 @@ pnpm tsc
 
 ```bash
 export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
-TMP_HOME=$(mktemp -d /tmp/nextclaw-plugin-smoke.XXXXXX)
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-plugin-smoke.XXXXXX)
 WORKSPACE="$TMP_HOME/workspace"
 
 mkdir -p "$WORKSPACE/.openclaw/extensions/legacy-plugin"
-mkdir -p "$WORKSPACE/.nextclaw/extensions/next-plugin"
+mkdir -p "$WORKSPACE/.go-usb-ai/extensions/next-plugin"
 
 # 写入最小插件样例（manifest + index）
 # ...
 
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins --help
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels add --help
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --json
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins --help
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels add --help
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --json
 
 rm -rf "$TMP_HOME"
 ```

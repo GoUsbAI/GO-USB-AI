@@ -10,34 +10,34 @@
     - `workers/marketplace-api/src/domain/model.ts`
     - `workers/marketplace-api/src/infrastructure/bundled-data-source.ts`
     - `workers/marketplace-api/src/infrastructure/in-memory-section-repository-base.ts`
-    - `packages/nextclaw-server/src/ui/router.ts`
+    - `packages/go-usb-ai-server/src/ui/router.ts`
 - UI / Server Marketplace 类型对齐多语言字段与内容详情字段：
-  - `packages/nextclaw-server/src/ui/types.ts`
-  - `packages/nextclaw-ui/src/api/types.ts`
+  - `packages/go-usb-ai-server/src/ui/types.ts`
+  - `packages/go-usb-ai-ui/src/api/types.ts`
 - 市场页面交互改为“点击即打开微浏览器详情页”（不再同页右侧预览）：
   - Skill：打开完整 `SKILL.md` 详情页（Metadata + Content）
   - Plugin：打开类 VSCode 风格详情页（头部信息 + 元数据 + README/正文）
   - 详情页去重：当摘要和描述相同不重复渲染；失败/本地记录回退不再重复展示同一句说明
   - 相关文件：
-    - `packages/nextclaw-ui/src/components/marketplace/MarketplacePage.tsx`
-    - `packages/nextclaw-ui/src/api/marketplace.ts`
+    - `packages/go-usb-ai-ui/src/components/marketplace/MarketplacePage.tsx`
+    - `packages/go-usb-ai-ui/src/api/marketplace.ts`
 - 后端新增内容接口：
   - `GET /api/marketplace/skills/items/:slug/content`
   - `GET /api/marketplace/plugins/items/:slug/content`
   - Skill 内容来源优先级：本地 workspace/builtin `SKILL.md` → git spec 对应 raw GitHub `SKILL.md`
   - Plugin 内容来源优先级：NPM Registry README → 远程元信息回退
   - 相关文件：
-    - `packages/nextclaw-server/src/ui/router.ts`
+    - `packages/go-usb-ai-server/src/ui/router.ts`
 - Doc Browser 升级并泛化：
   - 支持多标签（新建/切换/关闭）与每标签独立历史
   - 仅当当前 URL 是 docs 域名时展示底部“文档中心打开”，非文档页面不展示
   - 标题语义改为通用“内嵌浏览器”
   - 相关文件：
-    - `packages/nextclaw-ui/src/components/doc-browser/DocBrowserContext.tsx`
-    - `packages/nextclaw-ui/src/components/doc-browser/DocBrowser.tsx`
-    - `packages/nextclaw-ui/src/lib/i18n.ts`
+    - `packages/go-usb-ai-ui/src/components/doc-browser/DocBrowserContext.tsx`
+    - `packages/go-usb-ai-ui/src/components/doc-browser/DocBrowser.tsx`
+    - `packages/go-usb-ai-ui/src/lib/i18n.ts`
 - 新增可验证测试：
-  - `packages/nextclaw-server/src/ui/router.marketplace-content.test.ts`
+  - `packages/go-usb-ai-server/src/ui/router.marketplace-content.test.ts`
 
 ## 测试 / 验证 / 验收方式
 
@@ -50,7 +50,7 @@ PATH=/opt/homebrew/bin:$PATH pnpm tsc
 接口级冒烟测试（skill/plugin 内容详情）：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server exec vitest run src/ui/router.marketplace-content.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server exec vitest run src/ui/router.marketplace-content.test.ts
 ```
 
 观察点：
@@ -62,9 +62,9 @@ PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server exec vitest run sr
 ## 发布 / 部署方式
 
 - 本次属于 UI + Server + Worker 组合变更，建议按常规 npm 发布流程联动发布：
-  - `@nextclaw/ui`
-  - `@nextclaw/server`
-  - `@nextclaw/marketplace-api-worker`
+  - `@go-usb-ai/ui`
+  - `@go-usb-ai/server`
+  - `@go-usb-ai/marketplace-api-worker`
   - 以及依赖这些包的聚合包（按发布流程检查联动范围）
 - 本次无数据库变更，无 migration。
 

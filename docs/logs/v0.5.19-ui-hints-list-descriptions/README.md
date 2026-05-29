@@ -26,7 +26,7 @@ pnpm tsc
 
 验收点：
 
-- build 成功，`packages/nextclaw/ui-dist` 产物更新
+- build 成功，`packages/go-usb-ai/ui-dist` 产物更新
 - lint 仅有已知 max-lines 警告
 - tsc 无类型错误
 
@@ -40,7 +40,7 @@ pnpm release:version
 pnpm release:publish
 ```
 
-影响包：`nextclaw-core`、`@nextclaw/ui`、`nextclaw`。
+影响包：`go-usb-ai-core`、`@go-usb-ai/ui`、`go-usb-ai`。
 
 ## 影响范围 / 风险
 

@@ -7,12 +7,12 @@
 - 效果：刷新 `/chat/:sessionId` 时，路由解析得到的会话 key 不再被覆盖，`useSessionHistory(selectedSessionKey)` 可正常启用并拉取历史消息。
 
 ## 测试/验证/验收方式
-- `pnpm --filter @nextclaw/ui tsc`
-- `pnpm --filter @nextclaw/ui build`
+- `pnpm --filter @go-usb-ai/ui tsc`
+- `pnpm --filter @go-usb-ai/ui build`
 - 结果：均通过。
 
 ## 发布/部署方式
-- 本次仅涉及前端 `@nextclaw/ui` 代码。
+- 本次仅涉及前端 `@go-usb-ai/ui` 代码。
 - 按现有前端发布流程执行构建产物部署即可；如有灰度环境，优先灰度验证会话刷新与历史加载链路。
 
 ## 用户/产品视角的验收步骤

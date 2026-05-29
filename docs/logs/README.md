@@ -59,7 +59,7 @@
 - [docs/logs/2026-02-23-ui-confirm-dialog-release/v0.8.9-ui-confirm-dialog-release/README.md](docs/logs/2026-02-23-ui-confirm-dialog-release/v0.8.9-ui-confirm-dialog-release/README.md)
 - [docs/logs/v0.8.13-marketplace-uninstall-fix/README.md](docs/logs/v0.8.13-marketplace-uninstall-fix/README.md)
 - [docs/logs/v0.8.12-marketplace-toggle-state-sync/README.md](docs/logs/v0.8.12-marketplace-toggle-state-sync/README.md)
-- [docs/logs/v0.8.6-nextclaw-ui-dist-sync/README.md](docs/logs/v0.8.6-nextclaw-ui-dist-sync/README.md)
+- [docs/logs/v0.8.6-go-usb-ai-ui-dist-sync/README.md](docs/logs/v0.8.6-go-usb-ai-ui-dist-sync/README.md)
 - [docs/logs/v0.5.3-ui-tooltip-marketplace-fix/README.md](docs/logs/v0.5.3-ui-tooltip-marketplace-fix/README.md)
 - [docs/logs/v0.8.9-skills-loader-import-hardening/README.md](docs/logs/v0.8.9-skills-loader-import-hardening/README.md)
 - [docs/logs/v0.6.32-local-loc-output/README.md](docs/logs/v0.6.32-local-loc-output/README.md)

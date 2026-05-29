@@ -6,11 +6,11 @@
 
 # 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ncp-toolkit test -- agent-backend-session-label in-memory-agent-backend`
+- `pnpm --filter @go-usb-ai/ncp-toolkit test -- agent-backend-session-label in-memory-agent-backend`
   - 结果：通过（2 个测试文件，12 个测试用例全部通过）。
-- `pnpm --filter @nextclaw/ncp-toolkit lint`
+- `pnpm --filter @go-usb-ai/ncp-toolkit lint`
   - 结果：通过（仅存在仓库既有 warning，无新增 lint error）。
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend-session-utils.ts packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend-session-persistence.ts packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend-session-label.test.ts`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend-session-utils.ts packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend-session-persistence.ts packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend-session-label.test.ts`
   - 结果：通过（无新增 maintainability 问题）。
 
 # 发布/部署方式

@@ -11,33 +11,33 @@
 
 ## 测试 / 验证 / 验收方式
 
-- `pnpm -C packages/nextclaw-remote tsc`
-- `pnpm -C packages/nextclaw-remote lint`
-- `pnpm -C packages/nextclaw tsc`
-- `pnpm -C packages/nextclaw lint`
-- `pnpm -C packages/nextclaw test -- --run src/cli/commands/remote-access-host.test.ts`
-- `pnpm -C packages/nextclaw-server test -- --run src/ui/router.remote.test.ts`
-- `pnpm -C packages/nextclaw-server build`
-- `pnpm -C packages/nextclaw-remote build`
-- `pnpm -C packages/nextclaw build`
-- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-remote/src/platform-session-token.ts packages/nextclaw-remote/src/remote-platform-client.ts packages/nextclaw/src/cli/commands/remote-access-host.ts packages/nextclaw/src/cli/commands/remote.ts packages/nextclaw/src/cli/commands/remote-access-host.test.ts`
+- `pnpm -C packages/go-usb-ai-remote tsc`
+- `pnpm -C packages/go-usb-ai-remote lint`
+- `pnpm -C packages/go-usb-ai tsc`
+- `pnpm -C packages/go-usb-ai lint`
+- `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/remote-access-host.test.ts`
+- `pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.remote.test.ts`
+- `pnpm -C packages/go-usb-ai-server build`
+- `pnpm -C packages/go-usb-ai-remote build`
+- `pnpm -C packages/go-usb-ai build`
+- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-remote/src/platform-session-token.ts packages/go-usb-ai-remote/src/remote-platform-client.ts packages/go-usb-ai/src/cli/commands/remote-access-host.ts packages/go-usb-ai/src/cli/commands/remote.ts packages/go-usb-ai/src/cli/commands/remote-access-host.test.ts`
 - 临时脚本验收：
   - 过期 token 下 `RemoteAccessHost.getStatus().account` 返回 `loggedIn: false`
-  - 过期 token 下 `RemotePlatformClient.resolveRunContext()` 直接报 `NextClaw platform token expired...`
+  - 过期 token 下 `RemotePlatformClient.resolveRunContext()` 直接报 `GoUsbAi platform token expired...`
   - 过期 token 下 `RemoteCommands.getDoctorView()` 返回 `platform-token expired`
 
 ## 发布 / 部署方式
 
 - 本次未执行发布或部署。
 - 原因：本轮用户要求是本地排查、修复与验证，未要求提交、发版或上线。
-- 若后续需要上线，至少需要重新发布 `@nextclaw/remote`、`nextclaw`、`@nextclaw/server` 所在交付物，并基于真实过期 token 场景做一次线上冒烟。
+- 若后续需要上线，至少需要重新发布 `@go-usb-ai/remote`、`go-usb-ai`、`@go-usb-ai/server` 所在交付物，并基于真实过期 token 场景做一次线上冒烟。
 
 ## 用户 / 产品视角的验收步骤
 
-1. 在本地 NextClaw 配置里放入一个已过期的平台 token。
+1. 在本地 GoUsbAi 配置里放入一个已过期的平台 token。
 2. 打开本地 UI 的 remote access 页面。
 3. 预期不再看到“已登录但远程异常 / 已断开”的误导状态，而是回到需要重新登录的平台账号状态。
-4. 运行 `nextclaw remote doctor`。
+4. 运行 `go-usb-ai remote doctor`。
 5. 预期 `platform-token` 检查明确提示 token 已过期，需要重新登录。
 6. 重新完成一次平台登录后，再开启 remote access。
 7. 预期设备可以重新注册，设备列表里会重新出现本机。

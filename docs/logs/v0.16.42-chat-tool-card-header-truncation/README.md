@@ -27,11 +27,11 @@
 已执行：
 
 ```bash
-pnpm -C packages/nextclaw-agent-chat-ui test -- --run src/components/chat/ui/chat-message-list/tool-card/tool-card-header.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.generic-tool.test.tsx src/components/chat/ui/chat-message-list/chat-message-list.test.tsx
-pnpm --filter @nextclaw/agent-chat-ui exec vitest run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx
-pnpm -C packages/nextclaw-agent-chat-ui tsc
-pnpm exec eslint packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-header.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-header.test.tsx
-pnpm -C packages/nextclaw-agent-chat-ui lint
+pnpm -C packages/go-usb-ai-agent-chat-ui test -- --run src/components/chat/ui/chat-message-list/tool-card/tool-card-header.test.tsx src/components/chat/ui/chat-message-list/__tests__/chat-message-list.generic-tool.test.tsx src/components/chat/ui/chat-message-list/chat-message-list.test.tsx
+pnpm --filter @go-usb-ai/agent-chat-ui exec vitest run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx
+pnpm -C packages/go-usb-ai-agent-chat-ui tsc
+pnpm exec eslint packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-header.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/tool-card/tool-card-header.test.tsx
+pnpm -C packages/go-usb-ai-agent-chat-ui lint
 pnpm lint:maintainability:guard
 ```
 
@@ -41,7 +41,7 @@ pnpm lint:maintainability:guard
 - 输入栏错误折叠的定向 Vitest 通过，`1` 个测试文件、`17` 条测试全部通过。
 - `tsc` 通过。
 - 本次触达的两个文件定向 ESLint 通过。
-- 包级 `pnpm -C packages/nextclaw-agent-chat-ui lint` 未通过，但失败项都来自当前包内其它历史文件，与本次 header 截断修复无关；本次改动文件本身没有新增 lint 问题。
+- 包级 `pnpm -C packages/go-usb-ai-agent-chat-ui lint` 未通过，但失败项都来自当前包内其它历史文件，与本次 header 截断修复无关；本次改动文件本身没有新增 lint 问题。
 - `pnpm lint:maintainability:guard` 未通过，但这次阻塞点来自当前工作区其它并行触达类上的历史治理问题（`SessionSearchStoreService` 的 class method arrow 规则），不涉及本次新增/修改的输入栏错误折叠文件；本次修复本身没有新增守卫命中项。
 
 ## 发布 / 部署方式

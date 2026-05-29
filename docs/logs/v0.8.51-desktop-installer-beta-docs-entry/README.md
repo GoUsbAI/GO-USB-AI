@@ -18,7 +18,7 @@
 ## 测试 / 验证 / 验收方式
 
 - 文档构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/docs build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/docs build`
 - 仓库级校验：
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`

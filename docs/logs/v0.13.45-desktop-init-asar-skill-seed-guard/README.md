@@ -2,8 +2,8 @@
 
 ## 迭代完成说明（改了什么）
 
-- 修复桌面打包环境下 `nextclaw init` 在初始化工作区时可能崩溃的问题：
-  - 文件：`packages/nextclaw/src/cli/workspace.ts`
+- 修复桌面打包环境下 `go-usb-ai init` 在初始化工作区时可能崩溃的问题：
+  - 文件：`packages/go-usb-ai/src/cli/workspace.ts`
   - 在 `seedBuiltinSkills` 中为 `cpSync` 增加异常保护。
   - 当从打包路径（如 `app.asar`）复制内置 skills 失败时，改为 warning 并继续初始化，不再中断启动流程。
 - 目标：避免 Electron 打包运行时因 `ENOTDIR` 等复制异常导致 desktop 启动失败。
@@ -17,7 +17,7 @@
     - 冒烟阶段在主流程失败时可进入 runtime fallback。
     - `/api/health` 返回 `ok=true` 且 `status=ok`。
 - 关键观察：
-  - 之前会在 `nextclaw init` 出现 `ENOTDIR: not a directory, opendir`；修复后不再阻断启动。
+  - 之前会在 `go-usb-ai init` 出现 `ENOTDIR: not a directory, opendir`；修复后不再阻断启动。
 
 ## 发布/部署方式
 

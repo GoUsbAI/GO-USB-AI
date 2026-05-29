@@ -61,16 +61,16 @@ test("module-structure protocols stay inside the approved fixed list", () => {
   assert.deepEqual([...MODULE_STRUCTURE_PROTOCOLS.keys()].sort(), APPROVED_MODULE_STRUCTURE_PROTOCOLS);
 });
 
-test("finds the protocol declaration for nextclaw-ui package root config", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/features/chat/index.ts");
-  assert.equal(contract?.modulePath, "packages/nextclaw-ui/src");
+test("finds the protocol declaration for go-usb-ai-ui package root config", () => {
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/features/chat/index.ts");
+  assert.equal(contract?.modulePath, "packages/go-usb-ai-ui/src");
   assert.equal(contract?.protocol, "app-l3");
   assert.equal(isProtocolContract(contract), true);
 });
 
-test("finds the protocol declaration for nextclaw-kernel package root config", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-kernel/src/managers/agent.manager.ts");
-  assert.equal(contract?.modulePath, "packages/nextclaw-kernel/src");
+test("finds the protocol declaration for go-usb-ai-kernel package root config", () => {
+  const contract = findModuleStructureContract("packages/go-usb-ai-kernel/src/managers/agent.manager.ts");
+  assert.equal(contract?.modulePath, "packages/go-usb-ai-kernel/src");
   assert.equal(contract?.protocol, "app-l1");
   assert.equal(isProtocolContract(contract), true);
   assert.equal(contract?.allowedRootDirectories.has("tools"), true);
@@ -78,9 +78,9 @@ test("finds the protocol declaration for nextclaw-kernel package root config", (
   assert.equal(contract?.allowedRootFiles.has("index.ts"), true);
 });
 
-test("finds the protocol declaration for nextclaw cli package root config", () => {
-  const contract = findModuleStructureContract("packages/nextclaw/src/cli/commands/service/index.ts");
-  assert.equal(contract?.modulePath, "packages/nextclaw/src/cli");
+test("finds the protocol declaration for go-usb-ai cli package root config", () => {
+  const contract = findModuleStructureContract("packages/go-usb-ai/src/cli/commands/service/index.ts");
+  assert.equal(contract?.modulePath, "packages/go-usb-ai/src/cli");
   assert.equal(contract?.protocol, "cli-command-first");
   assert.equal(isProtocolContract(contract), true);
 });
@@ -112,9 +112,9 @@ test("finds the protocol declaration for desktop electron shell config", () => {
   assert.equal(contract?.allowedRootFiles.has("runtime-service.ts"), true);
 });
 
-test("finds the strict package L2 declaration for nextclaw-server", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-server/src/index.ts");
-  assert.equal(contract?.modulePath, "packages/nextclaw-server/src");
+test("finds the strict package L2 declaration for go-usb-ai-server", () => {
+  const contract = findModuleStructureContract("packages/go-usb-ai-server/src/index.ts");
+  assert.equal(contract?.modulePath, "packages/go-usb-ai-server/src");
   assert.equal(contract?.protocol, "app-l2");
   assert.equal(isProtocolContract(contract), true);
   assert.equal(contract?.allowedRootDirectories.has("ui"), false);
@@ -130,9 +130,9 @@ test("finds the package L2 declaration for single-platform multi-feature apps", 
   assert.equal(contract?.allowedRootFiles.has("index.ts"), true);
 });
 
-test("requires nextclaw-core package L2 root index entry", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-core/src/index.ts");
-  assert.equal(contract?.modulePath, "packages/nextclaw-core/src");
+test("requires go-usb-ai-core package L2 root index entry", () => {
+  const contract = findModuleStructureContract("packages/go-usb-ai-core/src/index.ts");
+  assert.equal(contract?.modulePath, "packages/go-usb-ai-core/src");
   assert.equal(contract?.protocol, "app-l2");
   assert.equal(isProtocolContract(contract), true);
   assert.equal(contract?.allowedRootFiles.has("index.ts"), true);
@@ -224,9 +224,9 @@ test("accepts legacy configs that use the reserved legacy-\\* namespace", () => 
 });
 
 test("blocks a new root directory outside the L3 skeleton", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/runtime-control/runtime-control.manager.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/runtime-control/runtime-control.manager.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-ui/src/runtime-control/runtime-control.manager.ts",
+    filePath: "packages/go-usb-ai-ui/src/runtime-control/runtime-control.manager.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false
@@ -238,9 +238,9 @@ test("blocks a new root directory outside the L3 skeleton", () => {
 });
 
 test("blocks a new root directory outside the L1 minimal skeleton", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-kernel/src/kernel/runtime.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-kernel/src/kernel/runtime.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-kernel/src/kernel/runtime.ts",
+    filePath: "packages/go-usb-ai-kernel/src/kernel/runtime.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false
@@ -252,9 +252,9 @@ test("blocks a new root directory outside the L1 minimal skeleton", () => {
 });
 
 test("blocks new root files outside the L1 minimal allowed root-file set", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-kernel/src/runtime.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-kernel/src/runtime.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-kernel/src/runtime.ts",
+    filePath: "packages/go-usb-ai-kernel/src/runtime.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false
@@ -266,9 +266,9 @@ test("blocks new root files outside the L1 minimal allowed root-file set", () =>
 });
 
 test("allows app-l1 root index files as package boundary entries", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-kernel/src/index.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-kernel/src/index.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-kernel/src/index.ts",
+    filePath: "packages/go-usb-ai-kernel/src/index.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false
@@ -345,9 +345,9 @@ test("blocks protocol modules that are missing required root directories", () =>
 });
 
 test("blocks nested directories under flat role dirs at package root", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-kernel/src/services/runtime/runtime.service.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-kernel/src/services/runtime/runtime.service.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-kernel/src/services/runtime/runtime.service.ts",
+    filePath: "packages/go-usb-ai-kernel/src/services/runtime/runtime.service.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false
@@ -359,9 +359,9 @@ test("blocks nested directories under flat role dirs at package root", () => {
 });
 
 test("allows test containers under flat role dirs at package root", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-kernel/src/managers/__tests__/config.manager.test.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-kernel/src/managers/__tests__/config.manager.test.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-kernel/src/managers/__tests__/config.manager.test.ts",
+    filePath: "packages/go-usb-ai-kernel/src/managers/__tests__/config.manager.test.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: true
@@ -371,9 +371,9 @@ test("allows test containers under flat role dirs at package root", () => {
 });
 
 test("blocks nested directories under hooks at package root", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-kernel/src/hooks/runtime/use-runtime.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-kernel/src/hooks/runtime/use-runtime.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-kernel/src/hooks/runtime/use-runtime.ts",
+    filePath: "packages/go-usb-ai-kernel/src/hooks/runtime/use-runtime.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false
@@ -385,9 +385,9 @@ test("blocks nested directories under hooks at package root", () => {
 });
 
 test("blocks a new file added under an existing legacy root directory", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/components/chat/new-toolbar.tsx");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/components/chat/new-toolbar.tsx");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-ui/src/components/chat/new-toolbar.tsx",
+    filePath: "packages/go-usb-ai-ui/src/components/chat/new-toolbar.tsx",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: true
@@ -398,10 +398,10 @@ test("blocks a new file added under an existing legacy root directory", () => {
   assert.match(findings[0].message, /new file was added under legacy root directory/);
 });
 
-test("blocks touched legacy files under old roots for nextclaw-ui", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page.tsx");
+test("blocks touched legacy files under old roots for go-usb-ai-ui", () => {
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page.tsx");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page.tsx",
+    filePath: "packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page.tsx",
     contract,
     existedInComparisonRef: true,
     rootEntryExistedInComparisonRef: true
@@ -413,9 +413,9 @@ test("blocks touched legacy files under old roots for nextclaw-ui", () => {
 });
 
 test("blocks reserved role names under features", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/features/hooks/index.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/features/hooks/index.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-ui/src/features/hooks/index.ts",
+    filePath: "packages/go-usb-ai-ui/src/features/hooks/index.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -428,9 +428,9 @@ test("blocks reserved role names under features", () => {
 });
 
 test("blocks feature files outside index or role directories", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/features/chat/chat-page.tsx");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/features/chat/chat-page.tsx");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-ui/src/features/chat/chat-page.tsx",
+    filePath: "packages/go-usb-ai-ui/src/features/chat/chat-page.tsx",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -443,9 +443,9 @@ test("blocks feature files outside index or role directories", () => {
 });
 
 test("requires feature index entry when adding files under a feature role directory", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/features/chat/components/chat-panel.tsx");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/features/chat/components/chat-panel.tsx");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-ui/src/features/chat/components/chat-panel.tsx",
+    filePath: "packages/go-usb-ai-ui/src/features/chat/components/chat-panel.tsx",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -458,9 +458,9 @@ test("requires feature index entry when adding files under a feature role direct
 });
 
 test("blocks nested directories under flat role dirs inside features", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/features/chat/services/runtime/chat-runtime.service.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/features/chat/services/runtime/chat-runtime.service.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-ui/src/features/chat/services/runtime/chat-runtime.service.ts",
+    filePath: "packages/go-usb-ai-ui/src/features/chat/services/runtime/chat-runtime.service.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -473,9 +473,9 @@ test("blocks nested directories under flat role dirs inside features", () => {
 });
 
 test("blocks nested directories under hooks inside features", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/features/chat/hooks/runtime/use-chat-runtime.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-chat-runtime.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-ui/src/features/chat/hooks/runtime/use-chat-runtime.ts",
+    filePath: "packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-chat-runtime.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -488,9 +488,9 @@ test("blocks nested directories under hooks inside features", () => {
 });
 
 test("blocks shared root barrel index files", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/shared/components/index.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/shared/components/index.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-ui/src/shared/components/index.ts",
+    filePath: "packages/go-usb-ai-ui/src/shared/components/index.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false
@@ -534,9 +534,9 @@ test("blocks nested directories under flat role dirs inside shared", () => {
 });
 
 test("blocks nested directories under hooks inside shared", () => {
-  const contract = findModuleStructureContract("packages/nextclaw/src/cli/shared/hooks/runtime/use-runtime.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai/src/cli/shared/hooks/runtime/use-runtime.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw/src/cli/shared/hooks/runtime/use-runtime.ts",
+    filePath: "packages/go-usb-ai/src/cli/shared/hooks/runtime/use-runtime.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -549,9 +549,9 @@ test("blocks nested directories under hooks inside shared", () => {
 });
 
 test("blocks direct files under shared lib root", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/shared/lib/date-format.utils.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/shared/lib/date-format.utils.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-ui/src/shared/lib/date-format.utils.ts",
+    filePath: "packages/go-usb-ai-ui/src/shared/lib/date-format.utils.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false
@@ -563,9 +563,9 @@ test("blocks direct files under shared lib root", () => {
 });
 
 test("requires platform index entry and role directories", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/platforms/desktop/chat/chat-bridge.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/platforms/desktop/chat/chat-bridge.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-ui/src/platforms/desktop/chat/chat-bridge.ts",
+    filePath: "packages/go-usb-ai-ui/src/platforms/desktop/chat/chat-bridge.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -580,9 +580,9 @@ test("requires platform index entry and role directories", () => {
 });
 
 test("blocks nested directories under flat role dirs inside platforms", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/platforms/desktop/services/runtime/desktop-runtime.service.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/platforms/desktop/services/runtime/desktop-runtime.service.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-ui/src/platforms/desktop/services/runtime/desktop-runtime.service.ts",
+    filePath: "packages/go-usb-ai-ui/src/platforms/desktop/services/runtime/desktop-runtime.service.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -595,9 +595,9 @@ test("blocks nested directories under flat role dirs inside platforms", () => {
 });
 
 test("blocks new deep imports into another feature", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/app.tsx");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/app.tsx");
   const findings = evaluateProtocolImportBoundaryFindings({
-    filePath: "packages/nextclaw-ui/src/app.tsx",
+    filePath: "packages/go-usb-ai-ui/src/app.tsx",
     contract,
     source: `import { ChatPanel } from "@/features/chat/components/chat-panel";\n`,
     addedLines: new Set([1])
@@ -609,9 +609,9 @@ test("blocks new deep imports into another feature", () => {
 });
 
 test("allows alias imports inside the same feature boundary", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/features/chat/components/chat-page.tsx");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/features/chat/components/chat-page.tsx");
   const findings = evaluateProtocolImportBoundaryFindings({
-    filePath: "packages/nextclaw-ui/src/features/chat/components/chat-page.tsx",
+    filePath: "packages/go-usb-ai-ui/src/features/chat/components/chat-page.tsx",
     contract,
     source: `import { useChatStore } from "@/features/chat/stores/chat.store";\n`,
     addedLines: new Set([1])
@@ -621,9 +621,9 @@ test("allows alias imports inside the same feature boundary", () => {
 });
 
 test("blocks new deep imports into shared lib internals", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/app.tsx");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/app.tsx");
   const findings = evaluateProtocolImportBoundaryFindings({
-    filePath: "packages/nextclaw-ui/src/app.tsx",
+    filePath: "packages/go-usb-ai-ui/src/app.tsx",
     contract,
     source: `import { formatDate } from "@/shared/lib/date-format/date-format.utils";\n`,
     addedLines: new Set([1])
@@ -635,9 +635,9 @@ test("blocks new deep imports into shared lib internals", () => {
 });
 
 test("errors when a contract-only module still carries a deep import", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/app.tsx");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/app.tsx");
   const findings = evaluateProtocolImportBoundaryFindings({
-    filePath: "packages/nextclaw-ui/src/app.tsx",
+    filePath: "packages/go-usb-ai-ui/src/app.tsx",
     contract,
     source: `import { ChatPanel } from "@/features/chat/components/chat-panel";\n`,
     addedLines: new Set()
@@ -649,9 +649,9 @@ test("errors when a contract-only module still carries a deep import", () => {
 });
 
 test("allows shared component file imports", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-ui/src/app.tsx");
+  const contract = findModuleStructureContract("packages/go-usb-ai-ui/src/app.tsx");
   const findings = evaluateProtocolImportBoundaryFindings({
-    filePath: "packages/nextclaw-ui/src/app.tsx",
+    filePath: "packages/go-usb-ai-ui/src/app.tsx",
     contract,
     source: `import { Button } from "@/shared/components/button";\n`,
     addedLines: new Set([1])
@@ -763,9 +763,9 @@ test("allows package contracts to replace protocol default import aliases", () =
 });
 
 test("allows same-directory relative imports when alias imports are configured", () => {
-  const contract = findModuleStructureContract("packages/nextclaw/src/cli/shared/services/self-update.service.test.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai/src/cli/shared/services/self-update.service.test.ts");
   const findings = evaluateProtocolImportBoundaryFindings({
-    filePath: "packages/nextclaw/src/cli/shared/services/self-update.service.test.ts",
+    filePath: "packages/go-usb-ai/src/cli/shared/services/self-update.service.test.ts",
     contract,
     source: `import { runSelfUpdate } from "./self-update.service.js";\n`,
     addedLines: new Set([1])
@@ -775,15 +775,15 @@ test("allows same-directory relative imports when alias imports are configured",
 });
 
 test("finds config from package root when linting the config file itself", () => {
-  const contract = findModuleStructureContract("packages/nextclaw/module-structure.config.json");
-  assert.equal(contract?.modulePath, "packages/nextclaw/src/cli");
+  const contract = findModuleStructureContract("packages/go-usb-ai/module-structure.config.json");
+  assert.equal(contract?.modulePath, "packages/go-usb-ai/src/cli");
   assert.equal(contract?.protocol, "cli-command-first");
 });
 
 test("blocks a new root directory outside the CLI command-first skeleton", () => {
-  const contract = findModuleStructureContract("packages/nextclaw/src/cli/gateway/controller.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai/src/cli/gateway/controller.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw/src/cli/gateway/controller.ts",
+    filePath: "packages/go-usb-ai/src/cli/gateway/controller.ts",
     contract,
     existedInComparisonRef: true,
     rootEntryExistedInComparisonRef: true
@@ -795,9 +795,9 @@ test("blocks a new root directory outside the CLI command-first skeleton", () =>
 });
 
 test("blocks new root files outside the CLI command-first skeleton", () => {
-  const contract = findModuleStructureContract("packages/nextclaw/src/cli/runtime.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai/src/cli/runtime.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw/src/cli/runtime.ts",
+    filePath: "packages/go-usb-ai/src/cli/runtime.ts",
     contract,
     existedInComparisonRef: true,
     rootEntryExistedInComparisonRef: false
@@ -809,9 +809,9 @@ test("blocks new root files outside the CLI command-first skeleton", () => {
 });
 
 test("blocks reserved role names under commands", () => {
-  const contract = findModuleStructureContract("packages/nextclaw/src/cli/commands/services/index.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai/src/cli/commands/services/index.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw/src/cli/commands/services/index.ts",
+    filePath: "packages/go-usb-ai/src/cli/commands/services/index.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -824,9 +824,9 @@ test("blocks reserved role names under commands", () => {
 });
 
 test("requires command index entry when adding files under a command role directory", () => {
-  const contract = findModuleStructureContract("packages/nextclaw/src/cli/commands/service/services/service-runner.service.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai/src/cli/commands/service/services/service-runner.service.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw/src/cli/commands/service/services/service-runner.service.ts",
+    filePath: "packages/go-usb-ai/src/cli/commands/service/services/service-runner.service.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -839,9 +839,9 @@ test("requires command index entry when adding files under a command role direct
 });
 
 test("blocks nested directories under flat role dirs inside commands", () => {
-  const contract = findModuleStructureContract("packages/nextclaw/src/cli/commands/service/services/runtime/service-runner.service.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai/src/cli/commands/service/services/runtime/service-runner.service.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw/src/cli/commands/service/services/runtime/service-runner.service.ts",
+    filePath: "packages/go-usb-ai/src/cli/commands/service/services/runtime/service-runner.service.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -854,11 +854,11 @@ test("blocks nested directories under flat role dirs inside commands", () => {
 });
 
 test("blocks new deep imports into another command", () => {
-  const contract = findModuleStructureContract("packages/nextclaw/src/cli/app/bootstrap.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai/src/cli/app/bootstrap.ts");
   const findings = evaluateProtocolImportBoundaryFindings({
-    filePath: "packages/nextclaw/src/cli/app/bootstrap.ts",
+    filePath: "packages/go-usb-ai/src/cli/app/bootstrap.ts",
     contract,
-    source: `import { runServiceCommand } from "@nextclaw-cli/commands/service/services/service-runner.service";\n`,
+    source: `import { runServiceCommand } from "@go-usb-ai-cli/commands/service/services/service-runner.service";\n`,
     addedLines: new Set([1])
   });
 
@@ -868,9 +868,9 @@ test("blocks new deep imports into another command", () => {
 });
 
 test("allows explicit index imports at a command boundary", () => {
-  const contract = findModuleStructureContract("packages/nextclaw/src/cli/app/bootstrap.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai/src/cli/app/bootstrap.ts");
   const findings = evaluateProtocolImportBoundaryFindings({
-    filePath: "packages/nextclaw/src/cli/app/bootstrap.ts",
+    filePath: "packages/go-usb-ai/src/cli/app/bootstrap.ts",
     contract,
     source: `import { runCliAgentCommand } from "@/commands/agent/index.js";\n`,
     addedLines: new Set([1])
@@ -880,9 +880,9 @@ test("allows explicit index imports at a command boundary", () => {
 });
 
 test("allows alias imports inside the same command boundary", () => {
-  const contract = findModuleStructureContract("packages/nextclaw/src/cli/commands/service/controllers/service.controller.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai/src/cli/commands/service/controllers/service.controller.ts");
   const findings = evaluateProtocolImportBoundaryFindings({
-    filePath: "packages/nextclaw/src/cli/commands/service/controllers/service.controller.ts",
+    filePath: "packages/go-usb-ai/src/cli/commands/service/controllers/service.controller.ts",
     contract,
     source: `import { runService } from "@/commands/service/services/service-runner.service";\n`,
     addedLines: new Set([1])

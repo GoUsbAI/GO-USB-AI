@@ -2,24 +2,24 @@
 
 ## 迭代完成说明
 
-本次根据产品反馈收敛 Agent 管理界面的展示密度和操作层级：将原本偏展示橱窗式的大 Hero 收成轻量页头，将 Agent 卡片改为更紧凑的身份、描述、Runtime、主目录结构，并把编辑、移除等低频管理操作收进更多菜单。默认界面只保留轻量图标入口，减少常驻按钮噪音，让页面更接近 NextClaw 控制台的简约工作台风格。
+本次根据产品反馈收敛 Agent 管理界面的展示密度和操作层级：将原本偏展示橱窗式的大 Hero 收成轻量页头，将 Agent 卡片改为更紧凑的身份、描述、Runtime、主目录结构，并把编辑、移除等低频管理操作收进更多菜单。默认界面只保留轻量图标入口，减少常驻按钮噪音，让页面更接近 GoUsbAi 控制台的简约工作台风格。
 
 同批次追加调整：将“新增 Agent”从传统表单入口改为 AI native 入口。点击后通过全局 presenter 创建新的聊天草稿、切回 Main Agent，并在输入框预填“请帮我创建一个新的 Agent...”提示词，让用户直接通过自然语言驱动 Agent 创建流程。
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui exec vitest run src/features/agents/components/agents-page.test.tsx`：通过，3 个测试通过。
-- `pnpm -C packages/nextclaw-ui tsc`：通过。
-- `pnpm -C packages/nextclaw-ui exec eslint src/features/agents/components/agents-page.tsx src/features/agents/components/agents-page.test.tsx`：0 error，1 个既有函数长度 warning。
+- `pnpm -C packages/go-usb-ai-ui exec vitest run src/features/agents/components/agents-page.test.tsx`：通过，3 个测试通过。
+- `pnpm -C packages/go-usb-ai-ui tsc`：通过。
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/features/agents/components/agents-page.tsx src/features/agents/components/agents-page.test.tsx`：0 error，1 个既有函数长度 warning。
 - `pnpm lint:new-code:governance`：通过。
 - `pnpm check:governance-backlog-ratchet`：通过。
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/agents/components/agents-page.tsx packages/nextclaw-ui/src/features/agents/components/agents-page.test.tsx`：通过，保留 1 个既有函数长度 warning。
-- `pnpm -C packages/nextclaw-ui build`：通过，保留 Vite chunk size warning。
-- `pnpm -C packages/nextclaw-ui lint`：被无关既有错误阻塞；触达文件的 targeted ESLint 已通过。
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/agents/components/agents-page.tsx packages/go-usb-ai-ui/src/features/agents/components/agents-page.test.tsx`：通过，保留 1 个既有函数长度 warning。
+- `pnpm -C packages/go-usb-ai-ui build`：通过，保留 Vite chunk size warning。
+- `pnpm -C packages/go-usb-ai-ui lint`：被无关既有错误阻塞；触达文件的 targeted ESLint 已通过。
 - Browser 冒烟：在 `http://127.0.0.1:5175/agents` 打开真实页面，确认页面渲染 9 个 Agent 卡片，存在 9 个“开始对话”和 9 个“更多操作”入口，打开第二个更多菜单后可见“编辑/移除”。
-- 同批次追加验证：`pnpm -C packages/nextclaw-ui exec vitest run src/features/agents/components/agents-page.test.tsx src/features/chat/managers/chat-session-list.manager.test.ts src/features/chat/managers/ncp-chat-input.manager.test.ts`：通过，17 个测试通过。
-- 同批次追加验证：`pnpm -C packages/nextclaw-ui exec eslint src/features/agents/components/agents-page.tsx src/features/agents/components/agents-page.test.tsx src/features/chat/managers/ncp-chat-presenter.manager.ts src/features/chat/components/providers/chat-presenter.provider.tsx`：通过。
-- 同批次追加验证：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/features/agents/components/agents-page.tsx packages/nextclaw-ui/src/features/agents/components/agents-page.test.tsx packages/nextclaw-ui/src/features/chat/managers/ncp-chat-presenter.manager.ts packages/nextclaw-ui/src/features/chat/components/providers/chat-presenter.provider.tsx`：通过，无 warning。
+- 同批次追加验证：`pnpm -C packages/go-usb-ai-ui exec vitest run src/features/agents/components/agents-page.test.tsx src/features/chat/managers/chat-session-list.manager.test.ts src/features/chat/managers/ncp-chat-input.manager.test.ts`：通过，17 个测试通过。
+- 同批次追加验证：`pnpm -C packages/go-usb-ai-ui exec eslint src/features/agents/components/agents-page.tsx src/features/agents/components/agents-page.test.tsx src/features/chat/managers/ncp-chat-presenter.manager.ts src/features/chat/components/providers/chat-presenter.provider.tsx`：通过。
+- 同批次追加验证：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/features/agents/components/agents-page.tsx packages/go-usb-ai-ui/src/features/agents/components/agents-page.test.tsx packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-presenter.manager.ts packages/go-usb-ai-ui/src/features/chat/components/providers/chat-presenter.provider.tsx`：通过，无 warning。
 - 同批次追加 Browser 冒烟：在 `http://127.0.0.1:5174/agents` 点击“新增 Agent”，确认进入聊天界面并出现“请帮我创建一个新的 Agent”预填提示词。
 
 ## 发布/部署方式

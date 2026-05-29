@@ -2,8 +2,8 @@
 
 ## 迭代完成说明
 
-- 在根 [package.json](/Users/tongwenwen/Projects/Peiiii/nextclaw/package.json) 新增命令 `pnpm lint:line-limits`。
-- 新增脚本 [scripts/eslint-line-limit-report.mjs](/Users/tongwenwen/Projects/Peiiii/nextclaw/scripts/eslint-line-limit-report.mjs)，统一扫描所有带 ESLint `lint` 脚本的 workspace。
+- 在根 [package.json](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/package.json) 新增命令 `pnpm lint:line-limits`。
+- 新增脚本 [scripts/eslint-line-limit-report.mjs](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/scripts/eslint-line-limit-report.mjs)，统一扫描所有带 ESLint `lint` 脚本的 workspace。
 - 报表仅聚焦 `max-lines` 与 `max-lines-per-function`，按 workspace、文件、规则输出汇总，避免从常规 `lint` 输出里人工翻找。
 - 处理了嵌套 workspace 去重，避免 `apps/ncp-demo` 及其子包被重复统计。
 - 支持 `--json` 结构化输出，便于后续接自动治理脚本；支持 `--fail-on-violations` 以非零退出码用于 CI 或阶段门禁。

@@ -16,9 +16,9 @@
 
 ```bash
 pnpm dev start \
-  --plugin-override nextclaw-ncp-runtime-plugin-codex-sdk=./packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk \
-  --plugin-override nextclaw-channel-plugin-discord=/abs/path/to/plugin \
-  --plugin-override nextclaw-ncp-runtime-plugin-claude-code-sdk=./packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk#development
+  --plugin-override go-usb-ai-ncp-runtime-plugin-codex-sdk=./packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk \
+  --plugin-override go-usb-ai-channel-plugin-discord=/abs/path/to/plugin \
+  --plugin-override go-usb-ai-ncp-runtime-plugin-claude-code-sdk=./packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk#development
 ```
 
 约定：
@@ -43,10 +43,10 @@ pnpm dev start \
 ### 1. `scripts/dev-runner.mjs`
 
 - 解析重复出现的 `--plugin-override`
-- 将解析结果序列化到进程级环境变量，例如 `NEXTCLAW_DEV_PLUGIN_OVERRIDES`
-- 不写入 `~/.nextclaw/config.json`
+- 将解析结果序列化到进程级环境变量，例如 `GOUSB_AI_DEV_PLUGIN_OVERRIDES`
+- 不写入 `~/.go-usb-ai/config.json`
 
-### 2. `packages/nextclaw/src/cli/commands/plugin/development-source/*`
+### 2. `packages/go-usb-ai/src/cli/commands/plugin/development-source/*`
 
 - 新增一层通用 helper，负责：
   - 解析 override env
@@ -58,9 +58,9 @@ pnpm dev start \
 
 接入点至少包括：
 
-- `packages/nextclaw/src/cli/commands/plugins.ts`
-- `packages/nextclaw/src/cli/commands/plugin/plugin-registry-loader.ts`
-- `packages/nextclaw/src/cli/commands/agent/agent-runtime.ts`
+- `packages/go-usb-ai/src/cli/commands/plugins.ts`
+- `packages/go-usb-ai/src/cli/commands/plugin/plugin-registry-loader.ts`
+- `packages/go-usb-ai/src/cli/commands/agent/agent-runtime.ts`
 
 这些入口都要统一使用“first-party dev load path + explicit plugin override”后的 config，而不是各自再做一套判定。
 

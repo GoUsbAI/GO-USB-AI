@@ -24,7 +24,7 @@ Options:
   --prompt <text>            Exact stable system prompt to reuse across all runs
   --prompt-target-chars <n>  Generated prompt target size when --prompt is omitted (default: ${DEFAULT_PROMPT_TARGET_CHARS})
   --min-cache-rate <ratio>   Minimum later-run cached/prompt token rate required for PASS (default: ${DEFAULT_MIN_CACHE_RATE})
-  --home <dir>               NEXTCLAW_HOME containing config.json (default: $NEXTCLAW_HOME or ~/.nextclaw)
+  --home <dir>               GOUSB_AI_HOME containing config.json (default: $GOUSB_AI_HOME or ~/.go-usb-ai)
   --base-url <url>           NCP API base URL when --transport ncp-chat (default: http://${DEFAULT_HOST}:${DEFAULT_PORT})
   --port <port>              NCP API port when --base-url is omitted (default: ${DEFAULT_PORT})
   --session-type <type>      NCP session type when --transport ncp-chat (default: ${DEFAULT_SESSION_TYPE})
@@ -152,7 +152,7 @@ export function parseArgs(argv) {
     prompt: "",
     promptTargetChars: DEFAULT_PROMPT_TARGET_CHARS,
     minCacheRate: DEFAULT_MIN_CACHE_RATE,
-    home: process.env.NEXTCLAW_HOME?.trim() || resolve(homedir(), ".nextclaw"),
+    home: process.env.GOUSB_AI_HOME?.trim() || resolve(homedir(), ".go-usb-ai"),
     baseUrl: "",
     port: String(DEFAULT_PORT),
     sessionType: DEFAULT_SESSION_TYPE,
@@ -198,7 +198,7 @@ export function buildStablePrompt(options) {
   while (lines.join("\n").length < options.promptTargetChars) {
     const label = String(index).padStart(3, "0");
     lines.push(
-      `Section ${label}: NextClaw unifies software, services, internet resources, and cloud actions into one intent-first operating layer. ` +
+      `Section ${label}: GoUsbAi unifies software, services, internet resources, and cloud actions into one intent-first operating layer. ` +
         "This paragraph is intentionally repeated to create a large stable prompt prefix for provider-level prompt-cache verification. " +
         "The content must stay identical across repeated runs so cache-capable providers can reuse the same prefix efficiently.",
     );

@@ -1,0 +1,13 @@
+# @go-usb-ai/ncp-http-agent-client
+
+HTTP/SSE transport adapter implementing `NcpAgentClientEndpoint` for agent scenarios.
+
+## Build
+
+```bash
+pnpm -C packages/ncp-packages/go-usb-ai-ncp-http-agent-client build
+```
+
+## API
+
+- `new NcpHttpAgentClientEndpoint(options)`

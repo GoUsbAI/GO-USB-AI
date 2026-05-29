@@ -10,28 +10,28 @@
 - 对 `start/restart/serve/ui/gateway` 的 UI 启动路径强制使用 `0.0.0.0`。
 - 移除 CLI 中与暴露策略切换相关的参数（`--public`、`--ui-host`、`--host`）。
 - 配置变更触发的后台重启也强制回到 `0.0.0.0`，保证策略一致。
-- `nextclaw start` 发现现有后台服务不是 `0.0.0.0` 绑定时，会自动重启并收敛到公网绑定。
+- `go-usb-ai start` 发现现有后台服务不是 `0.0.0.0` 绑定时，会自动重启并收敛到公网绑定。
 
 ## 变更内容
 
 - 用户可见变化：
-  - `nextclaw start` 直接公网暴露（UI 仍打印本机访问地址 + 公网探测地址）。
-  - `nextclaw restart` 不再需要 `--public`，默认保持公网暴露。
-  - `nextclaw gateway/ui/serve` 命令帮助中不再出现 `--public`/`--ui-host`/`--host`。
+  - `go-usb-ai start` 直接公网暴露（UI 仍打印本机访问地址 + 公网探测地址）。
+  - `go-usb-ai restart` 不再需要 `--public`，默认保持公网暴露。
+  - `go-usb-ai gateway/ui/serve` 命令帮助中不再出现 `--public`/`--ui-host`/`--host`。
 - 关键实现点：
-  - `packages/nextclaw/src/cli/runtime.ts` 引入 `FORCED_PUBLIC_UI_HOST = "0.0.0.0"` 并在相关启动路径统一覆盖。
-  - `packages/nextclaw/src/cli/runtime.ts` 的 `restartBackgroundService` 改为固定使用 `0.0.0.0`。
-  - `packages/nextclaw/src/cli/index.ts` 删除相关 CLI 选项。
+  - `packages/go-usb-ai/src/cli/runtime.ts` 引入 `FORCED_PUBLIC_UI_HOST = "0.0.0.0"` 并在相关启动路径统一覆盖。
+  - `packages/go-usb-ai/src/cli/runtime.ts` 的 `restartBackgroundService` 改为固定使用 `0.0.0.0`。
+  - `packages/go-usb-ai/src/cli/index.ts` 删除相关 CLI 选项。
   - `README.md`、`docs/USAGE.md` 同步文档说明。
 
 ## 验证（怎么确认符合预期）
 
 ```bash
-pnpm -C packages/nextclaw tsc
-pnpm -C packages/nextclaw lint
-pnpm -C packages/nextclaw exec tsx src/cli/index.ts start --help
-pnpm -C packages/nextclaw exec tsx src/cli/index.ts gateway --help
-NEXTCLAW_HOME=/tmp/nextclaw-public-default-smoke pnpm -C packages/nextclaw exec tsx src/cli/index.ts start --ui-port 19101
+pnpm -C packages/go-usb-ai tsc
+pnpm -C packages/go-usb-ai lint
+pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts start --help
+pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts gateway --help
+GOUSB_AI_HOME=/tmp/go-usb-ai-public-default-smoke pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts start --ui-port 19101
 ```
 
 验收点：

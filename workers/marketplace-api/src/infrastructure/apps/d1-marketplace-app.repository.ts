@@ -132,14 +132,14 @@ export class D1MarketplaceAppDataSource {
       ownerScope: identity.ownerScope,
       ownerUserId: identity.ownerUserId,
       appName: identity.appName,
-      publishStatus: identity.ownerScope === "nextclaw" ? "published" : "pending",
-      publishedByType: identity.ownerScope === "nextclaw" ? "admin" : "user",
+      publishStatus: identity.ownerScope === "go-usb-ai" ? "published" : "pending",
+      publishedByType: identity.ownerScope === "go-usb-ai" ? "admin" : "user",
       latestVersion,
       publishedAt,
       updatedAt: nowIso,
     });
     const publishStatus: MarketplaceAppPublishResult["item"]["publishStatus"] =
-      identity.ownerScope === "nextclaw" ? "published" : "pending";
+      identity.ownerScope === "go-usb-ai" ? "published" : "pending";
     return {
       created: !existingItem,
       item: {

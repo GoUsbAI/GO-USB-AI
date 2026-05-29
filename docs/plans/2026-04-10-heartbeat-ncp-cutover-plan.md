@@ -6,15 +6,15 @@
 
 **Architecture:** 保留 `HeartbeatService` 作为调度器，只替换它的执行 handler。新增与 cron 同风格的 heartbeat NCP handler，固定使用 `sessionId = heartbeat` 和 heartbeat metadata，通过 live `UiNcpAgentHandle.runApi.send(...)` 执行；NCP agent 未 ready 时显式失败，不保留 legacy fallback。
 
-**Tech Stack:** TypeScript, Vitest, NextClaw service gateway runtime, NCP agent run API.
+**Tech Stack:** TypeScript, Vitest, GoUsbAi service gateway runtime, NCP agent run API.
 
 ---
 
 ### Task 1: 固化切换边界与定向测试
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts`
 
 **Step 1: 写 heartbeat NCP handler 测试**
 
@@ -24,15 +24,15 @@
 
 **Step 2: 运行定向测试确认当前缺口**
 
-Run: `pnpm -C packages/nextclaw test -- --run src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts`
+Run: `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts`
 
 Expected: FAIL，因为 handler 尚未实现。
 
 ### Task 2: 切换 heartbeat 执行入口到 NCP
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/service-cron-job-handler.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-cron-job-handler.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts`
 
 **Step 1: 实现最小 heartbeat NCP handler**
 
@@ -50,7 +50,7 @@ Expected: FAIL，因为 handler 尚未实现。
 ### Task 3: 回归验证与删债确认
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts`
 
 **Step 1: 补 service-only 场景断言**
 
@@ -61,8 +61,8 @@ Expected: FAIL，因为 handler 尚未实现。
 
 Run:
 
-- `pnpm -C packages/nextclaw test -- --run src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts`
-- `pnpm lint:new-code:governance -- packages/nextclaw/src/cli/commands/service-support/gateway/service-cron-job-handler.ts packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts packages/nextclaw/src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts packages/nextclaw/src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts`
+- `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts`
+- `pnpm lint:new-code:governance -- packages/go-usb-ai/src/cli/commands/service-support/gateway/service-cron-job-handler.ts packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts packages/go-usb-ai/src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts packages/go-usb-ai/src/cli/commands/service-support/gateway/tests/service-gateway-startup.test.ts`
 
 **Step 3: 补留痕与维护性复核**
 

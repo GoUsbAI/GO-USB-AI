@@ -37,8 +37,8 @@
   - `node scripts/report-release-health.mjs`
   - 结果：输出 `Repository release health is clean outside the current batch.`，并明确列出当前 batch 已在 `https://registry.npmjs.org/` 上发布的包
 - registry 真实下载校验：
-  - `npm pack nextclaw@0.16.32`
-  - 结果：成功拿到 `nextclaw-0.16.32.tgz`
+  - `npm pack go-usb-ai@0.16.32`
+  - 结果：成功拿到 `go-usb-ai-0.16.32.tgz`
 - 可维护性守卫：
   - `pnpm lint:maintainability:guard`
   - 结果：通过；仅保留 `scripts/` 目录既有预算 warning，无新增 hard error

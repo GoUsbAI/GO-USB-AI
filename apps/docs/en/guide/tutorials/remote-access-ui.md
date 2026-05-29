@@ -1,11 +1,11 @@
 # Remote Access UI Tutorial
 
-This page helps you open the NextClaw UI from another device. Make sure the local instance works first.
+This page helps you open the GoUsbAi UI from another device. Make sure the local instance works first.
 
 ## Prerequisites
 
 - `http://127.0.0.1:55667` opens locally
-- `nextclaw status` is normal
+- `go-usb-ai status` is normal
 - you understand that remote access changes the access boundary
 
 ## Steps
@@ -16,8 +16,8 @@ This page helps you open the NextClaw UI from another device. Make sure the loca
 4. Send one test message.
 
 ```bash
-nextclaw remote enable
-nextclaw remote doctor
+go-usb-ai remote enable
+go-usb-ai remote doctor
 ```
 
 ## Related docs

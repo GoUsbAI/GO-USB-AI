@@ -1,19 +1,19 @@
 ---
 name: skillhub-guide
-description: Use when the user wants to discover, install, or use Tencent Skillhub from NextClaw, especially for CLI-only install, readiness checks, and safe skill installation guidance.
+description: Use when the user wants to discover, install, or use Tencent Skillhub from GoUsbAi, especially for CLI-only install, readiness checks, and safe skill installation guidance.
 ---
 
 # Skillhub Guide
 
 ## Overview
 
-Use this skill when the user wants to work with Tencent Skillhub from inside NextClaw.
+Use this skill when the user wants to work with Tencent Skillhub from inside GoUsbAi.
 
 This skill is intentionally explicit about boundaries:
 
 - This marketplace skill owns explanation, onboarding, readiness checks, and troubleshooting guidance.
 - The upstream `skillhub` CLI owns actual search and install behavior.
-- NextClaw marketplace and Tencent Skillhub are different ecosystems and should not be described as the same thing.
+- GoUsbAi marketplace and Tencent Skillhub are different ecosystems and should not be described as the same thing.
 
 From the user's point of view, the flow should feel complete:
 
@@ -27,7 +27,7 @@ Do not pretend Skillhub is ready when it is not.
 
 ## Platform Notes
 
-NextClaw itself is cross-platform, so this skill must not assume the user is on macOS or Linux.
+GoUsbAi itself is cross-platform, so this skill must not assume the user is on macOS or Linux.
 
 Current upstream Skillhub installation guidance is shell-based and routes through a `bash` installer.
 That means:
@@ -59,9 +59,9 @@ Skillhub is a Tencent-provided skill distribution channel for AI agents.
 
 Useful mental model:
 
-- NextClaw marketplace: installs NextClaw marketplace skills.
+- GoUsbAi marketplace: installs GoUsbAi marketplace skills.
 - Skillhub: installs Tencent Skillhub skills through the local `skillhub` CLI.
-- This skill: helps the AI guide the user through Skillhub setup and usage inside NextClaw.
+- This skill: helps the AI guide the user through Skillhub setup and usage inside GoUsbAi.
 
 ## Default Recommendation
 
@@ -138,7 +138,7 @@ Interpretation:
 
 ### 4. Prefer direct CLI verification over host-agent assumptions
 
-Inside NextClaw, keep behavior explicit:
+Inside GoUsbAi, keep behavior explicit:
 
 - if the user wants guaranteed usage right now, prefer direct CLI commands first;
 - do not promise implicit host-agent discovery unless it has been directly observed.
@@ -193,7 +193,7 @@ Success means:
 - Search before install when the exact skill name is uncertain.
 - Treat `skillhub install <skill-name>` as a write action to the current workspace.
 - If the current workspace is unclear, stop and clarify the target directory before installing.
-- Do not describe Skillhub as built into NextClaw.
+- Do not describe Skillhub as built into GoUsbAi.
 - Do not claim automatic agent-side detection unless the user has directly observed it.
 
 ## Troubleshooting

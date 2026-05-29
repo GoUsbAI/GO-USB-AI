@@ -154,7 +154,7 @@ function MarketplaceReviewHeader(): JSX.Element {
     <div className="space-y-1">
       <CardTitle>Apps 审核</CardTitle>
       <p className="text-sm text-[#656561]">
-        这里是 NextClaw Apps 上架治理入口。管理员可以查看待审核队列、阅读 README 与 `marketplace.json`，并直接执行通过或拒绝。
+        这里是 GoUsbAi Apps 上架治理入口。管理员可以查看待审核队列、阅读 README 与 `marketplace.json`，并直接执行通过或拒绝。
       </p>
     </div>
   );

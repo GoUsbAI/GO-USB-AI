@@ -27,7 +27,7 @@
   - [Linux 桌面安装（.deb + APT）](../../../apps/docs/zh/guide/tutorials/linux-desktop-deb-apt.md)
   - [实现方案](../../plans/2026-04-08-linux-deb-and-apt-repo-implementation-plan.md)
 - 补齐 GitHub Pages 根目录安装入口：
-  - 新增发布到 `https://peiiii.github.io/nextclaw/install-apt.sh` 的一键安装脚本
+  - 新增发布到 `https://peiiii.github.io/go-usb-ai/install-apt.sh` 的一键安装脚本
   - `desktop-release.yml` 现在会在发布 APT repo 时同步发布该脚本
 
 ## 测试/验证/验收方式
@@ -63,18 +63,18 @@
   - `desktop-release` run `24138524352` 通过，覆盖 release 产物构建、GitHub Release 上传、真实签名 APT repo 构建、APT fresh install 烟测与发布到 `gh-pages`。
   - 本次是第一轮真实 APT repo 发布，`Smoke Linux APT upgrade` 因发布前没有旧的 `Packages` 元数据而跳过；后续存在旧仓库元数据后，release workflow 会按条件执行升级烟测。
 - 远端公网入口已执行 HEAD / metadata 检查：
-  - `https://peiiii.github.io/nextclaw/apt/dists/stable/InRelease` 返回 `HTTP 200`
-  - `https://peiiii.github.io/nextclaw/apt/dists/stable/main/binary-amd64/Packages.gz` 返回 `HTTP 200`
-  - `https://peiiii.github.io/nextclaw/apt/nextclaw-archive-keyring.gpg` 返回 `HTTP 200`
-  - `https://peiiii.github.io/nextclaw/apt/pool/main/n/nextclaw-desktop/nextclaw-desktop_0.0.130_amd64.deb` 返回 `HTTP 200`
-  - `Packages.gz` 中已包含 `nextclaw-desktop` `0.0.130`、`amd64`、正确的 pool 路径与 `SHA256`。
+  - `https://peiiii.github.io/go-usb-ai/apt/dists/stable/InRelease` 返回 `HTTP 200`
+  - `https://peiiii.github.io/go-usb-ai/apt/dists/stable/main/binary-amd64/Packages.gz` 返回 `HTTP 200`
+  - `https://peiiii.github.io/go-usb-ai/apt/go-usb-ai-archive-keyring.gpg` 返回 `HTTP 200`
+  - `https://peiiii.github.io/go-usb-ai/apt/pool/main/n/go-usb-ai-desktop/go-usb-ai-desktop_0.0.130_amd64.deb` 返回 `HTTP 200`
+  - `Packages.gz` 中已包含 `go-usb-ai-desktop` `0.0.130`、`amd64`、正确的 pool 路径与 `SHA256`。
 
 ## 发布/部署方式
 
 1. 在仓库 Secrets 中配置：
-   - `NEXTCLAW_APT_GPG_PRIVATE_KEY`
-   - `NEXTCLAW_APT_GPG_PASSPHRASE`
-   - `NEXTCLAW_APT_GPG_KEY_ID`
+   - `GOUSB_AI_APT_GPG_PRIVATE_KEY`
+   - `GOUSB_AI_APT_GPG_PASSPHRASE`
+   - `GOUSB_AI_APT_GPG_KEY_ID`
 2. 将 GitHub Pages 指向 `gh-pages` 分支根目录。
 3. 通过 tag 或 `workflow_dispatch` 触发 [desktop-release.yml](../../../.github/workflows/desktop-release.yml)。
 4. 工作流会：
@@ -83,27 +83,27 @@
    - 重新生成完整 APT 仓库元数据与签名
    - 将最新 `apt/` 发布到 `gh-pages`
 5. 本次实际发布：
-   - GitHub Release：[v0.15.51-desktop.1](https://github.com/Peiiii/nextclaw/releases/tag/v0.15.51-desktop.1)
-   - GitHub Pages APT repo：`https://peiiii.github.io/nextclaw/apt`
+   - GitHub Release：[v0.15.51-desktop.1](https://github.com/Peiiii/go-usb-ai/releases/tag/v0.15.51-desktop.1)
+   - GitHub Pages APT repo：`https://peiiii.github.io/go-usb-ai/apt`
 6. 对外安装入口：
 
 ```bash
 sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://peiiii.github.io/nextclaw/apt/nextclaw-archive-keyring.gpg \
-  | sudo tee /etc/apt/keyrings/nextclaw-archive-keyring.gpg >/dev/null
+curl -fsSL https://peiiii.github.io/go-usb-ai/apt/go-usb-ai-archive-keyring.gpg \
+  | sudo tee /etc/apt/keyrings/go-usb-ai-archive-keyring.gpg >/dev/null
 
-echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/nextclaw-archive-keyring.gpg] https://peiiii.github.io/nextclaw/apt stable main" \
-  | sudo tee /etc/apt/sources.list.d/nextclaw.list >/dev/null
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/go-usb-ai-archive-keyring.gpg] https://peiiii.github.io/go-usb-ai/apt stable main" \
+  | sudo tee /etc/apt/sources.list.d/go-usb-ai.list >/dev/null
 
 sudo apt update
-sudo apt install nextclaw-desktop
+sudo apt install go-usb-ai-desktop
 ```
 
 ## 用户/产品视角的验收步骤
 
 1. 打开 GitHub Release，确认 Linux 产物里同时存在：
-   - `NextClaw.Desktop-<version>-linux-x64.AppImage`
-   - `nextclaw-desktop_<version>_amd64.deb`
+   - `GoUsbAi.Desktop-<version>-linux-x64.AppImage`
+   - `go-usb-ai-desktop_<version>_amd64.deb`
 2. 打开 GitHub Actions 的 `desktop-validate`，确认 Linux job 通过：
    - `.deb` 安装/删除烟测通过
    - APT repo 安装烟测通过
@@ -111,15 +111,15 @@ sudo apt install nextclaw-desktop
    - `publish-release-assets` 已上传 `.deb`
    - `publish-linux-apt-repo` 通过
 4. 在 Debian / Ubuntu 机器执行安装命令后，确认：
-   - `apt policy nextclaw-desktop` 能看到 `Candidate`
-   - `sudo apt install nextclaw-desktop` 成功
+   - `apt policy go-usb-ai-desktop` 能看到 `Candidate`
+   - `sudo apt install go-usb-ai-desktop` 成功
 5. 发布一个更高版本后，在同一台机器执行：
    - `sudo apt update`
    - `sudo apt upgrade`
-   - 确认 `nextclaw-desktop` 从旧版本升级到新版本
+   - 确认 `go-usb-ai-desktop` 从旧版本升级到新版本
 6. 执行：
-   - `sudo apt remove nextclaw-desktop`
-   - `sudo apt purge nextclaw-desktop`
+   - `sudo apt remove go-usb-ai-desktop`
+   - `sudo apt purge go-usb-ai-desktop`
    - 确认卸载路径符合文档说明
 
 ## 可维护性总结汇总

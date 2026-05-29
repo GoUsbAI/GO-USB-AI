@@ -1,6 +1,6 @@
 ---
 name: smoke-testing-ncp-chat
-description: Use when a running NextClaw service needs a real NCP chat smoke for a specific session type and model, especially when validating text replies, tool calls, reasoning events, or comparing runtimes with blind/isolated smoke tests.
+description: Use when a running GoUsbAi service needs a real NCP chat smoke for a specific session type and model, especially when validating text replies, tool calls, reasoning events, or comparing runtimes with blind/isolated smoke tests.
 ---
 
 # Smoke Testing NCP Chat
@@ -11,7 +11,7 @@ Use the reusable smoke command instead of ad-hoc `curl` or UI clicking when a fa
 
 This smoke command:
 
-- Sends one real chat message to a running NextClaw service
+- Sends one real chat message to a running GoUsbAi service
 - Forces the request through the specified `session-type` and `model`
 - Reads the returned SSE event stream
 - Prints pass/fail, assistant text, terminal event, and error details
@@ -79,8 +79,8 @@ When `--json` is used, the key checks are:
 
 当怀疑本机历史配置、全局 Codex/Claude 插件、缓存、会话状态或环境变量污染结果时，使用隔离环境：
 
-- 设置临时 `NEXTCLAW_HOME=/tmp/...`，只放本次需要的 provider、runtime entry 和 workspace。
-- 给 runtime launcher 建临时 bin 目录，例如 `/tmp/nextclaw-narp-bin`，确保服务加载的是当前源码构建出的 dist。
+- 设置临时 `GOUSB_AI_HOME=/tmp/...`，只放本次需要的 provider、runtime entry 和 workspace。
+- 给 runtime launcher 建临时 bin 目录，例如 `/tmp/go-usb-ai-narp-bin`，确保服务加载的是当前源码构建出的 dist。
 - 对 Codex/Claude 这类会读取用户目录的 CLI，必要时同时设置隔离 `CODEX_HOME` / 运行时 HOME，避免全局插件、skill、历史会话影响判断。
 - 烟测结束后停止服务和子进程，避免旧 wrapper 进程复用旧 dist 或旧 bridge。
 - 输出和记录时必须脱敏 API key、bearer token、extra headers。
@@ -93,9 +93,9 @@ When `--json` is used, the key checks are:
 
 1. 上游直连：直接请求 provider，确认模型原始响应字段和必要扩展参数。
 2. bridge 直测：如果 runtime 有 bridge，直接请求 bridge 输出，确认它产出目标协议形状。
-3. SDK/CLI raw event：绕过 NextClaw 服务，直接看 runtime SDK/CLI 原始事件，确认 provider/bridge 输出是否被 runtime 暴露。
+3. SDK/CLI raw event：绕过 GoUsbAi 服务，直接看 runtime SDK/CLI 原始事件，确认 provider/bridge 输出是否被 runtime 暴露。
 4. NARP wrapper：确认 wrapper 把 runtime 事件翻译成协议更新。
-5. NextClaw 服务 SSE：最后才看 `pnpm smoke:ncp-chat` 的 NCP event stream。
+5. GoUsbAi 服务 SSE：最后才看 `pnpm smoke:ncp-chat` 的 NCP event stream。
 
 每一刀只回答一个问题：这个边界之前是对的，还是这个边界第一次变错。
 

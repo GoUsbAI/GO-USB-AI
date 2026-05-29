@@ -37,7 +37,7 @@ export class DesktopRuntimeControlService {
         accepted: true,
         action: "restart-service" as const,
         lifecycle: "restarting-service" as const,
-        message: "NextClaw service restarted."
+        message: "GoUsbAi service restarted."
       };
     });
 
@@ -50,7 +50,7 @@ export class DesktopRuntimeControlService {
         accepted: true,
         action: "restart-app" as const,
         lifecycle: "restarting-app" as const,
-        message: "NextClaw app restart scheduled."
+        message: "GoUsbAi app restart scheduled."
       };
     });
     this.cleanups.push(removeDesktopIpcHandlers(DESKTOP_RUNTIME_RESTART_SERVICE_CHANNEL, DESKTOP_RUNTIME_RESTART_APP_CHANNEL));

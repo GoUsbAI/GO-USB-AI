@@ -2,7 +2,7 @@
 
 ## 背景 / 问题
 
-- NextClaw 当前上下文加载仅包含少量 bootstrap 文件且缺乏截断策略
+- GoUsbAi 当前上下文加载仅包含少量 bootstrap 文件且缺乏截断策略
 - Cron/Heartbeat 等非主对话场景使用同样上下文，容易冗余
 - MEMORY.md 模板存在但未纳入统一机制，容易产生“文件存在但不生效”的体验
 
@@ -39,8 +39,8 @@ pnpm tsc
 # smoke-check（非仓库目录）
 cd /tmp
 PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" \\
-  /Users/peiwang/Projects/nextbot/packages/nextclaw-core/node_modules/.bin/tsx -e \\
-  "import { mkdtempSync, writeFileSync, mkdirSync } from 'node:fs';\nimport { tmpdir } from 'node:os';\nimport { join } from 'node:path';\nimport { MemorySearchTool } from '/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/tools/memory.ts';\n(async () => {\n  const workspace = mkdtempSync(join(tmpdir(), 'nextclaw-'));\n  mkdirSync(join(workspace, 'memory'), { recursive: true });\n  writeFileSync(join(workspace, 'MEMORY.md'), 'foo');\n  writeFileSync(join(workspace, 'memory', '2026-02-15.md'), 'bar foo');\n  const tool = new MemorySearchTool(workspace);\n  const out = await tool.execute({ query: 'foo', limit: 2 });\n  console.log(out.includes('MEMORY.md') ? 'smoke-ok' : 'smoke-fail');\n})();"
+  /Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/node_modules/.bin/tsx -e \\
+  "import { mkdtempSync, writeFileSync, mkdirSync } from 'node:fs';\nimport { tmpdir } from 'node:os';\nimport { join } from 'node:path';\nimport { MemorySearchTool } from '/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/tools/memory.ts';\n(async () => {\n  const workspace = mkdtempSync(join(tmpdir(), 'go-usb-ai-'));\n  mkdirSync(join(workspace, 'memory'), { recursive: true });\n  writeFileSync(join(workspace, 'MEMORY.md'), 'foo');\n  writeFileSync(join(workspace, 'memory', '2026-02-15.md'), 'bar foo');\n  const tool = new MemorySearchTool(workspace);\n  const out = await tool.execute({ query: 'foo', limit: 2 });\n  console.log(out.includes('MEMORY.md') ? 'smoke-ok' : 'smoke-fail');\n})();"
 ```
 
 验收点：

@@ -5,7 +5,7 @@ import { resolve } from "node:path";
 import { spawn } from "node:child_process";
 
 const appRoot = process.cwd();
-const productionBaseUrl = "https://clawboard.nextclaw.io";
+const productionBaseUrl = "https://clawboard.go-usb-ai.io";
 const skipLocalServer = process.env.COMPETITIVE_LEADERBOARD_SKIP_LOCAL_SERVER === "1";
 const baseUrl = (
   process.env.COMPETITIVE_LEADERBOARD_BASE_URL ?? (skipLocalServer ? productionBaseUrl : "http://127.0.0.1:3194")

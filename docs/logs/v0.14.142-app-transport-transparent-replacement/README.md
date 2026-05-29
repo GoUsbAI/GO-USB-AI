@@ -14,13 +14,13 @@
 
 本次执行的验证：
 
-- `pnpm -C packages/nextclaw-ui test -- --run src/transport/sse-stream.test.ts src/components/chat/ncp/ncp-app-client-fetch.test.ts src/api/config.stream.test.ts`
-- `pnpm -C packages/nextclaw-ui tsc --pretty false`
-- `pnpm -C packages/nextclaw-ui build`
-- `pnpm -C packages/nextclaw-remote tsc --pretty false`
-- `pnpm -C packages/nextclaw-remote build`
-- `pnpm -C workers/nextclaw-provider-gateway-api tsc --pretty false`
-- `pnpm -C packages/nextclaw build`
+- `pnpm -C packages/go-usb-ai-ui test -- --run src/transport/sse-stream.test.ts src/components/chat/ncp/ncp-app-client-fetch.test.ts src/api/config.stream.test.ts`
+- `pnpm -C packages/go-usb-ai-ui tsc --pretty false`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `pnpm -C packages/go-usb-ai-remote tsc --pretty false`
+- `pnpm -C packages/go-usb-ai-remote build`
+- `pnpm -C workers/go-usb-ai-provider-gateway-api tsc --pretty false`
+- `pnpm -C packages/go-usb-ai build`
 - `pnpm smoke:ncp-chat -- --base-url http://127.0.0.1:18792 --prompt "Reply exactly OK" --json`
 - `node scripts/remote-app-transport-smoke.mjs`
 
@@ -34,8 +34,8 @@
 
 本次代码层面的发布准备已完成：
 
-- 重新构建 `@nextclaw/ui` 与 `nextclaw`，并将最新 UI bundle 拷贝进 `packages/nextclaw/ui-dist`
-- 如需对外发布 `nextclaw` / 相关包，应在独立 release 上下文中整合本轮变更与当下工作区中的其它并行版本变更，再执行项目既有 release 流程
+- 重新构建 `@go-usb-ai/ui` 与 `go-usb-ai`，并将最新 UI bundle 拷贝进 `packages/go-usb-ai/ui-dist`
+- 如需对外发布 `go-usb-ai` / 相关包，应在独立 release 上下文中整合本轮变更与当下工作区中的其它并行版本变更，再执行项目既有 release 流程
 
 本次未直接执行对外 npm / GitHub / 线上部署动作，原因是当前工作区存在其它并行发布改动，直接对外发布会把不属于本次修复范围的变更一并带出。
 

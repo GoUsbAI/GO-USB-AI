@@ -1,8 +1,8 @@
-# NextClaw 桌面端免手动下载更新 Phase 1 实施计划
+# GoUsbAi 桌面端免手动下载更新 Phase 1 实施计划
 
 > 基于 [桌面端免手动下载更新架构方案](./2026-04-11-desktop-no-download-update-architecture-design.md)。
 
-**目标：** 在不依赖 Apple / Microsoft 平台签名的前提下，为 NextClaw Desktop 落地第一阶段的“免手动下载更新”主链路。Phase 1 只解决 **产品包更新**，不解决完整的 launcher 自更新。
+**目标：** 在不依赖 Apple / Microsoft 平台签名的前提下，为 GoUsbAi Desktop 落地第一阶段的“免手动下载更新”主链路。Phase 1 只解决 **产品包更新**，不解决完整的 launcher 自更新。
 
 **一句话结果：** 用户安装一次桌面端 launcher 后，后续版本更新通过应用内下载新的 `product bundle` 完成；升级后 UI、runtime、本地服务、内置插件一起切换；启动失败时自动回滚到上一版本。
 
@@ -392,7 +392,7 @@ launcher 安装 bundle 前必须验证：
 
 **Files:**
 - Modify: `apps/desktop/src/preload.ts`
-- Modify: `packages/nextclaw-ui/*` 或当前桌面设置页相关模块
+- Modify: `packages/go-usb-ai-ui/*` 或当前桌面设置页相关模块
 - Modify: `apps/desktop/src/main.ts`
 
 **Steps:**
@@ -431,8 +431,8 @@ launcher 安装 bundle 前必须验证：
 **Steps:**
 
 1. 明确要打进 bundle 的产物：
-   - `nextclaw-ui` 构建输出
-   - `nextclaw` / `nextclaw-server` / `nextclaw-runtime` 所需运行产物
+   - `go-usb-ai-ui` 构建输出
+   - `go-usb-ai` / `go-usb-ai-server` / `go-usb-ai-runtime` 所需运行产物
    - 桌面内置插件产物
 2. 生成 bundle 目录结构
 3. 生成 bundle `manifest.json`
@@ -511,10 +511,10 @@ launcher 安装 bundle 前必须验证：
 
 建议 bundle 文件命名：
 
-- `nextclaw-bundle-darwin-arm64-0.18.0.tar.zst`
-- `nextclaw-bundle-darwin-x64-0.18.0.tar.zst`
-- `nextclaw-bundle-win32-x64-0.18.0.zip`
-- `nextclaw-bundle-linux-x64-0.18.0.tar.zst`
+- `go-usb-ai-bundle-darwin-arm64-0.18.0.tar.zst`
+- `go-usb-ai-bundle-darwin-x64-0.18.0.tar.zst`
+- `go-usb-ai-bundle-win32-x64-0.18.0.zip`
+- `go-usb-ai-bundle-linux-x64-0.18.0.tar.zst`
 
 建议 manifest 文件命名：
 

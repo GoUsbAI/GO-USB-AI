@@ -5,7 +5,7 @@
 这份文档只聚焦两个问题：
 
 1. `ContextBuilder` 最小应该依赖什么、输出什么
-2. `NextclawKernel.run()` 最本质的主流程应该怎么拆
+2. `GoUsbAiKernel.run()` 最本质的主流程应该怎么拆
 
 这里先不讨论：
 

@@ -2,7 +2,7 @@
 
 ## 迭代完成说明（改了什么）
 - 按“桌面端本体优先”调整自动验证策略：Windows 验证从“安装器优先”改为“桌面 exe 优先”。
-- 新增脚本 `apps/desktop/scripts/smoke-windows-desktop.ps1`，直接对 `NextClaw Desktop.exe` 做启动与 `/api/health` 健康检查。
+- 新增脚本 `apps/desktop/scripts/smoke-windows-desktop.ps1`，直接对 `GoUsbAi Desktop.exe` 做启动与 `/api/health` 健康检查。
 - 更新 `desktop-validate` 工作流：
   - Windows 构建改为 `electron-builder --win dir --x64 --publish never`，生成 `win-unpacked` 桌面可执行目录。
   - 烟测改为执行 `smoke-windows-desktop.ps1`，不再依赖安装器路径。
@@ -26,4 +26,4 @@
 - 提交包含桌面改动的 PR。
 - 在 GitHub Actions 查看 `desktop-validate`。
 - 确认 `desktop-windows-exe-smoke` 通过。
-- 下载 `desktop-validate-win32-x64-unpacked` 产物，确认存在 `NextClaw Desktop.exe` 及运行目录。
+- 下载 `desktop-validate-win32-x64-unpacked` 产物，确认存在 `GoUsbAi Desktop.exe` 及运行目录。

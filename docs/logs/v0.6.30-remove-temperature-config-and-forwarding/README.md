@@ -5,32 +5,32 @@
 - 目标：移除 `temperature` 作为用户可配置项，并停止在运行时向模型请求透传该参数。
 - 本次完成：
   - 配置层移除 `agents.defaults.temperature`：
-    - `packages/nextclaw-core/src/config/schema.ts`
-    - `packages/nextclaw-core/src/config/schema.help.ts`
-    - `packages/nextclaw-core/src/config/schema.labels.ts`
-    - `packages/nextclaw-core/src/config/reload.ts`
+    - `packages/go-usb-ai-core/src/config/schema.ts`
+    - `packages/go-usb-ai-core/src/config/schema.help.ts`
+    - `packages/go-usb-ai-core/src/config/schema.labels.ts`
+    - `packages/go-usb-ai-core/src/config/reload.ts`
   - 运行时移除温度透传链路（主 agent + subagent + provider manager）：
-    - `packages/nextclaw-core/src/agent/loop.ts`
-    - `packages/nextclaw-core/src/agent/subagent.ts`
-    - `packages/nextclaw-core/src/providers/base.ts`
-    - `packages/nextclaw-core/src/providers/provider_manager.ts`
-    - `packages/nextclaw/src/cli/runtime.ts`
-    - `packages/nextclaw/src/cli/commands/service.ts`
+    - `packages/go-usb-ai-core/src/agent/loop.ts`
+    - `packages/go-usb-ai-core/src/agent/subagent.ts`
+    - `packages/go-usb-ai-core/src/providers/base.ts`
+    - `packages/go-usb-ai-core/src/providers/provider_manager.ts`
+    - `packages/go-usb-ai/src/cli/runtime.ts`
+    - `packages/go-usb-ai/src/cli/commands/service.ts`
   - Provider 请求体移除 `temperature` 字段透传：
-    - `packages/nextclaw-core/src/providers/openai_provider.ts`
-    - `packages/nextclaw-core/src/providers/litellm_provider.ts`
-    - `packages/nextclaw-core/src/providers/registry.ts`
+    - `packages/go-usb-ai-core/src/providers/openai_provider.ts`
+    - `packages/go-usb-ai-core/src/providers/litellm_provider.ts`
+    - `packages/go-usb-ai-core/src/providers/registry.ts`
   - UI 与类型层同步移除温度字段与控件：
-    - `packages/nextclaw-server/src/ui/types.ts`
-    - `packages/nextclaw-ui/src/api/types.ts`
-    - `packages/nextclaw-ui/src/components/config/ModelConfig.tsx`
-    - `packages/nextclaw-ui/src/lib/i18n.ts`
+    - `packages/go-usb-ai-server/src/ui/types.ts`
+    - `packages/go-usb-ai-ui/src/api/types.ts`
+    - `packages/go-usb-ai-ui/src/components/config/ModelConfig.tsx`
+    - `packages/go-usb-ai-ui/src/lib/i18n.ts`
   - 文档同步更新（移除 temperature 说明）：
     - `docs/USAGE.md`
-    - `packages/nextclaw/templates/USAGE.md`
+    - `packages/go-usb-ai/templates/USAGE.md`
     - `docs/prd/current-feature-list.md`
-    - `docs/prd/nextclaw-ui-prd.md`
-    - `docs/nextclaw-ui-design-brief.md`
+    - `docs/prd/go-usb-ai-ui-prd.md`
+    - `docs/go-usb-ai-ui-design-brief.md`
     - `docs/designs/2026-02-12-ui-gateway-api.md`
 
 ## 测试 / 验证 / 验收方式
@@ -50,9 +50,9 @@ pnpm tsc
 ### 冒烟验证（隔离目录）
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-no-temperature.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js config get agents.defaults --json
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-no-temperature.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js config get agents.defaults --json
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
 rm -rf "$TMP_HOME"
 ```
 

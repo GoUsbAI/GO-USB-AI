@@ -6,7 +6,7 @@
 
 **Architecture:** 保留 `CronService` 作为唯一后台自动化调度主路径，删除 `HeartbeatService`、`HEARTBEAT.md`、heartbeat ack/token 以及相关 bootstrap/template/config 特例。用户需要“周期 follow-up / 定期检查”时，通过现有 `cron` 能力和一个很薄的 automation setup skill 来完成，而不是保留第二套 heartbeat 机制。
 
-**Tech Stack:** TypeScript, Zod schema, NextClaw runtime context/bootstrap, CLI workspace templates, UI i18n/docs, cron skill/tool。
+**Tech Stack:** TypeScript, Zod schema, GoUsbAi runtime context/bootstrap, CLI workspace templates, UI i18n/docs, cron skill/tool。
 
 ---
 
@@ -40,7 +40,7 @@
 **Step 1: 明确删除对象**
 
 列出以下对象必须一起删除或收口：
-- `packages/nextclaw-core/src/heartbeat/*`
+- `packages/go-usb-ai-core/src/heartbeat/*`
 - gateway heartbeat startup/wiring/handler
 - `HEARTBEAT.md` template/workspace generation
 - bootstrap context default files + `heartbeatFiles`
@@ -56,13 +56,13 @@
 ## Task 2: 删除 runtime heartbeat 主链路
 
 **Files:**
-- Delete: `packages/nextclaw-core/src/heartbeat/service.ts`
-- Delete: `packages/nextclaw-core/src/heartbeat/service.test.ts`
-- Modify: `packages/nextclaw/src/cli/shared/services/gateway/service-gateway-context.service.ts`
-- Modify: `packages/nextclaw/src/cli/shared/services/gateway/cron-job-handler.service.ts`
-- Modify: `packages/nextclaw/src/cli/shared/services/gateway/tests/cron-job-handler.service.test.ts`
-- Modify: `packages/nextclaw/src/cli/shared/services/gateway/service-startup-support.ts`
-- Modify: `packages/nextclaw/src/cli/shared/services/runtime/runtime-command.service.ts`
+- Delete: `packages/go-usb-ai-core/src/heartbeat/service.ts`
+- Delete: `packages/go-usb-ai-core/src/heartbeat/service.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/shared/services/gateway/service-gateway-context.service.ts`
+- Modify: `packages/go-usb-ai/src/cli/shared/services/gateway/cron-job-handler.service.ts`
+- Modify: `packages/go-usb-ai/src/cli/shared/services/gateway/tests/cron-job-handler.service.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/shared/services/gateway/service-startup-support.ts`
+- Modify: `packages/go-usb-ai/src/cli/shared/services/runtime/runtime-command.service.ts`
 
 **Step 1: 先删测试与引用关系**
 
@@ -90,17 +90,17 @@
 ## Task 3: 删除 heartbeat 配置、bootstrap 与模板特例
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/config/schema.ts`
-- Modify: `packages/nextclaw-core/src/config/schema.labels.ts`
-- Modify: `packages/nextclaw-core/src/config/schema.help.ts`
-- Modify: `packages/nextclaw-core/src/runtime-context/bootstrap-context.service.ts`
-- Modify: `packages/nextclaw-core/src/agent/context.service.ts`
-- Modify: `packages/nextclaw-core/src/agent/reply/reply-tokens.utils.ts`
-- Modify: `packages/nextclaw/src/cli/shared/services/workspace/workspace-manager.service.ts`
-- Modify: `packages/nextclaw/templates/AGENTS.md`
-- Delete: `packages/nextclaw/templates/HEARTBEAT.md`
-- Modify: `packages/nextclaw-server/src/ui/types.ts`
-- Modify: `packages/nextclaw-ui/src/shared/lib/api/types.ts`
+- Modify: `packages/go-usb-ai-core/src/config/schema.ts`
+- Modify: `packages/go-usb-ai-core/src/config/schema.labels.ts`
+- Modify: `packages/go-usb-ai-core/src/config/schema.help.ts`
+- Modify: `packages/go-usb-ai-core/src/runtime-context/bootstrap-context.service.ts`
+- Modify: `packages/go-usb-ai-core/src/agent/context.service.ts`
+- Modify: `packages/go-usb-ai-core/src/agent/reply/reply-tokens.utils.ts`
+- Modify: `packages/go-usb-ai/src/cli/shared/services/workspace/workspace-manager.service.ts`
+- Modify: `packages/go-usb-ai/templates/AGENTS.md`
+- Delete: `packages/go-usb-ai/templates/HEARTBEAT.md`
+- Modify: `packages/go-usb-ai-server/src/ui/types.ts`
+- Modify: `packages/go-usb-ai-ui/src/shared/lib/api/types.ts`
 
 **Step 1: 删除 schema 承认**
 
@@ -123,9 +123,9 @@
 ## Task 4: 以 skill 方式承接快捷体验
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/agent/skills/cron/SKILL.md`
-- Modify: `packages/nextclaw-core/src/agent/tools/cron-tool.service.ts`（仅当描述需要更清晰）
-- Optional Create: `packages/nextclaw-core/src/agent/skills/automation-setup/SKILL.md`（仅当现有 cron skill 无法薄包装）
+- Modify: `packages/go-usb-ai-core/src/agent/skills/cron/SKILL.md`
+- Modify: `packages/go-usb-ai-core/src/agent/tools/cron-tool.service.ts`（仅当描述需要更清晰）
+- Optional Create: `packages/go-usb-ai-core/src/agent/skills/automation-setup/SKILL.md`（仅当现有 cron skill 无法薄包装）
 
 **Step 1: 先判断是否需要新 skill**
 
@@ -156,7 +156,7 @@
 - Modify: `README.md`
 - Modify: `README.zh-CN.md`
 - Modify: `docs/USAGE.md`
-- Modify: `packages/nextclaw/resources/USAGE.md`
+- Modify: `packages/go-usb-ai/resources/USAGE.md`
 - Modify: `apps/docs/en/guide/cron.md`
 - Modify: `apps/docs/zh/guide/cron.md`
 - Modify: `apps/docs/en/guide/after-setup.md`
@@ -164,7 +164,7 @@
 - Modify: `apps/docs/en/guide/advanced.md`
 - Modify: `apps/docs/zh/guide/advanced.md`
 - Modify: `apps/docs/zh/index.md`
-- Modify: `packages/nextclaw-ui/src/shared/lib/i18n/chat-labels.utils.ts`
+- Modify: `packages/go-usb-ai-ui/src/shared/lib/i18n/chat-labels.utils.ts`
 
 **Step 1: 文案收口**
 

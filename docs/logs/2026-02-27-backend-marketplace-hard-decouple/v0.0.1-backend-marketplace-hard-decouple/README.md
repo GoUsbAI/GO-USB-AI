@@ -25,13 +25,13 @@
 ## 测试 / 验证 / 验收方式
 
 - 构建：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server build`
 - 代码检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server lint`
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server tsc`
 - 冒烟（路由行为）：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server test -- run src/ui/router.marketplace-manage.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server test -- run src/ui/router.marketplace-manage.test.ts`
   - 观察点：
     - typed route 对 `body.type` 错配返回 `400`。
     - `/api/marketplace/recommendations` 返回 `404`。

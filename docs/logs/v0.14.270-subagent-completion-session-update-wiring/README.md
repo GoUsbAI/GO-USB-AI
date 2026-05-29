@@ -3,21 +3,21 @@
 ## 迭代完成说明
 
 - 给子 Agent 完成后的系统回传补了一层显式 wiring：`GatewayAgentRuntimePool` 处理系统会话更新时，会转发为 UI 的 `session.updated` 事件。
-- 在 `packages/nextclaw/src/cli/commands/service.ts` 中接入这条桥接，确保子 Agent 完成后，主会话能被唤醒并触发前端刷新。
+- 在 `packages/go-usb-ai/src/cli/commands/service.ts` 中接入这条桥接，确保子 Agent 完成后，主会话能被唤醒并触发前端刷新。
 - 新增 `wireSystemSessionUpdatedPublisher` 的单测，固定住这条“系统完成事件 -> UI 会话更新”链路。
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw exec vitest run src/cli/commands/service-gateway-startup.test.ts src/cli/commands/agent-runtime-pool.command.test.ts`
-- `pnpm -C packages/nextclaw tsc`
-- `pnpm -C packages/nextclaw lint`
-- `pnpm -C packages/nextclaw build`
-- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw/src/cli/commands/service.ts packages/nextclaw/src/cli/commands/service-gateway-startup.ts packages/nextclaw/src/cli/commands/service-gateway-startup.test.ts`
+- `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/service-gateway-startup.test.ts src/cli/commands/agent-runtime-pool.command.test.ts`
+- `pnpm -C packages/go-usb-ai tsc`
+- `pnpm -C packages/go-usb-ai lint`
+- `pnpm -C packages/go-usb-ai build`
+- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai/src/cli/commands/service.ts packages/go-usb-ai/src/cli/commands/service-gateway-startup.ts packages/go-usb-ai/src/cli/commands/service-gateway-startup.test.ts`
 
 ## 发布/部署方式
 
 - 本次未单独执行发布。
-- 该变更随 `packages/nextclaw` 的下一次正常构建/发布流程即可生效。
+- 该变更随 `packages/go-usb-ai` 的下一次正常构建/发布流程即可生效。
 - 无数据库 migration，不涉及远程部署动作。
 
 ## 用户/产品视角的验收步骤

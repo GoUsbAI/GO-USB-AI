@@ -1,12 +1,12 @@
 ---
 name: claude-code-narp-runtime
-description: 当用户希望把 Claude Code 作为 NextClaw 正式会话类型接入，尤其是通过 narp-stdio 配置、安装、修复、doctor 或真实冒烟时使用。
-metadata: {"nextclaw":{"emoji":"C"}}
+description: 当用户希望把 Claude Code 作为 GoUsbAi 正式会话类型接入，尤其是通过 narp-stdio 配置、安装、修复、doctor 或真实冒烟时使用。
+metadata: {"go-usb-ai":{"emoji":"C"}}
 ---
 
 # Claude Code NARP Runtime
 
-使用这个 skill 时，目标不是让用户自己准备 PATH 或手改配置，而是把 Claude Code 接成 NextClaw 统一 runtime registry 里的正式会话类型。
+使用这个 skill 时，目标不是让用户自己准备 PATH 或手改配置，而是把 Claude Code 接成 GoUsbAi 统一 runtime registry 里的正式会话类型。
 
 首选产品路径固定为：
 
@@ -14,26 +14,26 @@ metadata: {"nextclaw":{"emoji":"C"}}
 - runtime entry label: `Claude Code`
 - runtime type: `narp-stdio`
 - wire dialect: `acp`
-- runtime launcher: `nextclaw-claude-code-narp`
-- route ownership: `NextClaw -> RuntimeRoute(model/apiBase/apiKey/headers) -> Claude Code NARP wrapper -> Claude Code SDK/CLI`
+- runtime launcher: `go-usb-ai-claude-code-narp`
+- route ownership: `GoUsbAi -> RuntimeRoute(model/apiBase/apiKey/headers) -> Claude Code NARP wrapper -> Claude Code SDK/CLI`
 
-不要把 Claude Code 做成核心系统里的 provider 特判。NextClaw 核心、kernel、service 只感知 `narp-stdio`，不感知 `claude`。
+不要把 Claude Code 做成核心系统里的 provider 特判。GoUsbAi 核心、kernel、service 只感知 `narp-stdio`，不感知 `claude`。
 
 ## 安装边界
 
 始终区分三层：
 
-- 这个 NextClaw marketplace skill：负责用户接入流程、检查、修复和冒烟。
-- Claude Code NARP wrapper：`@nextclaw/nextclaw-narp-runtime-claude-code-sdk`，提供 `nextclaw-claude-code-narp`。
+- 这个 GoUsbAi marketplace skill：负责用户接入流程、检查、修复和冒烟。
+- Claude Code NARP wrapper：`@go-usb-ai/go-usb-ai-narp-runtime-claude-code-sdk`，提供 `go-usb-ai-claude-code-narp`。
 - Claude Code SDK/CLI：由 wrapper 调用，真实执行 agent loop。
 
-安装这个 skill 不等于 Claude Code runtime 已经可用。skill 必须自己检测 launcher，缺失时安装或修复 wrapper，并生成 NextClaw 可稳定调用的绝对路径 shim。
+安装这个 skill 不等于 Claude Code runtime 已经可用。skill 必须自己检测 launcher，缺失时安装或修复 wrapper，并生成 GoUsbAi 可稳定调用的绝对路径 shim。
 
 ## 这个 Skill 负责什么
 
 - 解释 Claude Code 通过 NARP stdio 接入的正确心智模型。
-- 发现、安装或修复 `nextclaw-claude-code-narp`。
-- 在 `${NEXTCLAW_HOME:-~/.nextclaw}/bin` 下生成稳定 shim。
+- 发现、安装或修复 `go-usb-ai-claude-code-narp`。
+- 在 `${GOUSB_AI_HOME:-~/.go-usb-ai}/bin` 下生成稳定 shim。
 - 写入或修复 `agents.runtimes.entries.claude`。
 - 运行 runtime probe。
 - 运行真实 Claude Code 首条消息冒烟；需要能力验收时继续覆盖工具调用和思考事件。
@@ -41,9 +41,9 @@ metadata: {"nextclaw":{"emoji":"C"}}
 
 ## 禁止事项
 
-- 不要告诉用户“先把 `nextclaw-claude-code-narp` 放到 PATH 里”作为完成条件。
+- 不要告诉用户“先把 `go-usb-ai-claude-code-narp` 放到 PATH 里”作为完成条件。
 - 不要要求用户手工编辑 `config.json`，除非当前 agent 没有文件写权限。
-- 不要通过命令行环境变量开关决定是否走 Anthropic/OpenAI gateway；wrapper 应根据 NextClaw route 的 provider 形状选择通用桥接路径。
+- 不要通过命令行环境变量开关决定是否走 Anthropic/OpenAI gateway；wrapper 应根据 GoUsbAi route 的 provider 形状选择通用桥接路径。
 - 不要修改通用 NARP stdio client 来识别 Claude Code。
 - 不要在 core/kernel/service 注入 Claude 默认 entry 或 provider 分支。
 - 没有 probe 和真实模型回复时，不要声称已经完成接入。
@@ -54,16 +54,16 @@ metadata: {"nextclaw":{"emoji":"C"}}
 
 ### 1. 确认工作目录和数据目录
 
-先确定 NextClaw 数据目录：
+先确定 GoUsbAi 数据目录：
 
 ```bash
-NEXTCLAW_HOME="${NEXTCLAW_HOME:-$HOME/.nextclaw}"
+GOUSB_AI_HOME="${GOUSB_AI_HOME:-$HOME/.go-usb-ai}"
 ```
 
 需要写入：
 
-- `$NEXTCLAW_HOME/bin/nextclaw-claude-code-narp`
-- `$NEXTCLAW_HOME/config.json`
+- `$GOUSB_AI_HOME/bin/go-usb-ai-claude-code-narp`
+- `$GOUSB_AI_HOME/config.json`
 
 如果这是首次接入，先说明 Claude Code runtime 会读取本机工作区并可能执行本地工具；涉及删除、发送、提交、发布等外部可见动作时仍需用户确认。
 
@@ -71,22 +71,22 @@ NEXTCLAW_HOME="${NEXTCLAW_HOME:-$HOME/.nextclaw}"
 
 按优先级解析真实 launcher：
 
-1. 如果当前在 NextClaw 源码仓库，并且存在已构建文件：
-   `packages/extensions/nextclaw-narp-runtime-claude-code-sdk/dist/controllers/claude-code-narp.controller.js`
+1. 如果当前在 GoUsbAi 源码仓库，并且存在已构建文件：
+   `packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk/dist/controllers/claude-code-narp.controller.js`
 2. 如果源码存在但 dist 不存在，先构建：
-   `pnpm --filter @nextclaw/nextclaw-narp-runtime-claude-code-sdk build`
-3. 如果系统已有 `nextclaw-claude-code-narp`，可作为真实 launcher 来源。
-4. 否则安装 wrapper 包到 NextClaw 管理目录：
+   `pnpm --filter @go-usb-ai/go-usb-ai-narp-runtime-claude-code-sdk build`
+3. 如果系统已有 `go-usb-ai-claude-code-narp`，可作为真实 launcher 来源。
+4. 否则安装 wrapper 包到 GoUsbAi 管理目录：
 
 ```bash
-mkdir -p "$NEXTCLAW_HOME/runtime/claude-code-narp-runtime"
-npm install --prefix "$NEXTCLAW_HOME/runtime/claude-code-narp-runtime" @nextclaw/nextclaw-narp-runtime-claude-code-sdk@latest
+mkdir -p "$GOUSB_AI_HOME/runtime/claude-code-narp-runtime"
+npm install --prefix "$GOUSB_AI_HOME/runtime/claude-code-narp-runtime" @go-usb-ai/go-usb-ai-narp-runtime-claude-code-sdk@latest
 ```
 
 安装后解析：
 
 ```bash
-"$NEXTCLAW_HOME/runtime/claude-code-narp-runtime/node_modules/.bin/nextclaw-claude-code-narp" --help
+"$GOUSB_AI_HOME/runtime/claude-code-narp-runtime/node_modules/.bin/go-usb-ai-claude-code-narp" --help
 ```
 
 如果包未发布、npm 不可用或安装失败，报告具体 blocker。不要退化成要求用户手动放 PATH。
@@ -99,7 +99,7 @@ Unix shim 内容形态：
 
 ```sh
 #!/usr/bin/env sh
-exec "/absolute/path/to/nextclaw-claude-code-narp-or-js" "$@"
+exec "/absolute/path/to/go-usb-ai-claude-code-narp-or-js" "$@"
 ```
 
 如果真实 launcher 是 `.js` 文件或没有执行位，则 shim 应改为：
@@ -112,12 +112,12 @@ exec node "/absolute/path/to/claude-code-narp.controller.js" "$@"
 写入后执行：
 
 ```bash
-chmod +x "$NEXTCLAW_HOME/bin/nextclaw-claude-code-narp"
+chmod +x "$GOUSB_AI_HOME/bin/go-usb-ai-claude-code-narp"
 ```
 
 ### 4. 写入 runtime entry
 
-用 JSON parser 读写 `$NEXTCLAW_HOME/config.json`，保留现有配置，只补齐或修复 `agents.runtimes.entries.claude`：
+用 JSON parser 读写 `$GOUSB_AI_HOME/config.json`，保留现有配置，只补齐或修复 `agents.runtimes.entries.claude`：
 
 ```json
 {
@@ -132,7 +132,7 @@ chmod +x "$NEXTCLAW_HOME/bin/nextclaw-claude-code-narp"
   "config": {
     "wireDialect": "acp",
     "processScope": "per-session",
-    "command": "/absolute/NEXTCLAW_HOME/bin/nextclaw-claude-code-narp",
+    "command": "/absolute/GOUSB_AI_HOME/bin/go-usb-ai-claude-code-narp",
     "args": [],
     "env": {},
     "startupTimeoutMs": 10000,
@@ -142,7 +142,7 @@ chmod +x "$NEXTCLAW_HOME/bin/nextclaw-claude-code-narp"
 }
 ```
 
-不要把 provider route、api key、model 写进 runtime entry。模型和 provider 仍由 NextClaw 的 provider/route 配置决定。
+不要把 provider route、api key、model 写进 runtime entry。模型和 provider 仍由 GoUsbAi 的 provider/route 配置决定。
 
 ### 5. Probe 和真实冒烟
 
@@ -151,10 +151,10 @@ chmod +x "$NEXTCLAW_HOME/bin/nextclaw-claude-code-narp"
 1. `agents.runtimes.entries.claude.type` 是 `narp-stdio`。
 2. `wireDialect` 是 `acp`。
 3. `command` 是可执行的绝对 shim 路径。
-4. NextClaw runtime probe 能看到 `Claude Code` ready。
+4. GoUsbAi runtime probe 能看到 `Claude Code` ready。
 5. 真实模型首条消息能通过 Claude Code NARP 链路返回。
 
-开发仓库里优先使用已有 smoke 脚本或 NCP chat smoke；不在源码仓库时，使用当前 NextClaw 实例或 CLI 能提供的最近真实会话路径。验证不是看配置文件长得对，而是看真实会话返回。
+开发仓库里优先使用已有 smoke 脚本或 NCP chat smoke；不在源码仓库时，使用当前 GoUsbAi 实例或 CLI 能提供的最近真实会话路径。验证不是看配置文件长得对，而是看真实会话返回。
 
 能力验收至少分三档：
 
@@ -168,12 +168,12 @@ chmod +x "$NEXTCLAW_HOME/bin/nextclaw-claude-code-narp"
 
 当用户要求 doctor 或报错时，按顺序检查：
 
-1. `$NEXTCLAW_HOME/config.json` 是否存在且 JSON 可解析。
+1. `$GOUSB_AI_HOME/config.json` 是否存在且 JSON 可解析。
 2. `agents.runtimes.entries.claude` 是否存在、enabled 是否为 true。
 3. `type`、`wireDialect`、`processScope` 是否符合合同。
 4. `command` 是否是绝对路径、文件是否存在且可执行。
 5. shim 指向的真实 launcher 是否存在，`--help` 是否能启动。
-6. NextClaw runtime list/probe 是否显示 Claude Code ready。
+6. GoUsbAi runtime list/probe 是否显示 Claude Code ready。
 7. provider route 是否能解析出模型、apiBase、apiKey、headers。
 8. 真实 Claude Code NARP 会话是否能回复。
 
@@ -183,10 +183,10 @@ chmod +x "$NEXTCLAW_HOME/bin/nextclaw-claude-code-narp"
 
 - `command_missing`：重新生成 shim；如果真实 launcher 缺失，安装 wrapper 包。
 - npm 安装失败或包未发布：说明这是 wrapper 分发 blocker，给出当前源码构建方案或等待发布，不要说接入已完成。
-- provider 鉴权失败：修复 NextClaw provider/route 配置，不要改 runtime entry。
+- provider 鉴权失败：修复 GoUsbAi provider/route 配置，不要改 runtime entry。
 - 只有文本没有 reasoning：先做 provider 直连、bridge 直测、Claude Code raw event 三段对照，再判断是 provider 参数、bridge 字段形状还是 Claude Code SDK/CLI 暴露问题。
 - 工具调用卡住：检查 Claude Code 非交互 permission 配置和工具权限，不要把 permission 问题改成 NARP client 特判。
-- gateway 选择异常：修复 wrapper 的 route 解析逻辑，不要引入 `NEXTCLAW_CLAUDE_USE_ANTHROPIC_GATEWAY` 这类用户命令行开关。
+- gateway 选择异常：修复 wrapper 的 route 解析逻辑，不要引入 `GOUSB_AI_CLAUDE_USE_ANTHROPIC_GATEWAY` 这类用户命令行开关。
 
 ## 移除
 
@@ -198,6 +198,6 @@ chmod +x "$NEXTCLAW_HOME/bin/nextclaw-claude-code-narp"
 
 - `Claude Code` 是统一 runtime registry 里的正式 session type。
 - runtime entry 只通过 `narp-stdio(acp)` 接入。
-- launcher 不依赖用户手动 PATH，而是 NextClaw 管理的绝对 shim。
+- launcher 不依赖用户手动 PATH，而是 GoUsbAi 管理的绝对 shim。
 - 真实模型回复通过。
 - 如本次目标包含工具或思考，则对应真实冒烟也通过。

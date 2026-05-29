@@ -19,11 +19,11 @@
 
 - module-structure 脚本识别 `contributions/` 为结构骨架名。
 - protocol 检查支持 `contributions/<name>/index.ts` 边界、内部角色目录、flat role 限制与 deep import 拦截。
-- `packages/nextclaw-kernel` contract 显式允许 `src/contributions/`。
+- `packages/go-usb-ai-kernel` contract 显式允许 `src/contributions/`。
 
 已落地实现：
 
-- `NextclawKernel` 直接持有 contribution 数组，并在 `start()` / `dispose()` 中调用生命周期。
+- `GoUsbAiKernel` 直接持有 contribution 数组，并在 `start()` / `dispose()` 中调用生命周期。
 - `SessionActivityPreviewContribution` 监听 `eventKeys.ncpEvent`，从 NCP run / message / tool 事件投影 `metadata.last_activity_preview`。
 - metadata 写入统一通过 `kernel.ncpSessionApi.updateSession(...)`，由既有 session summary upsert 链路通知前端。
 - 前端 `adaptNcpSessionSummary` 读取 `last_activity_preview`，会话列表第二行优先展示 activity preview，缺失时回退原 message count。
@@ -34,17 +34,17 @@
 
 ```bash
 node scripts/governance/module-structure/lint-new-code-module-structure.test.mjs
-pnpm -C packages/nextclaw-kernel test -- src/contributions/session-activity-preview/utils/session-activity-preview-ncp-event.utils.test.ts src/contributions/session-activity-preview/utils/session-activity-preview-metadata.utils.test.ts
-pnpm -C packages/nextclaw-ui test -- src/features/chat/utils/ncp-session-adapter.utils.test.ts src/features/chat/utils/chat-session-display.utils.test.ts
-pnpm -C packages/nextclaw-kernel tsc
-pnpm -C packages/nextclaw-ui tsc
+pnpm -C packages/go-usb-ai-kernel test -- src/contributions/session-activity-preview/utils/session-activity-preview-ncp-event.utils.test.ts src/contributions/session-activity-preview/utils/session-activity-preview-metadata.utils.test.ts
+pnpm -C packages/go-usb-ai-ui test -- src/features/chat/utils/ncp-session-adapter.utils.test.ts src/features/chat/utils/chat-session-display.utils.test.ts
+pnpm -C packages/go-usb-ai-kernel tsc
+pnpm -C packages/go-usb-ai-ui tsc
 pnpm lint:new-code:module-structure
 pnpm lint:new-code:governance
 pnpm check:governance-backlog-ratchet
 node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs
 node scripts/governance/module-structure/lint-new-code-module-structure.test.mjs
-pnpm -C packages/nextclaw-kernel exec eslint src/app/nextclaw-kernel.ts src/contributions/session-activity-preview/index.ts src/contributions/session-activity-preview/utils/session-activity-preview-ncp-event.utils.ts src/contributions/session-activity-preview/utils/session-activity-preview-metadata.utils.ts src/contributions/session-activity-preview/utils/session-activity-preview-ncp-event.utils.test.ts src/contributions/session-activity-preview/utils/session-activity-preview-metadata.utils.test.ts src/types/kernel-contribution.types.ts
-pnpm -C packages/nextclaw-ui exec eslint src/features/chat/utils/ncp-session-adapter.utils.ts src/features/chat/utils/chat-session-display.utils.ts src/features/chat/components/chat-sidebar-session-item.tsx src/features/chat/utils/ncp-session-adapter.utils.test.ts src/features/chat/utils/chat-session-display.utils.test.ts
+pnpm -C packages/go-usb-ai-kernel exec eslint src/app/go-usb-ai-kernel.ts src/contributions/session-activity-preview/index.ts src/contributions/session-activity-preview/utils/session-activity-preview-ncp-event.utils.ts src/contributions/session-activity-preview/utils/session-activity-preview-metadata.utils.ts src/contributions/session-activity-preview/utils/session-activity-preview-ncp-event.utils.test.ts src/contributions/session-activity-preview/utils/session-activity-preview-metadata.utils.test.ts src/types/kernel-contribution.types.ts
+pnpm -C packages/go-usb-ai-ui exec eslint src/features/chat/utils/ncp-session-adapter.utils.ts src/features/chat/utils/chat-session-display.utils.ts src/features/chat/components/chat-sidebar-session-item.tsx src/features/chat/utils/ncp-session-adapter.utils.test.ts src/features/chat/utils/chat-session-display.utils.test.ts
 ```
 
 结果：
@@ -62,7 +62,7 @@ pnpm -C packages/nextclaw-ui exec eslint src/features/chat/utils/ncp-session-ada
 已尝试：
 
 ```bash
-pnpm -C packages/nextclaw-ui lint
+pnpm -C packages/go-usb-ai-ui lint
 ```
 
 结果：被当前工作区既有 unrelated lint 问题阻塞，主要包括 `TimelineCheckpointPlacement` unused import、若干测试文件 `import()` type annotation、React refs 规则等；本次改动相关文件已用定向 ESLint 覆盖并通过。
@@ -75,7 +75,7 @@ pnpm -C packages/nextclaw-ui lint
 
 会话列表第二行预览已按本次设计落到：
 
-- `packages/nextclaw-kernel/src/contributions/session-activity-preview/index.ts`
+- `packages/go-usb-ai-kernel/src/contributions/session-activity-preview/index.ts`
 - contribution 内部 `utils/` / `types/` 等角色目录
 - kernel contribution 数组生命周期
 - `metadata.last_activity_preview` session summary 展示链路

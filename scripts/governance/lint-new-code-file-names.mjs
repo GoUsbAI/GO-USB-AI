@@ -15,7 +15,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-file-names.mjs
   node scripts/governance/lint-new-code-file-names.mjs --staged
   node scripts/governance/lint-new-code-file-names.mjs --base origin/main
-  node scripts/governance/lint-new-code-file-names.mjs -- packages/nextclaw-ui/src
+  node scripts/governance/lint-new-code-file-names.mjs -- packages/go-usb-ai-ui/src
 
 Blocks changed workspace source files whose file names are not kebab-case.
 Once a file is touched, legacy non-kebab names must be renamed in the same change.`;

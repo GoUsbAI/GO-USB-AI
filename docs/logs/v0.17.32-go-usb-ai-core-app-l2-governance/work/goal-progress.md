@@ -1,0 +1,24 @@
+# Goal Progress
+
+## 当前目标
+把 `packages/go-usb-ai-core` 按已确定方案完整迁移到 `app-l2` 结构，并验证通过。
+
+## 明确非目标
+不新增开放协议；不改 release 批量版本内容；不重写业务行为；不把阶段完成当总完成。
+
+## 冻结边界 / 不变量
+保持 `@go-usb-ai/core` 公共 API 可用；目录协议只使用既有白名单；core 结构问题必须真实收敛。
+
+## 已完成进展
+- 已提交 `goal-mode` 规则补强：`cf3cbfda`。
+- 已确认 core 当前主要问题是 `app-l1` 与多稳定域真实形态不匹配。
+- 已将 core 切到 `app-l2`，迁移到 `app/`、`features/`、`shared/lib/` 结构。
+- 已修复 builtin skills 资源路径，恢复 package 根入口 `src/index.ts`。
+- 已补齐 `requiredRootFiles` 治理能力，core 配置要求保留 `index.ts`。
+- 已完成最终验证：结构审计 0、core `tsc` 通过、core test 156/156 通过、core build 通过、governance 通过。
+
+## 当前下一步
+提交 package 根入口修正与治理规则补齐，最终汇报依赖方验证结果。
+
+## 锚点计数器
+16/20

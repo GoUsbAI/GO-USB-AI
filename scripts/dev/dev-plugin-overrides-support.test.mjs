@@ -70,7 +70,7 @@ test.afterEach(() => {
 });
 
 test("resolveFirstPartyPluginRef matches exact plugin id inside packages/extensions", () => {
-  const rootDir = createTempDir("nextclaw-dev-start-plugins-root-");
+  const rootDir = createTempDir("go-usb-ai-dev-start-plugins-root-");
   const extensionsDir = join(rootDir, "packages", "extensions");
   mkdirSync(extensionsDir, { recursive: true });
   const pluginPath = createPluginDir({
@@ -87,7 +87,7 @@ test("resolveFirstPartyPluginRef matches exact plugin id inside packages/extensi
 });
 
 test("resolveFirstPartyPluginRef rejects ambiguous suffix matches", () => {
-  const rootDir = createTempDir("nextclaw-dev-start-plugins-root-");
+  const rootDir = createTempDir("go-usb-ai-dev-start-plugins-root-");
   const extensionsDir = join(rootDir, "packages", "extensions");
   mkdirSync(extensionsDir, { recursive: true });
   createPluginDir({
@@ -110,7 +110,7 @@ test("resolveFirstPartyPluginRef rejects ambiguous suffix matches", () => {
 });
 
 test("inspectProductionBuildStatus reports stale when source is newer than dist", () => {
-  const rootDir = createTempDir("nextclaw-dev-start-plugins-root-");
+  const rootDir = createTempDir("go-usb-ai-dev-start-plugins-root-");
   const extensionsDir = join(rootDir, "packages", "extensions");
   mkdirSync(extensionsDir, { recursive: true });
   const pluginPath = createPluginDir({
@@ -130,7 +130,7 @@ test("inspectProductionBuildStatus reports stale when source is newer than dist"
 });
 
 test("inspectProductionBuildStatus accepts fresh production dist", () => {
-  const rootDir = createTempDir("nextclaw-dev-start-plugins-root-");
+  const rootDir = createTempDir("go-usb-ai-dev-start-plugins-root-");
   const extensionsDir = join(rootDir, "packages", "extensions");
   mkdirSync(extensionsDir, { recursive: true });
   const pluginPath = createPluginDir({

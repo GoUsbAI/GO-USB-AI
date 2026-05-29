@@ -21,7 +21,7 @@ function resolveAppleApiKeyFile() {
   if (rawValue.includes("BEGIN PRIVATE KEY")) {
     const tmpKeyPath = path.join(
       os.tmpdir(),
-      `nextclaw-notary-${Date.now()}-${Math.random().toString(16).slice(2)}.p8`
+      `go-usb-ai-notary-${Date.now()}-${Math.random().toString(16).slice(2)}.p8`
     );
     fs.writeFileSync(tmpKeyPath, rawValue, { mode: 0o600 });
     return {

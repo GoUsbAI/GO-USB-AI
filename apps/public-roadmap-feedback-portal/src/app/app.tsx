@@ -59,7 +59,7 @@ export default function App(): JSX.Element {
   });
 
   useEffect(() => {
-    document.title = "NextClaw Pulse · 公开路线图";
+    document.title = "GoUsbAi Pulse · 公开路线图";
   }, []);
 
   return (

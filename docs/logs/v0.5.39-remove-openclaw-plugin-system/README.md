@@ -22,15 +22,15 @@
   - `ServiceCommands` 不再加载任何 OpenClaw 插件注册表，不再注入插件 tool/channel/provider。
   - `CliRuntime agent` 不再注入插件扩展注册表与 messageToolHints 解析器。
 - 配置与 schema：
-  - `@nextclaw/core` 配置 schema 移除 `plugins` 节点与相关 hints/labels/help/reload 规则。
-  - `@nextclaw/server` 配置 schema 接口移除插件元数据注入逻辑。
+  - `@go-usb-ai/core` 配置 schema 移除 `plugins` 节点与相关 hints/labels/help/reload 规则。
+  - `@go-usb-ai/server` 配置 schema 接口移除插件元数据注入逻辑。
 - 依赖与包：
-  - 删除 `packages/nextclaw-openclaw-compat`。
-  - `nextclaw` / `@nextclaw/server` 移除 `@nextclaw/openclaw-compat` 依赖。
+  - 删除 `packages/go-usb-ai-openclaw-compat`。
+  - `go-usb-ai` / `@go-usb-ai/server` 移除 `@go-usb-ai/openclaw-compat` 依赖。
   - root `build/lint/tsc` 脚本移除 compat 包构建链路。
 - 文档：
   - 移除 `docs/openclaw-plugin-compat.md`。
-  - 更新 `README.md`、`docs/USAGE.md`、`docs/prd/current-feature-overview.md`、`docs/prd/current-feature-list.md`、`nextclaw-self-manage` skill。
+  - 更新 `README.md`、`docs/USAGE.md`、`docs/prd/current-feature-overview.md`、`docs/prd/current-feature-list.md`、`go-usb-ai-self-manage` skill。
 
 ## 验证（怎么确认符合预期）
 
@@ -41,13 +41,13 @@ pnpm lint
 pnpm tsc
 
 # smoke（隔离目录）
-TMP_HOME=$(mktemp -d /tmp/nextclaw-smoke-no-openclaw.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js --help
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels --help
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels add --channel test
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js init
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js status --json
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-smoke-no-openclaw.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js --help
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels --help
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels add --channel test
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js init
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js status --json
 ```
 
 验收点：
@@ -65,5 +65,5 @@ NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js status --json
 
 ## 影响范围 / 风险
 
-- Breaking change：是（删除 `nextclaw plugins *` 与 `channels add` 命令；移除 `plugins.*` 配置语义）。
+- Breaking change：是（删除 `go-usb-ai plugins *` 与 `channels add` 命令；移除 `plugins.*` 配置语义）。
 - 回滚方式：回退到本次提交前版本（恢复 compat 包与对应 CLI/运行时链路）。

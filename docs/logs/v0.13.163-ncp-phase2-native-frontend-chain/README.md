@@ -4,9 +4,9 @@
 
 本次改动包括：
 
-- 在 [ChatPage.tsx](../../../../packages/nextclaw-ui/src/components/chat/ChatPage.tsx) 建立唯一前端切换点，通过 `legacy/ncp` 两条页面编排链路做明确分离。
-- 保留 [LegacyChatPage.tsx](../../../../packages/nextclaw-ui/src/components/chat/legacy/LegacyChatPage.tsx) 继续承载旧链路。
-- 将 [NcpChatPage.tsx](../../../../packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx) 改为直接基于 `@nextclaw/ncp-react` 的 `useHydratedNcpAgent`、`@nextclaw/ncp-http-agent-client` 的 `NcpHttpAgentClientEndpoint` 来组装运行时。
+- 在 [ChatPage.tsx](../../../../packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx) 建立唯一前端切换点，通过 `legacy/ncp` 两条页面编排链路做明确分离。
+- 保留 [LegacyChatPage.tsx](../../../../packages/go-usb-ai-ui/src/components/chat/legacy/LegacyChatPage.tsx) 继续承载旧链路。
+- 将 [NcpChatPage.tsx](../../../../packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx) 改为直接基于 `@go-usb-ai/ncp-react` 的 `useHydratedNcpAgent`、`@go-usb-ai/ncp-http-agent-client` 的 `NcpHttpAgentClientEndpoint` 来组装运行时。
 - 删除错误方向的 NCP 反向适配层：
   - `ncp-runtime-agent.ts`
   - `ncp-parsers.ts`
@@ -19,27 +19,27 @@
 已执行：
 
 - `PATH=/opt/homebrew/bin:$PATH pnpm install`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui build`
 
 说明：
 
 - `tsc` 通过。
 - `build` 通过。
-- `lint` 未作为本次通过项记录。此前执行 `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui lint` 时，包内存在若干既有 lint 问题与基线问题，其中包含与本次改动无关的历史错误，当前未在本迭代内顺手清理。
+- `lint` 未作为本次通过项记录。此前执行 `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui lint` 时，包内存在若干既有 lint 问题与基线问题，其中包含与本次改动无关的历史错误，当前未在本迭代内顺手清理。
 
 # 发布/部署方式
 
 本次为前端本地链路改造，按常规前端流程处理：
 
 - 在仓库根目录执行 `PATH=/opt/homebrew/bin:$PATH pnpm install`
-- 验证 `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui tsc`
-- 验证 `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui build`
+- 验证 `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui tsc`
+- 验证 `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui build`
 - 后续若需要实际发布，再按项目既有前端发布流程继续，不在本迭代内直接发布
 
 # 用户/产品视角的验收步骤
 
-1. 启动包含 NCP agent 路由的 nextclaw UI 服务端。
+1. 启动包含 NCP agent 路由的 go-usb-ai UI 服务端。
 2. 打开 chat 页面，在 URL 上带 `?chatChain=ncp` 进入 NCP 链路。
 3. 在空会话下直接发送消息，确认会自动创建新 NCP session，并能正常收到回复。
 4. 刷新页面后重新进入同一 session，确认历史消息可被加载。

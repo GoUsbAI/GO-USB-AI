@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-本次迭代新增一份通用 MCP 能力规划文档，明确 Nextclaw 后续应以“平台级 MCP registry”而不是“某个 runtime 私有 MCP 配置”推进集成能力。
+本次迭代新增一份通用 MCP 能力规划文档，明确 GoUsbAi 后续应以“平台级 MCP registry”而不是“某个 runtime 私有 MCP 配置”推进集成能力。
 
 本次完成内容：
 
@@ -38,7 +38,7 @@
 后续若进入实施阶段，建议按方案文档中的阶段顺序推进：
 
 1. 平台级 `mcp` config schema 与 registry
-2. `nextclaw mcp` CLI
+2. `go-usb-ai mcp` CLI
 3. lifecycle 与 diagnostics
 4. `native` runtime 首个消费方
 5. UI 与 marketplace

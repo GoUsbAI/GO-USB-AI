@@ -1,6 +1,6 @@
 # Multi-Agent Routing
 
-Multi-agent routing is an advanced capability. Use it after NextClaw is already working and you want different tasks to use different agents or runtimes.
+Multi-agent routing is an advanced capability. Use it after GoUsbAi is already working and you want different tasks to use different agents or runtimes.
 
 ## When it helps
 

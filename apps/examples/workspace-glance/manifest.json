@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "nextclaw.workspace-glance",
+  "id": "go-usb-ai.workspace-glance",
   "name": "Workspace Glance",
   "version": "0.1.0",
   "description": "A compact workspace pulse app that summarizes an authorized workspace directory through a wasm main module.",

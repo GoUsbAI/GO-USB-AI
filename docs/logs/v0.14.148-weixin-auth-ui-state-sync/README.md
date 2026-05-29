@@ -10,15 +10,15 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui test -- --run src/components/config/weixin-channel-auth-section.test.tsx src/components/config/ChannelsList.test.tsx`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui build`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-weixin tsc`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-weixin build`
+- `pnpm -C packages/go-usb-ai-ui test -- --run src/components/config/weixin-channel-auth-section.test.tsx src/components/config/ChannelsList.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin tsc`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin build`
 - `tsx` 回归脚本验证：
   - `status: "scanned"` 映射为 `scanned`
   - `status: "scaned"` 且已返回 `bot_token + ilink_bot_id` 映射为 `authorized`
-- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/config/weixin-channel-auth-section.tsx packages/nextclaw-ui/src/components/config/weixin-channel-auth-section.test.tsx packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-api.client.ts packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-login.service.ts`
+- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/config/weixin-channel-auth-section.tsx packages/go-usb-ai-ui/src/components/config/weixin-channel-auth-section.test.tsx packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-api.client.ts packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-login.service.ts`
 
 ## 发布/部署方式
 

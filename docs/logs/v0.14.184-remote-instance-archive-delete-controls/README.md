@@ -16,9 +16,9 @@
 ## 测试 / 验证 / 验收方式
 
 - 构建与静态检查
-  - `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api build`
-  - `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api lint`
-  - `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api tsc`
+  - `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api build`
+  - `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api lint`
+  - `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api tsc`
   - `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C apps/platform-console build`
   - `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C apps/platform-console lint`
   - `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C apps/platform-console tsc`
@@ -30,10 +30,10 @@
   - 本地临时 D1 + `wrangler dev --local` 启动 worker，真实执行登录、注册实例、归档、默认列表隐藏、`includeArchived=true` 显示、恢复、再次归档、删除整链路
   - 结果：通过，输出 `[remote-instance-api-smoke] passed`
 - 线上冒烟
-  - `https://ai-gateway-api.nextclaw.io/health` 返回 `200`
+  - `https://ai-gateway-api.go-usb-ai.io/health` 返回 `200`
   - 未登录访问 `GET /platform/remote/instances` 返回 `401`
   - 未登录访问 `POST /platform/remote/instances/demo/archive` 返回 `401`
-  - 新 console 部署地址 `https://59476916.nextclaw-platform-console.pages.dev` 返回 `200`
+  - 新 console 部署地址 `https://59476916.go-usb-ai-platform-console.pages.dev` 返回 `200`
 
 ## 发布 / 部署方式
 
@@ -45,15 +45,15 @@
   - 结果：成功，Worker version `c8cce155-7592-49fc-9a2c-d1736c52c41a`
 - 平台 console
   - `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm deploy:platform:console`
-  - 结果：成功，Pages 部署地址 `https://59476916.nextclaw-platform-console.pages.dev`
+  - 结果：成功，Pages 部署地址 `https://59476916.go-usb-ai-platform-console.pages.dev`
 - 不适用项
   - `deploy:platform:admin`：本次未触达 admin 站
   - NPM package release：本次未触达需要发包的 public workspace package
 
 ## 用户 / 产品视角的验收步骤
 
-1. 登录 `platform.nextclaw.io`，进入 `My Instances / 我的实例`。
+1. 登录 `platform.go-usb-ai.io`，进入 `My Instances / 我的实例`。
 2. 对一个旧的离线实例点击 `Archive / 归档`，确认它从主列表消失并进入 `Archived instances / 已归档实例`。
 3. 在归档区点击 `Restore / 恢复`，确认它重新回到主列表。
 4. 再次归档同一个离线实例，点击 `Delete / 删除`，确认它从归档区彻底消失。
-5. 回到桌面端重新让同一个真实 NextClaw 实例上线，确认它会重新出现在主列表，而不是永久隐藏。
+5. 回到桌面端重新让同一个真实 GoUsbAi 实例上线，确认它会重新出现在主列表，而不是永久隐藏。

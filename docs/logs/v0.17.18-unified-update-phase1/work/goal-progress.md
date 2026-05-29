@@ -13,21 +13,21 @@
 
 ## 冻结边界 / 不变量
 
-- 后端公共入口是 `nextclaw.eventBus`。
-- 事件 key / envelope 契约来自 `@nextclaw/kernel` 顶层导出。
+- 后端公共入口是 `go-usb-ai.eventBus`。
+- 事件 key / envelope 契约来自 `@go-usb-ai/kernel` 顶层导出。
 - server 只把 event bus bridge 到既有 `/ws`。
 - SDK 暴露 `client.eventBus`，并懒启动 realtime transport。
 - UI 初始状态仍允许一次 GET，后续变化走事件。
 
 ## 已完成进展
 
-- 已落地 `nextclaw.eventBus`、`EventBus`、`eventKeys`、`AppEvent`。
-- 已把 server `/ws` bridge 接到 `nextclaw.eventBus.subscribeAll`。
+- 已落地 `go-usb-ai.eventBus`、`EventBus`、`eventKeys`、`AppEvent`。
+- 已把 server `/ws` bridge 接到 `go-usb-ai.eventBus.subscribeAll`。
 - 已让 NPM runtime update host 通过 `runtime.update.snapshot` 发布状态。
 - 已让 SDK 暴露懒启动 `client.eventBus`，`sessions.subscribe` 复用同一 bus。
 - 已让 UI 使用 `useAppEventConsumers` 消费统一事件，并删除 host 模式 1s 轮询。
-- 已补齐 Vite / Vitest / tsconfig 对 `@nextclaw/kernel` 与 `@nextclaw/client-sdk` 的一致 alias。
-- 已同步 `packages/nextclaw/ui-dist`。
+- 已补齐 Vite / Vitest / tsconfig 对 `@go-usb-ai/kernel` 与 `@go-usb-ai/client-sdk` 的一致 alias。
+- 已同步 `packages/go-usb-ai/ui-dist`。
 - 已完成测试、tsc、build、rg 和 maintainability guard 验证。
 
 ## 当前下一步

@@ -4,7 +4,7 @@
 
 - Discord Slash 命令统一先 `deferReply`，避免交互超时导致 “The application did not respond”。
 - 对非 ephemeral 返回补充确认回复，确保 defer 的占位响应被正确结束。
-- 同步版本：`@nextclaw/channel-runtime@0.1.18`、`@nextclaw/channel-plugin-discord@0.1.6`、`@nextclaw/openclaw-compat@0.1.26`、`@nextclaw/server@0.5.9`、`nextclaw@0.8.14`。
+- 同步版本：`@go-usb-ai/channel-runtime@0.1.18`、`@go-usb-ai/channel-plugin-discord@0.1.6`、`@go-usb-ai/openclaw-compat@0.1.26`、`@go-usb-ai/server@0.5.9`、`go-usb-ai@0.8.14`。
 
 ## 测试 / 验证 / 验收方式
 
@@ -15,13 +15,13 @@ PATH=/opt/homebrew/bin:$PATH pnpm lint
 PATH=/opt/homebrew/bin:$PATH pnpm tsc
 
 # Discord 实际验证（本机 token，避免写入仓库目录）
-TMP_HOME=$(mktemp -d /tmp/nextclaw-discord-slash-live.XXXXXX)
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-discord-slash-live.XXXXXX)
 python3 - <<'PY'
 import json
 import os
 import shutil
 
-cfg_path = os.path.expanduser('~/.nextclaw/config.json')
+cfg_path = os.path.expanduser('~/.go-usb-ai/config.json')
 with open(cfg_path, 'r') as f:
     cfg = json.load(f)
 
@@ -40,7 +40,7 @@ os.makedirs(os.environ["TMP_HOME"], exist_ok=True)
 with open(os.path.join(os.environ["TMP_HOME"], 'config.json'), 'w') as f:
     json.dump(out, f, ensure_ascii=False, indent=2)
 PY
-PATH=/opt/homebrew/bin:$PATH NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js gateway
+PATH=/opt/homebrew/bin:$PATH GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js gateway
 # 等待日志出现 "Discord bot connected" 与 "Discord slash commands registered ..."
 
 # 说明：尝试用 bot token 调用 /interactions 会被 Discord 拒绝（403, code=20001），
@@ -55,7 +55,7 @@ TOKEN = cfg["channels"]["discord"]["token"]
 
 headers = {
     "Authorization": f"Bot {TOKEN}",
-    "User-Agent": "DiscordBot (https://nextclaw.ai, 0.1)",
+    "User-Agent": "DiscordBot (https://go-usb-ai.ai, 0.1)",
     "Content-Type": "application/json"
 }
 req = urllib.request.Request(

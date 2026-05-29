@@ -10,8 +10,8 @@
 - 状态标签（就绪/待配置）增加不换行与不收缩约束，避免中文被挤压成竖排换行。
 
 涉及文件：
-- [`packages/nextclaw-ui/src/components/config/ProvidersList.tsx`](../../../../packages/nextclaw-ui/src/components/config/ProvidersList.tsx)
-- [`packages/nextclaw-ui/src/components/ui/status-dot.tsx`](../../../../packages/nextclaw-ui/src/components/ui/status-dot.tsx)
+- [`packages/go-usb-ai-ui/src/components/config/ProvidersList.tsx`](../../../../packages/go-usb-ai-ui/src/components/config/ProvidersList.tsx)
+- [`packages/go-usb-ai-ui/src/components/ui/status-dot.tsx`](../../../../packages/go-usb-ai-ui/src/components/ui/status-dot.tsx)
 
 ## 测试 / 验证 / 验收方式
 
@@ -20,11 +20,11 @@
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`
 - UI 包局部验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 - 冒烟验证：
-  - 启动：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui preview --host 127.0.0.1 --port 4175`
+  - 启动：`PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui preview --host 127.0.0.1 --port 4175`
   - 检查：`curl http://127.0.0.1:4175/` 与 `curl http://127.0.0.1:4175/providers`
   - 结果：两个地址均返回 `200`
 

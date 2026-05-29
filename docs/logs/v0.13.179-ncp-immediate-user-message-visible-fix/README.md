@@ -11,7 +11,7 @@
 ## 测试/验证/验收方式
 
 - 运行：
-  - `pnpm --filter @nextclaw/ncp-toolkit exec vitest run src/agent/in-memory-agent-backend.test.ts`
+  - `pnpm --filter @go-usb-ai/ncp-toolkit exec vitest run src/agent/in-memory-agent-backend.test.ts`
 - 观察点：
   - `message.sent` 出现在 assistant `message.text-delta` 之前。
   - 新会话和已有会话中，用户按回车后自己的消息应立刻可见。

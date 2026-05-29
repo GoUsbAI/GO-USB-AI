@@ -2,11 +2,11 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** 在不打补丁、不继续堆特例的前提下，把 NextClaw 当前 `spawn/subagent/follow-up` 链路收敛成可长期演进的 `child session + session request + completion event + delivery adapter` 结构，并同步落地 Phase 1 的 child session 产品交互约束。
+**Goal:** 在不打补丁、不继续堆特例的前提下，把 GoUsbAi 当前 `spawn/subagent/follow-up` 链路收敛成可长期演进的 `child session + session request + completion event + delivery adapter` 结构，并同步落地 Phase 1 的 child session 产品交互约束。
 
 **Architecture:** 先收敛协议与后端编排层，再接入前端产品表面，最后把旧 `spawn` 兼容映射到新模型。核心做法不是再叠一层新逻辑，而是删除旧的 subagent 专用回传分支，把“创建子会话”“向目标会话发请求”“等待终态事件”“把结果回投到源会话”拆成稳定的一等对象与 class 边界。
 
-**Tech Stack:** TypeScript, `@nextclaw/core`, `@nextclaw/ncp`, `@nextclaw/ncp-toolkit`, `packages/nextclaw`, `packages/nextclaw-ui`, React, Zustand/manager pattern, Vitest.
+**Tech Stack:** TypeScript, `@go-usb-ai/core`, `@go-usb-ai/ncp`, `@go-usb-ai/ncp-toolkit`, `packages/go-usb-ai`, `packages/go-usb-ai-ui`, React, Zustand/manager pattern, Vitest.
 
 ---
 
@@ -373,32 +373,32 @@ child session 的产品表面必须收敛到：
 
 优先考虑收敛到：
 
-- `packages/nextclaw/src/cli/commands/ncp/session-request/`
+- `packages/go-usb-ai/src/cli/commands/ncp/session-request/`
 
 而不是继续把所有 request/session/broker 逻辑平铺回原命令文件。
 
 建议新增文件：
 
-- `packages/nextclaw/src/cli/commands/ncp/session-request/session-request-broker.manager.ts`
-- `packages/nextclaw/src/cli/commands/ncp/session-request/session-request-store.service.ts`
-- `packages/nextclaw/src/cli/commands/ncp/session-request/session-request-delivery.service.ts`
-- `packages/nextclaw/src/cli/commands/ncp/session-request/session-request.types.ts`
-- `packages/nextclaw/src/cli/commands/ncp/session-request/session-creation.service.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/session-request/session-request-broker.manager.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/session-request/session-request-store.service.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/session-request/session-request-delivery.service.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/session-request/session-request.types.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/session-request/session-creation.service.ts`
 
 ### 7.2 前端建议
 
 优先考虑收敛到：
 
-- `packages/nextclaw-ui/src/components/chat/child-session/`
+- `packages/go-usb-ai-ui/src/components/chat/child-session/`
 
 建议新增文件：
 
-- `packages/nextclaw-ui/src/components/chat/child-session/child-session-card.presenter.ts`
-- `packages/nextclaw-ui/src/components/chat/child-session/child-session-card.tsx`
-- `packages/nextclaw-ui/src/components/chat/child-session/child-session-details.manager.ts`
-- `packages/nextclaw-ui/src/components/chat/child-session/child-session-details-panel.tsx`
-- `packages/nextclaw-ui/src/components/chat/child-session/child-session-navigation.service.ts`
-- `packages/nextclaw-ui/src/components/chat/child-session/child-session.types.ts`
+- `packages/go-usb-ai-ui/src/components/chat/child-session/child-session-card.presenter.ts`
+- `packages/go-usb-ai-ui/src/components/chat/child-session/child-session-card.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/child-session/child-session-details.manager.ts`
+- `packages/go-usb-ai-ui/src/components/chat/child-session/child-session-details-panel.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/child-session/child-session-navigation.service.ts`
+- `packages/go-usb-ai-ui/src/components/chat/child-session/child-session.types.ts`
 
 ## 8. 前端产品实现硬约束
 

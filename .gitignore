@@ -7,10 +7,11 @@ coverage/
 .npmrc
 .npmrc.publish.local
 tmp
+.codegraph/
 apps/docs/.vitepress/dist/
 apps/docs/.vitepress/cache/
 apps/docs/--host/
-packages/nextclaw/*.tgz
+packages/go-usb-ai/*.tgz
 **/.wrangler/
 
 apps/docs/.vitepress/.temp/

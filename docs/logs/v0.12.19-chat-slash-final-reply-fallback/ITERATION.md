@@ -7,9 +7,9 @@
 
 # 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui build`
-- `pnpm -C packages/nextclaw-ui lint`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `pnpm -C packages/go-usb-ai-ui lint`
   - 结果：失败，失败点为仓库既有问题（如 `useChatStreamController.ts` 的 react-hooks/refs、`MaskedInput.tsx` 未使用参数），与本次修复无关。
 
 # 发布/部署方式

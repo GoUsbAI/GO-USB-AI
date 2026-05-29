@@ -16,7 +16,7 @@
   - `pnpm lint`
   - `pnpm tsc`
 - 冒烟测试（隔离环境，非仓库目录写入）：
-  - 设置 `NEXTCLAW_HOME=/tmp/...`，并将 `agents.defaults.workspace` 指向 `/tmp/...`。
+  - 设置 `GOUSB_AI_HOME=/tmp/...`，并将 `agents.defaults.workspace` 指向 `/tmp/...`。
   - 通过 `ServiceCommands` 执行：`installMarketplaceSkill(git) -> uninstallMarketplaceSkill -> installMarketplaceSkill(git)`。
   - 观察点：第二次安装成功，不再出现 JSON 解析错误。
 

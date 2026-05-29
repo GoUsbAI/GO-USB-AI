@@ -2,8 +2,8 @@
 
 ## 执行命令（关键）
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core build`
 
 ## E2E 冒烟（真实链路）
 

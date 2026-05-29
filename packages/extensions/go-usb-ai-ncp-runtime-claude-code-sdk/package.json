@@ -1,0 +1,35 @@
+{
+  "name": "@go-usb-ai/go-usb-ai-ncp-runtime-claude-code-sdk",
+  "version": "0.1.39",
+  "private": false,
+  "description": "Optional NCP runtime adapter backed by Anthropic Claude Agent SDK.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsdown src/index.ts --dts.sourcemap --clean --target es2022 --no-fixedExtension --unbundle",
+    "prepack": "pnpm run build",
+    "lint": "eslint .",
+    "test": "vitest run src/utils/anthropic-openai-bridge-stream.utils.test.ts",
+    "tsc": "tsc -p tsconfig.json",
+    "prepublishOnly": "node ../../../scripts/release/ensure-pnpm-publish.mjs"
+  },
+  "files": [
+    "dist",
+    "claude-code-loader.cjs",
+    "README.md"
+  ],
+  "dependencies": {
+    "@go-usb-ai/ncp": "workspace:*",
+    "@anthropic-ai/claude-agent-sdk": "^0.2.63"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.2"
+  }
+}

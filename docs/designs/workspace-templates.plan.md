@@ -1,8 +1,8 @@
-# Workspace Templates Plan (NextClaw)
+# Workspace Templates Plan (GoUsbAi)
 
 ## Goal
 
-Match OpenClaw-level completeness for workspace guidance while keeping NextClaw defaults safe and non-destructive.
+Match OpenClaw-level completeness for workspace guidance while keeping GoUsbAi defaults safe and non-destructive.
 
 ## Scope
 
@@ -26,8 +26,8 @@ Match OpenClaw-level completeness for workspace guidance while keeping NextClaw 
 
 ## Behavior
 
-- `nextclaw init` creates missing files only.
-- `nextclaw start` auto-runs init and informs the user.
+- `go-usb-ai init` creates missing files only.
+- `go-usb-ai start` auto-runs init and informs the user.
 - `onboard` remains as a deprecated alias to init.
 
 ## Acceptance

@@ -23,9 +23,9 @@
 
 ## 测试/验证/验收方式
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc --noEmit`
 - ESLint（受影响文件）：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/chat-input/ChatInputBarView.tsx src/components/chat/chat-input/ChatInputBottomToolbar.tsx src/components/chat/chat-input/useChatInputBarController.ts src/components/chat/chat-input.types.ts src/components/chat/chat-input/components/ChatInputQueueSection.tsx src/components/chat/chat-input/components/ChatInputSlashPanelSection.tsx src/components/chat/chat-input/components/ChatInputSelectedSkillsSection.tsx src/components/chat/chat-input/components/ChatInputModelStateHint.tsx src/components/chat/chat-input/components/bottom-toolbar/ChatInputAttachButton.tsx src/components/chat/chat-input/components/bottom-toolbar/ChatInputSessionTypeSelector.tsx src/components/chat/chat-input/components/bottom-toolbar/ChatInputModelSelector.tsx src/components/chat/chat-input/components/bottom-toolbar/ChatInputSendControls.tsx src/components/chat/ChatConversationPanel.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/chat-input/ChatInputBarView.tsx src/components/chat/chat-input/ChatInputBottomToolbar.tsx src/components/chat/chat-input/useChatInputBarController.ts src/components/chat/chat-input.types.ts src/components/chat/chat-input/components/ChatInputQueueSection.tsx src/components/chat/chat-input/components/ChatInputSlashPanelSection.tsx src/components/chat/chat-input/components/ChatInputSelectedSkillsSection.tsx src/components/chat/chat-input/components/ChatInputModelStateHint.tsx src/components/chat/chat-input/components/bottom-toolbar/ChatInputAttachButton.tsx src/components/chat/chat-input/components/bottom-toolbar/ChatInputSessionTypeSelector.tsx src/components/chat/chat-input/components/bottom-toolbar/ChatInputModelSelector.tsx src/components/chat/chat-input/components/bottom-toolbar/ChatInputSendControls.tsx src/components/chat/ChatConversationPanel.tsx`
 - UI 构建：
   - `PATH=/opt/homebrew/bin:$PATH pnpm -C . build:ui`
 

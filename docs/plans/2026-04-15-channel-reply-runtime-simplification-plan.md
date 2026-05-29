@@ -5,8 +5,8 @@
 这份计划文档虽然沿用了旧文件名，但当前内容已经更新为最新共识：
 
 - 协议性的交互约束，优先通过 TypeScript 类型定义表达。
-- 机制性实现不应继续堆在 `nextclaw` CLI 包里。
-- `nextclaw` 负责应用装配与运行入口，不负责定义通用交互协议。
+- 机制性实现不应继续堆在 `go-usb-ai` CLI 包里。
+- `go-usb-ai` 负责应用装配与运行入口，不负责定义通用交互协议。
 - 交互出站的共享语义，应建立在 NCP event stream 之上，而不是建立在“最终字符串”或私有 control message 之上。
 
 当前用户关心的问题并不是“微信怎么快发”这么窄，而是更底层的一件事：
@@ -19,7 +19,7 @@
 
 ## 长期目标对齐 / 可维护性推进
 
-这次收敛方向与 NextClaw 的长期目标一致：
+这次收敛方向与 GoUsbAi 的长期目标一致：
 
 - 它强化的是“统一入口下的能力编排”，不是某个单渠道的局部技巧。
 - 它强化的是“统一交互协议 + 多输出面消费”，不是继续让每个渠道各自发明一套 reply 机制。
@@ -30,17 +30,17 @@
 - 真相源更少比局部兼容更重要。
 - 单主链比“先兼容几种旧写法”更重要。
 - 共享投影层比“每个渠道自己理解事件”更重要。
-- 把机制沉到通用包里，比继续往 `nextclaw` CLI 包里塞东西更重要。
+- 把机制沉到通用包里，比继续往 `go-usb-ai` CLI 包里塞东西更重要。
 
 ## 当前落地状态
 
 本轮已经完成的部分：
 
-### 1. 协议真相源已经下沉到 `@nextclaw/ncp-toolkit`
+### 1. 协议真相源已经下沉到 `@go-usb-ai/ncp-toolkit`
 
 真相源文件：
 
-- `packages/ncp-packages/nextclaw-ncp-toolkit/src/interaction/interaction.types.ts`
+- `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/interaction/interaction.types.ts`
 
 当前已经稳定下来的协议类型：
 
@@ -54,12 +54,12 @@
 
 这些类型表达的是更本质的交互层约束，而不是某个具体渠道的局部接口。
 
-### 2. 通用实现已经跟着协议一起搬到 `@nextclaw/ncp-toolkit`
+### 2. 通用实现已经跟着协议一起搬到 `@go-usb-ai/ncp-toolkit`
 
 共享实现文件：
 
-- `packages/ncp-packages/nextclaw-ncp-toolkit/src/interaction/interaction-projector.service.ts`
-- `packages/ncp-packages/nextclaw-ncp-toolkit/src/interaction/outbound-interaction-orchestrator.service.ts`
+- `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/interaction/interaction-projector.service.ts`
+- `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/interaction/outbound-interaction-orchestrator.service.ts`
 
 当前职责已经收敛为两层：
 
@@ -68,16 +68,16 @@
 - `OutboundInteractionOrchestratorService`
   - 唯一负责顺序驱动交互动作的实际投递。
 
-### 3. `nextclaw` 里只保留应用侧 runner / wiring 过渡壳
+### 3. `go-usb-ai` 里只保留应用侧 runner / wiring 过渡壳
 
-当前仍保留在 `nextclaw` 的核心过渡实现：
+当前仍保留在 `go-usb-ai` 的核心过渡实现：
 
-- `packages/nextclaw/src/cli/commands/ncp/runtime/runner/nextclaw-ncp-runner.service.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/runtime/runner/go-usb-ai-ncp-runner.service.ts`
 
 它的定位不是定义协议，而是：
 
 - 提供 `AsyncIterable<NcpEndpointEvent>` 流式入口
-- 为 `nextclaw` 应用层保留 NCP 运行入口
+- 为 `go-usb-ai` 应用层保留 NCP 运行入口
 - 给后续 gateway / plugin / channel cutover 提供桥接点
 
 这层仍然是过渡壳，但它已经不再试图拥有交互协议本身。
@@ -163,7 +163,7 @@
 
 ## 包边界与职责定位
 
-### `@nextclaw/ncp`
+### `@go-usb-ai/ncp`
 
 职责：
 
@@ -174,7 +174,7 @@
 - 渠道交互语义
 - 应用层渠道发送策略
 
-### `@nextclaw/ncp-toolkit`
+### `@go-usb-ai/ncp-toolkit`
 
 职责：
 
@@ -182,9 +182,9 @@
 - 承载共享语义投影实现
 - 承载共享出站编排实现
 
-这是当前这套机制最合理的归宿，因为它既不属于纯底层协议，也不应该被绑死在 `nextclaw` CLI 应用里。
+这是当前这套机制最合理的归宿，因为它既不属于纯底层协议，也不应该被绑死在 `go-usb-ai` CLI 应用里。
 
-### `nextclaw`
+### `go-usb-ai`
 
 职责：
 
@@ -203,11 +203,11 @@
 
 第一真相源：
 
-- `packages/ncp-packages/nextclaw-ncp-toolkit/src/interaction/interaction.types.ts`
+- `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/interaction/interaction.types.ts`
 
 第二真相源：
 
-- `packages/nextclaw/src/cli/commands/ncp/runtime/runner/nextclaw-ncp-runner.service.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/runtime/runner/go-usb-ai-ncp-runner.service.ts`
 
 这两个文件共同定义了当前批次最小但足够稳定的主合同：
 
@@ -279,15 +279,15 @@ interface OutboundInteractionDeliveryPort {
 
 - 命名被 `channel / reply / runtime` 锁死
 - 看起来像 CLI 包里的一个子功能，而不是共享交互机制
-- 容易让人继续往 `nextclaw` 应用层里堆机制
+- 容易让人继续往 `go-usb-ai` 应用层里堆机制
 
 新的结构更干净，因为它把三个层次分开了：
 
-1. `@nextclaw/ncp`
+1. `@go-usb-ai/ncp`
    - 只讲底层事件
-2. `@nextclaw/ncp-toolkit`
+2. `@go-usb-ai/ncp-toolkit`
    - 只讲共享交互协议与共享实现
-3. `nextclaw`
+3. `go-usb-ai`
    - 只讲应用装配和具体输出面接线
 
 这样未来即使接入新的 surface，也是在复用同一套 contract，而不是复制一套“某渠道 reply runtime”。
@@ -296,10 +296,10 @@ interface OutboundInteractionDeliveryPort {
 
 ### Step A：已完成
 
-- 把协议真相源下沉到 `@nextclaw/ncp-toolkit`
-- 把 projector / orchestrator 搬到 `@nextclaw/ncp-toolkit`
-- 删除 `nextclaw` 内原来的 `channel-reply` 本地实现
-- 在 `nextclaw` 中保留 runner 过渡壳
+- 把协议真相源下沉到 `@go-usb-ai/ncp-toolkit`
+- 把 projector / orchestrator 搬到 `@go-usb-ai/ncp-toolkit`
+- 删除 `go-usb-ai` 内原来的 `channel-reply` 本地实现
+- 在 `go-usb-ai` 中保留 runner 过渡壳
 
 ### Step B：下一步单批次切主链
 
@@ -310,8 +310,8 @@ interface OutboundInteractionDeliveryPort {
 
 涉及的重点文件会集中在：
 
-- `packages/nextclaw/src/cli/commands/service-support/gateway/*`
-- `packages/nextclaw/src/cli/commands/service-support/plugin/*`
+- `packages/go-usb-ai/src/cli/commands/service-support/gateway/*`
+- `packages/go-usb-ai/src/cli/commands/service-support/plugin/*`
 - 各 surface-specific delivery port 适配层
 
 硬要求：
@@ -364,21 +364,21 @@ interface OutboundInteractionDeliveryPort {
 - adapter 自己兜生命周期
 - plugin bridge 平行维护第二套 orchestrator
 
-### 4. `nextclaw` 只负责装配
+### 4. `go-usb-ai` 只负责装配
 
-`nextclaw` 可以有 wiring，可以有 runner，可以有 surface-specific port 解析，但不再拥有共享交互机制本身。
+`go-usb-ai` 可以有 wiring，可以有 runner，可以有 surface-specific port 解析，但不再拥有共享交互机制本身。
 
 如果未来再出现“这机制是不是也顺手放到 CLI 包里”，默认答案应当是：
 
-**不放，先判断它是不是共享 contract 或共享机制；如果是，就优先考虑 `@nextclaw/ncp-toolkit`。**
+**不放，先判断它是不是共享 contract 或共享机制；如果是，就优先考虑 `@go-usb-ai/ncp-toolkit`。**
 
 ## 验收标准
 
 这次设计是否真正成立，看下面几条是否同时满足：
 
 1. 交互协议真相源是否已经明确落在 `interaction.types.ts`。
-2. projector 与 orchestrator 是否已经从 `nextclaw` 移出，并进入共享包。
-3. `nextclaw` 是否只剩 runner / wiring / 过渡壳，而不是继续定义机制。
+2. projector 与 orchestrator 是否已经从 `go-usb-ai` 移出，并进入共享包。
+3. `go-usb-ai` 是否只剩 runner / wiring / 过渡壳，而不是继续定义机制。
 4. 新 surface 若要接入，是否只需要实现 delivery port，而不需要再发明一套 reply 协议。
 5. 后续 cutover 是否可以沿着单主链推进，而不是再次长出双轨。
 
@@ -387,10 +387,10 @@ interface OutboundInteractionDeliveryPort {
 本轮已经验证通过的命令基线应维持为：
 
 ```bash
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:/usr/local/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- src/interaction/interaction-projector.service.test.ts src/interaction/outbound-interaction-orchestrator.service.test.ts
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:/usr/local/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:/usr/local/bin:$PATH pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/runtime/nextclaw-ncp-runner.test.ts
-PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:/usr/local/bin:$PATH pnpm -C packages/nextclaw tsc
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:/usr/local/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- src/interaction/interaction-projector.service.test.ts src/interaction/outbound-interaction-orchestrator.service.test.ts
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:/usr/local/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:/usr/local/bin:$PATH pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/runtime/go-usb-ai-ncp-runner.test.ts
+PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:/usr/local/bin:$PATH pnpm -C packages/go-usb-ai tsc
 ```
 
 ## 结论

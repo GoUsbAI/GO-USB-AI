@@ -8,7 +8,7 @@
   - `useSyncSessionPreference` 先把全局默认写进 `selectedModel`。
   - 等最近同类会话模型异步到达后，旧实现不会重新把这个“自动选中的默认值”判定为可替换候选，因此 fresh draft 会停在全局默认。
 - 本次修复命中根因，而不是补一层特判：
-  - 在 `packages/nextclaw-ui/src/features/chat/utils/chat-session-preference-governance.utils.ts` 中，把自动同步收敛成基于 `syncKey` 的可重放同步。
+  - 在 `packages/go-usb-ai-ui/src/features/chat/utils/chat-session-preference-governance.utils.ts` 中，把自动同步收敛成基于 `syncKey` 的可重放同步。
   - 只有当当前值仍等于“上一次自动同步写入的值”时，后续到达的更准候选值才允许替换它。
   - 用户手动切换后的模型不会被这次异步到达的 recent same-type 数据覆盖。
 - 逻辑也顺手做了简化：
@@ -18,9 +18,9 @@
 ## 测试/验证/验收方式
 
 - 已执行：
-  - `pnpm -C packages/nextclaw-ui test -- src/features/chat/utils/chat-session-preference-governance.utils.test.tsx`
-  - `pnpm -C packages/nextclaw-ui tsc`
-  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/chat/utils/chat-session-preference-governance.utils.ts packages/nextclaw-ui/src/features/chat/utils/chat-session-preference-governance.utils.test.tsx packages/nextclaw-ui/src/features/chat/hooks/use-ncp-chat-page-data.ts packages/nextclaw-ui/src/features/chat/pages/ncp-chat-page.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui test -- src/features/chat/utils/chat-session-preference-governance.utils.test.tsx`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/utils/chat-session-preference-governance.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-session-preference-governance.utils.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-chat-page-data.ts packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.test.ts`
   - `pnpm lint:new-code:governance`
   - `pnpm check:governance-backlog-ratchet`
 - 结果：
@@ -29,7 +29,7 @@
   - maintainability guard 通过，`Non-test line changes: +37 / -42 / net -5`。
   - `lint:new-code:governance` 通过。
   - `check:governance-backlog-ratchet` 未通过，但失败原因是仓库既有基线 `docFileNameViolations current 13 > baseline 11`，与本次聊天模型同步修复无关。
-  - 额外尝试运行 `pnpm -C packages/nextclaw-ui test -- src/features/chat/pages/ncp-chat-page.test.ts src/features/chat/utils/chat-session-preference-governance.utils.test.tsx` 时，`ncp-chat-page.test.ts` 在导入阶段即被 `src/features/pwa/stores/pwa.store.ts` 的 `storage.getItem is not a function` 阻塞；这是既有测试基建问题，不是本次改动引入的新失败。
+  - 额外尝试运行 `pnpm -C packages/go-usb-ai-ui test -- src/features/chat/pages/ncp-chat-page.test.ts src/features/chat/utils/chat-session-preference-governance.utils.test.tsx` 时，`ncp-chat-page.test.ts` 在导入阶段即被 `src/features/pwa/stores/pwa.store.ts` 的 `storage.getItem is not a function` 阻塞；这是既有测试基建问题，不是本次改动引入的新失败。
 - 未执行：
   - 浏览器里的真实刷新冒烟。
   - 原因：本轮先用定向 hook 合同测试和 `tsc` 验证根因修复，未额外启动完整前端会话环境做人工刷新验收。

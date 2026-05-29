@@ -2,9 +2,9 @@
 
 ## 迭代完成说明
 
-- 修复 `apps/desktop/scripts/smoke-macos-dmg.sh` 的 macOS DMG 冒烟前置初始化方式，不再依赖打包后 `nextclaw init` 预热配置，而是直接写入最小 `config.json`，避免 `darwin-x64` 产物在 arm64 macOS runner 上卡死在预初始化阶段。
+- 修复 `apps/desktop/scripts/smoke-macos-dmg.sh` 的 macOS DMG 冒烟前置初始化方式，不再依赖打包后 `go-usb-ai init` 预热配置，而是直接写入最小 `config.json`，避免 `darwin-x64` 产物在 arm64 macOS runner 上卡死在预初始化阶段。
 - 为 `.github/workflows/desktop-release.yml` 的 `build-desktop` 矩阵 job 增加 `timeout-minutes: 45`，避免未来类似卡死把整个桌面端预发布链路无限挂住。
-- 本次续改又修复了一个更严重的桌面端数据目录回归：之前为了手动验证更新通道，错误地把 `runtimeHomeOverride` / `desktopDataDirOverride` 烘进了打包 metadata，导致验证安装包启动后不会回到用户自己的 `~/.nextclaw`。
+- 本次续改又修复了一个更严重的桌面端数据目录回归：之前为了手动验证更新通道，错误地把 `runtimeHomeOverride` / `desktopDataDirOverride` 烘进了打包 metadata，导致验证安装包启动后不会回到用户自己的 `~/.go-usb-ai`。
 - 现在已删除这条错误链路：
   - `apps/desktop/src/utils/desktop-paths.utils.ts` 不再从 packaged `update-release-metadata.json` 读取 `runtimeHomeOverride` / `desktopDataDirOverride`
   - `apps/desktop/scripts/update/services/write-release-metadata.service.mjs` 不再写入这两个字段
@@ -16,12 +16,12 @@
 - 本次继续收尾又定位出另一条会直接让用户误判“桌面包很老”的发布链路问题：
   - 仓库根的一键校验脚本 `pnpm desktop:package:verify` 之前只会跑 `electron-builder`，不会先重新生成 `apps/desktop/build/update/seed-product-bundle.zip`
   - 这意味着它可能把旧的 seed bundle 或缺失 seed 的状态直接带进新的 DMG，最终出现“安装包文件看起来是新的，但打开后桌面端 bundle 版本还是旧的”
-  - 本次已经修正 [desktop-package-verify.mjs](/Users/peiwang/Projects/nextbot/scripts/desktop/desktop-package-verify.mjs)：现在会先执行 `pnpm -C apps/desktop bundle:seed`，并且在 DMG 产出后直接校验打包进去的 `seed-product-bundle.zip` 的 `bundleVersion` 必须等于当前 `packages/nextclaw/package.json` 版本
+  - 本次已经修正 [desktop-package-verify.mjs](/Users/peiwang/Projects/nextbot/scripts/desktop/desktop-package-verify.mjs)：现在会先执行 `pnpm -C apps/desktop bundle:seed`，并且在 DMG 产出后直接校验打包进去的 `seed-product-bundle.zip` 的 `bundleVersion` 必须等于当前 `packages/go-usb-ai/package.json` 版本
 - 当前重新生成的标准 DMG 已确认内置 seed bundle 版本为 `0.17.10`，不再是错误的 `0.17.7`
 - 本次又继续定位出导致“安装后直接打不开、`Runtime command failed: init exited with code=1`”的真正根因：
   - runtime bundle 构建阶段的 `pruneRuntimeNodeModules()` 之前会按目录 basename 粗暴删除 `doc` / `docs` / `example` / `test`
   - 这会把某些真实运行时依赖的内部目录也误删掉，例如 `yaml/dist/doc`
-  - 最终打进桌面 seed bundle 的 runtime 虽然版本号正确，但一到 `nextclaw init` 阶段就会因为 `Cannot find module '../doc/directives.js'` 之类错误直接炸掉
+  - 最终打进桌面 seed bundle 的 runtime 虽然版本号正确，但一到 `go-usb-ai init` 阶段就会因为 `Cannot find module '../doc/directives.js'` 之类错误直接炸掉
 - 现在已修正这条裁剪规则：
   - 只再删除包根层级的 `docs/`, `examples/`, `tests/` 等典型辅助目录
   - 不再误删像 `yaml/dist/doc` 这种包内部真实运行时目录
@@ -43,8 +43,8 @@
   - 结果就是安装包能启动，但 `Contents/Resources/update/update-bundle-public.pem` 缺失，用户点击“检查更新”时更新服务无法验证线上 manifest 签名
 - 现在已修正 `scripts/desktop/desktop-package-verify.mjs`：
   - 打包前必须准备桌面更新公钥
-  - 若存在 `NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY` / `NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY_FILE`，则从私钥导出公钥
-  - 本地无私钥时，显式下载当前线上发布的公开公钥 `https://Peiiii.github.io/nextclaw/desktop-updates/update-bundle-public.pem`，作为本地验证包的 pinned key
+  - 若存在 `GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY` / `GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY_FILE`，则从私钥导出公钥
+  - 本地无私钥时，显式下载当前线上发布的公开公钥 `https://Peiiii.github.io/go-usb-ai/desktop-updates/update-bundle-public.pem`，作为本地验证包的 pinned key
   - DMG 产出后强制校验 `.app` 内的 `Contents/Resources/update/update-bundle-public.pem` 存在且能解析
   - 继续用包内公钥真实验证线上 stable manifest 签名，避免再把“能启动但检查更新必炸”的安装包交付出去
 - 本次继续把这条约束前移成更系统化的防呆：
@@ -59,42 +59,42 @@
 - 已通过：`bash apps/desktop/scripts/smoke-macos-dmg.sh "$(find apps/desktop/release -maxdepth 1 -type f -name '*.dmg' | head -n 1)" 240`
   - 结果：`darwin-x64` 本地复现不再卡死，桌面 app 早退后 `runtime fallback` 成功，健康检查通过 `http://127.0.0.1:55668/api/health`。
 - 已通过：`PATH=/opt/homebrew/bin:$PATH pnpm desktop:package:verify`
-  - 结果：`darwin-arm64` 本地桌面包验证通过，输出 `macOS package verified: .../apps/desktop/release/NextClaw Desktop-0.0.138-arm64.dmg`。
+  - 结果：`darwin-arm64` 本地桌面包验证通过，输出 `macOS package verified: .../apps/desktop/release/GoUsbAi Desktop-0.0.138-arm64.dmg`。
 - 已通过：`bash -n apps/desktop/scripts/smoke-macos-dmg.sh`
 - 已通过：`pnpm lint:new-code:governance`
 - 已执行：`pnpm lint:maintainability:guard`
   - 结果：当前本地工作区存在未纳入本次提交的既有改动 `apps/desktop/scripts/update/services/build-product-bundle.service.mjs`，其函数预算命中守卫；本次修复涉及的两个文件未命中增量治理规则。
 - 已通过：标准 `0.0.138` DMG 安装级真实验证
   - 验证方式：
-    - 用临时 `HOME` 创建一份隔离的 `HOME/.nextclaw`
-    - 先执行 `NEXTCLAW_HOME="$TMP_HOME/.nextclaw" node packages/nextclaw/dist/cli/index.js init`
+    - 用临时 `HOME` 创建一份隔离的 `HOME/.go-usb-ai`
+    - 先执行 `GOUSB_AI_HOME="$TMP_HOME/.go-usb-ai" node packages/go-usb-ai/dist/cli/index.js init`
     - 再写入带明显标记的用户配置：`agents.defaults.model = "validation/sentinel-model"`，并新增 `providers.validation-provider`
-    - 挂载 `apps/desktop/release/NextClaw Desktop-0.0.138-arm64.dmg`，把其中的 `.app` 复制到临时安装目录后启动
-    - 同时故意注入错误环境：`NEXTCLAW_HOME="$BAD_HOME"`、`NEXTCLAW_DESKTOP_DATA_DIR="$BAD_DATA"`，确认 packaged 桌面端不会被这两个脏值带偏
+    - 挂载 `apps/desktop/release/GoUsbAi Desktop-0.0.138-arm64.dmg`，把其中的 `.app` 复制到临时安装目录后启动
+    - 同时故意注入错误环境：`GOUSB_AI_HOME="$BAD_HOME"`、`GOUSB_AI_DESKTOP_DATA_DIR="$BAD_DATA"`，确认 packaged 桌面端不会被这两个脏值带偏
   - 真实观察结果：
-    - 应用 stdout 明确记录 `ambientNextclawHome=$BAD_HOME`
-    - 同一份启动日志同时明确记录 `runtimeHome=$TMP_HOME/.nextclaw`
-    - 启动日志继续记录 `resolvedRuntimeHome=$TMP_HOME/.nextclaw`
+    - 应用 stdout 明确记录 `ambientGoUsbAiHome=$BAD_HOME`
+    - 同一份启动日志同时明确记录 `runtimeHome=$TMP_HOME/.go-usb-ai`
+    - 启动日志继续记录 `resolvedRuntimeHome=$TMP_HOME/.go-usb-ai`
     - 运行中的桌面 runtime 实际返回 `/api/config`，其中 `agents.defaults.model` 为 `validation/sentinel-model`
     - 同一份 `/api/config` 里可见 `providers.validation-provider`
-  - 结论：通过。标准 DMG 安装包已经真实回到用户自己的 `~/.nextclaw`，没有再被验证版 override 污染。
-- 已通过：`codesign --verify --deep --strict --verbose=2 '/tmp/.../install/NextClaw Desktop.app'`
+  - 结论：通过。标准 DMG 安装包已经真实回到用户自己的 `~/.go-usb-ai`，没有再被验证版 override 污染。
+- 已通过：`codesign --verify --deep --strict --verbose=2 '/tmp/.../install/GoUsbAi Desktop.app'`
   - 结果：从标准 DMG 解出的安装版 `.app` bundle 签名校验通过。
 - 已通过：`PATH=/opt/homebrew/bin:$PATH pnpm desktop:package:verify`
   - 结果：
     - 本地无私钥环境下，脚本已显式下载线上公开公钥并写入 `apps/desktop/build/update-bundle-public.pem`
     - 新 `.app` 内已确认存在 `Contents/Resources/update/update-bundle-public.pem`
-    - 已通过包内公钥验证线上 stable manifest：`update manifest signature verified: https://Peiiii.github.io/nextclaw/desktop-updates/stable/manifest-stable-darwin-arm64.json`
+    - 已通过包内公钥验证线上 stable manifest：`update manifest signature verified: https://Peiiii.github.io/go-usb-ai/desktop-updates/stable/manifest-stable-darwin-arm64.json`
     - 新生成的 `seed-product-bundle.zip` 已明确产出 `bundleVersion = 0.17.10`
     - `desktop:package:verify` 新增硬断言并输出 `seed bundle version verified: 0.17.10`
     - `desktop:package:verify` 新增“直接解包 seed runtime 并执行 `init`”的硬验证，当前日志已输出 `seed runtime init verified`
-    - 新标准安装包重新产出为 `apps/desktop/release/NextClaw Desktop-0.0.138-arm64.dmg`
+    - 新标准安装包重新产出为 `apps/desktop/release/GoUsbAi Desktop-0.0.138-arm64.dmg`
     - DMG 冒烟继续通过：`runtime fallback health check passed: http://127.0.0.1:55667/api/health`
 - 已通过：桌面更新服务级真实检查
   - 验证方式：
     - 从新打出的 `.app` 读取 `Contents/Resources/update/update-bundle-public.pem`
     - 直接实例化 `DesktopUpdateService`
-    - 调用 `checkForUpdate("https://Peiiii.github.io/nextclaw/desktop-updates/stable/manifest-stable-darwin-arm64.json", "0.17.10")`
+    - 调用 `checkForUpdate("https://Peiiii.github.io/go-usb-ai/desktop-updates/stable/manifest-stable-darwin-arm64.json", "0.17.10")`
   - 真实观察结果：
     - 不再抛出 `manifest signature verification requires bundlePublicKey`
     - 返回 `null`
@@ -120,7 +120,7 @@
       - `launcher/state.json.currentVersion = 0.17.7`
       - `launcher/state.json.badVersions = ["0.17.10"]`
     - 再把这份快照绑定到本次编译后的 `DesktopBundleBootstrapService`
-    - 使用最新重新打出的 packaged seed zip：`apps/desktop/release/mac-arm64/NextClaw Desktop.app/Contents/Resources/update/seed-product-bundle.zip`
+    - 使用最新重新打出的 packaged seed zip：`apps/desktop/release/mac-arm64/GoUsbAi Desktop.app/Contents/Resources/update/seed-product-bundle.zip`
     - 按真实启动顺序执行：
       - `ensureInitialBundleAvailability()`
       - `recoverPendingCandidate()`
@@ -132,13 +132,13 @@
     - `launcher/state.json.currentVersion` 已更新为 `0.17.10`
     - `launcher/state.json.lastKnownGoodVersion` 已更新为 `0.17.10`
     - `launcher/state.json.badVersions` 已在健康确认后清空
-    - 升级后的 `0.17.10` runtime 又真实执行了一次 `init`，完整输出 `nextclaw is ready! (init)`
+    - 升级后的 `0.17.10` runtime 又真实执行了一次 `init`，完整输出 `go-usb-ai is ready! (init)`
   - 结论：通过。即使用户机器上已经把旧的 `0.17.10` 标成坏版本，只要安装的是这次修复后的同版本新包，也会因为 packaged seed 指纹变化而重新放行升级，不会再永久卡死在 `0.17.7`。
 - 已通过：模拟“用户机器当前已经是同版本 `0.17.10`，但 runtime 依赖损坏”的真实自愈验证
   - 验证方式：
     - 从真实用户桌面数据目录复制一份 `versions/0.17.10`
     - 人为删除 `runtime/node_modules/yaml/dist/parse/cst.js`，制造与用户现场同类的 `MODULE_NOT_FOUND` 故障
-    - 再从最新 DMG 里拷出临时安装版 `.app`，通过 `NEXTCLAW_DESKTOP_DATA_DIR_OVERRIDE` 指向这份损坏状态目录后直接启动
+    - 再从最新 DMG 里拷出临时安装版 `.app`，通过 `GOUSB_AI_DESKTOP_DATA_DIR_OVERRIDE` 指向这份损坏状态目录后直接启动
   - 真实观察结果：
     - 第一次启动日志先真实命中 `Cannot find module '../doc/directives.js'`
     - 随后主进程继续记录：`Desktop bootstrap failed while running bundle 0.17.10. Reinstalling packaged seed bundle 0.17.10.`
@@ -164,7 +164,7 @@
 - 使用桌面端进入配置或聊天主流程，确认本地 UI 可正常打开并访问运行时接口。
 - 进入“设置 > 桌面端更新”或查看桌面端当前版本时，确认不再停留在旧的 `0.17.7`，而是已经切到这次包内自带的 `0.17.10`
 - 点击“检查更新”，确认不会再出现 `manifest signature verification requires bundlePublicKey`；若当前线上 stable 低于本地版本，预期结果应是“已是最新”或等价的无更新状态。
-- 重点检查 provider、默认模型、会话列表是否继续读取用户已有的 `~/.nextclaw` 数据，而不是变成空白初始化状态。
+- 重点检查 provider、默认模型、会话列表是否继续读取用户已有的 `~/.go-usb-ai` 数据，而不是变成空白初始化状态。
 
 ## 可维护性总结汇总
 

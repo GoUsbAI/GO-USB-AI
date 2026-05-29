@@ -9,12 +9,12 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui test -- src/features/chat/managers/chat-session-list.manager.test.ts src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/managers/ncp-chat-input.manager.test.ts src/features/agents/components/agents-page.test.tsx`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui exec eslint src/features/chat/stores/chat-thread.store.ts src/features/chat/stores/chat-session-list.store.ts src/features/chat/managers/chat-session-list.manager.ts src/features/chat/managers/chat-session-list.manager.test.ts src/features/chat/managers/ncp-chat-input.manager.test.ts src/features/agents/components/agents-page.test.tsx src/features/chat/components/conversation/chat-conversation-panel.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui test -- src/features/chat/managers/chat-session-list.manager.test.ts src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/managers/ncp-chat-input.manager.test.ts src/features/agents/components/agents-page.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/features/chat/stores/chat-thread.store.ts src/features/chat/stores/chat-session-list.store.ts src/features/chat/managers/chat-session-list.manager.ts src/features/chat/managers/chat-session-list.manager.test.ts src/features/chat/managers/ncp-chat-input.manager.test.ts src/features/agents/components/agents-page.test.tsx src/features/chat/components/conversation/chat-conversation-panel.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/chat/stores/chat-thread.store.ts packages/nextclaw-ui/src/features/chat/stores/chat-session-list.store.ts packages/nextclaw-ui/src/features/chat/managers/chat-session-list.manager.ts packages/nextclaw-ui/src/features/chat/managers/chat-session-list.manager.test.ts packages/nextclaw-ui/src/features/chat/managers/ncp-chat-input.manager.test.ts packages/nextclaw-ui/src/features/agents/components/agents-page.test.tsx packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/stores/chat-thread.store.ts packages/go-usb-ai-ui/src/features/chat/stores/chat-session-list.store.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-list.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-list.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.test.ts packages/go-usb-ai-ui/src/features/agents/components/agents-page.test.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
 
 ## 发布/部署方式
 

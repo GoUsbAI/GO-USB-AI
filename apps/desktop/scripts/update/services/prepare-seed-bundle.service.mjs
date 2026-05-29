@@ -12,7 +12,7 @@ import {
 
 const desktopDir = resolve(fileURLToPath(new URL("../../..", import.meta.url)));
 const workspaceRoot = resolve(desktopDir, "..", "..");
-const nextclawPackageJsonPath = resolve(workspaceRoot, "packages", "nextclaw", "package.json");
+const goUsbAiPackageJsonPath = resolve(workspaceRoot, "packages", "go-usb-ai", "package.json");
 const releaseMetadataPath = resolve(desktopDir, "build", "update-release-metadata.json");
 
 function parseArgs(argv) {
@@ -91,11 +91,11 @@ function updateReleaseMetadata(seedBundleMetadata) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  const nextclawPackage = readJson(nextclawPackageJsonPath);
+  const goUsbAiPackage = readJson(goUsbAiPackageJsonPath);
   const platform = args.platform?.trim() || process.platform;
   const arch = args.arch?.trim() || process.arch;
   const channel = normalizeDesktopUpdateChannel(args.channel);
-  const bundleVersion = args.version?.trim() || nextclawPackage.version;
+  const bundleVersion = args.version?.trim() || goUsbAiPackage.version;
   const minimumLauncherVersion = resolveGovernedMinimumLauncherVersion({
     channel,
     minimumLauncherVersion: args["minimum-launcher-version"],
@@ -103,7 +103,7 @@ async function main() {
   });
   const outputDir = resolve(args["output-dir"]?.trim() || join(desktopDir, "build", "update"));
   const targetPath = resolve(outputDir, "seed-product-bundle.zip");
-  const sourcePath = resolve(outputDir, `nextclaw-bundle-${platform}-${arch}-${bundleVersion}.zip`);
+  const sourcePath = resolve(outputDir, `go-usb-ai-bundle-${platform}-${arch}-${bundleVersion}.zip`);
   const buildArgs = [
     "-C",
     "apps/desktop",

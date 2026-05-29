@@ -9,10 +9,10 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
-- `pnpm -C packages/nextclaw-agent-chat-ui lint`
-- `pnpm -C packages/nextclaw-ui build`
-- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-textarea.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui lint`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-textarea.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
 - 观察点：
   - 输入框为空时，按一次退格删除最后一个 skill chip。
   - 输入框存在正文时，退格仍按普通文本删除工作。

@@ -1,6 +1,6 @@
 # Run Automations
 
-Automations let NextClaw act on a schedule, not only when you send a message.
+Automations let GoUsbAi act on a schedule, not only when you send a message.
 
 For the first automation, start with a low-risk reminder. Do not begin with a high-impact task.
 
@@ -31,10 +31,10 @@ If it should be independent, let it use its own automation session.
 Common operations include:
 
 ```bash
-nextclaw cron list
-nextclaw cron add
-nextclaw cron run <jobId>
-nextclaw cron disable <jobId>
+go-usb-ai cron list
+go-usb-ai cron add
+go-usb-ai cron run <jobId>
+go-usb-ai cron disable <jobId>
 ```
 
 For all options, see [Command Index](/en/guide/commands).

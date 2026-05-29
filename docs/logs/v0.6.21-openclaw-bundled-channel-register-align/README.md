@@ -5,13 +5,13 @@
 - 目标：在不扩展 channel 能力面的前提下，对齐 OpenClaw 插件写法。
 - 已完成对齐：
   - 内置渠道改为 bundled 独立插件定义（每个渠道一个插件模块）：
-    - `packages/nextclaw-openclaw-compat/src/plugins/bundled/channels/*.ts`
+    - `packages/go-usb-ai-openclaw-compat/src/plugins/bundled/channels/*.ts`
   - bundled 内置渠道改为走 `register(api) -> registerChannel(...)` 注册路径，不再旁路注入。
   - 运行时继续只消费插件注册结果（`ChannelManager` 仅基于 extension channels 实例化）。
 - 关键实现：
   - 新增 bundled 渠道插件工厂与聚合入口：
-    - `packages/nextclaw-openclaw-compat/src/plugins/bundled/channels/factory.ts`
-    - `packages/nextclaw-openclaw-compat/src/plugins/bundled/channels/index.ts`
+    - `packages/go-usb-ai-openclaw-compat/src/plugins/bundled/channels/factory.ts`
+    - `packages/go-usb-ai-openclaw-compat/src/plugins/bundled/channels/index.ts`
   - Loader 新增 `appendBundledChannelPlugins`，对 bundled 渠道执行 `register(api)`。
   - 对齐类型：`OpenClawPluginDefinition` 增加 `configSchema` 字段。
   - 调整 CLI 保留 channel id 规则，避免 bundled 注册被保留名误拦截。
@@ -31,18 +31,18 @@ pnpm tsc
 ### 冒烟验证（隔离目录）
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-smoke-bundled-align.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
-NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0 NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
-NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0 NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-smoke-bundled-align.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
+GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0 GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
+GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0 GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
 rm -rf "$TMP_HOME"
 ```
 
 验收点：
 - `channels status` 的 Plugin Channels 显示 9 个 `builtin-channel-*` 绑定。
 - `plugins list --enabled` 显示 9 个 bundled 内置渠道插件。
-- `NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0` 时，bundled 内置渠道插件仍可加载。
+- `GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0` 时，bundled 内置渠道插件仍可加载。
 
 ## 发布 / 部署方式
 
@@ -56,13 +56,13 @@ pnpm release:publish
 ```
 
 发布结果：
-- `nextclaw@0.6.16` ✅
-- `@nextclaw/core@0.6.16` ✅
-- `@nextclaw/openclaw-compat@0.1.6` ✅
+- `go-usb-ai@0.6.16` ✅
+- `@go-usb-ai/core@0.6.16` ✅
+- `@go-usb-ai/openclaw-compat@0.1.6` ✅
 - tags 已创建：
-  - `nextclaw@0.6.16`
-  - `@nextclaw/core@0.6.16`
-  - `@nextclaw/openclaw-compat@0.1.6`
+  - `go-usb-ai@0.6.16`
+  - `@go-usb-ai/core@0.6.16`
+  - `@go-usb-ai/openclaw-compat@0.1.6`
 
 ### 闭环说明（按需项）
 

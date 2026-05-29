@@ -16,7 +16,7 @@ if ! echo "${APPIMAGE_VERSION}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
   exit 1
 fi
 
-TARGET_APPIMAGE="${RELEASE_DIR}/NextClaw.Desktop-${APPIMAGE_VERSION}-linux-x64.AppImage"
+TARGET_APPIMAGE="${RELEASE_DIR}/GoUsbAi.Desktop-${APPIMAGE_VERSION}-linux-x64.AppImage"
 mv "${APPIMAGE_PATH}" "${TARGET_APPIMAGE}"
 if [ -f "${APPIMAGE_PATH}.blockmap" ]; then
   mv "${APPIMAGE_PATH}.blockmap" "${TARGET_APPIMAGE}.blockmap"
@@ -29,7 +29,7 @@ if [ -z "${DEB_PATH}" ]; then
 fi
 
 DEB_VERSION="$(dpkg-deb -f "${DEB_PATH}" Version)"
-TARGET_DEB="${RELEASE_DIR}/nextclaw-desktop_${DEB_VERSION}_amd64.deb"
+TARGET_DEB="${RELEASE_DIR}/go-usb-ai-desktop_${DEB_VERSION}_amd64.deb"
 mv "${DEB_PATH}" "${TARGET_DEB}"
 
 echo "[desktop-package] normalized Linux artifacts:"

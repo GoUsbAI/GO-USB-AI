@@ -6,8 +6,8 @@
 
 - 配置热重载链路命中 `restartRequired` 时，不再自动调用重启执行器，而是改为登记一条内存态 `pending restart`。
 - 新增独立的重启请求 owner 与待重启 store：
-  - [runtime-restart-request.service.ts](../../../packages/nextclaw/src/cli/runtime-restart-request.service.ts)
-  - [pending-restart.store.ts](../../../packages/nextclaw/src/cli/runtime-state/pending-restart.store.ts)
+  - [runtime-restart-request.service.ts](../../../packages/go-usb-ai/src/cli/runtime-restart-request.service.ts)
+  - [pending-restart.store.ts](../../../packages/go-usb-ai/src/cli/runtime-state/pending-restart.store.ts)
 - `runtime control` 服务端 / 前端契约新增 `pendingRestart` 字段，用于明确告诉 UI“当前有改动待重启”。
 - Runtime 页面新增显式的“待重启”提示块：
   - 不会再把“需要重启”藏成自动动作。
@@ -26,26 +26,26 @@
 
 相关代码：
 
-- [runtime-control-host.service.ts](../../../packages/nextclaw/src/cli/commands/service-support/ui/runtime-control-host.service.ts)
-- [service-gateway-context.ts](../../../packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts)
-- [runtime-control-card.tsx](../../../packages/nextclaw-ui/src/components/config/runtime-control-card.tsx)
-- [runtime-status-entry.tsx](../../../packages/nextclaw-ui/src/components/layout/runtime-status-entry.tsx)
-- [BrandHeader.tsx](../../../packages/nextclaw-ui/src/components/common/BrandHeader.tsx)
-- [runtime-control.types.ts](../../../packages/nextclaw-server/src/ui/runtime-control.types.ts)
-- [runtime-control.types.ts](../../../packages/nextclaw-ui/src/api/runtime-control.types.ts)
+- [runtime-control-host.service.ts](../../../packages/go-usb-ai/src/cli/commands/service-support/ui/runtime-control-host.service.ts)
+- [service-gateway-context.ts](../../../packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts)
+- [runtime-control-card.tsx](../../../packages/go-usb-ai-ui/src/components/config/runtime-control-card.tsx)
+- [runtime-status-entry.tsx](../../../packages/go-usb-ai-ui/src/components/layout/runtime-status-entry.tsx)
+- [BrandHeader.tsx](../../../packages/go-usb-ai-ui/src/components/common/BrandHeader.tsx)
+- [runtime-control.types.ts](../../../packages/go-usb-ai-server/src/ui/runtime-control.types.ts)
+- [runtime-control.types.ts](../../../packages/go-usb-ai-ui/src/api/runtime-control.types.ts)
 
 ## 测试 / 验证 / 验收方式
 
 已执行：
 
 ```bash
-pnpm -C packages/nextclaw exec vitest run src/cli/gateway/controller.test.ts src/cli/gateway/manual-restart-contract.integration.test.ts src/cli/commands/service-support/ui/tests/runtime-control-host.service.test.ts
-pnpm -C packages/nextclaw exec vitest run src/cli/commands/service-support/ui/tests/runtime-control-host.service.test.ts
-pnpm -C packages/nextclaw-ui exec vitest run src/components/config/runtime-control-card.test.tsx
-pnpm -C packages/nextclaw-ui exec vitest run src/components/layout/runtime-status-entry.test.tsx src/components/layout/sidebar.layout.test.tsx
-pnpm -C packages/nextclaw-core exec tsc -p tsconfig.json --noEmit
-pnpm -C packages/nextclaw exec tsc -p tsconfig.json --noEmit
-pnpm -C packages/nextclaw-ui exec tsc -p tsconfig.json --noEmit
+pnpm -C packages/go-usb-ai exec vitest run src/cli/gateway/controller.test.ts src/cli/gateway/manual-restart-contract.integration.test.ts src/cli/commands/service-support/ui/tests/runtime-control-host.service.test.ts
+pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/service-support/ui/tests/runtime-control-host.service.test.ts
+pnpm -C packages/go-usb-ai-ui exec vitest run src/components/config/runtime-control-card.test.tsx
+pnpm -C packages/go-usb-ai-ui exec vitest run src/components/layout/runtime-status-entry.test.tsx src/components/layout/sidebar.layout.test.tsx
+pnpm -C packages/go-usb-ai-core exec tsc -p tsconfig.json --noEmit
+pnpm -C packages/go-usb-ai exec tsc -p tsconfig.json --noEmit
+pnpm -C packages/go-usb-ai-ui exec tsc -p tsconfig.json --noEmit
 pnpm lint:maintainability:guard
 ```
 
@@ -66,13 +66,13 @@ pnpm lint:maintainability:guard
 - `runtime-control-host.service.test.ts` 通过，确认后端会暴露 `pendingRestart`，而不是收到配置变更后直接自动重启。
 - `runtime-control-card.test.tsx` 通过，确认 Runtime 页面会显示“待重启”提示和待生效项。
 - `runtime-status-entry.test.tsx` 与 `sidebar.layout.test.tsx` 通过，确认左上角版本号右侧的状态圆点可打开轻量浮层，并展示待重启原因与 `立即重启` 动作。
-- `packages/nextclaw-core` 的 `tsc --noEmit` 通过。
-- `packages/nextclaw` 的 `tsc --noEmit` 通过。
-- `packages/nextclaw-ui` 的 `tsc --noEmit` 通过。
+- `packages/go-usb-ai-core` 的 `tsc --noEmit` 通过。
+- `packages/go-usb-ai` 的 `tsc --noEmit` 通过。
+- `packages/go-usb-ai-ui` 的 `tsc --noEmit` 通过。
 - `pnpm lint:maintainability:guard` 未完全通过，但本次新增 error 已清零。
   - 当前阻断点来自工作区中与本次无关的其它已修改文件：
-    - `packages/nextclaw-ncp-runtime-stdio-client/src/stdio-runtime.service.ts`
-    - `packages/nextclaw-ncp-runtime-stdio-client/src/stdio-runtime.test.ts`
+    - `packages/go-usb-ai-ncp-runtime-stdio-client/src/stdio-runtime.service.ts`
+    - `packages/go-usb-ai-ncp-runtime-stdio-client/src/stdio-runtime.test.ts`
   - 本次状态入口相关的新目录预算问题已收敛；剩余报红不属于本次这组改动引入。
 
 ## 发布 / 部署方式
@@ -84,7 +84,7 @@ pnpm lint:maintainability:guard
 
 ## 用户 / 产品视角的验收步骤
 
-1. 打开 NextClaw 的配置页面，修改一项会命中 `restartRequired` 的配置，例如 `plugins` 或 `ui` 相关配置。
+1. 打开 GoUsbAi 的配置页面，修改一项会命中 `restartRequired` 的配置，例如 `plugins` 或 `ui` 相关配置。
 2. 保存配置。
 3. 验收标准一：系统不会自动重启服务或应用。
 4. 观察左上角品牌区，确认版本号右侧出现黄色状态圆点。
@@ -161,7 +161,7 @@ gateway 续改里则顺手删除了 `config.apply` / `config.patch` 里“保存
 部分做到。
 
 - `runtime.ts` 行数下降了。
-- 但新增了 2 个非测试 owner 文件，所以 `packages/nextclaw/src/cli` 目录平铺度有小幅上升。
+- 但新增了 2 个非测试 owner 文件，所以 `packages/go-usb-ai/src/cli` 目录平铺度有小幅上升。
 - 这次接受该增长，是因为它换来了更清晰的职责边界，并阻止“自动重启”逻辑继续散落在运行时主入口里。
 
 ### 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加

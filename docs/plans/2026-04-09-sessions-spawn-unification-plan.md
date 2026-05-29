@@ -17,7 +17,7 @@
 
 ## 长期目标对齐 / 可维护性推进
 
-- 这次改动是在增强 NextClaw 作为统一入口的地位，而不是继续堆一个局部补丁。统一 session creation 入口，比继续保留两个近义工具更符合“统一体验优先”。
+- 这次改动是在增强 GoUsbAi 作为统一入口的地位，而不是继续堆一个局部补丁。统一 session creation 入口，比继续保留两个近义工具更符合“统一体验优先”。
 - 这次优先推进的是“删一个入口，而不是再加一层兼容壳”。目标是删除 `spawn` 这个 AI-facing 工具名，把 child session 也收进 `sessions_spawn`。
 - 删不掉的部分是“request 完成后当前会话要不要继续”这层语义，因为它不是会话关系本身，而是一次 request 的完成策略；这部分继续显式保留，但收敛成更直接的 `notify: "none" | "final_reply"` 参数表达。
 - 本次最小维护性推进点是：删除 `spawn` 注册、删除 `spawn` 提示文案、删除 `spawn` 专属前端判定，把“是否 child”“是否立即请求”都收敛进一个工具结果模型。
@@ -105,7 +105,7 @@ sessions_spawn({
 
 ```ts
 {
-  kind: "nextclaw.session",
+  kind: "go-usb-ai.session",
   sessionId: string,
   isChildSession: boolean,
   parentSessionId?: string,
@@ -122,7 +122,7 @@ sessions_spawn({
 
 ```ts
 {
-  kind: "nextclaw.session_request",
+  kind: "go-usb-ai.session_request",
   requestId: string,
   sessionId: string,
   isChildSession: boolean,
@@ -161,8 +161,8 @@ sessions_spawn({
 
 1. 解析 `scope`
 2. 决定是否注入当前 `sourceSessionId` 作为内部 `parentSessionId`
-3. 若没有 `request`，直接创建 session 并返回 `nextclaw.session`
-4. 若有 `request`，走统一 broker 创建 request，并返回 `nextclaw.session_request`
+3. 若没有 `request`，直接创建 session 并返回 `go-usb-ai.session`
+4. 若有 `request`，走统一 broker 创建 request，并返回 `go-usb-ai.session_request`
 
 ### 3. 扩展 broker primitive
 
@@ -188,8 +188,8 @@ sessions_spawn({
 
 当工具结果满足以下任一条件时，点击卡片应打开右侧 child session 面板：
 
-- `kind = "nextclaw.session"` 且 `isChildSession = true`
-- `kind = "nextclaw.session_request"` 且 `isChildSession = true`
+- `kind = "go-usb-ai.session"` 且 `isChildSession = true`
+- `kind = "go-usb-ai.session_request"` 且 `isChildSession = true`
 
 否则：
 

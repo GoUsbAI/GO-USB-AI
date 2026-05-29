@@ -3,7 +3,7 @@
 ## 迭代完成说明（改了什么）
 
 - 修复 UI 新会话“消息被吞/回复空白”的根因：
-  - `nextclaw` 流式转发逻辑此前在遇到首个非 `delta` 事件（常见是 `session_event`）时会提前结束生成器，导致后续终止事件被截断。
+  - `go-usb-ai` 流式转发逻辑此前在遇到首个非 `delta` 事件（常见是 `session_event`）时会提前结束生成器，导致后续终止事件被截断。
   - 现改为仅在 `final` 或 `error` 时结束流，`session_event` 将持续保序透传。
 - 修复 Chat 页面历史加载与首条消息显示稳定性：
   - `useSessionHistory` 关闭重试，避免新建会话历史 404 时长时间 loading 覆盖实时流。
@@ -14,23 +14,23 @@
 
 关键文件：
 
-- `packages/nextclaw/src/cli/commands/service.ts`
-- `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
-- `packages/nextclaw-ui/src/hooks/useConfig.ts`
+- `packages/go-usb-ai/src/cli/commands/service.ts`
+- `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
+- `packages/go-usb-ai-ui/src/hooks/useConfig.ts`
 
 ## 测试 / 验证 / 验收方式
 
 已执行（定向）：
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server test src/ui/router.chat.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server test src/ui/router.chat.test.ts`
 
 冒烟（非仓库目录/隔离数据）：
 
-- `NEXTCLAW_HOME=/tmp/nextclaw-smoke-xxxxxx`
-- 启动：`pnpm -C packages/nextclaw dev:build serve --ui-port 19083`
+- `GOUSB_AI_HOME=/tmp/go-usb-ai-smoke-xxxxxx`
+- 启动：`pnpm -C packages/go-usb-ai dev:build serve --ui-port 19083`
 - 请求：`POST /api/chat/turn/stream`
 - 观察点：
   - 事件包含 `ready` + `session_event` + 终止事件（`final` 或 `error`）。
@@ -46,12 +46,12 @@
 
 本轮发布结果：
 
-- `nextclaw@0.8.41`
-- `@nextclaw/ui@0.5.29`
+- `go-usb-ai@0.8.41`
+- `@go-usb-ai/ui@0.5.29`
 
 ## 用户 / 产品视角的验收步骤
 
-1. 启动 `nextclaw start`，进入 Chat 页面，点击“新建会话”。
+1. 启动 `go-usb-ai start`，进入 Chat 页面，点击“新建会话”。
 2. 输入并发送首条消息，确认用户消息立即显示，不再出现“发送后空白”。
 3. 观察流式回复：
    - `thinking/tool` 与正文按事件顺序持续出现。

@@ -11,7 +11,7 @@
 ## 测试/验证/验收方式
 
 - 运行：
-  - `pnpm --filter @nextclaw/ui tsc`
+  - `pnpm --filter @go-usb-ai/ui tsc`
 - 观察点：
   - 新建 NCP 会话后第一次发送消息，用户消息应立即可见。
   - assistant 回复应继续正常流式展示。

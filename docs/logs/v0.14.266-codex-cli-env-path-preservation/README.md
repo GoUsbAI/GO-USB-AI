@@ -13,11 +13,11 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk exec tsc -p tsconfig.json --noEmit`
-- `pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk build`
-- `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk exec tsc -p tsconfig.json --noEmit`
-- `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk build`
-- `node node_modules/.pnpm/tsx@4.21.0/node_modules/tsx/dist/cli.mjs packages/extensions/nextclaw-ncp-runtime-codex-sdk/src/codex-cli-env.test.ts`
+- `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk exec tsc -p tsconfig.json --noEmit`
+- `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk build`
+- `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk exec tsc -p tsconfig.json --noEmit`
+- `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk build`
+- `node node_modules/.pnpm/tsx@4.21.0/node_modules/tsx/dist/cli.mjs packages/extensions/go-usb-ai-ncp-runtime-codex-sdk/src/codex-cli-env.test.ts`
 - 真实会话冒烟：
   - `pnpm smoke:ncp-chat -- --session-type codex --model minimax/MiniMax-M2.7 --base-url http://127.0.0.1:18793 --prompt "Use a shell command to print the current working directory and then reply with DONE." --json`
   - 随后沿用同一 `sessionId` 再发一条明确要求使用 shell 命令的请求，原始 SSE 返回体中确认包含 `command_execution`
@@ -33,11 +33,11 @@
 
 本次未做远端发布。
 
-如果要让本机已经安装的 NextClaw/Codex 扩展立即生效，需要重新安装或重启加载该扩展的运行进程，让新构建产物进入实际运行环境。
+如果要让本机已经安装的 GoUsbAi/Codex 扩展立即生效，需要重新安装或重启加载该扩展的运行进程，让新构建产物进入实际运行环境。
 
 ## 用户/产品视角的验收步骤
 
-1. 重启正在加载 Codex 扩展的 NextClaw 进程，确保使用的是这次构建后的产物。
+1. 重启正在加载 Codex 扩展的 GoUsbAi 进程，确保使用的是这次构建后的产物。
 2. 新建一个 Codex 会话。
 3. 发送一个会触发命令执行的任务，例如要求列出目录或检查当前工作区。
 4. 如果第一次回复仍是普通正文，再沿用同一会话追加一条明确要求“必须使用 shell 命令”的消息。

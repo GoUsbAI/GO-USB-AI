@@ -16,8 +16,8 @@
 
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/desktop tsc`：通过。
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/desktop lint`：通过。
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core exec tsx --test ../../apps/desktop/src/managers/desktop-command-surface.manager.test.ts ../../apps/desktop/src/utils/desktop-command-bridge.utils.test.ts ../../apps/desktop/src/services/runtime-process.service.test.ts ../../apps/desktop/src/services/desktop-bundle-bootstrap.service.test.ts ../../apps/desktop/src/launcher/__tests__/update-coordinator.service.test.ts ../../apps/desktop/src/services/desktop-runtime-command.service.test.ts`：通过，25 项测试通过。
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core exec tsx --test ../../apps/desktop/src/launcher/__tests__/update-coordinator.service.test.ts ../../apps/desktop/src/services/desktop-bundle-bootstrap.service.test.ts`：通过，16 项测试通过。
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core exec tsx --test ../../apps/desktop/src/managers/desktop-command-surface.manager.test.ts ../../apps/desktop/src/utils/desktop-command-bridge.utils.test.ts ../../apps/desktop/src/services/runtime-process.service.test.ts ../../apps/desktop/src/services/desktop-bundle-bootstrap.service.test.ts ../../apps/desktop/src/launcher/__tests__/update-coordinator.service.test.ts ../../apps/desktop/src/services/desktop-runtime-command.service.test.ts`：通过，25 项测试通过。
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core exec tsx --test ../../apps/desktop/src/launcher/__tests__/update-coordinator.service.test.ts ../../apps/desktop/src/services/desktop-bundle-bootstrap.service.test.ts`：通过，16 项测试通过。
 - `PATH=/opt/homebrew/bin:$PATH pnpm lint:new-code:governance`：通过。
 - `PATH=/opt/homebrew/bin:$PATH pnpm check:governance-backlog-ratchet`：通过。
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths ...`：通过。
@@ -30,7 +30,7 @@
 
 - 桌面启动后应仍能完成 bundle bootstrap、runtime 启动和窗口加载。
 - 桌面 update 菜单、IPC 查询、下载、应用更新路径保持原行为。
-- AI command tool 环境仍能通过 command surface 命中桌面安装提供的 `nextclaw` 命令。
+- AI command tool 环境仍能通过 command surface 命中桌面安装提供的 `go-usb-ai` 命令。
 
 ## 可维护性总结汇总
 

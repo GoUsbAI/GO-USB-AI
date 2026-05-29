@@ -13,17 +13,17 @@
 ## 测试/验证/验收方式
 
 - 运行测试：
-  - `pnpm -C packages/nextclaw-ui exec vitest run src/components/chat/managers/chat-session-list.manager.test.ts src/components/chat/ChatConversationPanel.test.tsx`
+  - `pnpm -C packages/go-usb-ai-ui exec vitest run src/components/chat/managers/chat-session-list.manager.test.ts src/components/chat/ChatConversationPanel.test.tsx`
 - 运行类型检查：
-  - `pnpm -C packages/nextclaw-ui tsc`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
 - 运行 lint：
-  - `pnpm -C packages/nextclaw-ui exec eslint src/components/chat/managers/chat-session-list.manager.ts src/components/chat/managers/chat-session-list.manager.test.ts src/components/chat/managers/chat-thread.manager.ts src/components/chat/ncp/ncp-chat-thread.manager.ts`
+  - `pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/managers/chat-session-list.manager.ts src/components/chat/managers/chat-session-list.manager.test.ts src/components/chat/managers/chat-thread.manager.ts src/components/chat/ncp/ncp-chat-thread.manager.ts`
 - 运行可维护性检查：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/chat/managers/chat-session-list.manager.ts packages/nextclaw-ui/src/components/chat/managers/chat-session-list.manager.test.ts packages/nextclaw-ui/src/components/chat/managers/chat-thread.manager.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-thread.manager.ts`
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/chat/managers/chat-session-list.manager.ts packages/go-usb-ai-ui/src/components/chat/managers/chat-session-list.manager.test.ts packages/go-usb-ai-ui/src/components/chat/managers/chat-thread.manager.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-thread.manager.ts`
 
 ## 发布/部署方式
 
-- 本次仅涉及 `@nextclaw/ui` 前端源码，按常规前端发布流程重新构建并发布包含该 UI 的产物即可。
+- 本次仅涉及 `@go-usb-ai/ui` 前端源码，按常规前端发布流程重新构建并发布包含该 UI 的产物即可。
 - 若走本仓库标准流程，可在后续发布批次中按既有 release 流程执行，不需要额外 migration。
 
 ## 用户/产品视角的验收步骤

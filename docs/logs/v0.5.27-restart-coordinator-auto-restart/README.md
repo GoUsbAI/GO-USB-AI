@@ -15,15 +15,15 @@
 ## 变更内容
 
 - 用户可见变化：
-  - 当 `nextclaw` 后台服务正在运行时，执行上述“需要重启”的操作将自动 `stop + start` 应用变更。
+  - 当 `go-usb-ai` 后台服务正在运行时，执行上述“需要重启”的操作将自动 `stop + start` 应用变更。
   - 当后台服务未运行时，仍保留清晰的“Restart the gateway to apply ...”提示。
 - 关键实现点：
-  - 新增 `packages/nextclaw/src/cli/restart-coordinator.ts`：统一重启策略与去重（重启进行中/已调度）。
-  - `packages/nextclaw/src/cli/runtime.ts`：
+  - 新增 `packages/go-usb-ai/src/cli/restart-coordinator.ts`：统一重启策略与去重（重启进行中/已调度）。
+  - `packages/go-usb-ai/src/cli/runtime.ts`：
     - 新增 `requestRestart` 统一入口。
     - 新增后台服务自动重启实现（复用已有 `stopService`/`startService`）。
     - 接入 `config` / `plugins` / `channels add` / config reloader 的 restart-required 分支。
-  - `packages/nextclaw/src/cli/gateway/controller.ts`：
+  - `packages/go-usb-ai/src/cli/gateway/controller.ts`：
     - 去掉散落的直接 `process.exit` 调度逻辑。
     - 支持注入 `requestRestart`，让 controller 重启行为与 CLI 统一。
 
@@ -36,18 +36,18 @@ export NVM_DIR="$HOME/.nvm"
 nvm use default
 
 # 2) 编译/静态检查
-pnpm -C packages/nextclaw build
-pnpm -C packages/nextclaw lint
-pnpm -C packages/nextclaw tsc
+pnpm -C packages/go-usb-ai build
+pnpm -C packages/go-usb-ai lint
+pnpm -C packages/go-usb-ai tsc
 
 # 3) 隔离冒烟（非仓库目录，避免污染）
-export NEXTCLAW_HOME="$(mktemp -d /tmp/nextclaw-smoke-XXXXXX)"
-node packages/nextclaw/dist/cli/index.js init --force
-node packages/nextclaw/dist/cli/index.js start --ui-host 127.0.0.1 --ui-port 19891
-node packages/nextclaw/dist/cli/index.js config set ui.open false --json
-node packages/nextclaw/dist/cli/index.js plugins enable smoke-plugin
-node packages/nextclaw/dist/cli/index.js stop
-node packages/nextclaw/dist/cli/index.js plugins disable smoke-plugin
+export GOUSB_AI_HOME="$(mktemp -d /tmp/go-usb-ai-smoke-XXXXXX)"
+node packages/go-usb-ai/dist/cli/index.js init --force
+node packages/go-usb-ai/dist/cli/index.js start --ui-host 127.0.0.1 --ui-port 19891
+node packages/go-usb-ai/dist/cli/index.js config set ui.open false --json
+node packages/go-usb-ai/dist/cli/index.js plugins enable smoke-plugin
+node packages/go-usb-ai/dist/cli/index.js stop
+node packages/go-usb-ai/dist/cli/index.js plugins disable smoke-plugin
 ```
 
 验收点：

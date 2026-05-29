@@ -1,6 +1,6 @@
 ## 迭代完成说明
 
-- 将 `packages/nextclaw-openclaw-compat/src/plugins/progressive-plugin-loader/progressive-bundled-plugin-loader.ts` 中 bundled 渠道插件的 progressive 加载路径改为：
+- 将 `packages/go-usb-ai-openclaw-compat/src/plugins/progressive-plugin-loader/progressive-bundled-plugin-loader.ts` 中 bundled 渠道插件的 progressive 加载路径改为：
   - 生产态 `.js/.mjs/.cjs` 入口走原生 `import()`
   - 仅保留 `ts` 等非原生入口继续走 `jiti`
 - 延续同批次优化，将开发态插件默认路径收敛为“优先吃生产态 dist，再由后台 watch build 保持自动更新”：
@@ -22,16 +22,16 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-openclaw-compat tsc`
-- `pnpm -C packages/nextclaw-openclaw-compat build`
-- `pnpm -C packages/nextclaw-openclaw-compat test -- loader.bundled-enable-state.test.ts`
-- `pnpm -C packages/nextclaw tsc`
-- `pnpm -C packages/nextclaw test -- src/cli/commands/plugin/dev-first-party-plugin-load-paths.test.ts src/cli/commands/plugin/dev-first-party-plugin-load-paths.path-install.test.ts src/cli/shared/services/plugin/service-plugin-dev-hot-reload.service.test.ts`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-openclaw-compat/src/plugins/progressive-plugin-loader/progressive-bundled-plugin-loader.ts`
+- `pnpm -C packages/go-usb-ai-openclaw-compat tsc`
+- `pnpm -C packages/go-usb-ai-openclaw-compat build`
+- `pnpm -C packages/go-usb-ai-openclaw-compat test -- loader.bundled-enable-state.test.ts`
+- `pnpm -C packages/go-usb-ai tsc`
+- `pnpm -C packages/go-usb-ai test -- src/cli/commands/plugin/dev-first-party-plugin-load-paths.test.ts src/cli/commands/plugin/dev-first-party-plugin-load-paths.path-install.test.ts src/cli/shared/services/plugin/service-plugin-dev-hot-reload.service.test.ts`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-openclaw-compat/src/plugins/progressive-plugin-loader/progressive-bundled-plugin-loader.ts`
 - 真实启动 trace：
-  - `NEXTCLAW_STARTUP_TRACE=1 node packages/nextclaw/dist/cli/app/index.js serve --ui-port 55702`
-  - `NEXTCLAW_STARTUP_TRACE=1 pnpm dev start`
-  - 启动后手动 `touch packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/dist/index.js`，确认出现 `Plugin dist updated` / `Plugin hot reload applied`，且 reload trace 显示 `plugin.loader.total duration_ms=41`
+  - `GOUSB_AI_STARTUP_TRACE=1 node packages/go-usb-ai/dist/cli/app/index.js serve --ui-port 55702`
+  - `GOUSB_AI_STARTUP_TRACE=1 pnpm dev start`
+  - 启动后手动 `touch packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/dist/index.js`，确认出现 `Plugin dist updated` / `Plugin hot reload applied`，且 reload trace 显示 `plugin.loader.total duration_ms=41`
 
 ## 发布/部署方式
 
@@ -40,8 +40,8 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 在工作区构建 `@nextclaw/openclaw-compat`。
-2. 用 `NEXTCLAW_STARTUP_TRACE=1` 启动 `nextclaw serve`。
+1. 在工作区构建 `@go-usb-ai/openclaw-compat`。
+2. 用 `GOUSB_AI_STARTUP_TRACE=1` 启动 `go-usb-ai serve`。
 3. 观察 `plugin.loader.bundled_plugin` 日志。
 4. 确认 bundled `.js` 渠道插件不再出现每个 `1s+` 的冷加载。
 5. 确认 `plugin.loader.total` 明显下降，且 Feishu 这类 `ts` 入口仍可正常注册。
@@ -64,7 +64,7 @@
   - `pnpm lint:new-code:governance` 仍会因为该历史文件名 `progressive-bundled-plugin-loader.ts` 不符合当前 role-suffix 白名单而失败。
   - 同类历史治理债还包括 `first-party-plugin-load-paths.ts`；二者都不是这次逻辑引入的新问题。
   - `pnpm check:governance-backlog-ratchet` 仍会因为仓库现存 `docFileNameViolations` 计数高于 baseline 而失败。
-  - `pnpm -C packages/nextclaw-openclaw-compat test -- loader.bundled-enable-state.test.ts` 仍可能在 regular loader 路径上超时；本次已把开发态启动与热更新主链路切到更快的 progressive 路径，但未继续扩 scope 改造同步 regular loader。
+  - `pnpm -C packages/go-usb-ai-openclaw-compat test -- loader.bundled-enable-state.test.ts` 仍可能在 regular loader 路径上超时；本次已把开发态启动与热更新主链路切到更快的 progressive 路径，但未继续扩 scope 改造同步 regular loader。
 - `post-edit-maintainability-review`：已在本次交付收尾中进行人工复核。
 
 ## NPM 包发布记录

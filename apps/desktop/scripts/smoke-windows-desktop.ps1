@@ -102,7 +102,7 @@ function Get-DesktopStartupBlocker {
     }
   }
 
-  $servicePattern = "Extension nextclaw-channel-extension-(feishu|weixin) (failed|exited)"
+  $servicePattern = "Extension go-usb-ai-channel-extension-(feishu|weixin) (failed|exited)"
   if (Test-Path $script:ServiceLog) {
     foreach ($line in @(Get-Content -Path $script:ServiceLog)) {
       if ($line -match $servicePattern) { return $line }
@@ -200,7 +200,7 @@ function Test-RendererTitlebarDragRegionConfirmed {
 }
 
 function Initialize-WindowsTitlebarProbe {
-  if ("NextClawDesktopSmokeNative" -as [type]) {
+  if ("GoUsbAiDesktopSmokeNative" -as [type]) {
     return
   }
 
@@ -209,7 +209,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-public static class NextClawDesktopSmokeNative {
+public static class GoUsbAiDesktopSmokeNative {
   [StructLayout(LayoutKind.Sequential)]
   public struct RECT {
     public int Left;
@@ -358,10 +358,10 @@ function Convert-ClientPointToScreen {
   )
 
   Initialize-WindowsTitlebarProbe
-  $point = New-Object NextClawDesktopSmokeNative+POINT
+  $point = New-Object GoUsbAiDesktopSmokeNative+POINT
   $point.X = $X
   $point.Y = $Y
-  if (-not [NextClawDesktopSmokeNative]::ClientToScreen($WindowHandle, [ref]$point)) {
+  if (-not [GoUsbAiDesktopSmokeNative]::ClientToScreen($WindowHandle, [ref]$point)) {
     throw "ClientToScreen failed for window handle $WindowHandle"
   }
   return [pscustomobject]@{
@@ -374,8 +374,8 @@ function Read-WindowRect {
   param([IntPtr]$WindowHandle)
 
   Initialize-WindowsTitlebarProbe
-  $rect = New-Object NextClawDesktopSmokeNative+RECT
-  if (-not [NextClawDesktopSmokeNative]::GetWindowRect($WindowHandle, [ref]$rect)) {
+  $rect = New-Object GoUsbAiDesktopSmokeNative+RECT
+  if (-not [GoUsbAiDesktopSmokeNative]::GetWindowRect($WindowHandle, [ref]$rect)) {
     throw "GetWindowRect failed for window handle $WindowHandle"
   }
 
@@ -407,11 +407,11 @@ function Invoke-DesktopTitlebarDragProbe {
     throw "Could not find a desktop window handle for process tree rooted at $RootPid"
   }
 
-  [NextClawDesktopSmokeNative]::ShowWindow($windowHandle, 9) | Out-Null
-  [NextClawDesktopSmokeNative]::SetForegroundWindow($windowHandle) | Out-Null
+  [GoUsbAiDesktopSmokeNative]::ShowWindow($windowHandle, 9) | Out-Null
+  [GoUsbAiDesktopSmokeNative]::SetForegroundWindow($windowHandle) | Out-Null
   Start-Sleep -Milliseconds 500
 
-  if (-not [NextClawDesktopSmokeNative]::MoveWindow($windowHandle, 80, 80, 760, 520, $true)) {
+  if (-not [GoUsbAiDesktopSmokeNative]::MoveWindow($windowHandle, 80, 80, 760, 520, $true)) {
     throw "MoveWindow failed while preparing titlebar drag probe for window handle $windowHandle"
   }
   Start-Sleep -Milliseconds 500
@@ -422,27 +422,27 @@ function Invoke-DesktopTitlebarDragProbe {
   $startPoint = Convert-ClientPointToScreen -WindowHandle $windowHandle -X $clientStartX -Y $clientStartY
   $startX = $startPoint.X
   $startY = $startPoint.Y
-  $nativeHitTest = [NextClawDesktopSmokeNative]::HitTest($windowHandle, $startX, $startY)
+  $nativeHitTest = [GoUsbAiDesktopSmokeNative]::HitTest($windowHandle, $startX, $startY)
   $endX = $startX + 140
   $endY = $startY + 80
-  $pointWindowHandle = [NextClawDesktopSmokeNative]::WindowFromScreenPoint($startX, $startY)
-  $rootFromPointHandle = [NextClawDesktopSmokeNative]::RootWindow($pointWindowHandle)
+  $pointWindowHandle = [GoUsbAiDesktopSmokeNative]::WindowFromScreenPoint($startX, $startY)
+  $rootFromPointHandle = [GoUsbAiDesktopSmokeNative]::RootWindow($pointWindowHandle)
   $probeHandles = [System.Collections.Generic.List[System.IntPtr]]::new()
   Add-UniqueWindowHandle -WindowHandles $probeHandles -WindowHandle $windowHandle
   Add-UniqueWindowHandle -WindowHandles $probeHandles -WindowHandle $pointWindowHandle
   Add-UniqueWindowHandle -WindowHandles $probeHandles -WindowHandle $rootFromPointHandle
-  $parentHandle = [NextClawDesktopSmokeNative]::GetParent($pointWindowHandle)
+  $parentHandle = [GoUsbAiDesktopSmokeNative]::GetParent($pointWindowHandle)
   while ($parentHandle -ne [IntPtr]::Zero) {
     Add-UniqueWindowHandle -WindowHandles $probeHandles -WindowHandle $parentHandle
-    $parentHandle = [NextClawDesktopSmokeNative]::GetParent($parentHandle)
+    $parentHandle = [GoUsbAiDesktopSmokeNative]::GetParent($parentHandle)
   }
 
   Write-Host "[desktop-smoke] titlebar drag probe: left=$($before.Left) top=$($before.Top) width=$($before.Width) height=$($before.Height) clientStart=($clientStartX,$clientStartY) screenStart=($startX,$startY) mainHandle=$windowHandle pointHandle=$pointWindowHandle rootFromPoint=$rootFromPointHandle nativeHitTest=$nativeHitTest"
 
   $captionHitHandle = [IntPtr]::Zero
   foreach ($probeHandle in $probeHandles) {
-    $probeHitTest = [NextClawDesktopSmokeNative]::HitTest($probeHandle, $startX, $startY)
-    $probeClassName = [NextClawDesktopSmokeNative]::ClassName($probeHandle)
+    $probeHitTest = [GoUsbAiDesktopSmokeNative]::HitTest($probeHandle, $startX, $startY)
+    $probeClassName = [GoUsbAiDesktopSmokeNative]::ClassName($probeHandle)
     Write-Host "[desktop-smoke] titlebar drag hwnd probe: handle=$probeHandle class=$probeClassName hitTest=$probeHitTest"
     if ($probeHitTest -eq 2 -and $captionHitHandle -eq [IntPtr]::Zero) {
       $captionHitHandle = $probeHandle
@@ -458,13 +458,13 @@ function Invoke-DesktopTitlebarDragProbe {
 
   $mouseLeftDown = 0x0002
   $mouseLeftUp = 0x0004
-  [NextClawDesktopSmokeNative]::SetCursorPos($startX, $startY) | Out-Null
+  [GoUsbAiDesktopSmokeNative]::SetCursorPos($startX, $startY) | Out-Null
   Start-Sleep -Milliseconds 200
-  [NextClawDesktopSmokeNative]::mouse_event($mouseLeftDown, 0, 0, 0, [UIntPtr]::Zero)
+  [GoUsbAiDesktopSmokeNative]::mouse_event($mouseLeftDown, 0, 0, 0, [UIntPtr]::Zero)
   Start-Sleep -Milliseconds 200
-  [NextClawDesktopSmokeNative]::SetCursorPos($endX, $endY) | Out-Null
+  [GoUsbAiDesktopSmokeNative]::SetCursorPos($endX, $endY) | Out-Null
   Start-Sleep -Milliseconds 600
-  [NextClawDesktopSmokeNative]::mouse_event($mouseLeftUp, 0, 0, 0, [UIntPtr]::Zero)
+  [GoUsbAiDesktopSmokeNative]::mouse_event($mouseLeftUp, 0, 0, 0, [UIntPtr]::Zero)
   Start-Sleep -Milliseconds 800
 
   $after = Read-WindowRect -WindowHandle $windowHandle
@@ -586,14 +586,14 @@ $tempRoot = Get-SmokeTempRoot
 $smokeHome = if ($isPortableSmoke) {
   Join-Path $resolvedPortableRoot "data\desktop"
 } else {
-  Join-Path $tempRoot "nextclaw-desktop-smoke-home"
+  Join-Path $tempRoot "go-usb-ai-desktop-smoke-home"
 }
 $portableRuntimeHome = if ($isPortableSmoke) {
   Join-Path $resolvedPortableRoot "data\runtime-home"
 } else {
   $smokeHome
 }
-$logRoot = Join-Path $tempRoot "nextclaw-desktop-smoke-logs"
+$logRoot = Join-Path $tempRoot "go-usb-ai-desktop-smoke-logs"
 $appStdoutLog = Join-Path $logRoot "app-stdout.log"
 $appStderrLog = Join-Path $logRoot "app-stderr.log"
 $apiProbeLog = Join-Path $logRoot "api-probes.json"
@@ -625,14 +625,14 @@ if ($SeedStaleSameVersionBundle.IsPresent) {
   Seed-StaleSameVersionBundleState -DesktopExePath $resolvedExe -SmokeHome $smokeHome
 }
 if ($isPortableSmoke) {
-  Remove-Item Env:\NEXTCLAW_HOME -ErrorAction SilentlyContinue
-  Remove-Item Env:\NEXTCLAW_DESKTOP_RUNTIME_HOME_OVERRIDE -ErrorAction SilentlyContinue
-  Remove-Item Env:\NEXTCLAW_DESKTOP_DATA_DIR_OVERRIDE -ErrorAction SilentlyContinue
+  Remove-Item Env:\GOUSB_AI_HOME -ErrorAction SilentlyContinue
+  Remove-Item Env:\GOUSB_AI_DESKTOP_RUNTIME_HOME_OVERRIDE -ErrorAction SilentlyContinue
+  Remove-Item Env:\GOUSB_AI_DESKTOP_DATA_DIR_OVERRIDE -ErrorAction SilentlyContinue
 } else {
-  $env:NEXTCLAW_HOME = $smokeHome
-  $env:NEXTCLAW_DESKTOP_RUNTIME_HOME_OVERRIDE = $smokeHome
-  $env:NEXTCLAW_DESKTOP_DATA_DIR_OVERRIDE = $smokeHome
-  $env:NEXTCLAW_DESKTOP_SMOKE_TITLEBAR_HIT_TEST = "1"
+  $env:GOUSB_AI_HOME = $smokeHome
+  $env:GOUSB_AI_DESKTOP_RUNTIME_HOME_OVERRIDE = $smokeHome
+  $env:GOUSB_AI_DESKTOP_DATA_DIR_OVERRIDE = $smokeHome
+  $env:GOUSB_AI_DESKTOP_SMOKE_TITLEBAR_HIT_TEST = "1"
 }
 
 $appProc = $null

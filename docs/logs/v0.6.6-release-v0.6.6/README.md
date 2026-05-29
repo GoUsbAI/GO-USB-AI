@@ -6,7 +6,7 @@
 - 涉及范围：
   - `scripts/dev-runner.mjs`（`pnpm dev start` 后端子进程参数）
   - 根脚本 `dev:backend`（`package.json`）
-- 发布包：`nextclaw@0.6.6`
+- 发布包：`go-usb-ai@0.6.6`
 
 ## 验证与验收
 
@@ -27,7 +27,7 @@ pnpm release:check
 cd /tmp
 LOG=/tmp/nextbot-dev-start-smoke.log
 rm -f "$LOG"
-NEXTCLAW_HOME=/tmp/nextclaw-dev-smoke pnpm --dir /Users/peiwang/Projects/nextbot dev start >"$LOG" 2>&1 &
+GOUSB_AI_HOME=/tmp/go-usb-ai-dev-smoke pnpm --dir /Users/peiwang/Projects/nextbot dev start >"$LOG" 2>&1 &
 RUNPID=$!
 sleep 10
 kill -INT "$RUNPID" 2>/dev/null || true
@@ -47,14 +47,14 @@ rg -n "unknown option '--ui-host'|VITE v6.4.1|Local:   http://127.0.0.1:5174/" "
 
 ```bash
 cd /tmp
-npm view nextclaw version
-npx -y nextclaw@0.6.6 serve --help > /tmp/nextclaw-066-serve-help.txt 2>&1
-rg -n -- "Usage: nextclaw serve|--ui-port|--ui-host" /tmp/nextclaw-066-serve-help.txt
+npm view go-usb-ai version
+npx -y go-usb-ai@0.6.6 serve --help > /tmp/go-usb-ai-066-serve-help.txt 2>&1
+rg -n -- "Usage: go-usb-ai serve|--ui-port|--ui-host" /tmp/go-usb-ai-066-serve-help.txt
 ```
 
 观察点：
 
-- `npm view nextclaw version` 为 `0.6.6`。
+- `npm view go-usb-ai version` 为 `0.6.6`。
 - `serve --help` 仅包含 `--ui-port`，不包含 `--ui-host`。
 
 ## 发布与部署
@@ -68,8 +68,8 @@ pnpm release:publish
 
 发布结果：
 
-- `nextclaw@0.6.6`
-- 自动 tag：`nextclaw@0.6.6`
+- `go-usb-ai@0.6.6`
+- 自动 tag：`go-usb-ai@0.6.6`
 
 ## 闭环说明
 

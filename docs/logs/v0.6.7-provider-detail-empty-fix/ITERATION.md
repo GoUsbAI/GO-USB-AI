@@ -6,9 +6,9 @@
 - 现在 `ProviderForm` 会对缺失配置的 provider 使用默认展示态兜底，仍然展示 API Key、API Base、模型、认证等配置项，并允许首次保存时由后端创建对应配置。
 
 ## 测试/验证/验收方式
-- 执行 `pnpm -C packages/nextclaw-ui build`：通过。
-- 执行 `pnpm -C packages/nextclaw-ui tsc`：通过。
-- 执行 `pnpm -C packages/nextclaw-ui lint`：未通过，但失败项为仓库内既有无关问题（`ChatPage`/`useChatStreamController`/`MaskedInput` 等），非本次改动引入。
+- 执行 `pnpm -C packages/go-usb-ai-ui build`：通过。
+- 执行 `pnpm -C packages/go-usb-ai-ui tsc`：通过。
+- 执行 `pnpm -C packages/go-usb-ai-ui lint`：未通过，但失败项为仓库内既有无关问题（`ChatPage`/`useChatStreamController`/`MaskedInput` 等），非本次改动引入。
 - 冒烟：启动 UI 后，用浏览器脚本模拟 `/api/config*` 返回仅包含部分已配置 provider 的数据，点击一个未配置的内置 provider，确认右侧仍出现可编辑表单而非空白。
 
 ## 发布/部署方式

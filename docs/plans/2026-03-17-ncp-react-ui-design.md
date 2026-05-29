@@ -1,8 +1,8 @@
-# `@nextclaw/ncp-react-ui` 设计文档
+# `@go-usb-ai/ncp-react-ui` 设计文档
 
 ## 摘要
 
-新增一个包，目录为 `packages/ncp-packages/nextclaw-ncp-react-ui`，包名为 `@nextclaw/ncp-react-ui`。
+新增一个包，目录为 `packages/ncp-packages/go-usb-ai-ncp-react-ui`，包名为 `@go-usb-ai/ncp-react-ui`。
 
 这个包定位为 NCP Agent 应用的 React 展示层积木，只包含纯展示组件与样式 token，不包含传输层、运行时编排、会话持久化、业务流程或 demo 专属行为。
 
@@ -20,29 +20,29 @@
 
 目标分层如下：
 
-1. `@nextclaw/ncp` 提供协议类型。
-2. `@nextclaw/ncp-react` 提供 React 绑定与运行时 hook。
-3. `@nextclaw/ncp-react-ui` 提供展示组件。
+1. `@go-usb-ai/ncp` 提供协议类型。
+2. `@go-usb-ai/ncp-react` 提供 React 绑定与运行时 hook。
+3. `@go-usb-ai/ncp-react-ui` 提供展示组件。
 4. `apps/*` 负责组装运行时、展示层与应用自身业务逻辑。
 
 ## 非目标
 
-- 不把 `useHydratedNcpAgent` 或任何 hook 从 `@nextclaw/ncp-react` 挪到新包。
+- 不把 `useHydratedNcpAgent` 或任何 hook 从 `@go-usb-ai/ncp-react` 挪到新包。
 - 不把会话创建、删除、seed 加载、持久化逻辑放进新包。
-- 不让 `@nextclaw/ncp-react-ui` 依赖 `NcpHttpAgentClientEndpoint`。
-- 不把 `packages/nextclaw-ui` 中的产品级 UI 直接搬入新包。
+- 不让 `@go-usb-ai/ncp-react-ui` 依赖 `NcpHttpAgentClientEndpoint`。
+- 不把 `packages/go-usb-ai-ui` 中的产品级 UI 直接搬入新包。
 - 第一阶段不让除 `ncp-demo` 之外的其它应用消费该包。
 - 第一阶段不引入 `AgentChatPage` 这类预制业务壳层。
 
 ## 为什么要单独建包
 
-### 为什么不直接扩展 `@nextclaw/ncp-react`
+### 为什么不直接扩展 `@go-usb-ai/ncp-react`
 
-`@nextclaw/ncp-react` 的职责是 React 绑定层，负责暴露 hook 和框架接入能力。如果把可视组件也塞进去，`框架绑定` 与 `展示积木` 的边界会被打乱，未来只想要运行时绑定的消费方也会被迫引入视觉层。
+`@go-usb-ai/ncp-react` 的职责是 React 绑定层，负责暴露 hook 和框架接入能力。如果把可视组件也塞进去，`框架绑定` 与 `展示积木` 的边界会被打乱，未来只想要运行时绑定的消费方也会被迫引入视觉层。
 
-### 为什么不直接复用 `@nextclaw/ui`
+### 为什么不直接复用 `@go-usb-ai/ui`
 
-`@nextclaw/ui` 已经是产品级 UI 包，里面包含 presenter/store/business state 等产品实现判断，层级过高，也过于耦合，不适合作为中立的 NCP UI 积木来源。
+`@go-usb-ai/ui` 已经是产品级 UI 包，里面包含 presenter/store/business state 等产品实现判断，层级过高，也过于耦合，不适合作为中立的 NCP UI 积木来源。
 
 ### 为什么以 `ncp-demo` 作为起点
 
@@ -66,15 +66,15 @@
 
 推荐层级顺序如下：
 
-1. `@nextclaw/ncp`
-2. `@nextclaw/ncp-toolkit`
-3. `@nextclaw/ncp-react`
-4. `@nextclaw/ncp-react-ui`
+1. `@go-usb-ai/ncp`
+2. `@go-usb-ai/ncp-toolkit`
+3. `@go-usb-ai/ncp-react`
+4. `@go-usb-ai/ncp-react-ui`
 5. `apps/*`
 
 ### 负责什么
 
-`@nextclaw/ncp-react-ui` 负责：
+`@go-usb-ai/ncp-react-ui` 负责：
 
 - 渲染 `NcpMessage` 与 `NcpMessagePart`
 - 根据 props 渲染 chat composer 和操作区
@@ -82,7 +82,7 @@
 - 导出包级样式与 CSS token
 - 在仍然属于纯展示层的前提下，提供轻量布局积木
 
-`@nextclaw/ncp-react-ui` 不负责：
+`@go-usb-ai/ncp-react-ui` 不负责：
 
 - `send / abort / replay` 等消息行为逻辑
 - session 的读取与存储
@@ -100,7 +100,7 @@
 
 ### 2. 直接使用 NCP 原生消息类型
 
-消息渲染相关组件直接接收 `@nextclaw/ncp` 里的 `NcpMessage` 与 `NcpMessagePart`。在没有出现明确跨应用不兼容之前，不额外造第二套 message model。
+消息渲染相关组件直接接收 `@go-usb-ai/ncp` 里的 `NcpMessage` 与 `NcpMessagePart`。在没有出现明确跨应用不兼容之前，不额外造第二套 message model。
 
 ### 3. 编排留在应用层
 
@@ -112,7 +112,7 @@
 
 示例：
 
-- `packages/ncp-packages/nextclaw-ncp-react-ui`
+- `packages/ncp-packages/go-usb-ai-ncp-react-ui`
 - `src/chat/chat-input.tsx`
 - `src/chat/message-list.tsx`
 - `src/session/session-list.tsx`
@@ -154,7 +154,7 @@ React 组件导出名可以继续使用 PascalCase，但文件名和目录名保
 ```text
 packages/
   ncp-packages/
-    nextclaw-ncp-react-ui/
+    go-usb-ai-ncp-react-ui/
       package.json
       tsconfig.json
       eslint.config.mjs
@@ -355,15 +355,15 @@ export type SessionListItem = {
 
 `ncp-demo` 调整为：
 
-- 用 `@nextclaw/ncp-react-ui` 替代本地 `src/ui/*` 导入
+- 用 `@go-usb-ai/ncp-react-ui` 替代本地 `src/ui/*` 导入
 - 在本地做 `SessionSummary -> SessionListItem` 的映射
 
 ### 迁移步骤
 
-1. 创建 `@nextclaw/ncp-react-ui`
+1. 创建 `@go-usb-ai/ncp-react-ui`
 2. 将选定的纯展示组件从 `ncp-demo` 迁入新包
 3. 在 `ncp-demo` 中用 `SessionListItem` 替代对 `SessionSummary` 的直接 UI 耦合
-4. 更新 `apps/ncp-demo/frontend/package.json`，以 `workspace:*` 依赖 `@nextclaw/ncp-react-ui`
+4. 更新 `apps/ncp-demo/frontend/package.json`，以 `workspace:*` 依赖 `@go-usb-ai/ncp-react-ui`
 5. 删除 `ncp-demo` 中已迁移的本地 UI 文件
 6. 对新包与 `ncp-demo` 执行最小充分验证
 
@@ -371,7 +371,7 @@ export type SessionListItem = {
 
 ### 阶段 1：包骨架与直接迁移
 
-- 创建 `packages/ncp-packages/nextclaw-ncp-react-ui`
+- 创建 `packages/ncp-packages/go-usb-ai-ncp-react-ui`
 - 增加 package 配置、TypeScript 配置、ESLint 配置与导出入口
 - 迁移选定的纯展示组件
 - 增加包级 CSS token 与默认样式
@@ -410,9 +410,9 @@ export type SessionListItem = {
 
 ### 1. 包自身验证
 
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-react-ui build`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-react-ui lint`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-react-ui tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-react-ui build`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-react-ui lint`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-react-ui tsc`
 
 ### 2. 消费方验证
 
@@ -444,7 +444,7 @@ export type SessionListItem = {
 
 只有同时满足以下条件，才算本设计被正确实现：
 
-1. `@nextclaw/ncp-react-ui` 以独立包存在于 `packages/ncp-packages/nextclaw-ncp-react-ui`
+1. `@go-usb-ai/ncp-react-ui` 以独立包存在于 `packages/ncp-packages/go-usb-ai-ncp-react-ui`
 2. 所有新增文件与目录都使用 `kebab-case`
 3. 第一阶段只有 `ncp-demo` 消费该包
 4. `ncp-demo` 不再从本地 `src/ui/*` 导入已迁移组件
@@ -455,7 +455,7 @@ export type SessionListItem = {
 
 ### 风险 1：新包变成第二个运行时层
 
-如果为了“方便”把 hook、endpoint 初始化或状态编排塞进来，`@nextclaw/ncp-react-ui` 会和 `@nextclaw/ncp-react` 重叠。
+如果为了“方便”把 hook、endpoint 初始化或状态编排塞进来，`@go-usb-ai/ncp-react-ui` 会和 `@go-usb-ai/ncp-react` 重叠。
 
 缓解：
 
@@ -495,15 +495,15 @@ export type SessionListItem = {
 - 可选 markdown renderer
 - 可选 session sidebar shell
 - 主题预设
-- 子路径导出，如 `@nextclaw/ncp-react-ui/chat`
+- 子路径导出，如 `@go-usb-ai/ncp-react-ui/chat`
 - 位于纯展示层之上的更高阶 scaffold 包
 
 ## 推荐结论
 
 按方案 A 推进，并且严格按本文档约束落地：
 
-- 新包名：`@nextclaw/ncp-react-ui`
-- 新目录：`packages/ncp-packages/nextclaw-ncp-react-ui`
+- 新包名：`@go-usb-ai/ncp-react-ui`
+- 新目录：`packages/ncp-packages/go-usb-ai-ncp-react-ui`
 - 命名规则：文件与目录统一使用 `kebab-case`
 - 初始消费方：仅 `apps/ncp-demo/frontend`
 - 第一阶段：只迁移纯展示组件

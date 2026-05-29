@@ -17,7 +17,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-class-methods.mjs
   node scripts/governance/lint-new-code-class-methods.mjs --staged
   node scripts/governance/lint-new-code-class-methods.mjs --base origin/main
-  node scripts/governance/lint-new-code-class-methods.mjs -- packages/nextclaw/src
+  node scripts/governance/lint-new-code-class-methods.mjs -- packages/go-usb-ai/src
 
 Checks every touched class in changed TypeScript workspace files.
 Once a class is touched by the diff, all eligible instance methods in that class must use foo = () => {}.

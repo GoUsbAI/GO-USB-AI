@@ -17,13 +17,13 @@
 
 ## 测试/验证/验收方式
 
-- 影响面：`packages/nextclaw`（run 协调器）+ `packages/nextclaw-core`（agent loop）。
+- 影响面：`packages/go-usb-ai`（run 协调器）+ `packages/go-usb-ai-core`（agent loop）。
 - 最小充分验证命令：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw test src/cli/commands/agent-runtime-pool.command.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai test src/cli/commands/agent-runtime-pool.command.test.ts`
 - 冒烟（用户可见行为）：
   - 真实 chat 流程中发送一条会触发工具/长回复的消息，点击 stop；观察点：
     - UI 回复不再继续增长（或仅极短尾流后停止）；
@@ -35,7 +35,7 @@
 - 本次为前后端运行时逻辑变更，不涉及数据库 schema，不需要 migration。
 - 按项目常规流程发布：
   - 若只发前端承载可走 `/release-frontend`；
-  - 若包含 CLI/runtime 行为修复，按 changeset/version/publish 流程发布 `nextclaw` 相关包。
+  - 若包含 CLI/runtime 行为修复，按 changeset/version/publish 流程发布 `go-usb-ai` 相关包。
 
 ## 用户/产品视角的验收步骤
 

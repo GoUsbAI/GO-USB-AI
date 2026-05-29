@@ -2,7 +2,7 @@
 
 ## 迭代完成说明（改了什么）
 
-- 修复 QQ 入站昵称提取字段兼容：`packages/extensions/nextclaw-channel-runtime/src/channels/qq.ts`。
+- 修复 QQ 入站昵称提取字段兼容：`packages/extensions/go-usb-ai-channel-runtime/src/channels/qq.ts`。
 - `resolveSenderName` 新增对 `sender.user_name` 的支持（SDK 常见字段）。
 
 ## 交付结果

@@ -6,7 +6,7 @@
 
 本轮实际落地内容：
 
-1. 在 `packages/nextclaw/src/cli/commands/ncp/session-search/` 下新增完整 feature module，把索引、查询、工具包装、运行时接线全部收敛在产品层，不污染 toolkit。
+1. 在 `packages/go-usb-ai/src/cli/commands/ncp/session-search/` 下新增完整 feature module，把索引、查询、工具包装、运行时接线全部收敛在产品层，不污染 toolkit。
 2. 采用独立 SQLite 派生索引文件实现本地关键词检索，索引 session label、user text、assistant text，不索引 tool result，不引入 embedding 或 summarize。
 3. 新增独立 `session_search` tool，默认排除当前 session，可按需 `includeCurrentSession=true` 放开，返回结构化命中结果而不是裸字符串。
 4. 通过 `create-ui-ncp-agent.ts` 的既有 `onSessionUpdated` 与 `getAdditionalTools` 接缝做最小接入：启动时 reconcile 一次，后续 session 更新时做增量重建。
@@ -22,31 +22,31 @@
 
 已完成：
 
-1. `pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/session-search/session-search-feature.service.test.ts src/cli/commands/ncp/session/nextclaw-ncp-tool-registry.session-search.test.ts`
-2. `pnpm -C packages/nextclaw tsc`
-3. 使用临时 `NEXTCLAW_HOME` 执行一次真实 smoke：通过 `SessionManager + NextclawAgentSessionStore + SessionSearchFeatureService + session_search tool` 创建两条 session 后查询 `release`，得到 1 条命中，命中 session 为 `alpha`，label 为 `Release Planning`。
+1. `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/session-search/session-search-feature.service.test.ts src/cli/commands/ncp/session/go-usb-ai-ncp-tool-registry.session-search.test.ts`
+2. `pnpm -C packages/go-usb-ai tsc`
+3. 使用临时 `GOUSB_AI_HOME` 执行一次真实 smoke：通过 `SessionManager + GoUsbAiAgentSessionStore + SessionSearchFeatureService + session_search tool` 创建两条 session 后查询 `release`，得到 1 条命中，命中 session 为 `alpha`，label 为 `Release Planning`。
 
 结果：
 
 1. 相关 Vitest 全部通过。
-2. `packages/nextclaw` TypeScript 编译通过。
+2. `packages/go-usb-ai` TypeScript 编译通过。
 3. 真实 smoke 返回结构化命中结果，说明 feature 初始化、索引构建与 tool 执行链路都可工作。
 
 补充说明：
 
 1. `pnpm lint:maintainability:guard` 已执行。
 2. 其中 maintainability guard 主体只给出 1 条 warning：`create-ui-ncp-agent.ts` 接近 file budget。
-3. guard 中的 diff-only governance 仍被 `packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts` 这个历史命名入口阻断；由于本次必须从该入口接入 feature，而完整命名迁移会把大量非本次能力相关的 legacy import 链一并拖入，故本轮记录为“已识别债务，暂不扩 scope 处理”。
+3. guard 中的 diff-only governance 仍被 `packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts` 这个历史命名入口阻断；由于本次必须从该入口接入 feature，而完整命名迁移会把大量非本次能力相关的 legacy import 链一并拖入，故本轮记录为“已识别债务，暂不扩 scope 处理”。
 
 ## 发布 / 部署方式
 
 本次不涉及额外部署或数据迁移步骤。
 
-发布时随正常 NextClaw 版本发布即可。`session_search` 的索引数据库会在本地 data dir 下按需创建为独立派生文件，不影响既有 session 主数据。
+发布时随正常 GoUsbAi 版本发布即可。`session_search` 的索引数据库会在本地 data dir 下按需创建为独立派生文件，不影响既有 session 主数据。
 
 ## 用户 / 产品视角的验收步骤
 
-1. 启动带 NCP agent 的 NextClaw。
+1. 启动带 NCP agent 的 GoUsbAi。
 2. 先在一个旧 session 中制造带明确关键词的 user/assistant 对话，例如包含 `release checklist`。
 3. 在另一个当前 session 中调用 `session_search`，传入 `query: "release"`。
 4. 确认默认返回的结果不包含当前 session，但能命中旧 session，并给出 `sessionId / label / snippet / matchSource / updatedAt`。
@@ -59,7 +59,7 @@
 
 长期目标对齐 / 可维护性推进：
 
-1. 本次沿着 NextClaw “统一入口 + 能力编排” 的长期方向前进了一步，但方式是克制的：先补跨 session recall 的产品层底座，而不是提前引入后台复盘 runner、memory 系统或 embedding 管线。
+1. 本次沿着 GoUsbAi “统一入口 + 能力编排” 的长期方向前进了一步，但方式是克制的：先补跨 session recall 的产品层底座，而不是提前引入后台复盘 runner、memory 系统或 embedding 管线。
 2. 复杂度主要被锁进 `session-search/` feature root，没有把搜索能力散落到 toolkit、session persistence 或 memory 体系里。
 3. 下一步若继续做 P2 后台复盘，应优先复用这次的独立检索层，而不是再造第二套 recall 抽象。
 
@@ -98,7 +98,7 @@
 目录结构与文件组织是否满足当前项目治理要求：
 
 1. 本次新增文件均满足 kebab-case 与角色后缀治理要求。
-2. 但由于必须修改历史入口 `packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts`，diff-only governance 仍会报该 legacy 文件名不满足新规则。
+2. 但由于必须修改历史入口 `packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts`，diff-only governance 仍会报该 legacy 文件名不满足新规则。
 3. 该问题已记录为现存治理债务；若要彻底清理，需要在单独迭代中处理整条 `create-ui-ncp-agent` 命名迁移链路。
 
 本次顺手减债：是。

@@ -12,7 +12,7 @@
 - `pnpm release:publish`
 - 发布前后补充确认：
   - `npm whoami`
-  - `pnpm -C packages/nextclaw exec node dist/cli/index.js --help`
+  - `pnpm -C packages/go-usb-ai exec node dist/cli/index.js --help`
 
 ## 发布/部署方式
 
@@ -25,7 +25,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 安装或升级最新发布的 `nextclaw`、`@nextclaw/ui`、`@nextclaw/server` 及相关 NCP 包
+1. 安装或升级最新发布的 `go-usb-ai`、`@go-usb-ai/ui`、`@go-usb-ai/server` 及相关 NCP 包
 2. 打开默认聊天页，确认默认链路为 NCP，消息发送、停止、刷新历史、会话切换正常
 3. 验证 reasoning / tool / reply tag / typing placeholder 等最近修复点不再回归
 4. 如使用 marketplace skill 发布能力，确认 `marketplace.json` 元数据路径可正常参与 publish / update 流程

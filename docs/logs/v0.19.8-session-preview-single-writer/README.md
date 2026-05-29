@@ -9,10 +9,10 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-kernel test -- src/contributions/session-activity-preview/utils/session-activity-preview-contribution.utils.test.ts src/managers/session-run.manager.test.ts`
-- `pnpm -C packages/nextclaw-kernel tsc`
-- `pnpm -C packages/nextclaw-kernel lint`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-kernel/src/managers/session-run.manager.ts packages/nextclaw-kernel/src/contributions/session-activity-preview/index.ts packages/nextclaw-kernel/src/contributions/session-activity-preview/utils/session-activity-preview-contribution.utils.test.ts packages/nextclaw-kernel/src/managers/session-run.manager.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel test -- src/contributions/session-activity-preview/utils/session-activity-preview-contribution.utils.test.ts src/managers/session-run.manager.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel tsc`
+- `pnpm -C packages/go-usb-ai-kernel lint`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-kernel/src/managers/session-run.manager.ts packages/go-usb-ai-kernel/src/contributions/session-activity-preview/index.ts packages/go-usb-ai-kernel/src/contributions/session-activity-preview/utils/session-activity-preview-contribution.utils.test.ts packages/go-usb-ai-kernel/src/managers/session-run.manager.test.ts`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
 
@@ -37,6 +37,6 @@
 
 ## NPM 包发布记录
 
-- 涉及包：`@nextclaw/kernel`
+- 涉及包：`@go-usb-ai/kernel`
 - 当前未发布。
 - 发布状态：待后续统一发布批次处理。

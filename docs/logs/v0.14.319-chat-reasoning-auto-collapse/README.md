@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-- 优化 `@nextclaw/agent-chat-ui` 中 reasoning 展示区的默认展开策略。
+- 优化 `@go-usb-ai/agent-chat-ui` 中 reasoning 展示区的默认展开策略。
 - 已完成的 reasoning 默认收起，避免历史思考内容长期占用消息高度。
 - 仅当 assistant 当前正在输出的最后一个 reasoning queue 仍处于进行中时，默认展开该 reasoning block。
 - 当当前 reasoning queue 结束后，若用户未手动重新展开，则自动收起。
@@ -11,11 +11,11 @@
 
 ## 测试/验证/验收方式
 
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui test -- chat-message-list.test.tsx`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui tsc`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui lint`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui test -- chat-message-list.test.tsx`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui tsc`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui lint`
 - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainability:guard`
-  - 结果：仍失败，但失败项来自工作区中已存在的其它改动，集中在 `packages/nextclaw-core/src/session/manager.ts` 的复杂度治理，不是本次 reasoning UI 改动新引入的问题。
+  - 结果：仍失败，但失败项来自工作区中已存在的其它改动，集中在 `packages/go-usb-ai-core/src/session/manager.ts` 的复杂度治理，不是本次 reasoning UI 改动新引入的问题。
 
 ## 发布/部署方式
 

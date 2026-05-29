@@ -11,7 +11,7 @@
   - 后台最小能力：平台总览、用户额度管理（免费额度上限 + 付费余额增减）、充值审核。
 - 代码改动：
   - 管理后台额度管理 UI 升级（支持按用户编辑免费额度上限与付费余额增减）。
-  - 新增 `workers/nextclaw-provider-gateway-api/migrations/0002_usage_ledger_immutable.sql`。
+  - 新增 `workers/go-usb-ai-provider-gateway-api/migrations/0002_usage_ledger_immutable.sql`。
   - 新增根目录自动冒烟脚本 `scripts/platform-mvp-smoke.mjs`。
   - 新增根命令：
     - `pnpm smoke:platform:mvp`

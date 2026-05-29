@@ -3,7 +3,7 @@
 ## 迭代完成说明
 
 - 修复 [`generate-data.mjs`](/Users/peiwang/Projects/nextbot/scripts/project-pulse/generate-data.mjs) 中遗漏的 `dirname` import。
-- 解决 `pnpm --filter @nextclaw/docs build` / `pnpm deploy:docs` 前置数据生成阶段因 `ReferenceError: dirname is not defined` 直接失败的问题。
+- 解决 `pnpm --filter @go-usb-ai/docs build` / `pnpm deploy:docs` 前置数据生成阶段因 `ReferenceError: dirname is not defined` 直接失败的问题。
 - 本次属于单点修复，没有扩展实现范围，也没有改动 Project Pulse 数据结构或 docs 构建流程。
 
 ## 测试/验证/验收方式
@@ -11,7 +11,7 @@
 - 运行 docs 构建链路：
 
 ```bash
-pnpm --filter @nextclaw/docs build
+pnpm --filter @go-usb-ai/docs build
 ```
 
 - 运行 targeted maintainability guard：
@@ -21,7 +21,7 @@ node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainabilit
 ```
 
 - 结果摘要：
-  - `@nextclaw/docs build` 通过
+  - `@go-usb-ai/docs build` 通过
   - `generate-data.mjs` 正常生成 `apps/docs/.vitepress/data/project-pulse.generated.mjs`
   - targeted maintainability guard 无 error / warning
   - 未执行真实 `pnpm deploy:docs`，避免在修复验证阶段触发线上发布副作用
@@ -37,7 +37,7 @@ pnpm deploy:docs
 
 ## 用户/产品视角的验收步骤
 
-1. 在仓库根目录运行 `pnpm deploy:docs` 或至少先运行 `pnpm --filter @nextclaw/docs build`。
+1. 在仓库根目录运行 `pnpm deploy:docs` 或至少先运行 `pnpm --filter @go-usb-ai/docs build`。
 2. 确认日志中不再出现 `ReferenceError: dirname is not defined`。
 3. 确认 `Project Pulse data generated.` 正常输出，随后 VitePress 构建完成。
 

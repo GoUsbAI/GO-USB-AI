@@ -8,9 +8,9 @@
 ## 测试 / 验证 / 验收方式
 
 - 定向测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- --run src/components/layout/sidebar.layout.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- --run src/components/layout/sidebar.layout.test.tsx`
 - 定向 lint：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint packages/nextclaw-ui/src/components/layout/Sidebar.tsx packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx packages/nextclaw-ui/src/lib/i18n.remote.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx packages/go-usb-ai-ui/src/lib/i18n.remote.ts`
 
 ## 发布 / 部署方式
 

@@ -31,7 +31,7 @@
 - UI 侧单测：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec vitest run src/components/chat/chat-composer-state.test.ts src/components/chat/chat-inline-token.utils.test.ts src/components/chat/adapters/chat-message.adapter.test.ts src/components/chat/containers/chat-message-list.container.test.tsx
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec vitest run src/components/chat/chat-composer-state.test.ts src/components/chat/chat-inline-token.utils.test.ts src/components/chat/adapters/chat-message.adapter.test.ts src/components/chat/containers/chat-message-list.container.test.tsx
 ```
 
 - 结果：`Test Files 4 passed`，`Tests 18 passed`
@@ -39,7 +39,7 @@ PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec vitest run src/co
 - 聊天 UI 渲染侧单测：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui exec vitest run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx
 ```
 
 - 结果：`Test Files 1 passed`，`Tests 15 passed`
@@ -47,7 +47,7 @@ PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui exec vitest
 - Core 侧单测：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core exec vitest run src/agent/context.test.ts src/agent/runtime-user-prompt.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core exec vitest run src/agent/context.test.ts src/agent/runtime-user-prompt.test.ts
 ```
 
 - 结果：`Test Files 2 passed`，`Tests 6 passed`
@@ -55,9 +55,9 @@ PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core exec vitest run src/
 - 类型检查：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui tsc
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core tsc
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui tsc
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core tsc
 ```
 
 - 结果：三侧 `tsc` 均通过
@@ -65,8 +65,8 @@ PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core tsc
 - 影响包 lint：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui lint
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core lint
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui lint
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core lint
 ```
 
 - 结果：均无 error；仅存在仓库历史 warning
@@ -74,17 +74,17 @@ PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core lint
 - 仓库现状补充：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint
 ```
 
-- 结果：当前工作区存在一个与本次改动无关的现存 error，位于 `packages/nextclaw-ui/src/components/chat/chat-input/chat-input-bar.controller.ts` 的 React Compiler memoization 校验；本次 feature 相关文件未新增 lint 阻塞项
+- 结果：当前工作区存在一个与本次改动无关的现存 error，位于 `packages/go-usb-ai-ui/src/components/chat/chat-input/chat-input-bar.controller.ts` 的 React Compiler memoization 校验；本次 feature 相关文件未新增 lint 阻塞项
 
 - 最小构建验证：
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui build
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core build
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui build
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core build
 ```
 
 - 结果：三侧 build 均通过
@@ -98,12 +98,12 @@ PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard
 - 结果：
   - 阻塞项为 `0`
   - 警告 `5` 条，其中本次收尾后已消除新增 file-budget 阻塞，只剩目录预算与既有大文件预警
-  - `flat-directories-subtree` 额外提示 `packages/nextclaw-ui/src/components/chat/ncp` 仍是混合扁平目录，但不构成阻塞
+  - `flat-directories-subtree` 额外提示 `packages/go-usb-ai-ui/src/components/chat/ncp` 仍是混合扁平目录，但不构成阻塞
 
 ## 发布/部署方式
 
 - 本次为聊天前端与 prompt 语义对齐优化，不涉及数据库、migration 或独立后端部署。
-- 若需要上线，沿用现有前端/应用发布流程重新发布包含 `@nextclaw/agent-chat-ui`、`@nextclaw/ui` 与 `@nextclaw/core` 的版本即可。
+- 若需要上线，沿用现有前端/应用发布流程重新发布包含 `@go-usb-ai/agent-chat-ui`、`@go-usb-ai/ui` 与 `@go-usb-ai/core` 的版本即可。
 - 远程 migration：不适用（未触达后端/数据库）
 
 ## 用户/产品视角的验收步骤

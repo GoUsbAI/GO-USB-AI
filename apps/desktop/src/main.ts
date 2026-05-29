@@ -204,8 +204,8 @@ class DesktopApplication {
     logger.error(`Failed to bootstrap runtime: ${String(error)}`);
     const result = await dialog.showMessageBox({
       type: "error",
-      title: "NextClaw Desktop Failed to Start",
-      message: "Unable to start local NextClaw runtime.",
+      title: "GoUsbAi Desktop Failed to Start",
+      message: "Unable to start local GoUsbAi runtime.",
       detail: error instanceof Error ? error.message : String(error),
       buttons: ["Open Logs", "Quit"],
       defaultId: 0,

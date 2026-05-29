@@ -1,5 +1,5 @@
 {
-  "name": "@nextclaw/marketplace-api-worker",
+  "name": "@go-usb-ai/marketplace-api-worker",
   "version": "0.0.1",
   "private": true,
   "type": "module",

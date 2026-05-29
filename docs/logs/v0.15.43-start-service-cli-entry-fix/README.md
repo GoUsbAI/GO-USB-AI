@@ -2,23 +2,23 @@
 
 ## 迭代完成说明
 
-- 修复 `nextclaw start/restart` 的后台服务启动根因：`spawnManagedService` 不再直接拼 `node serve --ui-port ...`，改为统一复用 CLI entry 解析器，通过真实 CLI 入口启动 `serve` 子命令。
+- 修复 `go-usb-ai start/restart` 的后台服务启动根因：`spawnManagedService` 不再直接拼 `node serve --ui-port ...`，改为统一复用 CLI entry 解析器，通过真实 CLI 入口启动 `serve` 子命令。
 - 为后台托管启动补充回归测试，锁定“必须经由 CLI entry 启动后台服务”的契约，覆盖打包 JS 入口场景。
 - 同步收紧 `AGENTS.md` 中的根因修复规则，明确禁止对用户提供临时绕过、fallback 或补丁式建议作为默认答案。
 
 ## 测试/验证/验收方式
 
-- 单测：`pnpm -C packages/nextclaw test -- --run src/cli/commands/service-support/runtime/tests/service-managed-startup.test.ts`
-- Lint：`pnpm -C packages/nextclaw lint`
-- 类型检查：`pnpm -C packages/nextclaw tsc`
-- 构建：`pnpm -C packages/nextclaw build`
+- 单测：`pnpm -C packages/go-usb-ai test -- --run src/cli/commands/service-support/runtime/tests/service-managed-startup.test.ts`
+- Lint：`pnpm -C packages/go-usb-ai lint`
+- 类型检查：`pnpm -C packages/go-usb-ai tsc`
+- 构建：`pnpm -C packages/go-usb-ai build`
 - 维护性守卫：`pnpm lint:maintainability:guard`
 - 冒烟：
 
 ```bash
-NEXTCLAW_HOME="$(mktemp -d)/home" node packages/nextclaw/dist/cli/index.js start --ui-port 18831 --start-timeout 20000
+GOUSB_AI_HOME="$(mktemp -d)/home" node packages/go-usb-ai/dist/cli/index.js start --ui-port 18831 --start-timeout 20000
 node -e 'const url = process.argv[1]; fetch(url).then(async (res) => { const body = await res.json(); if (!res.ok || body?.ok !== true || body?.data?.status !== "ok") process.exit(1); console.log(JSON.stringify(body)); })' "http://127.0.0.1:18831/api/health"
-NEXTCLAW_HOME="$NEXTCLAW_HOME" node packages/nextclaw/dist/cli/index.js stop
+GOUSB_AI_HOME="$GOUSB_AI_HOME" node packages/go-usb-ai/dist/cli/index.js stop
 ```
 
 - 冒烟结果：后台服务成功拉起，`/api/health` 返回 `{"ok":true,"data":{"status":"ok"}}`，随后正常停止。
@@ -28,17 +28,17 @@ NEXTCLAW_HOME="$NEXTCLAW_HOME" node packages/nextclaw/dist/cli/index.js stop
 - 已完成 npm 发布闭环：
   - `pnpm release:version`
   - `pnpm release:publish`
-  - registry 核验通过：`nextclaw@0.17.1`
-  - git tag 已生成：`nextclaw@0.17.1`
+  - registry 核验通过：`go-usb-ai@0.17.1`
+  - git tag 已生成：`go-usb-ai@0.17.1`
 - 本次不涉及远程部署或 migration。
 
 ## 用户/产品视角的验收步骤
 
-1. 在已安装或本地构建的 `nextclaw` CLI 环境中执行 `nextclaw restart`。
+1. 在已安装或本地构建的 `go-usb-ai` CLI 环境中执行 `go-usb-ai restart`。
 2. 确认不再出现 `Cannot find module '.../serve'` 或 `node serve --ui-port ...` 这类错误。
-3. 确认命令输出 `nextclaw started in background`。
+3. 确认命令输出 `go-usb-ai started in background`。
 4. 访问 `http://127.0.0.1:<port>/api/health`，确认返回健康状态。
-5. 执行 `nextclaw stop`，确认服务可以正常停止。
+5. 执行 `go-usb-ai stop`，确认服务可以正常停止。
 
 ## 可维护性总结汇总
 

@@ -8,7 +8,7 @@
 - 列表信息结构（名称 + API Base 预览 + 状态）保持不变，仅做宽度回调。
 
 涉及文件：
-- [`packages/nextclaw-ui/src/components/config/ProvidersList.tsx`](../../../../packages/nextclaw-ui/src/components/config/ProvidersList.tsx)
+- [`packages/go-usb-ai-ui/src/components/config/ProvidersList.tsx`](../../../../packages/go-usb-ai-ui/src/components/config/ProvidersList.tsx)
 
 ## 测试 / 验证 / 验收方式
 
@@ -17,7 +17,7 @@
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`
 - 前端冒烟验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui preview --host 127.0.0.1 --port 4179`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui preview --host 127.0.0.1 --port 4179`
   - `curl http://127.0.0.1:4179/` 与 `curl http://127.0.0.1:4179/providers`
   - 结果：均返回 `200`
 

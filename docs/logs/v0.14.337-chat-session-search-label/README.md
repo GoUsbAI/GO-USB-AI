@@ -8,14 +8,14 @@
 # 测试/验证/验收方式
 
 - 合同测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui test -- src/components/chat/chat-session-display.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui test -- src/components/chat/chat-session-display.test.ts`
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui tsc`
 - Lint：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui lint`
   - 结果：通过；存在仓库既有 warning，无本次改动新增 error。
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui build`
 - 可维护性治理：
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard`
   - 结果：通过；仅保留既有目录预算 warning 与 `SessionsConfig.tsx` 近预算 warning。

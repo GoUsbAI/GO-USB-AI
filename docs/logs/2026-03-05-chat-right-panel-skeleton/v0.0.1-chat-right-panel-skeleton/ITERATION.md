@@ -6,7 +6,7 @@
 - 保留已就绪后的原始渲染逻辑；仅在未就绪短窗口内启用 skeleton。
 
 涉及文件：
-- `packages/nextclaw-ui/src/components/chat/ChatConversationPanel.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatConversationPanel.tsx`
 
 ## 2) 测试/验证/验收方式
 执行环境说明：当前 shell 未内置 `pnpm`，命令使用 `PATH=/opt/homebrew/bin:$PATH` 前缀。
@@ -17,7 +17,7 @@
 - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`（通过）
 
 冒烟（UI 最小可访问性）：
-- 启动 `@nextclaw/ui preview` 于 `127.0.0.1:4673`，请求 `/chat`
+- 启动 `@go-usb-ai/ui preview` 于 `127.0.0.1:4673`，请求 `/chat`
 - 观察点：
   - 返回 `HTTP/1.1 200 OK`
   - 返回 HTML 文档头（`<!DOCTYPE html>`）

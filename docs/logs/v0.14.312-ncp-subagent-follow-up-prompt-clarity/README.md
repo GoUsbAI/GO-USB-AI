@@ -7,12 +7,12 @@
 
 # 测试 / 验证 / 验收方式
 
-- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/nextclaw test -- run src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts src/cli/commands/ncp/nextclaw-ncp-context-builder.test.ts`
-- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter nextclaw exec tsc -p tsconfig.json --noEmit`
-- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw/src/cli/commands/ncp/ncp-subagent-completion-message.ts packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts`
+- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm -C packages/go-usb-ai test -- run src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts src/cli/commands/ncp/go-usb-ai-ncp-context-builder.test.ts`
+- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter go-usb-ai exec tsc -p tsconfig.json --noEmit`
+- `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai/src/cli/commands/ncp/ncp-subagent-completion-message.ts packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts`
 - `PATH=/opt/homebrew/bin:/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainability:guard`
-  - 本次命令失败，但失败来源是仓库里已有的无关改动：`packages/extensions/nextclaw-channel-plugin-feishu/src/bot.ts` 与 `packages/extensions/nextclaw-channel-plugin-feishu/src/bot.test.ts` 超出维护性预算继续增长。
-  - 本次 NCP 相关改动的定向维护性检查通过，仅保留 `packages/nextclaw/src/cli/commands/ncp` 目录级既有 warning。
+  - 本次命令失败，但失败来源是仓库里已有的无关改动：`packages/extensions/go-usb-ai-channel-plugin-feishu/src/bot.ts` 与 `packages/extensions/go-usb-ai-channel-plugin-feishu/src/bot.test.ts` 超出维护性预算继续增长。
+  - 本次 NCP 相关改动的定向维护性检查通过，仅保留 `packages/go-usb-ai/src/cli/commands/ncp` 目录级既有 warning。
 
 # 发布 / 部署方式
 

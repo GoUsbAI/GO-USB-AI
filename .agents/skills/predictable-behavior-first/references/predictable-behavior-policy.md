@@ -52,7 +52,7 @@ Ask these questions in order:
 ## Good Patterns
 
 - A published CLI fails with "UI bundle missing; reinstall or rebuild" instead of searching random nearby source folders.
-- A dev-only mode uses `NEXTCLAW_UI_STATIC_DIR=/abs/path` to point at a local frontend build.
+- A dev-only mode uses `GOUSB_AI_UI_STATIC_DIR=/abs/path` to point at a local frontend build.
 - A temporary migration bridge prints that legacy mode was activated and names the removal milestone.
 - The same input and install state produce the same runtime behavior regardless of repository checkout location.
 

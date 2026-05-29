@@ -7,7 +7,7 @@ description: Use when the user wants professional UI/UX design guidance, design-
 
 ## Overview
 
-Use this skill when the user wants strong UI/UX guidance inside NextClaw:
+Use this skill when the user wants strong UI/UX guidance inside GoUsbAi:
 
 - generate a design system for a product or page,
 - search styles, color palettes, typography, landing patterns, charts, or UX guidelines,
@@ -20,22 +20,22 @@ Be explicit about the boundary:
 
 - This skill owns explanation, readiness checks, workflow selection, and safe usage guidance.
 - The bundled local Python scripts own actual search and design-system generation.
-- Do not pretend this is a built-in NextClaw design engine with no runtime boundary. It depends on local `python3`.
+- Do not pretend this is a built-in GoUsbAi design engine with no runtime boundary. It depends on local `python3`.
 
-## Install Boundary: NextClaw Marketplace vs Upstream CLI
+## Install Boundary: GoUsbAi Marketplace vs Upstream CLI
 
 Always distinguish these paths:
 
-- NextClaw marketplace skill install:
-  `nextclaw skills install ui-ux-pro-max --workdir <workspace>`
-- Installed NextClaw skill assets:
+- GoUsbAi marketplace skill install:
+  `go-usb-ai skills install ui-ux-pro-max --workdir <workspace>`
+- Installed GoUsbAi skill assets:
   `<workspace>/skills/ui-ux-pro-max/`
 - Upstream standalone installer:
   `uipro init --ai codex`
 
-For NextClaw users, prefer the marketplace-installed skill assets already bundled under `skills/ui-ux-pro-max/`.
+For GoUsbAi users, prefer the marketplace-installed skill assets already bundled under `skills/ui-ux-pro-max/`.
 
-Do not ask the user to install `uipro-cli` unless they explicitly want the upstream standalone ecosystem outside NextClaw.
+Do not ask the user to install `uipro-cli` unless they explicitly want the upstream standalone ecosystem outside GoUsbAi.
 
 ## What This Skill Covers
 

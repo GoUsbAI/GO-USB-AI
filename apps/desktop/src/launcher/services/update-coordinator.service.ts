@@ -11,7 +11,7 @@ import type {
   UpdateProgress,
   UpdateSnapshot,
   UpdateStatus
-} from "@nextclaw/kernel";
+} from "@go-usb-ai/kernel";
 
 export type DesktopUpdateStatus = Extract<
   UpdateStatus,

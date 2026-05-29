@@ -16,7 +16,7 @@ const DEFAULTS = {
 
 test("resolves an installed desktop profile from existing defaults", () => {
   const profile = resolveDesktopInstallationProfile({
-    execPath: "/Applications/NextClaw Desktop.exe",
+    execPath: "/Applications/GoUsbAi Desktop.exe",
     argv: [],
     env: {},
     ...DEFAULTS,
@@ -34,14 +34,14 @@ test("resolves an installed desktop profile from existing defaults", () => {
 });
 
 test("resolves a portable profile from the executable marker", () => {
-  const portableRoot = resolve("/tmp/NextClaw-Portable");
+  const portableRoot = resolve("/tmp/GoUsbAi-Portable");
   const profile = resolveDesktopInstallationProfile({
-    execPath: join(portableRoot, "NextClaw Desktop.exe"),
+    execPath: join(portableRoot, "GoUsbAi Desktop.exe"),
     argv: [],
     env: {},
     ...DEFAULTS,
     fileExists: (path) => path === join(portableRoot, DESKTOP_PORTABLE_MARKER_FILE),
-    readTextFile: () => JSON.stringify({ kind: "nextclaw-portable", version: 1 })
+    readTextFile: () => JSON.stringify({ kind: "go-usb-ai-portable", version: 1 })
   });
 
   assert.equal(profile.installationKind, "portable");
@@ -52,19 +52,19 @@ test("resolves a portable profile from the executable marker", () => {
   assert.equal(profile.logsDir, join(portableRoot, "data", "logs"));
   assert.equal(profile.updateCapability.supported, false);
   assert.equal(profile.updateCapability.blockReason, "unsupported-installation");
-  assert.equal(profile.runtimeEnvPatch.NEXTCLAW_DESKTOP_DATA_DIR_OVERRIDE, join(portableRoot, "data", "desktop"));
-  assert.equal(profile.runtimeEnvPatch.NEXTCLAW_DESKTOP_RUNTIME_HOME_OVERRIDE, join(portableRoot, "data", "runtime-home"));
+  assert.equal(profile.runtimeEnvPatch.GOUSB_AI_DESKTOP_DATA_DIR_OVERRIDE, join(portableRoot, "data", "desktop"));
+  assert.equal(profile.runtimeEnvPatch.GOUSB_AI_DESKTOP_RUNTIME_HOME_OVERRIDE, join(portableRoot, "data", "runtime-home"));
 });
 
 test("applies portable Electron paths and exposes runtime environment overrides", () => {
-  const portableRoot = resolve("/tmp/NextClaw-Portable");
+  const portableRoot = resolve("/tmp/GoUsbAi-Portable");
   const profile = resolveDesktopInstallationProfile({
-    execPath: join(portableRoot, "NextClaw Desktop.exe"),
+    execPath: join(portableRoot, "GoUsbAi Desktop.exe"),
     argv: [],
     env: {},
     ...DEFAULTS,
     fileExists: () => true,
-    readTextFile: () => JSON.stringify({ kind: "nextclaw-portable", version: 1 })
+    readTextFile: () => JSON.stringify({ kind: "go-usb-ai-portable", version: 1 })
   });
   const appliedPaths: Record<string, string> = {};
 
@@ -79,21 +79,21 @@ test("applies portable Electron paths and exposes runtime environment overrides"
 
   assert.equal(appliedPaths.userData, join(portableRoot, "data", "desktop", "userData"));
   assert.equal(appliedPaths.logs, join(portableRoot, "data", "logs"));
-  assert.equal(profile.runtimeEnvPatch.NEXTCLAW_DESKTOP_DATA_DIR_OVERRIDE, join(portableRoot, "data", "desktop"));
-  assert.equal(profile.runtimeEnvPatch.NEXTCLAW_DESKTOP_RUNTIME_HOME_OVERRIDE, join(portableRoot, "data", "runtime-home"));
+  assert.equal(profile.runtimeEnvPatch.GOUSB_AI_DESKTOP_DATA_DIR_OVERRIDE, join(portableRoot, "data", "desktop"));
+  assert.equal(profile.runtimeEnvPatch.GOUSB_AI_DESKTOP_RUNTIME_HOME_OVERRIDE, join(portableRoot, "data", "runtime-home"));
 });
 
 test("rejects malformed portable markers instead of silently falling back", () => {
   assert.throws(
     () =>
       resolveDesktopInstallationProfile({
-        execPath: "/tmp/NextClaw-Portable/NextClaw Desktop.exe",
+        execPath: "/tmp/GoUsbAi-Portable/GoUsbAi Desktop.exe",
         argv: [],
         env: {},
         ...DEFAULTS,
         fileExists: () => true,
         readTextFile: () => JSON.stringify({ kind: "wrong", version: 1 })
       }),
-    /Invalid NextClaw portable marker/
+    /Invalid GoUsbAi portable marker/
   );
 });

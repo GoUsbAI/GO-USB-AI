@@ -1,8 +1,8 @@
-# NextClaw Admin Console
+# GoUsbAi Admin Console
 
 独立管理后台站点（仅管理员）。
 
-当前已采用“NextClaw 视觉语言 + 经典后台模板”的控制台结构：
+当前已采用“GoUsbAi 视觉语言 + 经典后台模板”的控制台结构：
 
 - 左侧固定导航
 - 顶部固定全局栏
@@ -38,7 +38,7 @@ pnpm -C apps/platform-admin dev
 VITE_PLATFORM_API_BASE=http://127.0.0.1:8790 pnpm -C apps/platform-admin dev
 ```
 
-生产构建默认 API 域名：`https://ai-gateway-api.nextclaw.io`（见 `.env.production`）。
+生产构建默认 API 域名：`https://ai-gateway-api.go-usb-ai.io`（见 `.env.production`）。
 发布命令（根目录）：
 
 ```bash

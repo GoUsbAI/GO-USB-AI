@@ -1,8 +1,8 @@
-import { useCompanionShellStore, type CompanionShellSnapshot } from "../stores/companion-shell.store.js";
+﻿import { useCompanionShellStore, type CompanionShellSnapshot } from "../stores/companion-shell.store.js";
 
 export class CompanionShellManager {
   readonly bootstrap = async (): Promise<CompanionShellSnapshot> => {
-    const bootstrap = await window.nextclawCompanion.getBootstrap();
+    const bootstrap = await window.goUsbAiCompanion.getBootstrap();
     const snapshot: CompanionShellSnapshot = {
       baseUrl: bootstrap.baseUrl,
       bootstrapped: true
@@ -12,10 +12,10 @@ export class CompanionShellManager {
   };
 
   readonly open = async (): Promise<void> => {
-    await window.nextclawCompanion.open();
+    await window.goUsbAiCompanion.open();
   };
 
   readonly quit = async (): Promise<void> => {
-    await window.nextclawCompanion.quit();
+    await window.goUsbAiCompanion.quit();
   };
 }

@@ -3,7 +3,7 @@
 ## 迭代完成说明（改了什么）
 
 - 目标：修复 QQ 渠道在认证失败后需要手动重启的问题。
-- 变更文件：`packages/extensions/nextclaw-channel-runtime/src/channels/qq.ts`
+- 变更文件：`packages/extensions/go-usb-ai-channel-runtime/src/channels/qq.ts`
 - 核心改动：
   - `start()` 从“单次启动失败即结束”改为“后台连接监督”。
   - 当 QQ 启动失败（如 token 获取失败）时，自动进行指数退避重试（含轻微随机抖动），不再要求人工重启网关。
@@ -14,11 +14,11 @@
 
 ### 1) 静态与构建验证
 
-在 `packages/extensions/nextclaw-channel-runtime` 执行：
+在 `packages/extensions/go-usb-ai-channel-runtime` 执行：
 
-- `build`：`pnpm -C packages/extensions/nextclaw-channel-runtime build`
-- `lint`：`pnpm -C packages/extensions/nextclaw-channel-runtime lint`
-- `tsc`：`pnpm -C packages/extensions/nextclaw-channel-runtime tsc`
+- `build`：`pnpm -C packages/extensions/go-usb-ai-channel-runtime build`
+- `lint`：`pnpm -C packages/extensions/go-usb-ai-channel-runtime lint`
+- `tsc`：`pnpm -C packages/extensions/go-usb-ai-channel-runtime tsc`
 
 结果：均通过（lint 为既有 max-lines warning，无新增 error）。
 
@@ -40,7 +40,7 @@
 
 ## 用户 / 产品视角验收步骤
 
-1. 启动网关（`nextclaw start`）。
+1. 启动网关（`go-usb-ai start`）。
 2. 在 UI 配置 QQ `appId/secret` 并保存，保持网关运行。
 3. 若 QQ 平台临时返回认证错误（例如 `机器人不存在` 或 token 获取失败），观察日志应出现自动重试，而不是永久静默。
 4. 当 QQ 凭证恢复可用后，无需手动重启，日志应出现 `QQ bot connected`。

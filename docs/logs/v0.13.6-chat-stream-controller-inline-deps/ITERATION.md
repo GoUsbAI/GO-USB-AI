@@ -4,9 +4,9 @@
 - 将 `clearStreamingState` 下沉为 `ChatStreamManager.clearStreamingState()`，避免函数式透传。
 
 # 测试/验证/验收方式
-- `pnpm -C packages/nextclaw-ui exec eslint src/components/chat/chat-stream/stream-run-controller.ts`
-- `pnpm -C packages/nextclaw-ui tsc --noEmit`
-- `pnpm -C packages/nextclaw-ui exec vite build --outDir /tmp/nextclaw-ui-smoke`
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/chat-stream/stream-run-controller.ts`
+- `pnpm -C packages/go-usb-ai-ui tsc --noEmit`
+- `pnpm -C packages/go-usb-ai-ui exec vite build --outDir /tmp/go-usb-ai-ui-smoke`
 
 # 发布/部署方式
 - 不适用（本次未执行发布/部署）。

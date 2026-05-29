@@ -72,7 +72,7 @@
 
 - 必须使用平台登录 Bearer token
 - 只能操作 `owner_user_id = 当前用户` 的 skill
-- 官方 `@nextclaw/*` skill 不走这条链路
+- 官方 `@go-usb-ai/*` skill 不走这条链路
 
 ### provider-gateway-api
 

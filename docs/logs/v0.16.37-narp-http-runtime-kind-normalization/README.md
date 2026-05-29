@@ -7,7 +7,7 @@
 本次完成内容：
 
 - 保持现有 `registerNcpAgentRuntime -> UiNcpRuntimeRegistry -> /api/ncp/session-types` 主链路，不新增第二套 registry。
-- 将 `nextclaw-ncp-runtime-plugin-http-client` 的唯一 kind 从 `http-runtime` 直接收口为 `narp-http`。
+- 将 `go-usb-ai-ncp-runtime-plugin-http-client` 的唯一 kind 从 `http-runtime` 直接收口为 `narp-http`。
 - 删除本轮曾短暂引入的 alias/兼容桥接设计，回到单一路径合同。
 - 更新 HTTP runtime 与 Hermes HTTP runtime 回归测试，统一使用 `narp-http`。
 
@@ -18,23 +18,23 @@
 
 核心落点文件：
 
-- `packages/nextclaw/src/cli/commands/ncp/ui-ncp-runtime-registry.ts`
-- `packages/nextclaw/src/cli/commands/ncp/plugin-runtime-registration.controller.ts`
-- `packages/nextclaw/src/cli/commands/plugin/plugin-extension-registry.ts`
-- `packages/nextclaw-openclaw-compat/src/plugins/plugin-capability-registration.ts`
-- `packages/extensions/nextclaw-ncp-runtime-plugin-http-client/src/index.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/ui-ncp-runtime-registry.ts`
+- `packages/go-usb-ai/src/cli/commands/ncp/plugin-runtime-registration.controller.ts`
+- `packages/go-usb-ai/src/cli/commands/plugin/plugin-extension-registry.ts`
+- `packages/go-usb-ai-openclaw-compat/src/plugins/plugin-capability-registration.ts`
+- `packages/extensions/go-usb-ai-ncp-runtime-plugin-http-client/src/index.ts`
 
 ## 测试/验证/验收方式
 
 已通过：
 
-- `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-http-client exec vitest run src/http-runtime-plugin.test.ts`
-- `pnpm -C packages/nextclaw exec vitest run src/cli/commands/ncp/runtime/create-ui-ncp-agent.http-runtime.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.hermes-http-runtime.test.ts`
+- `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-http-client exec vitest run src/http-runtime-plugin.test.ts`
+- `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/ncp/runtime/create-ui-ncp-agent.http-runtime.test.ts src/cli/commands/ncp/runtime/create-ui-ncp-agent.hermes-http-runtime.test.ts`
 
 已执行但未通过，且阻断原因为仓库既有治理债务/本批次无关变更：
 
 - `pnpm lint:maintainability:guard`
-  - 失败原因为仓库中多个既有新文件/既有大文件已超过预算，包含 `packages/nextclaw-ncp-runtime-adapter-hermes-http/*`、`packages/nextclaw-ncp-runtime-http-client/*`、`packages/ncp-packages/nextclaw-ncp-toolkit/src/chat/consume-ncp-reply.ts` 等，并非本次改动引入。
+  - 失败原因为仓库中多个既有新文件/既有大文件已超过预算，包含 `packages/go-usb-ai-ncp-runtime-adapter-hermes-http/*`、`packages/go-usb-ai-ncp-runtime-http-client/*`、`packages/ncp-packages/go-usb-ai-ncp-toolkit/src/chat/consume-ncp-reply.ts` 等，并非本次改动引入。
 - `pnpm check:governance-backlog-ratchet`
   - 失败原因为 `docFileNameViolations` 当前为 `13`，高于 baseline `11`，属于仓库当前基线问题，不是本次 `NARP` 收口造成。
 
@@ -48,14 +48,14 @@
 
 若要让产品使用这次收口后的 runtime：
 
-1. 确保 `nextclaw-ncp-runtime-plugin-http-client` 已启用。
+1. 确保 `go-usb-ai-ncp-runtime-plugin-http-client` 已启用。
 2. 继续按原方式提供 HTTP runtime 配置。
 3. 前端和运行时统一使用 `narp-http`。
 4. 若外部配置或会话数据仍引用 `http-runtime`，应一并迁移到 `narp-http`，系统不会再做隐式兼容。
 
 ## 用户/产品视角的验收步骤
 
-1. 启动本地 NextClaw 开发环境，并启用 HTTP runtime plugin。
+1. 启动本地 GoUsbAi 开发环境，并启用 HTTP runtime plugin。
 2. 打开会话类型列表，确认 HTTP/Hermes 类型的底层值为 `narp-http`。
 3. 使用 `narp-http` 创建会话并发送消息，确认能正常收到回复。
 4. 对 Hermes HTTP adapter 场景执行一次真实模型路由回归，确认 provider route 和回复链路正常。

@@ -11,8 +11,8 @@
 - `GET /api/v1/skills/items/:slug`
 - `GET /api/v1/skills/recommendations`
 - 移除共享旧路由（`/api/v1/items*`、`/api/v1/recommendations`）。
-- 将 `@nextclaw/server` 的 marketplace proxy 全部改为 typed 上游调用，并移除共享 `/api/marketplace/recommendations`。
-- 将 `@nextclaw/ui` marketplace API 的 recommendations 接口改为 typed 版本（`/api/marketplace/{plugins|skills}/recommendations`）。
+- 将 `@go-usb-ai/server` 的 marketplace proxy 全部改为 typed 上游调用，并移除共享 `/api/marketplace/recommendations`。
+- 将 `@go-usb-ai/ui` marketplace API 的 recommendations 接口改为 typed 版本（`/api/marketplace/{plugins|skills}/recommendations`）。
 - 新增 server 侧测试覆盖：
 - 共享 recommendations 路由不再暴露（404）
 - typed recommendations 路由会代理到 typed worker endpoint
@@ -21,7 +21,7 @@
 ## 测试 / 验证 / 验收方式
 
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C workers/marketplace-api run validate:catalog`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-server test -- --run`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-server test -- --run`
 - `PATH=/opt/homebrew/bin:$PATH pnpm build`
 - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
 - `PATH=/opt/homebrew/bin:$PATH pnpm tsc`

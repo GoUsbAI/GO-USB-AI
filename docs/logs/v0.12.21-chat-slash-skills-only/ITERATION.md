@@ -6,14 +6,14 @@
 - 保留命令执行底层能力（用户直接输入 `/xxx` 的处理链路未改）。
 
 ## 测试/验证/验收方式
-- `pnpm -C packages/nextclaw-ui tsc`：通过。
-- `pnpm -C packages/nextclaw-ui build`：通过。
-- `pnpm -C packages/nextclaw-ui lint`：未通过；存在仓库已有 lint 错误（`useChatStreamController.ts` 的 `react-hooks/refs`、`MaskedInput.tsx` 的 `no-unused-vars` 等），非本次引入。
+- `pnpm -C packages/go-usb-ai-ui tsc`：通过。
+- `pnpm -C packages/go-usb-ai-ui build`：通过。
+- `pnpm -C packages/go-usb-ai-ui lint`：未通过；存在仓库已有 lint 错误（`useChatStreamController.ts` 的 `react-hooks/refs`、`MaskedInput.tsx` 的 `no-unused-vars` 等），非本次引入。
 
 ## 发布/部署方式
 - 本次为前端 UI 变更，按常规前端发布流程执行：
   - 在 monorepo 根目录完成版本与产物流程（如需要：changeset/version/publish）。
-  - 或按项目既有 UI 发布脚本/命令发布 `@nextclaw/ui` 及其消费方。
+  - 或按项目既有 UI 发布脚本/命令发布 `@go-usb-ai/ui` 及其消费方。
 
 ## 用户/产品视角的验收步骤
 - 打开聊天页输入框，输入 `/`。

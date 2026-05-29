@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-- 在 `workers/nextclaw-provider-gateway-api` 新增平台侧 quota DO（binding class 为 `NextclawRemoteQuotaDurableObject`，保留 `NextclawQuotaDurableObject` 旧导出兼容线上历史依赖），把远程访问的 quota guard 收口到真正的 DO 状态中枢。
+- 在 `workers/go-usb-ai-provider-gateway-api` 新增平台侧 quota DO（binding class 为 `GoUsbAiRemoteQuotaDurableObject`，保留 `GoUsbAiQuotaDurableObject` 旧导出兼容线上历史依赖），把远程访问的 quota guard 收口到真正的 DO 状态中枢。
 - 新增单用户请求限流、单 session 请求限流、单用户连接上限、单 session 连接上限、单实例浏览器连接上限，且都支持环境变量配置。
 - 在 remote worker 入口接入 quota guard：
   - `/_remote/runtime`
@@ -17,21 +17,21 @@
 
 ## 测试/验证/验收方式
 
-- 构建：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api build`
-- Lint：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api lint`
-- 类型检查：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api tsc`
-- 配额策略自动化测试：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api test:quota`
-- 可维护性检查：`PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths workers/nextclaw-provider-gateway-api/src/remote-quota-policy.ts workers/nextclaw-provider-gateway-api/src/remote-quota-do.ts workers/nextclaw-provider-gateway-api/src/services/remote-quota-guard.service.ts workers/nextclaw-provider-gateway-api/src/controllers/remote-controller.ts workers/nextclaw-provider-gateway-api/src/remote-relay-do.ts`
-- 线上最小验收：`curl -sS https://ai-gateway-api.nextclaw.io/health`
-  - 返回：`{"ok":true,"data":{"status":"ok","service":"nextclaw-provider-gateway-api","authRequired":true,"billingMode":"usd-only"}}`
+- 构建：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api build`
+- Lint：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api lint`
+- 类型检查：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api tsc`
+- 配额策略自动化测试：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api test:quota`
+- 可维护性检查：`PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths workers/go-usb-ai-provider-gateway-api/src/remote-quota-policy.ts workers/go-usb-ai-provider-gateway-api/src/remote-quota-do.ts workers/go-usb-ai-provider-gateway-api/src/services/remote-quota-guard.service.ts workers/go-usb-ai-provider-gateway-api/src/controllers/remote-controller.ts workers/go-usb-ai-provider-gateway-api/src/remote-relay-do.ts`
+- 线上最小验收：`curl -sS https://ai-gateway-api.go-usb-ai.io/health`
+  - 返回：`{"ok":true,"data":{"status":"ok","service":"go-usb-ai-provider-gateway-api","authRequired":true,"billingMode":"usd-only"}}`
 
 ## 发布/部署方式
 
 - 本次不涉及 D1 schema 变更，`platform:db:migrate:remote` 不适用。
-- 需要发布 worker：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api deploy`
-- 发布后检查 wrangler deploy 输出，确认 `NextclawRemoteQuotaDurableObject` 和 `NextclawRemoteRelayDurableObject` 都按当前 `wrangler.toml` 生效。
+- 需要发布 worker：`PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api deploy`
+- 发布后检查 wrangler deploy 输出，确认 `GoUsbAiRemoteQuotaDurableObject` 和 `GoUsbAiRemoteRelayDurableObject` 都按当前 `wrangler.toml` 生效。
 - 本次实际发布结果：
-  - Route：`ai-gateway-api.nextclaw.io` / `*.claw.cool/*`
+  - Route：`ai-gateway-api.go-usb-ai.io` / `*.claw.cool/*`
   - Current Version ID：`29d4982c-893c-4725-8a50-b969a9331571`
 
 ## 用户/产品视角的验收步骤
@@ -43,13 +43,13 @@
 
 ## 红区触达与减债记录
 
-### workers/nextclaw-provider-gateway-api/src/controllers/remote-controller.ts
+### workers/go-usb-ai-provider-gateway-api/src/controllers/remote-controller.ts
 
 - 本次是否减债：是
 - 说明：未把 quota 判定继续堆进 controller 内部细节，而是新增 `remote-quota-guard.service.ts` 做统一入口，避免 controller 继续承担状态管理职责。
 - 下一步拆分缝：如果 remote 入口继续增长，可把 ws/http 两类接入逻辑各自抽到独立 controller-support 文件。
 
-### workers/nextclaw-provider-gateway-api/src/remote-relay-do.ts
+### workers/go-usb-ai-provider-gateway-api/src/remote-relay-do.ts
 
 - 本次是否减债：是
 - 说明：relay DO 只负责在消息转发前调用 quota service，不直接承载 quota 规则和状态存储；真正状态集中在 quota DO。

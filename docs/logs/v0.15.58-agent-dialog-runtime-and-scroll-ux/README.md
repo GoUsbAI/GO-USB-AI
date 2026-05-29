@@ -20,11 +20,11 @@
 # 测试 / 验证 / 验收方式
 
 - 定向 UI 测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui exec vitest run src/components/agents/AgentsPage.test.tsx src/components/chat/ChatConversationPanel.test.tsx src/components/chat/managers/chat-session-list.manager.test.ts src/components/chat/useChatSessionTypeState.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui exec vitest run src/components/agents/AgentsPage.test.tsx src/components/chat/ChatConversationPanel.test.tsx src/components/chat/managers/chat-session-list.manager.test.ts src/components/chat/useChatSessionTypeState.test.tsx`
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 - 维护性守卫：
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard`
 - 结果摘要：
@@ -34,8 +34,8 @@
 
 # 发布 / 部署方式
 
-- 本次仅涉及 `@nextclaw/ui` 的 Agent 管理与聊天草稿默认运行时交互优化，未执行正式发布。
-- 如需产出前端构建结果，可执行 `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`。
+- 本次仅涉及 `@go-usb-ai/ui` 的 Agent 管理与聊天草稿默认运行时交互优化，未执行正式发布。
+- 如需产出前端构建结果，可执行 `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`。
 - 如需走既有前端发布闭环，可执行 `PATH=/opt/homebrew/bin:$PATH pnpm release:frontend`。
 
 # 用户 / 产品视角的验收步骤
@@ -59,7 +59,7 @@
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。续改没有再新增独立 store、路由参数或会话兜底分支，而是把遗漏的默认链路补到现有 draft/sessionType 流程上，避免之后继续靠发送阶段 metadata 打补丁。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：部分做到。当前迭代累计总代码净增 `+350` 行，其中非测试代码净增 `+192` 行；未新增源代码文件，目录平铺度未恶化。增长主要来自 runtime 选择交互、弹窗滚动布局，以及本次补上的 Agent runtime -> 会话类型默认链路和回归测试，属于这轮产品化收口的最小必要实现。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：更清晰。新增逻辑集中在现有 `useChatSessionTypeState` 工具与现有聊天入口组件消费，没有再加新的状态层；Agent 页和欢迎页都走同一个 helper，边界比“各写各的 if”更稳定。
-- 目录结构与文件组织是否满足当前项目治理要求：部分满足。此次没有新增目录结构债务；但 [packages/nextclaw-ui/src/components/chat](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/components/chat) 仍存在仓库既有目录预算 warning，后续若继续扩展欢迎页或草稿编排逻辑，应优先把 draft 专属逻辑往更明确的子模块收敛。
+- 目录结构与文件组织是否满足当前项目治理要求：部分满足。此次没有新增目录结构债务；但 [packages/go-usb-ai-ui/src/components/chat](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/components/chat) 仍存在仓库既有目录预算 warning，后续若继续扩展欢迎页或草稿编排逻辑，应优先把 draft 专属逻辑往更明确的子模块收敛。
 - 独立于实现阶段的可维护性复核：
   - 可维护性复核结论：通过
   - 本次顺手减债：是
@@ -72,4 +72,4 @@
     - 删除：29 行
     - 净增：+192 行
   - no maintainability findings
-  - 长期目标对齐 / 可维护性推进：这次把 Agent 配置里的 runtime 进一步从“仅能保存”推进到“能真正驱动默认对话运行时”，减少用户在统一入口里自行记忆和手动纠正内部会话类型的成本，符合 NextClaw 的统一体验目标。后续的维护性切口有两个：一是继续把 [AgentDialogs.tsx](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/components/agents/AgentDialogs.tsx) 按字段区块拆小，二是把 [packages/nextclaw-ui/src/components/chat](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/components/chat) 中 draft 专属逻辑进一步收口到更明确的子域，避免聊天入口目录继续变平变大。
+  - 长期目标对齐 / 可维护性推进：这次把 Agent 配置里的 runtime 进一步从“仅能保存”推进到“能真正驱动默认对话运行时”，减少用户在统一入口里自行记忆和手动纠正内部会话类型的成本，符合 GoUsbAi 的统一体验目标。后续的维护性切口有两个：一是继续把 [AgentDialogs.tsx](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/components/agents/AgentDialogs.tsx) 按字段区块拆小，二是把 [packages/go-usb-ai-ui/src/components/chat](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/components/chat) 中 draft 专属逻辑进一步收口到更明确的子域，避免聊天入口目录继续变平变大。

@@ -5,20 +5,20 @@ This page is for recovery, not onboarding. When something fails, narrow it down 
 ## 1. Is the service running?
 
 ```bash
-nextclaw status
-nextclaw doctor
+go-usb-ai status
+go-usb-ai doctor
 ```
 
 If the service is not running, start it:
 
 ```bash
-nextclaw start
+go-usb-ai start
 ```
 
 If the state is abnormal, try:
 
 ```bash
-nextclaw restart
+go-usb-ai restart
 ```
 
 ## 2. The UI does not open
@@ -46,7 +46,7 @@ Check:
 - token expiration
 - channel permissions
 - platform callback or network reachability
-- `nextclaw channels status`
+- `go-usb-ai channels status`
 
 ## 5. Automation does not trigger
 
@@ -60,19 +60,19 @@ Check:
 ## Useful diagnostics
 
 ```bash
-nextclaw status --verbose
-nextclaw doctor --verbose
-nextclaw service autostart doctor
-nextclaw remote doctor
+go-usb-ai status --verbose
+go-usb-ai doctor --verbose
+go-usb-ai service autostart doctor
+go-usb-ai remote doctor
 ```
 
 ## Still stuck?
 
 Collect:
 
-- NextClaw version
+- GoUsbAi version
 - operating system
 - installation method
-- `nextclaw status` output
-- `nextclaw doctor` output
+- `go-usb-ai status` output
+- `go-usb-ai doctor` output
 - reproduction steps

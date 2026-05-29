@@ -12,9 +12,9 @@
 ## 测试/验证/验收方式
 
 - 执行命令：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw test src/cli/commands/agent-runtime-pool.command.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai test src/cli/commands/agent-runtime-pool.command.test.ts`
 - 结果：
   - `tsc` 通过；
   - `build` 通过；
@@ -23,11 +23,11 @@
 ## 发布/部署方式
 
 - 本次为 CLI/runtime 逻辑修复，不涉及数据库变更，无需 migration。
-- 按常规 nextclaw 发布流程进行版本与发布（changeset/version/publish）。
+- 按常规 go-usb-ai 发布流程进行版本与发布（changeset/version/publish）。
 
 ## 用户/产品视角的验收步骤
 
-1. 重启 `nextclaw` 服务，进入 `native` 会话发送消息。
+1. 重启 `go-usb-ai` 服务，进入 `native` 会话发送消息。
 2. 在回复中点击终止。
 3. 预期：
    - 会话列表 running 指示器不再明显“停一下又恢复转圈”；

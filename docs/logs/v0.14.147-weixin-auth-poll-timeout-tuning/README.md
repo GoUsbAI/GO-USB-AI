@@ -11,19 +11,19 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-weixin tsc`
-- `pnpm -C packages/extensions/nextclaw-channel-plugin-weixin build`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin tsc`
+- `pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin build`
 - 运行时校验：
   - 使用 `tsx` 直接调用 `fetchWeixinQrStatus({ timeoutMs: 50 })` 并 mock 一个永不返回的 `fetch`，确认函数会在客户端超时后返回 `{ status: "wait" }`，不再无限等待。
   - 使用 `tsx` 直接调用 `startWeixinLoginSession / pollWeixinLoginSession` 并 mock 微信返回，确认：
     - `status: "scanned"` 会映射为前端可见的 `scanned`
     - `status: "scaned"` 且同时带回 `bot_token + ilink_bot_id` 时，会映射为 `authorized`
-- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-api.client.ts packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-login.service.ts`
+- `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-api.client.ts packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-login.service.ts`
 
 ## 发布/部署方式
 
 - 本次未执行发布。
-- 如需发布，按受影响包流程提升 `@nextclaw/channel-plugin-weixin` 版本并完成联动验证。
+- 如需发布，按受影响包流程提升 `@go-usb-ai/channel-plugin-weixin` 版本并完成联动验证。
 
 ## 用户/产品视角的验收步骤
 

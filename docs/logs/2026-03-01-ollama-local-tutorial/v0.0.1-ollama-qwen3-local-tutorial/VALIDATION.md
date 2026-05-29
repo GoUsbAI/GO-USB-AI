@@ -3,7 +3,7 @@
 ## 自动验证
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/docs build
+PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/docs build
 ```
 
 结果：

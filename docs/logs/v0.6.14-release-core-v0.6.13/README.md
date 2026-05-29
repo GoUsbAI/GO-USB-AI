@@ -2,16 +2,16 @@
 
 ## 发布目标
 
-- 发布 `@nextclaw/core@0.6.13`，补丁恢复系统提示词中的显式当前时间注入。
+- 发布 `@go-usb-ai/core@0.6.13`，补丁恢复系统提示词中的显式当前时间注入。
 
 ## 发布范围
 
-- 已发布：`@nextclaw/core@0.6.13`
+- 已发布：`@go-usb-ai/core@0.6.13`
 - 未发布（版本已存在，无新增发布）：
-  - `nextclaw@0.6.13`
-  - `@nextclaw/openclaw-compat@0.1.5`
-  - `@nextclaw/server@0.4.2`
-  - `@nextclaw/ui@0.3.9`
+  - `go-usb-ai@0.6.13`
+  - `@go-usb-ai/openclaw-compat@0.1.5`
+  - `@go-usb-ai/server@0.4.2`
+  - `@go-usb-ai/ui@0.3.9`
 
 ## 执行记录
 
@@ -30,16 +30,16 @@ pnpm release:publish
 
 ## 发布结果
 
-- npm 发布成功：`@nextclaw/core@0.6.13`
-- tag 创建成功：`@nextclaw/core@0.6.13`
-- 远端版本核验：`npm view @nextclaw/core version` 返回 `0.6.13`
+- npm 发布成功：`@go-usb-ai/core@0.6.13`
+- tag 创建成功：`@go-usb-ai/core@0.6.13`
+- 远端版本核验：`npm view @go-usb-ai/core version` 返回 `0.6.13`
 
 ## 验证结果
 
 - `build/lint/tsc` 全通过（仅仓库既有 lint warning，无新增 error）。
 - 隔离冒烟（不写仓库目录）执行：
-  - `NEXTCLAW_HOME=$(mktemp -d /tmp/nextclaw-smoke-time-restore.XXXXXX) node packages/nextclaw/dist/cli/index.js init`
-  - `NEXTCLAW_HOME=<same> node packages/nextclaw/dist/cli/index.js status --json`
+  - `GOUSB_AI_HOME=$(mktemp -d /tmp/go-usb-ai-smoke-time-restore.XXXXXX) node packages/go-usb-ai/dist/cli/index.js init`
+  - `GOUSB_AI_HOME=<same> node packages/go-usb-ai/dist/cli/index.js status --json`
   - 观察：初始化成功；`status --json` 正常输出状态（exit code 2 对应 stopped）。
 
 ## 文档复盘

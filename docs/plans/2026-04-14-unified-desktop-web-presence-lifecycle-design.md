@@ -1,17 +1,17 @@
 # Unified Desktop and Web Presence Lifecycle Design
 
-**Goal:** 为 NextClaw 定义一套跨 Desktop 与 Web 一致、可预测、可扩展的“存在形态 / 生命周期”产品方案，让用户能清楚理解“关闭窗口会发生什么”“什么时候服务会继续运行”“网页端为什么不应该跟着浏览器标签页一起死掉”，并为后续托盘常驻、开机自启、网页端服务治理与统一运行时控制实现提供直接落地依据。
+**Goal:** 为 GoUsbAi 定义一套跨 Desktop 与 Web 一致、可预测、可扩展的“存在形态 / 生命周期”产品方案，让用户能清楚理解“关闭窗口会发生什么”“什么时候服务会继续运行”“网页端为什么不应该跟着浏览器标签页一起死掉”，并为后续托盘常驻、开机自启、网页端服务治理与统一运行时控制实现提供直接落地依据。
 
 **Architecture:** 采用“统一产品语义，不同宿主 owner 执行”的路线。Desktop 由 Electron launcher 负责窗口、托盘、开机自启与显式退出时的 runtime 停止；Web 不再把浏览器页面当作服务 owner，而是把浏览器视作控制面板，服务生命周期由本地宿主、系统服务管理器或平台托管层负责。前端统一消费一套运行时环境与能力合同，根据 `desktop-embedded`、`managed-local-service`、`self-hosted-web`、`shared-web` 四类环境展示不同能力与文案。
 
-**Tech Stack:** Electron、TypeScript、React、Hono、WebSocket realtime、NextClaw CLI runtime、Desktop launcher state、runtime control capability contract。
+**Tech Stack:** Electron、TypeScript、React、Hono、WebSocket realtime、GoUsbAi CLI runtime、Desktop launcher state、runtime control capability contract。
 
 ---
 
 ## 长期目标对齐 / 可维护性推进
 
 - 这项设计直接服务 `docs/VISION.md` 中“统一入口、统一体验、足够可靠”的要求。一个想成为 AI 时代个人操作层的产品，不能让不同运行环境在“关闭、退出、后台运行、恢复”这些最基础的问题上各说各话。
-- 这次不是在补三个孤立能力点，而是在定义 NextClaw 的“存在形态”产品合同：
+- 这次不是在补三个孤立能力点，而是在定义 GoUsbAi 的“存在形态”产品合同：
   - Desktop 应该像可常驻的本地操作层，而不是一次性网页包装器。
   - Web 应该像连接到服务的控制面，而不是服务本体。
   - 运行时控制应基于统一能力发现合同，而不是 UI 硬编码环境分支。
@@ -26,7 +26,7 @@
 
 当前讨论的不是“要不要顺手加一个 tray 图标”，而是下面四个更基础的问题：
 
-1. NextClaw 在不同宿主环境中，什么对象才是“真正活着”的主体？
+1. GoUsbAi 在不同宿主环境中，什么对象才是“真正活着”的主体？
 2. 用户关闭一个可见窗口时，产品是否还应该继续工作？
 3. 哪些环境允许用户自己控制服务启停，哪些环境只允许看到状态与恢复动作？
 4. 用户如何在不同端建立同一套心智，而不被实现细节误导？
@@ -101,7 +101,7 @@
 定义：用户关闭当前可见窗口或页面。
 
 - `desktop-embedded`
-  - 默认解释为“隐藏窗口，保留 NextClaw 继续在后台运行”。
+  - 默认解释为“隐藏窗口，保留 GoUsbAi 继续在后台运行”。
 - `managed-local-service`
   - 浏览器标签页关闭，服务继续运行。
 - `self-hosted-web`
@@ -114,7 +114,7 @@
 定义：用户显式表达“结束桌面应用本体”。
 
 - 只对 `desktop-embedded` 成立。
-- 由应用菜单、托盘菜单中的 `Quit NextClaw` 触发。
+- 由应用菜单、托盘菜单中的 `Quit GoUsbAi` 触发。
 - 进入真正的停止链路：标记 quitting、停止 runtime、退出 launcher。
 
 ### C. Stop Service
@@ -133,7 +133,7 @@
 
 ### D. Launch at Login / Auto Start
 
-定义：宿主启动时自动把 NextClaw 主体带起来。
+定义：宿主启动时自动把 GoUsbAi 主体带起来。
 
 - `desktop-embedded`
   - 指 Electron launcher 随系统登录启动，并默认后台运行。
@@ -151,7 +151,7 @@
 
 | Environment | 主体 owner | 关闭窗口/页面 | 显式退出 | 是否支持后台常驻 | 是否支持用户侧自启动 |
 | --- | --- | --- | --- | --- | --- |
-| `desktop-embedded` | Electron launcher | 隐藏到托盘，不停服务 | `Quit NextClaw` 才停止 runtime 并退出 | 是 | 是 |
+| `desktop-embedded` | Electron launcher | 隐藏到托盘，不停服务 | `Quit GoUsbAi` 才停止 runtime 并退出 | 是 | 是 |
 | `managed-local-service` | 本地受管服务 | 关闭浏览器不影响服务 | 不适用 | 是 | 是，但属于服务层 |
 | `self-hosted-web` | 自托管宿主 | 关闭浏览器不影响服务 | 不适用 | 是 | 是，但属于宿主层 |
 | `shared-web` | 平台托管层 | 关闭浏览器仅结束当前会话 | 不适用 | 是 | 不对终端用户暴露 |
@@ -172,18 +172,18 @@
 ### 用户可见入口
 
 - 托盘菜单：
-  - `Open NextClaw`
+  - `Open GoUsbAi`
   - `Run in Background` 状态说明或设置跳转
   - `Launch at Login`
   - `Check for Updates`
-  - `Quit NextClaw`
+  - `Quit GoUsbAi`
 - 应用菜单：
-  - `Hide NextClaw`
-  - `Quit NextClaw`
+  - `Hide GoUsbAi`
+  - `Quit GoUsbAi`
   - 设置入口保持一致
 - 设置页新增 `Desktop Presence` 区块：
   - `Close window to background`
-  - `Launch NextClaw at login`
+  - `Launch GoUsbAi at login`
 
 ### 默认值
 
@@ -223,13 +223,13 @@
 
 浏览器页面不是服务 owner。网页端必须让用户明确感知：
 
-- 页面只是连接到 NextClaw 的控制面。
+- 页面只是连接到 GoUsbAi 的控制面。
 - 服务继续运行与否，取决于宿主层，而不是浏览器标签页。
 - 因此网页端不存在“关网页是否要停服务”的问题。
 
 ### `managed-local-service`
 
-适用场景：用户在本机浏览器访问本地 NextClaw 服务。
+适用场景：用户在本机浏览器访问本地 GoUsbAi 服务。
 
 推荐语义：
 
@@ -244,11 +244,11 @@
 
 UI 文案重点：
 
-- `This page controls your local NextClaw service. Closing the browser does not stop the service.`
+- `This page controls your local GoUsbAi service. Closing the browser does not stop the service.`
 
 ### `self-hosted-web`
 
-适用场景：用户管理自己部署在机器或服务器上的 NextClaw。
+适用场景：用户管理自己部署在机器或服务器上的 GoUsbAi。
 
 推荐语义：
 
@@ -474,7 +474,7 @@ presencePreferences: {
 
 建议首次点击关闭按钮时出现一次轻提示：
 
-- `NextClaw will keep running in the background. You can reopen it from the tray or quit from the menu.`
+- `GoUsbAi will keep running in the background. You can reopen it from the tray or quit from the menu.`
 
 目的：
 
@@ -484,10 +484,10 @@ presencePreferences: {
 ### Web 页面中的明确说明
 
 - `managed-local-service`
-  - `Closing this tab does not stop your local NextClaw service.`
+  - `Closing this tab does not stop your local GoUsbAi service.`
   - `Use Service Management to start, restart, or stop the local service.`
 - `self-hosted-web`
-  - `This page manages a running NextClaw service. Service lifecycle is controlled by the host environment.`
+  - `This page manages a running GoUsbAi service. Service lifecycle is controlled by the host environment.`
 - `shared-web`
   - `Service lifecycle is managed by the platform.`
 
@@ -530,11 +530,11 @@ presencePreferences: {
 
 ### Desktop
 
-1. 关闭最后一个窗口后，NextClaw 仍继续运行，任务不被中断。
+1. 关闭最后一个窗口后，GoUsbAi 仍继续运行，任务不被中断。
 2. 用户可从托盘重新打开主窗口。
-3. 只有显式 `Quit NextClaw` 才会停止 runtime 并退出应用。
+3. 只有显式 `Quit GoUsbAi` 才会停止 runtime 并退出应用。
 4. 更新重启链路仍能正常工作，不会被“关闭窗口隐藏”逻辑干扰。
-5. 开机自启开启后，登录系统会拉起 NextClaw，并默认后台运行。
+5. 开机自启开启后，登录系统会拉起 GoUsbAi，并默认后台运行。
 
 ### Web
 
@@ -568,7 +568,7 @@ presencePreferences: {
 
 ### 最终推荐
 
-NextClaw 应把“是否继续活着”从窗口语义中拆出来，统一提升为“主体生命周期”语义：
+GoUsbAi 应把“是否继续活着”从窗口语义中拆出来，统一提升为“主体生命周期”语义：
 
 - Desktop：主体是 launcher + embedded runtime，所以关窗默认隐藏，显式 Quit 才停止。
 - Web：主体是 service runtime，所以关页面永远不应影响服务。

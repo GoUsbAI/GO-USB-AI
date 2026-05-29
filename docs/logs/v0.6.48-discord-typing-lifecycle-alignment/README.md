@@ -4,7 +4,7 @@
 
 本次将 Discord/Telegram typing 生命周期对齐 OpenClaw 的核心思路（运行阶段维持 typing，完成后显式清理），并采用低耦合实现：
 
-- 新增核心控制消息机制：`typing stop` 控制消息（[`packages/nextclaw-core/src/bus/control.ts`](../../../packages/nextclaw-core/src/bus/control.ts)）。
+- 新增核心控制消息机制：`typing stop` 控制消息（[`packages/go-usb-ai-core/src/bus/control.ts`](../../../packages/go-usb-ai-core/src/bus/control.ts)）。
 - Agent 在“无回复（含 `<noreply/>`）”路径发布 typing stop 控制消息，避免仅靠超时回收。
 - ChannelManager 增加控制消息分流：控制消息走 `handleControlMessage`，不进入正常发送链路。
 - Discord/Telegram 渠道增加 `handleControlMessage` 支持，并在控制消息到达时立即停 typing。
@@ -14,17 +14,17 @@
 ## 测试 / 验证 / 验收方式
 
 - 单元测试（已通过）：
-  - [`packages/nextclaw-core/src/bus/control.test.ts`](../../../packages/nextclaw-core/src/bus/control.test.ts)
-  - [`packages/nextclaw-core/src/channels/manager.typing-control.test.ts`](../../../packages/nextclaw-core/src/channels/manager.typing-control.test.ts)
+  - [`packages/go-usb-ai-core/src/bus/control.test.ts`](../../../packages/go-usb-ai-core/src/bus/control.test.ts)
+  - [`packages/go-usb-ai-core/src/channels/manager.typing-control.test.ts`](../../../packages/go-usb-ai-core/src/channels/manager.typing-control.test.ts)
 - 工程校验（已通过）：
-  - `pnpm -C packages/nextclaw-core test`
+  - `pnpm -C packages/go-usb-ai-core test`
   - `pnpm build`
   - `pnpm lint`
   - `pnpm tsc`
 - 冒烟测试（本地可自动验证部分，已执行）：
   - 通过 manager 控制消息路径验证“control 消息触发 stop 且不走普通发送”。
   - 通过 core 控制消息生成验证“无回复路径可发出 typing stop 控制消息”。
-  - 发布后 CLI 安装与入口冒烟（隔离目录）：`NEXTCLAW_HOME=/tmp/... pnpm dlx nextclaw@0.6.26 --help`，命令成功输出子命令清单。
+  - 发布后 CLI 安装与入口冒烟（隔离目录）：`GOUSB_AI_HOME=/tmp/... pnpm dlx go-usb-ai@0.6.26 --help`，命令成功输出子命令清单。
 - 冒烟测试（Discord 真实环境，发布后按以下步骤验收）：
   - 在 Discord 发起一条会触发工具执行或长思考的消息，观察 typing 在模型处理期间持续存在，不再“刚开始就消失”。
   - 触发 `<noreply/>` 场景，观察任务结束后 typing 能被快速清理，而非长期悬挂。
@@ -47,9 +47,9 @@
   1. `pnpm release:version`
   2. `pnpm release:publish`
 - 已发布版本：
-  - `@nextclaw/core@0.6.23`
-  - `@nextclaw/channel-runtime@0.1.9`
-  - `@nextclaw/openclaw-compat@0.1.16`
-  - `@nextclaw/server@0.4.9`
-  - `nextclaw@0.6.26`
+  - `@go-usb-ai/core@0.6.23`
+  - `@go-usb-ai/channel-runtime@0.1.9`
+  - `@go-usb-ai/openclaw-compat@0.1.16`
+  - `@go-usb-ai/server@0.4.9`
+  - `go-usb-ai@0.6.26`
 - 远程 migration：不适用（本次仅 npm 包与运行时行为变更，不涉及后端数据库结构变更）。

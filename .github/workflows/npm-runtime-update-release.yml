@@ -75,7 +75,7 @@ jobs:
       - name: Build signed NPM runtime update channel
         shell: bash
         env:
-          NEXTCLAW_UPDATE_BUNDLE_PRIVATE_KEY: ${{ secrets.NEXTCLAW_UPDATE_BUNDLE_PRIVATE_KEY || secrets.NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY }}
+          GOUSB_AI_UPDATE_BUNDLE_PRIVATE_KEY: ${{ secrets.GOUSB_AI_UPDATE_BUNDLE_PRIVATE_KEY || secrets.GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY }}
         run: |
           extra_args=()
           if [ -n "$NPM_RUNTIME_MINIMUM_LAUNCHER_VERSION_OVERRIDE" ]; then
@@ -85,7 +85,7 @@ jobs:
             )
           fi
 
-          pnpm -C packages/nextclaw runtime-update:build -- \
+          pnpm -C packages/go-usb-ai runtime-update:build -- \
             --channel "$NPM_RUNTIME_UPDATE_CHANNEL" \
             --platform ${{ matrix.platform }} \
             --arch ${{ matrix.arch }} \
@@ -100,7 +100,7 @@ jobs:
           name: npm-runtime-update-${{ matrix.platform }}-${{ matrix.arch }}
           if-no-files-found: error
           path: |
-            packages/nextclaw/dist/npm-runtime-updates
+            packages/go-usb-ai/dist/npm-runtime-updates
 
   publish-npm-runtime-update-channel:
     if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
@@ -142,7 +142,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          mapfile -t bundle_files < <(find dist/npm-runtime-updates -type f -name 'nextclaw-runtime-*.zip' | sort)
+          mapfile -t bundle_files < <(find dist/npm-runtime-updates -type f -name 'go-usb-ai-runtime-*.zip' | sort)
           if [ "${#bundle_files[@]}" -eq 0 ]; then
             echo "No NPM runtime bundle archives were downloaded."
             exit 1
@@ -176,7 +176,7 @@ jobs:
 
           mkdir -p .tmp/gh-pages/npm-runtime-updates
           cp -R dist/npm-runtime-updates/. .tmp/gh-pages/npm-runtime-updates/
-          find .tmp/gh-pages/npm-runtime-updates -type f -name 'nextclaw-runtime-*.zip' -delete
+          find .tmp/gh-pages/npm-runtime-updates -type f -name 'go-usb-ai-runtime-*.zip' -delete
           touch .tmp/gh-pages/.nojekyll
 
       - name: Publish NPM runtime update channel to gh-pages

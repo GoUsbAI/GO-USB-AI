@@ -19,8 +19,8 @@ Secrets management stores API keys, tokens, and other sensitive values. The goal
 ## Useful checks
 
 ```bash
-nextclaw secrets audit
-nextclaw doctor
+go-usb-ai secrets audit
+go-usb-ai doctor
 ```
 
 ## Relationship with configuration

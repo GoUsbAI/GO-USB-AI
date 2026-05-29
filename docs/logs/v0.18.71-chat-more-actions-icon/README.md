@@ -7,13 +7,13 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui tsc`：通过。
-- `pnpm -C packages/nextclaw-ui exec eslint src/features/chat/components/conversation/session-header/chat-session-header-actions.tsx`：通过。
-- `pnpm -C packages/nextclaw-ui test src/features/chat/components/conversation/chat-conversation-header.test.tsx src/features/chat/components/conversation/session-header/chat-session-header-actions.test.tsx`：通过，2 个测试文件、6 个测试通过。
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/chat/components/conversation/session-header/chat-session-header-actions.tsx`：通过。
+- `pnpm -C packages/go-usb-ai-ui tsc`：通过。
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/features/chat/components/conversation/session-header/chat-session-header-actions.tsx`：通过。
+- `pnpm -C packages/go-usb-ai-ui test src/features/chat/components/conversation/chat-conversation-header.test.tsx src/features/chat/components/conversation/session-header/chat-session-header-actions.test.tsx`：通过，2 个测试文件、6 个测试通过。
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/components/conversation/session-header/chat-session-header-actions.tsx`：通过。
 - `pnpm check:governance-backlog-ratchet`：通过。
-- `pnpm -C packages/nextclaw-ui lint`：未通过，阻塞来自既有 UI lint 债务，非本次触达文件。
-- `pnpm lint:new-code:governance`：未通过，阻塞来自工作区已有改动 `packages/nextclaw-openclaw-compat/src/plugins/runtime-npm.ts` 的文件角色命名规则，非本次触达文件。
+- `pnpm -C packages/go-usb-ai-ui lint`：未通过，阻塞来自既有 UI lint 债务，非本次触达文件。
+- `pnpm lint:new-code:governance`：未通过，阻塞来自工作区已有改动 `packages/go-usb-ai-openclaw-compat/src/plugins/runtime-npm.ts` 的文件角色命名规则，非本次触达文件。
 
 ## 发布/部署方式
 

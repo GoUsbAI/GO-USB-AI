@@ -1,4 +1,4 @@
-# NextClaw 桌面端免手动下载更新架构方案
+# GoUsbAi 桌面端免手动下载更新架构方案
 
 **目标：** 设计一套覆盖 macOS、Windows、Linux 三个平台的桌面更新架构，让用户安装一次后，后续可以在应用内完成版本更新，而不需要手动下载新的安装包；同时保证 UI、运行时、本地服务逻辑、内置插件始终作为一个统一产品版本一起升级。
 
@@ -35,21 +35,21 @@
 采用一套 **自主管理的桌面更新架构**：
 
 1. 首次只安装一个很薄、很稳定的 **桌面启动壳（Desktop Launcher）**
-2. 真正的 NextClaw 产品内容，改为存放在用户数据目录里的 **版本化产品包**
+2. 真正的 GoUsbAi 产品内容，改为存放在用户数据目录里的 **版本化产品包**
 3. 启动壳负责检查更新、下载、校验、解压、切换、回滚
 4. **UI + runtime + 内置插件 + 本地服务代码** 全部打进同一个版本化产品包，保证它们一定一起升级
 5. 更新信任不依赖平台签名，而依赖我们自己的更新清单和更新包签名
 
 ### 明确推荐
 
-对 NextClaw 来说，桌面端的发布单元应该变成：
+对 GoUsbAi 来说，桌面端的发布单元应该变成：
 
 - 一个启动壳
 - 一个版本化产品包
 - 一个更新清单
 
 启动壳是安装层、平台层的载体。  
-版本化产品包才是真正不断更新的 NextClaw 产品本体。
+版本化产品包才是真正不断更新的 GoUsbAi 产品本体。
 
 这套模型最接近：
 
@@ -112,10 +112,10 @@
 
 #### B. Versioned Product Bundle
 
-版本化产品包才是真正的 NextClaw 产品版本。每个版本包至少包含：
+版本化产品包才是真正的 GoUsbAi 产品版本。每个版本包至少包含：
 
 - 桌面端 UI 渲染资源
-- NextClaw runtime / 本地服务逻辑
+- GoUsbAi runtime / 本地服务逻辑
 - 内置插件 / 内置渠道 / 扩展能力
 - 兼容性元数据
 - 必要的数据迁移脚本
@@ -192,7 +192,7 @@
 ### macOS
 
 ```text
-~/Library/Application Support/NextClaw/
+~/Library/Application Support/GoUsbAi/
   launcher/
     state.json
     channels.json
@@ -216,7 +216,7 @@
 ### Windows
 
 ```text
-%LocalAppData%/NextClaw/
+%LocalAppData%/GoUsbAi/
   launcher/
   versions/
   current
@@ -227,7 +227,7 @@
 ### Linux
 
 ```text
-~/.local/share/nextclaw/
+~/.local/share/go-usb-ai/
   launcher/
   versions/
   current
@@ -298,7 +298,7 @@ launcher 在以下情况下必须拒绝激活该包：
 
 这不是平台意义上的代码签名。  
 它不会让应用变成“被 macOS / Windows 平台信任的已签名应用”。  
-但它足以让 NextClaw 自己信任“这是我们发出的合法更新包”。
+但它足以让 GoUsbAi 自己信任“这是我们发出的合法更新包”。
 
 ### 密钥策略
 
@@ -325,7 +325,7 @@ launcher 在以下情况下必须拒绝激活该包：
 
 1. launcher 读取本地状态
 2. 解析 `current`
-3. 从当前版本目录启动 NextClaw runtime
+3. 从当前版本目录启动 GoUsbAi runtime
 4. 由当前版本目录提供 UI
 5. 应用进入健康状态后，后台开始检查更新
 
@@ -562,13 +562,13 @@ UI 属于版本化 product bundle。
 
 ### 最小发布产物建议
 
-- `nextclaw-launcher-macos-<version>.dmg`
-- `nextclaw-launcher-windows-<version>.exe`
-- `nextclaw-launcher-linux-<version>.deb`
-- `nextclaw-bundle-darwin-arm64-<productVersion>.tar.zst`
-- `nextclaw-bundle-darwin-x64-<productVersion>.tar.zst`
-- `nextclaw-bundle-win32-x64-<productVersion>.zip`
-- `nextclaw-bundle-linux-x64-<productVersion>.tar.zst`
+- `go-usb-ai-launcher-macos-<version>.dmg`
+- `go-usb-ai-launcher-windows-<version>.exe`
+- `go-usb-ai-launcher-linux-<version>.deb`
+- `go-usb-ai-bundle-darwin-arm64-<productVersion>.tar.zst`
+- `go-usb-ai-bundle-darwin-x64-<productVersion>.tar.zst`
+- `go-usb-ai-bundle-win32-x64-<productVersion>.zip`
+- `go-usb-ai-bundle-linux-x64-<productVersion>.tar.zst`
 - `manifest-stable-darwin-arm64.json`
 - `manifest-stable-win32-x64.json`
 - `manifest-stable-linux-x64.json`
@@ -668,7 +668,7 @@ UI 属于版本化 product bundle。
 
 ## 21. 长期目标对齐 / 可维护性推进
 
-- 这套方案把 NextClaw 往真正的“单内核、多宿主、多分发通道”方向推进：桌面 launcher 只是稳定宿主，真正不断演进的产品逻辑则是可替换的版本包。
+- 这套方案把 GoUsbAi 往真正的“单内核、多宿主、多分发通道”方向推进：桌面 launcher 只是稳定宿主，真正不断演进的产品逻辑则是可替换的版本包。
 - 它明确承认 UI 是产品本体的一部分，不是附属物。UI、runtime、内置扩展不再通过各种 mixed-version 补丁勉强维持，而是通过统一版本包原子切换一起演进。
 - 它避免为三个平台分别维护三套桌面更新故事。平台差异主要被限制在首次安装打包和少量 launcher 集成层，而不是扩散到业务逻辑层。
 - 它比继续围绕 unsigned 原生 updater 叠补丁更清晰、更可预测。
@@ -680,9 +680,9 @@ UI 属于版本化 product bundle。
 
 ## 22. 最终建议
 
-在“没有 Apple / Microsoft 平台签名，但 macOS / Windows / Linux 都必须支持应用内免手动下载更新”这个前提下，NextClaw 桌面端最推荐的架构是：
+在“没有 Apple / Microsoft 平台签名，但 macOS / Windows / Linux 都必须支持应用内免手动下载更新”这个前提下，GoUsbAi 桌面端最推荐的架构是：
 
-**`Electron launcher + 版本化 NextClaw 产品包 + 自有 manifest / signature 校验 + 原子切换 + 自动回滚`**
+**`Electron launcher + 版本化 GoUsbAi 产品包 + 自有 manifest / signature 校验 + 原子切换 + 自动回滚`**
 
 这是目前最现实、最统一、也最符合产品要求的方案。它同时满足：
 

@@ -9,7 +9,7 @@
 
 ## 测试/验证/验收方式
 
-- `node scripts/metrics/code-volume-metrics.mjs --no-write --summary-file /tmp/nextclaw-code-volume-summary.md --benchmark-name openclaw --benchmark-root ../openclaw --benchmark-include-dirs src,extensions --benchmark-output /tmp/nextclaw-code-volume-comparison.json`
+- `node scripts/metrics/code-volume-metrics.mjs --no-write --summary-file /tmp/go-usb-ai-code-volume-summary.md --benchmark-name openclaw --benchmark-root ../openclaw --benchmark-include-dirs src,extensions --benchmark-output /tmp/go-usb-ai-code-volume-comparison.json`
   - 结果：通过，输出 Source LOC 与 OpenClaw benchmark 对比。
 - `pnpm lint:new-code:governance`
   - 结果：通过，无 changed workspace source files。

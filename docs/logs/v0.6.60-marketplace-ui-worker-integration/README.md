@@ -4,7 +4,7 @@
 
 本次迭代完成了前端 Marketplace 页面与只读 Worker 的接入，并打通“搜索/推荐/安装”闭环：
 
-1. 后端 UI API（`@nextclaw/server`）新增 Marketplace 能力：
+1. 后端 UI API（`@go-usb-ai/server`）新增 Marketplace 能力：
 - 只读查询代理：
   - `GET /api/marketplace/items`
   - `GET /api/marketplace/items/:slug`
@@ -13,9 +13,9 @@
   - `POST /api/marketplace/install`
 
 2. 安装接口接入现有 CLI 能力（不重复实现安装逻辑）：
-- 在 `nextclaw` 服务运行时，通过子进程调用现有 CLI 子命令：
-  - `nextclaw plugins install <spec>`
-  - `nextclaw skills install <slug>`
+- 在 `go-usb-ai` 服务运行时，通过子进程调用现有 CLI 子命令：
+  - `go-usb-ai plugins install <spec>`
+  - `go-usb-ai skills install <slug>`
 - API 层仅负责参数校验、错误透传与结果包装。
 
 3. 前端 UI 新增 Marketplace 页面：
@@ -39,12 +39,12 @@
 ### 工程验证（已执行）
 
 - 定向验证：
-  - `pnpm -C packages/nextclaw-server tsc`
-  - `pnpm -C packages/nextclaw-server lint`
-  - `pnpm -C packages/nextclaw-ui tsc`
-  - `pnpm -C packages/nextclaw-ui lint`
-  - `pnpm -C packages/nextclaw tsc`
-  - `pnpm -C packages/nextclaw lint`
+  - `pnpm -C packages/go-usb-ai-server tsc`
+  - `pnpm -C packages/go-usb-ai-server lint`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
+  - `pnpm -C packages/go-usb-ai-ui lint`
+  - `pnpm -C packages/go-usb-ai tsc`
+  - `pnpm -C packages/go-usb-ai lint`
 
 - 全仓验证：
   - `pnpm build`
@@ -55,10 +55,10 @@
 
 ### 冒烟验证（已执行）
 
-为遵循“冒烟不写仓库目录”规则，使用临时 `NEXTCLAW_HOME=/tmp/...` 运行。
+为遵循“冒烟不写仓库目录”规则，使用临时 `GOUSB_AI_HOME=/tmp/...` 运行。
 
 1. 启动本地 UI/API：
-- `NEXTCLAW_HOME=/tmp/... pnpm -C packages/nextclaw dev:build ui --port 18891`
+- `GOUSB_AI_HOME=/tmp/... pnpm -C packages/go-usb-ai dev:build ui --port 18891`
 
 2. 查询验证：
 - `GET /api/marketplace/items?page=1&pageSize=2&q=runtime` 返回 200 + 分页数据
@@ -74,13 +74,13 @@
 ## 发布 / 部署方式
 
 - 本次改动主要为本地 UI/API 与前端接入，不需要额外发布 Cloudflare Worker（Worker 已在上一迭代发布）。
-- 若需要发版，按项目既有发布流程执行；本次改动随 `nextclaw` 与 UI 版本发布生效。
+- 若需要发版，按项目既有发布流程执行；本次改动随 `go-usb-ai` 与 UI 版本发布生效。
 - 线上 Worker 地址配置可通过环境变量覆盖：
-  - `NEXTCLAW_MARKETPLACE_API_BASE`
+  - `GOUSB_AI_MARKETPLACE_API_BASE`
 
 ## 用户/产品视角验收步骤
 
-1. 启动 NextClaw UI（本地）：`nextclaw ui --port 18891`
+1. 启动 GoUsbAi UI（本地）：`go-usb-ai ui --port 18891`
 2. 打开 `http://127.0.0.1:18891/marketplace`
 3. 在页面执行：
 - 输入关键词搜索（例如 `runtime`）

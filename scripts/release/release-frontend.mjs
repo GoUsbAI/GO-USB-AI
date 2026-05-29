@@ -2,7 +2,7 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import { join } from "node:path";
 
 const changesetDir = join(process.cwd(), ".changeset");
-const packages = ["@nextclaw/ui", "nextclaw"];
+const packages = ["@go-usb-ai/ui", "go-usb-ai"];
 
 const findExistingChangeset = () => {
   if (!existsSync(changesetDir)) {
@@ -34,7 +34,7 @@ const ensureChangeset = () => {
   const timestamp = new Date().toISOString().replace(/[-:.TZ]/g, "");
   const filename = `frontend-ui-release-${timestamp}.md`;
   const filePath = join(changesetDir, filename);
-  const body = `---\n\"@nextclaw/ui\": patch\n\"nextclaw\": patch\n---\n\nRelease frontend UI changes only.\n`;
+  const body = `---\n\"@go-usb-ai/ui\": patch\n\"go-usb-ai\": patch\n---\n\nRelease frontend UI changes only.\n`;
   writeFileSync(filePath, body, "utf8");
   console.log(`[release:frontend] Created changeset: ${filename}`);
 };

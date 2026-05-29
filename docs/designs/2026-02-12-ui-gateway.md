@@ -1,8 +1,8 @@
-# NextClaw UI（网关复用）设计文档
+# GoUsbAi UI（网关复用）设计文档
 
 ## 目标
 
-- 新增 `nextclaw ui` 命令，打开网页作为“操作系统界面”。
+- 新增 `go-usb-ai ui` 命令，打开网页作为“操作系统界面”。
 - UI 后端使用 **Hono**，并**复用 gateway 进程**。
 - 前端独立 dev server，不由后端托管静态资源。
 - 第一阶段仅实现“系统配置”能力（模型与渠道配置）。
@@ -19,7 +19,7 @@
 ## 总体架构
 
 ```
-[nextclaw ui]
+[go-usb-ai ui]
    | (启动 gateway + ui server)
    v
 [Gateway Process]
@@ -34,7 +34,7 @@
    |- 与 UI Server 通讯（REST + WS）
 ```
 
-- `nextclaw ui` 负责启动 gateway，并挂载 UI Server。
+- `go-usb-ai ui` 负责启动 gateway，并挂载 UI Server。
 - UI Server 只提供 API/WS，不负责静态资源。
 - 前端 dev server 通过 API/WS 访问后端。
 
@@ -55,12 +55,12 @@
 
 - `host`：默认 127.0.0.1，仅本地访问。
 - `port`：默认 55667，可自定义。
-- `open`：是否自动打开浏览器（仅 `nextclaw ui` 默认 true）。
+- `open`：是否自动打开浏览器（仅 `go-usb-ai ui` 默认 true）。
 
 CLI 参数建议：
 
-- `nextclaw ui --host 127.0.0.1 --port 55667 --no-open`
-- `nextclaw gateway --ui`（可选：在 gateway 上也启用 UI）
+- `go-usb-ai ui --host 127.0.0.1 --port 55667 --no-open`
+- `go-usb-ai gateway --ui`（可选：在 gateway 上也启用 UI）
 
 ## UI Server（Hono）设计
 
@@ -122,7 +122,7 @@ CLI 参数建议：
 ## 模块设计（建议）
 
 ```
-packages/nextclaw/src/ui/
+packages/go-usb-ai/src/ui/
   server.ts          // Hono app + routes
   router.ts          // 具体路由注册
   config.ts          // config read/write helpers
@@ -137,11 +137,11 @@ packages/nextclaw/src/ui/
 
 新增命令：
 
-- `nextclaw ui`
-  - 默认等价于 `nextclaw gateway --ui --open`
+- `go-usb-ai ui`
+  - 默认等价于 `go-usb-ai gateway --ui --open`
   - 启动 UI Server，并打开浏览器
 
-可复用命令行框架：`packages/nextclaw/src/cli/index.ts`
+可复用命令行框架：`packages/go-usb-ai/src/cli/index.ts`
 
 ## 迭代计划
 
@@ -149,7 +149,7 @@ packages/nextclaw/src/ui/
 
 - UI Server 基础框架（Hono）
 - 配置读取/更新接口
-- `nextclaw ui` 命令
+- `go-usb-ai ui` 命令
 - 端口可配 + 默认端口
 - 本地模式不鉴权
 
@@ -168,7 +168,7 @@ packages/nextclaw/src/ui/
 ## 验证方案（实现阶段）
 
 - `pnpm build / lint / tsc`
-- `nextclaw ui` 启动后：
+- `go-usb-ai ui` 启动后：
   - `GET /api/config` 返回正确结构
   - `PUT /api/config/model` 写入后配置生效
   - `PUT /api/config/channels/telegram` 写入后配置文件更新

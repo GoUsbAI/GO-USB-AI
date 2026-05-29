@@ -11,19 +11,19 @@
 
 涉及文件：
 
-- `packages/nextclaw-ui/src/components/config/config-layout.ts`
-- `packages/nextclaw-ui/src/components/config/ChannelsList.tsx`
-- `packages/nextclaw-ui/src/components/config/ChannelForm.tsx`
-- `packages/nextclaw-ui/src/components/config/ChannelsList.test.tsx`
+- `packages/go-usb-ai-ui/src/components/config/config-layout.ts`
+- `packages/go-usb-ai-ui/src/components/config/ChannelsList.tsx`
+- `packages/go-usb-ai-ui/src/components/config/ChannelForm.tsx`
+- `packages/go-usb-ai-ui/src/components/config/ChannelsList.test.tsx`
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui test -- --run src/components/config/ChannelsList.test.tsx`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui exec eslint src/components/config/config-layout.ts src/components/config/ChannelsList.tsx src/components/config/ChannelForm.tsx src/components/config/ChannelsList.test.tsx`
-- `pnpm -C packages/nextclaw-ui build`
+- `pnpm -C packages/go-usb-ai-ui test -- --run src/components/config/ChannelsList.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/components/config/config-layout.ts src/components/config/ChannelsList.tsx src/components/config/ChannelForm.tsx src/components/config/ChannelsList.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui build`
 - `pnpm check:governance-backlog-ratchet`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/config/config-layout.ts packages/nextclaw-ui/src/components/config/ChannelsList.tsx packages/nextclaw-ui/src/components/config/ChannelForm.tsx packages/nextclaw-ui/src/components/config/ChannelsList.test.tsx`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/config/config-layout.ts packages/go-usb-ai-ui/src/components/config/ChannelsList.tsx packages/go-usb-ai-ui/src/components/config/ChannelForm.tsx packages/go-usb-ai-ui/src/components/config/ChannelsList.test.tsx`
 
 补充说明：
 
@@ -32,7 +32,7 @@
 
 ## 发布/部署方式
 
-- 本次为 `@nextclaw/ui` 前端交互修复，不涉及数据库、后端协议或 CLI 发布。
+- 本次为 `@go-usb-ai/ui` 前端交互修复，不涉及数据库、后端协议或 CLI 发布。
 - 按现有前端/桌面产品发布流程携带新的 UI 构建产物即可，无需额外迁移步骤。
 
 ## 用户/产品视角的验收步骤
@@ -58,7 +58,7 @@
   - 是。滚动策略被收敛到 `config-layout.ts` 的共享布局常量，而不是留在页面组件内部继续长出新的样式分支。
   - 没有为了这次交互修复新增新的 hook、manager、helper 层，也没有把复杂度转移到别的文件里。
 - 目录结构与文件组织是否满足当前项目治理要求：
-  - 本次没有新增文件到 `packages/nextclaw-ui/src/components/config`，目录平铺度没有继续恶化。
+  - 本次没有新增文件到 `packages/go-usb-ai-ui/src/components/config`，目录平铺度没有继续恶化。
   - 该目录仍有既有的 direct file count 例外记录，这是历史债务，不是本次新增问题。
   - 下一步整理入口：若配置中心继续增长，应按职责拆出更明确的 feature / section 边界，而不是继续在单目录平铺累加。
 - 本次涉及代码可维护性评估，已基于独立于实现阶段的 `post-edit-maintainability-guard` 与二次主观复核填写。
@@ -80,7 +80,7 @@
 ## NPM 包发布记录
 
 - 本次是否需要发包：不需要。
-- 原因：本次仅修复仓库内 `@nextclaw/ui` 的前端交互行为，当前没有进入独立的 NPM release 批次。
+- 原因：本次仅修复仓库内 `@go-usb-ai/ui` 的前端交互行为，当前没有进入独立的 NPM release 批次。
 - 需要发布哪些包：不涉及。
 - 每个包当前是否已经发布：不涉及。
 - 当前状态：不涉及 NPM 包发布。

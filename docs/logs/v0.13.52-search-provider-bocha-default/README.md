@@ -9,7 +9,7 @@
 
 ## 测试/验证/验收方式
 
-- 运行受影响包的类型/构建/测试最小集，覆盖 `core`、`server`、`ui`、`nextclaw`。
+- 运行受影响包的类型/构建/测试最小集，覆盖 `core`、`server`、`ui`、`go-usb-ai`。
 - 验证 `search` 配置保存后会触发 `config.updated(path="search")`，运行时无需重启即可热更新。
 - UI 冒烟：
   - 进入 Settings -> 搜索渠道。

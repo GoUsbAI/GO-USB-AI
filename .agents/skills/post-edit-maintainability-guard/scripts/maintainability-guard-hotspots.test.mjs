@@ -25,7 +25,7 @@ test("extractChangedIterationReadmes expands an untracked iteration directory to
 test("extractChangedIterationReadmes ignores non-iteration paths", () => {
   const readmes = extractChangedIterationReadmes({
     candidatePaths: ["docs/logs/not-a-versioned-dir/README.md"],
-    statusOutput: "?? docs/logs/not-a-versioned-dir/\n M packages/nextclaw/src/cli/commands/diagnostics.ts\n",
+    statusOutput: "?? docs/logs/not-a-versioned-dir/\n M packages/go-usb-ai/src/cli/commands/diagnostics.ts\n",
     fileExists: () => true
   });
 

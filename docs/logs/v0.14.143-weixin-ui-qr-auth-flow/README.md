@@ -10,21 +10,21 @@
 ## 测试/验证/验收方式
 
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/openclaw-compat tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/channel-plugin-weixin tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/openclaw-compat tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/channel-plugin-weixin tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui tsc`
 - 定向测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server test -- router.weixin-channel-config.test.ts router.weixin-channel-auth.test.ts server.weixin-channel.test.ts`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui test -- ChannelsList.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server test -- router.weixin-channel-config.test.ts router.weixin-channel-auth.test.ts server.weixin-channel.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui test -- ChannelsList.test.tsx`
 - 构建：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/openclaw-compat build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/channel-plugin-weixin build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/openclaw-compat build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/channel-plugin-weixin build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai build`
 - 真实冒烟：
-  - 使用临时 `NEXTCLAW_HOME` 启动 `node packages/nextclaw/dist/cli/index.js start --ui-port 18893 --start-timeout 20000`
+  - 使用临时 `GOUSB_AI_HOME` 启动 `node packages/go-usb-ai/dist/cli/index.js start --ui-port 18893 --start-timeout 20000`
   - 请求真实 `/api/config/meta`，确认 `weixin` 出现在渠道列表中
   - 请求真实 `/api/config/channels/weixin/auth/start`，确认返回 `sessionId / qrCodeUrl / expiresAt / intervalMs`
 - 可维护性检查：
@@ -35,16 +35,16 @@
 
 - 按 changeset 流程提升受影响包版本后发布到 NPM。
 - 受影响包至少包括：
-  - `@nextclaw/openclaw-compat`
-  - `@nextclaw/channel-plugin-weixin`
-  - `@nextclaw/server`
-  - `@nextclaw/ui`
-  - `nextclaw`
-- 发布后用 `npm view <package> version` 校验线上版本，并再次执行一次真实 `nextclaw start` 冒烟确认 UI 渠道列表和扫码接口正常。
+  - `@go-usb-ai/openclaw-compat`
+  - `@go-usb-ai/channel-plugin-weixin`
+  - `@go-usb-ai/server`
+  - `@go-usb-ai/ui`
+  - `go-usb-ai`
+- 发布后用 `npm view <package> version` 校验线上版本，并再次执行一次真实 `go-usb-ai start` 冒烟确认 UI 渠道列表和扫码接口正常。
 
 ## 用户/产品视角的验收步骤
 
-1. 升级到本次发布后的 `nextclaw`，启动服务并打开前端配置页。
+1. 升级到本次发布后的 `go-usb-ai`，启动服务并打开前端配置页。
 2. 进入 `Channels`，确认列表中可以看到 `Weixin`。
 3. 点开 `Weixin` 后，首屏应直接看到“扫码连接微信”卡片，而不是先看到一堆底层字段。
 4. 点击“扫码连接微信”，页面应展示二维码，并自动轮询扫码状态。

@@ -2,8 +2,8 @@
 
 ## 执行命令
 
-- `export PATH=/opt/homebrew/bin:$PATH; pnpm -C packages/nextclaw-ui tsc`
-- `export PATH=/opt/homebrew/bin:$PATH; pnpm -C packages/nextclaw-ui build`
+- `export PATH=/opt/homebrew/bin:$PATH; pnpm -C packages/go-usb-ai-ui tsc`
+- `export PATH=/opt/homebrew/bin:$PATH; pnpm -C packages/go-usb-ai-ui build`
 
 ## 结果
 

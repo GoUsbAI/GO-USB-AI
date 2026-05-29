@@ -11,7 +11,7 @@ export function OverviewSection({ data, isPending }: OverviewSectionProps): JSX.
   return (
     <Panel id="overview" className="overview-panel">
       <div className="overview-panel__copy">
-        <p className="eyebrow">NextClaw Pulse</p>
+        <p className="eyebrow">GoUsbAi Pulse</p>
         <h1>公开路线图与产品进展</h1>
         <p>
           一个面向用户的产品脉搏入口：展示正在规划、构建、验证和已交付的事项。
@@ -76,7 +76,7 @@ export function OverviewSection({ data, isPending }: OverviewSectionProps): JSX.
         </div>
         <article className="overview-panel__north-star">
           <span>North Star</span>
-          <strong>NextClaw 正在成为 AI 时代的个人操作层。</strong>
+          <strong>GoUsbAi 正在成为 AI 时代的个人操作层。</strong>
           <p>
             这个页面不是单纯的任务清单，而是一个公开产品进展入口：
             让外部用户看到方向、理解进展，并直接参与反馈。

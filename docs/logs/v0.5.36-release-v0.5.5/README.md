@@ -4,12 +4,12 @@
 
 - 按项目发布流程完成 NPM 发布闭环（changeset → version → publish）。
 - 本次实际发布包：
-  - `nextclaw@0.5.5`
-  - `@nextclaw/core@0.5.3`
-  - `@nextclaw/openclaw-compat@0.1.4`
+  - `go-usb-ai@0.5.5`
+  - `@go-usb-ai/core@0.5.3`
+  - `@go-usb-ai/openclaw-compat@0.1.4`
 - 未发布包（版本已存在于 npm）：
-  - `@nextclaw/server@0.3.7`
-  - `@nextclaw/ui@0.3.8`
+  - `@go-usb-ai/server@0.3.7`
+  - `@go-usb-ai/ui@0.3.8`
 
 ## 测试 / 验证 / 验收
 
@@ -26,7 +26,7 @@ pnpm release:check
 
 ```bash
 export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
-NEXTCLAW_HOME=/tmp/nextclaw-release-smoke-home-xxxx node packages/nextclaw/dist/cli/index.js plugins list --json
+GOUSB_AI_HOME=/tmp/go-usb-ai-release-smoke-home-xxxx node packages/go-usb-ai/dist/cli/index.js plugins list --json
 ```
 
 验收点：默认插件加载为禁用（`pluginCount = 0`）。
@@ -34,9 +34,9 @@ NEXTCLAW_HOME=/tmp/nextclaw-release-smoke-home-xxxx node packages/nextclaw/dist/
 ### 线上发布验收
 
 ```bash
-npm view nextclaw@0.5.5 version
-npm view @nextclaw/core@0.5.3 version
-npm view @nextclaw/openclaw-compat@0.1.4 version
+npm view go-usb-ai@0.5.5 version
+npm view @go-usb-ai/core@0.5.3 version
+npm view @go-usb-ai/openclaw-compat@0.1.4 version
 ```
 
 结果：均返回对应版本号，验证发布成功。
@@ -47,9 +47,9 @@ npm view @nextclaw/openclaw-compat@0.1.4 version
   1. `pnpm release:version`
   2. `pnpm release:publish`
 - 自动创建 git tag：
-  - `nextclaw@0.5.5`
-  - `@nextclaw/core@0.5.3`
-  - `@nextclaw/openclaw-compat@0.1.4`
+  - `go-usb-ai@0.5.5`
+  - `@go-usb-ai/core@0.5.3`
+  - `@go-usb-ai/openclaw-compat@0.1.4`
 - 本次仅 NPM 发布，不涉及后端/数据库变更：
   - 远程 migration：不适用
   - 服务部署：不适用

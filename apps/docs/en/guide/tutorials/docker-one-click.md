@@ -1,7 +1,7 @@
 # Docker Deployment
 
 Docker is for servers or long-running environments.  
-If you are trying NextClaw for the first time, use [Quickstart](/en/guide/getting-started).
+If you are trying GoUsbAi for the first time, use [Quickstart](/en/guide/getting-started).
 
 ## Good use cases
 
@@ -19,8 +19,8 @@ If you are trying NextClaw for the first time, use [Quickstart](/en/guide/gettin
 ## After deployment
 
 ```bash
-nextclaw status
-nextclaw doctor
+go-usb-ai status
+go-usb-ai doctor
 ```
 
 If the CLI is not available inside the container, use container logs and health checks.

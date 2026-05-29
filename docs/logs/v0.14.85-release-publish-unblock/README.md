@@ -1,8 +1,8 @@
 # 迭代完成说明
 
-- 修复 Claude NCP runtime readiness probe 的误判问题，去掉了 `packages/extensions/nextclaw-ncp-runtime-claude-code-sdk/src/claude-code-execution-probe.ts` 中会触发 `error_max_budget_usd` 的预算探测参数。
+- 修复 Claude NCP runtime readiness probe 的误判问题，去掉了 `packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk/src/claude-code-execution-probe.ts` 中会触发 `error_max_budget_usd` 的预算探测参数。
 - 保持 Claude 会话真实对话链路可用，并完成本地真实回复验证。
-- 为解除 `release:publish` 阻塞，整理了 `workers/nextclaw-provider-gateway-api` 中触发 lint/tsc 风险的控制器与服务实现。
+- 为解除 `release:publish` 阻塞，整理了 `workers/go-usb-ai-provider-gateway-api` 中触发 lint/tsc 风险的控制器与服务实现。
 - 完成相关发布组的版本提升与 NPM 发布，补齐变更日志与包版本。
 - 相关方案背景可参考：[Claude Runtime Model Contract Design](../../plans/2026-03-19-claude-runtime-model-contract-design.md)。
 
@@ -16,24 +16,24 @@
   - 期望 `ok: true`
   - 期望 `assistantText: "CLAUDE_REAL_REPLY_OK_AFTER_PROBE_FIX"`
 - release 阻塞解除验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api tsc`
 - 发布链路验证：
   - `PATH=/opt/homebrew/bin:$PATH pnpm release:version`
   - `PATH=/opt/homebrew/bin:$PATH pnpm release:publish`
 - 可维护性守卫：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/nextclaw-ncp-runtime-claude-code-sdk/src/claude-code-execution-probe.ts packages/nextclaw/src/cli/commands/dev-first-party-plugin-load-paths.ts packages/nextclaw/src/cli/commands/dev-first-party-plugin-load-paths.test.ts packages/nextclaw/src/cli/commands/plugins.ts workers/nextclaw-provider-gateway-api/src/controllers/admin-controller.ts workers/nextclaw-provider-gateway-api/src/controllers/auth-controller.ts workers/nextclaw-provider-gateway-api/src/controllers/openai-controller.ts workers/nextclaw-provider-gateway-api/src/services/platform-service.ts`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk/src/claude-code-execution-probe.ts packages/go-usb-ai/src/cli/commands/dev-first-party-plugin-load-paths.ts packages/go-usb-ai/src/cli/commands/dev-first-party-plugin-load-paths.test.ts packages/go-usb-ai/src/cli/commands/plugins.ts workers/go-usb-ai-provider-gateway-api/src/controllers/admin-controller.ts workers/go-usb-ai-provider-gateway-api/src/controllers/auth-controller.ts workers/go-usb-ai-provider-gateway-api/src/controllers/openai-controller.ts workers/go-usb-ai-provider-gateway-api/src/services/platform-service.ts`
 
 # 发布/部署方式
 
 - 本次已执行项目既有 NPM 发布流程，并成功发布以下包：
-  - `@nextclaw/nextclaw-ncp-runtime-claude-code-sdk@0.1.2`
-  - `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk@0.1.6`
-  - `@nextclaw/ncp-mcp@0.1.8`
-  - `@nextclaw/mcp@0.1.8`
-  - `@nextclaw/remote@0.1.4`
-  - `@nextclaw/server@0.10.8`
-  - `nextclaw@0.13.8`
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-claude-code-sdk@0.1.2`
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk@0.1.6`
+  - `@go-usb-ai/ncp-mcp@0.1.8`
+  - `@go-usb-ai/mcp@0.1.8`
+  - `@go-usb-ai/remote@0.1.4`
+  - `@go-usb-ai/server@0.10.8`
+  - `go-usb-ai@0.13.8`
 - 本地使用方更新后，重新安装依赖并重启 `pnpm dev start` 即可拿到修复后的 Claude 插件与 CLI 版本。
 
 # 用户/产品视角的验收步骤

@@ -5,12 +5,12 @@
 本次修复前端 Model 页面“`maxTokens` 修改后保存、刷新回旧值”的问题，打通前后端保存链路。
 
 - 前端 Model 页面提交参数新增 `maxTokens`（此前只提交 `model`）
-  - [`packages/nextclaw-ui/src/components/config/ModelConfig.tsx`](../../../packages/nextclaw-ui/src/components/config/ModelConfig.tsx)
+  - [`packages/go-usb-ai-ui/src/components/config/ModelConfig.tsx`](../../../packages/go-usb-ai-ui/src/components/config/ModelConfig.tsx)
 - UI API `updateModel` 支持传入 `maxTokens`
-  - [`packages/nextclaw-ui/src/api/config.ts`](../../../packages/nextclaw-ui/src/api/config.ts)
+  - [`packages/go-usb-ai-ui/src/api/config.ts`](../../../packages/go-usb-ai-ui/src/api/config.ts)
 - 服务端 `/api/config/model` 支持 `{ model?, maxTokens? }`，并在更新后返回最新值
-  - [`packages/nextclaw-server/src/ui/router.ts`](../../../packages/nextclaw-server/src/ui/router.ts)
-  - [`packages/nextclaw-server/src/ui/config.ts`](../../../packages/nextclaw-server/src/ui/config.ts)
+  - [`packages/go-usb-ai-server/src/ui/router.ts`](../../../packages/go-usb-ai-server/src/ui/router.ts)
+  - [`packages/go-usb-ai-server/src/ui/config.ts`](../../../packages/go-usb-ai-server/src/ui/config.ts)
 - 使用文档补充 Model 页面保存行为说明
   - [`docs/USAGE.md`](../../../docs/USAGE.md)
 
@@ -21,7 +21,7 @@
   - `pnpm lint`
   - `pnpm tsc`
 - 冒烟验证（非仓库目录）：
-  - 在 `/tmp` 下设置独立 `NEXTCLAW_HOME`，调用服务端 `updateModel` 更新 `maxTokens` 后重新读取配置。
+  - 在 `/tmp` 下设置独立 `GOUSB_AI_HOME`，调用服务端 `updateModel` 更新 `maxTokens` 后重新读取配置。
   - 观察点：更新前后 `agents.defaults.maxTokens` 数值变化，并在重新加载后保持新值。
 
 ### 用户/产品视角验收步骤

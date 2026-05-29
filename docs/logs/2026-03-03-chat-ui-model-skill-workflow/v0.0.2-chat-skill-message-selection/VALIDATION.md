@@ -2,12 +2,12 @@
 
 ## 执行命令
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/ChatInputBar.tsx src/components/chat/SkillsPicker.tsx src/components/chat/ChatPage.tsx src/components/chat/ChatConversationPanel.tsx src/components/chat/useChatStreamController.ts src/components/chat/ChatThread.tsx src/lib/i18n.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core exec eslint src/agent/loop.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-core build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/ChatInputBar.tsx src/components/chat/SkillsPicker.tsx src/components/chat/ChatPage.tsx src/components/chat/ChatConversationPanel.tsx src/components/chat/useChatStreamController.ts src/components/chat/ChatThread.tsx src/lib/i18n.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core exec eslint src/agent/loop.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-core build`
 
 ## 结果
 

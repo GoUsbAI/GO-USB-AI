@@ -1,6 +1,6 @@
 ---
 name: desktop-release-contract-guard
-description: Use when building, verifying, or releasing NextClaw desktop installers, DMGs, update bundles, or update manifests. Enforces the packaged update public key contract, the required verification commands, and the rule that raw electron-builder output is not enough.
+description: Use when building, verifying, or releasing GoUsbAi desktop installers, DMGs, update bundles, or update manifests. Enforces the packaged update public key contract, the required verification commands, and the rule that raw electron-builder output is not enough.
 ---
 
 # Desktop Release Contract Guard
@@ -14,7 +14,7 @@ description: Use when building, verifying, or releasing NextClaw desktop install
   - changing code when the real problem is release infrastructure or propagation
 
 ## When to Use
-- Any NextClaw desktop packaging, preview release, local installer handoff, or update-channel verification task.
+- Any GoUsbAi desktop packaging, preview release, local installer handoff, or update-channel verification task.
 - Any task mentioning `DMG`, desktop release, `electron-builder`, update manifest, beta/stable desktop channel, or "检查更新".
 
 ## Primary Contract
@@ -151,7 +151,7 @@ description: Use when building, verifying, or releasing NextClaw desktop install
 - Treat tag creation or `gh release create` success as the start signal, not the finish line.
 - For preview builds intended for human install/update testing, the shipped identities must change when the delivered bits change:
   - bump `apps/desktop/package.json` when the human will install a new desktop app;
-  - bump `packages/nextclaw/package.json` when the update/runtime bundle contents change;
+  - bump `packages/go-usb-ai/package.json` when the update/runtime bundle contents change;
   - verify the release asset names and the public update manifest reflect those bumped versions.
 - A new GitHub prerelease tag is not enough if the installer version, bundle version, or update manifest `latestVersion` still point at the previous shipped identity.
 - A desktop release is only complete when the release-triggered `desktop-release` workflow finishes with overall `success`.
@@ -197,7 +197,7 @@ description: Use when building, verifying, or releasing NextClaw desktop install
 - Confirm it verifies the target manifest signature.
 - Confirm release-manifest `minimumLauncherVersion` matches the channel floor from `apps/desktop/desktop-launcher-compatibility.json`.
 - Confirm installed-app runtime commands still work when executed through the packaged app binary with `ELECTRON_RUN_AS_NODE=1`.
-- Confirm the installed desktop app exposes the AI self-management command surface: after GUI startup, the current-launch `desktop.commandSurface.ready` bin must run `nextclaw --version`, `nextclaw status --json`, and `nextclaw doctor --json` without requiring system Node/NPM or a global NPM `nextclaw`.
+- Confirm the installed desktop app exposes the AI self-management command surface: after GUI startup, the current-launch `desktop.commandSurface.ready` bin must run `go-usb-ai --version`, `go-usb-ai status --json`, and `go-usb-ai doctor --json` without requiring system Node/NPM or a global NPM `go-usb-ai`.
 - Confirm update check does not only "switch channel", but can actually complete the signature-verification path.
 
 ## Windows Custom Titlebar Drag Gate
@@ -221,7 +221,7 @@ description: Use when building, verifying, or releasing NextClaw desktop install
 - Windows PowerShell release steps must fail on native command errors instead of silently continuing after a broken package build.
 - Product bundle creation must assert the packaged runtime shape before publishing:
   - require `runtime/dist/cli/app/index.js`, `runtime/dist/cli/app/index.mjs`, `runtime/dist/cli/app/features/session-search/worker/session-search-worker-host.utils.js`, and `runtime/ui-dist/index.html`;
-  - require a built-in skill smoke file such as `runtime/dist/cli/app/skills/nextclaw-self-manage/SKILL.md` so packaged installs can see both built-in runtime skills and user-installed workspace skills;
+  - require a built-in skill smoke file such as `runtime/dist/cli/app/skills/go-usb-ai-self-manage/SKILL.md` so packaged installs can see both built-in runtime skills and user-installed workspace skills;
   - forbid `runtime/node_modules`;
   - enforce a low runtime file-count budget so accidental raw dependency trees fail during build.
 - If a runtime asset is missing, fix the package build/bundle contract first; do not debug it as an app startup problem until the packaged files are present.
@@ -256,14 +256,14 @@ description: Use when building, verifying, or releasing NextClaw desktop install
 - Built-in extension manifests that use `command: "node"` must resolve to the current runtime executable instead of ambient PATH `node`, and still pass `windowsHide: true`; otherwise Windows machines with global Node can show transient console windows while machines without global Node only log `spawn node ENOENT`, causing CI and user machines to diverge.
 - Desktop smoke must inspect the current `service.log` as well as `launcher/main.log`. A clean API smoke is not enough if startup logs show built-in extension `failed` or `exited`, because extension child-process failures are exactly the class of issue that can appear as transient console windows on user Windows machines while still leaving `/api/health` green.
 - Windows installer smoke must install the NSIS setup executable through the real silent install path, not only validate `win-unpacked`.
-  - If the same job previously launched `win-unpacked`, clear residual `NextClaw Desktop.exe` process trees before installer install/uninstall.
+  - If the same job previously launched `win-unpacked`, clear residual `GoUsbAi Desktop.exe` process trees before installer install/uninstall.
   - Pass explicit NSIS silent arguments including `/S`, `/currentuser`, and `/D=<installDir>` so CI validates the intended per-user installation target instead of relying on installer defaults; keep `/D=` last on a single command-line string because NSIS treats the rest of the command line as the directory and PowerShell array quoting can change that parsing.
   - Treat a non-zero installer exit code as an installer failure until proven otherwise; do not replace it with a portable executable smoke.
   - Treat post-smoke cleanup remove failures as cleanup warnings if the real installed-app GUI smoke already passed; cleanup must not mask a successful install/startup result. Pre-install cleanup remains hard-fail because a dirty target can invalidate the install result.
   - Do not run the NSIS uninstaller as a post-smoke cleanup gate on ephemeral CI runners. Some NSIS uninstallers can return non-zero after a successful installed-app GUI/API smoke and mask the real result; post-smoke cleanup should only stop app processes and best-effort remove the install directory.
   - Process-tree cleanup after a successful Windows GUI/API smoke is also best-effort. A non-zero `taskkill` result after the app has already passed readiness must be logged as cleanup noise, not reported as package startup failure.
   - Do not invoke raw `taskkill` in Windows desktop smoke scripts. Use `Start-Process -WindowStyle Hidden`, capture the exit code, and downgrade cleanup-only failures to warnings after readiness has passed; otherwise PowerShell native-command strict mode can turn cleanup noise into a false release failure.
-  - Windows CI must upload both app logs and the smoke script's own `$RUNNER_TEMP/nextclaw-desktop-smoke-logs` directory for installer smoke. Without those artifacts, a failed job cannot distinguish startup failure, API failure, and post-smoke cleanup failure.
+  - Windows CI must upload both app logs and the smoke script's own `$RUNNER_TEMP/go-usb-ai-desktop-smoke-logs` directory for installer smoke. Without those artifacts, a failed job cannot distinguish startup failure, API failure, and post-smoke cleanup failure.
 - Desktop startup speed must be measured on the real app/API readiness path, not merely on a placeholder window. Showing a startup shell improves perceived feedback, but does not satisfy the release gate until the real UI and API are both ready.
 - A desktop handoff smoke must also inspect the launcher log for the current launch window and fail on known startup blockers such as `ENAMETOOLONG`, `ENOTEMPTY`, `ERR_FAILED`, `render-process-gone`, or `Failed to bootstrap runtime`; absence of log inspection is not a valid pass.
 - When validating a build for a machine that already has desktop state, run a real-profile check against that machine's existing desktop data dir in addition to any isolated smoke. The real-profile check must prove stale staging, bad-version state, and existing bundles do not break startup.

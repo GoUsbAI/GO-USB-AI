@@ -17,7 +17,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-context-destructuring.mjs
   node scripts/governance/lint-new-code-context-destructuring.mjs --staged
   node scripts/governance/lint-new-code-context-destructuring.mjs --base origin/main
-  node scripts/governance/lint-new-code-context-destructuring.mjs -- packages/nextclaw/src
+  node scripts/governance/lint-new-code-context-destructuring.mjs -- packages/go-usb-ai/src
 
 Checks touched functions in changed TypeScript workspace files.
 If a touched function repeatedly reads params/options/context style objects 4+ times,

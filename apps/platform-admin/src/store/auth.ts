@@ -9,7 +9,7 @@ type AuthState = {
   logout: () => void;
 };
 
-const STORAGE_KEY = 'nextclaw.platform.token';
+const STORAGE_KEY = 'go-usb-ai.platform.token';
 
 function readTokenFromStorage(): string | null {
   if (typeof window === 'undefined') {

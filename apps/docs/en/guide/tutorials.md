@@ -1,6 +1,6 @@
 # Tutorials Overview
 
-Tutorials help you run NextClaw in concrete scenarios. They are different from guides: guides explain how to understand and choose a capability, while tutorials give you a path you can follow step by step.
+Tutorials help you run GoUsbAi in concrete scenarios. They are different from guides: guides explain how to understand and choose a capability, while tutorials give you a path you can follow step by step.
 
 ## The common path for new users
 
@@ -23,7 +23,7 @@ Tutorials help you run NextClaw in concrete scenarios. They are different from g
 - [Connect Channels](/en/guide/channels)
 - [Feishu Setup](/en/guide/tutorials/feishu)
 
-### Run and access NextClaw
+### Run and access GoUsbAi
 
 - [Docker One-Click Deployment](/en/guide/tutorials/docker-one-click)
 - [Background & Autostart](/en/guide/background-autostart)

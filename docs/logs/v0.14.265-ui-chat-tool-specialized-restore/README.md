@@ -2,11 +2,11 @@
 
 ## 迭代完成说明
 
-本次将你在 `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-tool-specialized.tsx` 的 UI 改动从临时 stash 中恢复回工作区，确保这部分聊天工具卡片样式与交互改动重新可见。
+本次将你在 `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-tool-specialized.tsx` 的 UI 改动从临时 stash 中恢复回工作区，确保这部分聊天工具卡片样式与交互改动重新可见。
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-agent-chat-ui test -- --run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui test -- --run src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
 - `pnpm smoke:ncp-chat -- --session-type native --model minimax/MiniMax-M2.7 --base-url http://127.0.0.1:18793 --json`
 - `pnpm smoke:ncp-chat -- --session-type codex --model minimax/MiniMax-M2.7 --base-url http://127.0.0.1:18793 --thinking medium --json`
 - `pnpm smoke:ncp-chat -- --session-type native --model yunyi/gpt-5.4 --base-url http://127.0.0.1:18793 --json`

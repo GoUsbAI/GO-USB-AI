@@ -4,7 +4,7 @@
 
 相关文档：
 
-- [NextClaw Host-Native Autostart Strategy Design](../designs/2026-04-18-host-native-autostart-strategy-design.md)
+- [GoUsbAi Host-Native Autostart Strategy Design](../designs/2026-04-18-host-native-autostart-strategy-design.md)
 - [Host-Native Autostart Implementation Plan](./2026-04-18-host-native-autostart-implementation-plan.md)
 - [v0.16.67-linux-cli-systemd-autostart](../logs/v0.16.67-linux-cli-systemd-autostart/README.md)
 
@@ -25,10 +25,10 @@
 
 ## Architecture
 
-在 `packages/nextclaw/src/cli/commands/service-support/autostart/` 下把宿主自启动收敛成一个真正的 owner 层：
+在 `packages/go-usb-ai/src/cli/commands/service-support/autostart/` 下把宿主自启动收敛成一个真正的 owner 层：
 
 1. `HostAutostartRuntimeService`
-   - 统一解析稳定的 Node 路径、CLI entry 和 `NEXTCLAW_HOME`
+   - 统一解析稳定的 Node 路径、CLI entry 和 `GOUSB_AI_HOME`
    - 避免三平台重复实现 `tsx` / `dist` 入口解析
 
 2. 平台 owner
@@ -48,7 +48,7 @@
 
 ### Task 1: Generalize the runtime contract
 
-- 新增共享运行时解析 owner，统一 `node + cli entry + serve + NEXTCLAW_HOME` 合同
+- 新增共享运行时解析 owner，统一 `node + cli entry + serve + GOUSB_AI_HOME` 合同
 - 让 Linux、macOS、Windows 共用同一套 foreground serve 启动语义
 
 ### Task 2: Add macOS LaunchAgent owner
@@ -66,10 +66,10 @@
 ### Task 4: Wire CLI commands and docs
 
 - 新增：
-  - `nextclaw service install-launch-agent`
-  - `nextclaw service uninstall-launch-agent`
-  - `nextclaw service install-task`
-  - `nextclaw service uninstall-task`
+  - `go-usb-ai service install-launch-agent`
+  - `go-usb-ai service uninstall-launch-agent`
+  - `go-usb-ai service install-task`
+  - `go-usb-ai service uninstall-task`
 - 更新命令文档和 `USAGE`
 
 ### Task 5: Validate and record

@@ -14,19 +14,19 @@
 ## 测试/验证/验收方式
 
 - 已通过：
-  - `pnpm -C packages/nextclaw-ui test -- src/features/chat/utils/ncp-chat-runtime-availability.utils.test.ts src/features/chat/utils/ncp-chat-input-availability.utils.test.ts src/features/chat/hooks/use-ncp-session-conversation.test.tsx src/features/system-status/utils/system-status.utils.test.ts src/features/system-status/managers/system-status.manager.test.ts`
-  - 续改验证：`pnpm -C packages/nextclaw-ui test -- src/features/chat/utils/ncp-chat-runtime-availability.utils.test.ts src/features/chat/utils/ncp-chat-input-availability.utils.test.ts src/features/chat/managers/ncp-chat-input.manager.test.ts`
-  - `pnpm -C packages/nextclaw-ui tsc`
+  - `pnpm -C packages/go-usb-ai-ui test -- src/features/chat/utils/ncp-chat-runtime-availability.utils.test.ts src/features/chat/utils/ncp-chat-input-availability.utils.test.ts src/features/chat/hooks/use-ncp-session-conversation.test.tsx src/features/system-status/utils/system-status.utils.test.ts src/features/system-status/managers/system-status.manager.test.ts`
+  - 续改验证：`pnpm -C packages/go-usb-ai-ui test -- src/features/chat/utils/ncp-chat-runtime-availability.utils.test.ts src/features/chat/utils/ncp-chat-input-availability.utils.test.ts src/features/chat/managers/ncp-chat-input.manager.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
   - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths <touched production files>`
-  - 续改 guard：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/chat/utils/ncp-chat-runtime-availability.utils.ts`
+  - 续改 guard：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/utils/ncp-chat-runtime-availability.utils.ts`
   - `pnpm lint:new-code:governance`
 - 未完全通过项：
-  - 续改后 `pnpm lint:new-code:governance` 失败，阻塞点为工作区已有改动 `packages/nextclaw/src/cli/launcher/npm-runtime-update-source.service.ts` 位于 legacy root `launcher/`；本次发送按钮判断改动未触达该文件。
+  - 续改后 `pnpm lint:new-code:governance` 失败，阻塞点为工作区已有改动 `packages/go-usb-ai/src/cli/launcher/npm-runtime-update-source.service.ts` 位于 legacy root `launcher/`；本次发送按钮判断改动未触达该文件。
   - `pnpm check:governance-backlog-ratchet` 失败，原因是仓库当前 tracked doc file-name violations 为 `13`，高于 baseline `11`；失败项均为历史文档命名债务，本次新增方案文档通过了 `doc-file-name-kebab-case` diff 检查，未新增该类违规。
 
 ## 发布/部署方式
 
-- 本次改动属于前端源码结构调整，随下一次包含 `@nextclaw/ui` 的统一发布进入用户环境。
+- 本次改动属于前端源码结构调整，随下一次包含 `@go-usb-ai/ui` 的统一发布进入用户环境。
 - 不需要单独数据迁移或运行时配置迁移。
 
 ## 用户/产品视角的验收步骤
@@ -59,7 +59,7 @@
 本次顺手减债：是
 
 长期目标对齐 / 可维护性推进：
-- 这次改动让 NextClaw 的自感知状态更像“事实模型”，而不是混入某个交互入口的临时策略，有利于后续统一入口按不同能力面做更自然的策略编排。
+- 这次改动让 GoUsbAi 的自感知状态更像“事实模型”，而不是混入某个交互入口的临时策略，有利于后续统一入口按不同能力面做更自然的策略编排。
 - 可维护性上顺着“代码更少、架构更简单、边界更清晰”的方向推进了一小步：系统状态层少了聊天特例，chat feature 明确拥有自己的 view-model 推导。
 
 代码增减报告：
@@ -92,9 +92,9 @@ no maintainability findings
 
 - 本次是否需要发包：需要，待统一发布。
 - 需要发布哪些包：
-  - `@nextclaw/ui`
+  - `@go-usb-ai/ui`
 - 每个包当前是否已经发布：
-  - `@nextclaw/ui`：未发布，待统一发布
+  - `@go-usb-ai/ui`：未发布，待统一发布
 - 未发布原因：
   - 当前仅完成源码改造与验证，尚未进入统一 release 批次。
 - 后续触发条件：

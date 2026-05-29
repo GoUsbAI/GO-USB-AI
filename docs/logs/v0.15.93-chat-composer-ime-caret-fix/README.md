@@ -7,28 +7,28 @@
 - 补充两条针对 `handleLexicalComposerCompositionEnd` 的回归测试，覆盖：
   - 编辑器内部文档已更新时，必须优先采用编辑器快照。
   - 编辑器内部文档尚未更新时，仍能回退到手动插字路径。
-- 为避免继续恶化 `chat-input-bar` 目录的平铺度，这次没有保留新增测试文件，而是把回归测试并回现有的 [`chat-composer-keyboard.utils.test.ts`](../../../packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts)。
+- 为避免继续恶化 `chat-input-bar` 目录的平铺度，这次没有保留新增测试文件，而是把回归测试并回现有的 [`chat-composer-keyboard.utils.test.ts`](../../../packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts)。
 
 ## 测试/验证/验收方式
 
-- 已执行：`pnpm -C packages/nextclaw-agent-chat-ui test -- src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+- 已执行：`pnpm -C packages/go-usb-ai-agent-chat-ui test -- src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
   - 结果：通过，`2 passed / 20 passed`。
-- 已执行：`pnpm -C packages/nextclaw-agent-chat-ui tsc`
+- 已执行：`pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
   - 结果：通过。
-- 已执行：`pnpm exec eslint packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-lexical-controller.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts`
+- 已执行：`pnpm exec eslint packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-lexical-controller.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts`
   - 结果：通过。
-- 已执行：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-lexical-controller.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts`
-  - 结果：通过；仅保留一个历史 warning：`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar` 目录仍有 `13` 个直接代码文件，高于预算 `12`，但本次未继续恶化。
-- 已执行：`node scripts/lint-new-code-governance.mjs -- packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar`
+- 已执行：`node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/lexical/chat-composer-lexical-controller.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts`
+  - 结果：通过；仅保留一个历史 warning：`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar` 目录仍有 `13` 个直接代码文件，高于预算 `12`，但本次未继续恶化。
+- 已执行：`node scripts/lint-new-code-governance.mjs -- packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar`
   - 结果：通过。
 - 已执行：`pnpm lint:maintainability:guard`
-  - 结果：失败，但失败点来自当前工作树中未由本次改动触达的并行文件 `packages/nextclaw/src/cli/commands/compat/codex-runtime-plugin-production-build.test.ts` 的 `context destructuring` 治理违规，不属于本次 IME 修复引入的问题。
-- 补充说明：曾尝试执行 `pnpm -C packages/nextclaw-agent-chat-ui lint`，但该命令当前会命中包内既有未清历史问题（例如未触达测试文件里的 unused vars 与历史组件 lint 噪音），因此本次以“改动文件定向 eslint + governance + tsc + 回归测试”作为最小充分验证集。
+  - 结果：失败，但失败点来自当前工作树中未由本次改动触达的并行文件 `packages/go-usb-ai/src/cli/commands/compat/codex-runtime-plugin-production-build.test.ts` 的 `context destructuring` 治理违规，不属于本次 IME 修复引入的问题。
+- 补充说明：曾尝试执行 `pnpm -C packages/go-usb-ai-agent-chat-ui lint`，但该命令当前会命中包内既有未清历史问题（例如未触达测试文件里的 unused vars 与历史组件 lint 噪音），因此本次以“改动文件定向 eslint + governance + tsc + 回归测试”作为最小充分验证集。
 
 ## 发布/部署方式
 
 - 本次只涉及前端聊天输入框逻辑与测试，不涉及后端、数据结构或迁移。
-- 按正常前端发布链路构建并发布包含 `@nextclaw/agent-chat-ui` 的产物即可。
+- 按正常前端发布链路构建并发布包含 `@go-usb-ai/agent-chat-ui` 的产物即可。
 - 若桌面端或其它宿主产品直接消费该聊天 UI 包，随正常前端构建/打包一并带出即可，无需额外发布脚本。
 
 ## 用户/产品视角的验收步骤
@@ -45,7 +45,7 @@
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。本次没有保留新增测试文件，而是把回归测试合并回已有 controller/keyboard 测试文件，避免目录继续膨胀。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：部分达成。总代码净增，但文件数没有增加，`chat-input-bar` 目录的直接文件数保持在 `13` 未继续恶化；净增主要来自把“优先信编辑器快照、否则回退手动插字”这条规则显式化，以及补充两个定向回归用例。
 - 抽象、模块边界、class / helper / service / store 等职责划分是否更合适、更清晰，是否避免了过度抽象或补丁式叠加：是。修复继续落在既有 `lexical controller + 单元测试` 边界内，没有再引入新的 manager、hook 或兼容层。
-- 目录结构与文件组织是否满足当前项目治理要求：部分满足。`packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar` 目录仍高于直接文件数预算；本次已避免新增文件，但历史目录超预算尚未消化，后续应继续把该目录按职责拆成更清晰的子树或补完整治理说明。
+- 目录结构与文件组织是否满足当前项目治理要求：部分满足。`packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar` 目录仍高于直接文件数预算；本次已避免新增文件，但历史目录超预算尚未消化，后续应继续把该目录按职责拆成更清晰的子树或补完整治理说明。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：是。本节基于实现后的独立复核填写，并结合定向 guard / governance 结果，而不是只复述仓库级命令输出。
 
 可维护性复核结论：保留债务经说明接受

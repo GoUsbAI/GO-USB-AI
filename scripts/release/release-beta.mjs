@@ -5,7 +5,7 @@ import { readLatestReleaseCheckpoint } from "./release-checkpoints.mjs";
 import { verifyPublicRuntimeManifests } from "./release-runtime-manifest-verify.mjs";
 
 const ROOT_DIR = process.cwd();
-const REPO = "Peiiii/nextclaw";
+const REPO = "Peiiii/go-usb-ai";
 const BETA_CHANNEL = "beta";
 const RUNTIME_WORKFLOW = "npm-runtime-update-release.yml";
 const RUNTIME_MANIFEST_TARGETS = [
@@ -22,7 +22,7 @@ Usage:
 
 Options:
   --dry-run                             Print the intended closure without mutating anything
-  --skip-runtime-channel                Skip the beta runtime update workflow even if nextclaw is in the batch
+  --skip-runtime-channel                Skip the beta runtime update workflow even if go-usb-ai is in the batch
   --release-tag <tag>                   Override the GitHub release tag used for runtime bundle assets
   --minimum-launcher-version-override <version>
                                         Recovery-only runtime manifest floor override
@@ -33,7 +33,7 @@ Default behavior:
   1. run pnpm release:auto for a full public workspace beta batch
   2. create a release commit if version/changelog files changed
   3. push the current branch and local tags
-  4. if nextclaw is in the batch, trigger the beta runtime update workflow
+  4. if go-usb-ai is in the batch, trigger the beta runtime update workflow
   5. wait for workflow success and verify release assets + public beta manifests
 `.trim());
 }
@@ -159,8 +159,8 @@ function readLatestCheckpointBatch() {
   return latestCheckpoint.checkpoint;
 }
 
-function readNextclawVersionFromCheckpoint(checkpoint) {
-  const packageState = checkpoint?.packages?.nextclaw;
+function readGoUsbAiVersionFromCheckpoint(checkpoint) {
+  const packageState = checkpoint?.packages?.go-usb-ai;
   return typeof packageState?.version === "string" ? packageState.version : null;
 }
 
@@ -270,7 +270,7 @@ function watchWorkflowRun(runId) {
   return runSummary;
 }
 
-function verifyRuntimeReleaseAssets(releaseTag, nextclawVersion) {
+function verifyRuntimeReleaseAssets(releaseTag, go-usb-aiVersion) {
   const releaseSummary = readJsonCommand("gh", [
     "release",
     "view",
@@ -282,7 +282,7 @@ function verifyRuntimeReleaseAssets(releaseTag, nextclawVersion) {
   ]);
   const assetNames = new Set((releaseSummary.assets ?? []).map((asset) => asset.name));
   for (const target of RUNTIME_MANIFEST_TARGETS) {
-    const expectedAssetName = `nextclaw-runtime-${target.platform}-${target.arch}-${nextclawVersion}.zip`;
+    const expectedAssetName = `go-usb-ai-runtime-${target.platform}-${target.arch}-${go-usb-aiVersion}.zip`;
     if (!assetNames.has(expectedAssetName)) {
       throw new Error(`Missing runtime bundle asset on release ${releaseTag}: ${expectedAssetName}`);
     }
@@ -290,10 +290,10 @@ function verifyRuntimeReleaseAssets(releaseTag, nextclawVersion) {
   return releaseSummary;
 }
 
-async function verifyPublicBetaManifests(nextclawVersion) {
+async function verifyPublicBetaManifests(go-usb-aiVersion) {
   return verifyPublicRuntimeManifests({
     channel: BETA_CHANNEL,
-    expectedVersion: nextclawVersion,
+    expectedVersion: go-usb-aiVersion,
     readJsonCommand,
     repo: REPO,
     run,
@@ -311,7 +311,7 @@ function buildDryRunPlan(branch, options) {
     `- push branch and tags`,
     options.skipRuntimeChannel
       ? "- runtime update channel: skipped by flag"
-      : "- runtime update channel: trigger workflow + wait + verify if nextclaw is in the batch"
+      : "- runtime update channel: trigger workflow + wait + verify if go-usb-ai is in the batch"
   ];
 }
 
@@ -328,17 +328,17 @@ function ensureRuntimeReleaseCommandPrerequisites() {
 function runLocalBetaRelease(branch) {
   run("pnpm", ["release:auto"]);
   const checkpoint = readLatestCheckpointBatch();
-  const nextclawVersion = readNextclawVersionFromCheckpoint(checkpoint);
+  const go-usb-aiVersion = readGoUsbAiVersionFromCheckpoint(checkpoint);
   const releaseCommit = commitReleaseArtifactsIfNeeded();
   pushReleaseState(branch, checkpoint);
   return {
-    nextclawVersion,
+    go-usb-aiVersion,
     releaseCommit
   };
 }
 
-async function runRuntimeReleaseClosure(branch, nextclawVersion, options) {
-  if (options.skipRuntimeChannel || !nextclawVersion) {
+async function runRuntimeReleaseClosure(branch, go-usb-aiVersion, options) {
+  if (options.skipRuntimeChannel || !go-usb-aiVersion) {
     return {
       publicManifestSummary: null,
       runtimeReleaseSummary: null,
@@ -347,7 +347,7 @@ async function runRuntimeReleaseClosure(branch, nextclawVersion, options) {
   }
 
   ensureRuntimeReleaseCommandPrerequisites();
-  const releaseTag = options.releaseTag ?? `nextclaw@${nextclawVersion}`;
+  const releaseTag = options.releaseTag ?? `go-usb-ai@${go-usb-aiVersion}`;
   const dispatchStartedAtMs = Date.now();
   triggerRuntimeWorkflow({
     branch,
@@ -356,8 +356,8 @@ async function runRuntimeReleaseClosure(branch, nextclawVersion, options) {
   });
   const workflowRun = await waitForWorkflowRun(branch, dispatchStartedAtMs);
   const runtimeRunSummary = watchWorkflowRun(workflowRun.databaseId);
-  const runtimeReleaseSummary = verifyRuntimeReleaseAssets(releaseTag, nextclawVersion);
-  const publicManifestSummary = await verifyPublicBetaManifests(nextclawVersion);
+  const runtimeReleaseSummary = verifyRuntimeReleaseAssets(releaseTag, go-usb-aiVersion);
+  const publicManifestSummary = await verifyPublicBetaManifests(go-usb-aiVersion);
   return {
     publicManifestSummary,
     runtimeReleaseSummary,
@@ -367,7 +367,7 @@ async function runRuntimeReleaseClosure(branch, nextclawVersion, options) {
 
 function printCompletionSummary({
   branch,
-  nextclawVersion,
+  go-usb-aiVersion,
   publicManifestSummary,
   releaseCommit,
   runtimeReleaseSummary,
@@ -376,7 +376,7 @@ function printCompletionSummary({
   console.log("release:beta completed");
   console.log(`- branch: ${branch}`);
   console.log(`- release commit: ${releaseCommit ?? "no local release artifact diff"}`);
-  console.log(`- nextclaw in batch: ${nextclawVersion ? `yes (${nextclawVersion})` : "no"}`);
+  console.log(`- go-usb-ai in batch: ${go-usb-aiVersion ? `yes (${go-usb-aiVersion})` : "no"}`);
   if (runtimeRunSummary) {
     console.log(`- runtime workflow: ${runtimeRunSummary.url}`);
   }
@@ -406,16 +406,16 @@ async function main() {
   }
 
   ensureLocalReleaseCommandPrerequisites();
-  const { nextclawVersion, releaseCommit } = runLocalBetaRelease(branch);
+  const { go-usb-aiVersion, releaseCommit } = runLocalBetaRelease(branch);
   const { publicManifestSummary, runtimeReleaseSummary, runtimeRunSummary } = await runRuntimeReleaseClosure(
     branch,
-    nextclawVersion,
+    go-usb-aiVersion,
     options
   );
 
   printCompletionSummary({
     branch,
-    nextclawVersion,
+    go-usb-aiVersion,
     publicManifestSummary,
     releaseCommit,
     runtimeReleaseSummary,

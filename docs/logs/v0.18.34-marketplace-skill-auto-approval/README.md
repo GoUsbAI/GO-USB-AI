@@ -11,10 +11,10 @@
 
 - `pnpm -C workers/marketplace-api tsc`：通过。
 - `pnpm -C workers/marketplace-api lint`：通过。
-- `pnpm lint:new-code:governance`：全量被无关文件 `packages/nextclaw-openclaw-compat/src/plugins/plugin-capability-registration.ts` 的既有命名治理问题阻塞；本次 marketplace worker 触达范围已逐项运行对应定向治理命令并通过。
+- `pnpm lint:new-code:governance`：全量被无关文件 `packages/go-usb-ai-openclaw-compat/src/plugins/plugin-capability-registration.ts` 的既有命名治理问题阻塞；本次 marketplace worker 触达范围已逐项运行对应定向治理命令并通过。
 - `pnpm check:governance-backlog-ratchet`：通过。
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths <marketplace-worker-touched-paths>`：通过，0 errors，4 warnings。
-- `pnpm -C workers/marketplace-api exec wrangler deploy --dry-run --outdir /tmp/nextclaw-marketplace-api-dry-run`：通过，确认 worker bundle 识别新增 env var 与 `@/` alias。
+- `pnpm -C workers/marketplace-api exec wrangler deploy --dry-run --outdir /tmp/go-usb-ai-marketplace-api-dry-run`：通过，确认 worker bundle 识别新增 env var 与 `@/` alias。
 
 ## 发布/部署方式
 
@@ -27,7 +27,7 @@
 
 1. 在 marketplace worker 环境保持 `MARKETPLACE_SKILL_AUTO_APPROVE=true`，用平台用户发布个人 scope skill，后台应看到 `publishStatus=published`。
 2. 自动通过的 skill 应带有 `reviewNote=Auto-approved by marketplace policy.`，且 `reviewedAt` 有值。
-3. 官方 `@nextclaw/*` scope 仍保持 admin 发布即 published 的既有行为。
+3. 官方 `@go-usb-ai/*` scope 仍保持 admin 发布即 published 的既有行为。
 
 ## 可维护性总结汇总
 

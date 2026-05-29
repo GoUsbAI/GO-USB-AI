@@ -1,6 +1,6 @@
 # 进阶配置
 
-进阶配置面向已经跑通 NextClaw、并且明确知道自己要调整什么的用户。
+进阶配置面向已经跑通 GoUsbAi、并且明确知道自己要调整什么的用户。
 
 如果你还没有完成第一次可用回复，先看 [快速开始](/zh/guide/getting-started)。
 
@@ -21,16 +21,16 @@
 ## 推荐顺序
 
 1. 先用 UI 完成基础配置。
-2. 用 `nextclaw doctor` 确认健康。
+2. 用 `go-usb-ai doctor` 确认健康。
 3. 再修改精确配置路径。
 4. 每次只改一个方向，并验证结果。
 
 ## 常用命令入口
 
 ```bash
-nextclaw config get <path>
-nextclaw config set <path> <value>
-nextclaw config unset <path>
+go-usb-ai config get <path>
+go-usb-ai config set <path> <value>
+go-usb-ai config unset <path>
 ```
 
 完整命令见 [命令索引](/zh/guide/commands)。

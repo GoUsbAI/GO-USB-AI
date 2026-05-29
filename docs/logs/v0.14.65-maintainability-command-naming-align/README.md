@@ -15,7 +15,7 @@
 
 ```bash
 PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:report -- --json >/tmp/nextbot-maintainability-report.json
-PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard --paths packages/nextclaw-ui/src/components/marketplace/MarketplacePage.tsx
+PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard --paths packages/go-usb-ai-ui/src/components/marketplace/MarketplacePage.tsx
 PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard --paths scripts/eslint-maintainability-report.mjs
 PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability
 ```
@@ -24,9 +24,9 @@ PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability
 
 - `lint:maintainability:report` 能成功执行并输出 JSON 报表。
 - `lint:maintainability:guard` 能以新命令名正常执行。
-- `packages/nextclaw-ui/src/components/marketplace/MarketplacePage.tsx` 仍能被识别为超预算文件。
+- `packages/go-usb-ai-ui/src/components/marketplace/MarketplacePage.tsx` 仍能被识别为超预算文件。
 - `scripts/eslint-maintainability-report.mjs` 本次改动未引入新的 maintainability findings。
-- `lint:maintainability` 总入口能正确串联执行；本次运行因工作区现有问题在 `packages/nextclaw-ui/src/api/types.ts` 报出 1 条 file-budget error，并按预期返回非零退出码。
+- `lint:maintainability` 总入口能正确串联执行；本次运行因工作区现有问题在 `packages/go-usb-ai-ui/src/api/types.ts` 报出 1 条 file-budget error，并按预期返回非零退出码。
 
 ## 发布/部署方式
 
@@ -39,5 +39,5 @@ PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability
 ## 用户/产品视角的验收步骤
 
 1. 在仓库根目录执行 `PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:report`，确认看到全仓 maintainability 报表，而不是仅限 line limits 的命名。
-2. 执行 `PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard --paths packages/nextclaw-ui/src/components/marketplace/MarketplacePage.tsx`，确认能看到该文件的超预算提示。
+2. 执行 `PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard --paths packages/go-usb-ai-ui/src/components/marketplace/MarketplacePage.tsx`，确认能看到该文件的超预算提示。
 3. 执行 `PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability`，确认命令语义上表示“完整维护性检查入口”，而不是难以理解的泛命名或旧的 line-limits 命名。

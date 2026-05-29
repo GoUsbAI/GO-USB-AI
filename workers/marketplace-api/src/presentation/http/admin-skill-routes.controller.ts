@@ -11,7 +11,7 @@ type AdminSkillRouteBindings = {
   MARKETPLACE_SKILLS_FILES: R2Bucket;
   MARKETPLACE_CACHE_TTL_SECONDS?: string;
   MARKETPLACE_ADMIN_TOKEN?: string;
-  NEXTCLAW_PLATFORM_API_BASE?: string;
+  GOUSB_AI_PLATFORM_API_BASE?: string;
 };
 
 type AdminSkillRouteRuntime = {
@@ -57,7 +57,7 @@ export function registerAdminSkillRoutes(
       authType: "admin_token",
       role: "admin",
       userId: null,
-      username: "nextclaw"
+      username: "go-usb-ai"
     });
     runtime.invalidateCache();
     return runtime.responses.ok(c, {

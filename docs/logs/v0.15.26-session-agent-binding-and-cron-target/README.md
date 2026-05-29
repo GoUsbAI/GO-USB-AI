@@ -5,7 +5,7 @@
 - 正式把“会话归属哪个 Agent”提升为领域字段：`session.agentId` 成为会话归属唯一真相源，不再依赖 `sessionKey` 承载该语义。
 - 打通了新会话 / `sessions_spawn` / NCP 会话摘要 / UI 会话列表 / 运行时上下文这整条链路，支持 `agentId?: string`，缺省统一解析默认 Agent。
 - 前端聊天链路去掉了从 `sessionKey` 推导 Agent 的主方案，草稿态仅保留 `selectedAgentId` 作为“准备发给谁”的临时状态；会话一旦落盘，后续只认 `session.agentId`。
-- 正式把“cron 任务归属哪个 Agent”提升为字段：`cron.payload.agentId` 成为定时任务的目标 Agent 字段，CLI `nextclaw cron add` 新增 `--agent <id>`。
+- 正式把“cron 任务归属哪个 Agent”提升为字段：`cron.payload.agentId` 成为定时任务的目标 Agent 字段，CLI `go-usb-ai cron add` 新增 `--agent <id>`。
 - `service-cron-job-handler` 执行任务时，优先使用 `payload.agentId`，缺省才回落到默认/主运行时 Agent。
 - 继续收敛 `SessionCreationService` 的默认 Agent 逻辑：不再在会话创建路径里写死 `"main"`，而是统一从配置解析默认 Agent。
 - 新增并完善设计文档：[Session-Agent Binding And Cron Target Design](../../designs/2026-04-06-agent-scoped-session-and-cron-target-design.md)。
@@ -13,50 +13,50 @@
 ## 测试/验证/验收方式
 
 - TypeScript 类型检查：
-  - `pnpm -C packages/nextclaw-core tsc`
-  - `pnpm -C packages/nextclaw-server tsc`
-  - `pnpm -C packages/nextclaw-ui tsc`
-  - `pnpm -C packages/nextclaw tsc`
+  - `pnpm -C packages/go-usb-ai-core tsc`
+  - `pnpm -C packages/go-usb-ai-server tsc`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
+  - `pnpm -C packages/go-usb-ai tsc`
   - 结果：通过
 - UI 定向测试：
-  - `pnpm -C packages/nextclaw-ui test -- --run src/components/chat/ncp/ncp-chat-page-data.test.ts src/components/chat/ncp/ncp-session-adapter.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui test -- --run src/components/chat/ncp/ncp-chat-page-data.test.ts src/components/chat/ncp/ncp-session-adapter.test.ts`
   - 结果：通过
 - CLI / NCP 定向测试：
-  - `pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/nextclaw-agent-session-store.test.ts src/cli/commands/ncp/ui-session-service.test.ts src/cli/commands/ncp/nextclaw-ncp-context-builder.test.ts src/cli/commands/ncp/nextclaw-ncp-tool-registry.mcp.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/go-usb-ai-agent-session-store.test.ts src/cli/commands/ncp/ui-session-service.test.ts src/cli/commands/ncp/go-usb-ai-ncp-context-builder.test.ts src/cli/commands/ncp/go-usb-ai-ncp-tool-registry.mcp.test.ts`
   - 结果：通过
 - Core 定向测试：
-  - `pnpm -C packages/nextclaw-core test -- --run src/agent/tools/cron.test.ts`
+  - `pnpm -C packages/go-usb-ai-core test -- --run src/agent/tools/cron.test.ts`
   - 结果：通过
 - CLI 冒烟 1：cron 归属 Agent
-  - `NEXTCLAW_HOME=<tmp> pnpm -C packages/nextclaw exec tsx src/cli/index.ts cron add --name agent-review --message "review release" --every 300 --agent engineer`
+  - `GOUSB_AI_HOME=<tmp> pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts cron add --name agent-review --message "review release" --every 300 --agent engineer`
   - 验证点：生成的 `<tmp>/cron/jobs.json` 中 `payload.agentId` 为 `"engineer"`
   - 结果：通过
 - 冒烟 2：`sessions_spawn` 归属 Agent
-  - 使用 `pnpm -C packages/nextclaw exec tsx` 启动一个临时脚本，真实调用 `SessionSpawnTool.execute({ task: "Review release", agentId: "engineer" })`
+  - 使用 `pnpm -C packages/go-usb-ai exec tsx` 启动一个临时脚本，真实调用 `SessionSpawnTool.execute({ task: "Review release", agentId: "engineer" })`
   - 验证点：返回结果带 `agentId: "engineer"`，且落盘后的 `session.agentId` 为 `"engineer"`
   - 结果：通过
 - 新代码治理：
   - `pnpm lint:maintainability:guard`
   - 结果：在一次运行中守卫返回了 4 个真实错误：
-    - `packages/nextclaw-core/src/agent/tools/cron.ts` 的 `execute`
-    - `packages/nextclaw/src/cli/commands/ncp/session-request/session-creation.service.ts` 的 `createSession`
-    - [create-ui-ncp-agent.ts](../../../../packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts)
-    - [nextclaw-agent-session-store.ts](../../../../packages/nextclaw/src/cli/commands/ncp/nextclaw-agent-session-store.ts)
+    - `packages/go-usb-ai-core/src/agent/tools/cron.ts` 的 `execute`
+    - `packages/go-usb-ai/src/cli/commands/ncp/session-request/session-creation.service.ts` 的 `createSession`
+    - [create-ui-ncp-agent.ts](../../../../packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts)
+    - [go-usb-ai-agent-session-store.ts](../../../../packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-agent-session-store.ts)
   - 处理：
     - `cron.ts` 把 `execute` 拆成 `handleList / handleToggle / handleRemove / handleAdd / readAddJobParams`
     - `session-creation.service.ts` 抽出 Agent 解析、title/sessionType 解析、metadata 覆写 helper
-    - [create-ui-ncp-agent.ts](../../../../packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts) 拆出 [ui-ncp-agent-handle.ts](../../../../packages/nextclaw/src/cli/commands/ncp/ui-ncp-agent-handle.ts)
-    - [nextclaw-agent-session-store.ts](../../../../packages/nextclaw/src/cli/commands/ncp/nextclaw-agent-session-store.ts) 拆出 [nextclaw-agent-session-message-adapter.utils.ts](../../../../packages/nextclaw/src/cli/commands/ncp/session/nextclaw-agent-session-message-adapter.utils.ts)
+    - [create-ui-ncp-agent.ts](../../../../packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts) 拆出 [ui-ncp-agent-handle.ts](../../../../packages/go-usb-ai/src/cli/commands/ncp/ui-ncp-agent-handle.ts)
+    - [go-usb-ai-agent-session-store.ts](../../../../packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-agent-session-store.ts) 拆出 [go-usb-ai-agent-session-message-adapter.utils.ts](../../../../packages/go-usb-ai/src/cli/commands/ncp/session/go-usb-ai-agent-session-message-adapter.utils.ts)
   - 复核：
-    - `pnpm exec eslint packages/nextclaw-core/src/agent/tools/cron.ts packages/nextclaw/src/cli/commands/ncp/session-request/session-creation.service.ts --rule 'max-statements:["error",30]'`
+    - `pnpm exec eslint packages/go-usb-ai-core/src/agent/tools/cron.ts packages/go-usb-ai/src/cli/commands/ncp/session-request/session-creation.service.ts --rule 'max-statements:["error",30]'`
     - 结果：通过，无 `max-statements` error
     - `wc -l` 结果：
-      - [create-ui-ncp-agent.ts](../../../../packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts) `373`
-      - [nextclaw-agent-session-store.ts](../../../../packages/nextclaw/src/cli/commands/ncp/nextclaw-agent-session-store.ts) `131`
+      - [create-ui-ncp-agent.ts](../../../../packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts) `373`
+      - [go-usb-ai-agent-session-store.ts](../../../../packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-agent-session-store.ts) `131`
   - 备注：守卫脚本在后续复跑时会留下长期不退出的 `check-maintainability.mjs` 进程，因此这次对“4 个具体错误是否已修复”的确认采用了“结构拆分 + 定向 ESLint + 文件预算复核”的组合验证
 - 新代码治理补充：
   - `pnpm lint:new-code:governance`
-  - 结果：通过；仅保留 `packages/nextclaw-ui/src/components/chat/ncp/README.md` 中已登记的子树边界豁免 warning
+  - 结果：通过；仅保留 `packages/go-usb-ai-ui/src/components/chat/ncp/README.md` 中已登记的子树边界豁免 warning
 - 独立可维护性复核：
   - 结论：`可维护性复核结论：保留债务经说明接受`
   - `本次顺手减债：是`
@@ -66,7 +66,7 @@
 ## 发布/部署方式
 
 - 本次暂未执行发布。
-- 若后续发布 `@nextclaw/core`、`nextclaw`、`@nextclaw/ui`、`@nextclaw/server`，需要把这批变更按受影响包统一发布。
+- 若后续发布 `@go-usb-ai/core`、`go-usb-ai`、`@go-usb-ai/ui`、`@go-usb-ai/server`，需要把这批变更按受影响包统一发布。
 - 不适用项：
   - 数据库 migration：不适用
   - 服务部署：不适用
@@ -77,7 +77,7 @@
 1. 在聊天页草稿态选择一个非默认 Agent，发送第一条消息。
 2. 刷新页面或重新打开该会话，确认会话列表与会话头部仍展示该 Agent，而不是根据 `sessionKey` 重新猜测。
 3. 通过 `sessions_spawn` 为某个 Agent 新建会话，确认返回结果中包含对应 `agentId`，并且该会话后续始终绑定该 Agent。
-4. 执行 `nextclaw cron add --name <name> --message <message> --every 300 --agent <agent-id>`。
+4. 执行 `go-usb-ai cron add --name <name> --message <message> --every 300 --agent <agent-id>`。
 5. 查看 cron 存储文件或任务详情，确认任务 payload 中正式存在 `agentId`，并且任务运行时会优先发给该 Agent。
 
 ## 可维护性总结汇总

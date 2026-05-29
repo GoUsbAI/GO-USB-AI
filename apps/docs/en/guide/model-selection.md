@@ -1,6 +1,6 @@
 # Set Up Providers
 
-A provider tells NextClaw which model service to call. For the first setup, do not try to design the perfect stack. Choose the path most likely to work quickly.
+A provider tells GoUsbAi which model service to call. For the first setup, do not try to design the perfect stack. Choose the path most likely to work quickly.
 
 ## Recommended order
 
@@ -33,7 +33,7 @@ Do not start by configuring every model you can find. Multiple models make sense
 Run:
 
 ```bash
-nextclaw doctor
+go-usb-ai doctor
 ```
 
 Then check:

@@ -11,7 +11,7 @@ const checkOnly = argv.has("--check");
 const useAdminFrontend = argv.has("--admin");
 
 const rootDir = resolveRepoPath(import.meta.url);
-const workerDir = resolve(rootDir, "workers/nextclaw-provider-gateway-api");
+const workerDir = resolve(rootDir, "workers/go-usb-ai-provider-gateway-api");
 const frontendDir = resolve(
   rootDir,
   useAdminFrontend ? "apps/platform-admin" : "apps/platform-console"
@@ -93,13 +93,13 @@ async function resolveFreePort(startPort, host) {
   throw new Error(`Unable to find a free port from ${startPort} (${host})`);
 }
 
-const preferredBackendPort = toPort(process.env.NEXTCLAW_PLATFORM_BACKEND_PORT, DEFAULT_BACKEND_PORT);
+const preferredBackendPort = toPort(process.env.GOUSB_AI_PLATFORM_BACKEND_PORT, DEFAULT_BACKEND_PORT);
 const preferredFrontendPort = toPort(
-  process.env.NEXTCLAW_PLATFORM_FRONTEND_PORT,
+  process.env.GOUSB_AI_PLATFORM_FRONTEND_PORT,
   DEFAULT_FRONTEND_PORT
 );
-const wranglerPersistPath = typeof process.env.NEXTCLAW_PLATFORM_WRANGLER_PERSIST_TO === "string"
-  ? process.env.NEXTCLAW_PLATFORM_WRANGLER_PERSIST_TO.trim()
+const wranglerPersistPath = typeof process.env.GOUSB_AI_PLATFORM_WRANGLER_PERSIST_TO === "string"
+  ? process.env.GOUSB_AI_PLATFORM_WRANGLER_PERSIST_TO.trim()
   : "";
 
 const backendPort = await resolveFreePort(preferredBackendPort, "127.0.0.1");
@@ -126,7 +126,7 @@ if (shouldMigrate) {
   console.log("[platform] Applying local D1 migrations before startup...");
   const migrateResult = spawnSync(
     workerBin,
-    ["d1", "migrations", "apply", "NEXTCLAW_PLATFORM_DB", "--local", "--config", workerConfig],
+    ["d1", "migrations", "apply", "GOUSB_AI_PLATFORM_DB", "--local", "--config", workerConfig],
     {
       cwd: rootDir,
       stdio: "inherit",

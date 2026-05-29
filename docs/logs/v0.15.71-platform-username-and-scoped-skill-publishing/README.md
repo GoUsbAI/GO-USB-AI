@@ -6,14 +6,14 @@
 - 平台账号侧新增 `PATCH /platform/auth/profile`，支持已登录用户补录唯一用户名；CLI `platform auth me` / 本地账号面板同步返回并展示 `username`。
 - 本地账号面板新增用户名展示、设置入口与缺失提示，存量用户可在已有登录态下补录用户名。
 - marketplace skill 发布模型升级为 canonical `packageName`：
-  - 官方 skill：`@nextclaw/<skill-name>`
+  - 官方 skill：`@go-usb-ai/<skill-name>`
   - 个人 skill：`@<username>/<skill-name>`
 - marketplace 发布权限与状态补齐：
   - 官方 scope 仅 admin 可发
   - 普通用户必须登录且必须已有 username
   - 普通用户发布默认进入 `pending`
 - CLI `skills publish` / `skills install` 已支持 scoped selector、scoped package name、用户名前置校验与更清晰的参数拆分。
-- 新增官方 marketplace skill [publish-to-nextclaw-marketplace](../../../skills/publish-to-nextclaw-marketplace/SKILL.md)，把“发布到 NextClaw marketplace”沉淀为可安装的产品能力，并在 skill 内明确要求 `nextclaw >= v0.17.6`。
+- 新增官方 marketplace skill [publish-to-go-usb-ai-marketplace](../../../skills/publish-to-go-usb-ai-marketplace/SKILL.md)，把“发布到 GoUsbAi marketplace”沉淀为可安装的产品能力，并在 skill 内明确要求 `go-usb-ai >= v0.17.6`。
 - marketplace 数据访问层完成一次收敛式重构：
   - skill datasource 从大文件拆到独立 data source / file store / payload parser
   - runtime 内 publish/update 参数翻译外提，减少主运行时继续膨胀
@@ -25,41 +25,41 @@
 ```bash
 PATH=/opt/homebrew/bin:$PATH pnpm -C workers/marketplace-api tsc
 PATH=/opt/homebrew/bin:$PATH pnpm -C workers/marketplace-api build
-PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api tsc
-PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api build
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw build
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw exec vitest run src/cli/skills/marketplace.publish.test.ts
-python3 .agents/skills/marketplace-skill-publisher/scripts/validate_marketplace_skill.py --skill-dir skills/publish-to-nextclaw-marketplace
+PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api tsc
+PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api build
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai build
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai exec vitest run src/cli/skills/marketplace.publish.test.ts
+python3 .agents/skills/marketplace-skill-publisher/scripts/validate_marketplace_skill.py --skill-dir skills/publish-to-go-usb-ai-marketplace
 PATH=/opt/homebrew/bin:$PATH pnpm -C workers/marketplace-api exec wrangler secret list --config wrangler.toml
-NEXTCLAW_MARKETPLACE_ADMIN_TOKEN=*** PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw exec tsx src/cli/index.ts skills publish /Users/peiwang/Projects/nextbot/skills/publish-to-nextclaw-marketplace --meta /Users/peiwang/Projects/nextbot/skills/publish-to-nextclaw-marketplace/marketplace.json --scope nextclaw --api-base https://marketplace-api.nextclaw.io
-curl -sS https://marketplace-api.nextclaw.io/api/v1/skills/items/%40nextclaw%2Fpublish-to-nextclaw-marketplace
-tmp_dir=$(mktemp -d /tmp/nextclaw-marketplace-publish-skill.XXXXXX)
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw exec tsx src/cli/index.ts skills install @nextclaw/publish-to-nextclaw-marketplace --api-base https://marketplace-api.nextclaw.io --workdir "$tmp_dir"
+GOUSB_AI_MARKETPLACE_ADMIN_TOKEN=*** PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts skills publish /Users/peiwang/Projects/nextbot/skills/publish-to-go-usb-ai-marketplace --meta /Users/peiwang/Projects/nextbot/skills/publish-to-go-usb-ai-marketplace/marketplace.json --scope go-usb-ai --api-base https://marketplace-api.go-usb-ai.io
+curl -sS https://marketplace-api.go-usb-ai.io/api/v1/skills/items/%40go-usb-ai%2Fpublish-to-go-usb-ai-marketplace
+tmp_dir=$(mktemp -d /tmp/go-usb-ai-marketplace-publish-skill.XXXXXX)
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts skills install @go-usb-ai/publish-to-go-usb-ai-marketplace --api-base https://marketplace-api.go-usb-ai.io --workdir "$tmp_dir"
 PATH=/opt/homebrew/bin:$PATH node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs
 PATH=/opt/homebrew/bin:$PATH node scripts/lint-new-code-governance.mjs
 ```
 
 验证结果：
 
-- `marketplace-api` / `nextclaw-provider-gateway-api` / `nextclaw` / `nextclaw-ui` 相关构建与类型检查通过。
+- `marketplace-api` / `go-usb-ai-provider-gateway-api` / `go-usb-ai` / `go-usb-ai-ui` 相关构建与类型检查通过。
 - `marketplace.publish.test.ts` 精确执行通过，`2` 个测试全部通过。
-- 新增 marketplace skill `publish-to-nextclaw-marketplace` 的本地元数据校验通过。
+- 新增 marketplace skill `publish-to-go-usb-ai-marketplace` 的本地元数据校验通过。
 - `workers/marketplace-api` 的 secret list 已确认存在 `MARKETPLACE_ADMIN_TOKEN`。
-- 官方 skill `@nextclaw/publish-to-nextclaw-marketplace` 已成功 publish，返回 `Files: 2`。
-- 远端 item 校验通过：`GET /api/v1/skills/items/publish-to-nextclaw-marketplace` 与 `GET /api/v1/skills/items/%40nextclaw%2Fpublish-to-nextclaw-marketplace` 均返回 `200`，`publishStatus=published`、`publishedByType=admin`、`install.kind=marketplace`。
-- 安装冒烟通过：CLI 已在临时目录真实安装 `@nextclaw/publish-to-nextclaw-marketplace`，并确认装下来的 `SKILL.md` 中包含 `v0.17.6` 版本门槛说明。
+- 官方 skill `@go-usb-ai/publish-to-go-usb-ai-marketplace` 已成功 publish，返回 `Files: 2`。
+- 远端 item 校验通过：`GET /api/v1/skills/items/publish-to-go-usb-ai-marketplace` 与 `GET /api/v1/skills/items/%40go-usb-ai%2Fpublish-to-go-usb-ai-marketplace` 均返回 `200`，`publishStatus=published`、`publishedByType=admin`、`install.kind=marketplace`。
+- 安装冒烟通过：CLI 已在临时目录真实安装 `@go-usb-ai/publish-to-go-usb-ai-marketplace`，并确认装下来的 `SKILL.md` 中包含 `v0.17.6` 版本门槛说明。
 - maintainability guard 与 new-code governance 通过；仅保留仓库既有 warning，无新增 hard error。
 - 线上自动 smoke 结果：
-  - `GET https://ai-gateway-api.nextclaw.io/health` 返回 `200`
-  - `POST https://ai-gateway-api.nextclaw.io/platform/auth/browser/start` 返回 `200`，可正常创建浏览器授权会话
-  - `GET https://marketplace-api.nextclaw.io/health` 返回 `200`
+  - `GET https://ai-gateway-api.go-usb-ai.io/health` 返回 `200`
+  - `POST https://ai-gateway-api.go-usb-ai.io/platform/auth/browser/start` 返回 `200`，可正常创建浏览器授权会话
+  - `GET https://marketplace-api.go-usb-ai.io/health` 返回 `200`
   - 使用本机已过期 bearer token 访问 `GET /platform/auth/me`、`PATCH /platform/auth/profile`、`POST /api/v1/skills/publish` 时均正确返回 `401`，说明线上鉴权边界生效
 
 未纳入本次通过结论：
 
-- `pnpm -C packages/nextclaw test -- --run marketplace.publish.test.ts` 曾误触发更大范围 vitest 套件，命中仓库内其他既有失败，不作为本次功能回归失败判定。
+- `pnpm -C packages/go-usb-ai test -- --run marketplace.publish.test.ts` 曾误触发更大范围 vitest 套件，命中仓库内其他既有失败，不作为本次功能回归失败判定。
 - 本机仍没有可复用的有效平台登录 token，因此没有补做“基于平台账号登录态”的正向 profile 写接口 smoke；但本次已通过新增的 `MARKETPLACE_ADMIN_TOKEN` 完成官方 skill publish 正向闭环。
 
 ## 发布/部署方式
@@ -68,7 +68,7 @@ PATH=/opt/homebrew/bin:$PATH node scripts/lint-new-code-governance.mjs
 
 根因结论：
 
-- `NEXTCLAW_PLATFORM_DB` 在清理前大小约为 `500,011,008` 字节，已经撞满 500MB 上限。
+- `GOUSB_AI_PLATFORM_DB` 在清理前大小约为 `500,011,008` 字节，已经撞满 500MB 上限。
 - 主因不是业务主表，而是 `audit_logs`。
 - `audit_logs` 中有 `373,783` 行，其中：
   - `remote.instance.updated`：`361,613`
@@ -76,23 +76,23 @@ PATH=/opt/homebrew/bin:$PATH node scripts/lint-new-code-governance.mjs
 - 审计日志几乎全部来自 remote register 高频更新，且带有较大的前后状态 JSON。
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH wrangler d1 execute NEXTCLAW_PLATFORM_DB --remote --command "DELETE FROM audit_logs WHERE action IN ('remote.instance.updated', 'remote.device.updated');"
+PATH=/opt/homebrew/bin:$PATH wrangler d1 execute GOUSB_AI_PLATFORM_DB --remote --command "DELETE FROM audit_logs WHERE action IN ('remote.instance.updated', 'remote.device.updated');"
 ```
 
 - 远端实际删除了 `373,520` 条高频低价值审计日志。
 - 清理后平台库 `size_after` 从 `500,011,008` 降到约 `831,488`，恢复可写。
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api db:migrate:remote
+PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api db:migrate:remote
 PATH=/opt/homebrew/bin:$PATH pnpm -C workers/marketplace-api db:migrate:remote
-PATH=/opt/homebrew/bin:$PATH pnpm -C workers/nextclaw-provider-gateway-api run deploy
+PATH=/opt/homebrew/bin:$PATH pnpm -C workers/go-usb-ai-provider-gateway-api run deploy
 PATH=/opt/homebrew/bin:$PATH pnpm -C workers/marketplace-api run deploy
 ```
 
 - 平台侧 `0012_users_username.sql` 远端 migration 已成功执行。
 - marketplace skills D1 的 `0004_scoped_skill_publishing_20260409.sql` 已成功应用。
-- `nextclaw-provider-gateway-api` 已成功 deploy 到 `ai-gateway-api.nextclaw.io`。
-- `nextclaw-marketplace-api` 已成功 deploy 到 `marketplace-api.nextclaw.io`。
+- `go-usb-ai-provider-gateway-api` 已成功 deploy 到 `ai-gateway-api.go-usb-ai.io`。
+- `go-usb-ai-marketplace-api` 已成功 deploy 到 `marketplace-api.go-usb-ai.io`。
 
 部署后补充确认：
 
@@ -101,7 +101,7 @@ PATH=/opt/homebrew/bin:$PATH pnpm -C workers/marketplace-api run deploy
 - 2026-04-10 补充收尾：
   - `workers/marketplace-api` 远端 secret 初始为空数组 `[]`，说明此前确实未配置 `MARKETPLACE_ADMIN_TOKEN`。
   - 已新增远端 secret `MARKETPLACE_ADMIN_TOKEN`。
-  - 已通过 admin token 正式发布官方 skill `@nextclaw/publish-to-nextclaw-marketplace`。
+  - 已通过 admin token 正式发布官方 skill `@go-usb-ai/publish-to-go-usb-ai-marketplace`。
   - 发布后远端 item 校验和安装冒烟均已完成。
 
 ## 用户/产品视角的验收步骤
@@ -112,9 +112,9 @@ PATH=/opt/homebrew/bin:$PATH pnpm -C workers/marketplace-api run deploy
 2. 在账号面板设置唯一用户名，例如 `alice`，保存后再次进入个人资料，确认用户名已展示且不可随意改写。
 3. 在 CLI 登录同一平台账号后执行 skill publish，默认 package name 应解析为 `@alice/<skill-name>`。
 4. 使用普通用户发布 skill，确认返回结果为成功入库且状态为 `pending`。
-5. 使用 admin 身份发布或审核 skill，确认 `@nextclaw/<skill-name>` 可直接发布，普通用户 skill 可从 `pending` 转为 `published`。
-6. 使用 CLI install scoped selector，确认 `@nextclaw/<skill-name>` 与 `@alice/<skill-name>` 都能按 canonical package name 安装。
-7. 在 marketplace 中搜索或直接安装 `@nextclaw/publish-to-nextclaw-marketplace`，确认 skill 文案里明确写出 `nextclaw >= v0.17.6` 才支持该发布流程。
+5. 使用 admin 身份发布或审核 skill，确认 `@go-usb-ai/<skill-name>` 可直接发布，普通用户 skill 可从 `pending` 转为 `published`。
+6. 使用 CLI install scoped selector，确认 `@go-usb-ai/<skill-name>` 与 `@alice/<skill-name>` 都能按 canonical package name 安装。
+7. 在 marketplace 中搜索或直接安装 `@go-usb-ai/publish-to-go-usb-ai-marketplace`，确认 skill 文案里明确写出 `go-usb-ai >= v0.17.6` 才支持该发布流程。
 
 ## 可维护性总结汇总
 

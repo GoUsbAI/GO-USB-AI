@@ -4,7 +4,7 @@ import { chmod, mkdir, rename, stat, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import type { DesktopInstallationProfile } from "../utils/desktop-installation-profile.utils";
 
-export const NEXTCLAW_COMMAND_SURFACE_BIN_ENV = "NEXTCLAW_COMMAND_SURFACE_BIN";
+export const GOUSB_AI_COMMAND_SURFACE_BIN_ENV = "GOUSB_AI_COMMAND_SURFACE_BIN";
 
 export type DesktopCommandSurfaceManifest = {
   schemaVersion: 1;
@@ -91,9 +91,9 @@ export class DesktopCommandSurfaceManager {
   ensure = async (): Promise<DesktopCommandSurfaceResult> => {
     const commandSurfaceDir = join(this.options.profile.desktopDataDir, "command-surface");
     const binDir = join(commandSurfaceDir, "bin");
-    const manifestPath = join(commandSurfaceDir, "nextclaw-command-surface.json");
-    const posixShimPath = join(binDir, "nextclaw");
-    const windowsShimPath = join(binDir, "nextclaw.cmd");
+    const manifestPath = join(commandSurfaceDir, "go-usb-ai-command-surface.json");
+    const posixShimPath = join(binDir, "go-usb-ai");
+    const windowsShimPath = join(binDir, "go-usb-ai.cmd");
     const manifest = this.createManifest(binDir);
 
     await this.makeDirectory(binDir);
@@ -107,7 +107,7 @@ export class DesktopCommandSurfaceManager {
       manifestPath,
       binDir,
       runtimeEnvPatch: {
-        [NEXTCLAW_COMMAND_SURFACE_BIN_ENV]: binDir
+        [GOUSB_AI_COMMAND_SURFACE_BIN_ENV]: binDir
       }
     };
   };
@@ -140,8 +140,8 @@ export class DesktopCommandSurfaceManager {
 
   private resolvePackagedRuntimeScriptPath = (): string | null => {
     const packagedRuntimeScriptPath = this.options.appIsPackaged
-      ? join(this.options.resourcesPath, "app.asar", "node_modules", "nextclaw", "dist", "cli", "app", "index.js")
-      : resolve(this.options.appPath, "node_modules", "nextclaw", "dist", "cli", "app", "index.js");
+      ? join(this.options.resourcesPath, "app.asar", "node_modules", "go-usb-ai", "dist", "cli", "app", "index.js")
+      : resolve(this.options.appPath, "node_modules", "go-usb-ai", "dist", "cli", "app", "index.js");
     return this.fileExists(packagedRuntimeScriptPath) ? packagedRuntimeScriptPath : null;
   };
 }

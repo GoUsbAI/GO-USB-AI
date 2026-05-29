@@ -8,8 +8,8 @@
 
 # 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui build`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui build`
 
 # 发布/部署方式
 

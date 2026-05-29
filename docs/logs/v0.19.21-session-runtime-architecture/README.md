@@ -8,7 +8,7 @@
 
 本次继续把 `SessionRepository` 从 throwing skeleton 推进为当前存储适配 owner：它直接依赖现有 `NcpSessionManager` 完成 create/get/list messages/append event，不直接读写 journal 文件，也不迁移最终 `manifest.json + events.jsonl` 文件格式。runtime event 持久化归属同步校准为 `AgentRunRequestManager -> eventBus.emit(eventKeys.ncpEvent)`，再由 `SessionRepository.start()` 监听 event bus 后调用私有 `appendSessionEvent(...)`。
 
-本次新增 `@nextclaw/ncp-agent-runtime-next` 临时隔离包，用终态命名实现新的 `DefaultNcpAgentRuntime` 运行循环。该包暂不接入 kernel，不导入 `SessionRun` 具体 class，只通过结构 contract 消费 session state；它临时依赖旧 `@nextclaw/ncp-agent-runtime` 复用 stream encoder、NCP message -> OpenAI message 转换、round collector、tool-call execution、tool result normalization 等稳定 primitives。模型输入组装通过外部 `AgentModelInputBuilder` contract 注入，runtime 包不依赖 `@nextclaw/core`。确认新实现后，再将该包内容合并回旧包并删除旧 runtime 实现与临时包。
+本次新增 `@go-usb-ai/ncp-agent-runtime-next` 临时隔离包，用终态命名实现新的 `DefaultNcpAgentRuntime` 运行循环。该包暂不接入 kernel，不导入 `SessionRun` 具体 class，只通过结构 contract 消费 session state；它临时依赖旧 `@go-usb-ai/ncp-agent-runtime` 复用 stream encoder、NCP message -> OpenAI message 转换、round collector、tool-call execution、tool result normalization 等稳定 primitives。模型输入组装通过外部 `AgentModelInputBuilder` contract 注入，runtime 包不依赖 `@go-usb-ai/core`。确认新实现后，再将该包内容合并回旧包并删除旧 runtime 实现与临时包。
 
 追加修复：branch 链路接管后，新会话标题回退成固定 `Session`，没有继续沿用旧链路“首条用户消息作为会话名”的行为。确认根因是 branch `SessionRepository.createSession(...)` 固定传入 `task: "Session"`；修复后 `AgentRunRequestManager` 复用旧链路 `readMessageTask(...)` 从本次用户消息生成 task，再交给 `NcpSessionManager.createSession(...)` 写入 summary metadata，避免在前端或 summary 读取层做兜底补丁。
 
@@ -23,24 +23,24 @@
 
 ## 测试/验证/验收方式
 
-本批次新增 `packages/nextclaw-kernel/src/features/agent-run/` 隔离骨架，覆盖 `SessionRun`、`MessageInbox`、provider managers、runtime manager 与 request manager 初始形状。
+本批次新增 `packages/go-usb-ai-kernel/src/features/agent-run/` 隔离骨架，覆盖 `SessionRun`、`MessageInbox`、provider managers、runtime manager 与 request manager 初始形状。
 
-本批次同时新增 `packages/ncp-packages/nextclaw-ncp-agent-runtime-next/`，用于单独 review 新 native runtime 实现。
+本批次同时新增 `packages/ncp-packages/go-usb-ai-ncp-agent-runtime-next/`，用于单独 review 新 native runtime 实现。
 
 验证方式：
 
 - `pnpm lint:new-code:doc-file-names`
-- `pnpm -C packages/nextclaw-kernel tsc`
-- `pnpm -C packages/nextclaw-kernel exec eslint src/features/agent-run src/managers/config.manager.ts`
-- `pnpm -C packages/nextclaw-kernel exec eslint src/features/agent-run/repositories/session.repository.ts`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-agent-runtime-next tsc`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-agent-runtime-next lint`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-agent-runtime-next build`
-- `pnpm -C packages/nextclaw-kernel test -- src/features/agent-run/managers/agent-run-request.manager.test.ts src/managers/__tests__/agent-run-request.manager.test.ts`
-- `pnpm -C packages/nextclaw-kernel test -- src/features/agent-run/managers/agent-run-request.manager.test.ts`
-- `pnpm -C packages/nextclaw-kernel test -- src/features/agent-run/managers/agent-run-request.manager.test.ts src/contributions/session-activity-preview/utils/session-activity-preview-contribution.utils.test.ts`
-- `pnpm -C packages/nextclaw-kernel lint`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-kernel/src/features/agent-run/managers/agent-run-request.manager.ts packages/nextclaw-kernel/src/features/agent-run/repositories/session.repository.ts packages/nextclaw-kernel/src/features/agent-run/managers/agent-run-request.manager.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel tsc`
+- `pnpm -C packages/go-usb-ai-kernel exec eslint src/features/agent-run src/managers/config.manager.ts`
+- `pnpm -C packages/go-usb-ai-kernel exec eslint src/features/agent-run/repositories/session.repository.ts`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-agent-runtime-next tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-agent-runtime-next lint`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-agent-runtime-next build`
+- `pnpm -C packages/go-usb-ai-kernel test -- src/features/agent-run/managers/agent-run-request.manager.test.ts src/managers/__tests__/agent-run-request.manager.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel test -- src/features/agent-run/managers/agent-run-request.manager.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel test -- src/features/agent-run/managers/agent-run-request.manager.test.ts src/contributions/session-activity-preview/utils/session-activity-preview-contribution.utils.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel lint`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-kernel/src/features/agent-run/managers/agent-run-request.manager.ts packages/go-usb-ai-kernel/src/features/agent-run/repositories/session.repository.ts packages/go-usb-ai-kernel/src/features/agent-run/managers/agent-run-request.manager.test.ts`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs`
@@ -61,7 +61,7 @@ branch 链路接管后，agent run 完成时侧边栏会话列表预览应展示
 
 本批次新增的是隔离骨架，暂不从 kernel 根入口导出，避免和旧 manager 公共入口冲突。后续迁移必须以删除旧 `liveSession / activeExecution` 混合职责为闭环目标，避免新旧路径长期并行。
 
-新增 `@nextclaw/ncp-agent-runtime-next` 是临时隔离包，不是长期平行 runtime 包。它用新 contract 重写 native runtime loop，避免在新架构里包装旧 `NcpAgentRunInput.metadata + stateManager` 边界。runtime-next 不直接拥有 context-window 预算裁剪实现；这部分由外部 model input builder owner 接入，避免协议层包反向依赖 `@nextclaw/core`。后续必须把该实现合并回 `@nextclaw/ncp-agent-runtime`，并删除临时包。
+新增 `@go-usb-ai/ncp-agent-runtime-next` 是临时隔离包，不是长期平行 runtime 包。它用新 contract 重写 native runtime loop，避免在新架构里包装旧 `NcpAgentRunInput.metadata + stateManager` 边界。runtime-next 不直接拥有 context-window 预算裁剪实现；这部分由外部 model input builder owner 接入，避免协议层包反向依赖 `@go-usb-ai/core`。后续必须把该实现合并回 `@go-usb-ai/ncp-agent-runtime`，并删除临时包。
 
 本次正向减债动作是职责收敛和复用收敛：运行取消控制收回 `SessionRun`，session 初始化 messages 读取收回 `SessionRunManager -> SessionRepository`，request manager 删除 `activeRuns`、`resolvedRequest`、runtime 消费 helper 和事件发布 helper 等中间状态/中间函数；native runtime next 不再复制消息转换、tool-call 收集和 tool-call 执行规则，而是复用旧 runtime 包拆出的公共 primitive。
 

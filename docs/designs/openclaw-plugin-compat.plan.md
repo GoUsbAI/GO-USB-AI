@@ -1,13 +1,13 @@
 # OpenClaw 插件兼容计划（.plan）
 
 ## 当前状态（2026-02-16）
-- 已实现“长期架构一次到位”版本：OpenClaw 兼容层已拆分为独立包 `@nextclaw/openclaw-compat`。
-- `@nextclaw/core` 仅保留通用扩展 SPI（`ExtensionRegistry`、`ExtensionToolAdapter`、`ExtensionChannelAdapter`），不再包含 OpenClaw 专有加载/安装逻辑。
+- 已实现“长期架构一次到位”版本：OpenClaw 兼容层已拆分为独立包 `@go-usb-ai/openclaw-compat`。
+- `@go-usb-ai/core` 仅保留通用扩展 SPI（`ExtensionRegistry`、`ExtensionToolAdapter`、`ExtensionChannelAdapter`），不再包含 OpenClaw 专有加载/安装逻辑。
 - CLI 与 UI 已改为通过 compat 包对接插件能力（含 `plugins list/info/install/enable/disable/uninstall/doctor`）。
 - 本文档保留为“长期边界与验收规则”，并补充当前实现状态，后续按矩阵继续扩展。
 
 ## 背景与目标
-- 目标：兼容 OpenClaw 插件生态，避免生态割裂，同时保证 NextClaw 的可维护性、可演进性与稳定性。
+- 目标：兼容 OpenClaw 插件生态，避免生态割裂，同时保证 GoUsbAi 的可维护性、可演进性与稳定性。
 - 原则：兼容层只做“适配”，不侵入核心业务与架构；能力缺失要显式暴露、可诊断。
 
 ## 非目标
@@ -16,7 +16,7 @@
 - 不在核心配置中引入 OpenClaw 特有结构，插件配置仅在 `plugins` 命名空间内。
 
 ## 架构边界（强约束）
-### 1) NextClaw Core
+### 1) GoUsbAi Core
 - 负责：核心会话、消息、工具、通道等领域模型；配置与运行时的基础设施。
 - 禁止：直接依赖 OpenClaw SDK 或插件实现；不得引入 OpenClaw 专有配置结构。
 - 当前实现：已达成（OpenClaw 兼容代码已从 core 移出）。
@@ -24,7 +24,7 @@
 ### 2) Compat Host（兼容主机）
 - 负责：插件发现/加载/注册生命周期；配置校验与诊断输出；插件能力注册到统一 Registry。
 - 禁止：直接改写 Core 内部状态；只能通过 Registry/API 与核心交互。
-- 当前实现：已达成（独立包 `@nextclaw/openclaw-compat`）。
+- 当前实现：已达成（独立包 `@go-usb-ai/openclaw-compat`）。
 
 ### 3) Compat SDK Shim（SDK 映射层）
 - 负责：对 `openclaw/plugin-sdk` 提供映射实现（最小可用 + 可扩展）；缺失能力统一返回 `NotSupported` 并产生日志诊断。
@@ -32,17 +32,17 @@
 - 当前实现：已达成（兼容 SDK shim 位于 compat 包内）。
 
 ### 4) Capability Registry（能力注册表）
-- 负责：统一抽象 Channel/Provider/Tool/Command/Service/Hook/Http/Gateway/CLI；将插件注册转换为 NextClaw 内部可调用能力。
+- 负责：统一抽象 Channel/Provider/Tool/Command/Service/Hook/Http/Gateway/CLI；将插件注册转换为 GoUsbAi 内部可调用能力。
 - 禁止：跨能力重复实现；同类能力只能有一个权威入口（避免重复功能）。
 - 当前实现：核心已抽象为 `ExtensionRegistry`，compat 包负责把 OpenClaw 插件注册映射到该模型。
 
 ### 5) Config & UI Schema Merge（配置与 UI 合并层）
-- 负责：合并插件 `configSchema` 与 `uiHints` 到 NextClaw 配置树 `plugins.entries.<id>.config`；严格校验配置。
+- 负责：合并插件 `configSchema` 与 `uiHints` 到 GoUsbAi 配置树 `plugins.entries.<id>.config`；严格校验配置。
 - 禁止：插件配置与核心配置字段混用；不允许污染 `channels`/`providers` 等核心节点。
 - 当前实现：已达成（UI schema/hints 合并由 compat 元数据驱动）。
 
 ### 6) Runtime Adapter（运行时适配层）
-- 负责：把 NextClaw 的运行时能力（工具、通道、日志、存储等）映射为 OpenClaw 期望的 runtime 接口。
+- 负责：把 GoUsbAi 的运行时能力（工具、通道、日志、存储等）映射为 OpenClaw 期望的 runtime 接口。
 - 禁止：暴露不受控的系统能力；必须遵守安全/权限/资源约束。
 - 当前实现：已达成（tool/channel runtime adapter 已稳定接线）。
 
@@ -54,14 +54,14 @@
 - Deferred = 可延后（先解析或占位，不阻断核心）
 - No = 不支持（显式拒绝 + 诊断）
 
-| 能力域 | OpenClaw 机制 | NextClaw 目标实现 | 支持级别 | 备注/限制 |
+| 能力域 | OpenClaw 机制 | GoUsbAi 目标实现 | 支持级别 | 备注/限制 |
 | --- | --- | --- | --- | --- |
-| 插件发现 | `.openclaw/extensions` + `plugins.load.paths` | 兼容同路径 + NextClaw 扩展目录 | Must | 需支持 workspace/global/config 三种来源 |
+| 插件发现 | `.openclaw/extensions` + `plugins.load.paths` | 兼容同路径 + GoUsbAi 扩展目录 | Must | 需支持 workspace/global/config 三种来源 |
 | Manifest | `openclaw.plugin.json` | 完整解析 + 校验 | Must | `id` + `configSchema` 必须 |
 | 插件加载 | jiti TS/ESM 动态加载 | 等价加载器 + 缓存策略 | Must | 先支持 TS/JS 基本场景 |
 | 配置校验 | `configSchema` JSON Schema | 合并到 `plugins.entries.<id>.config` | Must | 校验失败必须阻断加载 |
 | UI Hints | `uiHints` | 合并到 UI hints | Should | 先支持 label/help/advanced/sensitive/placeholder |
-| registerTool | Tool 注册 | 映射为 NextClaw Tool | Must | 先支持基础工具接口 |
+| registerTool | Tool 注册 | 映射为 GoUsbAi Tool | Must | 先支持基础工具接口 |
 | registerProvider | Provider 插件 | 映射为 Provider 管理器 | Must | 需定义 auth/模型/别名映射规则 |
 | registerChannel | Channel 插件 | 映射为 BaseChannel 适配器 | Must | 需要通道生命周期与配置适配 |
 | registerCommand | 命令插件 | 映射为命令路由 | Should | 支持最小命令模型 |

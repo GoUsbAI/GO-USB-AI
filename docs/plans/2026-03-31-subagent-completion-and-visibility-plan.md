@@ -6,7 +6,7 @@
 
 **Architecture:** Treat the current problem as a runtime-boundary bug first, not a pure frontend refresh bug. The implementation should remove NCP subagent completion's dependency on the legacy `AgentLoop`/`MessageBus` relay, persist structured subagent lifecycle data directly into the current NCP session, publish structured session realtime events, and render a visible task card in the chat UI. Legacy runtime pieces should only remain where they still own real entrypoints such as CLI, gateway inbound channels, cron, and plugin bridge traffic.
 
-**Tech Stack:** TypeScript, `@nextclaw/core`, `@nextclaw/ncp`, `@nextclaw/ncp-agent-runtime`, `@nextclaw/ncp-toolkit`, React, React Query, websocket realtime events, Vitest.
+**Tech Stack:** TypeScript, `@go-usb-ai/core`, `@go-usb-ai/ncp`, `@go-usb-ai/ncp-agent-runtime`, `@go-usb-ai/ncp-toolkit`, React, React Query, websocket realtime events, Vitest.
 
 ---
 
@@ -25,7 +25,7 @@ This plan is based on three confirmed facts:
    - NCP chat, however, already has its own native backend/runtime/session model, so this bridge is structurally fragile and mismatched.
 
 3. `AgentLoop` is not globally deletable today, but the NCP dependency on it should be removed.
-   - Keep for now: CLI `nextclaw agent`, gateway inbound channel handling, cron, plugin bridge/direct runtime use.
+   - Keep for now: CLI `go-usb-ai agent`, gateway inbound channel handling, cron, plugin bridge/direct runtime use.
    - Delete or retire for NCP path: subagent completion's reliance on legacy system-message relay, plus any NCP-only bridge glue that exists solely to wake `AgentLoop`.
 
 ## Target Outcome
@@ -53,8 +53,8 @@ NcpChatPage
   -> createUiNcpAgent
   -> DefaultNcpAgentBackend
   -> DefaultNcpAgentRuntime
-  -> NextclawNcpContextBuilder
-  -> NextclawNcpToolRegistry
+  -> GoUsbAiNcpContextBuilder
+  -> GoUsbAiNcpToolRegistry
 ```
 
 Judgement:
@@ -85,7 +85,7 @@ Judgement:
 Current chain:
 
 ```text
-nextclaw agent / nextclaw agent -m
+go-usb-ai agent / go-usb-ai agent -m
   -> AgentLoop.processDirect()
 ```
 
@@ -133,7 +133,7 @@ Must not delete in this iteration:
 - `AgentLoop` wholesale
 - `NativeAgentEngine` wholesale
 - `GatewayAgentRuntimePool` wholesale
-- CLI `nextclaw agent` path
+- CLI `go-usb-ai agent` path
 - gateway inbound channel processing
 - cron / heartbeat / plugin direct runtime bridges
 
@@ -152,9 +152,9 @@ Reason:
 ### Task 1: Lock The Bug With End-To-End Failing Tests
 
 **Files:**
-- Create: `packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-gateway-startup.test.ts`
-- Test: `packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-gateway-startup.test.ts`
+- Test: `packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts`
 
 **Step 1: Write the failing NCP integration test**
 
@@ -216,7 +216,7 @@ Extend service/UI test coverage so the completion path must publish a structured
 Run:
 
 ```bash
-pnpm -C packages/nextclaw exec vitest run \
+pnpm -C packages/go-usb-ai exec vitest run \
   src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts \
   src/cli/commands/service-gateway-startup.test.ts
 ```
@@ -226,11 +226,11 @@ Expected: FAIL because completion does not currently persist back into the NCP s
 ### Task 2: Remove NCP Subagent Completion's Dependency On Legacy System-Message Relay
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/agent/subagent.ts`
-- Modify: `packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-tool-registry.ts`
-- Modify: `packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.ts`
-- Modify: `packages/ncp-packages/nextclaw-ncp-agent-runtime/src/runtime.ts`
-- Modify: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend.ts`
+- Modify: `packages/go-usb-ai-core/src/agent/subagent.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-tool-registry.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.ts`
+- Modify: `packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/runtime.ts`
+- Modify: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend.ts`
 
 **Step 1: Introduce a structured subagent lifecycle sink**
 
@@ -263,7 +263,7 @@ Preferred behavior:
 
 - store a service-side message or extension part that represents the subagent task state
 - keep `runId`, `label`, `status`, timestamps, and summary/result in metadata
-- ensure this state lands in `NextclawAgentSessionStore`/NCP session persistence
+- ensure this state lands in `GoUsbAiAgentSessionStore`/NCP session persistence
 
 This can be represented as:
 
@@ -273,7 +273,7 @@ This can be represented as:
   parts: [
     {
       type: "extension",
-      extensionType: "nextclaw.subagent.run",
+      extensionType: "go-usb-ai.subagent.run",
       data: {
         runId,
         label,
@@ -312,11 +312,11 @@ That makes the remaining legacy dependency explicit and removable later.
 ### Task 3: Converge Realtime Semantics On Structured Session Updates
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/ncp/ncp-session-realtime-change.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-ncp-session-realtime-bridge.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-gateway-startup.ts`
-- Modify: `packages/nextclaw-ui/src/hooks/use-realtime-query-bridge.ts`
-- Modify: `packages/nextclaw-ui/src/api/ncp-session-query-cache.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/ncp-session-realtime-change.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-ncp-session-realtime-bridge.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-gateway-startup.ts`
+- Modify: `packages/go-usb-ai-ui/src/hooks/use-realtime-query-bridge.ts`
+- Modify: `packages/go-usb-ai-ui/src/api/ncp-session-query-cache.ts`
 
 **Step 1: Make NCP completion publish structured session summary updates**
 
@@ -359,13 +359,13 @@ Test that:
 ### Task 4: Render A Visible Inline Subagent Task Card In Chat
 
 **Files:**
-- Modify: `packages/nextclaw-ui/src/components/chat/ncp/ncp-session-adapter.ts`
-- Modify: `packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.ts`
-- Modify: `packages/nextclaw-agent-chat-ui/src/components/chat/view-models/chat-ui.types.ts`
-- Modify: `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message.tsx`
-- Create: `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/subagent-run-card.tsx`
-- Test: `packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.test.ts`
-- Test: `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/ncp/ncp-session-adapter.ts`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.ts`
+- Modify: `packages/go-usb-ai-agent-chat-ui/src/components/chat/view-models/chat-ui.types.ts`
+- Modify: `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message.tsx`
+- Create: `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/subagent-run-card.tsx`
+- Test: `packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.test.ts`
+- Test: `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
 
 **Step 1: Add a first-class UI part for subagent runs**
 
@@ -390,7 +390,7 @@ type SubagentRunPartViewModel = {
 `ncp-session-adapter.ts` should recognize:
 
 - `role: "service"`
-- `extensionType: "nextclaw.subagent.run"`
+- `extensionType: "go-usb-ai.subagent.run"`
 
 and convert them into `subagent-run` UI parts.
 
@@ -423,10 +423,10 @@ That keeps the change minimal while still aligning with the "visible subagent" m
 - Modify: `docs/prd/current-feature-list.md`
 - Modify: `docs/prd/current-feature-overview.md`
 - Optional delete/modify after audit:
-  - `packages/nextclaw/src/cli/commands/service-gateway-startup.ts`
-  - `packages/nextclaw/src/cli/commands/agent-runtime-pool.ts`
-  - `packages/nextclaw-core/src/agent/loop.ts`
-  - `packages/nextclaw-core/src/engine/native.ts`
+  - `packages/go-usb-ai/src/cli/commands/service-gateway-startup.ts`
+  - `packages/go-usb-ai/src/cli/commands/agent-runtime-pool.ts`
+  - `packages/go-usb-ai-core/src/agent/loop.ts`
+  - `packages/go-usb-ai-core/src/engine/native.ts`
 
 **Step 1: Record the audit result explicitly**
 
@@ -450,8 +450,8 @@ Required deletion targets:
 
 Before removing `AgentLoop` entirely in a future plan, prove replacement coverage for:
 
-- `nextclaw agent -m`
-- interactive CLI `nextclaw agent`
+- `go-usb-ai agent -m`
+- interactive CLI `go-usb-ai agent`
 - gateway inbound channel traffic
 - cron direct execution
 - plugin runtime direct bridge
@@ -461,16 +461,16 @@ If any of these still depend on `AgentLoop`, the correct move is to document the
 ### Task 6: Validate End-To-End Behavior
 
 **Files:**
-- Test: `packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts`
-- Test: `packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.test.ts`
-- Test: `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+- Test: `packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts`
+- Test: `packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.test.ts`
+- Test: `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
 
 **Step 1: Run targeted backend tests**
 
 Run:
 
 ```bash
-pnpm -C packages/nextclaw exec vitest run \
+pnpm -C packages/go-usb-ai exec vitest run \
   src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts \
   src/cli/commands/ncp/ui-session-service.test.ts \
   src/cli/commands/ncp/ncp-session-realtime-change.test.ts \
@@ -484,10 +484,10 @@ Expected: PASS
 Run:
 
 ```bash
-pnpm -C packages/nextclaw-ui exec vitest run \
+pnpm -C packages/go-usb-ai-ui exec vitest run \
   src/components/chat/adapters/chat-message.adapter.test.ts
 
-pnpm -C packages/nextclaw-agent-chat-ui exec vitest run \
+pnpm -C packages/go-usb-ai-agent-chat-ui exec vitest run \
   src/components/chat/ui/chat-message-list/chat-message-list.test.tsx
 ```
 
@@ -498,10 +498,10 @@ Expected: PASS
 Run:
 
 ```bash
-pnpm -C packages/nextclaw tsc
-pnpm -C packages/nextclaw lint
-pnpm -C packages/nextclaw-ui tsc
-pnpm -C packages/nextclaw-agent-chat-ui tsc
+pnpm -C packages/go-usb-ai tsc
+pnpm -C packages/go-usb-ai lint
+pnpm -C packages/go-usb-ai-ui tsc
+pnpm -C packages/go-usb-ai-agent-chat-ui tsc
 ```
 
 **Step 4: Run maintainability guard**
@@ -536,6 +536,6 @@ Use a real NCP native chat session and verify:
 - Existing NCP native cutover plan:
   - [2026-03-18-ncp-native-runtime-refactor-plan.md](./2026-03-18-ncp-native-runtime-refactor-plan.md)
 - Current broken bridge symptom area:
-  - [subagent.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/subagent.ts)
-  - [agent-runtime-pool.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/agent-runtime-pool.ts)
-  - [use-realtime-query-bridge.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-ui/src/hooks/use-realtime-query-bridge.ts)
+  - [subagent.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/subagent.ts)
+  - [agent-runtime-pool.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/agent-runtime-pool.ts)
+  - [use-realtime-query-bridge.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-ui/src/hooks/use-realtime-query-bridge.ts)

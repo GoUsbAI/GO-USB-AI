@@ -4,7 +4,7 @@
 
 相关文档：
 
-- [NextClaw 产品愿景](../VISION.md)
+- [GoUsbAi 产品愿景](../VISION.md)
 - [v0.16.47-manual-restart-required-state](../logs/v0.16.47-manual-restart-required-state/README.md)
 - [Predictable Behavior First](../../.agents/skills/predictable-behavior-first/SKILL.md)
 
@@ -19,7 +19,7 @@
 - 用户可以从轻量浮层里看到原因，并主动点击重启
 - 真正完成重启后，待重启状态应自动清空
 
-这个方向本身是对的，也更符合 `NextClaw` 想成为“统一入口、统一体验、可理解、可掌控的个人操作层”的长期愿景。
+这个方向本身是对的，也更符合 `GoUsbAi` 想成为“统一入口、统一体验、可理解、可掌控的个人操作层”的长期愿景。
 
 但用户随后用真实链路验证时发现：
 
@@ -56,7 +56,7 @@
 
 这次改造必须服务以下长期目标，而不是只修一条调用链：
 
-- 让 `NextClaw` 的系统管理行为更可理解、更可预测
+- 让 `GoUsbAi` 的系统管理行为更可理解、更可预测
 - 让“用户通过自然语言和统一控制面掌控系统”成为真实能力，而不是不同入口各说各话
 - 让状态系统成为统一入口，而不是让用户依赖日志、运气或隐含经验
 - 让配置写入和重启执行成为两种明确分离的动作
@@ -86,11 +86,11 @@
 
 当前真实问题点有两处：
 
-1. `packages/nextclaw/src/cli/gateway/controller.ts`
+1. `packages/go-usb-ai/src/cli/gateway/controller.ts`
    - `applyConfig()` 和 `patchConfig()` 在保存配置后，仍然直接调用 `this.requestRestart(...)`
    - 返回体仍写死为 `restart: { scheduled: true, delayMs }`
 
-2. `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts`
+2. `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts`
    - 这里给 `GatewayControllerImpl` 注入的 `requestRestart(...)`，仍然是“执行重启”的语义
    - 它只传了 `manualMessage`
    - 但没有传 `mode: "notify"`
@@ -363,35 +363,35 @@
 
 ### 8.1 核心实现
 
-- `packages/nextclaw/src/cli/gateway/controller.ts`
+- `packages/go-usb-ai/src/cli/gateway/controller.ts`
   - 收敛 `config.apply` / `config.patch` 后置语义
   - 不再无条件调用真实重启
   - 调整返回合同
 
-- `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts`
+- `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts`
   - 明确区分“待重启通知”和“真实重启执行”的注入能力
 
-- `packages/nextclaw-core/src/agent/tools/gateway.ts`
+- `packages/go-usb-ai-core/src/agent/tools/gateway.ts`
   - 更新 tool description
   - 让 gateway tool 对外表达真实合同
 
 ### 8.2 相关类型与消息
 
-- `packages/nextclaw-server/src/ui/runtime-control.types.ts`
-- `packages/nextclaw-ui/src/api/runtime-control.types.ts`
+- `packages/go-usb-ai-server/src/ui/runtime-control.types.ts`
+- `packages/go-usb-ai-ui/src/api/runtime-control.types.ts`
 
 这两处预计不一定要再大改结构，但需要检查是否要补充更清晰的 pending restart message / reason 表达。
 
 ### 8.3 UI 和状态入口
 
-- `packages/nextclaw-ui/src/components/layout/runtime-status-entry.tsx`
-- `packages/nextclaw-ui/src/components/config/runtime-control-card.tsx`
+- `packages/go-usb-ai-ui/src/components/layout/runtime-status-entry.tsx`
+- `packages/go-usb-ai-ui/src/components/config/runtime-control-card.tsx`
 
 大概率不需要大改交互，但要确认它们能正确消费 gateway 链路写入后的 `pendingRestart` 状态，不再依赖旧文案假设。
 
 ### 8.4 文档
 
-- `packages/nextclaw/resources/USAGE.md`
+- `packages/go-usb-ai/resources/USAGE.md`
 - `docs/logs/v0.16.47-manual-restart-required-state/README.md`
 
 实现完成后需要同步把用户文档和迭代记录补齐到真实最终语义。
@@ -442,10 +442,10 @@
 实现后建议至少执行：
 
 ```bash
-pnpm -C packages/nextclaw exec vitest run <gateway-related-tests>
-pnpm -C packages/nextclaw-ui exec vitest run src/components/layout/runtime-status-entry.test.tsx src/components/config/runtime-control-card.test.tsx
-pnpm -C packages/nextclaw exec tsc -p tsconfig.json --noEmit
-pnpm -C packages/nextclaw-ui exec tsc -p tsconfig.json --noEmit
+pnpm -C packages/go-usb-ai exec vitest run <gateway-related-tests>
+pnpm -C packages/go-usb-ai-ui exec vitest run src/components/layout/runtime-status-entry.test.tsx src/components/config/runtime-control-card.test.tsx
+pnpm -C packages/go-usb-ai exec tsc -p tsconfig.json --noEmit
+pnpm -C packages/go-usb-ai-ui exec tsc -p tsconfig.json --noEmit
 pnpm lint:maintainability:guard
 ```
 

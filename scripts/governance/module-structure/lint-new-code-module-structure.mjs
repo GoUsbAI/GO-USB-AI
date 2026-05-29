@@ -31,7 +31,7 @@ const usage = `Usage:
   node scripts/governance/module-structure/lint-new-code-module-structure.mjs
   node scripts/governance/module-structure/lint-new-code-module-structure.mjs --staged
   node scripts/governance/module-structure/lint-new-code-module-structure.mjs --base origin/main
-  node scripts/governance/module-structure/lint-new-code-module-structure.mjs -- packages/nextclaw-ui/src
+  node scripts/governance/module-structure/lint-new-code-module-structure.mjs -- packages/go-usb-ai-ui/src
 
 Checks touched files against explicit module-structure contracts so crowded roots do not keep growing without subtree boundaries.
 Protocol-enabled modules also validate structure and import boundaries against fixed hierarchy templates.`;

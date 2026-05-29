@@ -7,8 +7,8 @@
 - 保留此前路由稳定化改动（`/chat/:sessionId?`），避免新会话首发时组件重挂载导致流本地状态丢失。
 
 ## 测试/验证/验收方式
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc --noEmit`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/chat-stream/stream-run-controller.ts src/components/chat/chat-page-runtime.ts src/App.tsx`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc --noEmit`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/chat-stream/stream-run-controller.ts src/components/chat/chat-page-runtime.ts src/App.tsx`
 - `PATH=/opt/homebrew/bin:$PATH pnpm build:ui`
 
 ## 发布/部署方式

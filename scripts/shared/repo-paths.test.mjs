@@ -25,13 +25,13 @@ test("resolveRepoPath resolves repository-relative targets", () => {
   const devRunnerUrl = pathToFileURL(resolve(repoRoot, "scripts/dev/dev-runner.mjs"));
 
   assert.equal(
-    resolveRepoPath(devRunnerUrl, "packages/nextclaw"),
-    resolve(repoRoot, "packages/nextclaw")
+    resolveRepoPath(devRunnerUrl, "packages/go-usb-ai"),
+    resolve(repoRoot, "packages/go-usb-ai")
   );
 });
 
 test("findRepoRoot fails outside a repository marker tree", () => {
-  const tempRoot = mkdtempSync(resolve(tmpdir(), "nextclaw-repo-paths-"));
+  const tempRoot = mkdtempSync(resolve(tmpdir(), "go-usb-ai-repo-paths-"));
   const nestedDir = resolve(tempRoot, "nested", "scripts");
   mkdirSync(nestedDir, { recursive: true });
   const fakeScriptPath = resolve(nestedDir, "fake-script.mjs");

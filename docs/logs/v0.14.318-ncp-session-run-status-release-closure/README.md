@@ -10,16 +10,16 @@
 ## 测试/验证/验收方式
 
 - `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm lint:maintainability:guard`
-- `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm --filter @nextclaw/ncp-toolkit exec vitest run src/agent/agent-backend-run-status.test.ts src/agent/agent-backend-finalize-status.test.ts src/agent/in-memory-agent-backend.test.ts src/agent/agent-conversation-state-manager.test.ts`
-- `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm --filter @nextclaw/ui exec vitest run src/api/ncp-session-query-cache.test.ts`
-- `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm --filter @nextclaw/ncp-toolkit exec tsc -p tsconfig.json --noEmit`
-- `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm --filter @nextclaw/server exec tsc -p tsconfig.json --noEmit`
-- `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm --filter @nextclaw/ui exec tsc -p tsconfig.json --noEmit`
-- `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm --filter nextclaw exec tsc -p tsconfig.json --noEmit`
+- `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm --filter @go-usb-ai/ncp-toolkit exec vitest run src/agent/agent-backend-run-status.test.ts src/agent/agent-backend-finalize-status.test.ts src/agent/in-memory-agent-backend.test.ts src/agent/agent-conversation-state-manager.test.ts`
+- `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm --filter @go-usb-ai/ui exec vitest run src/api/ncp-session-query-cache.test.ts`
+- `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm --filter @go-usb-ai/ncp-toolkit exec tsc -p tsconfig.json --noEmit`
+- `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm --filter @go-usb-ai/server exec tsc -p tsconfig.json --noEmit`
+- `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm --filter @go-usb-ai/ui exec tsc -p tsconfig.json --noEmit`
+- `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" pnpm --filter go-usb-ai exec tsc -p tsconfig.json --noEmit`
 
 ## 发布/部署方式
 
-- 在仓库根目录创建联动 changeset，覆盖 `@nextclaw/ncp-toolkit`、`@nextclaw/server`、`@nextclaw/ui`、`nextclaw`。
+- 在仓库根目录创建联动 changeset，覆盖 `@go-usb-ai/ncp-toolkit`、`@go-usb-ai/server`、`@go-usb-ai/ui`、`go-usb-ai`。
 - 执行 `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" NPM_CONFIG_USERCONFIG=/Users/peiwang/Projects/nextbot/.npmrc pnpm release:version`
 - 执行 `PATH="$HOME/.nvm/versions/node/v22.16.0/bin:$PATH" NPM_CONFIG_USERCONFIG=/Users/peiwang/Projects/nextbot/.npmrc pnpm release:publish`
 

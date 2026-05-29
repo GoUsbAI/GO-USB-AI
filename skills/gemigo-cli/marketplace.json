@@ -11,7 +11,7 @@
     "en": "Use this skill when the user wants to put a finished front-end project online: Vite/React/Vue/Svelte/Astro static builds, plain HTML/CSS/JS pages, landing pages, portfolios, demos, prototypes, docs sites, or small browser-only tools. It guides the user through installing and logging in to the local GemiGo CLI, checking the static output folder, preparing gemigo.app.json, confirming the remote deploy action, and reporting the final hosted URL. It does not deploy raw source repos, server-side apps, APIs, databases, or apps that still need a backend process.",
     "zh": "当用户想把一个已经做好的前端项目上线时使用这个技能，例如 Vite/React/Vue/Svelte/Astro 构建后的静态目录、纯 HTML/CSS/JS 页面、落地页、作品集、Demo、原型、文档站或不需要后端进程的小工具。它会引导用户安装并登录本地 GemiGo CLI，检查静态产物目录，准备 gemigo.app.json，确认远端部署动作，并在成功后返回最终可访问的托管 URL。它不负责部署未构建的源码仓库、服务端应用、API、数据库，或仍需要后端进程运行的应用。"
   },
-  "author": "NextClaw",
+  "author": "GoUsbAi",
   "tags": [
     "skill",
     "gemigo",

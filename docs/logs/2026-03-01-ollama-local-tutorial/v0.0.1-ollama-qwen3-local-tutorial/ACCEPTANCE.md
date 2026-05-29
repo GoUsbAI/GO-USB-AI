@@ -7,8 +7,8 @@
 3. 分别进入中英文教程页面，确认标题含 `macOS`，且步骤覆盖：
    - 启动 Ollama
    - 拉取 Qwen3
-   - 配置 NextClaw `vllm` provider
-   - 启动 NextClaw
+   - 配置 GoUsbAi `vllm` provider
+   - 启动 GoUsbAi
    - CLI 冒烟测试
 4. 打开中英文配置页对应章节，点击交叉链接，能跳转到新教程页。
-5. 随机复制一条命令（如 `nextclaw config set ...`），检查命令格式可直接执行。
+5. 随机复制一条命令（如 `go-usb-ai config set ...`），检查命令格式可直接执行。

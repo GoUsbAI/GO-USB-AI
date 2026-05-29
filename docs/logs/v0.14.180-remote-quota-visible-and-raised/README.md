@@ -21,10 +21,10 @@
 ## 测试 / 验证 / 验收方式
 
 - Worker 校验：
-  - `pnpm -C workers/nextclaw-provider-gateway-api build`
-  - `pnpm -C workers/nextclaw-provider-gateway-api lint`
-  - `pnpm -C workers/nextclaw-provider-gateway-api tsc`
-  - `pnpm -C workers/nextclaw-provider-gateway-api test:quota`
+  - `pnpm -C workers/go-usb-ai-provider-gateway-api build`
+  - `pnpm -C workers/go-usb-ai-provider-gateway-api lint`
+  - `pnpm -C workers/go-usb-ai-provider-gateway-api tsc`
+  - `pnpm -C workers/go-usb-ai-provider-gateway-api test:quota`
 - Frontend 校验：
   - `pnpm -C apps/platform-console build`
   - `pnpm -C apps/platform-console lint`
@@ -37,25 +37,25 @@
   - 本地预览 admin console 后执行：`node scripts/platform-admin-smoke.mjs`
   - 结果：两条 smoke 均通过，确认 quota 卡片已实际渲染。
 - 可维护性自检：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths workers/nextclaw-provider-gateway-api/src/controllers/remote-controller.ts workers/nextclaw-provider-gateway-api/src/controllers/remote-quota-controller.ts apps/platform-console/src/pages/UserDashboardPage.tsx apps/platform-admin/src/pages/AdminDashboardPage.tsx`
-  - 结果：无阻塞项；`apps/platform-admin/src/pages/AdminDashboardPage.tsx` 与 `workers/nextclaw-provider-gateway-api/src/controllers/remote-controller.ts` 仍接近预算线，但未新增阻塞。
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths workers/go-usb-ai-provider-gateway-api/src/controllers/remote-controller.ts workers/go-usb-ai-provider-gateway-api/src/controllers/remote-quota-controller.ts apps/platform-console/src/pages/UserDashboardPage.tsx apps/platform-admin/src/pages/AdminDashboardPage.tsx`
+  - 结果：无阻塞项；`apps/platform-admin/src/pages/AdminDashboardPage.tsx` 与 `workers/go-usb-ai-provider-gateway-api/src/controllers/remote-controller.ts` 仍接近预算线，但未新增阻塞。
 
 ## 发布 / 部署方式
 
 - 本次发布不涉及数据库 schema 变化，远程 migration：不适用。
 - 已执行：
-  - `pnpm -C workers/nextclaw-provider-gateway-api run deploy`
+  - `pnpm -C workers/go-usb-ai-provider-gateway-api run deploy`
     - Worker Version ID: `f8ae6e7d-b041-40e9-ba6c-8fccabff7662`
   - `pnpm deploy:platform:console`
-    - Preview URL: `https://338796b3.nextclaw-platform-console.pages.dev`
+    - Preview URL: `https://338796b3.go-usb-ai-platform-console.pages.dev`
   - `pnpm deploy:platform:admin`
-    - Preview URL: `https://772e64ac.nextclaw-platform-admin.pages.dev`
+    - Preview URL: `https://772e64ac.go-usb-ai-platform-admin.pages.dev`
 - 线上探活：
-  - `curl https://ai-gateway-api.nextclaw.io/health`
+  - `curl https://ai-gateway-api.go-usb-ai.io/health`
     - 返回 `{"ok":true,"data":{"status":"ok"...}}`
-  - `curl -I https://platform.nextclaw.io`
+  - `curl -I https://platform.go-usb-ai.io`
     - 返回 `HTTP/2 200`
-  - `curl -I https://platform-admin.nextclaw.io`
+  - `curl -I https://platform-admin.go-usb-ai.io`
     - 返回 `HTTP/2 200`
   - 未登录访问新接口：
     - `GET /platform/remote/quota` 返回 `401 UNAUTHORIZED`
@@ -64,7 +64,7 @@
 
 ## 用户 / 产品视角的验收步骤
 
-1. 登录 [platform.nextclaw.io](https://platform.nextclaw.io)。
+1. 登录 [platform.go-usb-ai.io](https://platform.go-usb-ai.io)。
 2. 在用户首页确认出现 “Remote 额度与用量” 卡片。
 3. 检查卡片内是否能看到：
    - 今日 Worker 已用 / 总额度 / 剩余
@@ -72,7 +72,7 @@
    - 单 session 每分钟上限
    - 当前活跃浏览器连接
    - 单实例连接上限应为 `10000`
-4. 使用管理员账号登录 [platform-admin.nextclaw.io](https://platform-admin.nextclaw.io)。
+4. 使用管理员账号登录 [platform-admin.go-usb-ai.io](https://platform-admin.go-usb-ai.io)。
 5. 在管理首页确认出现 “Remote 额度总览” 卡片，并能看到：
    - 平台 Worker / Durable Object 已用与剩余
    - 默认用户日额度均为 `20000`

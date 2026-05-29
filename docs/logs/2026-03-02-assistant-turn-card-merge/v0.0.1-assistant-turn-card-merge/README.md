@@ -10,18 +10,18 @@
 
 关键文件：
 
-- `packages/nextclaw-ui/src/lib/chat-message.ts`
-- `packages/nextclaw-ui/src/components/chat/ChatThread.tsx`
+- `packages/go-usb-ai-ui/src/lib/chat-message.ts`
+- `packages/go-usb-ai-ui/src/components/chat/ChatThread.tsx`
 - `docs/USAGE.md`
 
 ## 测试 / 验证 / 验收方式
 
 已执行命令：
 
-- `pnpm -C packages/nextclaw-ui lint`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui build`
-- `pnpm -C packages/nextclaw-ui exec eslint src/lib/chat-message.ts src/components/chat/ChatThread.tsx`
+- `pnpm -C packages/go-usb-ai-ui lint`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/lib/chat-message.ts src/components/chat/ChatThread.tsx`
 
 冒烟测试（最小可行）：
 

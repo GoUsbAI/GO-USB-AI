@@ -2,7 +2,7 @@
 
 import { waitForDesktopReleaseClosure } from "./desktop-release-closure.mjs";
 
-const DEFAULT_REPO = "Peiiii/nextclaw";
+const DEFAULT_REPO = "Peiiii/go-usb-ai";
 const DEFAULT_WORKFLOW = "desktop-release.yml";
 const DEFAULT_PUBLIC_ATTEMPTS = 18;
 const DEFAULT_PUBLIC_DELAY_MS = 10000;

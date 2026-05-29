@@ -12,16 +12,16 @@
 
 ## 测试 / 验证 / 验收方式
 
-- `pnpm --filter nextclaw test -- --run src/cli/commands/service.marketplace-plugin-management.test.ts src/cli/commands/codex-runtime-defaults.test.ts src/cli/commands/service.summary.test.ts src/cli/commands/plugin-reload.test.ts`
-- `pnpm --filter nextclaw tsc`
-- `pnpm --filter @nextclaw/ui tsc`
-- `pnpm --filter @nextclaw/nextclaw-ncp-runtime-codex-sdk tsc`
-- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw/src/cli/commands/plugin-mutation-actions.ts packages/nextclaw/src/cli/commands/plugins.ts packages/nextclaw/src/cli/commands/service.ts packages/extensions/nextclaw-ncp-runtime-codex-sdk/src/index.ts packages/nextclaw-ui/src/hooks/useMarketplace.ts packages/nextclaw/src/cli/commands/service.marketplace-plugin-management.test.ts packages/nextclaw/src/cli/commands/codex-runtime-defaults.test.ts`
+- `pnpm --filter go-usb-ai test -- --run src/cli/commands/service.marketplace-plugin-management.test.ts src/cli/commands/codex-runtime-defaults.test.ts src/cli/commands/service.summary.test.ts src/cli/commands/plugin-reload.test.ts`
+- `pnpm --filter go-usb-ai tsc`
+- `pnpm --filter @go-usb-ai/ui tsc`
+- `pnpm --filter @go-usb-ai/go-usb-ai-ncp-runtime-codex-sdk tsc`
+- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai/src/cli/commands/plugin-mutation-actions.ts packages/go-usb-ai/src/cli/commands/plugins.ts packages/go-usb-ai/src/cli/commands/service.ts packages/extensions/go-usb-ai-ncp-runtime-codex-sdk/src/index.ts packages/go-usb-ai-ui/src/hooks/useMarketplace.ts packages/go-usb-ai/src/cli/commands/service.marketplace-plugin-management.test.ts packages/go-usb-ai/src/cli/commands/codex-runtime-defaults.test.ts`
 
 ## 发布 / 部署方式
 
 - 本次尚未执行发布。
-- 若要让 Marketplace 安装到的 `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk` 用户也立刻拿到 git-check 修复，需要后续发布包含本次修复的新包版本。
+- 若要让 Marketplace 安装到的 `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk` 用户也立刻拿到 git-check 修复，需要后续发布包含本次修复的新包版本。
 
 ## 用户 / 产品视角的验收步骤
 

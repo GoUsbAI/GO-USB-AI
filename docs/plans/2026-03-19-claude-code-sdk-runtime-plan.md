@@ -15,7 +15,7 @@
 ## 目标
 
 1. 新增一条可插拔的 `Claude` NCP runtime。
-2. 让用户安装插件后，可以在标准 NextClaw NCP 聊天入口创建 `Claude` 会话。
+2. 让用户安装插件后，可以在标准 GoUsbAi NCP 聊天入口创建 `Claude` 会话。
 3. 保持默认 `native` runtime 不变，不把 Claude SDK 绑进主包主链路。
 4. 完成 marketplace 可发现、可安装、可验证的正式闭环。
 
@@ -31,12 +31,12 @@
 
 新增两层包：
 
-- `@nextclaw/nextclaw-ncp-runtime-claude-code-sdk`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-claude-code-sdk`
   - 纯 runtime 适配层
   - 只负责把 Anthropic SDK 事件流映射为 NCP 事件
-- `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk`
+- `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk`
   - 插件包装层
-  - 负责读取 NextClaw 配置、注册 runtime kind、拼接 skills prompt、暴露 plugin schema
+  - 负责读取 GoUsbAi 配置、注册 runtime kind、拼接 skills prompt、暴露 plugin schema
 
 这和 Codex 的结构保持完全一致，后续更多 runtime 继续按同一模式复制即可。
 
@@ -76,8 +76,8 @@
 
 插件入口：
 
-- `plugins.entries.nextclaw-ncp-runtime-plugin-claude-code-sdk.enabled`
-- `plugins.entries.nextclaw-ncp-runtime-plugin-claude-code-sdk.config`
+- `plugins.entries.go-usb-ai-ncp-runtime-plugin-claude-code-sdk.enabled`
+- `plugins.entries.go-usb-ai-ncp-runtime-plugin-claude-code-sdk.config`
 
 首期支持的关键配置：
 
@@ -127,7 +127,7 @@ Claude SDK 若返回结构化 `session_id`，则立即写回 `claude_session_id`
 新增官方插件条目：
 
 - slug: `ncp-runtime-plugin-claude-code-sdk`
-- npm spec: `@nextclaw/nextclaw-ncp-runtime-plugin-claude-code-sdk`
+- npm spec: `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-claude-code-sdk`
 
 并加入 `plugins-default` 推荐位。
 
@@ -168,4 +168,4 @@ Claude 的正确接法不是“继续补旧 engine”，而是：
 - 通过独立插件包注册
 - 通过 marketplace 完成发现、安装与启用
 
-这与 Codex 的成功路径完全对齐，也最符合 NextClaw 当前的长期架构。
+这与 Codex 的成功路径完全对齐，也最符合 GoUsbAi 当前的长期架构。

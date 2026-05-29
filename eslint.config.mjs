@@ -53,17 +53,17 @@ const testFiles = [
   "workers/**/{__tests__,tests}/**/*.{ts,tsx,mts,cts}"
 ];
 const uiComponentFiles = [
-  "packages/nextclaw-ui/src/components/**/*.tsx",
-  "packages/nextclaw-ui/src/App.tsx",
-  "packages/nextclaw-agent-chat-ui/src/components/**/*.tsx"
+  "packages/go-usb-ai-ui/src/components/**/*.tsx",
+  "packages/go-usb-ai-ui/src/App.tsx",
+  "packages/go-usb-ai-agent-chat-ui/src/components/**/*.tsx"
 ];
 const orchestratorComplexityFiles = [
-  "packages/nextclaw/**/*.{ts,mts,cts}",
-  "packages/nextclaw-core/**/*.{ts,mts,cts}",
-  "packages/nextclaw-server/**/*.{ts,mts,cts}",
-  "packages/nextclaw-openclaw-compat/**/*.{ts,mts,cts}",
+  "packages/go-usb-ai/**/*.{ts,mts,cts}",
+  "packages/go-usb-ai-core/**/*.{ts,mts,cts}",
+  "packages/go-usb-ai-server/**/*.{ts,mts,cts}",
+  "packages/go-usb-ai-openclaw-compat/**/*.{ts,mts,cts}",
   "workers/**/*.{ts,mts,cts}",
-  "packages/extensions/nextclaw-channel-runtime/**/*.{ts,mts,cts}"
+  "packages/extensions/go-usb-ai-channel-runtime/**/*.{ts,mts,cts}"
 ];
 
 const tsEslintRecommendedOverrideRules = tsEslintPlugin.configs["eslint-recommended"].overrides?.[0]?.rules ?? {};
@@ -138,7 +138,7 @@ const baseRules = {
   "no-param-reassign": ["warn", { props: false }]
 };
 
-const nextclawPlugin = {
+const go-usb-aiPlugin = {
   rules: {
     "no-file-directory-basename-collision": noFileDirectoryBasenameCollisionRule,
     "prefer-top-level-context-destructuring": preferTopLevelContextDestructuringRule,
@@ -146,7 +146,7 @@ const nextclawPlugin = {
   }
 };
 
-const nextclawContextDestructuringRule = [
+const go-usb-aiContextDestructuringRule = [
   "warn",
   {
     objectNames: ["params", "options", "context"],
@@ -163,7 +163,7 @@ export default [
       "**/*.d.ts",
       "**/.wrangler/**",
       "apps/desktop/release/**",
-      "packages/nextclaw/ui-dist/**"
+      "packages/go-usb-ai/ui-dist/**"
     ]
   },
   {
@@ -174,10 +174,10 @@ export default [
   {
     files: workspaceCodeFiles,
     plugins: {
-      nextclaw: nextclawPlugin
+      go-usb-ai: go-usb-aiPlugin
     },
     rules: {
-      "nextclaw/no-file-directory-basename-collision": [
+      "go-usb-ai/no-file-directory-basename-collision": [
         "error",
         {
           allowFilePaths: FILE_DIRECTORY_BASENAME_COLLISION_ALLOWLIST
@@ -238,11 +238,11 @@ export default [
     plugins: {
       "@typescript-eslint": tsEslintPlugin,
       "unused-imports": unusedImports,
-      nextclaw: nextclawPlugin
+      go-usb-ai: go-usb-aiPlugin
     },
     rules: {
       ...baseRules,
-      "nextclaw/prefer-top-level-context-destructuring": nextclawContextDestructuringRule
+      "go-usb-ai/prefer-top-level-context-destructuring": go-usb-aiContextDestructuringRule
     }
   },
   {
@@ -257,9 +257,9 @@ export default [
   },
   {
     files: [
-      "packages/nextclaw-openclaw-compat/**/*.{ts,tsx,mts,cts}",
-      "packages/extensions/nextclaw-engine-plugin-codex-sdk/**/*.{ts,tsx,mts,cts}",
-      "packages/extensions/nextclaw-engine-plugin-claude-agent-sdk/**/*.{ts,tsx,mts,cts}"
+      "packages/go-usb-ai-openclaw-compat/**/*.{ts,tsx,mts,cts}",
+      "packages/extensions/go-usb-ai-engine-plugin-codex-sdk/**/*.{ts,tsx,mts,cts}",
+      "packages/extensions/go-usb-ai-engine-plugin-claude-agent-sdk/**/*.{ts,tsx,mts,cts}"
     ],
     rules: {
       "@typescript-eslint/consistent-type-imports": "off",
@@ -287,15 +287,15 @@ export default [
     }
   },
   {
-    files: ["packages/nextclaw-ui/**/*.{ts,tsx,mts,cts}", "packages/nextclaw-agent-chat-ui/**/*.{ts,tsx,mts,cts}"],
+    files: ["packages/go-usb-ai-ui/**/*.{ts,tsx,mts,cts}", "packages/go-usb-ai-agent-chat-ui/**/*.{ts,tsx,mts,cts}"],
     plugins: {
       "react-hooks": reactHooks,
-      nextclaw: nextclawPlugin
+      go-usb-ai: go-usb-aiPlugin
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
       "react-hooks/set-state-in-effect": "off",
-      "nextclaw/react-component-props-destructuring": "warn",
+      "go-usb-ai/react-component-props-destructuring": "warn",
       "prefer-destructuring": [
         "warn",
         {

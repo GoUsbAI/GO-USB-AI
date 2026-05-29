@@ -19,8 +19,8 @@
 - Project Pulse 生成数据验收：`hero.currentLoc = 187293`，`trends.locDaily.at(-1).value = 187293`，`trends.testLocDaily.at(-1).value = 59141`。
 - `pnpm exec eslint apps/docs/.vitepress/config.ts --max-warnings=0`：通过。
 - `pnpm -C apps/docs build`：通过，确认统一侧边栏配置可正常构建；保留 VitePress chunk size warning。
-- `pnpm deploy:docs`：通过，Cloudflare Pages 部署完成，最新预览地址 `https://474fb808.nextclaw-docs.pages.dev`。
-- 线上冒烟：`https://474fb808.nextclaw-docs.pages.dev/zh/project/release-notes` 与 `https://docs.nextclaw.io/zh/project/release-notes` 均返回 `200`；预览页和正式域名 HTML 中确认顶部仍有 `项目` 与 `更新笔记`，侧边栏也有 `项目`、`Project Pulse` 与 `更新笔记`，没有 `项目信息`。
+- `pnpm deploy:docs`：通过，Cloudflare Pages 部署完成，最新预览地址 `https://474fb808.go-usb-ai-docs.pages.dev`。
+- 线上冒烟：`https://474fb808.go-usb-ai-docs.pages.dev/zh/project/release-notes` 与 `https://docs.go-usb-ai.io/zh/project/release-notes` 均返回 `200`；预览页和正式域名 HTML 中确认顶部仍有 `项目` 与 `更新笔记`，侧边栏也有 `项目`、`Project Pulse` 与 `更新笔记`，没有 `项目信息`。
 - `node scripts/governance/lint-new-code-governance.mjs --staged`：通过。
 - `pnpm check:governance-backlog-ratchet`：通过。
 - `post-edit-maintainability-guard --non-feature --paths ...`：通过，非测试代码净增 `-2`。
@@ -28,10 +28,10 @@
 
 ## 发布/部署方式
 
-已部署到 Cloudflare Pages 项目 `nextclaw-docs`：
+已部署到 Cloudflare Pages 项目 `go-usb-ai-docs`：
 
-- 预览地址：`https://474fb808.nextclaw-docs.pages.dev`
-- 正式域名：`https://docs.nextclaw.io`
+- 预览地址：`https://474fb808.go-usb-ai-docs.pages.dev`
+- 正式域名：`https://docs.go-usb-ai.io`
 - 本次不涉及数据库 migration、后端 worker 发布或 NPM 包发布。
 
 ## 用户/产品视角的验收步骤
@@ -47,7 +47,7 @@
 - 正向减债动作：简化统计口径并移除 `.vitepress` source 候选，避免主指标继续承载非生产代码。
 - 治理规则与 workflow 真实产物对齐，避免生成文件触发不合理角色命名阻断。
 - 补充修复增加了少量用户可见 Pulse 表达与数据 owner 测试；没有引入双路径，历史覆盖逻辑集中在 `mergeLatestLocSnapshot`，避免组件层临时修数。
-- 本次导航纠偏已沉淀到 `nextclaw-clean-implementation`：调整导航、侧边栏、菜单或入口时，默认保留既有可用入口和用户已接受的命名，除非用户明确要求删除或改名；改完必须核对同一组既有入口，避免只恢复一个入口却漏掉相邻入口。
+- 本次导航纠偏已沉淀到 `go-usb-ai-clean-implementation`：调整导航、侧边栏、菜单或入口时，默认保留既有可用入口和用户已接受的命名，除非用户明确要求删除或改名；改完必须核对同一组既有入口，避免只恢复一个入口却漏掉相邻入口。
 
 ## NPM 包发布记录
 

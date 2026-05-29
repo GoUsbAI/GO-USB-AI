@@ -14,24 +14,24 @@
 
 已执行：
 
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- src/agent/agent-conversation-state-manager.test.ts src/agent/__tests__/agent-conversation-state-manager.abort-tool.test.ts`
-- `pnpm -C packages/nextclaw-ui test -- src/components/chat/ncp/ncp-session-adapter.test.ts src/components/chat/ncp/__tests__/ncp-session-adapter.cancelled-tool.test.ts`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp tsc`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
-- `pnpm -C packages/nextclaw-ui tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- src/agent/agent-conversation-state-manager.test.ts src/agent/__tests__/agent-conversation-state-manager.abort-tool.test.ts`
+- `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/ncp/ncp-session-adapter.test.ts src/components/chat/ncp/__tests__/ncp-session-adapter.cancelled-tool.test.ts`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
+- `pnpm -C packages/go-usb-ai-ui tsc`
 
 补充说明：
 
 - `pnpm lint:maintainability:guard` 的 maintainability report 已恢复到无 error，仅余 warning
 - 该命令后续的 `pnpm lint:new-code:governance` 被当前工作树里一处与本次修复无关的已触碰文件阻断：
-  `packages/nextclaw-ui/src/components/common/BrandHeader.tsx`
+  `packages/go-usb-ai-ui/src/components/common/BrandHeader.tsx`
   原因是该文件名本身不是 kebab-case，属于本次修复之外的分支内现存治理阻塞
 
 ## 发布/部署方式
 
 本次改动不涉及单独的数据迁移或发布脚本。
 
-- 随常规 NextClaw 前端 / Native 会话相关包发布即可
+- 随常规 GoUsbAi 前端 / Native 会话相关包发布即可
 - 若走发布前校验，需先处理当前工作树里与本次修复无关的 `BrandHeader.tsx` 命名治理阻塞，再跑全量治理校验
 
 ## 用户/产品视角的验收步骤
@@ -49,7 +49,7 @@
 
 ### 长期目标对齐 / 可维护性推进
 
-本次改动顺着“统一体验更可预测、状态边界更清晰”的长期方向推进了一小步。修复前，用户点击终止后会看到“原工具仍在执行中 + 新长出一张 unknown 卡片”的双重错乱状态；修复后，终止动作直接收敛到原工具卡自身，并明确表达为 `cancelled`，更符合 NextClaw 作为统一入口时应提供的稳定、自然、可理解体验。
+本次改动顺着“统一体验更可预测、状态边界更清晰”的长期方向推进了一小步。修复前，用户点击终止后会看到“原工具仍在执行中 + 新长出一张 unknown 卡片”的双重错乱状态；修复后，终止动作直接收敛到原工具卡自身，并明确表达为 `cancelled`，更符合 GoUsbAi 作为统一入口时应提供的稳定、自然、可理解体验。
 
 本次顺手减债：是。
 

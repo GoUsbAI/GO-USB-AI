@@ -1,0 +1,82 @@
+{
+  "name": "go-usb-ai",
+  "version": "0.19.30",
+  "description": "Powerful AI assistant for coordinating agents, skills, CLI tools, automations, and messaging apps.",
+  "private": false,
+  "type": "module",
+  "bin": {
+    "go-usb-ai": "dist/cli/launcher/index.js"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Peiiii/go-usb-ai.git"
+  },
+  "homepage": "https://github.com/Peiiii/go-usb-ai#readme",
+  "bugs": {
+    "url": "https://github.com/Peiiii/go-usb-ai/issues"
+  },
+  "keywords": [
+    "ai",
+    "assistant",
+    "agent",
+    "cli",
+    "chatbot"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "bridge",
+    "ui-dist",
+    "templates",
+    "resources"
+  ],
+  "scripts": {
+    "dev": "tsx watch --tsconfig ../../scripts/dev/dev-runtime.tsconfig.json src/cli/app/index.ts",
+    "dev:build": "tsx --tsconfig ../../scripts/dev/dev-runtime.tsconfig.json src/cli/app/index.ts",
+    "build": "node scripts/sync-usage-resource.mjs && tsdown src/index.ts src/cli/app/index.ts src/cli/launcher/index.ts --dts.sourcemap --clean --target es2022 --no-fixedExtension && node scripts/copy-ui-dist.mjs",
+    "runtime-update:build": "node scripts/build-npm-runtime-update-channel.mjs",
+    "smoke:npm-runtime-update": "node scripts/smoke-npm-runtime-update.mjs",
+    "validation:npm-update": "node scripts/smoke-npm-runtime-update.mjs --manual",
+    "prepack": "node ../../scripts/release/verify-package-release-artifacts.mjs",
+    "start": "node dist/cli/app/index.js",
+    "lint": "eslint .",
+    "tsc": "tsc -p tsconfig.json",
+    "test": "vitest",
+    "prepublishOnly": "node ../../scripts/release/ensure-pnpm-publish.mjs"
+  },
+  "dependencies": {
+    "@go-usb-ai/core": "workspace:*",
+    "@go-usb-ai/kernel": "workspace:*",
+    "@go-usb-ai/mcp": "workspace:*",
+    "@go-usb-ai/ncp": "workspace:*",
+    "@go-usb-ai/ncp-agent-runtime": "workspace:*",
+    "@go-usb-ai/ncp-mcp": "workspace:*",
+    "@go-usb-ai/ncp-toolkit": "workspace:*",
+    "@go-usb-ai/go-usb-ai-hermes-acp-bridge": "workspace:*",
+    "@go-usb-ai/go-usb-ai-ncp-runtime-http-client": "workspace:*",
+    "@go-usb-ai/go-usb-ai-ncp-runtime-stdio-client": "workspace:*",
+    "@go-usb-ai/openclaw-compat": "workspace:*",
+    "@go-usb-ai/remote": "workspace:*",
+    "@go-usb-ai/runtime": "workspace:*",
+    "@go-usb-ai/service": "workspace:*",
+    "@go-usb-ai/server": "workspace:*",
+    "chokidar": "^3.6.0",
+    "commander": "^12.1.0",
+    "jszip": "^3.10.1",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@go-usb-ai/ui": "workspace:*",
+    "@types/node": "^20.17.6",
+    "prettier": "^3.3.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.2"
+  }
+}

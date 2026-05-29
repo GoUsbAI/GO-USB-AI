@@ -16,8 +16,8 @@
 - 前端文案从 `API Base` 调整为 `API Base URL`。
 
 涉及文件：
-- [`packages/nextclaw-core/src/providers/registry.ts`](../../../../packages/nextclaw-core/src/providers/registry.ts)
-- [`packages/nextclaw-ui/src/lib/i18n.ts`](../../../../packages/nextclaw-ui/src/lib/i18n.ts)
+- [`packages/go-usb-ai-core/src/providers/registry.ts`](../../../../packages/go-usb-ai-core/src/providers/registry.ts)
+- [`packages/go-usb-ai-ui/src/lib/i18n.ts`](../../../../packages/go-usb-ai-ui/src/lib/i18n.ts)
 
 ## 测试 / 验证 / 验收方式
 
@@ -29,7 +29,7 @@
   - `PATH=/opt/homebrew/bin:$PATH node -e "..."`
   - 结果：`default-api-base-smoke-ok 12`（12 个 provider 全部有默认 `defaultApiBase`）
 - 前端运行态冒烟：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui preview --host 127.0.0.1 --port 4177`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui preview --host 127.0.0.1 --port 4177`
   - `curl http://127.0.0.1:4177/` 与 `curl http://127.0.0.1:4177/providers`
   - 结果：均返回 `200`
 

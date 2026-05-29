@@ -14,11 +14,11 @@
 
 ## 测试/验证/验收方式
 - 类型检查：
-  - `pnpm -C packages/nextclaw-server tsc`
+  - `pnpm -C packages/go-usb-ai-server tsc`
 - 路由相关测试：
-  - `pnpm -C packages/nextclaw-server test -- --run src/ui/router.chat.test.ts src/ui/router.marketplace-content.test.ts src/ui/router.marketplace-manage.test.ts src/ui/router.provider-test.test.ts src/ui/router.session-type.test.ts`
+  - `pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.chat.test.ts src/ui/router.marketplace-content.test.ts src/ui/router.marketplace-manage.test.ts src/ui/router.provider-test.test.ts src/ui/router.session-type.test.ts`
 - Lint：
-  - `pnpm -C packages/nextclaw-server lint`
+  - `pnpm -C packages/go-usb-ai-server lint`
   - 结果：无 error，存在既有 warning（与本次重命名无关或非阻断）。
 
 ## 发布/部署方式

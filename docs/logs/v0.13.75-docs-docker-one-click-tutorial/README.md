@@ -22,6 +22,6 @@
 
 ## 用户/产品视角的验收步骤
 1. 打开中文文档教程总览页，确认出现“Docker 一键部署教程”。
-2. 进入教程，确认包含一键命令：`curl -fsSL https://nextclaw.io/install-docker.sh | bash`。
+2. 进入教程，确认包含一键命令：`curl -fsSL https://go-usb-ai.io/install-docker.sh | bash`。
 3. 在教程里确认有启动后 URL 输出示例（UI/API/Gateway）。
 4. 切到英文文档，确认也有对应 Docker 教程与侧边栏入口。

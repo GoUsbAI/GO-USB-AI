@@ -21,7 +21,7 @@
 
 ## 测试/验证/验收方式
 
-- 文档构建：`pnpm --filter @nextclaw/docs build`
+- 文档构建：`pnpm --filter @go-usb-ai/docs build`
 - 文档双语镜像校验：`pnpm docs:i18n:check`
 - 关键验收点：
   - 文档站“教程总览 / 侧边栏 / 快速开始 / 配置后做什么”都指向新页面 `/guide/tutorials/provider-options`；

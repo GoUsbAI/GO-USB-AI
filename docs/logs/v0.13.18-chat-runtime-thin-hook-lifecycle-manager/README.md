@@ -3,11 +3,11 @@
 ## 迭代完成说明（改了什么）
 
 - Chat runtime 主链路按 agent-kit 思路继续收敛：`AgentChatController -> IAgent.run()`，React hook 仅做订阅与动作转发。
-- `@nextclaw/agent-chat` 补齐 run 生命周期通用能力：
+- `@go-usb-ai/agent-chat` 补齐 run 生命周期通用能力：
   - 新增 `RUN_METADATA` 事件类型。
   - `RUN_STARTED/RUN_FINISHED/RUN_ERROR` 统一支持 `runId`。
   - `AgentChatController` 新增 `activeRunId$ / isAwaitingResponse$ / runCompleted$ / runError$ / runMetadata$`。
-- `nextclaw-ui` 中将 run 编排逻辑下沉到 `ChatRunLifecycleManager`，`useChatRuntimeController` 薄化。
+- `go-usb-ai-ui` 中将 run 编排逻辑下沉到 `ChatRunLifecycleManager`，`useChatRuntimeController` 薄化。
 - `NextbotRuntimeAgent` 统一通过 `AgentEvent` 通道上报 ready/final 元信息（`RUN_METADATA`），并在 `abortRun()` 内执行本地流中断 + 后端 stop run。
 - 继续收敛 `NextbotRuntimeAgent`：将 `run` 主流程拆分为 `createRunObservable/openRunStream/finalizeRunState` 与若干纯函数事件处理器，去除该文件的超长函数告警，同时保持行为不变。
 - 修复前端 `Maximum update depth exceeded` 循环更新问题：
@@ -19,12 +19,12 @@
 
 - 影响面判定：本次改动触达 chat 运行时主链路（发送、流式、事件、中断），需要执行 `tsc/lint/build` 最小充分验证。
 - 已执行：
-  - `pnpm --filter @nextclaw/ui tsc`
-  - `pnpm --filter @nextclaw/ui lint`
-  - `pnpm --filter @nextclaw/ui build`
-  - `pnpm --filter @nextclaw/ui dev --host 127.0.0.1 --port 4173` + `curl -s http://127.0.0.1:4173/`
+  - `pnpm --filter @go-usb-ai/ui tsc`
+  - `pnpm --filter @go-usb-ai/ui lint`
+  - `pnpm --filter @go-usb-ai/ui build`
+  - `pnpm --filter @go-usb-ai/ui dev --host 127.0.0.1 --port 4173` + `curl -s http://127.0.0.1:4173/`
 - 说明：
-  - `pnpm --filter @nextclaw/agent-chat tsc` 受包内既有 node16 ESM 扩展名基线问题影响失败（非本迭代新增问题）。
+  - `pnpm --filter @go-usb-ai/agent-chat tsc` 受包内既有 node16 ESM 扩展名基线问题影响失败（非本迭代新增问题）。
 
 ## 发布/部署方式
 

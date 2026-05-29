@@ -8,7 +8,7 @@
   - 在手机 Chrome 上，浏览器地址栏 / 底部工具栏会让可见视口小于 `100vh`，导致应用底部内容被压到可视区外。
   - 聊天列表页的底部导航栏和会话详情页的输入面板都挂在这个移动端壳子里，所以会同时受影响。
 - 根因确认方式：
-  - 检查 [mobile-app-shell.tsx](/Users/tongwenwen/Projects/Peiiii/nextclaw/packages/nextclaw-ui/src/platforms/mobile/components/mobile-app-shell.tsx) 发现根容器高度写死为 `h-screen`。
+  - 检查 [mobile-app-shell.tsx](/Users/tongwenwen/Projects/Peiiii/go-usb-ai/packages/go-usb-ai-ui/src/platforms/mobile/components/mobile-app-shell.tsx) 发现根容器高度写死为 `h-screen`。
   - 对照移动端 Chrome 常见适配问题，`100vh` 与动态可见视口不一致，和“底部内容被浏览器 chrome 遮住”的现象完全吻合。
 - 本次修复命中根因：
   - 将移动端壳子从 `h-screen` 改为 `h-[100svh] supports-[height:100dvh]:h-[100dvh]`。
@@ -16,23 +16,23 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui test -- src/platforms/mobile/components/mobile-app-shell.test.tsx`：通过，1 个测试文件 / 3 个测试通过。
-- `pnpm --filter @nextclaw/ui tsc`：通过。
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/platforms/mobile/components/mobile-app-shell.tsx packages/nextclaw-ui/src/platforms/mobile/components/mobile-app-shell.test.tsx`：通过，非测试代码 `+1 / -1 / net +0`。
-- `pnpm release:version && pnpm release:publish`：通过，发布前自动完成 `@nextclaw/ui` 与 `nextclaw` 的 release check / build / tsc，并完成发布后 registry 校验。
-- `pnpm view @nextclaw/ui version`：确认 npm registry 最新版本为 `0.12.18`。
-- `pnpm view nextclaw version`：确认 npm registry 最新版本为 `0.18.9`。
+- `pnpm --filter @go-usb-ai/ui test -- src/platforms/mobile/components/mobile-app-shell.test.tsx`：通过，1 个测试文件 / 3 个测试通过。
+- `pnpm --filter @go-usb-ai/ui tsc`：通过。
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/platforms/mobile/components/mobile-app-shell.tsx packages/go-usb-ai-ui/src/platforms/mobile/components/mobile-app-shell.test.tsx`：通过，非测试代码 `+1 / -1 / net +0`。
+- `pnpm release:version && pnpm release:publish`：通过，发布前自动完成 `@go-usb-ai/ui` 与 `go-usb-ai` 的 release check / build / tsc，并完成发布后 registry 校验。
+- `pnpm view @go-usb-ai/ui version`：确认 npm registry 最新版本为 `0.12.18`。
+- `pnpm view go-usb-ai version`：确认 npm registry 最新版本为 `0.18.9`。
 
 ## 发布/部署方式
 
-- 本次改动影响 `@nextclaw/ui` 的移动端应用壳子布局。
+- 本次改动影响 `@go-usb-ai/ui` 的移动端应用壳子布局。
 - 已通过 Changesets 执行 NPM 发布。
-- `@nextclaw/ui` 发布为 `0.12.18`。
-- `nextclaw` 发布为 `0.18.9`，并携带重新构建后的 `packages/nextclaw/ui-dist` 前端构建产物。
+- `@go-usb-ai/ui` 发布为 `0.12.18`。
+- `go-usb-ai` 发布为 `0.18.9`，并携带重新构建后的 `packages/go-usb-ai/ui-dist` 前端构建产物。
 
 ## 用户/产品视角的验收步骤
 
-1. 在手机 Chrome 中打开 NextClaw 移动端界面。
+1. 在手机 Chrome 中打开 GoUsbAi 移动端界面。
 2. 进入聊天列表页，确认底部导航栏可见，不再被浏览器底栏压出屏幕。
 3. 进入任意会话详情页，确认底部输入面板完整可见，不再有下半部分被裁掉。
 4. 上下滚动或触发 Chrome 地址栏收起/展开，确认底部区域仍稳定贴合可见视口。
@@ -50,7 +50,7 @@
 
 - 本次是否需要发包：需要。
 - 需要发布哪些包：
-  - `@nextclaw/ui`：已发布，版本 `0.12.18`。
-  - `nextclaw`：已发布，版本 `0.18.9`，用于同步携带最新 UI dist。
+  - `@go-usb-ai/ui`：已发布，版本 `0.12.18`。
+  - `go-usb-ai`：已发布，版本 `0.18.9`，用于同步携带最新 UI dist。
 - 当前发布状态：已发布并通过 `release:verify:published` 与 `pnpm view` 复核。
 - 阻塞或触发条件：无。

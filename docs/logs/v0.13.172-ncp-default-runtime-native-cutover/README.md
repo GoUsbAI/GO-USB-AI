@@ -1,25 +1,25 @@
 # 迭代完成说明
 
-本次迭代把 Nextclaw 的 UI NCP agent 后端执行主链路，从 bridge runtime 正式切到基于 `DefaultNcpAgentRuntime` 的 NCP-native 装配方式。
+本次迭代把 GoUsbAi 的 UI NCP agent 后端执行主链路，从 bridge runtime 正式切到基于 `DefaultNcpAgentRuntime` 的 NCP-native 装配方式。
 
 核心变化：
 
-- `createUiNcpAgent` 不再通过 `NextclawUiNcpRuntime -> runtimePool.processDirect()` 桥接 legacy runtime
+- `createUiNcpAgent` 不再通过 `GoUsbAiUiNcpRuntime -> runtimePool.processDirect()` 桥接 legacy runtime
 - UI NCP agent 现在直接装配：
   - `DefaultNcpAgentBackend`
   - `DefaultNcpAgentRuntime`
-  - `NextclawNcpContextBuilder`
-  - `NextclawNcpToolRegistry`
+  - `GoUsbAiNcpContextBuilder`
+  - `GoUsbAiNcpToolRegistry`
   - `ProviderManagerNcpLLMApi`
-  - `NextclawAgentSessionStore`
+  - `GoUsbAiAgentSessionStore`
 - 新增 NCP 消费方装配积木：
-  - `nextclaw-ncp-context-builder.ts`
-  - `nextclaw-ncp-tool-registry.ts`
-  - `nextclaw-ncp-message-bridge.ts`
+  - `go-usb-ai-ncp-context-builder.ts`
+  - `go-usb-ai-ncp-tool-registry.ts`
+  - `go-usb-ai-ncp-message-bridge.ts`
 - 删除 bridge runtime 相关文件：
-  - `nextclaw-ui-ncp-runtime.ts`
-  - `nextclaw-ui-ncp-runtime.test.ts`
-- 补齐 `@nextclaw/core` 导出，便于复用 Nextclaw 现有真实能力
+  - `go-usb-ai-ui-ncp-runtime.ts`
+  - `go-usb-ai-ui-ncp-runtime.test.ts`
+- 补齐 `@go-usb-ai/core` 导出，便于复用 GoUsbAi 现有真实能力
 - `service.ts` 已改为向 `createUiNcpAgent` 注入 bus / provider / gateway / config / extension / tool hints 等真实依赖
 - session metadata 的 model / thinking 等偏好会持久化并在后续 turn 中复用
 
@@ -31,22 +31,22 @@
 
 已执行的最小充分验证：
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/core tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server exec vitest run src/ui/router.ncp-agent.test.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/core build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw lint`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/core lint`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/core tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server exec vitest run src/ui/router.ncp-agent.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/core build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/core lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server lint`
 
 本次重点验收点：
 
 - UI NCP agent 的 runtime 已进入 `DefaultNcpAgentRuntime`
 - skill 内容能进入 prompt
-- 工具调用经过真实 `NextclawNcpToolRegistry`
+- 工具调用经过真实 `GoUsbAiNcpToolRegistry`
 - session metadata 能写回并在后续 turn 复用
 - server 侧 NCP agent 路由回归通过
 

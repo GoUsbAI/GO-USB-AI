@@ -1,12 +1,12 @@
-# Claw 生态易用性综合评估对比（含 NextClaw）
+# Claw 生态易用性综合评估对比（含 GoUsbAi）
 
 ## 1. 评估目标与结论
 
-目标：从“普通用户是否能快速成功使用”角度，对 `openclaw / nanobot / nanoclaw / zeroclaw / picoclaw / nextclaw` 做可操作的易用性对比。
+目标：从“普通用户是否能快速成功使用”角度，对 `openclaw / nanobot / nanoclaw / zeroclaw / picoclaw / go-usb-ai` 做可操作的易用性对比。
 
 结论（总分 100）：
 
-1. `nextclaw`：**84**（UI-first + 一条命令 + 中文友好渠道，综合最均衡）
+1. `go-usb-ai`：**84**（UI-first + 一条命令 + 中文友好渠道，综合最均衡）
 2. `nanobot`：**74**（CLI 配置链路成熟，功能广，学习成本中等）
 3. `picoclaw`：**70**（轻量与多渠道较好，但仍处快速演进期）
 4. `openclaw`：**68**（能力最全但复杂度高，普通用户上手负担重）
@@ -35,13 +35,13 @@
 | nanoclaw | 3 | 2 | 3 | 3 | 2 | 4 | 62 |
 | zeroclaw | 3 | 3 | 3 | 4 | 2 | 4 | 66 |
 | picoclaw | 4 | 3 | 4 | 3 | 3 | 4 | 70 |
-| nextclaw | 5 | 5 | 4 | 4 | 5 | 4 | 84 |
+| go-usb-ai | 5 | 5 | 4 | 4 | 5 | 4 | 84 |
 
 注：分数依据本次快照 README/文档声明与操作路径评估，不等同于性能跑分。
 
 ## 4. 关键差异（用户视角）
 
-### 4.1 NextClaw 为什么在易用性领先
+### 4.1 GoUsbAi 为什么在易用性领先
 
 - 一条命令启动后直接进入可视化配置与对话流程（降低 CLI 依赖）。
 - Provider / Channels / Cron / Plugins / Skills 同一 UI 内闭环操作，减少上下文切换。
@@ -56,7 +56,7 @@
 - `picoclaw`：轻量部署体验好，弱硬件场景友好。
 - `nanoclaw`：极简代码结构，适合愿意“改代码即定制”的用户。
 
-## 5. 对 NextClaw 的提升建议（按优先级）
+## 5. 对 GoUsbAi 的提升建议（按优先级）
 
 1. 把“首次 10 分钟成功路径”做成 UI 内任务清单（Provider → Model → Channel → 首次消息）。
 2. 在 UI 增加“错误恢复向导”（连接失败、鉴权失败、渠道回调失败三类模板化排障）。
@@ -73,11 +73,11 @@
 ## 7. 证据来源（本地路径）
 
 - `/Users/peiwang/Projects/openclaw/README.md`
-- `/tmp/nextclaw-competitors-20260228/nanobot/README.md`
-- `/tmp/nextclaw-competitors-20260228/nanoclaw/README.md`
-- `/tmp/nextclaw-competitors-20260228/zeroclaw/README.md`
-- `/tmp/nextclaw-competitors-20260228/picoclaw/README.md`
+- `/tmp/go-usb-ai-competitors-20260228/nanobot/README.md`
+- `/tmp/go-usb-ai-competitors-20260228/nanoclaw/README.md`
+- `/tmp/go-usb-ai-competitors-20260228/zeroclaw/README.md`
+- `/tmp/go-usb-ai-competitors-20260228/picoclaw/README.md`
 - `README.md`
 - `README.zh-CN.md`
 - `docs/logs/2026-02-28-claw-competition-analysis/v0.0.1-claw-competition-analysis/report-01-claw-landscape-comparison.md`
-- `docs/logs/2026-02-28-claw-competition-analysis/v0.0.1-claw-competition-analysis/report-02-nextclaw-advantages-horizontal.md`
+- `docs/logs/2026-02-28-claw-competition-analysis/v0.0.1-claw-competition-analysis/report-02-go-usb-ai-advantages-horizontal.md`

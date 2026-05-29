@@ -2,7 +2,7 @@
 
 ## 迭代完成说明（改了什么）
 
-- 修复 `packages/nextclaw/src/cli/skills/marketplace.ts` 的 marketplace skill 安装兼容性：
+- 修复 `packages/go-usb-ai/src/cli/skills/marketplace.ts` 的 marketplace skill 安装兼容性：
   - `files` 清单新增解析 `contentBase64` 字段。
   - 安装时优先使用 `contentBase64` 直接落盘，缺失时再回退旧的 `downloadPath/files/blob` 下载逻辑。
   - 新增 `contentBase64` 校验与解码，避免无效数据落盘。
@@ -11,23 +11,23 @@
 ## 测试/验证/验收方式
 
 - 冒烟（真实接口，非仓库目录写入）：
-  - `tmpdir=$(mktemp -d /tmp/nextclaw-skill-install-smoke-XXXXXX)`
-  - `pnpm -C packages/nextclaw exec tsx src/cli/index.ts skills install agent-browser --api-base https://marketplace-api.nextclaw.io --dir "$tmpdir"`
+  - `tmpdir=$(mktemp -d /tmp/go-usb-ai-skill-install-smoke-XXXXXX)`
+  - `pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts skills install agent-browser --api-base https://marketplace-api.go-usb-ai.io --dir "$tmpdir"`
   - 结果：成功输出 `Installed agent-browser (marketplace)`，并生成 `$tmpdir/agent-browser/SKILL.md`。
 - 代码校验：
-  - `pnpm -C packages/nextclaw lint`（通过；存在仓库既有 warning，无新增 error）
-  - `pnpm -C packages/nextclaw tsc`（通过）
-  - `pnpm -C packages/nextclaw build`（通过）
+  - `pnpm -C packages/go-usb-ai lint`（通过；存在仓库既有 warning，无新增 error）
+  - `pnpm -C packages/go-usb-ai tsc`（通过）
+  - `pnpm -C packages/go-usb-ai build`（通过）
 
 ## 发布/部署方式
 
 - 本次仅修改本地 CLI 安装逻辑，不涉及后端或数据库变更，`migration` 不适用。
-- 合入后按常规发版流程发布 `nextclaw` 包即可生效（无需额外服务端部署）。
+- 合入后按常规发版流程发布 `go-usb-ai` 包即可生效（无需额外服务端部署）。
 
 ## 用户/产品视角的验收步骤
 
 1. 在任意空目录执行：
-   - `nextclaw skills install agent-browser --api-base https://marketplace-api.nextclaw.io --dir ./skills`
+   - `go-usb-ai skills install agent-browser --api-base https://marketplace-api.go-usb-ai.io --dir ./skills`
 2. 期望结果：
    - 命令返回 `Installed agent-browser (marketplace)`。
    - 本地生成 `./skills/agent-browser/SKILL.md`。

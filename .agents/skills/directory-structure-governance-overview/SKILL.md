@@ -186,7 +186,7 @@ NODE
 1. 总览数字：模块数、发现数、按协议分布。
 2. 问题类型：根目录越界、根文件越界、feature 出口缺失、CLI command 根问题、legacy frozen 债务等。
 3. 热点 Top 10：每项包含模块、协议、发现数、典型样例。
-4. 核心优先级：把 `nextclaw-core`、NCP 底座、runtime、CLI、UI、插件分层看。
+4. 核心优先级：把 `go-usb-ai-core`、NCP 底座、runtime、CLI、UI、插件分层看。
 5. 推荐下一步：只给 3-5 个最值得推进的治理方向。
 6. 不确定项：如果发现高层规范与脚本协议不一致，明确标出并建议先修规范/脚本对齐。
 
@@ -194,13 +194,13 @@ NODE
 
 默认排序：
 
-- `P0`：核心底座、高依赖包、运行时主链路，例如 `nextclaw-core`、NCP 包、agent/runtime、CLI 主链路。
+- `P0`：核心底座、高依赖包、运行时主链路，例如 `go-usb-ai-core`、NCP 包、agent/runtime、CLI 主链路。
 - `P1`：产品关键路径或生态基础能力，例如 app runtime、server、mcp、remote、marketplace worker。
 - `P2`：数量大但影响面较局部的插件、demo、独立 app。
 
 当用户要求“先忽略插件”时：
 
-- 将 `packages/extensions/nextclaw-channel-plugin-*` 单独列到插件组。
+- 将 `packages/extensions/go-usb-ai-channel-plugin-*` 单独列到插件组。
 - Top 10 主榜默认不让插件占据第一优先级。
 
 ## 结束判断

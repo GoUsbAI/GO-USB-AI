@@ -5,14 +5,14 @@
 - 修复 Providers 页面 tab 计数一致性：
   - `All Providers` tab 现在显示总数，行为与 Channels 页面一致。
 - 变更文件：
-  - `packages/nextclaw-ui/src/components/config/ProvidersList.tsx`
+  - `packages/go-usb-ai-ui/src/components/config/ProvidersList.tsx`
 
 ## 测试 / 验证 / 验收方式
 
 - 执行：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 - 验收观察点：Providers 页签 `All Providers` 右侧显示数量，且与实际 provider 列表总数一致。
 
 ## 发布 / 部署方式

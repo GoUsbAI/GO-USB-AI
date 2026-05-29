@@ -12,12 +12,12 @@
 
 ## 测试/验证/验收方式
 - 受影响包验证：
-  - `pnpm -C packages/nextclaw-ui tsc`（通过）
-  - `pnpm -C packages/nextclaw-ui build`（通过）
-  - `pnpm -C packages/nextclaw-server tsc`（通过）
-  - `pnpm -C packages/nextclaw-server build`（通过）
-  - `pnpm -C packages/nextclaw-server lint`（通过，存在历史 warning）
-  - `pnpm -C packages/nextclaw-ui lint`（未通过，历史基线问题，非本次改动引入）
+  - `pnpm -C packages/go-usb-ai-ui tsc`（通过）
+  - `pnpm -C packages/go-usb-ai-ui build`（通过）
+  - `pnpm -C packages/go-usb-ai-server tsc`（通过）
+  - `pnpm -C packages/go-usb-ai-server build`（通过）
+  - `pnpm -C packages/go-usb-ai-server lint`（通过，存在历史 warning）
+  - `pnpm -C packages/go-usb-ai-ui lint`（未通过，历史基线问题，非本次改动引入）
 - 冒烟验证：
   - 通过构建产物直接请求 `createUiRouter` 的 `/api/health`，断言返回：
     - `ok: true`
@@ -25,9 +25,9 @@
     - `data.services.chatRuntime` / `data.services.cronService` 存在
 
 ## 发布/部署方式
-- 本次涉及 `@nextclaw/ui` 与 `@nextclaw/server` 代码改动，发布前按影响范围执行：
-  - `pnpm -C packages/nextclaw-ui tsc && pnpm -C packages/nextclaw-ui build`
-  - `pnpm -C packages/nextclaw-server tsc && pnpm -C packages/nextclaw-server build`
+- 本次涉及 `@go-usb-ai/ui` 与 `@go-usb-ai/server` 代码改动，发布前按影响范围执行：
+  - `pnpm -C packages/go-usb-ai-ui tsc && pnpm -C packages/go-usb-ai-ui build`
+  - `pnpm -C packages/go-usb-ai-server tsc && pnpm -C packages/go-usb-ai-server build`
 - 如需正式发版，走项目既有 release 流程（changeset version/publish）。
 - 不适用项：
   - 远程 migration：不适用（未涉及后端数据库 schema 变更）。

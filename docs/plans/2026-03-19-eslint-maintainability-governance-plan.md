@@ -98,12 +98,12 @@
 
 首批目标范围：
 
-- `packages/nextclaw/**/*.{ts,mts,cts}`
-- `packages/nextclaw-core/**/*.{ts,mts,cts}`
-- `packages/nextclaw-server/**/*.{ts,mts,cts}`
-- `packages/nextclaw-openclaw-compat/**/*.{ts,mts,cts}`
+- `packages/go-usb-ai/**/*.{ts,mts,cts}`
+- `packages/go-usb-ai-core/**/*.{ts,mts,cts}`
+- `packages/go-usb-ai-server/**/*.{ts,mts,cts}`
+- `packages/go-usb-ai-openclaw-compat/**/*.{ts,mts,cts}`
 - `workers/**/*.{ts,mts,cts}`
-- `packages/extensions/nextclaw-channel-runtime/**/*.{ts,mts,cts}`
+- `packages/extensions/go-usb-ai-channel-runtime/**/*.{ts,mts,cts}`
 
 作用：
 
@@ -362,16 +362,16 @@ skill 的核心判断不应该是“仓库里还有没有历史 warning”，而
 
 ```bash
 pnpm lint:maintainability:report
-pnpm exec eslint packages/nextclaw-openclaw-compat/src/plugins/loader.ts
-pnpm exec eslint packages/nextclaw/src/cli/commands/service.ts
-pnpm exec eslint packages/nextclaw-core/src/agent/loop.ts
+pnpm exec eslint packages/go-usb-ai-openclaw-compat/src/plugins/loader.ts
+pnpm exec eslint packages/go-usb-ai/src/cli/commands/service.ts
+pnpm exec eslint packages/go-usb-ai-core/src/agent/loop.ts
 ```
 
 ### Maintainability skill 验证
 
 ```bash
 node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --json --no-fail
-node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-openclaw-compat/src/plugins/loader.ts --json --no-fail
+node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-openclaw-compat/src/plugins/loader.ts --json --no-fail
 ```
 
 ## 最终判断

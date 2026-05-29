@@ -15,12 +15,12 @@ export class CompanionTrayService {
     }
 
     this.tray = new Tray(this.createTrayIcon());
-    this.tray.setToolTip("NextClaw Companion");
+    this.tray.setToolTip("GoUsbAi Companion");
     this.tray.on("click", this.onToggleWindow);
     this.tray.setContextMenu(
       Menu.buildFromTemplate([
         { label: "Show Companion", click: this.onToggleWindow },
-        { label: "Open NextClaw", click: () => void shell.openExternal(this.baseUrl) },
+        { label: "Open GoUsbAi", click: () => void shell.openExternal(this.baseUrl) },
         { type: "separator" },
         { label: "Quit", click: this.onQuit }
       ])

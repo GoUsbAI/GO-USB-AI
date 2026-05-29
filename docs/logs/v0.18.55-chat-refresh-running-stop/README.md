@@ -9,18 +9,18 @@
 
 ## 测试/验证/验收方式
 
-- `node packages/nextclaw-kernel/node_modules/vitest/vitest.mjs run packages/nextclaw-kernel/src/services/ncp-session-api.service.test.ts --config packages/nextclaw-kernel/vitest.config.ts`
-- `pnpm -C packages/nextclaw-ui test src/features/chat/hooks/use-ncp-agent-runtime.test.tsx src/features/chat/pages/ncp-chat-page.test.ts src/features/chat/utils/ncp-session-adapter.utils.test.ts`
-- `node packages/ncp-packages/nextclaw-ncp-toolkit/node_modules/typescript/bin/tsc -p packages/ncp-packages/nextclaw-ncp-toolkit/tsconfig.json --pretty false --noEmit`
-- `pnpm -C packages/nextclaw-kernel exec tsc -p tsconfig.json --pretty false --noEmit`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-react tsc`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit lint`
-- `pnpm -C packages/nextclaw-kernel lint`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-react lint`
-- `pnpm -C packages/nextclaw-ui exec eslint src/features/chat/pages/ncp-chat-page.tsx src/features/chat/hooks/use-ncp-agent-runtime.test.tsx src/features/chat/hooks/use-ncp-child-session-tabs-view.ts src/features/chat/hooks/use-ncp-session-list-view.ts src/features/chat/utils/ncp-session-adapter.utils.ts src/shared/lib/api/ncp-session.types.ts`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit build`
-- `pnpm -C packages/nextclaw-kernel build`
+- `node packages/go-usb-ai-kernel/node_modules/vitest/vitest.mjs run packages/go-usb-ai-kernel/src/services/ncp-session-api.service.test.ts --config packages/go-usb-ai-kernel/vitest.config.ts`
+- `pnpm -C packages/go-usb-ai-ui test src/features/chat/hooks/use-ncp-agent-runtime.test.tsx src/features/chat/pages/ncp-chat-page.test.ts src/features/chat/utils/ncp-session-adapter.utils.test.ts`
+- `node packages/ncp-packages/go-usb-ai-ncp-toolkit/node_modules/typescript/bin/tsc -p packages/ncp-packages/go-usb-ai-ncp-toolkit/tsconfig.json --pretty false --noEmit`
+- `pnpm -C packages/go-usb-ai-kernel exec tsc -p tsconfig.json --pretty false --noEmit`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-react tsc`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit lint`
+- `pnpm -C packages/go-usb-ai-kernel lint`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-react lint`
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/features/chat/pages/ncp-chat-page.tsx src/features/chat/hooks/use-ncp-agent-runtime.test.tsx src/features/chat/hooks/use-ncp-child-session-tabs-view.ts src/features/chat/hooks/use-ncp-session-list-view.ts src/features/chat/utils/ncp-session-adapter.utils.ts src/shared/lib/api/ncp-session.types.ts`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit build`
+- `pnpm -C packages/go-usb-ai-kernel build`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths ...`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
@@ -29,7 +29,7 @@
 ## 发布/部署方式
 
 - 未执行发布或部署。
-- 本地验证构建了 `@nextclaw/ncp-toolkit` 与 `@nextclaw/kernel`，因为当前 dev serve 消费 workspace package 的 dist 类型/产物。
+- 本地验证构建了 `@go-usb-ai/ncp-toolkit` 与 `@go-usb-ai/kernel`，因为当前 dev serve 消费 workspace package 的 dist 类型/产物。
 
 ## 用户/产品视角的验收步骤
 
@@ -47,4 +47,4 @@
 ## NPM 包发布记录
 
 - 不涉及即时 NPM 包发布。
-- 后续发布需评估 `@nextclaw/ncp-toolkit`、`@nextclaw/kernel`、`@nextclaw/ncp-react` 与 `@nextclaw/ui` 的统一版本批次。
+- 后续发布需评估 `@go-usb-ai/ncp-toolkit`、`@go-usb-ai/kernel`、`@go-usb-ai/ncp-react` 与 `@go-usb-ai/ui` 的统一版本批次。

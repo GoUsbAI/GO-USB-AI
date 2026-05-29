@@ -11,17 +11,17 @@
 ## 变更内容（迭代完成说明）
 
 - 文件：`README.zh-CN.md`
-- 变更：删除 `- [配置与 Provider](https://docs.nextclaw.io/zh/guide/configuration)`。
+- 变更：删除 `- [配置与 Provider](https://docs.go-usb-ai.io/zh/guide/configuration)`。
 - 文件：`README.md`
-- 变更：删除 `- [Configuration & Providers](https://docs.nextclaw.io/en/guide/configuration)`。
+- 变更：删除 `- [Configuration & Providers](https://docs.go-usb-ai.io/en/guide/configuration)`。
 
 ## 测试 / 验证 / 验收方式
 
 ```bash
 sed -n '68,88p' README.zh-CN.md
 sed -n '72,92p' README.md
-rg -n "\[配置与 Provider\]\(https://docs.nextclaw.io/zh/guide/configuration\)" README.zh-CN.md
-rg -n "\[Configuration & Providers\]\(https://docs.nextclaw.io/en/guide/configuration\)" README.md
+rg -n "\[配置与 Provider\]\(https://docs.go-usb-ai.io/zh/guide/configuration\)" README.zh-CN.md
+rg -n "\[Configuration & Providers\]\(https://docs.go-usb-ai.io/en/guide/configuration\)" README.md
 ```
 
 验收点：

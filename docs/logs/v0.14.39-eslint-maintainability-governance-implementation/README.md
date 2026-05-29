@@ -26,7 +26,7 @@
   - 新增 diff-only 逻辑：优先拦截本次新增或恶化的函数级债务，而不是把所有历史 warning 一次性卡死
   - 新增对维护性规则 `eslint-disable` 注释的阻断检测
 - 新规则已能命中典型问题样本：
-  - `packages/nextclaw-openclaw-compat/src/plugins/loader.ts` 的 `loadOpenClawPlugins`
+  - `packages/go-usb-ai-openclaw-compat/src/plugins/loader.ts` 的 `loadOpenClawPlugins`
   - `appendBundledChannelPlugins`
   - 多个 `service` / `controller` / `router` / `channel runtime` 编排函数
 
@@ -36,7 +36,7 @@
   - `node --check .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs`
   - 结果：通过
 - 代表性 ESLint 验证：
-  - `pnpm exec eslint packages/nextclaw-openclaw-compat/src/plugins/loader.ts --format json`
+  - `pnpm exec eslint packages/go-usb-ai-openclaw-compat/src/plugins/loader.ts --format json`
   - 结果：能命中新增规则
     - `sonarjs/cognitive-complexity`：`appendBundledChannelPlugins`、`loadOpenClawPlugins`
     - `max-statements`：`appendBundledChannelPlugins`、`loadOpenClawPlugins`
@@ -66,7 +66,7 @@
 
 # 用户/产品视角的验收步骤
 
-1. 在仓库根目录执行 `pnpm exec eslint packages/nextclaw-openclaw-compat/src/plugins/loader.ts --format json`。
+1. 在仓库根目录执行 `pnpm exec eslint packages/go-usb-ai-openclaw-compat/src/plugins/loader.ts --format json`。
 2. 确认输出不再只包含 `max-lines-per-function`，而是还能看到 `max-statements` 与 `sonarjs/cognitive-complexity`。
 3. 运行 `node scripts/eslint-line-limit-report.mjs --json`，确认输出里包含 `max-depth`、`max-statements`、`sonarjs/cognitive-complexity` 的聚合统计。
 4. 运行 `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --json --no-fail`，确认输出中有 `file_findings` 与 `function_findings` 两个维度，且本次改动文件未引入新的维护性阻塞项。

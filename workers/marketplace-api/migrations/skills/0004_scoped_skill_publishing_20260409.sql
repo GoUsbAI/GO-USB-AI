@@ -17,13 +17,13 @@ ALTER TABLE marketplace_skill_items
   ADD COLUMN published_by_type TEXT NOT NULL DEFAULT 'admin';
 
 UPDATE marketplace_skill_items
-SET package_name = '@nextclaw/' || slug,
-    owner_scope = 'nextclaw',
+SET package_name = '@go-usb-ai/' || slug,
+    owner_scope = 'go-usb-ai',
     skill_name = slug,
     publish_status = 'published',
     published_by_type = 'admin',
-    install_spec = '@nextclaw/' || slug,
-    install_command = 'nextclaw skills install @nextclaw/' || slug
+    install_spec = '@go-usb-ai/' || slug,
+    install_command = 'go-usb-ai skills install @go-usb-ai/' || slug
 WHERE package_name IS NULL
    OR owner_scope IS NULL
    OR skill_name IS NULL;

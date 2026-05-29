@@ -10,10 +10,10 @@
 ## 验证
 - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm build`
 - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint`
-  - 仅警告：`packages/nextclaw-core/src/channels/mochat.ts`、`packages/nextclaw/src/cli/runtime.ts` 超过行数限制
+  - 仅警告：`packages/go-usb-ai-core/src/channels/mochat.ts`、`packages/go-usb-ai/src/cli/runtime.ts` 超过行数限制
 - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm tsc`
 - 冒烟（非仓库目录）：
-  - `node --input-type=module -e "import('file:///Users/peiwang/Projects/nextbot/packages/nextclaw-core/dist/index.js').then(m=>{const res=m.buildConfigSchema();console.log(res.schema && res.uiHints ? 'schema_ok' : 'schema_missing');})"`
+  - `node --input-type=module -e "import('file:///Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/dist/index.js').then(m=>{const res=m.buildConfigSchema();console.log(res.schema && res.uiHints ? 'schema_ok' : 'schema_missing');})"`
   - 预期：输出 `schema_ok`
 
 ## 发布/部署

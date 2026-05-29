@@ -10,14 +10,14 @@
 - 列表查询与已安装列表均按当前路由类型严格过滤，仅显示对应类型数据。
 - `Marketplace / Installed` 保留为该类型下的二级范围切换。
 - 核心文件：
-- `packages/nextclaw-ui/src/App.tsx`
-- `packages/nextclaw-ui/src/components/marketplace/MarketplacePage.tsx`
+- `packages/go-usb-ai-ui/src/App.tsx`
+- `packages/go-usb-ai-ui/src/components/marketplace/MarketplacePage.tsx`
 
 ## 测试 / 验证 / 验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
 - 全量校验（按规则）：
 - `PATH=/opt/homebrew/bin:$PATH pnpm build`
 - `PATH=/opt/homebrew/bin:$PATH pnpm lint`
@@ -27,7 +27,7 @@
 
 - 本次为前端 UI 行为调整，无后端/数据库 schema 变更。
 - 远程 migration：不适用。
-- 按既有发布流程发布 `nextclaw` 包，或在测试环境更新 UI 产物后重启服务。
+- 按既有发布流程发布 `go-usb-ai` 包，或在测试环境更新 UI 产物后重启服务。
 
 ## 用户 / 产品视角的验收步骤
 

@@ -1,5 +1,5 @@
 ALTER TABLE marketplace_app_items
-  ADD COLUMN owner_scope TEXT NOT NULL DEFAULT 'nextclaw';
+  ADD COLUMN owner_scope TEXT NOT NULL DEFAULT 'go-usb-ai';
 
 ALTER TABLE marketplace_app_items
   ADD COLUMN owner_user_id TEXT;

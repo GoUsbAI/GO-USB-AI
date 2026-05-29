@@ -4,76 +4,76 @@
 
 - 本次为 npm / CLI 安装链路补上了第一条正式产品化的宿主自启动主路径：Linux `systemd`。
 - 相关设计文档见：
-  - [NextClaw Host-Native Autostart Strategy Design](../../designs/2026-04-18-host-native-autostart-strategy-design.md)
+  - [GoUsbAi Host-Native Autostart Strategy Design](../../designs/2026-04-18-host-native-autostart-strategy-design.md)
   - [Host-Native Autostart Implementation Plan](../../plans/2026-04-18-host-native-autostart-implementation-plan.md)
 - 本次明确收敛了产品边界：
   - 只实现 Linux `systemd` 主路径，不在这一轮半做 macOS `launchd` 或 Windows Task Scheduler。
   - 继续保留“桌面安装包登录自启”与“npm/CLI 宿主自启动”两套不同 owner，不再混成一个模糊能力。
   - 不把“远程开机 / 远程唤醒机器”混进本轮。
 - CLI 新增并接通了以下命令：
-  - `nextclaw service install-systemd --user`
-  - `sudo nextclaw service install-systemd --system`
-  - `nextclaw service uninstall-systemd --user`
-  - `sudo nextclaw service uninstall-systemd --system`
-  - `nextclaw service autostart status`
-  - `nextclaw service autostart doctor`
+  - `go-usb-ai service install-systemd --user`
+  - `sudo go-usb-ai service install-systemd --system`
+  - `go-usb-ai service uninstall-systemd --user`
+  - `sudo go-usb-ai service uninstall-systemd --system`
+  - `go-usb-ai service autostart status`
+  - `go-usb-ai service autostart doctor`
 - 新增了独立的 Linux systemd owner：
-  - [packages/nextclaw/src/cli/commands/service-support/autostart/linux-systemd-autostart.service.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service-support/autostart/linux-systemd-autostart.service.ts)
-  - [packages/nextclaw/src/cli/commands/service-support/autostart/host-autostart.service.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service-support/autostart/host-autostart.service.ts)
-  - [packages/nextclaw/src/cli/commands/service-support/autostart/host-autostart.types.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service-support/autostart/host-autostart.types.ts)
+  - [packages/go-usb-ai/src/cli/commands/service-support/autostart/linux-systemd-autostart.service.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service-support/autostart/linux-systemd-autostart.service.ts)
+  - [packages/go-usb-ai/src/cli/commands/service-support/autostart/host-autostart.service.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service-support/autostart/host-autostart.service.ts)
+  - [packages/go-usb-ai/src/cli/commands/service-support/autostart/host-autostart.types.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service-support/autostart/host-autostart.types.ts)
 - 本次实现保持“行为明确、可预测”：
-  - `npm i -g nextclaw` 仍只负责安装 CLI，不会静默改宿主启动项。
+  - `npm i -g go-usb-ai` 仍只负责安装 CLI，不会静默改宿主启动项。
   - `install-systemd` 必须显式选择 `--user` 或 `--system`，避免猜测作用域。
   - `status` / `doctor` 属于纯读路径，不隐式启停服务。
-  - systemd unit 使用显式 Node 路径 + 显式 CLI entry + 显式 `NEXTCLAW_HOME`，避免依赖 cwd 或交互 shell PATH。
+  - systemd unit 使用显式 Node 路径 + 显式 CLI entry + 显式 `GOUSB_AI_HOME`，避免依赖 cwd 或交互 shell PATH。
 - 在交付前复查中又补了一处可靠性收口：
   - 当 `systemctl daemon-reload` / `enable` / `restart` / `disable` 实际失败时，CLI 现在会明确返回失败，而不是误报“安装/卸载成功”。
 - 用户文档同步更新：
   - [apps/docs/en/guide/commands.md](/Users/peiwang/Projects/nextbot/apps/docs/en/guide/commands.md)
   - [apps/docs/zh/guide/commands.md](/Users/peiwang/Projects/nextbot/apps/docs/zh/guide/commands.md)
   - [docs/USAGE.md](/Users/peiwang/Projects/nextbot/docs/USAGE.md)
-  - [packages/nextclaw/resources/USAGE.md](/Users/peiwang/Projects/nextbot/packages/nextclaw/resources/USAGE.md)
+  - [packages/go-usb-ai/resources/USAGE.md](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/resources/USAGE.md)
 
 ## 测试/验证/验收方式
 
-- 已通过：`pnpm -C packages/nextclaw exec vitest run src/cli/commands/service-support/autostart/tests/linux-systemd-autostart.service.test.ts`
+- 已通过：`pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/service-support/autostart/tests/linux-systemd-autostart.service.test.ts`
   - 覆盖：user unit 生成、Linux-only 支持边界、scope 解析、doctor 警告合同、`systemctl` 失败路径不再误报成功。
-- 已通过：`pnpm lint:new-code:governance -- packages/nextclaw/src/cli/index.ts packages/nextclaw/src/cli/types.ts packages/nextclaw/src/cli/commands/service.ts packages/nextclaw/src/cli/commands/service-support/autostart/host-autostart.types.ts packages/nextclaw/src/cli/commands/service-support/autostart/host-autostart.service.ts packages/nextclaw/src/cli/commands/service-support/autostart/linux-systemd-autostart.service.ts packages/nextclaw/src/cli/commands/service-support/autostart/tests/linux-systemd-autostart.service.test.ts`
+- 已通过：`pnpm lint:new-code:governance -- packages/go-usb-ai/src/cli/index.ts packages/go-usb-ai/src/cli/types.ts packages/go-usb-ai/src/cli/commands/service.ts packages/go-usb-ai/src/cli/commands/service-support/autostart/host-autostart.types.ts packages/go-usb-ai/src/cli/commands/service-support/autostart/host-autostart.service.ts packages/go-usb-ai/src/cli/commands/service-support/autostart/linux-systemd-autostart.service.ts packages/go-usb-ai/src/cli/commands/service-support/autostart/tests/linux-systemd-autostart.service.test.ts`
 - 已通过：`pnpm check:governance-backlog-ratchet`
-- 已通过：`node packages/nextclaw/scripts/sync-usage-resource.mjs`
+- 已通过：`node packages/go-usb-ai/scripts/sync-usage-resource.mjs`
 - 已通过：源码态命令级冒烟
-  - `pnpm -C packages/nextclaw exec tsx src/cli/index.ts service autostart status --user --json`
+  - `pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts service autostart status --user --json`
   - 观察点：当前宿主非 Linux 时会稳定返回 `supported: false` 与明确 `reasonIfUnavailable`，而不是误报已安装或尝试写 systemd。
-  - `pnpm -C packages/nextclaw exec tsx src/cli/index.ts service install-systemd --user --dry-run --json`
+  - `pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts service install-systemd --user --dry-run --json`
   - 观察点：当前宿主非 Linux 时会稳定返回 unsupported 结果，但 CLI 命令本身已接线成功，能输出 unit path / homeDir / command / reasonIfUnavailable 的统一 JSON 合同。
 - 已执行：`pnpm lint:maintainability:guard`
   - 结果：命令执行完成，但本工作区里存在与本次无关的既有热点文件增长，整体 guard 失败。
   - 本次 guard 输出中的 error 主要来自当前工作区其他改动，不是本次 Linux autostart 链路新增文件本身：
-    - `packages/nextclaw-server/src/ui/config.ts`
-    - `packages/nextclaw-server/src/ui/types.ts`
-    - `packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx`
-    - `packages/nextclaw-ui/src/components/config/ProviderForm.tsx`
-    - `packages/nextclaw/src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts`
-    - `packages/nextclaw/src/cli/index.ts` / `packages/nextclaw/src/cli/commands/service.ts` 的热点体量问题
-- 全量 `pnpm -C packages/nextclaw exec tsc -p tsconfig.json --pretty false --noEmit` 未能作为完成依据
+    - `packages/go-usb-ai-server/src/ui/config.ts`
+    - `packages/go-usb-ai-server/src/ui/types.ts`
+    - `packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx`
+    - `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx`
+    - `packages/go-usb-ai/src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts`
+    - `packages/go-usb-ai/src/cli/index.ts` / `packages/go-usb-ai/src/cli/commands/service.ts` 的热点体量问题
+- 全量 `pnpm -C packages/go-usb-ai exec tsc -p tsconfig.json --pretty false --noEmit` 未能作为完成依据
   - 原因：当前工作区存在与本次无关的既有类型错误，集中在：
-    - `packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/index.ts`
-    - `packages/nextclaw-server/src/ui/config.ts`
-    - `packages/nextclaw/src/cli/commands/ncp/ui-ncp-runtime-registry.ts`
+    - `packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/index.ts`
+    - `packages/go-usb-ai-server/src/ui/config.ts`
+    - `packages/go-usb-ai/src/cli/commands/ncp/ui-ncp-runtime-registry.ts`
   - 补充检查：针对本次 touched 文件做 grep 过滤时，没有出现指向本次 autostart 文件的 TypeScript 报错。
 
 ## 发布/部署方式
 
 - 代码发布：
-  - 合并后随正常 `nextclaw` CLI 发布链路发布即可。
+  - 合并后随正常 `go-usb-ai` CLI 发布链路发布即可。
 - Linux npm / CLI 用户使用方式：
   - 登录级自启动：
-    - `nextclaw service install-systemd --user`
+    - `go-usb-ai service install-systemd --user`
   - 机器级自启动：
-    - `sudo nextclaw service install-systemd --system`
+    - `sudo go-usb-ai service install-systemd --system`
   - 卸载：
-    - `nextclaw service uninstall-systemd --user`
-    - `sudo nextclaw service uninstall-systemd --system`
+    - `go-usb-ai service uninstall-systemd --user`
+    - `sudo go-usb-ai service uninstall-systemd --system`
 - 文档发布：
   - 本次同时更新了 docs 命令页与打包内置 `USAGE.md`，需要随下一次 CLI 包发布一起生效。
 - 当前不涉及桌面安装包行为变更：
@@ -82,22 +82,22 @@
 ## 用户/产品视角的验收步骤
 
 - Linux user 模式：
-  1. 通过 `npm i -g nextclaw` 安装 CLI。
-  2. 运行 `nextclaw service install-systemd --user`。
-  3. 运行 `nextclaw service autostart status --user`，确认：
+  1. 通过 `npm i -g go-usb-ai` 安装 CLI。
+  2. 运行 `go-usb-ai service install-systemd --user`。
+  3. 运行 `go-usb-ai service autostart status --user`，确认：
      - `supported: true`
      - `scope: user`
-     - `resourceName: nextclaw.service`
-  4. 运行 `nextclaw service autostart doctor --user`，确认没有新的 fail。
-  5. 重新登录桌面会话后，确认 NextClaw 服务可恢复。
+     - `resourceName: go-usb-ai.service`
+  4. 运行 `go-usb-ai service autostart doctor --user`，确认没有新的 fail。
+  5. 重新登录桌面会话后，确认 GoUsbAi 服务可恢复。
 - Linux system 模式：
-  1. 以管理员权限运行 `sudo nextclaw service install-systemd --system`。
-  2. 运行 `nextclaw service autostart status --system` 或 `sudo systemctl status nextclaw.service`。
-  3. 重启机器，确认 NextClaw 服务会在系统启动后恢复。
+  1. 以管理员权限运行 `sudo go-usb-ai service install-systemd --system`。
+  2. 运行 `go-usb-ai service autostart status --system` 或 `sudo systemctl status go-usb-ai.service`。
+  3. 重启机器，确认 GoUsbAi 服务会在系统启动后恢复。
 - 非 Linux 宿主：
-  1. 运行 `nextclaw service autostart status --json`。
+  1. 运行 `go-usb-ai service autostart status --json`。
   2. 预期返回 `supported: false`，并明确说明当前仅支持 Linux systemd。
-  3. 运行 `nextclaw service install-systemd --user --dry-run --json`。
+  3. 运行 `go-usb-ai service install-systemd --user --dry-run --json`。
   4. 预期不会尝试写入宿主启动项，而是返回 unsupported 原因。
 
 ## 可维护性总结汇总
@@ -115,8 +115,8 @@
   - `LinuxSystemdAutostartService` 负责 Linux systemd 细节；
   - 没有增加第二套运行时 owner，也没有把观察路径和执行路径混在一起。
 - 目录结构与文件组织是否满足当前项目治理要求：基本满足。
-  - 新目录 `packages/nextclaw/src/cli/commands/service-support/autostart/` 采用单一职责命名，文件名与角色边界符合当前治理。
-  - 仍存在的主要维护性观察点不在新目录，而在既有热点文件 [service.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service.ts) 与 [index.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/index.ts) 的体量继续偏大。
+  - 新目录 `packages/go-usb-ai/src/cli/commands/service-support/autostart/` 采用单一职责命名，文件名与角色边界符合当前治理。
+  - 仍存在的主要维护性观察点不在新目录，而在既有热点文件 [service.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service.ts) 与 [index.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/index.ts) 的体量继续偏大。
 - 若本次涉及代码可维护性评估，默认应基于一次独立于实现阶段的 `post-edit-maintainability-review` 填写，而不是只复述守卫结果：已执行独立复核，结论如下。
 
 可维护性复核结论：通过
@@ -141,19 +141,19 @@
 - no maintainability findings
 - 本次净增长主要来自新增 Linux systemd owner、CLI 命令接线、失败路径收口和文档同步，属于新增用户可见能力的最小必要增长。
 - 已尽量把复杂度收敛在新建 `autostart` 子目录，而不是继续扩张 `service.ts` 的平台细节分支。
-- 下一步最值得继续切的 seam 是把 [service.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service.ts) 里这次新增的 autostart 命令输出层继续抽薄，避免该历史热点文件继续增长。
+- 下一步最值得继续切的 seam 是把 [service.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service.ts) 里这次新增的 autostart 命令输出层继续抽薄，避免该历史热点文件继续增长。
 
 ## NPM 包发布记录
 
 - 本次是否需要发包：需要。
-  - 原因：`nextclaw` 公共 CLI 包新增了 Linux systemd 自启动命令与对应内置 `USAGE.md`。
+  - 原因：`go-usb-ai` 公共 CLI 包新增了 Linux systemd 自启动命令与对应内置 `USAGE.md`。
 - 需要发布的包：
-  - `nextclaw`
+  - `go-usb-ai`
 - 每个包当前是否已经发布：
-  - `nextclaw`：未发布，待统一发布。
+  - `go-usb-ai`：未发布，待统一发布。
 - 未发布原因：
   - 本次只完成代码、文档与验证，没有在本轮直接执行发包流程。
 - 后续补发/统一发布说明：
-  - `nextclaw` 需在下一次 CLI 正式发布批次中一起发布，避免文档先于 npm 实际可用命令生效。
+  - `go-usb-ai` 需在下一次 CLI 正式发布批次中一起发布，避免文档先于 npm 实际可用命令生效。
 - 当前已知阻塞或触发条件：
   - 需要后续统一 release / 发包动作；若发包前仍存在工作区里与本次无关的类型或维护性热点问题，应先按发布批次标准再做一轮统一校验。

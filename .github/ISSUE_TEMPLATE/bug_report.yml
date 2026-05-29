@@ -61,8 +61,8 @@ body:
     id: version
     attributes:
       label: Version
-      description: nextclaw version or commit SHA.
-      placeholder: e.g. nextclaw 0.9.17 / commit abc1234
+      description: go-usb-ai version or commit SHA.
+      placeholder: e.g. go-usb-ai 0.9.17 / commit abc1234
     validations:
       required: true
   - type: textarea

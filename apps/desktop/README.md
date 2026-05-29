@@ -1,6 +1,6 @@
-# @nextclaw/desktop
+# @go-usb-ai/desktop
 
-Electron desktop shell for NextClaw.
+Electron desktop shell for GoUsbAi.
 
 ## Scripts
 
@@ -17,8 +17,8 @@ Electron desktop shell for NextClaw.
 ## Notes
 
 - `build:main` uses `tsc` emit (no bundling). This avoids bundling Electron's runtime loader into `dist/src/main.js`.
-- `dev` will auto-check `nextclaw/dist`. If missing, it auto-runs `pnpm -C packages/nextclaw build`, then injects `NEXTCLAW_DESKTOP_RUNTIME_SCRIPT=../../packages/nextclaw/dist/cli/index.js` explicitly.
-- `pack` / `dist` will auto-ensure `nextclaw-ui` + `nextclaw` runtime artifacts before packaging.
+- `dev` will auto-check `go-usb-ai/dist`. If missing, it auto-runs `pnpm -C packages/go-usb-ai build`, then injects `GOUSB_AI_DESKTOP_RUNTIME_SCRIPT=../../packages/go-usb-ai/dist/cli/index.js` explicitly.
+- `pack` / `dist` will auto-ensure `go-usb-ai-ui` + `go-usb-ai` runtime artifacts before packaging.
 - `pack` / `dist` now also auto-ensure `build/update-bundle-public.pem`. Do not bypass this by calling raw `electron-builder` unless you have already prepared the bundled update public key yourself.
 - If you see `Electron failed to install correctly`, first run:
   - `PATH=/opt/homebrew/bin:$PATH pnpm install`
@@ -29,7 +29,7 @@ Electron desktop shell for NextClaw.
 
 ### Product Bundle Update Manifest
 
-Build a zipped product bundle from the current `nextclaw` package output:
+Build a zipped product bundle from the current `go-usb-ai` package output:
 
 ```bash
 pnpm -C apps/desktop bundle:build -- \
@@ -52,30 +52,30 @@ same floor. The long-lived policy lives in
 
 The builder currently:
 
-- ensures `packages/nextclaw-ui` + `packages/nextclaw` outputs exist
-- uses `pnpm --filter nextclaw --prod deploy` to create a self-contained runtime tree
+- ensures `packages/go-usb-ai-ui` + `packages/go-usb-ai` outputs exist
+- uses `pnpm --filter go-usb-ai --prod deploy` to create a self-contained runtime tree
 - copies `ui-dist` into bundle `ui/`
 - emits `bundle/manifest.json`
-- writes `nextclaw-bundle-<platform>-<arch>-<version>.zip`
+- writes `go-usb-ai-bundle-<platform>-<arch>-<version>.zip`
 
 Generate a signed manifest for a zipped product bundle:
 
 ```bash
 pnpm -C apps/desktop bundle:manifest -- \
-  --bundle apps/desktop/dist-bundles/nextclaw-bundle-linux-x64-0.18.0.zip \
+  --bundle apps/desktop/dist-bundles/go-usb-ai-bundle-linux-x64-0.18.0.zip \
   --channel stable \
   --platform linux \
   --arch x64 \
   --version 0.18.0 \
-  --bundle-url https://example.com/nextclaw-bundle-linux-x64-0.18.0.zip \
+  --bundle-url https://example.com/go-usb-ai-bundle-linux-x64-0.18.0.zip \
   --output apps/desktop/release-manifests/manifest-stable-linux-x64.json \
   --private-key-file /path/to/desktop-bundle-private.pem
 ```
 
 Equivalent environment variables are also supported for signing:
 
-- `NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY`
-- `NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY_FILE`
+- `GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY`
+- `GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY_FILE`
 
 The generated manifest now includes both:
 
@@ -92,10 +92,10 @@ pnpm -C apps/desktop bundle:public-key -- \
 
 At runtime the launcher verifies bundle signatures with:
 
-- `NEXTCLAW_DESKTOP_UPDATE_MANIFEST_URL` as an explicit override
-- `NEXTCLAW_DESKTOP_BUNDLE_PUBLIC_KEY` as an explicit override
+- `GOUSB_AI_DESKTOP_UPDATE_MANIFEST_URL` as an explicit override
+- `GOUSB_AI_DESKTOP_BUNDLE_PUBLIC_KEY` as an explicit override
 - packaged default manifest URL:
-  - `https://github.com/Peiiii/nextclaw/releases/latest/download/manifest-stable-<platform>-<arch>.json`
+  - `https://github.com/Peiiii/go-usb-ai/releases/latest/download/manifest-stable-<platform>-<arch>.json`
 - packaged default bundled public key:
   - `resources/update/update-bundle-public.pem`
 
@@ -104,7 +104,7 @@ The same public key is used to verify both the manifest signature and the bundle
 Desktop runtime sources are now intentionally reduced to only two:
 
 - `bundle`: the packaged launcher runs the active product bundle
-- `environment-override`: development or diagnostics can explicitly provide `NEXTCLAW_DESKTOP_RUNTIME_SCRIPT`
+- `environment-override`: development or diagnostics can explicitly provide `GOUSB_AI_DESKTOP_RUNTIME_SCRIPT`
 
 ### 1) Validate before release
 
@@ -126,7 +126,7 @@ Expected startup logs include:
 - `UI API: http://0.0.0.0:<port>/api`
 - `UI frontend: http://0.0.0.0:<port>`
 
-`pnpm desktop:package:verify` is the required guardrail for NextClaw desktop release candidates. It now blocks packages that are missing `resources/update/update-bundle-public.pem` or cannot verify a published manifest signature.
+`pnpm desktop:package:verify` is the required guardrail for GoUsbAi desktop release candidates. It now blocks packages that are missing `resources/update/update-bundle-public.pem` or cannot verify a published manifest signature.
 
 ### 2) Build desktop artifacts
 
@@ -149,7 +149,7 @@ Windows Portable Edition on Windows:
 - `pnpm -C apps/desktop package:windows-portable -- --arch x64`
 - `pnpm desktop:portable:verify`
 
-The portable zip is rooted at `NextClaw-Portable/`. It detects portable mode through `nextclaw-portable.json`, creates `data/` on first launch, stores desktop state under `data/desktop`, runtime state under `data/runtime-home`, and logs under `data/logs`. Portable builds intentionally block in-app updates; users upgrade by downloading a newer portable zip and keeping or moving the `data/` directory.
+The portable zip is rooted at `GoUsbAi-Portable/`. It detects portable mode through `go-usb-ai-portable.json`, creates `data/` on first launch, stores desktop state under `data/desktop`, runtime state under `data/runtime-home`, and logs under `data/logs`. Portable builds intentionally block in-app updates; users upgrade by downloading a newer portable zip and keeping or moving the `data/` directory.
 
 Linux (`AppImage` + `.deb`, no publish):
 
@@ -159,23 +159,23 @@ Linux (`AppImage` + `.deb`, no publish):
 
 All artifacts are under `apps/desktop/release`:
 
-- `NextClaw Desktop-<version>-arm64.dmg`
-- `NextClaw Desktop-<version>-arm64-mac.zip`
-- `NextClaw Desktop-<version>-x64.dmg`
-- `NextClaw Desktop-<version>-x64-mac.zip`
-- `NextClaw.Desktop-Setup-<version>-x64.exe`
-- `NextClaw-Portable-<version>-win-x64.zip`
-- `NextClaw-Portable-<version>-win-arm64.zip`
+- `GoUsbAi Desktop-<version>-arm64.dmg`
+- `GoUsbAi Desktop-<version>-arm64-mac.zip`
+- `GoUsbAi Desktop-<version>-x64.dmg`
+- `GoUsbAi Desktop-<version>-x64-mac.zip`
+- `GoUsbAi.Desktop-Setup-<version>-x64.exe`
+- `GoUsbAi-Portable-<version>-win-x64.zip`
+- `GoUsbAi-Portable-<version>-win-arm64.zip`
 - `latest.yml`
 - `*.exe.blockmap`
-- `win-unpacked/NextClaw Desktop.exe`
-- `NextClaw.Desktop-<version>-linux-x64.AppImage`
-- `nextclaw-desktop_<version>_amd64.deb`
-- `../dist-bundles/nextclaw-bundle-<platform>-<arch>-<version>.zip`
+- `win-unpacked/GoUsbAi Desktop.exe`
+- `GoUsbAi.Desktop-<version>-linux-x64.AppImage`
+- `go-usb-ai-desktop_<version>_amd64.deb`
+- `../dist-bundles/go-usb-ai-bundle-<platform>-<arch>-<version>.zip`
 - `../release-manifests/manifest-stable-<platform>-<arch>.json`
 - `../build/update-bundle-public.pem`
 
-Windows 推荐把 `Setup.exe` 作为普通安装入口，把 `NextClaw-Portable-<version>-win-<arch>.zip` 作为 U 盘/免安装入口；两者必须使用独立数据目录并可同时运行。
+Windows 推荐把 `Setup.exe` 作为普通安装入口，把 `GoUsbAi-Portable-<version>-win-<arch>.zip` 作为 U 盘/免安装入口；两者必须使用独立数据目录并可同时运行。
 
 ### 4) Linux package lifecycle
 
@@ -188,26 +188,26 @@ Expected generated repository root:
 
 - `dist/linux-apt-repo/apt`
 - `dist/linux-apt-repo/apt/dists/stable/...`
-- `dist/linux-apt-repo/apt/pool/main/n/nextclaw-desktop/...`
+- `dist/linux-apt-repo/apt/pool/main/n/go-usb-ai-desktop/...`
 
 Recommended one-line installer:
 
 ```bash
-curl -fsSL https://peiiii.github.io/nextclaw/install-apt.sh | bash
+curl -fsSL https://peiiii.github.io/go-usb-ai/install-apt.sh | bash
 ```
 
 Manual install flow after GitHub Pages publish:
 
 ```bash
 sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://peiiii.github.io/nextclaw/apt/nextclaw-archive-keyring.gpg \
-  | sudo tee /etc/apt/keyrings/nextclaw-archive-keyring.gpg >/dev/null
+curl -fsSL https://peiiii.github.io/go-usb-ai/apt/go-usb-ai-archive-keyring.gpg \
+  | sudo tee /etc/apt/keyrings/go-usb-ai-archive-keyring.gpg >/dev/null
 
-echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/nextclaw-archive-keyring.gpg] https://peiiii.github.io/nextclaw/apt stable main" \
-  | sudo tee /etc/apt/sources.list.d/nextclaw.list >/dev/null
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/go-usb-ai-archive-keyring.gpg] https://peiiii.github.io/go-usb-ai/apt stable main" \
+  | sudo tee /etc/apt/sources.list.d/go-usb-ai.list >/dev/null
 
 sudo apt update
-sudo apt install nextclaw-desktop
+sudo apt install go-usb-ai-desktop
 ```
 
 Expected upgrade / uninstall flow:
@@ -215,8 +215,8 @@ Expected upgrade / uninstall flow:
 ```bash
 sudo apt update
 sudo apt upgrade
-sudo apt remove nextclaw-desktop
-sudo apt purge nextclaw-desktop
+sudo apt remove go-usb-ai-desktop
+sudo apt purge go-usb-ai-desktop
 ```
 
 ### 5) Optional macOS signing credentials

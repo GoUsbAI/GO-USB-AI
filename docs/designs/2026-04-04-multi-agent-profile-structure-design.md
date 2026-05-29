@@ -1,4 +1,4 @@
-# NextClaw Agent Home Directory and Identity Design
+# GoUsbAi Agent Home Directory and Identity Design
 
 ## 实现状态
 
@@ -10,7 +10,7 @@
 
 - 保留现有 `workspace` 结构，只明确其产品语义为 `Agent Home Directory`
 - `main` 作为内建 Agent 存在，不通过创建流程生成
-- `nextclaw agents new/list/remove` 成为正式 CLI 主链
+- `go-usb-ai agents new/list/remove` 成为正式 CLI 主链
 - UI 新增 `Agents` 管理页
 - 聊天草稿态支持 Agent 选择
 - 会话列表与聊天头部展示轻量 Agent 身份
@@ -22,7 +22,7 @@
 
 ## 目标
 
-在不改造现有多会话、多并行、跨会话通信主链的前提下，正式定义 NextClaw 现有 `agents.list[*].workspace` 的产品语义：
+在不改造现有多会话、多并行、跨会话通信主链的前提下，正式定义 GoUsbAi 现有 `agents.list[*].workspace` 的产品语义：
 
 - 它不是一个临时“工作目录”
 - 它本质上就是这个 Agent 的 `Agent Home Directory`
@@ -134,7 +134,7 @@ Agent Home Directory 的核心资产只强调以下内容：
 - 再问你要不要生成默认文件
 - 再问你要不要选模板
 
-这种分支太多，不符合 NextClaw 需要的轻量和可预测性。
+这种分支太多，不符合 GoUsbAi 需要的轻量和可预测性。
 
 ## 产品入口优先，不以配置为主路径
 
@@ -169,9 +169,9 @@ Agent Home Directory 的核心资产只强调以下内容：
 
 可以，而且应该优先复用。
 
-当前 NextClaw 已经有现成的 workspace 初始化能力：
+当前 GoUsbAi 已经有现成的 workspace 初始化能力：
 
-- `nextclaw init`
+- `go-usb-ai init`
 - `WorkspaceManager.createWorkspaceTemplates(...)`
 
 它当前的行为特征是：
@@ -193,7 +193,7 @@ Agent Home Directory 的核心资产只强调以下内容：
 当前用户安装的默认结构大致可以理解为：
 
 ```text
-~/.nextclaw/
+~/.go-usb-ai/
 ├── config.json
 └── workspace/                  # 默认 agent 的 Agent Home Directory
 ```
@@ -201,7 +201,7 @@ Agent Home Directory 的核心资产只强调以下内容：
 在多 Agent 配置下，可以自然扩展为：
 
 ```text
-~/.nextclaw/
+~/.go-usb-ai/
 ├── config.json
 └── workspace/                  # main agent home
 
@@ -311,9 +311,9 @@ Agent Home Directory 的核心资产只强调以下内容：
 
 推荐方向：
 
-- `nextclaw agents list`
-- `nextclaw agents new <agent-id>`
-- `nextclaw agents remove <agent-id>`
+- `go-usb-ai agents list`
+- `go-usb-ai agents new <agent-id>`
+- `go-usb-ai agents remove <agent-id>`
 
 其中 `new` 的默认行为应当直接完成：
 
@@ -330,7 +330,7 @@ Agent Home Directory 的核心资产只强调以下内容：
 
 ## AI 自主创建 Agent
 
-长期看，NextClaw 应该支持：
+长期看，GoUsbAi 应该支持：
 
 - 用户直接对当前 Agent 说“帮我创建一个 researcher agent”
 
@@ -552,7 +552,7 @@ home://avatar.webp
   - `avatarUrl = avatar`
 - `home://...`
   - 服务端解析相对路径
-  - 通过 NextClaw 自己的 HTTP 接口输出图片内容
+  - 通过 GoUsbAi 自己的 HTTP 接口输出图片内容
   - `avatarUrl = /api/agents/:agentId/avatar`
 
 这样前端完全不需要理解本地路径细节。
@@ -596,7 +596,7 @@ home://avatar.webp
 推荐主命令：
 
 ```bash
-nextclaw agents new <agent-id>
+go-usb-ai agents new <agent-id>
 ```
 
 推荐可选参数：
@@ -629,7 +629,7 @@ nextclaw agents new <agent-id>
 - 但 AI、自自动化脚本、以及高级用户，需要一个完整且稳定的创建入口
 - 只有 CLI 足够完整，AI 才能真正可靠地“自己创建 Agent”
 
-所以 `nextclaw agents new` 不应该只是一个极简 demo 命令，而应该是一条完整主链。
+所以 `go-usb-ai agents new` 不应该只是一个极简 demo 命令，而应该是一条完整主链。
 
 ### CLI 应支持的完整自定义能力
 
@@ -684,7 +684,7 @@ nextclaw agents new <agent-id>
 
 ### `--avatar` 的输入规则
 
-为了让人和 AI 都容易操作，`nextclaw agents new --avatar` 建议支持这两类输入：
+为了让人和 AI 都容易操作，`go-usb-ai agents new --avatar` 建议支持这两类输入：
 
 1. 远程 URL
 2. 本地文件路径
@@ -692,9 +692,9 @@ nextclaw agents new <agent-id>
 也就是说，命令行层可以接受：
 
 ```bash
-nextclaw agents new researcher --avatar https://example.com/a.png
-nextclaw agents new researcher --avatar ./researcher.png
-nextclaw agents new researcher --avatar /tmp/researcher.png
+go-usb-ai agents new researcher --avatar https://example.com/a.png
+go-usb-ai agents new researcher --avatar ./researcher.png
+go-usb-ai agents new researcher --avatar /tmp/researcher.png
 ```
 
 但需要注意：
@@ -718,20 +718,20 @@ nextclaw agents new researcher --avatar /tmp/researcher.png
 
 ## AI 通过自管理能力创建 Agent
 
-NextClaw 已经有内置自管理 skill：
+GoUsbAi 已经有内置自管理 skill：
 
-- `nextclaw-self-manage`
+- `go-usb-ai-self-manage`
 
 它当前通过：
 
 - `USAGE.md`
 
-来学习和执行 NextClaw 自管理操作。
+来学习和执行 GoUsbAi 自管理操作。
 
 因此，多 Agent 创建真正闭环需要满足两件事：
 
-1. `nextclaw agents new ...` 成为正式且稳定的产品 CLI
-2. `USAGE.md` 与 `nextclaw-self-manage` 能明确覆盖这条命令
+1. `go-usb-ai agents new ...` 成为正式且稳定的产品 CLI
+2. `USAGE.md` 与 `go-usb-ai-self-manage` 能明确覆盖这条命令
 
 这样未来 AI 才能稳定完成下面这类任务：
 
@@ -748,7 +748,7 @@ AI 不应：
 
 AI 应：
 
-- 优先调用 `nextclaw agents new`
+- 优先调用 `go-usb-ai agents new`
 - 必要时补充高级参数
 - 创建后再做状态确认
 
@@ -757,18 +757,18 @@ AI 应：
 当 `agents new` 落地后，需要同步补齐：
 
 - `docs/USAGE.md`
-- `packages/nextclaw-core/src/agent/skills/nextclaw-self-manage/SKILL.md`
+- `packages/go-usb-ai-core/src/agent/skills/go-usb-ai-self-manage/SKILL.md`
 
 其中 `USAGE.md` 应作为正式操作说明，至少覆盖：
 
-- `nextclaw agents list`
-- `nextclaw agents new`
-- `nextclaw agents remove`
+- `go-usb-ai agents list`
+- `go-usb-ai agents new`
+- `go-usb-ai agents remove`
 - 常用参数
 - 高级参数
 - 成功与失败示例
 
-而 `nextclaw-self-manage` 需要明确把 Agent 管理纳入可操作范围。
+而 `go-usb-ai-self-manage` 需要明确把 Agent 管理纳入可操作范围。
 
 ### main Agent 约束
 
@@ -776,17 +776,17 @@ AI 应：
 
 - 默认 Agent 就是主 Agent，也就是 `main`
 - `main` 是系统内建 Agent
-- 不通过 `nextclaw agents new` 创建
+- 不通过 `go-usb-ai agents new` 创建
 - v1 不支持在创建时指定“设为默认 Agent”
 
 也就是说：
 
-- `nextclaw agents new` 只负责创建新的附加 Agent
+- `go-usb-ai agents new` 只负责创建新的附加 Agent
 - 不负责重定义“默认 Agent”这件事
 
 ### 默认行为
 
-执行 `nextclaw agents new engineer` 时，默认应完成：
+执行 `go-usb-ai agents new engineer` 时，默认应完成：
 
 1. 校验 `agent-id`
 2. 检查是否已存在同名 agent
@@ -830,9 +830,9 @@ AI 应：
 例如：
 
 ```text
-~/.nextclaw/workspace
-~/.nextclaw/workspace-engineer
-~/.nextclaw/workspace-researcher
+~/.go-usb-ai/workspace
+~/.go-usb-ai/workspace-engineer
+~/.go-usb-ai/workspace-researcher
 ```
 
 ### 失败策略
@@ -1328,13 +1328,13 @@ v1 创建表单建议只有这些字段：
 
 改动点：
 
-- `packages/nextclaw-core/src/config/schema.ts`
+- `packages/go-usb-ai-core/src/config/schema.ts`
   - 在 `AgentProfileSchema` 增加：
     - `displayName?: string`
     - `avatar?: string`
-- `packages/nextclaw-server/src/ui/types.ts`
+- `packages/go-usb-ai-server/src/ui/types.ts`
   - `AgentProfileView` 增加同名字段
-- `packages/nextclaw-ui/src/api/types.ts`
+- `packages/go-usb-ai-ui/src/api/types.ts`
   - `AgentProfileView` 增加同名字段
 
 原则：
@@ -1356,7 +1356,7 @@ v1 创建表单建议只有这些字段：
 
 建议动作：
 
-- 实现 `nextclaw agents new <agent-id>`
+- 实现 `go-usb-ai agents new <agent-id>`
 - 内部复用现有 `WorkspaceManager.createWorkspaceTemplates(...)`
 
 动作结果：
@@ -1393,19 +1393,19 @@ v1 创建表单建议只有这些字段：
 
 改动点：
 
-- `packages/nextclaw-server/src/ui/types.ts`
+- `packages/go-usb-ai-server/src/ui/types.ts`
   - `SessionEntryView` 增加：
     - `agentId?: string`
     - `agentDisplayName?: string`
     - `agentAvatar?: string`
     - `agentAvatarUrl?: string`
-- `packages/nextclaw-ui/src/api/types.ts`
+- `packages/go-usb-ai-ui/src/api/types.ts`
   - 同步增加以上字段
-- `packages/nextclaw-server/src/ui/session-list-metadata.ts`
+- `packages/go-usb-ai-server/src/ui/session-list-metadata.ts`
   - 读取或组装 session 侧的 agent identity
-- `packages/nextclaw-server/src/ui/config.ts`
+- `packages/go-usb-ai-server/src/ui/config.ts`
   - 在 `listSessions(...)` 中返回这些字段
-- `packages/nextclaw-ui/src/components/chat/*`
+- `packages/go-usb-ai-ui/src/components/chat/*`
   - 会话列表项展示 `avatar + displayName`
 
 原则：
@@ -1421,10 +1421,10 @@ v1 创建表单建议只有这些字段：
 
 改动点：
 
-- `packages/nextclaw-server/src/ui/types.ts`
+- `packages/go-usb-ai-server/src/ui/types.ts`
   - `AgentProfileView` 增加：
     - `avatarUrl?: string`
-- `packages/nextclaw-ui/src/api/types.ts`
+- `packages/go-usb-ai-ui/src/api/types.ts`
   - 同步增加：
     - `avatarUrl?: string`
 - 服务端新增 Agent avatar 解析逻辑
@@ -1436,7 +1436,7 @@ v1 创建表单建议只有这些字段：
   - 直接作为 `avatarUrl`
 - `home://...`
   - 解析到 Agent Home Directory 内的实际文件
-  - 通过 NextClaw 自己的 HTTP 路由输出图片内容
+  - 通过 GoUsbAi 自己的 HTTP 路由输出图片内容
 
 原则：
 
@@ -1509,7 +1509,7 @@ v1 创建表单建议只有这些字段：
 
 - `docs/USAGE.md`
   - 新增 `agents list/new/remove` 使用说明
-- `packages/nextclaw-core/src/agent/skills/nextclaw-self-manage/SKILL.md`
+- `packages/go-usb-ai-core/src/agent/skills/go-usb-ai-self-manage/SKILL.md`
   - 将 Agent 管理纳入自管理能力范围
 
 原则：
@@ -1548,15 +1548,15 @@ OpenClaw 有两个点值得借鉴：
 
 这说明多 Agent 不应该只停留在配置文件层，而应该有正式产品入口。
 
-但 NextClaw 与 OpenClaw 也不完全一样。
+但 GoUsbAi 与 OpenClaw 也不完全一样。
 
-NextClaw 当前已经有：
+GoUsbAi 当前已经有：
 
 - 聊天页
 - 多 session 运行时
 - `selectedAgentId` 这样的前端运行态
 
-所以 NextClaw 更适合的产品化路径不是把能力只放在配置后台，而是：
+所以 GoUsbAi 更适合的产品化路径不是把能力只放在配置后台，而是：
 
 - 让聊天页承担“Agent 使用与创建”的主入口
 - 让设置页承担“高级配置与路由管理”的后台入口

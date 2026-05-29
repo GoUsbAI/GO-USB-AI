@@ -9,7 +9,7 @@
 ## 测试/验证/验收方式
 
 - 语法校验：`python3 -m py_compile .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py`
-- 定向验证：`python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --json --no-fail --paths .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py packages/nextclaw/src/cli/commands/service.ts`
+- 定向验证：`python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --json --no-fail --paths .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py packages/go-usb-ai/src/cli/commands/service.ts`
 - 工作区验证：`python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --json --no-fail`
 
 ## 发布/部署方式

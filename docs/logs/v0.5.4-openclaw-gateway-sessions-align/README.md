@@ -9,7 +9,7 @@
 
 - 工具名保持不变，参数/动作/返回结构对齐 openclaw
 - Gateway 仅实现本地可用的 config.get/schema/apply/patch 与 restart；不新增 UI 能力
-- 兼容 nextclaw 现有最小实现，缺失字段返回空/默认
+- 兼容 go-usb-ai 现有最小实现，缺失字段返回空/默认
 
 ## 变更内容
 
@@ -32,8 +32,8 @@ pnpm tsc
 # smoke-check（非仓库目录）
 cd /tmp
 PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" \
-  /Users/peiwang/Projects/nextbot/packages/nextclaw-core/node_modules/.bin/tsx -e \
-  "import { SessionsListTool } from '/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/tools/sessions.ts';\nimport { SessionManager } from '/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/session/manager.ts';\nconst manager = new SessionManager('/tmp/nextclaw-smoke');\nconst session = manager.getOrCreate('cli:direct');\nmanager.save(session);\nconst tool = new SessionsListTool(manager);\ntool.execute({ limit: 1 }).then((out) => {\n  const ok = out.includes('sessions');\n  console.log(ok ? 'smoke-ok' : 'smoke-fail');\n});"
+  /Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/node_modules/.bin/tsx -e \
+  "import { SessionsListTool } from '/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/tools/sessions.ts';\nimport { SessionManager } from '/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/session/manager.ts';\nconst manager = new SessionManager('/tmp/go-usb-ai-smoke');\nconst session = manager.getOrCreate('cli:direct');\nmanager.save(session);\nconst tool = new SessionsListTool(manager);\ntool.execute({ limit: 1 }).then((out) => {\n  const ok = out.includes('sessions');\n  console.log(ok ? 'smoke-ok' : 'smoke-fail');\n});"
 ```
 
 验收点：

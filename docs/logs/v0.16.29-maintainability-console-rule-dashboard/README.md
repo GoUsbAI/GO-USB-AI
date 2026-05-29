@@ -25,8 +25,8 @@
 - `pnpm -C apps/maintainability-console tsc` 通过。
 - `pnpm -C apps/maintainability-console build` 通过，前端与服务端构建成功。
 - `pnpm -C apps/maintainability-console smoke` 通过，页面能看到“规则总览”“规则字典”等新增面板。
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs` 未全绿，但本轮与 `maintainability-console` 相关的新错误已清零；剩余 error 来自工作区其它并行改动中的 `packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx`。
-- `pnpm lint:new-code:governance` 未通过，阻塞点来自工作区里其它已触达文件的历史命名治理问题：`packages/nextclaw-ui/src/components/chat/ChatConversationPanel*.tsx`、`ChatSidebar*.tsx` 不是 kebab-case；本次新增/修改的 `maintainability-console` 文件未新增这类命名错误。
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs` 未全绿，但本轮与 `maintainability-console` 相关的新错误已清零；剩余 error 来自工作区其它并行改动中的 `packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx`。
+- `pnpm lint:new-code:governance` 未通过，阻塞点来自工作区里其它已触达文件的历史命名治理问题：`packages/go-usb-ai-ui/src/components/chat/ChatConversationPanel*.tsx`、`ChatSidebar*.tsx` 不是 kebab-case；本次新增/修改的 `maintainability-console` 文件未新增这类命名错误。
 - `pnpm check:governance-backlog-ratchet` 未通过，失败原因是仓库既有 `docFileNameViolations` 为 `13`，高于 baseline `11`；该阻塞与本次 dashboard 改动无直接关系。
 
 ## 发布/部署方式
@@ -53,7 +53,7 @@
 
 ### 长期目标对齐 / 可维护性推进
 
-- 这次不是简单往大盘里塞一块新卡片，而是把“代码体量观测”和“治理契约观测”收敛到同一个入口里，让 NextClaw 作为研发操作层的治理认知更统一，也更接近“一个入口看到系统怎么约束自己”的方向。
+- 这次不是简单往大盘里塞一块新卡片，而是把“代码体量观测”和“治理契约观测”收敛到同一个入口里，让 GoUsbAi 作为研发操作层的治理认知更统一，也更接近“一个入口看到系统怎么约束自己”的方向。
 - 我优先选择复用现有 `AGENTS.md` 作为单一真相源，没有新造 rules JSON、没有复制第二套治理配置；同时把文档解析收敛到单独的 `AgentsRulebookService`，避免前后端都各写一套解析逻辑。
 - 实现中顺手处理了一次维护性提醒：最初新增两个顶层 component 文件触发了 `apps/maintainability-console/src/components` 目录预算告警，随后把规则展示逻辑收敛到 `src/components/governance/` 子目录，既避免顶层继续摊平，也把 `governance-panels.tsx` 的异常增长压回去。
 

@@ -4,7 +4,7 @@
 
 这份设计只回答一个问题：
 
-- 在 `NextClaw` 的产品语境里，`Claude` 会话类型与“模型选择”到底应该如何契约化。
+- 在 `GoUsbAi` 的产品语境里，`Claude` 会话类型与“模型选择”到底应该如何契约化。
 
 要求是：
 
@@ -14,13 +14,13 @@
 
 ## 结论先行
 
-`NextClaw` 应继续坚持“模型是一等公民，runtime 是执行器”的产品心智。
+`GoUsbAi` 应继续坚持“模型是一等公民，runtime 是执行器”的产品心智。
 
 因此：
 
 - 用户在会话里选中的 `preferred_model` 仍然是单一真相
 - `session_type=claude` 的含义应是“使用 Claude Code / Claude Agent SDK 这套 runtime 执行”
-- 但 `Claude` runtime 不能被设计成“天然支持所有 NextClaw 模型”
+- 但 `Claude` runtime 不能被设计成“天然支持所有 GoUsbAi 模型”
 - 也不能被设计成“产品上只允许 Claude 自家模型”
 
 正确契约是：
@@ -28,7 +28,7 @@
 - `Claude` runtime 只承诺运行“当前认证方式 + 当前 gateway/proxy/provider 配置下，Claude SDK 实际声明自己支持的模型”
 - 在产品落地上，优先把 `Anthropic-format gateway` 定成一等路径
 - 第一优先默认方案直接采用 `LiteLLM`
-- 前端显示给用户的可选模型，应该是“NextClaw 全局模型目录”与“Claude runtime 运行时探测结果”的交集
+- 前端显示给用户的可选模型，应该是“GoUsbAi 全局模型目录”与“Claude runtime 运行时探测结果”的交集
 
 换句话说：
 
@@ -58,25 +58,25 @@
 还确认了一个很关键的负面事实：
 
 - 在本机对当前 JS CLI 路径做最小实验时，显式设置本地 `ANTHROPIC_BASE_URL + ANTHROPIC_AUTH_TOKEN` 并不能让 `query()` 真正打到本地 stub relay
-- 也就是说，至少在当前验证到的 `claude-agent-sdk/js cli` 路径上，“立刻在 NextClaw 内嵌一个本地 Anthropic relay 然后直接跑通 Claude 回复”这条路当前不能被当成已可执行结论
+- 也就是说，至少在当前验证到的 `claude-agent-sdk/js cli` 路径上，“立刻在 GoUsbAi 内嵌一个本地 Anthropic relay 然后直接跑通 Claude 回复”这条路当前不能被当成已可执行结论
 
 所以本轮产品与实现必须遵守：
 
 - 默认优先 Claude 自身 settings / gateway / auth
-- 默认不再把 NextClaw provider `apiKey/apiBase` 直接覆盖到 Claude runtime
+- 默认不再把 GoUsbAi provider `apiKey/apiBase` 直接覆盖到 Claude runtime
 - `ready` 必须由真实执行探测兜底
 
-### 1. NextClaw 当前产品模型已经是统一心智
+### 1. GoUsbAi 当前产品模型已经是统一心智
 
 当前 NCP 会话发送链路里，前端会把用户选中的模型写入消息 metadata：
 
-- [`packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`](../../packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx)
+- [`packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`](../../packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx)
 
 服务端桥接层会继续把 `model/preferred_model` 归一化并透传到 session metadata：
 
-- [`packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-message-bridge.ts`](../../packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-message-bridge.ts)
+- [`packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-message-bridge.ts`](../../packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-message-bridge.ts)
 
-这说明 `NextClaw` 当前正确的产品语义已经是：
+这说明 `GoUsbAi` 当前正确的产品语义已经是：
 
 - 先有统一模型选择
 - 再由 runtime 消费这个模型
@@ -91,7 +91,7 @@
 
 实现位置：
 
-- [`packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/index.ts`](../../packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/index.ts)
+- [`packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/index.ts`](../../packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/index.ts)
 
 这与当前产品心智一致。
 
@@ -106,7 +106,7 @@
 
 实现位置：
 
-- [`packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/index.ts`](../../packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/index.ts)
+- [`packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/index.ts`](../../packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/index.ts)
 
 也就是说，当前代码基础本来就更接近“统一模型体系”，而不是“Claude 自带独立模型体系”。
 
@@ -147,18 +147,18 @@
 
 但这不等于：
 
-- Claude runtime 可以无条件承诺支持 `NextClaw` 当前所有模型
+- Claude runtime 可以无条件承诺支持 `GoUsbAi` 当前所有模型
 
 因为官方支持的是“经 Claude Code 兼容层后的 provider/gateway 路径”，不是“任意模型名天然可跑”。
 
-### 6. LiteLLM 是官方可接受且最适合 NextClaw 快速落地的默认 gateway
+### 6. LiteLLM 是官方可接受且最适合 GoUsbAi 快速落地的默认 gateway
 
 官方 gateway 文档直接以 `LiteLLM` 作为示例。
 
 这意味着两件事：
 
 - `LiteLLM` 不是旁门左道，而是 Claude Code 官方接受的接入路径
-- 对 NextClaw 来说，优先选择 `LiteLLM` 做默认 gateway，比自研一层 `OpenAI -> Anthropic` 转换网关更快、更现实
+- 对 GoUsbAi 来说，优先选择 `LiteLLM` 做默认 gateway，比自研一层 `OpenAI -> Anthropic` 转换网关更快、更现实
 
 这里要强调的边界是：
 
@@ -171,7 +171,7 @@
 
 下面这些事情，在官方资料和当前仓库状态下都不能直接承诺：
 
-### 1. 不能承诺 Claude runtime 支持 NextClaw 当前全部模型
+### 1. 不能承诺 Claude runtime 支持 GoUsbAi 当前全部模型
 
 原因：
 
@@ -208,7 +208,7 @@
 
 ### 1. 统一产品心智不变
 
-在 `NextClaw` 里：
+在 `GoUsbAi` 里：
 
 - 模型选择仍是产品的一等公民
 - `session_type` 仍只是运行时选择
@@ -228,7 +228,7 @@ Claude 插件只负责：
 - Claude runtime 的执行能力
 - Claude 所需的 auth / executable / sandbox / gateway 附加配置
 
-而不负责替代 `NextClaw` 现有 provider/model 体系。
+而不负责替代 `GoUsbAi` 现有 provider/model 体系。
 
 ### 3. 是否支持某个模型，必须由 runtime 自己声明
 
@@ -307,7 +307,7 @@ Claude 插件只负责：
 
 而不是把用户丢到一堆等价选项里自己猜。
 
-### 新安装用户在现有 NextClaw 页面中的具体操作
+### 新安装用户在现有 GoUsbAi 页面中的具体操作
 
 按当前产品导航，目标流程应具体落在这些页面与控件：
 
@@ -380,7 +380,7 @@ Claude 插件只负责：
 1. `Claude` 会话默认支持 `Anthropic-format gateway`
 2. 默认推荐 gateway 直接定为 `LiteLLM`
 3. 不自研第一版 OpenAI -> Anthropic 代理
-4. `Claude` 仍服从 NextClaw 的统一模型体系
+4. `Claude` 仍服从 GoUsbAi 的统一模型体系
 5. Claude 会话优先消费“当前 Claude gateway provider 下的模型”
 
 这意味着第一版产品语义应是：
@@ -436,13 +436,13 @@ type RuntimeReadinessReason =
 
 前端当前统一构造全量模型列表的位置：
 
-- [`packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page-data.ts`](../../packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page-data.ts)
+- [`packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page-data.ts`](../../packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page-data.ts)
 
 应改为按 `session_type` 过滤：
 
 - `native`：显示全量模型
 - `codex`：继续按当前逻辑显示全量模型
-- `claude`：显示 `NextClaw 全局模型目录` 与 `Claude discoveredModels` 的交集
+- `claude`：显示 `GoUsbAi 全局模型目录` 与 `Claude discoveredModels` 的交集
 
 这是内部算法，但前端不应该把它呈现成抽象交集概念。
 
@@ -454,7 +454,7 @@ type RuntimeReadinessReason =
 
 这样有三个好处：
 
-- 不破坏 NextClaw “统一模型心智”
+- 不破坏 GoUsbAi “统一模型心智”
 - 不让用户看到 Claude 当前根本跑不了的模型
 - 不需要在产品层硬编码“Claude 只能/不能用哪些 provider”
 
@@ -641,14 +641,14 @@ type ChatRuntimeReadinessView = {
 - 让 Claude runtime 接受显式模型参数
 - 让 Claude runtime 在当前环境下探测 `supportedModels()`
 - 让 Claude runtime 通过 Bedrock / Vertex / gateway / proxy 工作
-- 保持 `preferred_model` 作为 NextClaw 会话级单一真相
+- 保持 `preferred_model` 作为 GoUsbAi 会话级单一真相
 - 在前端根据运行时能力过滤 Claude 可选模型
 - 在产品层把 readiness、推荐模型和配置 CTA 前置展示
 - 直接采用 LiteLLM 作为默认推荐 gateway 路径
 
 ## 已确认不能直接做成默认承诺
 
-- 不能默认承诺 Claude runtime 支持所有 NextClaw 模型
+- 不能默认承诺 Claude runtime 支持所有 GoUsbAi 模型
 - 不能默认承诺所有第三方模型都具备与官方 Claude 同等的 tools/resume/thinking 能力
 - 不能只靠 provider 前缀静态写死一份“Claude 支持模型名单”
 
@@ -698,7 +698,7 @@ type ChatRuntimeReadinessView = {
 
 ## LiteLLM 使用方式
 
-在 NextClaw 里，LiteLLM 路径的使用方式建议直接写成产品标准流程：
+在 GoUsbAi 里，LiteLLM 路径的使用方式建议直接写成产品标准流程：
 
 1. 部署一个 LiteLLM 服务
 2. 确保它对 Claude 暴露 `Anthropic Messages API`
@@ -720,7 +720,7 @@ type ChatRuntimeReadinessView = {
 
 ## 最终结论
 
-在 `NextClaw` 的产品语境里，Claude 的正确设计不是：
+在 `GoUsbAi` 的产品语境里，Claude 的正确设计不是：
 
 - “它只属于 Claude 自家模型”
 - 也不是“它天然吃所有模型”
@@ -732,7 +732,7 @@ type ChatRuntimeReadinessView = {
 - 由 Claude runtime 在当前配置下运行时探测自己真实支持的模型
 - 前端与服务端只消费探测结果，不做拍脑袋规则
 
-这套设计既保住了 `NextClaw` 的统一产品心智，也尊重了 Claude SDK 的真实能力边界。
+这套设计既保住了 `GoUsbAi` 的统一产品心智，也尊重了 Claude SDK 的真实能力边界。
 
 ## 参考资料
 
@@ -742,5 +742,5 @@ type ChatRuntimeReadinessView = {
 - Claude Code LLM gateway: <https://docs.claude.com/en/docs/claude-code/llm-gateway>
 - LiteLLM: <https://docs.litellm.ai/>
 - LiteLLM repository: <https://github.com/BerriAI/litellm>
-- NextClaw Claude runtime plugin: [`packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/index.ts`](../../packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk/src/index.ts)
-- NextClaw Codex runtime plugin: [`packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/index.ts`](../../packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/index.ts)
+- GoUsbAi Claude runtime plugin: [`packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/index.ts`](../../packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk/src/index.ts)
+- GoUsbAi Codex runtime plugin: [`packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/index.ts`](../../packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/index.ts)

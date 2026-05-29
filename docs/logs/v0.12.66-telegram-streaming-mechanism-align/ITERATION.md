@@ -4,7 +4,7 @@
 
 - 一次性对齐 Telegram 流式机制，不再走两阶段：
   - 新增通用控制消息：`assistant_stream/reset` 与 `assistant_stream/delta`，用于把模型增量从 runtime 投递到 channel。
-  - `ChannelManager` 控制消息路由从仅 typing 扩展为统一 `nextclaw control`，避免后续再加分支判断。
+  - `ChannelManager` 控制消息路由从仅 typing 扩展为统一 `go-usb-ai control`，避免后续再加分支判断。
   - `AgentLoop` inbound 路径支持 `onAssistantDelta`，让非 direct 场景也可接收 provider stream delta。
   - `GatewayAgentRuntimePool` 在每次 inbound 处理前发送 `reset`，流式过程中发送 `delta`，把增量链路打通到消息总线。
   - Telegram channel 新增预览流式控制器：
@@ -20,7 +20,7 @@
 ## 测试 / 验证 / 验收方式
 
 - 单测：
-  - `pnpm -C packages/nextclaw-core exec vitest run src/bus/control.test.ts src/channels/manager.typing-control.test.ts src/agent/loop.inbound-stream.test.ts`
+  - `pnpm -C packages/go-usb-ai-core exec vitest run src/bus/control.test.ts src/channels/manager.typing-control.test.ts src/agent/loop.inbound-stream.test.ts`
   - 结果：通过（8/8）。
 - 类型检查：
   - `pnpm tsc`
@@ -33,7 +33,7 @@
   - 结果：失败，失败原因为仓库既有 warning gate（例如 `apps/platform-console` 的 `--max-warnings=0` 与多个历史 `max-lines` warning），非本次改动引入的新 lint error。
 - 冒烟（非仓库目录执行）：
   - 命令：
-    - `pnpm -C /Users/tongwenwen/Projects/Peiiii/nextclaw/packages/extensions/nextclaw-channel-runtime exec tsx /tmp/nextclaw-telegram-stream-smoke.ts`
+    - `pnpm -C /Users/tongwenwen/Projects/Peiiii/go-usb-ai/packages/extensions/go-usb-ai-channel-runtime exec tsx /tmp/go-usb-ai-telegram-stream-smoke.ts`
   - 观察点：同一会话先 `send` 预览，再对同一消息 `edit` 到最终文本。
   - 结果：通过（`sends: 1`, `edits: 1`，最终编辑文本与最终答案一致）。
 

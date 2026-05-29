@@ -9,10 +9,10 @@
 
 ## 测试/验证/验收方式
 
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter nextclaw exec vitest run src/cli/commands/service-ncp-session-realtime-bridge.test.ts`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/ncp-toolkit exec vitest run src/agent/agent-backend-finalize-status.test.ts src/agent/in-memory-agent-backend.test.ts src/agent/agent-conversation-state-manager.test.ts`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter nextclaw exec tsc -p tsconfig.json --noEmit`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @nextclaw/ncp-toolkit exec tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter go-usb-ai exec vitest run src/cli/commands/service-ncp-session-realtime-bridge.test.ts`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/ncp-toolkit exec vitest run src/agent/agent-backend-finalize-status.test.ts src/agent/in-memory-agent-backend.test.ts src/agent/agent-conversation-state-manager.test.ts`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter go-usb-ai exec tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter @go-usb-ai/ncp-toolkit exec tsc -p tsconfig.json --noEmit`
 - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainability:guard`
 - UI 手工验收建议：
   - 发送一条会产生较多流式增量的消息。
@@ -21,7 +21,7 @@
 
 ## 发布/部署方式
 
-- 本次涉及 `nextclaw` 服务端 realtime bridge 与 NCP toolkit 状态收尾逻辑，需要一起发布服务端相关产物。
+- 本次涉及 `go-usb-ai` 服务端 realtime bridge 与 NCP toolkit 状态收尾逻辑，需要一起发布服务端相关产物。
 - 若前端页面也一并带上前几轮状态收敛修复，则建议同一轮统一发布。
 
 ## 用户/产品视角的验收步骤

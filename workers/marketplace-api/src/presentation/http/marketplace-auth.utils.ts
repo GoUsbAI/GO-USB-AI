@@ -1,10 +1,10 @@
 import type { MarketplaceSkillPublishActor } from "../../infrastructure/skills/d1-section-types";
 
-const DEFAULT_PLATFORM_API_BASE = "https://ai-gateway-api.nextclaw.io";
+const DEFAULT_PLATFORM_API_BASE = "https://ai-gateway-api.go-usb-ai.io";
 type MarketplaceAuthContext = {
   env: {
     MARKETPLACE_ADMIN_TOKEN?: string;
-    NEXTCLAW_PLATFORM_API_BASE?: string;
+    GOUSB_AI_PLATFORM_API_BASE?: string;
   };
   req: {
     header: (name: string) => string | undefined;
@@ -34,7 +34,7 @@ export async function resolvePublishActor(c: MarketplaceAuthContext): Promise<Ma
       authType: "admin_token",
       role: "admin",
       userId: null,
-      username: "nextclaw"
+      username: "go-usb-ai"
     };
   }
 
@@ -78,7 +78,7 @@ async function loadPlatformUserFromAuth(
 }
 
 function resolvePlatformApiBase(c: MarketplaceAuthContext): string {
-  const base = c.env.NEXTCLAW_PLATFORM_API_BASE?.trim() || DEFAULT_PLATFORM_API_BASE;
+  const base = c.env.GOUSB_AI_PLATFORM_API_BASE?.trim() || DEFAULT_PLATFORM_API_BASE;
   return base.replace(/\/+$/, "");
 }
 

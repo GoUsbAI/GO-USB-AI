@@ -10,7 +10,7 @@
 ## 测试/验证/验收方式
 
 - 运行：
-  - `pnpm --filter @nextclaw/ui tsc`
+  - `pnpm --filter @go-usb-ai/ui tsc`
 - 观察点：
   - 新建 NCP 会话后第一次发送消息，不再出现 `ncp session not found` 报错。
   - 已有会话刷新进入时，历史消息仍能自动加载。

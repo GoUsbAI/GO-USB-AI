@@ -2,14 +2,14 @@
 
 ## 迭代完成说明
 
-- 统一修正 `packages/nextclaw/src/cli/commands/service-ncp-session-realtime-bridge.ts` 中返回对象里的 method shorthand 写法，改为箭头函数属性写法。
+- 统一修正 `packages/go-usb-ai/src/cli/commands/service-ncp-session-realtime-bridge.ts` 中返回对象里的 method shorthand 写法，改为箭头函数属性写法。
 - 新增 `scripts/lint-new-code-object-methods.mjs`，对新改动里的 object literal method shorthand 做增量治理检查，要求统一使用 `foo: () => {}` 而不是 `foo() {}`。
 - 将该检查接入 `pnpm lint:new-code:governance`，与现有的 `class-methods-arrow` 一起执行。
 - 采用增量治理而不是全仓 ESLint 强推，避免一次性炸掉历史代码，同时保证新代码风格不再继续漂移。
 
 ## 测试/验证/验收方式
 
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter nextclaw exec tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter go-usb-ai exec tsc -p tsconfig.json --noEmit`
 - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:new-code:governance`
 - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainability:guard`
 

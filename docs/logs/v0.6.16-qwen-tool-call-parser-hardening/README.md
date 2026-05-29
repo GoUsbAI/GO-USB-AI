@@ -3,7 +3,7 @@
 ## 迭代完成说明
 
 - 排查 `openrouter/qwen/qwen3.5-plus-02-15` 在工具调用阶段的异常回复风险。
-- 在 `@nextclaw/core` 的 OpenAI 兼容 provider 中增强工具调用参数解析鲁棒性：
+- 在 `@go-usb-ai/core` 的 OpenAI 兼容 provider 中增强工具调用参数解析鲁棒性：
   - 支持 `tool_calls[].function.arguments` 为 object（不再强制当字符串 JSON 解析）。
   - 支持 `arguments` 为 fenced JSON（```json ... ```）。
   - 支持从半结构化字符串中抽取前导 JSON 对象。
@@ -19,9 +19,9 @@
 命令（示例）：
 
 ```bash
-pnpm -C packages/nextclaw dev:build agent \
+pnpm -C packages/go-usb-ai dev:build agent \
   -s cli:qwen-final-1 \
-  -m "请调用 list_dir 工具读取 /Users/peiwang/.nextclaw/workspace，然后只回复 OK" \
+  -m "请调用 list_dir 工具读取 /Users/peiwang/.go-usb-ai/workspace，然后只回复 OK" \
   --model openrouter/qwen/qwen3.5-plus-02-15
 ```
 
@@ -37,9 +37,9 @@ pnpm -C packages/nextclaw dev:build agent \
 ### 开发校验
 
 ```bash
-pnpm -C packages/nextclaw-core build
-pnpm -C packages/nextclaw-core lint
-pnpm -C packages/nextclaw-core tsc
+pnpm -C packages/go-usb-ai-core build
+pnpm -C packages/go-usb-ai-core lint
+pnpm -C packages/go-usb-ai-core tsc
 ```
 
 结果：通过（仅仓库既有 lint warning，无新增 error）。
@@ -52,4 +52,4 @@ pnpm -C packages/nextclaw-core tsc
 ## 对 openclaw 的参考结论
 
 - `openclaw` 侧存在对“工具调用被降级为文本”的用户可见清洗逻辑（如 `stripDowngradedToolCallText`、`stripMinimaxToolCallXml`），可用于减少异常文本泄露。
-- 本次 NextClaw 采用的是更前置的“解析兼容增强”（在 provider 入口解析参数），优先保证工具调用链路可执行。
+- 本次 GoUsbAi 采用的是更前置的“解析兼容增强”（在 provider 入口解析参数），优先保证工具调用链路可执行。

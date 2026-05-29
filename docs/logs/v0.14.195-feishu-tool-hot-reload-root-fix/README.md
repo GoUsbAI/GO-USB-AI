@@ -9,18 +9,18 @@
 ## 测试/验证/验收方式
 
 - 单测：
-  - `pnpm -C packages/nextclaw-core exec vitest run src/config/reload.test.ts`
-  - `pnpm -C packages/nextclaw exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
+  - `pnpm -C packages/go-usb-ai-core exec vitest run src/config/reload.test.ts`
+  - `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
 - 类型检查：
-  - `pnpm -C packages/nextclaw-core exec tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-core exec tsc --noEmit`
 - 可维护性检查：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-core/src/config/reload.ts packages/nextclaw-core/src/config/reload.test.ts`
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-core/src/config/reload.ts packages/go-usb-ai-core/src/config/reload.test.ts`
 - 真实 AI 回复冒烟：
-  - 新起临时 `NEXTCLAW_HOME` 的 `pnpm dev start`
+  - 新起临时 `GOUSB_AI_HOME` 的 `pnpm dev start`
   - 先将 `channels.feishu.enabled=true`，确认 AI 真回复列出 `feishu_*`
   - 再将 `channels.feishu.enabled=false`，确认日志出现 `Config reload: plugins reloaded.`
   - 用全新 session 再问一次工具列表，AI 真回复里不再包含任何 `feishu_*`
-- 当前本机 `http://127.0.0.1:18792` 也已实测：`~/.nextclaw/config.json` 中 `channels.feishu.enabled=false` 时，AI 真回复不再包含飞书工具。
+- 当前本机 `http://127.0.0.1:18792` 也已实测：`~/.go-usb-ai/config.json` 中 `channels.feishu.enabled=false` 时，AI 真回复不再包含飞书工具。
 
 ## 发布/部署方式
 

@@ -10,7 +10,7 @@
 - 先以 Codex 做蓝本评估可行性
 - 明确哪些共享值得做，哪些不值当可放弃
 
-## NCIP v1（NextClaw Capability Integration Protocol）
+## NCIP v1（GoUsbAi Capability Integration Protocol）
 
 ### A. 最低标准（必须满足）
 
@@ -31,7 +31,7 @@
 - 若 `supportsAbort=true`，必须支持显式中断并返回确定状态
 
 5. Persistence Contract
-- 必须把用户输入、助手输出、关键引擎事件写入 NextClaw 会话层
+- 必须把用户输入、助手输出、关键引擎事件写入 GoUsbAi 会话层
 
 6. Error Contract
 - 必须统一到：`config_error`、`auth_error`、`runtime_error`、`timeout_error`、`abort_error`
@@ -42,9 +42,9 @@
 
 ### B. 可选能力（按价值逐步接入）
 
-- `O1 Context Bridge`：共享 NextClaw ContextBuilder（bootstrap、预算裁剪）
+- `O1 Context Bridge`：共享 GoUsbAi ContextBuilder（bootstrap、预算裁剪）
 - `O2 Memory Bridge`：共享 memory 注入与 memory tool 语义
-- `O3 Tool Bridge`：共享 NextClaw ToolRegistry（桥接到外部能力）
+- `O3 Tool Bridge`：共享 GoUsbAi ToolRegistry（桥接到外部能力）
 - `O4 Skill Bridge`：共享 requested_skills + always skills + skills summary
 - `O5 Routing/Handoff Bridge`：共享跨 agent 路由与 handoff
 - `O6 Observability Bridge`：共享统一 metrics/cost/tracing
@@ -67,7 +67,7 @@
 
 ### 未满足
 - 显式中断闭环（stop/abort）未形成统一能力承诺
-- Tool Bridge 尚未共享 NextClaw ToolRegistry
+- Tool Bridge 尚未共享 GoUsbAi ToolRegistry
 - Memory/Context 深度共享尚未打通
 
 ### 当前判断

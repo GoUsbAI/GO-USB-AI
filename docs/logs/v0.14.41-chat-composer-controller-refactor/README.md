@@ -15,7 +15,7 @@
 - 修复 `replaceChatComposerRange` 的边界语义错误：
   - 之前在“光标正好位于 token 后面继续输入”时，会误把 token 当成被覆盖内容
   - 现在 token 边界插入文本不会再吞掉已选 skill
-- 将 `nextclaw-ui` 侧 `selectedSkills` 的写入收回到 composer 单一事实来源：
+- 将 `go-usb-ai-ui` 侧 `selectedSkills` 的写入收回到 composer 单一事实来源：
   - `ChatInputManager`
   - `NcpChatInputManager`
   - 外部修改 skill 选择时，不再只改一份 `selectedSkills`，而是同步回 composer nodes，再由 nodes 派生 `selectedSkills`
@@ -27,17 +27,17 @@
 # 测试/验证/验收方式
 
 - 单测：
-  - `pnpm -C packages/nextclaw-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-composer.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer-controller.test.ts src/components/chat/ui/chat-input-bar/chat-composer-dom.utils.test.ts src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+  - `pnpm -C packages/go-usb-ai-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-composer.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer-controller.test.ts src/components/chat/ui/chat-input-bar/chat-composer-dom.utils.test.ts src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
   - 结果：通过（4 个文件，10 个测试）
 - 类型校验：
-  - `pnpm -C packages/nextclaw-agent-chat-ui tsc`
-  - `pnpm -C packages/nextclaw-ui tsc`
+  - `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
   - 结果：通过
 - 构建校验：
-  - `pnpm -C packages/nextclaw-agent-chat-ui build`
+  - `pnpm -C packages/go-usb-ai-agent-chat-ui build`
   - 结果：通过
 - maintainability guard：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer.utils.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer.utils.test.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-controller.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-controller.test.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-tokenized-composer.tsx packages/nextclaw-ui/src/components/chat/chat-composer-state.ts packages/nextclaw-ui/src/components/chat/managers/chat-input.manager.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-input.manager.ts`
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer.utils.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer.utils.test.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-controller.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-controller.test.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-tokenized-composer.tsx packages/go-usb-ai-ui/src/components/chat/chat-composer-state.ts packages/go-usb-ai-ui/src/components/chat/managers/chat-input.manager.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-input.manager.ts`
   - 结果：`Errors: 0`、`Warnings: 0`
 
 # 发布/部署方式

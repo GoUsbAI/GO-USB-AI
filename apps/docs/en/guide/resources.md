@@ -1,10 +1,10 @@
 # Resource Hub
 
-The resource hub collects nearby entry points around NextClaw. It is not the quickstart and not the formal reference.
+The resource hub collects nearby entry points around GoUsbAi. It is not the quickstart and not the formal reference.
 
 ## When to use it
 
-- you have already run NextClaw and want more scenarios
+- you have already run GoUsbAi and want more scenarios
 - you want reusable ideas from the OpenClaw ecosystem
 - you want more tutorials, project updates, or community entry points
 

@@ -12,14 +12,14 @@
   - `full-access` -> `sandboxMode=danger-full-access` + `approvalPolicy=never`
 - 从插件 schema / UI hints 中移除单独的 `approvalPolicy` 暴露，避免用户面对底层实现细节。
 - 保留对历史 `sandboxMode` 配置的读取兼容，仅作为迁移期 fallback；新配置入口与默认语义统一以 `accessMode` 为准。
-- 将权限映射逻辑抽到 [`codex-access-mode.ts`](../../../packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/codex-access-mode.ts)，避免主入口文件继续膨胀。
+- 将权限映射逻辑抽到 [`codex-access-mode.ts`](../../../packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/codex-access-mode.ts)，避免主入口文件继续膨胀。
 
 ## 测试/验证/验收方式
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw exec vitest run src/cli/commands/codex-runtime-plugin-provider-routing.test.ts`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk build`
-- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/index.ts packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/codex-access-mode.ts packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/openclaw.plugin.json packages/nextclaw/src/cli/commands/codex-runtime-plugin-provider-routing.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai exec vitest run src/cli/commands/codex-runtime-plugin-provider-routing.test.ts`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk build`
+- `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/index.ts packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/codex-access-mode.ts packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/openclaw.plugin.json packages/go-usb-ai/src/cli/commands/codex-runtime-plugin-provider-routing.test.ts`
 
 结果：
 
@@ -29,8 +29,8 @@
 
 ## 发布/部署方式
 
-- 发布 `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk` 新版本。
-- 让运行中的 NextClaw 实例升级到包含该版本的 Codex 插件后重载/重启服务。
+- 发布 `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk` 新版本。
+- 让运行中的 GoUsbAi 实例升级到包含该版本的 Codex 插件后重载/重启服务。
 - 若要让现网用户立即获得一致体验，插件设置入口应改为写入 `accessMode`，不再暴露 `approvalPolicy`。
 
 ## 用户/产品视角的验收步骤

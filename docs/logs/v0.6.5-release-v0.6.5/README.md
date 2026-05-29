@@ -24,11 +24,11 @@ pnpm release:check
 ### 2) 本地功能冒烟（隔离目录）
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-action-smoke-XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js init --force
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js config get channels.discord.allowBots
-node --input-type=module -e "import { buildConfigSchema } from './packages/nextclaw-core/dist/index.js'; console.log(buildConfigSchema().actions.map(a=>a.id));"
-node --input-type=module -e "import { executeConfigAction } from './packages/nextclaw-server/dist/index.js'; const home=process.argv[1]; const res=await executeConfigAction(home + '/config.json','channels.feishu.verifyConnection',{scope:'channels.feishu'}); console.log(JSON.stringify(res));" "$TMP_HOME"
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-action-smoke-XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js init --force
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js config get channels.discord.allowBots
+node --input-type=module -e "import { buildConfigSchema } from './packages/go-usb-ai-core/dist/index.js'; console.log(buildConfigSchema().actions.map(a=>a.id));"
+node --input-type=module -e "import { executeConfigAction } from './packages/go-usb-ai-server/dist/index.js'; const home=process.argv[1]; const res=await executeConfigAction(home + '/config.json','channels.feishu.verifyConnection',{scope:'channels.feishu'}); console.log(JSON.stringify(res));" "$TMP_HOME"
 ```
 
 观察点：
@@ -40,15 +40,15 @@ node --input-type=module -e "import { executeConfigAction } from './packages/nex
 ### 3) 发布后线上冒烟（已发布包）
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-release-smoke-XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" npx -y nextclaw@0.6.5 --version
-NEXTCLAW_HOME="$TMP_HOME" npx -y nextclaw@0.6.5 init --force
-NEXTCLAW_HOME="$TMP_HOME" npx -y nextclaw@0.6.5 config get channels.discord.allowBots
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-release-smoke-XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" npx -y go-usb-ai@0.6.5 --version
+GOUSB_AI_HOME="$TMP_HOME" npx -y go-usb-ai@0.6.5 init --force
+GOUSB_AI_HOME="$TMP_HOME" npx -y go-usb-ai@0.6.5 config get channels.discord.allowBots
 ```
 
 观察点：
 
-- `nextclaw --version` 输出 `0.6.5`。
+- `go-usb-ai --version` 输出 `0.6.5`。
 - 已发布包可正常初始化并读取新增配置项。
 
 ## 发布与部署
@@ -62,18 +62,18 @@ pnpm release:publish
 
 发布结果：
 
-- `nextclaw@0.6.5`
-- `@nextclaw/core@0.6.5`
-- `@nextclaw/server@0.4.2`
-- `@nextclaw/ui@0.3.9`
+- `go-usb-ai@0.6.5`
+- `@go-usb-ai/core@0.6.5`
+- `@go-usb-ai/server@0.4.2`
+- `@go-usb-ai/ui@0.3.9`
 
 发布验证：
 
 ```bash
-npm view nextclaw version
-npm view @nextclaw/core version
-npm view @nextclaw/server version
-npm view @nextclaw/ui version
+npm view go-usb-ai version
+npm view @go-usb-ai/core version
+npm view @go-usb-ai/server version
+npm view @go-usb-ai/ui version
 ```
 
 输出版本分别为：`0.6.5`、`0.6.5`、`0.4.2`、`0.3.9`。
@@ -82,5 +82,5 @@ npm view @nextclaw/ui version
 
 - 远程 migration：不适用（本次无后端数据库 schema 变更）。
 - 线上关键能力冒烟：已执行（npm 已发布包安装/版本/配置读取）。
-- 文档影响检查：已更新 `README.md`、`docs/nextclaw-ui-design-brief.md`、`docs/prd/nextclaw-ui-prd.md`、`docs/rfcs/action-schema-v1.md`。
+- 文档影响检查：已更新 `README.md`、`docs/go-usb-ai-ui-design-brief.md`、`docs/prd/go-usb-ai-ui-prd.md`、`docs/rfcs/action-schema-v1.md`。
 

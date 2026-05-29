@@ -265,8 +265,8 @@ agent-kit `agent-chat` 采用：
         status: "call",
         toolCallId: "call_abc",
         toolName: "search",
-        args: "{\"q\":\"nextclaw\"}",
-        parsedArgs: { q: "nextclaw" }
+        args: "{\"q\":\"go-usb-ai\"}",
+        parsedArgs: { q: "go-usb-ai" }
       }
     }
   ],
@@ -321,14 +321,14 @@ agent-kit `agent-chat` 采用：
 
 ## F. 影响范围与实现入口（最小清单）
 
-- `packages/nextclaw-ui/src/components/chat/managers/chat-stream.manager.ts`
+- `packages/go-usb-ai-ui/src/components/chat/managers/chat-stream.manager.ts`
   - 新增 `uiMessages$` 与 `add/set/update` Subjects
   - 移除 `optimisticUserEvent` / `streamingSessionEvents` / `streamingAssistantText` 状态
-- `packages/nextclaw-ui/src/components/chat/chat-merged-events.ts`
+- `packages/go-usb-ai-ui/src/components/chat/chat-merged-events.ts`
   - 逐步替换或废弃（由 uiMessages 直接驱动）
-- `packages/nextclaw-ui/src/components/chat/ChatThread.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatThread.tsx`
   - 改为渲染 `uiMessages`
-- `packages/nextclaw-ui/src/components/chat/chat-page-data.ts`
+- `packages/go-usb-ai-ui/src/components/chat/chat-page-data.ts`
   - 历史数据映射为 `uiMessages`
 
 ---

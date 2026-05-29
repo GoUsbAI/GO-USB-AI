@@ -14,14 +14,14 @@ Prevent dual-maintenance between repository docs and docs-site pages.
 
 - Do not keep duplicated content across `docs/` and `apps/docs/`.
 - If content is user-facing docs, only edit under `apps/docs/`.
-- Repository README and other entry points should link directly to `https://docs.nextclaw.io/...` pages.
+- Repository README and other entry points should link directly to `https://docs.go-usb-ai.io/...` pages.
 - `docs/` keeps only internal project artifacts, not mirrored public docs pages.
 - Do not create `docs/guides/**`; this name is reserved for site-facing semantics and causes confusion with `apps/docs/en/guide/**`.
 
 ## Current canonical mapping
 
 - Roadmap canonical source: `apps/docs/en/guide/roadmap.md`
-- Public URL: `https://docs.nextclaw.io/en/guide/roadmap`
+- Public URL: `https://docs.go-usb-ai.io/en/guide/roadmap`
 
 ## Best-practice summary
 

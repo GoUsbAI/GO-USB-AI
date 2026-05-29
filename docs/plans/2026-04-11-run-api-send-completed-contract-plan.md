@@ -6,7 +6,7 @@
 
 **Architecture:** 保持现有 `run.*` 生命周期事件不变，但在 `DefaultNcpAgentBackend.send()` 中收敛 `MessageCompleted` 暴露语义：若 runtime 已产出则直接透传，若 runtime 只产出流式内容与 `RunFinished`，则在 backend 成功收尾点基于当前 session state 组装唯一的 completed 事件并在 `RunFinished` 之前发出。调用方继续只消费 `MessageCompleted` 作为最终回复，不再自己从 session 里兜底捞消息。
 
-**Tech Stack:** TypeScript, Vitest, NCP toolkit backend, NextClaw CLI runtime gateway
+**Tech Stack:** TypeScript, Vitest, NCP toolkit backend, GoUsbAi CLI runtime gateway
 
 ---
 
@@ -14,9 +14,9 @@
 
 **Files:**
 - Create: `docs/plans/2026-04-11-run-api-send-completed-contract-plan.md`
-- Read: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend.ts`
-- Read: `packages/nextclaw/src/cli/commands/service-support/gateway/service-cron-job-handler.ts`
-- Read: `packages/nextclaw/src/cli/commands/ncp/session-request/session-request-broker.ts`
+- Read: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend.ts`
+- Read: `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-cron-job-handler.ts`
+- Read: `packages/go-usb-ai/src/cli/commands/ncp/session-request/session-request-broker.ts`
 
 **Step 1: 明确 primary contract**
 
@@ -36,8 +36,8 @@
 ### Task 2: 在 backend 中收敛 send 成功契约
 
 **Files:**
-- Modify: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/agent-backend/agent-backend.ts`
-- Test: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/in-memory-agent-backend.test.ts`
+- Modify: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/agent-backend/agent-backend.ts`
+- Test: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/in-memory-agent-backend.test.ts`
 
 **Step 1: 为 send() 增加 completed 事件规范化**
 
@@ -67,8 +67,8 @@
 ### Task 3: 删除 session-request 的冗余 fallback
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/ncp/session-request/session-request-broker.ts`
-- Optionally Modify: `packages/nextclaw/src/cli/commands/ncp/session-request/session-request-result.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/session-request/session-request-broker.ts`
+- Optionally Modify: `packages/go-usb-ai/src/cli/commands/ncp/session-request/session-request-result.ts`
 
 **Step 1: 删除 completed message 的 session-level fallback**
 
@@ -83,11 +83,11 @@
 ### Task 4: 让测试契约从“只看 RunFinished”升级为“看 completed + finished 顺序”
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/ncp/runtime/create-ui-ncp-agent.claude.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/ncp/runtime/create-ui-ncp-agent.reasoning-normalization.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/ncp/runtime/create-ui-ncp-agent.child-session-request.test.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/runtime/create-ui-ncp-agent.claude.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/runtime/create-ui-ncp-agent.reasoning-normalization.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/runtime/create-ui-ncp-agent.child-session-request.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts`
 
 **Step 1: 更新成功路径断言**
 
@@ -105,19 +105,19 @@
 ### Task 5: 验证与收尾
 
 **Files:**
-- Read: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/in-memory-agent-backend.test.ts`
-- Read: `packages/nextclaw/src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts`
-- Read: `packages/nextclaw/src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts`
+- Read: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/in-memory-agent-backend.test.ts`
+- Read: `packages/go-usb-ai/src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts`
+- Read: `packages/go-usb-ai/src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts`
 
 **Step 1: 运行最小充分测试**
 
 建议命令：
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- run src/agent/in-memory-agent-backend.test.ts`
-- `pnpm -C packages/nextclaw test -- run src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts`
-- `pnpm -C packages/nextclaw test -- run src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts`
-- `pnpm -C packages/nextclaw test -- run src/cli/commands/ncp/runtime/create-ui-ncp-agent.claude.test.ts`
-- `pnpm -C packages/nextclaw test -- run src/cli/commands/ncp/runtime/create-ui-ncp-agent.reasoning-normalization.test.ts`
-- `pnpm -C packages/nextclaw test -- run src/cli/commands/ncp/runtime/create-ui-ncp-agent.child-session-request.test.ts`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- run src/agent/in-memory-agent-backend.test.ts`
+- `pnpm -C packages/go-usb-ai test -- run src/cli/commands/service-support/gateway/tests/service-cron-job-handler.test.ts`
+- `pnpm -C packages/go-usb-ai test -- run src/cli/commands/ncp/runtime/create-ui-ncp-agent.test.ts`
+- `pnpm -C packages/go-usb-ai test -- run src/cli/commands/ncp/runtime/create-ui-ncp-agent.claude.test.ts`
+- `pnpm -C packages/go-usb-ai test -- run src/cli/commands/ncp/runtime/create-ui-ncp-agent.reasoning-normalization.test.ts`
+- `pnpm -C packages/go-usb-ai test -- run src/cli/commands/ncp/runtime/create-ui-ncp-agent.child-session-request.test.ts`
 
 **Step 2: 运行治理与可维护性检查**
 

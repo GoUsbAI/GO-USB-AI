@@ -5,11 +5,11 @@
 - 目标：将 `NO_REPLY` 语义从“分散判断”收敛为统一策略，并保持能力不受限（不新增协作限制/路由限制）。
 - 本次完成：
   - 新增统一静默回复策略模块：
-    - `packages/nextclaw-core/src/agent/silent-reply-policy.ts`
+    - `packages/go-usb-ai-core/src/agent/silent-reply-policy.ts`
   - Agent 输出收敛到统一策略（两条主链路）：
-    - `packages/nextclaw-core/src/agent/loop.ts`
+    - `packages/go-usb-ai-core/src/agent/loop.ts`
   - 渠道发送前再做统一策略兜底（执行层）：
-    - `packages/nextclaw-core/src/channels/manager.ts`
+    - `packages/go-usb-ai-core/src/channels/manager.ts`
 - 设计要点：
   - 不改变能力边界，不增加“只允许 mention/只允许 reply”类限制。
   - 仅统一 `NO_REPLY` 与空消息判定逻辑，减少重复实现造成的行为漂移。
@@ -31,9 +31,9 @@ pnpm tsc
 ### 冒烟验证（隔离目录）
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-no-reply-policy.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-no-reply-policy.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
 rm -rf "$TMP_HOME"
 ```
 

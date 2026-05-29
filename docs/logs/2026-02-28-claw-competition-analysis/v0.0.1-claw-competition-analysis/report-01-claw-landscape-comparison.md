@@ -1,4 +1,4 @@
-# Claw 生态综合分析对比报告（含 NextClaw）
+# Claw 生态综合分析对比报告（含 GoUsbAi）
 
 ## 1. 结论摘要（先看这个）
 
@@ -7,18 +7,18 @@
 - `nanoclaw`：极简 + 容器隔离 + Claude Code 驱动定制，适合“愿意改代码”的高级个人用户。
 - `zeroclaw`：Rust 工程化与安全治理最激进，强调低资源与可插拔架构，适合对安全和可控性要求高的技术团队。
 - `picoclaw`：Go 轻量与多渠道平衡，支持弱硬件部署，但仍处于快速演进期（README 明确提示早期风险）。
-- `nextclaw`：定位“OpenClaw 生态兼容 + 一条命令 + UI 优先”，在“上手速度、可视化配置、中文生态渠道”维度最突出。
+- `go-usb-ai`：定位“OpenClaw 生态兼容 + 一条命令 + UI 优先”，在“上手速度、可视化配置、中文生态渠道”维度最突出。
 
 ## 2. 本次对比范围与基线
 
 ### 2.1 对比对象
 
 - `openclaw`（本地已有）：`/Users/peiwang/Projects/openclaw`
-- `nanobot`（临时克隆）：`/tmp/nextclaw-competitors-20260228/nanobot`
-- `nanoclaw`（临时克隆）：`/tmp/nextclaw-competitors-20260228/nanoclaw`
-- `zeroclaw`（临时克隆）：`/tmp/nextclaw-competitors-20260228/zeroclaw`
-- `picoclaw`（临时克隆）：`/tmp/nextclaw-competitors-20260228/picoclaw`
-- `nextclaw`（当前仓库）：`/Users/peiwang/Projects/nextbot`
+- `nanobot`（临时克隆）：`/tmp/go-usb-ai-competitors-20260228/nanobot`
+- `nanoclaw`（临时克隆）：`/tmp/go-usb-ai-competitors-20260228/nanoclaw`
+- `zeroclaw`（临时克隆）：`/tmp/go-usb-ai-competitors-20260228/zeroclaw`
+- `picoclaw`（临时克隆）：`/tmp/go-usb-ai-competitors-20260228/picoclaw`
+- `go-usb-ai`（当前仓库）：`/Users/peiwang/Projects/nextbot`
 
 ### 2.2 版本快照（commit）
 
@@ -27,15 +27,15 @@
 - `nanoclaw`: `8f91d3be576b`
 - `zeroclaw`: `4191028df40b`
 - `picoclaw`: `9c9524f93497`
-- `nextclaw`: `a5fba5f287d9`
+- `go-usb-ai`: `a5fba5f287d9`
 
 ## 3. 横向矩阵（产品与工程视角）
 
-| 维度 | OpenClaw | nanobot | nanoclaw | zeroclaw | picoclaw | nextclaw |
+| 维度 | OpenClaw | nanobot | nanoclaw | zeroclaw | picoclaw | go-usb-ai |
 |---|---|---|---|---|---|---|
 | 核心定位 | 全栈个人 AI 助手平台 | 轻量 Python Agent | 极简、可改造、容器隔离助手 | Rust 安全优先、可插拔内核 | Go 轻量多渠道助手 | OpenClaw 兼容 + UI 优先轻量化 |
 | 主要语言/栈 | TS/Node + Swift/Kotlin 端侧 | Python | TS/Node + 容器运行 Claude | Rust（含 traits 抽象） | Go | TS/Node pnpm monorepo |
-| 上手路径 | `onboard --install-daemon` 向导化 | `uv/pip` + `config.json` | `claude` 后 `/setup` | `onboard`/bootstrap/二进制安装 | `onboard` + config | `nextclaw start` 一条命令 + Web UI |
+| 上手路径 | `onboard --install-daemon` 向导化 | `uv/pip` + `config.json` | `claude` 后 `/setup` | `onboard`/bootstrap/二进制安装 | `onboard` + config | `go-usb-ai start` 一条命令 + Web UI |
 | UI 能力 | Control UI + WebChat + Canvas + 多端 App | README 未强调内置管理 UI | 明确“无 dashboard” | 以 CLI/配置为主，未强调图形管理 UI | 有 webhook/配置能力，非完整管理台定位 | 内置 Chat + 配置 + Provider/Channels/Cron/Plugins/Skills UI |
 | 渠道覆盖（README 声明） | 非常广（含 WhatsApp/Telegram/Slack/Discord/Google Chat/Signal/iMessage/Teams/Matrix/Zalo/WebChat 等） | 广（Telegram/Discord/WhatsApp/Feishu/Mochat/DingTalk/Slack/Email/QQ/Matrix） | 核心列举 WhatsApp/Telegram/Discord/Slack/Signal | 广（Telegram/Discord/Slack/Mattermost/iMessage/Matrix/Signal/WhatsApp/Email/IRC/Lark/DingTalk/QQ/Webhook） | 列举 Telegram/Discord/WhatsApp/QQ/DingTalk/LINE/WeCom | Telegram/Discord/WhatsApp/Feishu/Mochat/DingTalk/WeCom/Slack/Email/QQ |
 | Provider 能力 | 多 Provider（文档化完善） | 多 Provider + MCP | 倾向 Claude Code 能力中心 | 29+ 内置 + OpenAI 兼容自定义端点 | model_list 零代码扩展 Provider | 多 Provider + OpenAI 兼容扩展 |
@@ -54,7 +54,7 @@
 ### 4.2 nanobot
 
 - 强项：Python 路线清晰、功能齐全、迭代快、脚本化友好。
-- 代价：交互与管理体验偏工程向，UI 导向弱于 nextclaw/openclaw。
+- 代价：交互与管理体验偏工程向，UI 导向弱于 go-usb-ai/openclaw。
 - 适配人群：希望快速跑通多渠道、愿意通过配置和脚本管理的开发者。
 
 ### 4.3 nanoclaw
@@ -75,7 +75,7 @@
 - 代价：README 明确“早期开发与潜在安全问题”，生产信心需持续观察。
 - 适配人群：预算受限、设备受限、愿意跟进快速迭代的用户。
 
-### 4.6 nextclaw
+### 4.6 go-usb-ai
 
 - 强项：
   - OpenClaw 生态兼容（插件/配置形态）
@@ -86,7 +86,7 @@
   - 在“全栈平台深度”上不追求与 OpenClaw 全面等量齐观
   - 与 Rust 竞品相比，资源效率叙事需用持续 benchmark 支撑
 
-## 5. 对 NextClaw 的战略含义（可执行）
+## 5. 对 GoUsbAi 的战略含义（可执行）
 
 - 保持“UI-first + OpenClaw 兼容”主定位，不要被卷入“全量平台能力同构”。
 - 把“可验证轻量化”继续产品化：持续公开基准（启动时延、常驻内存、配置时间）。

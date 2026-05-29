@@ -7,7 +7,7 @@ description: Use when the user wants to operate Lark or Feishu via the local lar
 
 ## Overview
 
-Use this skill to help the user work through a local [`lark-cli`](https://github.com/larksuite/cli) installation from inside NextClaw.
+Use this skill to help the user work through a local [`lark-cli`](https://github.com/larksuite/cli) installation from inside GoUsbAi.
 
 This skill is intentionally decoupled:
 
@@ -24,54 +24,54 @@ From the user’s point of view, the experience should feel complete:
 Do not pretend the environment is ready when it is not.
 Treat browser completion, terminal success text, and real readiness as three separate things. Only observable CLI checks count as success.
 
-## Install Boundary: Upstream CLI vs NextClaw Skill
+## Install Boundary: Upstream CLI vs GoUsbAi Skill
 
 Always distinguish these three things before taking action:
 
 - `@larksuite/cli` / `lark-cli` binary install:
   `npm install -g @larksuite/cli`
-- NextClaw runtime skill install:
+- GoUsbAi runtime skill install:
   the selectable skill must exist at `<workspace>/skills/lark-cli/SKILL.md`
 - This repo's source skill:
-  `skills/lark-cli/SKILL.md` inside the NextClaw repository
+  `skills/lark-cli/SKILL.md` inside the GoUsbAi repository
 
-NextClaw loads skills from the workspace `skills/` directory, not from npm global Agent Skill locations.
+GoUsbAi loads skills from the workspace `skills/` directory, not from npm global Agent Skill locations.
 
-Default NextClaw workspace:
+Default GoUsbAi workspace:
 
 ```bash
-~/.nextclaw/workspace
+~/.go-usb-ai/workspace
 ```
 
 So the default installed skill path is:
 
 ```bash
-~/.nextclaw/workspace/skills/lark-cli/SKILL.md
+~/.go-usb-ai/workspace/skills/lark-cli/SKILL.md
 ```
 
 If the user wants the skill installed into a specific project or workspace, install it with an explicit workdir:
 
 ```bash
-nextclaw skills install lark-cli --workdir <workspace>
+go-usb-ai skills install lark-cli --workdir <workspace>
 ```
 
-Do not treat this upstream command as a NextClaw skill install:
+Do not treat this upstream command as a GoUsbAi skill install:
 
 ```bash
 npx skills add larksuite/cli -y -g
 ```
 
-That upstream command installs upstream Agent Skill assets globally. It does not put the skill into NextClaw's `<workspace>/skills/` directory, so it does not make the skill selectable inside NextClaw by itself.
+That upstream command installs upstream Agent Skill assets globally. It does not put the skill into GoUsbAi's `<workspace>/skills/` directory, so it does not make the skill selectable inside GoUsbAi by itself.
 
 ## Deterministic Integration Recipe
 
-When the user says "help me connect Feishu/Lark in NextClaw" or "make this skill actually work", follow this exact order and do not skip steps.
+When the user says "help me connect Feishu/Lark in GoUsbAi" or "make this skill actually work", follow this exact order and do not skip steps.
 
-### Step 0: Verify the NextClaw side first
+### Step 0: Verify the GoUsbAi side first
 
-Check the real NextClaw workspace path before touching `lark-cli`.
+Check the real GoUsbAi workspace path before touching `lark-cli`.
 
-- Default workspace: `~/.nextclaw/workspace`
+- Default workspace: `~/.go-usb-ai/workspace`
 - Expected installed skill file:
   `<workspace>/skills/lark-cli/SKILL.md`
 
@@ -79,10 +79,10 @@ If the user says they already installed the skill, verify that file exists.
 If it does not exist, install it with:
 
 ```bash
-nextclaw skills install lark-cli --workdir <workspace>
+go-usb-ai skills install lark-cli --workdir <workspace>
 ```
 
-Do not start debugging Feishu OAuth before this NextClaw-side path is confirmed.
+Do not start debugging Feishu OAuth before this GoUsbAi-side path is confirmed.
 
 ### Step 1: Verify the upstream CLI binary
 
@@ -233,8 +233,8 @@ Use this checklist literally:
 
 ## Do Not Do These Things
 
-- Do not confuse "skill installed into NextClaw workspace" with "`lark-cli` binary installed globally".
-- Do not use `npx skills add larksuite/cli -y -g` as a NextClaw skill install step.
+- Do not confuse "skill installed into GoUsbAi workspace" with "`lark-cli` binary installed globally".
+- Do not use `npx skills add larksuite/cli -y -g` as a GoUsbAi skill install step.
 - Do not start a second `config init --new` while the first one is still waiting.
 - Do not start repeated `auth login` commands when one `--device-code` polling process is already active.
 - Do not declare success from browser completion alone.
@@ -256,7 +256,7 @@ Use this checklist literally:
 - Claiming tenant permissions, plan limits, or compliance posture the user’s app or admin policies do not allow.
 - Silently bypassing missing app configuration or failed login.
 - Silently triggering messaging sends, file uploads, deletions, permission changes, or other high-impact actions without explicit user confirmation when the situation calls for it.
-- Treating Lark/Feishu platform behavior or third-party CLI output as native NextClaw behavior.
+- Treating Lark/Feishu platform behavior or third-party CLI output as native GoUsbAi behavior.
 
 ## First-Use Workflow
 
@@ -298,7 +298,7 @@ npm install -g @larksuite/cli
 ```
 
 After installation, continue with configuration and auth instead of jumping straight into the user task.
-This step installs the upstream `lark-cli` binary only. It does not install the NextClaw `lark-cli` skill into the workspace.
+This step installs the upstream `lark-cli` binary only. It does not install the GoUsbAi `lark-cli` skill into the workspace.
 
 ### 3. Optional upstream skill bundle
 
@@ -308,8 +308,8 @@ Upstream documents installing additional Agent Skill files globally:
 npx skills add larksuite/cli -y -g
 ```
 
-Treat this as optional unless the user is following upstream tutorials that assume those files exist, or the CLI reports missing skill assets. Do not present it as a NextClaw marketplace replacement; it is an upstream packaging choice.
-If the user's goal is "make `lark-cli` selectable in NextClaw", use `nextclaw skills install lark-cli` and verify `<workspace>/skills/lark-cli/SKILL.md` exists.
+Treat this as optional unless the user is following upstream tutorials that assume those files exist, or the CLI reports missing skill assets. Do not present it as a GoUsbAi marketplace replacement; it is an upstream packaging choice.
+If the user's goal is "make `lark-cli` selectable in GoUsbAi", use `go-usb-ai skills install lark-cli` and verify `<workspace>/skills/lark-cli/SKILL.md` exists.
 
 ### 4. Configure app credentials
 
@@ -445,12 +445,12 @@ When the user is unsure, default to smaller scope, fewer recipients, and read-on
 
 ### Skill installed to the wrong place
 
-- If the user installed an upstream skill globally but NextClaw still cannot select it, verify the real NextClaw workspace path first.
+- If the user installed an upstream skill globally but GoUsbAi still cannot select it, verify the real GoUsbAi workspace path first.
 - The success check is the file `<workspace>/skills/lark-cli/SKILL.md`.
 - If the user is working in a project-specific workspace, reinstall with:
 
 ```bash
-nextclaw skills install lark-cli --workdir <workspace>
+go-usb-ai skills install lark-cli --workdir <workspace>
 ```
 
 - Do not claim success just because `npx skills add larksuite/cli -y -g` finished.
@@ -481,7 +481,7 @@ nextclaw skills install lark-cli --workdir <workspace>
 
 ### Rate limits, permission denied, or tenant policy errors
 
-- Treat these as platform or admin policy constraints, not as something to bypass inside NextClaw.
+- Treat these as platform or admin policy constraints, not as something to bypass inside GoUsbAi.
 
 ## Success Criteria
 

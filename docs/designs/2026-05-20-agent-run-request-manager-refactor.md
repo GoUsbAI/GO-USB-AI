@@ -2,7 +2,7 @@
 
 ## 背景
 
-这次改造服务于 NextClaw 的“统一入口”和“能力编排”主线：用户发起一个 Agent run 请求时，系统应该有一个清晰、稳定、可治理的请求入口，而不是让 HTTP adapter、deferred service、AgentRuntimeManager、NCP backend 各自承担一段不成体系的业务职责。
+这次改造服务于 GoUsbAi 的“统一入口”和“能力编排”主线：用户发起一个 Agent run 请求时，系统应该有一个清晰、稳定、可治理的请求入口，而不是让 HTTP adapter、deferred service、AgentRuntimeManager、NCP backend 各自承担一段不成体系的业务职责。
 
 当前 `AgentRuntimeManager` 的名字和实际职责已经错位。它本应是 agent runtime 的管理容器，负责 runtime provider 注册、配置刷新、runtime 解析和生命周期装配；但现在它还承担了 send envelope materialization、HTTP send 兼容 endpoint、ingress session message handler、backend event 转发等请求处理职责。
 
@@ -23,7 +23,7 @@ frontend
   -> DefaultNcpAgentBackend.send(materializedRequest)
 ```
 
-问题是：HTTP send 进入的是 `agentClientEndpoint` 这个协议适配面，但 NextClaw 产品层真正需要的是“处理一次 Agent run 请求”。因此请求 materialization 被迫写进 `AgentRuntimeManager` 的临时 endpoint wrapper。
+问题是：HTTP send 进入的是 `agentClientEndpoint` 这个协议适配面，但 GoUsbAi 产品层真正需要的是“处理一次 Agent run 请求”。因此请求 materialization 被迫写进 `AgentRuntimeManager` 的临时 endpoint wrapper。
 
 ### session request ingress
 
@@ -57,7 +57,7 @@ DefaultNcpAgentBackend
 - `single-domain-owner`：Agent run request 处理没有独立 owner，被塞到 runtime manager 和 HTTP adapter 中。
 - `information-expert`：创建会话、补全 `sessionId`、从 metadata 生成 session 字段，是 request materialization 领域，不是 runtime registry 领域。
 - `complete-owner`：`AgentRuntimeManager` 不是完整 request owner，却在处理 request 前置步骤。
-- `responsibility-surface-minimization`：外层通过 `agentClientEndpoint` 进入 NextClaw 产品请求链路，暴露了偏协议的接口形状。
+- `responsibility-surface-minimization`：外层通过 `agentClientEndpoint` 进入 GoUsbAi 产品请求链路，暴露了偏协议的接口形状。
 - `deletion-first`：正确方向不是再加一个 backend wrapper，而是删除 `createMaterializingAgentClientEndpoint` 这类过渡职责。
 
 ## 目标边界
@@ -97,7 +97,7 @@ DefaultNcpAgentBackend
 
 它不应该负责：
 
-- 从 raw user request 创建 NextClaw session。
+- 从 raw user request 创建 GoUsbAi session。
 - 为 HTTP send 包一层 materializing endpoint。
 - 订阅 Agent run request ingress 并处理用户消息。
 - 把 request 领域逻辑藏进 `AgentRuntimeHandle.agentClientEndpoint`。
@@ -116,7 +116,7 @@ const runtime = agentRuntimeManager.resolveRuntime(requestEnvelope);
 
 长期目标有两个可选方向：
 
-- 保留为 toolkit 内部的 generic execution engine，但 NextClaw kernel 不把它当作产品 request owner。
+- 保留为 toolkit 内部的 generic execution engine，但 GoUsbAi kernel 不把它当作产品 request owner。
 - 拆出 live session / realtime / persistence / executor 等更小 owner，让 `AgentRunRequestManager -> AgentRuntimeManager.resolveRuntime(...) -> runtime.run(...)` 成为主链路。
 
 无论选择哪条路，`DefaultNcpAgentBackend` 都不应该继续成为上层产品请求入口的名字和概念中心。
@@ -148,19 +148,19 @@ const runtime = agentRuntimeManager.resolveRuntime(requestEnvelope);
 
 ### 阶段二：让 HTTP send 走 manager 直接 API
 
-把 NextClaw 产品层的 HTTP send 链路从 `agentClientEndpoint.send` 切到 `AgentRunRequestManager.send`。
+把 GoUsbAi 产品层的 HTTP send 链路从 `agentClientEndpoint.send` 切到 `AgentRunRequestManager.send`。
 
 目标链路：
 
 ```text
 frontend
   -> POST /api/ncp/agent/send
-  -> NextClaw agent send route/controller
+  -> GoUsbAi agent send route/controller
   -> kernel.agentRunRequestManager.send(envelope)
   -> kernel.agentRuntimeManager.executeMaterializedRun(...)
 ```
 
-`ncp-http-agent-server` 作为 generic protocol package 可以暂时保留 `agentClientEndpoint` contract；但 NextClaw 自己的产品 send route 不应该长期被这个 generic adapter 反向决定内部 owner。
+`ncp-http-agent-server` 作为 generic protocol package 可以暂时保留 `agentClientEndpoint` contract；但 GoUsbAi 自己的产品 send route 不应该长期被这个 generic adapter 反向决定内部 owner。
 
 这一阶段再评估：
 
@@ -286,16 +286,16 @@ return agentRunRequestManager.execute(execution, requestEnvelope);
 
 - `AgentRuntimeManager` 不再创建 materializing agent client endpoint。
 - `AgentRuntimeManager` 不再订阅 Agent run request ingress。
-- `AgentRuntimeManager` 不再创建 NextClaw session。
+- `AgentRuntimeManager` 不再创建 GoUsbAi session。
 - raw send envelope 到 strict request envelope 的转换只存在于 `AgentRunRequestManager`。
 - existing-session request 也由 `AgentRunRequestManager` 处理。
 - HTTP send 行为保持不变：无 `sessionId` 的 root chat send 仍会创建真实 session。
 
 阶段二完成后：
 
-- NextClaw 产品 HTTP send 主路径调用 `AgentRunRequestManager.send(...)`。
+- GoUsbAi 产品 HTTP send 主路径调用 `AgentRunRequestManager.send(...)`。
 - `agentClientEndpoint` 不再是产品 send 主路径的 owner。
-- generic NCP HTTP adapter 是否保留由公共 contract 决定，而不是为了 NextClaw 内部链路继续保留。
+- generic NCP HTTP adapter 是否保留由公共 contract 决定，而不是为了 GoUsbAi 内部链路继续保留。
 
 阶段三完成后：
 
@@ -311,10 +311,10 @@ return agentRunRequestManager.execute(execution, requestEnvelope);
 
 至少覆盖：
 
-- `pnpm --filter @nextclaw/kernel tsc`
-- `pnpm --filter @nextclaw/service tsc`
-- `pnpm --filter @nextclaw/server tsc`
-- `pnpm --filter @nextclaw/ncp-http-agent-server test`
+- `pnpm --filter @go-usb-ai/kernel tsc`
+- `pnpm --filter @go-usb-ai/service tsc`
+- `pnpm --filter @go-usb-ai/server tsc`
+- `pnpm --filter @go-usb-ai/ncp-http-agent-server test`
 - 与 agent backend / in-memory backend 相关的 toolkit 测试
 - `service-deferred-ncp-agent` tests
 - `service-ncp-agent-send-http-contract` tests
@@ -330,7 +330,7 @@ return agentRunRequestManager.execute(execution, requestEnvelope);
 
 ## 待确认问题
 
-1. 阶段二里，NextClaw HTTP send 是先直接调用 `AgentRunRequestManager.send(...)`，还是同步改成通过 ingress？推荐先直接调用，ingress 放阶段三。
+1. 阶段二里，GoUsbAi HTTP send 是先直接调用 `AgentRunRequestManager.send(...)`，还是同步改成通过 ingress？推荐先直接调用，ingress 放阶段三。
 2. `AgentRuntimeHandle.agentClientEndpoint` 是阶段二直接删除，还是先标成仅 generic NCP compatibility？推荐若没有外部 package contract 阻塞，直接删除主路径依赖。
 3. `resolveRuntime(requestEnvelope)` 最终是否必须只返回 runtime？如果 execution context 仍有必要，建议命名为 `resolveRuntimeExecution(...)`，避免 runtime 对象被迫承载 session/persistence/stream 上下文。
-4. `ncp-http-agent-server` 是否要同步调整公共接口？推荐先不要让 generic package 改造阻塞 kernel owner 收敛，等 NextClaw 主路径稳定后再评估。
+4. `ncp-http-agent-server` 是否要同步调整公共接口？推荐先不要让 generic package 改造阻塞 kernel owner 收敛，等 GoUsbAi 主路径稳定后再评估。

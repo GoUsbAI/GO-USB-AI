@@ -9,8 +9,8 @@
 
 # 测试/验证/验收方式
 
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter nextclaw exec vitest run src/cli/commands/ncp/nextclaw-ncp-context-builder.test.ts src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts`
-- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter nextclaw exec tsc -p tsconfig.json --noEmit`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter go-usb-ai exec vitest run src/cli/commands/ncp/go-usb-ai-ncp-context-builder.test.ts src/cli/commands/ncp/create-ui-ncp-agent.subagent-completion.test.ts`
+- `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm --filter go-usb-ai exec tsc -p tsconfig.json --noEmit`
 - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainability:guard`
 
 # 发布/部署方式

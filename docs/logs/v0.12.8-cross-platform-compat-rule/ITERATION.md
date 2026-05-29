@@ -1,8 +1,8 @@
 # Iteration v0.12.8-cross-platform-compat-rule
 
 ## 迭代完成说明
-- 在 `AGENTS.md` 的 `Project Rulebook` 中新增 `cross-platform-first-for-nextclaw` 规则。
-- 规则要求：凡涉及 `nextclaw` CLI、安装/升级、自更新、路径处理、进程控制、服务托管、脚本或用户可执行流程，默认必须同时考虑 macOS、Linux、Windows 三平台；除非用户明确限制为单平台，否则不能只按当前操作系统设计与实现。
+- 在 `AGENTS.md` 的 `Project Rulebook` 中新增 `cross-platform-first-for-go-usb-ai` 规则。
+- 规则要求：凡涉及 `go-usb-ai` CLI、安装/升级、自更新、路径处理、进程控制、服务托管、脚本或用户可执行流程，默认必须同时考虑 macOS、Linux、Windows 三平台；除非用户明确限制为单平台，否则不能只按当前操作系统设计与实现。
 - 规则同时补充了平台差异检查项：安装位置、可执行入口、权限模型、服务管理、路径/删除/重命名语义，以及未实测平台的风险披露要求。
 
 ## 测试 / 验证 / 验收方式
@@ -15,6 +15,6 @@
 - 后续开发或发布涉及跨平台能力时，默认按照该规则执行平台差异审查与验证。
 
 ## 用户 / 产品视角的验收步骤
-- 查看 `AGENTS.md` 的 `Project Rulebook`，确认存在 `cross-platform-first-for-nextclaw` 规则。
+- 查看 `AGENTS.md` 的 `Project Rulebook`，确认存在 `cross-platform-first-for-go-usb-ai` 规则。
 - 后续提出任一与安装、升级、自更新、服务托管、路径处理相关需求时，助手默认同时考虑 macOS、Linux、Windows，而不是只给单平台方案。
 - 若某平台暂未实测，助手必须主动说明缺口与风险，而不是默认为兼容。

@@ -1,0 +1,1037 @@
+# 最新状态（2026-04-22，第五十三批已完成）
+
+- 第五十二批不是“待提交”，而是已提交：`8784e3a2 refactor(ui): clear top-level hooks root`
+- 第五十三批已一次性完成 `src/api`、`src/lib`、`src/components` 的顶层收口；真实实现、测试、真实消费方与薄承接入口已切到 `app`、`features`、`shared`、`platforms`
+- `packages/go-usb-ai-ui/src` 顶层现只剩 `app`、`features`、`platforms`、`shared`
+- 迁移后残留的空 `src/components` 已继续向上回收到 `src` 当前层，没有保留空壳顶层目录
+- 本轮完整验证已通过：
+- `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+- `pnpm --filter @go-usb-ai/ui exec vitest run`
+- `git diff --name-only --diff-filter=AMR -- packages/go-usb-ai-ui | xargs pnpm lint:new-code:governance -- --files`
+- `git diff --name-only --diff-filter=AMR -- packages/go-usb-ai-ui | xargs node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths`
+- `pnpm check:governance-backlog-ratchet`
+- maintainability guard 结果：`Inspected files: 146`，`Errors: 0`，`Warnings: 7`，`Non-test net: -35`
+
+# 当前目标
+
+- 战役名称：`go-usb-ai-ui` 目录组织自治治理战役
+- 本轮目标：从 `packages/go-usb-ai-ui/src` 开始，按自上而下的层级顺序继续减少高优先级 legacy-root 债务；不是只挑局部热点，而是每一层先尽量收平、满足 contract-only，再下降到下一层处理能整组迁入既有 allowed roots 的实现、测试与真实消费链
+- 成功判定：每完成一个高置信目录批次的真实迁移，就通过最小验证、更新状态记录，并提交一个独立 commit
+
+# 顶层收敛优先级
+
+- 用户已明确确认：当前战役的第一优先级不是继续做“蚂蚁搬家”式叶子迁移，而是先解决 `src` 上层结构问题，用最快速度减少 `src` 这一层 legacy roots 数量
+- 因此后续批次排序切换为“按 root 是否能被整组清空”而不是“按单文件是否容易搬”
+- 当前 `src` 顶层 legacy roots 盘点：已清空，`src` 顶层只剩 `app`、`features`、`platforms`、`shared`
+- 当前清空优先级：
+- 已完成第一梯队：`stores`、`styles`、`test`
+- 第二梯队进展：`pwa` 保留在 `platforms/pwa`，`transport` 已纠偏进入 `shared/lib/transport`
+- 当前下一优先级：无；`src` 顶层已完成 contract-only 收口
+- 后续第三梯队：不适用
+- 最后第四梯队：不适用
+- 排序理由：先减少 `src` 顶层违规 root 数量，再去处理体量更大的 legacy 子树，整体收敛速度比继续零碎搬叶子更快
+
+# 当前事实
+
+- `packages/go-usb-ai-ui/src/components/config` 当前直接代码文件数为 `37`
+- `packages/go-usb-ai-ui/src/components/chat` 当前直接代码文件数为 `35`
+- `packages/go-usb-ai-ui/src/lib` 当前直接代码文件数为 `28`
+- `packages/go-usb-ai-ui/src/api` 当前直接代码文件数为 `26`
+- `packages/go-usb-ai-ui/src/components/ui` 当前直接代码文件数为 `22`
+- `packages/go-usb-ai-ui/module-structure.config.json` 将该包声明为 `frontend-l3` 协议，allowed roots 只有 `app`、`features`、`shared`、`platforms`
+- 当前 `rootPolicy=contract-only`，`go-usb-ai-ui` 后续不再允许触碰 `components`、`lib`、`api`、`hooks` 等 legacy roots 中的文件；本轮已把这些顶层 roots 清空，后续只允许在 allowed roots 内继续推进下一层治理
+- 首批尝试在 `components/config` 下新建 provider 子树，真实验证后被 `module-structure`、目录预算和非功能净增闸门阻断，代码尝试已回撤
+- 当前仓库存在与本战役无关的未提交改动，本轮必须避免触碰这些路径
+
+# 关键约束 / 不变量
+
+- 必须遵守 `docs/VISION.md`
+- 必须遵守 `AGENTS.md` 的 Rulebook / Project Rulebook 与 `docs/logs` 规则
+- 必须遵守 `commands/commands.md` 中与治理相关的执行入口
+- 当前任务属于非功能改动，默认以 `非测试代码净增 <= 0` 为硬门槛
+- 仅在高置信时持续自治推进
+- 低置信决策必须停下并记录阻塞原因
+- 任何新目录层级都必须先满足 `frontend-l3` 的 allowed roots 约束
+
+# 治理机制核对
+
+- 本轮直接依赖的规则：`business-logic-must-use-class`、`class-over-function-sprawl`、`stateless-utility-first`、`ordinary-function-no-input-mutation`、`class-arrow-methods-by-default`、`react-effect-boundary-only`
+- 本轮直接依赖的命令 / skill：`/validate`、`/maintainability-review`、`autonomous-maintainability-campaign`、`iteration-work-notes`、`post-edit-maintainability-guard`、`post-edit-maintainability-review`、`file-organization-governance`、`role-first-file-organization`、`collapsible-feature-root-architecture`
+- 本轮是否属于非功能改动：是
+- 本轮是否命中 hotspot / 目录预算 / 命名治理等专项场景：命中目录预算、命名治理和 module-structure 合同治理
+- 执行节奏约定：每一轮完成、验证、提交后自动进入下一轮；只有在低置信阻塞或治理硬失败时才暂停并记录
+- 用户明确追加要求：不要等待用户再次发话。后续默认策略是“每完成一轮之后自动进行下一轮”，把这条要求视为本战役的持续执行约束，而不是一次性提醒
+- 用户最新澄清：治理顺序必须“自上而下每一层，不过是从 `src` 开始”。这不是措辞偏好，而是后续批次选择的硬约束；如果某轮只清了叶子目录、没有继续把空壳向上回收到当前层级，就视为目标未完成
+
+# 候选问题批次
+
+- [x] `components/config` 合同校准与失败路径回收
+- [x] `security-config` 迁入 `features/system-status` 并保留 legacy 薄转发入口
+- [x] `runtime-presence-card` 迁入 `features/system-status/components` 并保留 legacy 薄转发入口
+- [x] `config-split-page` 迁入 `shared/components` 并保留 legacy 薄转发入口
+- [x] `provider-pill-selector` 与 `provider-status-badge` 迁入 `shared/components`
+- [x] `provider-enabled-field` 迁入 `shared/components`
+- [x] `provider-advanced-settings-section` 迁入 `shared/components`
+- [x] `provider-auth-section` 迁入 `shared/components`
+- [x] 建立 `features/channels`，并迁入 `channel-form-fields` 与 `channel-form-fields-section`
+- [x] `runtime-config-agent.utils` 迁入 `features/system-status/utils`
+- [x] `channel-form-fields.test.ts` 迁入 `features/channels/utils`
+- [x] 按 `system-status` 语义线成组迁入 `runtime-control-card` 与相关测试
+- [x] 建立 `features/chat` 并成组迁入 chat 纯支撑线与相关测试
+- [x] 沿 `features/chat` 继续成组迁入 session-preference 支撑线
+- [ ] 继续从 `components/config` 里挑选下一个已是 kebab-case、能挂入既有 feature 的页面
+- [ ] `components/chat` 顶层平铺目录收敛
+- [ ] `lib` 混合关注点收敛
+- [ ] `api` 契约/客户端/类型拆分
+
+# 当前活跃批次
+
+- 名称：`components/config` allowed-root 连续迁移
+- 选中原因：`security-config` 已证明“真实实现迁入 feature、旧路径缩成薄转发”是可通过治理的正确路径
+- 预计最小闭环：继续选一个语义稳定、命名已合规的小页面文件，复制同样模式拿到第二个独立 commit
+
+# 已完成
+
+- 新建本次战役的迭代留痕目录与 `work/` 状态文件
+- 盘点 `go-usb-ai-ui` 目录热点，确认首批目标为 `components/config`
+- 验证并确认 `go-usb-ai-ui` 已从 `frontend-l3 + legacy-frozen` 收紧到 `frontend-l3 + contract-only`
+- 完整跑过一次失败路径并回撤代码尝试，避免把未通过治理检查的半成品留在工作区
+- 完成 `components/config/security-config.tsx -> features/system-status/components/security-config.tsx` 的真实实现迁移
+- 把 legacy 路径收窄为兼容导出，避免触碰 `app.tsx` 与 `src/app/` 的历史命名冲突
+- 通过本批次最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec vitest run src/app.test.tsx`
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/components/config/security-config.tsx packages/go-usb-ai-ui/src/features/system-status/index.ts packages/go-usb-ai-ui/src/features/system-status/components/security-config.tsx`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/security-config.tsx packages/go-usb-ai-ui/src/features/system-status/index.ts packages/go-usb-ai-ui/src/features/system-status/components/security-config.tsx`
+  - `pnpm check:governance-backlog-ratchet`
+- 完成 `components/config/runtime-presence-card.tsx -> features/system-status/components/runtime-presence-card.tsx` 的真实实现迁移
+- 在新文件中新增 `PresenceCardFrame`，消除重复的卡片壳结构，确保不是只换目录而是顺手降低重复度
+- 通过第二批最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec vitest run src/components/config/runtime-presence-card.test.tsx`
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/components/config/runtime-presence-card.tsx packages/go-usb-ai-ui/src/features/system-status/components/runtime-presence-card.tsx`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/runtime-presence-card.tsx packages/go-usb-ai-ui/src/features/system-status/components/runtime-presence-card.tsx`
+  - `pnpm check:governance-backlog-ratchet`
+- 完成 `components/config/config-split-page.tsx -> shared/components/config-split-page.tsx` 的真实实现迁移
+- 打通 `shared` 允许根路径，后续 `ChannelForm`、`ProvidersList`、`SearchConfig` 等多个页面都可沿这条路径继续脱离 legacy root
+- 通过第三批最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec vitest run src/components/config/SearchConfig.test.tsx`
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/components/config/config-split-page.tsx packages/go-usb-ai-ui/src/shared/components/config-split-page.tsx`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/config-split-page.tsx packages/go-usb-ai-ui/src/shared/components/config-split-page.tsx`
+  - `pnpm check:governance-backlog-ratchet`
+- 完成 `components/config/provider-pill-selector.tsx` 与 `components/config/provider-status-badge.tsx` 的真实实现迁移
+- `shared/components` 开始承接 provider 相关小型通用 UI 原件，不再只承接布局壳
+- 通过第四批最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec vitest run src/components/config/providers-list.test.tsx`
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/components/config/provider-pill-selector.tsx packages/go-usb-ai-ui/src/components/config/provider-status-badge.tsx packages/go-usb-ai-ui/src/shared/components/provider-pill-selector.tsx packages/go-usb-ai-ui/src/shared/components/provider-status-badge.tsx`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/provider-pill-selector.tsx packages/go-usb-ai-ui/src/components/config/provider-status-badge.tsx packages/go-usb-ai-ui/src/shared/components/provider-pill-selector.tsx packages/go-usb-ai-ui/src/shared/components/provider-status-badge.tsx`
+  - `pnpm check:governance-backlog-ratchet`
+- 完成 `components/config/provider-enabled-field.tsx -> shared/components/provider-enabled-field.tsx` 的真实实现迁移
+- `shared/components` 继续承接 provider 配置表单里的通用开关行，证明可以逐步把 provider 表单拆成更细颗粒度的共享原件
+- 通过第五批最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec vitest run src/components/config/providers-list.test.tsx`
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/components/config/provider-enabled-field.tsx packages/go-usb-ai-ui/src/shared/components/provider-enabled-field.tsx`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/provider-enabled-field.tsx packages/go-usb-ai-ui/src/shared/components/provider-enabled-field.tsx`
+  - `pnpm check:governance-backlog-ratchet`
+- 完成 `components/config/provider-advanced-settings-section.tsx -> shared/components/provider-advanced-settings-section.tsx` 的真实实现迁移
+- `shared/components` 开始承接 provider 表单里的稳定子区块，不再只接小型原件
+- 通过第六批最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec vitest run src/components/config/providers-list.test.tsx`
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/components/config/provider-advanced-settings-section.tsx packages/go-usb-ai-ui/src/shared/components/provider-advanced-settings-section.tsx`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/provider-advanced-settings-section.tsx packages/go-usb-ai-ui/src/shared/components/provider-advanced-settings-section.tsx`
+  - `pnpm check:governance-backlog-ratchet`
+- 完成 `components/config/provider-auth-section.tsx -> shared/components/provider-auth-section.tsx` 的真实实现迁移
+- provider 表单中的授权区块也已进入 `shared/components`，说明这条路径已经覆盖到 provider 表单的大部分稳定子区块
+- 通过第七批最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec vitest run src/components/config/providers-list.test.tsx`
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/components/config/provider-auth-section.tsx packages/go-usb-ai-ui/src/shared/components/provider-auth-section.tsx`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/provider-auth-section.tsx packages/go-usb-ai-ui/src/shared/components/provider-auth-section.tsx`
+  - `pnpm check:governance-backlog-ratchet`
+- 建立 `features/channels/index.ts`
+- 完成 `components/config/channel-form-fields.ts -> features/channels/utils/channel-form-fields.utils.ts` 的真实实现迁移
+- 完成 `components/config/channel-form-fields-section.tsx -> features/channels/components/channel-form-fields-section.tsx` 的真实实现迁移
+- `ChannelForm` 这条链开始形成自己的 feature 语义边界，不再只是在 `components/config` 下堆内部支撑件
+- 通过第八批最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec vitest run src/components/config/channel-form-fields.test.ts`
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/components/config/channel-form-fields.ts packages/go-usb-ai-ui/src/components/config/channel-form-fields-section.tsx packages/go-usb-ai-ui/src/features/channels/index.ts packages/go-usb-ai-ui/src/features/channels/components/channel-form-fields-section.tsx packages/go-usb-ai-ui/src/features/channels/utils/channel-form-fields.utils.ts`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/channel-form-fields.ts packages/go-usb-ai-ui/src/components/config/channel-form-fields-section.tsx packages/go-usb-ai-ui/src/features/channels/index.ts packages/go-usb-ai-ui/src/features/channels/components/channel-form-fields-section.tsx packages/go-usb-ai-ui/src/features/channels/utils/channel-form-fields.utils.ts`
+  - `pnpm check:governance-backlog-ratchet`
+- 完成 `components/config/runtime-config-agent.utils.ts -> features/system-status/utils/runtime-config-agent.utils.ts` 的真实实现迁移
+- 运行时配置的纯工具能力开始回收到 `system-status` feature 语义边界内，而不是继续散落在 `components/config`
+- 通过第九批最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/components/config/runtime-config-agent.utils.ts packages/go-usb-ai-ui/src/features/system-status/utils/runtime-config-agent.utils.ts`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/runtime-config-agent.utils.ts packages/go-usb-ai-ui/src/features/system-status/utils/runtime-config-agent.utils.ts`
+  - `pnpm check:governance-backlog-ratchet`
+- 完成 `components/config/channel-form-fields.test.ts -> features/channels/utils/channel-form-fields.utils.test.ts` 的测试归位
+- `features/channels` 不再只有实现文件，测试也开始跟着真实实现一起沉淀到 feature 内部
+- 通过第十批最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/channels/utils/channel-form-fields.utils.test.ts`
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/components/config/channel-form-fields.test.ts packages/go-usb-ai-ui/src/features/channels/utils/channel-form-fields.utils.test.ts`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/channel-form-fields.test.ts packages/go-usb-ai-ui/src/features/channels/utils/channel-form-fields.utils.test.ts`
+  - `pnpm check:governance-backlog-ratchet`
+- 完成 `components/config/runtime-control-card.tsx -> features/system-status/components/runtime-control-card.tsx` 的真实实现迁移
+- 完成 `components/config/runtime-control-card.test.tsx -> features/system-status/components/runtime-control-card.test.tsx` 的测试归位
+- 完成 `components/config/runtime-presence-card.test.tsx -> features/system-status/components/runtime-presence-card.test.tsx` 的测试归位
+- 这一批不再按单文件推进，而是按 `system-status` 语义线成组收敛，实现 + 相邻测试一起归位，吞吐量显著高于前一轮
+- 通过第十一批最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/system-status/components/runtime-control-card.test.tsx src/features/system-status/components/runtime-presence-card.test.tsx src/app.test.tsx`
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/components/config/runtime-control-card.tsx packages/go-usb-ai-ui/src/components/config/runtime-control-card.test.tsx packages/go-usb-ai-ui/src/components/config/runtime-presence-card.test.tsx packages/go-usb-ai-ui/src/features/system-status/components/security-config.tsx packages/go-usb-ai-ui/src/features/system-status/components/runtime-control-card.tsx packages/go-usb-ai-ui/src/features/system-status/components/runtime-control-card.test.tsx packages/go-usb-ai-ui/src/features/system-status/components/runtime-presence-card.test.tsx`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/runtime-control-card.tsx packages/go-usb-ai-ui/src/components/config/runtime-control-card.test.tsx packages/go-usb-ai-ui/src/components/config/runtime-presence-card.test.tsx packages/go-usb-ai-ui/src/features/system-status/components/security-config.tsx packages/go-usb-ai-ui/src/features/system-status/components/runtime-control-card.tsx packages/go-usb-ai-ui/src/features/system-status/components/runtime-control-card.test.tsx packages/go-usb-ai-ui/src/features/system-status/components/runtime-presence-card.test.tsx`
+  - `pnpm check:governance-backlog-ratchet`
+- 建立 `features/chat/index.ts`
+- 完成 `components/chat/chat-inline-token.utils.ts -> features/chat/utils/chat-inline-token.utils.ts`
+- 完成 `components/chat/chat-composer-state.ts -> features/chat/utils/chat-composer-state.utils.ts`
+- 完成 `components/chat/chat-session-display.ts -> features/chat/utils/chat-session-display.utils.ts`
+- 完成 `components/chat/chat-session-route.ts -> features/chat/utils/chat-session-route.utils.ts`
+- 完成 `components/chat/chat-recent-models.manager.ts -> features/chat/managers/chat-recent-models.manager.ts`
+- 完成 `components/chat/chat-recent-skills.manager.ts -> features/chat/managers/chat-recent-skills.manager.ts`
+- 完成三份测试归位：`chat-inline-token.utils.test.ts`、`chat-composer-state.test.ts`、`chat-session-display.test.ts`
+- 这一批按 `chat` 纯支撑线成组收敛，不碰 PascalCase 页面壳，但一次性把 utils、route、manager 与相关测试连成一条可复用的 feature 迁移路径
+- 通过第十二批最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/utils/chat-inline-token.utils.test.ts src/features/chat/utils/chat-composer-state.utils.test.ts src/features/chat/utils/chat-session-display.utils.test.ts`
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/components/chat/chat-inline-token.utils.ts packages/go-usb-ai-ui/src/components/chat/chat-inline-token.utils.test.ts packages/go-usb-ai-ui/src/components/chat/chat-composer-state.ts packages/go-usb-ai-ui/src/components/chat/chat-composer-state.test.ts packages/go-usb-ai-ui/src/components/chat/chat-session-display.ts packages/go-usb-ai-ui/src/components/chat/chat-session-display.test.ts packages/go-usb-ai-ui/src/components/chat/chat-session-route.ts packages/go-usb-ai-ui/src/components/chat/chat-recent-models.manager.ts packages/go-usb-ai-ui/src/components/chat/chat-recent-skills.manager.ts packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-inline-token.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-inline-token.utils.test.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-composer-state.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-composer-state.utils.test.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-session-display.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-session-display.utils.test.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-session-route.utils.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-recent-models.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-recent-skills.manager.ts`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/chat/chat-inline-token.utils.ts packages/go-usb-ai-ui/src/components/chat/chat-inline-token.utils.test.ts packages/go-usb-ai-ui/src/components/chat/chat-composer-state.ts packages/go-usb-ai-ui/src/components/chat/chat-composer-state.test.ts packages/go-usb-ai-ui/src/components/chat/chat-session-display.ts packages/go-usb-ai-ui/src/components/chat/chat-session-display.test.ts packages/go-usb-ai-ui/src/components/chat/chat-session-route.ts packages/go-usb-ai-ui/src/components/chat/chat-recent-models.manager.ts packages/go-usb-ai-ui/src/components/chat/chat-recent-skills.manager.ts packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-inline-token.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-inline-token.utils.test.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-composer-state.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-composer-state.utils.test.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-session-display.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-session-display.utils.test.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-session-route.utils.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-recent-models.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-recent-skills.manager.ts`
+  - `pnpm check:governance-backlog-ratchet`
+- 完成 `components/chat/chat-input.types.ts -> features/chat/types/chat-input.types.ts`
+- 完成 `components/chat/chat-session-preference-governance.ts -> features/chat/utils/chat-session-preference-governance.utils.ts`
+- 完成 `components/chat/chat-session-preference-sync.ts -> features/chat/managers/chat-session-preference-sync.manager.ts`
+- 完成 `components/chat/chat-session-preference-sync.test.ts -> features/chat/managers/chat-session-preference-sync.manager.test.ts`
+- 这一批继续沿 `features/chat` 扩第二条支撑线，把 types、governance、sync 与测试一起收回 feature 内部，同时遵守了 `*.utils`、`*.manager` 和 feature `index.ts` 入口约束
+- 通过第十三批最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/managers/chat-session-preference-sync.manager.test.ts src/components/chat/chat-page-runtime.test.ts`
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/components/chat/chat-input.types.ts packages/go-usb-ai-ui/src/components/chat/chat-session-preference-governance.ts packages/go-usb-ai-ui/src/components/chat/chat-session-preference-sync.ts packages/go-usb-ai-ui/src/components/chat/chat-session-preference-sync.test.ts packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/features/chat/types/chat-input.types.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-session-preference-governance.utils.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-preference-sync.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-preference-sync.manager.test.ts`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/chat/chat-input.types.ts packages/go-usb-ai-ui/src/components/chat/chat-session-preference-governance.ts packages/go-usb-ai-ui/src/components/chat/chat-session-preference-sync.ts packages/go-usb-ai-ui/src/components/chat/chat-session-preference-sync.test.ts packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/features/chat/types/chat-input.types.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-session-preference-governance.utils.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-preference-sync.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-preference-sync.manager.test.ts`
+  - `pnpm check:governance-backlog-ratchet`
+
+# 已排除项
+
+- 暂不触达已有未提交的内核相关改动路径
+- 暂不把低置信的跨 feature 重组和产品语义调整混入本轮目录治理
+- 排除继续在 `components/config`、`components/chat`、`lib`、`api` 等 legacy roots 下直接新增子树的做法
+- 排除 `desktop-update-config` 当前版本的直接迁移方案：会引入新的长函数文件预算问题，并通过平台根导出带来循环依赖/测试语义偏移风险
+
+# 关键决策
+
+- 当前战役新建独立迭代目录 `v0.16.85-go-usb-ai-ui-directory-governance-campaign`，因为这不是上一次 skill 创建迭代的同批次续改
+- 第一批原定直拆 `components/config`，但经真实验证后确认与模块结构合同冲突，必须改成“先迁入 allowed roots，再做子树收敛”
+- 在新的高置信批次形成前，不保留任何未通过治理闸门的代码结构尝试
+- `security-config` 这一步不再修改 `app.tsx`，而是通过 legacy 薄转发过渡，避免触发 `src/app.tsx` 与 `src/app/` 的 file-directory collision 治理规则
+- `runtime-presence-card` 证明除了整页配置入口外，较小的运行时卡片也可以按“真实实现迁入 feature + legacy 薄转发”模式逐步抽离
+- `config-split-page` 证明通用布局壳也可以按“真实实现迁入 shared + legacy 薄转发”模式抽离，allowed roots 不只限于 feature
+- `provider-pill-selector` 与 `provider-status-badge` 证明 `shared/components` 可以继续承接更细粒度的通用 UI 原件，而不需要把所有复用都留在 `components/config`
+- `provider-enabled-field` 进一步证明 provider 表单中的小型通用控件也可以稳定迁入 `shared/components`
+- `provider-advanced-settings-section` 进一步证明 provider 表单里的稳定子区块也可以迁入 `shared/components`，后续可以继续抽离 `provider-auth-section`
+- `provider-auth-section` 已经完成，说明 `provider-form-support.ts` 之外的主要 provider 表单子块都在向 `shared/components` 收拢
+- `features/channels` 已经建立，说明 `components/config` 不只是能向 `shared` 收缩，也能向新的 feature root 收缩；下一步可以继续评估 `ChannelForm` / `ChannelsList` 周边子模块是否适合并入这个 feature
+- `runtime-config-agent.utils` 已完成，说明除了 UI 子块外，`components/config` 里的纯工具逻辑也能按语义回收到既有 feature
+- `channel-form-fields.utils.test.ts` 已完成，说明 `features/channels` 这条线现在可以继续同时承接实现与测试，不必长期让测试挂在 legacy 根目录
+- `runtime-control-card` 与 `runtime-presence-card` 的测试现已随 `system-status` feature 一起归位，说明后续可以按“同一语义线的实现 + 测试 + 薄转发入口”成组推进，而不是继续一批只搬一个点
+- `features/chat` 已建立且通过闸门，说明 `components/chat` 不再只能靠局部子目录消化复杂度；后续可以继续把 chat 的纯支撑线、manager 与稳定子块按 feature 语义收回 allowed root
+- `session-preference` 支撑线已完成，说明 `features/chat` 不只承接纯 utils，也能稳定承接 types、manager、治理逻辑与相邻测试
+- `chat-session-type-option-item` 与 `chat-session-workspace-file-preview` 已完成，说明 `features/chat` 现在也能稳定承接被侧栏与工作区面板直接消费的组件子块；只要消费方导入走 `@/features/chat` 根入口，就能同时满足 module-structure 合同与 non-feature 净增闸门
+- `chat-sidebar-list-mode-switch`、`chat-sidebar-session-item`、`chat-sidebar-project-groups`、`chat-session-workspace-panel-nav`、`chat-session-workspace-panel` 与 `workspace/chat-session-workspace-file-breadcrumbs` 已完成，说明 `features/chat` 已经能承接整条侧栏与工作区面板组件线；消费方只要统一走 `@/features/chat` 根入口，旧路径就可以持续收窄成 shim 而不破坏验证链路
+- 第十六批关键决策：不再接受 `go-usb-ai-ui` 的“历史 legacy root 触达只 warning”策略，直接把合同切到 `contract-only`；从这一刻开始，后续批次必须避免再触碰任何 legacy root 文件，否则治理会直接失败
+- 第十七批关键决策：在 strict `contract-only` 下，不再尝试通过新建 legacy shim 或继续回写 legacy 消费方完成迁移；改为“allowed-root 新实现 + 直接删除 legacy 文件 + 配置层精确路径映射承接旧导入”。这条路径已经在 `ChatWelcome` / `useChatSessionTypeState` 上验证通过，后续更高层入口链也优先沿这条路线推进
+- 第十八批关键决策：更高层入口链不再一次性全搬。`chat-page-shell`、`chat-page`、`ncp-chat-page` 这组入口链里，只先拿走最重、最稳定的 `chat-conversation-panel` 主面板和 `chat-page-runtime` 测试；其余页面壳暂时保持未触达，通过一条精确 alias 指向新 panel 实现，先把高层债务减下来再继续往上收
+- 第十九批关键决策：在第十八批验证过 panel alias 路径后，继续顺着同一条链上收 `chat-page-shell` 与 `chat-page`。这一步不再引入新 shim，只保留精确 alias，让 `app.tsx` 与 legacy `ncp-chat-page.tsx` 继续消费新入口实现
+- 第二十批关键决策：`ncp` 页面装配链不再拆成更多小点，而是一次性把 `ncp-chat-page.tsx`、`ncp-chat-page-data.ts` 与 `page/ncp-chat-derived-state.ts` 整组迁入 `features/chat`；同时把散落的 `ncp-chat-page-data.test.ts` 合并进现有 `ncp-chat-page.test.ts`，直接减少文件数
+- 第二十一批关键决策：继续按整组运行时链推进，不只搬 `session-conversation` hooks，还把 `ncp-app-client-fetch` 和两条 runtime contract 测试一并拖进 `features/chat`；这样页面、workspace 面板和 contract 测试都落在同一个 feature 语义边界内
+- 第二十二批关键决策：在 strict `contract-only` 下，`components/chat/ncp` 的核心实现不再拆成零散小点，而是一次性把 presenter / managers / adapter / list-view 与四个相邻测试整组迁入 `features/chat`；仍留在 legacy roots 的真实消费方先不回写文件本体，而是通过 `tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 的精确 alias 承接旧导入，避免为切根再次触碰 legacy 文件
+- 第二十五批关键决策：继续沿 `features/chat` 的高层主链往上收，但只拿高置信的 session-list / message-list owner 边界，不把 `SessionsConfig.tsx` 或 `chat-sidebar.tsx` 这种重页面一起硬搬。真实 `features/chat` 消费方全部直接切到新路径，剩余 legacy 消费才交给三条精确 alias 承接；这样既能继续减少顶层 legacy 债务，又不会让下一批误滑成页面重构
+- `chat-sidebar` 尝试批次的关键决策已经更新为“降级否决”：虽然 `chat-page-shell -> chat-sidebar` 的消费链很短，迁移本身也能通过测试和类型检查，但它一旦进入新的 feature-root 文件，就会同时暴露 `file-budget`、`function-budget` 与非功能净增 `> 0` 三项严格阻塞；因此这条链当前不能再被视为高置信目录迁移批次，必须等专门的 sidebar 拆分治理再处理，而不是继续硬搬
+
+# 下一步
+
+- 先补齐第四十九批留痕并提交：
+- `packages/go-usb-ai-ui/src/lib/channel-tutorials.ts -> packages/go-usb-ai-ui/src/features/channels/utils/channel-tutorials.utils.ts`
+- 真实消费方已切到新路径：`packages/go-usb-ai-ui/src/features/channels/pages/channels-list-page.tsx`、`packages/go-usb-ai-ui/src/features/channels/components/config/channel-form.tsx`
+- 第四十九批已提交：`refactor(ui): move channel tutorial resolver`
+- 第五十批已完成待提交：`src/styles/design-system.css -> src/app/styles/design-system.css`、`src/test/setup.ts -> src/app/test/vitest-setup.ts`、删除未消费的 `src/stores/ui.store.ts`
+- 当前已经把 `src/styles`、`src/test`、`src/stores` 三个顶层 legacy roots 向上回收到 `src` 当前层
+- 第五十批验证结果：
+- `pnpm --filter @go-usb-ai/ui exec vitest run src/app.test.tsx`
+- `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+- `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/index.css packages/go-usb-ai-ui/src/app/styles/design-system.css packages/go-usb-ai-ui/vitest.config.ts packages/go-usb-ai-ui/src/app/test/vitest-setup.ts`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/index.css packages/go-usb-ai-ui/src/app/styles/design-system.css packages/go-usb-ai-ui/vitest.config.ts packages/go-usb-ai-ui/src/app/test/vitest-setup.ts packages/go-usb-ai-ui/src/stores/ui.store.ts packages/go-usb-ai-ui/src/styles/design-system.css packages/go-usb-ai-ui/src/test/setup.ts`
+- `pnpm check:governance-backlog-ratchet`
+- 第五十批独立可维护性复核：
+- 结论：通过
+- 本次顺手减债：是
+- 代码增减报告：新增 `5` 行，删除 `19` 行，净增 `-14` 行
+- 非测试代码增减报告：新增 `1` 行，删除 `15` 行，净增 `-14` 行
+- 可维护性总结：这批没有新增任何产品能力，而是把全局样式与测试 setup 收回 `app` 根，把一条无消费的全局 store 直接删除，一次性清空三个 `src` 顶层 legacy roots；复杂度是实打实减少，不是换目录保留
+- 第五十批已提交：`refactor(ui): clear top-level style test store roots`
+- 第五十一批已完成待提交：`transport` 已从错误的 `platforms/transport` 纠偏到 `shared/lib/transport`
+- 第五十一批落点：
+- `packages/go-usb-ai-ui/src/platforms/transport/* -> packages/go-usb-ai-ui/src/shared/lib/transport/*`
+- 保留 `@/transport`、`@/transport/app-client.service`、`@/transport/local-transport.service`、`@/transport/remote.transport` 作为精确 alias，避免外部消费链无意义扩触
+- 第五十一批验证结果：
+- `pnpm --filter @go-usb-ai/ui exec vitest run src/app.test.tsx src/shared/lib/transport/app-client.test.ts src/shared/lib/transport/remote.transport.test.ts src/shared/lib/transport/sse-stream.test.ts`
+- `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+- `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/shared/lib/transport/app-client.service.ts packages/go-usb-ai-ui/src/shared/lib/transport/app-client.test.ts packages/go-usb-ai-ui/src/shared/lib/transport/index.ts packages/go-usb-ai-ui/src/shared/lib/transport/local-transport.service.ts packages/go-usb-ai-ui/src/shared/lib/transport/remote-transport.service.ts packages/go-usb-ai-ui/src/shared/lib/transport/remote.transport.test.ts packages/go-usb-ai-ui/src/shared/lib/transport/sse-stream.test.ts packages/go-usb-ai-ui/src/shared/lib/transport/sse-stream.utils.ts packages/go-usb-ai-ui/src/shared/lib/transport/transport-websocket-url.utils.ts packages/go-usb-ai-ui/src/shared/lib/transport/transport.types.ts packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/platforms/transport/app-client.service.ts packages/go-usb-ai-ui/src/platforms/transport/app-client.test.ts packages/go-usb-ai-ui/src/platforms/transport/index.ts packages/go-usb-ai-ui/src/platforms/transport/local-transport.service.ts packages/go-usb-ai-ui/src/platforms/transport/remote-transport.service.ts packages/go-usb-ai-ui/src/platforms/transport/remote.transport.test.ts packages/go-usb-ai-ui/src/platforms/transport/sse-stream.test.ts packages/go-usb-ai-ui/src/platforms/transport/sse-stream.utils.ts packages/go-usb-ai-ui/src/platforms/transport/transport-websocket-url.utils.ts packages/go-usb-ai-ui/src/platforms/transport/transport.types.ts packages/go-usb-ai-ui/src/shared/lib/transport/app-client.service.ts packages/go-usb-ai-ui/src/shared/lib/transport/app-client.test.ts packages/go-usb-ai-ui/src/shared/lib/transport/index.ts packages/go-usb-ai-ui/src/shared/lib/transport/local-transport.service.ts packages/go-usb-ai-ui/src/shared/lib/transport/remote-transport.service.ts packages/go-usb-ai-ui/src/shared/lib/transport/remote.transport.test.ts packages/go-usb-ai-ui/src/shared/lib/transport/sse-stream.test.ts packages/go-usb-ai-ui/src/shared/lib/transport/sse-stream.utils.ts packages/go-usb-ai-ui/src/shared/lib/transport/transport-websocket-url.utils.ts packages/go-usb-ai-ui/src/shared/lib/transport/transport.types.ts packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+- `pnpm check:governance-backlog-ratchet`
+- 第五十一批独立可维护性复核：
+- 结论：通过
+- 本次顺手减债：是
+- 代码增减报告：新增 `8` 行，删除 `8` 行，净增 `0` 行
+- 非测试代码增减报告：新增 `8` 行，删除 `8` 行，净增 `0` 行
+- 可维护性总结：这批不是继续为错误目录找借口，而是把 `transport` 从错误的 `platforms` 语义层撤回到 `shared/lib` 稳定共享模块；外部消费继续走精确 alias，因此结构边界变清晰了，但没有把复杂度扩散到业务文件里
+- 当前 `src` 顶层剩余 legacy roots：`api`、`components`、`hooks`、`lib`
+- 下一步转入 `hooks` 整组清空扫描
+- 补记第十四批：
+  - 完成 `components/chat/chat-session-type-option-item.tsx -> features/chat/components/chat-session-type-option-item.tsx`
+  - 完成 `components/chat/chat-session-type-option-item.test.tsx -> features/chat/components/chat-session-type-option-item.test.tsx`
+  - 完成 `components/chat/chat-session-workspace-file-preview.tsx -> features/chat/components/chat-session-workspace-file-preview.tsx`
+  - 完成 `components/chat/chat-session-workspace-file-preview.test.tsx -> features/chat/components/chat-session-workspace-file-preview.test.tsx`
+  - 完成真实消费方切根入口：`components/chat/chat-sidebar-project-groups.tsx`、`components/chat/containers/chat-sidebar.tsx`、`components/chat/chat-session-workspace-panel.tsx` 现改为从 `@/features/chat` 导入
+  - 通过第十四批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/components/chat-session-type-option-item.test.tsx src/features/chat/components/chat-session-workspace-file-preview.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/chat/components/chat-session-type-option-item.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-type-option-item.test.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-file-preview.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-file-preview.test.tsx packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/components/chat/chat-session-type-option-item.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-type-option-item.test.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-workspace-file-preview.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-workspace-file-preview.test.tsx packages/go-usb-ai-ui/src/components/chat/chat-sidebar-project-groups.tsx packages/go-usb-ai-ui/src/components/chat/containers/chat-sidebar.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-workspace-panel.tsx`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/components/chat-session-type-option-item.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-type-option-item.test.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-file-preview.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-file-preview.test.tsx packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/components/chat/chat-session-type-option-item.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-type-option-item.test.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-workspace-file-preview.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-workspace-file-preview.test.tsx packages/go-usb-ai-ui/src/components/chat/chat-sidebar-project-groups.tsx packages/go-usb-ai-ui/src/components/chat/containers/chat-sidebar.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-workspace-panel.tsx`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第十四批非测试代码净变化为 `-14`
+- 补记第十五批：
+  - 完成 `components/chat/chat-sidebar-list-mode-switch.tsx -> features/chat/components/chat-sidebar-list-mode-switch.tsx`
+  - 完成 `components/chat/chat-sidebar-session-item.tsx -> features/chat/components/chat-sidebar-session-item.tsx`
+  - 完成 `components/chat/chat-sidebar-project-groups.tsx -> features/chat/components/chat-sidebar-project-groups.tsx`
+  - 完成 `components/chat/chat-session-workspace-panel-nav.tsx -> features/chat/components/chat-session-workspace-panel-nav.tsx`
+  - 完成 `components/chat/chat-session-workspace-panel.tsx -> features/chat/components/chat-session-workspace-panel.tsx`
+  - 完成 `components/chat/workspace/chat-session-workspace-file-breadcrumbs.tsx -> features/chat/components/workspace/chat-session-workspace-file-breadcrumbs.tsx`
+  - 完成真实消费方切根入口：`components/chat/chat-conversation-panel.tsx`、`components/chat/chat-conversation-panel.test.tsx` 与 `components/chat/containers/chat-sidebar.tsx` 现改为从 `@/features/chat` 导入
+  - 通过第十五批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/components/chat/chat-conversation-panel.test.tsx src/features/chat/components/chat-session-type-option-item.test.tsx src/features/chat/components/chat-session-workspace-file-preview.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-list-mode-switch.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-session-item.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-project-groups.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel-nav.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/workspace/chat-session-workspace-file-breadcrumbs.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-file-preview.tsx packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/components/chat/chat-sidebar-list-mode-switch.tsx packages/go-usb-ai-ui/src/components/chat/chat-sidebar-session-item.tsx packages/go-usb-ai-ui/src/components/chat/chat-sidebar-project-groups.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-workspace-panel-nav.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-workspace-panel.tsx packages/go-usb-ai-ui/src/components/chat/workspace/chat-session-workspace-file-breadcrumbs.tsx packages/go-usb-ai-ui/src/components/chat/containers/chat-sidebar.tsx packages/go-usb-ai-ui/src/components/chat/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/components/chat/chat-conversation-panel.test.tsx`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-list-mode-switch.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-session-item.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-project-groups.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel-nav.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/workspace/chat-session-workspace-file-breadcrumbs.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-file-preview.tsx packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/components/chat/chat-sidebar-list-mode-switch.tsx packages/go-usb-ai-ui/src/components/chat/chat-sidebar-session-item.tsx packages/go-usb-ai-ui/src/components/chat/chat-sidebar-project-groups.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-workspace-panel-nav.tsx packages/go-usb-ai-ui/src/components/chat/chat-session-workspace-panel.tsx packages/go-usb-ai-ui/src/components/chat/workspace/chat-session-workspace-file-breadcrumbs.tsx packages/go-usb-ai-ui/src/components/chat/containers/chat-sidebar.tsx packages/go-usb-ai-ui/src/components/chat/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/components/chat/chat-conversation-panel.test.tsx`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第十五批非测试代码净变化为 `-30`
+- 补记第十六批：
+  - 完成 `packages/go-usb-ai-ui/module-structure.config.json: legacy-frozen -> contract-only`
+  - 完成治理测试同步收紧：`scripts/governance/module-structure/lint-new-code-module-structure.test.mjs` 现在要求 `go-usb-ai-ui` 触达历史 legacy root 文件时直接报 `error`
+  - 这一批不是目录迁移，而是把治理合同本身切到严格模式，消除“检测到了但只 warning”的放水路径
+  - 第十六批之后，后续任何 `go-usb-ai-ui` 整理都必须直接在 `app/features/shared/platforms` 内推进，并按真实消费链整体切换；薄转发 shim 不再能作为默认迁移手段
+- 补记第十七批：
+  - 完成 `components/chat/ChatWelcome.tsx -> features/chat/components/chat-welcome.tsx`
+  - 完成 `components/chat/ChatWelcome.test.tsx -> features/chat/components/chat-welcome.test.tsx`
+  - 完成 `components/chat/useChatSessionTypeState.ts -> features/chat/hooks/use-chat-session-type-state.ts`
+  - 完成 `components/chat/useChatSessionTypeState.test.tsx -> features/chat/hooks/use-chat-session-type-state.test.tsx`
+  - 直接删除四个 legacy 实现文件，不再新建 shim
+  - 完成精确路径映射：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现在把 `@/components/chat/ChatWelcome` 与 `@/components/chat/useChatSessionTypeState` 解析到 `features/chat` 下的新实现
+  - 通过第十七批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/components/chat/chat-conversation-panel.test.tsx src/features/chat/components/chat-welcome.test.tsx src/features/chat/hooks/use-chat-session-type-state.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `node --test scripts/governance/module-structure/lint-new-code-module-structure.test.mjs`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/chat/components/chat-welcome.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-welcome.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-type-state.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-type-state.test.tsx packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/components/chat/ChatWelcome.tsx packages/go-usb-ai-ui/src/components/chat/ChatWelcome.test.tsx packages/go-usb-ai-ui/src/components/chat/useChatSessionTypeState.ts packages/go-usb-ai-ui/src/components/chat/useChatSessionTypeState.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/components/chat-welcome.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-welcome.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-type-state.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-type-state.test.tsx packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/components/chat/ChatWelcome.tsx packages/go-usb-ai-ui/src/components/chat/ChatWelcome.test.tsx packages/go-usb-ai-ui/src/components/chat/useChatSessionTypeState.ts packages/go-usb-ai-ui/src/components/chat/useChatSessionTypeState.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第十七批非测试代码净变化为 `-11`
+- 补记第十八批：
+  - 完成 `components/chat/chat-conversation-panel.tsx -> features/chat/components/conversation/chat-conversation-panel.tsx`
+  - 完成 `components/chat/chat-conversation-panel.test.tsx -> features/chat/components/conversation/chat-conversation-panel.test.tsx`
+  - 完成 `components/chat/chat-page-runtime.test.ts -> features/chat/pages/ncp-chat-page.test.ts`
+  - 只为 `components/chat/chat-page-shell.tsx` 补一条精确 alias 到新 panel 实现，legacy 页面壳本身保持未触达
+  - 通过第十八批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/pages/ncp-chat-page.test.ts src/components/chat/ncp/ncp-chat-page-data.test.ts`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.test.ts packages/go-usb-ai-ui/src/components/chat/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/components/chat/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/components/chat/chat-page-runtime.test.ts packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.test.ts packages/go-usb-ai-ui/src/components/chat/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/components/chat/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/components/chat/chat-page-runtime.test.ts packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第十八批非测试代码净变化为 `-1`
+- 补记第十九批：
+  - 完成 `components/chat/chat-page-shell.tsx -> features/chat/components/layout/chat-page-shell.tsx`
+  - 完成 `components/chat/chat-page.tsx -> features/chat/pages/chat-page.tsx`
+  - 完成精确路径映射：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现在把 `@/components/chat/chat-page-shell` 与 `@/components/chat/chat-page` 解析到 `features/chat` 下的新实现
+  - 通过第十九批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/pages/ncp-chat-page.test.ts src/components/chat/ncp/ncp-chat-page-data.test.ts`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/chat/components/layout/chat-page-shell.tsx packages/go-usb-ai-ui/src/features/chat/pages/chat-page.tsx packages/go-usb-ai-ui/src/components/chat/chat-page-shell.tsx packages/go-usb-ai-ui/src/components/chat/chat-page.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/components/layout/chat-page-shell.tsx packages/go-usb-ai-ui/src/features/chat/pages/chat-page.tsx packages/go-usb-ai-ui/src/components/chat/chat-page-shell.tsx packages/go-usb-ai-ui/src/components/chat/chat-page.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第十九批非测试代码净变化为 `-1`
+- 补记第二十批：
+  - 完成 `components/chat/ncp/ncp-chat-page.tsx -> features/chat/pages/ncp-chat-page.tsx`
+  - 完成 `components/chat/ncp/ncp-chat-page-data.ts -> features/chat/hooks/use-ncp-chat-page-data.ts`
+  - 完成 `components/chat/ncp/page/ncp-chat-derived-state.ts -> features/chat/hooks/use-ncp-chat-derived-state.ts`
+  - 完成 `components/chat/ncp/ncp-chat-page-data.test.ts` 删除，并把相关断言并入 `features/chat/pages/ncp-chat-page.test.ts`
+  - 完成真实消费方切根入口：`features/chat/pages/chat-page.tsx` 现在直接消费 `@/features/chat/pages/ncp-chat-page`
+  - 新页面实现已改为优先消费 `features/chat` 自身的 hooks / utils，而不是继续反向依赖 legacy `components/chat` 下的支撑件
+  - 通过第二十批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/pages/ncp-chat-page.test.ts`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-chat-page-data.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-chat-derived-state.ts packages/go-usb-ai-ui/src/features/chat/pages/chat-page.tsx packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.test.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page.tsx packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page-data.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page-data.test.ts packages/go-usb-ai-ui/src/components/chat/ncp/page/ncp-chat-derived-state.ts packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-chat-page-data.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-chat-derived-state.ts packages/go-usb-ai-ui/src/features/chat/pages/chat-page.tsx packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.test.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第二十批代码净变化：`-14`
+  - 第二十批非测试代码净变化：`0`
+- 补记第二十一批：
+  - 完成 `components/chat/ncp/session-conversation/use-ncp-child-session-tabs-view.ts -> features/chat/hooks/runtime/use-ncp-child-session-tabs-view.ts`
+  - 完成 `components/chat/ncp/session-conversation/use-ncp-session-conversation.ts -> features/chat/hooks/runtime/use-ncp-session-conversation.ts`
+  - 完成 `components/chat/ncp/session-conversation/use-ncp-session-conversation.test.tsx -> features/chat/hooks/runtime/use-ncp-session-conversation.test.tsx`
+  - 完成 `components/chat/ncp/ncp-app-client-fetch.ts -> features/chat/utils/ncp-app-client-fetch.utils.ts`
+  - 完成 `components/chat/ncp/ncp-app-client-fetch.test.ts -> features/chat/utils/ncp-app-client-fetch.utils.test.ts`
+  - 完成 `components/chat/useHydratedNcpAgent.test.tsx -> features/chat/hooks/runtime/use-hydrated-ncp-agent.test.tsx`
+  - 完成 `components/chat/useNcpAgentRuntime.test.tsx -> features/chat/hooks/runtime/use-ncp-agent-runtime.test.tsx`
+  - 完成真实消费方切根入口：`features/chat/pages/ncp-chat-page.tsx`、`features/chat/components/chat-session-workspace-panel.tsx`、`features/chat/components/chat-session-workspace-panel-nav.tsx` 与 `features/chat/components/conversation/chat-conversation-panel.test.tsx` 现统一消费 `features/chat/hooks/runtime/*`
+  - 完成 util 角色名校正：`ncp-app-client-fetch` 进入 `features/chat/utils/` 后同步改成 `ncp-app-client-fetch.utils.ts`
+  - 通过第二十一批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/hooks/runtime/use-ncp-session-conversation.test.tsx src/features/chat/utils/ncp-app-client-fetch.utils.test.ts src/features/chat/hooks/runtime/use-hydrated-ncp-agent.test.tsx src/features/chat/hooks/runtime/use-ncp-agent-runtime.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/pages/ncp-chat-page.test.ts`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-ncp-child-session-tabs-view.ts packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-ncp-session-conversation.ts packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-ncp-session-conversation.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-hydrated-ncp-agent.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-ncp-agent-runtime.test.tsx packages/go-usb-ai-ui/src/features/chat/utils/ncp-app-client-fetch.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-app-client-fetch.utils.test.ts packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel-nav.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/chat/ncp/ncp-app-client-fetch.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-app-client-fetch.test.ts packages/go-usb-ai-ui/src/components/chat/ncp/session-conversation/use-ncp-child-session-tabs-view.ts packages/go-usb-ai-ui/src/components/chat/ncp/session-conversation/use-ncp-session-conversation.ts packages/go-usb-ai-ui/src/components/chat/ncp/session-conversation/use-ncp-session-conversation.test.tsx packages/go-usb-ai-ui/src/components/chat/useHydratedNcpAgent.test.tsx packages/go-usb-ai-ui/src/components/chat/useNcpAgentRuntime.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-ncp-child-session-tabs-view.ts packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-ncp-session-conversation.ts packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-ncp-session-conversation.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-hydrated-ncp-agent.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-ncp-agent-runtime.test.tsx packages/go-usb-ai-ui/src/features/chat/utils/ncp-app-client-fetch.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-app-client-fetch.utils.test.ts packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel-nav.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第二十一批代码净变化：`0`
+  - 第二十一批非测试代码净变化：`0`
+- 补记第二十二批：
+  - 完成 `components/chat/ncp/ncp-chat.presenter.ts -> features/chat/managers/ncp-chat-presenter.manager.ts`
+  - 完成 `components/chat/ncp/ncp-chat-input.manager.ts -> features/chat/managers/ncp-chat-input.manager.ts`
+  - 完成 `components/chat/ncp/ncp-chat-thread.manager.ts -> features/chat/managers/ncp-chat-thread.manager.ts`
+  - 完成 `components/chat/ncp/ncp-session-adapter.ts -> features/chat/utils/ncp-session-adapter.utils.ts`
+  - 完成 `components/chat/ncp/use-ncp-session-list-view.ts -> features/chat/hooks/use-ncp-session-list-view.ts`
+  - 完成 `components/chat/ncp/tests/ncp-chat-input.manager.test.ts -> features/chat/managers/ncp-chat-input.manager.test.ts`
+  - 完成 `components/chat/ncp/tests/ncp-chat-thread.manager.test.ts -> features/chat/managers/ncp-chat-thread.manager.test.ts`
+  - 完成 `components/chat/ncp/ncp-session-adapter.test.ts -> features/chat/utils/ncp-session-adapter.utils.test.ts`
+  - 完成 `components/chat/ncp/__tests__/ncp-session-adapter.cancelled-tool.test.ts -> features/chat/utils/ncp-session-adapter.utils.cancelled-tool.test.ts`
+  - 完成 allowed-root 真实消费方切根：`features/chat/pages/ncp-chat-page.tsx`、`features/chat/hooks/use-ncp-chat-page-data.ts`、`features/chat/hooks/use-ncp-chat-derived-state.ts`、`features/chat/hooks/runtime/use-ncp-child-session-tabs-view.ts`、`features/chat/components/chat-sidebar-project-groups.tsx`
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`packages/go-usb-ai-ui/vite.config.ts` 与 `packages/go-usb-ai-ui/vitest.config.ts` 现以精确 alias 把 `@/components/chat/ncp/*` 指向新的 allowed-root 实现
+  - 通过第二十二批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/managers/ncp-chat-thread.manager.test.ts src/features/chat/managers/ncp-chat-input.manager.test.ts src/features/chat/utils/ncp-session-adapter.utils.test.ts src/features/chat/utils/ncp-session-adapter.utils.cancelled-tool.test.ts src/features/chat/pages/ncp-chat-page.test.ts src/components/chat/containers/chat-sidebar.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-presenter.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-thread.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-thread.manager.test.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-session-adapter.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-session-adapter.utils.test.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-session-adapter.utils.cancelled-tool.test.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-session-list-view.ts packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-project-groups.tsx packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-ncp-child-session-tabs-view.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-chat-derived-state.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-chat-page-data.ts packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat.presenter.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-input.manager.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-thread.manager.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-session-adapter.ts packages/go-usb-ai-ui/src/components/chat/ncp/use-ncp-session-list-view.ts packages/go-usb-ai-ui/src/components/chat/ncp/tests/ncp-chat-input.manager.test.ts packages/go-usb-ai-ui/src/components/chat/ncp/tests/ncp-chat-thread.manager.test.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-session-adapter.test.ts packages/go-usb-ai-ui/src/components/chat/ncp/__tests__/ncp-session-adapter.cancelled-tool.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-presenter.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-thread.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-thread.manager.test.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-session-adapter.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-session-adapter.utils.test.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-session-adapter.utils.cancelled-tool.test.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-session-list-view.ts packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-project-groups.tsx packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-ncp-child-session-tabs-view.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-chat-derived-state.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-chat-page-data.ts packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第二十二批代码净变化：`+2`
+  - 第二十二批非测试代码净变化：`-2`
+- 补记第二十三批：
+  - 完成 `components/config/runtime-security-card.tsx -> features/system-status/components/runtime-security-card.tsx`
+  - 完成 allowed-root 真实消费方切根：`features/system-status/components/security-config.tsx` 现直接消费 `@/features/system-status/components/runtime-security-card`
+  - 在新落点内把卡片壳与 setup / configured 两段稳定结构收敛为局部子组件，避免只换目录不降复杂度
+  - 验证并否决更大批次候选：`ChannelForm.tsx`、`ChannelsList.tsx` 与 `weixin-channel-auth-section.tsx` 当前形态会同时触发 `react-effects-owner-boundary`、函数预算与非测试净增 `> 0`，因此不再视为高置信目录迁移批次
+  - 通过第二十三批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/app.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/system-status/components/runtime-security-card.tsx packages/go-usb-ai-ui/src/features/system-status/components/security-config.tsx`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/runtime-security-card.tsx packages/go-usb-ai-ui/src/features/system-status/components/runtime-security-card.tsx packages/go-usb-ai-ui/src/features/system-status/components/security-config.tsx packages/go-usb-ai-ui/src/features/system-status/index.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第二十三批代码净变化：`-12`
+  - 第二十三批非测试代码净变化：`-12`
+- 补记第二十四批：
+  - 完成 `components/config/desktop-update-config.tsx -> features/system-status/components/desktop-update-config.tsx`
+  - 完成 `components/config/desktop-update-config.test.tsx -> features/system-status/components/desktop-update-config.test.tsx`
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以精确 alias 把 `@/components/config/desktop-update-config` 指向新的 allowed-root 实现
+  - 验证并确认 strict 合同细节：`app.tsx` 作为 root file 不能直接成为切根消费方；本批次必须沿用“allowed-root 新实现 + 精确 alias 承接旧导入”的路径，不能走直接改 `app.tsx` 的方案
+  - 在新落点内压缩 `desktop-update-config.tsx`：文件行数从 285 收敛到 219，避免新 feature 文件把旧复杂度原样复制过去
+- 通过第二十四批最小验证：
+  - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/system-status/components/desktop-update-config.test.tsx src/app.test.tsx`
+  - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+  - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/system-status/components/desktop-update-config.tsx packages/go-usb-ai-ui/src/features/system-status/components/desktop-update-config.test.tsx packages/go-usb-ai-ui/src/components/config/desktop-update-config.tsx packages/go-usb-ai-ui/src/components/config/desktop-update-config.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+  - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/system-status/components/desktop-update-config.tsx packages/go-usb-ai-ui/src/features/system-status/components/desktop-update-config.test.tsx packages/go-usb-ai-ui/src/components/config/desktop-update-config.tsx packages/go-usb-ai-ui/src/components/config/desktop-update-config.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+  - `pnpm check:governance-backlog-ratchet`
+  - 第二十四批代码净变化：`-50`
+  - 第二十四批非测试代码净变化：`-51`
+- 补记第二十五批：
+  - 完成 `components/chat/managers/chat-session-list.manager.ts -> features/chat/managers/chat-session-list.manager.ts`
+  - 完成 `components/chat/managers/chat-session-list.manager.test.ts -> features/chat/managers/chat-session-list.manager.test.ts`
+  - 完成 `components/chat/stores/chat-session-list.store.ts -> features/chat/stores/chat-session-list.store.ts`
+  - 完成 `components/chat/containers/chat-message-list.container.tsx -> features/chat/components/conversation/chat-message-list.container.tsx`
+  - 完成 `components/chat/containers/chat-message-list.container.test.tsx -> features/chat/components/conversation/chat-message-list.container.test.tsx`
+  - 完成 allowed-root 真实消费方切根：`features/chat/pages/ncp-chat-page.tsx`、`features/chat/hooks/use-ncp-session-list-view.ts`、`features/chat/managers/ncp-chat-presenter.manager.ts`、`features/chat/managers/ncp-chat-input.manager.ts`、`features/chat/managers/ncp-chat-thread.manager.ts`、`features/chat/managers/chat-session-preference-sync.manager.ts`、`features/chat/components/chat-session-workspace-panel.tsx` 及四个相邻测试现全部直接消费新路径
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以精确 alias 把 `@/components/chat/managers/chat-session-list.manager`、`@/components/chat/stores/chat-session-list.store` 与 `@/components/chat/containers/chat-message-list.container` 指向新的 allowed-root 实现
+  - 压缩守卫前一次失败点：第一次 maintainability guard 曾暴露非测试净增 `+9`，随后通过压缩 alias 配置和去掉新文件无效空行，把最终结果收敛回 `非测试净增 -1`
+  - 通过第二十五批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/managers/chat-session-list.manager.test.ts src/features/chat/components/conversation/chat-message-list.container.test.tsx src/features/chat/managers/ncp-chat-thread.manager.test.ts src/features/chat/managers/ncp-chat-input.manager.test.ts src/features/chat/managers/chat-session-preference-sync.manager.test.ts src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/components/agents/agents-page.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/chat/managers/chat-session-list.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-list.manager.test.ts packages/go-usb-ai-ui/src/features/chat/stores/chat-session-list.store.ts packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-message-list.container.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-message-list.container.test.tsx packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-session-list-view.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-presenter.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-thread.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-preference-sync.manager.ts packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel.tsx packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-thread.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-preference-sync.manager.test.ts packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/components/agents/agents-page.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/chat/managers/chat-session-list.manager.ts packages/go-usb-ai-ui/src/components/chat/managers/chat-session-list.manager.test.ts packages/go-usb-ai-ui/src/components/chat/stores/chat-session-list.store.ts packages/go-usb-ai-ui/src/components/chat/containers/chat-message-list.container.tsx packages/go-usb-ai-ui/src/components/chat/containers/chat-message-list.container.test.tsx packages/go-usb-ai-ui/src/features/chat/managers/chat-session-list.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-list.manager.test.ts packages/go-usb-ai-ui/src/features/chat/stores/chat-session-list.store.ts packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-message-list.container.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-message-list.container.test.tsx packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-session-list-view.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-presenter.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-thread.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-preference-sync.manager.ts packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel.tsx packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-thread.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-preference-sync.manager.test.ts packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/components/agents/agents-page.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第二十五批代码净变化：`+1`
+  - 第二十五批非测试代码净变化：`-1`
+- 补记第二十六批：
+  - 完成 `components/chat/chat-input/ncp-chat-input-availability.utils.ts -> features/chat/utils/ncp-chat-input-availability.utils.ts`
+  - 完成 `components/chat/chat-input/ncp-chat-input-availability.utils.test.ts -> features/chat/utils/ncp-chat-input-availability.utils.test.ts`
+  - 完成 `components/chat/containers/chat-input-bar.container.tsx -> features/chat/components/conversation/chat-input-bar.container.tsx`
+  - 完成 allowed-root 真实消费方切根：`features/chat/components/conversation/chat-conversation-panel.tsx`、`features/chat/components/conversation/chat-conversation-panel.test.tsx` 与 `features/chat/managers/ncp-chat-input.manager.ts` 现全部直接消费新路径
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以精确 alias 把 `@/components/chat/containers/chat-input-bar.container` 指向新的 allowed-root 实现
+  - 明确拒绝两条低置信方案：`components/chat/go-usb-ai/index.ts` 的 legacy 改写会触发 strict `module-structure`；独立 `use-chat-input-bar-view-model.ts` 方案会触发 file-budget 与非功能净增阻塞，因此最终改为把逻辑压回新的 feature 容器内
+  - 通过第二十六批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/utils/ncp-chat-input-availability.utils.test.ts`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/components/chat/chat-input/ncp-chat-input-availability.utils.ts packages/go-usb-ai-ui/src/components/chat/chat-input/ncp-chat-input-availability.utils.test.ts packages/go-usb-ai-ui/src/components/chat/containers/chat-input-bar.container.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-input-bar.container.tsx packages/go-usb-ai-ui/src/features/chat/utils/ncp-chat-input-availability.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-chat-input-availability.utils.test.ts packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.ts packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/chat/chat-input/ncp-chat-input-availability.utils.ts packages/go-usb-ai-ui/src/components/chat/chat-input/ncp-chat-input-availability.utils.test.ts packages/go-usb-ai-ui/src/components/chat/containers/chat-input-bar.container.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-input-bar.container.tsx packages/go-usb-ai-ui/src/features/chat/utils/ncp-chat-input-availability.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-chat-input-availability.utils.test.ts packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.ts packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第二十六批代码净变化：`-3`
+  - 第二十六批非测试代码净变化：`-3`
+- 补记第二十七批：
+  - 完成 `components/config/ModelConfig.tsx -> shared/components/model-config.tsx`
+  - 完成 `components/config/ModelConfig.test.tsx -> shared/components/model-config.test.tsx`
+  - 完成 `components/config/CronConfig.tsx -> shared/components/cron-config.tsx`
+  - 完成 allowed-root 真实消费方切根：`features/chat/components/layout/chat-page-shell.tsx` 现直接消费 `@/shared/components/cron-config`
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以精确 alias 把 `@/components/config/ModelConfig` 指向新的 allowed-root 实现
+  - 完成结构减债：`ModelConfig` 改为 keyed 子表单，消除 effect 型本地状态修补；`CronConfig` 把 job 卡片渲染抽成独立组件，避免新 shared 页面继续携带旧函数预算问题
+  - 通过第二十七批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/shared/components/model-config.test.tsx src/app.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/components/config/ModelConfig.tsx packages/go-usb-ai-ui/src/components/config/ModelConfig.test.tsx packages/go-usb-ai-ui/src/components/config/CronConfig.tsx packages/go-usb-ai-ui/src/shared/components/model-config.tsx packages/go-usb-ai-ui/src/shared/components/model-config.test.tsx packages/go-usb-ai-ui/src/shared/components/cron-config.tsx packages/go-usb-ai-ui/src/features/chat/components/layout/chat-page-shell.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/ModelConfig.tsx packages/go-usb-ai-ui/src/components/config/ModelConfig.test.tsx packages/go-usb-ai-ui/src/components/config/CronConfig.tsx packages/go-usb-ai-ui/src/shared/components/model-config.tsx packages/go-usb-ai-ui/src/shared/components/model-config.test.tsx packages/go-usb-ai-ui/src/shared/components/cron-config.tsx packages/go-usb-ai-ui/src/features/chat/components/layout/chat-page-shell.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第二十七批代码净变化：`-33`
+  - 第二十七批非测试代码净变化：`-34`
+- 只有当无法找到可挂入既有 feature 的小文件时，才重新评估是否需要新增 `shared` 或新的 feature root
+
+# 停止原因 / 阻塞
+
+- 第二十八批已经提交（`13137035`, `refactor(ui): move search config page into shared roots`）；当前真正的阻塞不再是 `SearchConfig.tsx` 这类带测试的稳定页面，而是剩余候选里 `SessionsConfig.tsx`、`SecretsConfig.tsx` 与 `chat-sidebar.tsx` 这类更重页面是否还能拆出高置信子链。下一轮必须先做高置信筛选，而不是直接把整页搬到 feature root
+- 已尝试并回退 `chat-sidebar` 切根候选：行为测试与类型检查通过，但 strict guard 明确报出 `packages/go-usb-ai-ui/src/features/chat/components/layout/chat-sidebar.tsx` 的 `file-budget`、`function-budget` 与非功能净增 `> 0`，因此本轮已把相关未提交改动全部回退，只保留第二十五批成功提交
+- 第二十四批已经完成，并额外暴露出 strict 合同里的一个真实边界：`app.tsx` 这类 root file 不能作为直接切根消费方被触达；后续若再遇到这类页面级候选，默认先沿精确 alias 路径判断可行性
+- 第二十三批已经完成，但更大批次的 `features/channels` 候选并不属于“高置信 allowed-root 迁移”，因为它要求顺手重写 effect 边界、拆函数预算并且无法守住非功能净增 `<= 0`
+- 当前已完成批次本身都已通过验证；剩余阻塞在于后续候选项仍必须同时满足：allowed roots、目录预算、命名治理、非功能净增 `<= 0`
+- `components/config` 的历史目录预算债务依旧存在，但 `ModelConfig` 与 `CronConfig` 已经移走；后续批次必须继续优先搬实现在旧根目录的页面，而不是新增任何新平铺文件
+- `components/chat/ncp` 的 manager / adapter / list-view 主链已经移走，但仍有若干 legacy 消费方通过精确 alias 承接新实现；下一批应优先判断这些消费方里哪些能在不触碰更多 legacy 文件的前提下继续切根，哪些更适合转向 `components/config` 页面级实现治理
+- `components/chat` 的输入栏单链已经移走，`components/config` 的 `ModelConfig` / `CronConfig` / `SearchConfig` 也已移走，但剩余高层页面候选更重；下一轮优先筛 `SessionsConfig.tsx` 与 `SecretsConfig.tsx` 是否存在可独立拆出的 allowed-root 子链，若没有再回到 `features/system-status` / `shared/components` 里寻找更高置信的稳定配置子链
+- `chat-sidebar` 已被验证为当前形态下的低置信候选；下一轮不要再次直接迁它，优先回到 `components/config` 的页面级实现或评估 `features/system-status` / `shared/components` 里仍可整组承接的配置页子链，前提仍是 allowed-root、非功能净增 `<= 0` 与 strict guard 全通过
+- 当前已自动进入下一轮扫描：`SecretsConfig.tsx` 依赖主要集中在 `useConfig`、`useUpdateSecrets` 与通用 UI 组件，形态上更接近已完成的 `SearchConfig` / `ModelConfig`；当前扫描未发现相邻测试文件，这是它相对风险最高的一点。`SessionsConfig.tsx` 则仍依赖 `adaptNcpSessionSummaries`、`sessionDisplayName`、`sessionMatchesQuery` 与两段 effect 型本地状态修补，风险明显更高。因此当前优先级先给 `SecretsConfig.tsx`，除非后续验证表明它的测试缺口或 file-budget 问题无法用一批收口
+- 第二十九批已经完成并通过验证：
+  - 完成 `components/config/SecretsConfig.tsx -> shared/components/config/secrets-config.tsx`
+  - 完成 `shared/components/config/secrets-config-form.tsx`，把 secrets 表单主体、providers/refs 编辑与 payload 归一化从页面装配层拆开，直接解除函数预算阻塞
+  - 完成 `shared/components/config/secrets-config.test.tsx`，补上最小测试锚点，避免 `SecretsConfig` 继续以“无相邻测试”的形态迁移
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以精确 alias 把 `@/components/config/SecretsConfig` 指向新的 allowed-root 实现
+  - 明确记录一次失败路径：第一版把 `secrets-config.tsx` 直接放在 `shared/components/` 根下，并把全部逻辑塞在 `SecretsConfigForm` 里，虽然测试和 governance 通过，但 maintainability guard 明确报出 `shared/components` 目录预算越界和 `SecretsConfigForm` 函数预算超限；第二版改为 `shared/components/config/` 子域 + `secrets-config-form.tsx` 拆分后全部通过
+  - 通过第二十九批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/shared/components/config/secrets-config.test.tsx src/app.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/components/config/SecretsConfig.tsx packages/go-usb-ai-ui/src/shared/components/config/secrets-config.tsx packages/go-usb-ai-ui/src/shared/components/config/secrets-config-form.tsx packages/go-usb-ai-ui/src/shared/components/config/secrets-config.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/SecretsConfig.tsx packages/go-usb-ai-ui/src/shared/components/config/secrets-config.tsx packages/go-usb-ai-ui/src/shared/components/config/secrets-config-form.tsx packages/go-usb-ai-ui/src/shared/components/config/secrets-config.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第二十九批代码净变化：`+58`
+  - 第二十九批非测试代码净变化：`-33`
+  - 第二十九批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `527` 行，删除 `469` 行，净增 `+58` 行
+    - 非测试代码增减报告：新增 `436` 行，删除 `469` 行，净增 `-33` 行
+    - 可维护性总结：`no maintainability findings`。当前唯一保留观察点是 `shared/components/config/secrets-config-form.tsx` 已接近 file-budget，若后续 secrets 表单继续增长，应优先沿 normalization helpers、providers section 或 refs section 再拆小
+  - 已提交：`1faee57c` (`refactor(ui): move secrets config page into shared roots`)
+- 当前已自动进入下一轮扫描：`SessionsConfig.tsx` 已经部分消费 `features/chat` 里的 `adaptNcpSessionSummaries`、`sessionDisplayName` 与 `sessionMatchesQuery`，说明它并不是完全孤立的配置页；但它同时把列表筛选、消息渲染与会话元信息编辑三条链堆在一个页面里，并带两段 effect 型本地状态修补，还没有相邻测试。当前判断是：下一轮不要直接整页迁移，优先从会话元信息编辑段、列表筛选段或消息渲染段里挑一条高置信子链先拆
+- 第三十批已经完成并通过验证：
+  - 完成 `components/config/SessionsConfig.tsx -> features/chat/pages/sessions-config-page.tsx`
+  - 完成 `features/chat/components/config/sessions-config-detail-pane.tsx`，把详情与消息历史子块收束到 `config/` 子域，避免新实现继续平铺在 `features/chat/components` 根目录
+  - 完成 `features/chat/pages/sessions-config-page.test.tsx`，补上最小会话列表/元信息保存/删除交互测试
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以精确 alias 把 `@/components/config/SessionsConfig` 指向新的 allowed-root 实现
+  - 完成结构减债：用派生 `selectedSessionKey` 删掉“会话消失后再用 effect 清空选中态”的状态修补；用 keyed `SessionMetadataEditor` 删掉 `draftLabel` / `draftModel` 跟随选中会话同步的 effect 修补
+  - 明确记录一次失败路径：第一版把详情子块直接放在 `features/chat/components/` 根下，governance 与 non-test 净减债都通过，但 maintainability guard 明确报出 `features/chat/components` 从预算内跨到目录上限；第二版改为 `features/chat/components/config/` 子域后全部通过
+  - 通过第三十批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/pages/sessions-config-page.test.tsx src/app.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/components/config/SessionsConfig.tsx packages/go-usb-ai-ui/src/features/chat/pages/sessions-config-page.tsx packages/go-usb-ai-ui/src/features/chat/components/config/sessions-config-detail-pane.tsx packages/go-usb-ai-ui/src/features/chat/pages/sessions-config-page.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/SessionsConfig.tsx packages/go-usb-ai-ui/src/features/chat/pages/sessions-config-page.tsx packages/go-usb-ai-ui/src/features/chat/components/config/sessions-config-detail-pane.tsx packages/go-usb-ai-ui/src/features/chat/pages/sessions-config-page.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第三十批代码净变化：`+148`
+  - 第三十批非测试代码净变化：`-5`
+  - 第三十批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `585` 行，删除 `437` 行，净增 `+148` 行
+    - 非测试代码增减报告：新增 `432` 行，删除 `437` 行，净增 `-5` 行
+    - 可维护性总结：`no maintainability findings`。这一批不是只把会话页换目录，而是同时消除了两段 effect 型本地状态修补，并把详情子块顺手收进 `config/` 子域；当前没有新增预算观察点
+- 当前已自动进入下一轮扫描：`RuntimeConfig.tsx` 现在成为 `components/config` 的最高优先级剩余重页面。它的 `runtime-control-card`、`runtime-presence-card` 与 `runtime-config-agent.utils` 已经归到 `features/system-status`，说明语义边界是清晰的；但页面本体仍带三段 effect 型本地状态灌入、agent/binding/runtime-entry 三条编辑链和一个长保存分支。当前判断是：下一轮不要直接整页迁移，优先从 overview 壳、runtime entry 编辑段或保存归一化链里挑一条高置信子链先拆
+- 第三十一批已经完成并通过验证：
+  - 完成 `components/config/RuntimeConfig.tsx -> features/system-status/pages/runtime-config-page.tsx`
+  - 完成 `features/system-status/components/config/runtime-config-overview.tsx`、`runtime-settings-card.tsx`、`runtime-entry-list-card.tsx`、`runtime-agent-list-card.tsx` 与 `runtime-binding-list-card.tsx`，把 overview、默认 runtime 设置、runtime entry 编辑、agent 列表与 binding 列表收束到 `config/` 子域
+  - 完成 `features/system-status/components/config/runtime-config-editor.tsx`，让页面壳只保留数据装配与保存入口
+  - 完成 `features/system-status/pages/runtime-config-page.test.tsx`，补上最小运行时页面保存测试
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以精确 alias 把 `@/components/config/RuntimeConfig` 指向新的 allowed-root 实现
+  - 完成结构减债：把页面里原有的三段 effect 型本地状态灌入改为单次初始化态；把 agent / binding / runtime-entry 的保存归一化链统一收束到 `runtime-config-agent.utils.ts`
+  - 明确记录一次失败路径：第一版迁移在测试、类型检查、governance 与 ratchet 都通过，但 `post-edit-maintainability-guard` 报出 non-feature 非测试净增 `+32`，同时提示 `runtime-config-agent.utils.ts` 出现 material growth；第二版继续压缩类型声明、对象字面量与 editor 包装层后，最终把非测试净变化压到 `-41`
+  - 通过第三十一批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/system-status/pages/runtime-config-page.test.tsx src/app.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/components/config/RuntimeConfig.tsx packages/go-usb-ai-ui/src/features/system-status/pages/runtime-config-page.tsx packages/go-usb-ai-ui/src/features/system-status/pages/runtime-config-page.test.tsx packages/go-usb-ai-ui/src/features/system-status/components/config/runtime-config-editor.tsx packages/go-usb-ai-ui/src/features/system-status/components/config/runtime-config-overview.tsx packages/go-usb-ai-ui/src/features/system-status/components/config/runtime-settings-card.tsx packages/go-usb-ai-ui/src/features/system-status/components/config/runtime-entry-list-card.tsx packages/go-usb-ai-ui/src/features/system-status/components/config/runtime-agent-list-card.tsx packages/go-usb-ai-ui/src/features/system-status/components/config/runtime-binding-list-card.tsx packages/go-usb-ai-ui/src/features/system-status/utils/runtime-config-agent.utils.ts packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/RuntimeConfig.tsx packages/go-usb-ai-ui/src/features/system-status/pages/runtime-config-page.tsx packages/go-usb-ai-ui/src/features/system-status/pages/runtime-config-page.test.tsx packages/go-usb-ai-ui/src/features/system-status/components/config/runtime-config-editor.tsx packages/go-usb-ai-ui/src/features/system-status/components/config/runtime-config-overview.tsx packages/go-usb-ai-ui/src/features/system-status/components/config/runtime-settings-card.tsx packages/go-usb-ai-ui/src/features/system-status/components/config/runtime-entry-list-card.tsx packages/go-usb-ai-ui/src/features/system-status/components/config/runtime-agent-list-card.tsx packages/go-usb-ai-ui/src/features/system-status/components/config/runtime-binding-list-card.tsx packages/go-usb-ai-ui/src/features/system-status/utils/runtime-config-agent.utils.ts packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第三十一批代码净变化：`+100`
+  - 第三十一批非测试代码净变化：`-41`
+  - 第三十一批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `717` 行，删除 `617` 行，净增 `+100` 行
+    - 非测试代码增减报告：新增 `576` 行，删除 `617` 行，净增 `-41` 行
+    - 可维护性总结：`no maintainability findings`。这一批不是只把运行时页换目录，而是同时把五段稳定子块与保存归一化链收束到 `system-status` 子域，并在第一次守卫失败后继续压缩到非测试净减债
+- 当前已自动进入下一轮扫描：`ChannelsList.tsx`、`ChannelForm.tsx` 与 `weixin-channel-auth-section.tsx` 共享既有 `features/channels` 语义边界，且已经有 `channel-form-fields` / `channel-form-fields-section` / 相邻测试落在 allowed roots。当前判断是：下一轮优先评估能否按 `features/channels/pages + components/config + utils` 一次性承接列表页、详情表单与微信授权子块，做成比前几轮更大的高置信批次；如果 channels 页面线仍会触发 effect-boundary、file-budget 或 non-feature 净增硬阻塞，再回到 provider 页面链继续扫描
+- 第三十二批已经完成并通过验证：
+  - 完成 `components/config/ChannelsList.tsx -> features/channels/pages/channels-list-page.tsx`
+  - 完成 `components/config/ChannelForm.tsx -> features/channels/components/config/channel-form.tsx`
+  - 完成 `components/config/weixin-channel-auth-section.tsx -> features/channels/components/config/weixin-channel-auth-section.tsx`
+  - 完成 `features/channels/pages/channels-list-page.test.tsx`、`features/channels/components/config/channel-form.test.tsx` 与 `features/channels/components/config/weixin-channel-auth-section.test.tsx`，把三份相邻测试一起归位
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以精确 alias 把 `@/components/config/ChannelsList`、`@/components/config/ChannelForm` 与 `@/components/config/weixin-channel-auth-section` 指向新的 allowed-root 实现
+  - 完成结构减债：
+    - 把列表页选中频道状态改成纯派生值，删掉原本的 effect 型本地状态修补
+    - 把频道配置实时应用状态改成外部订阅快照，删掉 effect 里直接 `setChannelApplyState`
+    - 把表单 hydration 改成 keyed editor 初始化，删掉 effect 里直接 `setFormData` / `setJsonDrafts`
+    - 把二维码渲染改成 query 驱动，同时用 `sessionStartedWhileConnected` 明确区分“已有账号重连扫码”和“新授权完成后回到 connected”两条路径
+  - 明确记录三次失败路径：
+    - 第一版迁移直接落文件后，三份新测试文件末尾漏了 `});`，被 vitest / tsc 立即阻断；补齐语法后恢复
+    - 第二版迁移在测试通过前先被 `post-edit-maintainability-guard` 报出 `ChannelForm` / `WeixinChannelAuthSection` 的函数预算超标，同时 governance 报出 effect-boundary；最终通过 keyed editor、外部订阅快照与 query 驱动二维码一起收口
+    - 第三版在 `WeixinChannelAuthSection` 中把“已有账号重连扫码”和“新授权完成后回到 connected”混成一条路径，导致频道页测试拿不到二维码；最终通过 `sessionStartedWhileConnected` 拆分这两种场景后恢复
+  - 通过第三十二批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/channels/pages/channels-list-page.test.tsx src/features/channels/components/config/channel-form.test.tsx src/features/channels/components/config/weixin-channel-auth-section.test.tsx src/app.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/components/config/ChannelForm.tsx packages/go-usb-ai-ui/src/components/config/ChannelForm.test.tsx packages/go-usb-ai-ui/src/components/config/ChannelsList.tsx packages/go-usb-ai-ui/src/components/config/ChannelsList.test.tsx packages/go-usb-ai-ui/src/components/config/weixin-channel-auth-section.tsx packages/go-usb-ai-ui/src/components/config/weixin-channel-auth-section.test.tsx packages/go-usb-ai-ui/src/features/channels/components/config/channel-form.tsx packages/go-usb-ai-ui/src/features/channels/components/config/channel-form.test.tsx packages/go-usb-ai-ui/src/features/channels/components/config/weixin-channel-auth-section.tsx packages/go-usb-ai-ui/src/features/channels/components/config/weixin-channel-auth-section.test.tsx packages/go-usb-ai-ui/src/features/channels/pages/channels-list-page.tsx packages/go-usb-ai-ui/src/features/channels/pages/channels-list-page.test.tsx packages/go-usb-ai-ui/src/features/channels/index.ts packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/ChannelForm.tsx packages/go-usb-ai-ui/src/components/config/ChannelForm.test.tsx packages/go-usb-ai-ui/src/components/config/ChannelsList.tsx packages/go-usb-ai-ui/src/components/config/ChannelsList.test.tsx packages/go-usb-ai-ui/src/components/config/weixin-channel-auth-section.tsx packages/go-usb-ai-ui/src/components/config/weixin-channel-auth-section.test.tsx packages/go-usb-ai-ui/src/features/channels/components/config/channel-form.tsx packages/go-usb-ai-ui/src/features/channels/components/config/channel-form.test.tsx packages/go-usb-ai-ui/src/features/channels/components/config/weixin-channel-auth-section.tsx packages/go-usb-ai-ui/src/features/channels/components/config/weixin-channel-auth-section.test.tsx packages/go-usb-ai-ui/src/features/channels/pages/channels-list-page.tsx packages/go-usb-ai-ui/src/features/channels/pages/channels-list-page.test.tsx packages/go-usb-ai-ui/src/features/channels/index.ts packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第三十二批代码净变化：`-57`
+  - 第三十二批非测试代码净变化：`-42`
+  - 第三十二批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `1341` 行，删除 `1398` 行，净增 `-57` 行
+    - 非测试代码增减报告：新增 `784` 行，删除 `826` 行，净增 `-42` 行
+    - 可维护性总结：`no maintainability findings`。这一批不是只把频道页换目录，而是同时消除了 effect 型选中态修补、表单 hydration 修补与二维码本地状态修补；当前没有新增预算观察点
+- 当前已自动进入下一轮扫描：`ProvidersList.tsx`、`ProviderForm.tsx`、`provider-models-section.tsx` 与 `provider-form-support.ts` 现在成为 `components/config` 的最高优先级剩余主链。它们共享既有的 `shared/components/config` 语义延长线，且 `provider-enabled-field`、`provider-auth-section`、`provider-advanced-settings-section` 等稳定子块已经在 shared roots。当前判断是：下一轮优先评估能否按 `shared/components/config` 一次性承接 provider 列表页、详情表单、models section 与 form support helpers；如果 provider 页面线仍会触发 effect-boundary、file-budget 或 non-feature 净增硬阻塞，再回到 `lib` / `api` 热点继续扫描
+
+- 第三十三批已经完成并通过验证：
+  - 第一次尝试把 `ProvidersList.tsx`、`ProviderForm.tsx`、`provider-models-section.tsx` 与 `provider-form-support.ts` 整组迁入 `shared/components/config`，但 `post-edit-maintainability-guard` 明确报出 non-feature 非测试净增 `+437`，同时 `ProviderFormEditor` 与 `ProviderFormFields` 命中函数预算，因此认定“provider 全链整组迁移”当前不是高置信批次并回退
+  - 最终降级为只迁移最高层页面入口：`components/config/ProvidersList.tsx -> shared/components/config/providers-list.tsx`
+  - 完成 `shared/components/config/providers-list.test.tsx`，把相邻测试一起归位
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以精确 alias 把 `@/components/config/ProvidersList` 指向新的 allowed-root 实现
+  - 保留 `ProviderForm.tsx`、`provider-models-section.tsx` 与 `provider-form-support.ts` 在原路径不动，明确避免把低置信的大体量 provider 表单迁移硬塞进这一批
+  - 通过第三十三批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/shared/components/config/providers-list.test.tsx src/app.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/components/config/ProvidersList.tsx packages/go-usb-ai-ui/src/components/config/providers-list.test.tsx packages/go-usb-ai-ui/src/shared/components/config/providers-list.tsx packages/go-usb-ai-ui/src/shared/components/config/providers-list.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/ProvidersList.tsx packages/go-usb-ai-ui/src/components/config/providers-list.test.tsx packages/go-usb-ai-ui/src/shared/components/config/providers-list.tsx packages/go-usb-ai-ui/src/shared/components/config/providers-list.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第三十三批代码净变化：`-1`
+  - 第三十三批非测试代码净变化：`-2`
+  - 第三十三批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `266` 行，删除 `267` 行，净增 `-1` 行
+    - 非测试代码增减报告：新增 `197` 行，删除 `199` 行，净增 `-2` 行
+    - 可维护性总结：`no maintainability findings`。这批明确拒绝了 provider 全链整搬的低置信方案，只拿下最高层列表页入口迁移，并且继续维持非功能净减债
+
+- 当前已自动进入下一轮扫描：provider 全链整组迁移已被降级为低置信候选，后续若再触达 provider 主链，只允许挑可独立净减债的子块；下一轮优先回到 `components/config` 其它一级页面或 `lib` / `api` 热点，寻找更高置信的 allowed-root 子链
+
+- 第三十四批已经完成并通过验证：
+  - 完成 `components/config/runtime-config-agent.utils.ts`、`runtime-control-card.tsx`、`runtime-presence-card.tsx` 与 `security-config.tsx` 的 legacy 旧入口清理；这四个文件都已确认只是指向 `features/system-status` 的薄转发或死入口
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以精确 alias 把 `@/components/config/security-config` 指向 `features/system-status/components/security-config.tsx`，继续承接 `app.tsx` 的 root import
+  - 明确记录一次失败路径：尝试顺手让 `ProviderForm.tsx` 直接依赖 shared 组件以清理 provider 那组薄转发入口，但 governance 立刻因为触碰到历史非 kebab 文件 `ProviderForm.tsx` 而阻断；本批因此明确收缩，不再继续在这条低收益路径上消耗
+  - 通过第三十四批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/app.test.tsx src/features/system-status/components/runtime-control-card.test.tsx src/features/system-status/components/runtime-presence-card.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/components/config/runtime-config-agent.utils.ts packages/go-usb-ai-ui/src/components/config/runtime-control-card.tsx packages/go-usb-ai-ui/src/components/config/runtime-presence-card.tsx packages/go-usb-ai-ui/src/components/config/security-config.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/runtime-config-agent.utils.ts packages/go-usb-ai-ui/src/components/config/runtime-control-card.tsx packages/go-usb-ai-ui/src/components/config/runtime-presence-card.tsx packages/go-usb-ai-ui/src/components/config/security-config.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第三十四批代码净变化：`-9`
+  - 第三十四批非测试代码净变化：`-9`
+  - 第三十四批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `2` 行，删除 `11` 行，净增 `-9` 行
+    - 非测试代码增减报告：新增 `2` 行，删除 `11` 行，净增 `-9` 行
+    - 可维护性总结：`no maintainability findings`。这批没有继续扩张任何 system-status 实现，只是把四个已经完成使命的旧入口文件清掉，并确认 provider 薄转发清理当前要避开 `ProviderForm.tsx` 这类命名债务热点
+
+- 当前已自动进入下一轮扫描：provider 薄转发清理再次被降级为低置信，因为它会强迫触碰 `ProviderForm.tsx` 这种历史非 kebab 文件；下一轮优先回到 `components/config`、`components/chat` 与 `lib` 里不依赖这类历史命名债务的 allowed-root 子链
+
+- 第三十五批已经完成并通过验证：
+  - 完成 chat infrastructure owner 链迁移：`components/chat/stores/chat-input.store.ts`、`chat-thread.store.ts`、`presenter/chat-presenter-context.tsx`、`managers/chat-stream-actions.manager.ts`、`managers/chat-ui.manager.ts` 与 `chat-stream/types.ts` 的真实实现都已迁入 `features/chat/stores`、`features/chat/components/providers`、`features/chat/managers` 与 `features/chat/types`
+  - 完成 `features/chat` 内部真实消费方切根：`ncp-chat-page.tsx`、`chat-session-list.manager.ts`、`ncp-chat-input.manager.ts`、`ncp-chat-thread.manager.ts`、`chat-conversation-panel.tsx`、`chat-input-bar.container.tsx`、`chat-session-workspace-panel.tsx` 等 allowed-root 文件现在直接依赖新的 feature-root stores / managers / provider / types
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以精确 alias 承接 `@/components/chat/stores/*`、`@/components/chat/presenter/chat-presenter-context`、`@/components/chat/managers/*` 与 `@/components/chat/chat-stream/types`
+  - 明确记录两次中途治理阻断并当场收敛：
+    - `features/chat/presenter/` 不在 chat feature 的白名单子目录里，不能新增该层级
+    - `features/chat/components/providers/` 下的新文件必须使用 `*.provider.tsx` 后缀，因此最终收敛为 `chat-presenter.provider.tsx`
+  - 通过第三十五批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/managers/chat-session-list.manager.test.ts src/features/chat/managers/chat-session-preference-sync.manager.test.ts src/features/chat/managers/ncp-chat-input.manager.test.ts src/features/chat/managers/ncp-chat-thread.manager.test.ts src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/components/chat/containers/chat-sidebar.test.tsx src/components/agents/agents-page.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/chat/stores/chat-input.store.ts packages/go-usb-ai-ui/src/features/chat/stores/chat-thread.store.ts packages/go-usb-ai-ui/src/features/chat/components/providers/chat-presenter.provider.tsx packages/go-usb-ai-ui/src/features/chat/managers/chat-stream-actions.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-ui.manager.ts packages/go-usb-ai-ui/src/features/chat/types/chat-stream.types.ts packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx packages/go-usb-ai-ui/src/features/chat/managers/chat-session-list.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-list.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-preference-sync.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-preference-sync.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-thread.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-thread.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-presenter.manager.ts packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-input-bar.container.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-type-option-item.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-file-preview.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-file-preview.test.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel-nav.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-project-groups.tsx packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-ncp-child-session-tabs-view.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-chat-derived-state.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-chat-input-availability.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-chat-input-availability.utils.test.ts packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts packages/go-usb-ai-ui/src/components/chat/stores/chat-input.store.ts packages/go-usb-ai-ui/src/components/chat/stores/chat-thread.store.ts packages/go-usb-ai-ui/src/components/chat/presenter/chat-presenter-context.tsx packages/go-usb-ai-ui/src/components/chat/managers/chat-stream-actions.manager.ts packages/go-usb-ai-ui/src/components/chat/managers/chat-ui.manager.ts packages/go-usb-ai-ui/src/components/chat/chat-stream/types.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/stores/chat-input.store.ts packages/go-usb-ai-ui/src/features/chat/stores/chat-thread.store.ts packages/go-usb-ai-ui/src/features/chat/components/providers/chat-presenter.provider.tsx packages/go-usb-ai-ui/src/features/chat/managers/chat-stream-actions.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-ui.manager.ts packages/go-usb-ai-ui/src/features/chat/types/chat-stream.types.ts packages/go-usb-ai-ui/src/features/chat/index.ts packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx packages/go-usb-ai-ui/src/features/chat/managers/chat-session-list.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-list.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-preference-sync.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-session-preference-sync.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-input.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-thread.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-thread.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/ncp-chat-presenter.manager.ts packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-input-bar.container.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-type-option-item.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-file-preview.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-file-preview.test.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel-nav.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-session-workspace-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/chat-sidebar-project-groups.tsx packages/go-usb-ai-ui/src/features/chat/hooks/runtime/use-ncp-child-session-tabs-view.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-ncp-chat-derived-state.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-chat-input-availability.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/ncp-chat-input-availability.utils.test.ts packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts packages/go-usb-ai-ui/src/components/chat/stores/chat-input.store.ts packages/go-usb-ai-ui/src/components/chat/stores/chat-thread.store.ts packages/go-usb-ai-ui/src/components/chat/presenter/chat-presenter-context.tsx packages/go-usb-ai-ui/src/components/chat/managers/chat-stream-actions.manager.ts packages/go-usb-ai-ui/src/components/chat/managers/chat-ui.manager.ts packages/go-usb-ai-ui/src/components/chat/chat-stream/types.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第三十五批代码净变化：`-4`
+  - 第三十五批非测试代码净变化：`-4`
+  - 第三十五批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `458` 行，删除 `462` 行，净增 `-4` 行
+    - 非测试代码增减报告：新增 `446` 行，删除 `450` 行，净增 `-4` 行
+    - 可维护性总结：chat 的 stores / presenter / manager / stream types 这条 owner 链已经整体脱离 `components/chat`；`features/chat` 内部真实消费方也同步切根。当前唯一保留观察点是 `chat-conversation-panel.tsx` 仍接近 file budget，后续若继续扩张 conversation 壳层，应优先拆 hooks 或 normalization helpers
+
+- 当前已自动进入下一轮扫描：优先评估 `components/chat/hooks` 与 `components/chat/adapters` 中不需要触碰历史非 kebab 文件的 owner 链；`ProviderForm.tsx` 相关路径仍保持低置信降级
+
+- 第三十六批已经完成并通过验证：
+  - 完成 chat hooks owner 链迁移：`components/chat/hooks/use-chat-session-update.ts`、`use-chat-session-label.ts`、`use-chat-session-project.ts`、`use-chat-sidebar-session-label-editor.ts` 与两条相邻测试已迁入 `features/chat/hooks`
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以精确 alias 承接 `@/components/chat/hooks/use-chat-session-update`、`use-chat-session-label`、`use-chat-session-project` 与 `use-chat-sidebar-session-label-editor`
+  - 维持 allowed-root 真实消费清洁：`features/chat` 内部没有再依赖任何 legacy chat hooks；`session-header` 与 `chat-sidebar` 等遗留消费方暂由 alias 承接，避免回写 legacy 文件
+  - 明确记录一次中途治理阻断：`use-chat-session-project.ts` 迁入后命中 `context-destructuring` 规则，需要先顶层解构 `params`，不能把 legacy `params.*` 重复读取原样带进新路径
+  - 通过第三十六批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/hooks/use-chat-session-update.test.tsx src/features/chat/hooks/use-chat-session-project.test.tsx src/components/chat/containers/chat-sidebar.test.tsx src/components/chat/session-header/chat-session-project-badge.test.tsx src/components/chat/session-header/chat-session-header-actions.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-update.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-label.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-project.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-sidebar-session-label-editor.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-update.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-project.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-session-update.ts packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-session-label.ts packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-session-project.ts packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-sidebar-session-label-editor.ts packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-session-update.test.tsx packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-session-project.test.tsx`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-update.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-label.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-project.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-sidebar-session-label-editor.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-update.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-session-project.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-session-update.ts packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-session-label.ts packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-session-project.ts packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-sidebar-session-label-editor.ts packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-session-update.test.tsx packages/go-usb-ai-ui/src/components/chat/hooks/use-chat-session-project.test.tsx`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第三十六批代码净变化：`-1`
+  - 第三十六批非测试代码净变化：`0`
+  - 第三十六批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `327` 行，删除 `328` 行，净增 `-1` 行
+    - 非测试代码增减报告：新增 `136` 行，删除 `136` 行，净增 `0` 行
+    - 可维护性总结：chat hooks owner 链已经整体脱离 `components/chat/hooks`；本批没有引入任何新的 legacy shim，只保留精确 alias 承接旧消费，同时顺手把 `use-chat-session-project.ts` 调整到符合 `context-destructuring` 的新代码标准
+
+- 当前已自动进入下一轮扫描：优先评估 `components/chat/adapters` 与 `components/chat/session-header` 中不需要触碰历史非 kebab 文件的 owner 链；`ProviderForm.tsx` 相关路径仍保持低置信降级
+
+- 第三十七批已经完成并通过验证：
+  - 完成 `components/chat/adapters/` 整个 legacy adapter 子树迁移：`chat-input-bar`、`chat-message`、`chat-message-part`、`chat-message-inline-content`、`chat-message-tool-agent-id`、`chat-message-partial-json`、`chat-message-session-request-tool-card` 与 `file-operation/*` 的真实实现现统一落到 `features/chat/utils/`、`features/chat/utils/file-operation/` 与 `features/chat/types/`
+  - 完成 `features/chat` 内部真实消费方切根：`chat-input-bar.container.tsx`、`chat-message-list.container.tsx`、`chat-session-workspace-file-preview.tsx` 与两条 `ncp-session-adapter` 相邻测试现在直接依赖新的 feature-root utils / types
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以两条精确 alias 承接 `@/components/chat/adapters/chat-input-bar.adapter` 与 `@/components/chat/adapters/chat-message.adapter`，继续服务 `components/chat/go-usb-ai/index.ts` 这类尚未迁出的历史入口
+  - 明确记录两次中途治理阻断并在同批内收敛：
+    - 先尝试把新实现落到 `features/chat/adapters/`，但 governance 明确阻断未批准的 `adapter` 角色后缀，因此最终严格收敛为 `utils` / `types`
+    - `chat-input-bar`、`chat-message-part` 与 `file-operation/diff` 迁入后命中 file-budget，因此继续把工具条逻辑、消息部件类型/工具卡、文件变更块组装拆成更小的 utils / types 文件，而不是放宽规则
+  - 通过第三十七批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/utils/chat-input-bar.utils.test.ts src/features/chat/utils/chat-message.utils.test.ts src/features/chat/utils/chat-message-tool-agent-id.utils.test.ts src/features/chat/utils/chat-message-session-spawn-tool-card.utils.test.ts src/features/chat/utils/chat-message-summary-truncation.utils.test.ts src/features/chat/utils/ncp-session-adapter.utils.test.ts src/features/chat/utils/ncp-session-adapter.utils.cancelled-tool.test.ts src/features/chat/components/chat-session-workspace-file-preview.test.tsx src/features/chat/components/conversation/chat-message-list.container.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+    - `pnpm lint:new-code:governance -- --files $(git diff --name-only -- packages/go-usb-ai-ui/src/components/chat/adapters packages/go-usb-ai-ui/src/features/chat/components packages/go-usb-ai-ui/src/features/chat/utils packages/go-usb-ai-ui/src/features/chat/types packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts | tr '\n' ' ')`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths $(git diff --name-only -- packages/go-usb-ai-ui/src/components/chat/adapters packages/go-usb-ai-ui/src/features/chat/components packages/go-usb-ai-ui/src/features/chat/utils packages/go-usb-ai-ui/src/features/chat/types packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts | tr '\n' ' ')`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第三十七批代码净变化：`-4297`
+  - 第三十七批非测试代码净变化：`-2819`
+  - 第三十七批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `9` 行，删除 `4306` 行，净增 `-4297` 行
+    - 非测试代码增减报告：新增 `7` 行，删除 `2826` 行，净增 `-2819` 行
+    - 可维护性总结：`no maintainability findings`。这批不是把 adapter 原样平移，而是把整个 legacy adapter 子树严格收口到 `utils / types` 白名单结构，并在同一批里吃掉 naming gate 与 file-budget 阻断，最终把 `components/chat/adapters/` 整层清空
+
+- 当前已自动进入下一轮扫描：优先评估 `components/chat/session-header` 与 `components/chat/go-usb-ai/index.ts` 周边仍未脱离 legacy root 的消费链；仅处理不需要触碰 `ProviderForm.tsx` 等历史非 kebab 文件、且能整组迁出真实消费方与 dead legacy 入口的高置信子链
+
+- 第三十八批已经完成并通过验证：
+  - 完成 `components/chat/session-header/` 整个 legacy 会话头子树迁移：`chat-session-header-actions`、`chat-session-header-menu-item`、`chat-session-project-badge` 与 `chat-session-project-dialog` 连同两条相邻测试已统一迁入 `features/chat/components/conversation/session-header/`
+  - 完成 `features/chat` 内部真实消费方切根：`chat-conversation-panel.tsx` 与 `chat-conversation-panel.test.tsx` 现在直接依赖新的 feature-root session-header 组件路径
+  - 本批不保留 shim：确认 `components/chat/session-header/` 不再有任何残留真实消费方，因此没有再补精确 alias，而是直接清空整个 legacy 子树
+  - 明确记录一次中途治理阻断并在同批内收敛：
+    - `post-edit-maintainability-guard` 在未暂存 rename 状态下把迁移后的 session-header 文件误记成 non-feature 非测试净增 `+288`；将这批文件按真实 rename 形态暂存后复跑，口径收敛到代码净变化 `0`、非测试净变化 `0`
+  - 通过第三十八批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/components/conversation/session-header/chat-session-header-actions.test.tsx src/features/chat/components/conversation/session-header/chat-session-project-badge.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+    - `pnpm lint:new-code:governance -- --files $(git diff --cached --name-only -- packages/go-usb-ai-ui/src/components/chat/session-header packages/go-usb-ai-ui/src/features/chat/components/conversation/session-header packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx | tr '\n' ' ')`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths $(git diff --cached --name-only -- packages/go-usb-ai-ui/src/components/chat/session-header packages/go-usb-ai-ui/src/features/chat/components/conversation/session-header packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx | tr '\n' ' ')`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第三十八批代码净变化：`0`
+  - 第三十八批非测试代码净变化：`0`
+  - 第三十八批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `4` 行，删除 `4` 行，净增 `0` 行
+    - 非测试代码增减报告：新增 `2` 行，删除 `2` 行，净增 `0` 行
+    - 可维护性总结：`no maintainability findings`。这批不是在 legacy root 里继续补导出，而是把会话头子树整体压回真正的 conversation owner 边界；当前唯一观察点是 `chat-conversation-panel.tsx` 仍接近 file-budget，后续若继续扩张 conversation 壳层，应优先拆 hooks 或子块
+
+- 当前已自动进入下一轮扫描：优先评估 `components/chat/go-usb-ai/index.ts` 导出面与 `components/chat` 顶层残余入口周边仍未脱离 legacy root 的消费链；仅处理不需要触碰 `ProviderForm.tsx` 等历史非 kebab 文件、且能整组迁出真实消费方与 dead legacy 入口的高置信子链
+
+- 第三十九批已经完成并通过验证：
+  - 完成 `components/chat` 一级目录 dead legacy surface 清理：`chat-composer-state`、`chat-inline-token.utils`、`chat-input.types`、`chat-recent-models.manager`、`chat-recent-skills.manager`、`chat-session-display`、`chat-session-preference-governance`、`chat-session-preference-sync`、`chat-session-route`、`chat-session-type-option-item`、`chat-session-workspace-file-preview`、`chat-session-workspace-panel`、`chat-session-workspace-panel-nav`、`chat-sidebar-list-mode-switch`、`chat-sidebar-project-groups`、`chat-sidebar-session-item`、`workspace/chat-session-workspace-file-breadcrumbs`、`components/chat/index.ts` 与 `components/chat/go-usb-ai/index.ts` 已整组删除
+  - 完成唯一残留真实消费切根：`packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.test.ts` 改为直接依赖 `@/features/chat/utils/chat-session-preference-governance.utils`
+  - 本批不保留 shim：先通过 repo 级引用扫描确认上述 legacy 文件已无真实消费，再直接物理删除；不再补任何精确 alias 或测试代理
+  - 明确记录一次口径结论：
+    - 对于这种“只有删除、没有新增实现文件”的纯删减批次，`post-edit-maintainability-guard` 会直接判定为 `no changed code-like files found`；这不是漏检，而是说明本批没有产生新的非功能增长样本，需要结合 diff 统计来记录减债规模
+  - 通过第三十九批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/pages/ncp-chat-page.test.ts src/features/chat/utils/chat-composer-state.utils.test.ts src/features/chat/utils/chat-inline-token.utils.test.ts src/features/chat/utils/chat-session-display.utils.test.ts src/features/chat/components/chat-session-type-option-item.test.tsx src/features/chat/components/chat-session-workspace-file-preview.test.tsx src/features/chat/managers/chat-session-preference-sync.manager.test.ts`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+    - `pnpm lint:new-code:governance -- --files $(git diff --name-only -- packages/go-usb-ai-ui/src/components/chat packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.test.ts | tr '\n' ' ')`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths $(git diff --name-only -- packages/go-usb-ai-ui/src/components/chat packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.test.ts | tr '\n' ' ')`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第三十九批代码净变化：`-66`
+  - 第三十九批非测试代码净变化：`-58`
+  - 第三十九批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `1` 行，删除 `67` 行，净增 `-66` 行
+    - 非测试代码增减报告：新增 `1` 行，删除 `59` 行，净增 `-58` 行
+    - 可维护性总结：`no maintainability findings`。这批不是继续搬实现，而是把一整层已经没有真实 owner 的顶层 chat 薄转发与测试壳直接物理清空
+
+- 当前已自动进入下一轮扫描：优先评估仍然承担真实职责的 chat 高层入口链，例如 `chat-page-shell`、`ChatWelcome`、`useChatSessionTypeState`、`chat-sidebar.tsx` 与它们的真实消费方；继续只处理不需要触碰 `ProviderForm.tsx` 等历史非 kebab 文件、且能在 allowed roots 内整组收敛的高置信子链
+
+- 第四十批已经完成并通过验证：
+  - 完成高层 alias 消费切根：`ncp-chat-page.tsx`、`chat-conversation-panel.tsx`、`chat-conversation-panel.test.tsx`、`agents-page.tsx` 与 `agent-dialogs.tsx` 已全部改为直接依赖 `features/chat/components/layout/chat-page-shell`、`features/chat/components/chat-welcome` 与 `features/chat/hooks/use-chat-session-type-state`
+  - 完成构建配置回收：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 中对应 `@/components/chat/ChatWelcome`、`@/components/chat/chat-page-shell`、`@/components/chat/useChatSessionTypeState` 的三条精确 alias 已同步删除
+  - 本批不保留 shim：先回扫确认这三条旧导入名在 `go-usb-ai-ui` 包内已经归零，再回收 alias；不允许继续靠配置兜底让旧名字默默存活
+  - 明确记录一次口径结论：
+    - 这批虽然触达了 source 与 config 文件，但仍然没有新增实现文件，所以 `post-edit-maintainability-guard` 继续返回 `no changed code-like files found`；减债规模仍以 diff 统计记录
+  - 通过第四十批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/pages/ncp-chat-page.test.ts src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/components/agents/agents-page.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+    - `pnpm lint:new-code:governance -- --files $(git diff --name-only -- packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/components/agents/agents-page.tsx packages/go-usb-ai-ui/src/components/agents/agent-dialogs.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts | tr '\n' ' ')`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths $(git diff --name-only -- packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx packages/go-usb-ai-ui/src/components/agents/agents-page.tsx packages/go-usb-ai-ui/src/components/agents/agent-dialogs.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts | tr '\n' ' ')`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第四十批代码净变化：`-2`
+  - 第四十批非测试代码净变化：`-4`
+  - 第四十批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `13` 行，删除 `15` 行，净增 `-2` 行
+    - 非测试代码增减报告：新增 `11` 行，删除 `15` 行，净增 `-4` 行
+    - 可维护性总结：`no maintainability findings`。这批的价值在于把三条高层旧导入名从真实消费链和构建配置里一起清空，而不是继续让 alias 永久存在
+
+- 当前已自动进入下一轮扫描：优先评估仍有真实实现体量、且处于一级 legacy 目录高位的 `components/chat/containers/chat-sidebar.tsx` 与它的测试/消费链；如果这条链因为 file-budget 或依赖面过大不够高置信，再回退到 `chat-page.tsx` / `chat-conversation-panel` 周边做更小的真实 owner 收敛
+
+- 第四十一批已经完成并通过验证：
+  - 完成 `ChatSidebar` 主链迁移：`components/chat/containers/chat-sidebar.tsx` 与 `chat-sidebar.test.tsx` 已整体迁入 `features/chat/components/layout/`
+  - 完成真实消费方切根：`features/chat/components/layout/chat-page-shell.tsx` 现在直接依赖新的 `./chat-sidebar`
+  - 完成 feature-root 直连：迁移后的 `chat-sidebar.tsx` 已直接依赖 `features/chat/hooks/use-chat-sidebar-session-label-editor`、`features/chat/hooks/use-ncp-session-list-view`、`features/chat/components/providers/chat-presenter.provider` 与 `features/chat/stores/*`，不再绕回 legacy import 名字
+  - 完成空层清理：`components/chat/containers/` 已被顺手清空
+  - 明确记录一次口径结论：
+    - 这批属于真实 rename 迁移，必须先按 rename 形态暂存后再跑治理守卫和 maintainability guard；否则新测试文件会因为未跟踪状态而脱离 diff 口径
+  - 通过第四十一批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/components/layout/chat-sidebar.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/pages/ncp-chat-page.test.ts src/components/agents/agents-page.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+    - `pnpm lint:new-code:governance -- --files $(git diff --cached --name-only -- packages/go-usb-ai-ui/src/components/chat/containers/chat-sidebar.tsx packages/go-usb-ai-ui/src/components/chat/containers/chat-sidebar.test.tsx packages/go-usb-ai-ui/src/features/chat/components/layout/chat-sidebar.tsx packages/go-usb-ai-ui/src/features/chat/components/layout/chat-sidebar.test.tsx packages/go-usb-ai-ui/src/features/chat/components/layout/chat-page-shell.tsx | tr '\n' ' ')`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths $(git diff --cached --name-only -- packages/go-usb-ai-ui/src/components/chat/containers/chat-sidebar.tsx packages/go-usb-ai-ui/src/components/chat/containers/chat-sidebar.test.tsx packages/go-usb-ai-ui/src/features/chat/components/layout/chat-sidebar.tsx packages/go-usb-ai-ui/src/features/chat/components/layout/chat-sidebar.test.tsx packages/go-usb-ai-ui/src/features/chat/components/layout/chat-page-shell.tsx | tr '\n' ' ')`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第四十一批代码净变化：`0`
+  - 第四十一批非测试代码净变化：`0`
+  - 第四十一批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `15` 行，删除 `15` 行，净增 `0` 行
+    - 非测试代码增减报告：新增 `8` 行，删除 `8` 行，净增 `0` 行
+    - 可维护性总结：`no maintainability findings`。这批不是只换目录，而是把布局层真实侧栏 owner 连同测试与页面壳一起压回 feature-root
+
+- 当前已自动进入下一轮扫描：优先评估 `chat-page.tsx`、`chat-conversation-panel.tsx` 与剩余 chat 高层页面装配链；若整组迁移不够高置信，则先做更小的真实消费切根或 alias 回收
+
+- 第四十二批已经完成并通过验证：
+  - 完成高层 alias 消费切根：`features/chat/components/layout/chat-page-shell.tsx` 已改为直接依赖 `features/chat/components/conversation/chat-conversation-panel`
+  - 完成构建配置回收：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 中对应 `@/components/chat/chat-conversation-panel` 的三条精确 alias 已同步删除
+  - 本批不保留 shim：先回扫确认这条旧导入名在 `go-usb-ai-ui` 包内已经归零，再回收 alias；不允许继续靠配置兜底让旧名字默默存活
+  - 明确记录一次边界结论：
+    - `chat-page.tsx` 仍被 `app.tsx` 这样的 strict root-file 消费，因此当前不属于同一批次的高置信直接回收目标；本批只拿下更干净的 `chat-conversation-panel` alias
+  - 通过第四十二批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/pages/ncp-chat-page.test.ts src/components/agents/agents-page.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+    - `pnpm lint:new-code:governance -- --files $(git diff --cached --name-only -- packages/go-usb-ai-ui/src/features/chat/components/layout/chat-page-shell.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts | tr '\n' ' ')`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths $(git diff --cached --name-only -- packages/go-usb-ai-ui/src/features/chat/components/layout/chat-page-shell.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts | tr '\n' ' ')`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第四十二批代码净变化：`0`
+  - 第四十二批非测试代码净变化：`0`
+  - 第四十二批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `4` 行，删除 `4` 行，净增 `0` 行
+    - 非测试代码增减报告：新增 `4` 行，删除 `4` 行，净增 `0` 行
+    - 可维护性总结：`no maintainability findings`。这批的价值在于继续收回高层页面装配链上的 legacy 导入名，而不是停留在前一批的侧栏迁移结果上
+
+- 当前已自动进入下一轮扫描：优先评估仍被 strict root-file 消费卡住的 `chat-page.tsx` alias 与其它剩余高层承接点；若 `app.tsx` 仍构成硬阻塞，则回退到 `components/chat/chat-input/chat-input-bar.controller.ts` 这类仍留在 legacy root 的真实实现链做下一批高置信迁移扫描
+
+- 第四十三批已经完成并通过验证：
+  - 完成 `useChatInputBarController` 主链迁移：`components/chat/chat-input/chat-input-bar.controller.ts` 与 `chat-input-bar.controller.test.tsx` 已整体迁入 `features/chat/hooks/`
+  - 本批不保留 shim：这条链没有任何真实消费方或配置 alias，只剩自测依赖，因此直接迁移并删除旧入口
+  - 完成空层清理：`components/chat/chat-input/` 已被顺手清空
+  - 通过第四十三批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/hooks/use-chat-input-bar-controller.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+    - `pnpm lint:new-code:governance -- --files $(git diff --cached --name-only -- packages/go-usb-ai-ui/src/components/chat/chat-input/chat-input-bar.controller.ts packages/go-usb-ai-ui/src/components/chat/chat-input/chat-input-bar.controller.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-input-bar-controller.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-input-bar-controller.test.tsx | tr '\n' ' ')`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths $(git diff --cached --name-only -- packages/go-usb-ai-ui/src/components/chat/chat-input/chat-input-bar.controller.ts packages/go-usb-ai-ui/src/components/chat/chat-input/chat-input-bar.controller.test.tsx packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-input-bar-controller.ts packages/go-usb-ai-ui/src/features/chat/hooks/use-chat-input-bar-controller.test.tsx | tr '\n' ' ')`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第四十三批代码净变化：`0`
+  - 第四十三批非测试代码净变化：`0`
+  - 第四十三批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `1` 行，删除 `1` 行，净增 `0` 行
+    - 非测试代码增减报告：新增 `0` 行，删除 `0` 行，净增 `0` 行
+    - 可维护性总结：`no maintainability findings`。这批不是再补 alias，而是直接清掉 legacy root 中一条孤立但真实的 hook 实现链
+
+- 当前已自动进入下一轮扫描：优先评估 `chat-page.tsx` alias 是否仍被 strict root-file `app.tsx` 硬阻塞；若是，则切换到 `components/config`、`api` 或 `lib` 等剩余热点目录做下一批更大体量的 allowed-root 迁移扫描
+
+- 第四十四批已经完成并通过验证：
+  - 完成 dead shim 清理：`components/config/channel-form-fields.ts` 与 `components/config/channel-form-fields-section.tsx` 这两条 legacy 兼容导出已经零消费，因此直接物理删除，不再继续占住一级目录名额
+  - 完成失败路径定性：尝试顺手把 provider 薄转发一起清掉时，再次确认 `ProviderForm.tsx` 在 strict 模式下存在双重硬冲突
+    - 只要直接触碰 `ProviderForm.tsx`，`file-name-kebab-case` 就会因为历史非 kebab 文件名阻断
+    - 若尝试在同一 legacy root 内把它改名为 `provider-form.tsx`，`module-structure-drift` 又会把新文件视作“在 legacy root 新增文件”并阻断
+  - 因此本批明确收缩为纯高置信删除，不再在 `ProviderForm` 这条低收益路径上继续消耗
+  - 通过第四十四批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/channels/utils/channel-form-fields.utils.test.ts`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+    - `pnpm lint:new-code:governance -- packages/go-usb-ai-ui/src/features/channels/index.ts packages/go-usb-ai-ui/src/features/channels/components/config/channel-form.tsx packages/go-usb-ai-ui/src/features/channels/utils/channel-form-fields.utils.ts packages/go-usb-ai-ui/src/features/channels/utils/channel-form-fields.utils.test.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/channels/index.ts packages/go-usb-ai-ui/src/features/channels/components/config/channel-form.tsx packages/go-usb-ai-ui/src/features/channels/utils/channel-form-fields.utils.ts packages/go-usb-ai-ui/src/features/channels/utils/channel-form-fields.utils.test.ts docs/logs/v0.16.85-go-usb-ai-ui-directory-governance-campaign/README.md`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第四十四批代码净变化：`-2`
+  - 第四十四批非测试代码净变化：`-2`
+  - 第四十四批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `0` 行，删除 `2` 行，净增 `-2` 行
+    - 非测试代码增减报告：新增 `0` 行，删除 `2` 行，净增 `-2` 行
+    - 可维护性总结：`no maintainability findings`。这批虽然删得不大，但直接把 `components/config` 一级目录里两条已经退化成空壳的 channel 入口物理清掉，并额外确认了 `ProviderForm` 当前不是可硬推的高置信批次
+
+- 当前已自动进入下一轮扫描：`chat-page.tsx` alias 若仍被 `app.tsx` 卡住，就不再继续在 chat alias 层打转；同时 `ProviderForm` 相关路径现在升级为“命名治理 + module-structure 双硬阻塞”案例。下一轮优先切去 `api` / `lib` 或其它不依赖这两类阻塞的更大批次热点
+
+- 第四十五批已经完成并通过验证：
+  - 完成 chat 私产链迁移：`lib/recent-selection.manager.ts` 与相邻测试已整体迁入 `features/chat/managers/`
+  - 完成真实消费方切根：`chat-recent-models.manager.ts` 与 `chat-recent-skills.manager.ts` 现在直接依赖 `./recent-selection.manager`
+  - 完成治理顺手收口：迁入后的 `RecentSelectionManager` 因为命中 touched class 规则，已把全部实例方法统一改成箭头 class field，避免把结构债务原样搬进 feature-root
+  - 本批不保留 shim：`lib/` 旧入口已直接删除，chat 侧不再经过 legacy `lib` 私有工具名回跳
+  - 通过第四十五批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/managers/recent-selection.manager.test.ts`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+    - `pnpm lint:new-code:governance -- --files $(git diff --cached --name-only -- packages/go-usb-ai-ui/src/lib/recent-selection.manager.ts packages/go-usb-ai-ui/src/lib/recent-selection.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/recent-selection.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/recent-selection.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-recent-models.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-recent-skills.manager.ts | tr '\n' ' ')`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths $(git diff --cached --name-only -- packages/go-usb-ai-ui/src/lib/recent-selection.manager.ts packages/go-usb-ai-ui/src/lib/recent-selection.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/recent-selection.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/recent-selection.manager.test.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-recent-models.manager.ts packages/go-usb-ai-ui/src/features/chat/managers/chat-recent-skills.manager.ts | tr '\n' ' ')`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第四十五批代码净变化：`0`
+  - 第四十五批非测试代码净变化：`0`
+  - 第四十五批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `17` 行，删除 `17` 行，净增 `0` 行
+    - 非测试代码增减报告：新增 `16` 行，删除 `16` 行，净增 `0` 行
+    - 可维护性总结：`no maintainability findings`。这批的核心价值不是代码行减少，而是把只服务 chat 的 stateful manager 从 `lib` 彻底收回 `features/chat/managers/`，让 `lib` 少一条 feature 私产
+
+- 当前已自动进入下一轮扫描：继续优先评估 `lib` 中仍明显偏向 feature 私产的工具链，如 `channel-tutorials.ts`、`chat-runtime-utils.ts`、`chat-message.ts`、`session-context.utils.ts` 等；只拿真实消费面足够收敛、且不需要额外补 shim 的高置信子链
+
+- 第四十六批已经完成并通过验证：
+  - 完成 chat session 显示链迁移：`components/common/SessionRunBadge.tsx`、`components/common/session-context-icon.tsx`、`lib/session-context.utils.ts`、`lib/session-context.utils.test.ts` 与 `lib/session-run-status.ts` 已整体收敛到 `features/chat`
+  - 完成真实消费方切根：`chat-sidebar-session-item.tsx`、`chat-conversation-panel.tsx`、`chat-session-type-option-item.tsx`、`sessions-config-detail-pane.tsx`、`sessions-config-page.tsx`、`use-ncp-child-session-tabs-view.ts`、`use-ncp-session-list-view.ts`、`chat-session-list.store.ts` 与 `chat-sidebar.tsx` 已全部改为直接依赖新的 feature-root 组件 / utils / types
+  - 完成目录预算收口：初版把 `session-context-icon.tsx` 与 `session-run-badge.tsx` 直接放进 `features/chat/components/` 顶层时，`post-edit-maintainability-guard` 报出 `features/chat/components` 跨过硬文件数上限；本批已把它们进一步收进 `features/chat/components/session/`，避免为了迁移而继续增加顶层平铺
+  - 本批不保留 shim：`components/common` 与 `lib` 旧入口均直接删除，chat 侧不再经过 legacy 通用名回跳
+  - 通过第四十六批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/utils/session-context.utils.test.ts src/features/chat/components/layout/chat-sidebar.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/pages/sessions-config-page.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+    - `pnpm lint:new-code:governance -- --files $(git diff --cached --name-only | rg 'packages/go-usb-ai-ui/src/(components/common|lib|features/chat)' | tr '\n' ' ')`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths $(git diff --cached --name-only | rg 'packages/go-usb-ai-ui/src/(components/common|lib|features/chat)' | tr '\n' ' ')`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第四十六批代码净变化：`0`
+  - 第四十六批非测试代码净变化：`0`
+  - 第四十六批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `15` 行，删除 `15` 行，净增 `0` 行
+    - 非测试代码增减报告：新增 `12` 行，删除 `12` 行，净增 `0` 行
+    - 可维护性总结：本批真正减少的是跨根目录的职责漂移，而不是代码行数。当前仅保留三条已知提醒：`chat-conversation-panel.tsx` 与 `chat-sidebar.tsx` 接近 file-budget、`features/chat/hooks` 目录仍高于预算，但本批没有继续恶化它们
+
+- 当前已自动进入下一轮扫描：继续优先评估 `lib` 中消费面已经彻底收敛到单一 feature 的工具链，下一候选优先看 `channel-tutorials.ts`（channels 私产）以及 `chat-message.ts` / `chat-runtime-utils.ts`（chat 私产）；只处理不需要回补 legacy shim 的整组切根路径
+
+- 第四十七批已经完成并通过验证：
+  - 完成 chat message 私产链迁移：`lib/chat-message.ts` 已迁入 `features/chat/utils/chat-message-core.utils.ts`
+  - 完成 chat runtime 私产链迁移：`lib/chat-runtime-utils.ts` 已迁入 `features/chat/utils/chat-runtime.utils.ts`
+  - 完成真实消费方切根：`ncp-chat-page.tsx`、`chat-message-part.utils.ts`、`chat-message-session-request-tool-card.utils.ts` 与 `chat-message-tool-card.utils.ts` 已全部改为直接依赖新的 feature-root utils 路径
+  - 完成失败路径定性：
+    - 首版曾尝试落到 `features/chat/utils/message/`，但 `module-structure` 明确阻断 `utils/` 下再建未批准子目录
+    - 首版为缩短新文件函数长度而引入普通函数改入参，随后被 `param-mutations-owner-boundary` 拦截；最终已改为 `HistoryMessageBuilder` owner class，既满足 `business-logic-must-use-class`，也把非功能净增长压回负值
+  - 本批不保留 shim：repo 内已无 `@/lib/chat-message`、`@/lib/chat-runtime-utils` 或 `features/chat/utils/message/*` 的真实导入
+  - 通过第四十七批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/pages/ncp-chat-page.test.ts src/features/chat/utils/chat-message.utils.test.ts src/features/chat/utils/ncp-session-adapter.utils.test.ts src/features/chat/utils/ncp-session-adapter.utils.cancelled-tool.test.ts`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/lib/chat-message.ts packages/go-usb-ai-ui/src/lib/chat-runtime-utils.ts packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx packages/go-usb-ai-ui/src/features/chat/utils/chat-message-core.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-runtime.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-message-part.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-message-session-request-tool-card.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-message-tool-card.utils.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/lib/chat-message.ts packages/go-usb-ai-ui/src/lib/chat-runtime-utils.ts packages/go-usb-ai-ui/src/features/chat/pages/ncp-chat-page.tsx packages/go-usb-ai-ui/src/features/chat/utils/chat-message-core.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-runtime.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-message-part.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-message-session-request-tool-card.utils.ts packages/go-usb-ai-ui/src/features/chat/utils/chat-message-tool-card.utils.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第四十七批代码净变化：`-15`
+  - 第四十七批非测试代码净变化：`-15`
+  - 第四十七批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `239` 行，删除 `254` 行，净增 `-15` 行
+    - 非测试代码增减报告：新增 `239` 行，删除 `254` 行，净增 `-15` 行
+    - 可维护性总结：`chat-message` / `chat-runtime-utils` 已从 `lib` 收回 `features/chat/utils`，而且 `chat-runtime.utils.ts` 已压缩到旧实现以下；当前仅保留一条 near-budget 提醒：`chat-message-session-request-tool-card.utils.ts` 接近 file-budget，但本批没有继续恶化
+- 提交链恢复记录（2026-04-21）：
+  - 当前环境已重新获得 `.git` 写权限，`touch .git/codex-resume-test` 成功
+  - 第四十七批索引已按真实落点重建：错误的 `features/chat/utils/message/*` 暂存 rename 已清理，当前以 `features/chat/utils/chat-message-core.utils.ts` 与 `features/chat/utils/chat-runtime.utils.ts` 为准
+  - 当前停机结论已解除：第四十七批提交后，下一步回到 `src/` 顶层重新排序，把“自上而下逐层治理”落实到下一批批次选择上
+
+- 第四十八批已经完成并通过验证：
+  - 完成 `src/components/chat` 当前层回收：最后一个真实文件 `chat-attachment-upload-limit.test.ts` 已迁入 `features/chat/components/conversation/chat-attachment-upload-limit.test.ts`
+  - 完成过期豁免清理：`components/chat/README.md` 与 `components/chat/ncp/README.md` 已一起删除
+  - 完成空目录向上回收：迁移后 `components/chat/ncp/` 与 `components/chat/` 均已物理删除，没有再停留在“只删叶子、不收上层空壳”的状态
+  - 通过第四十八批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/chat/components/conversation/chat-attachment-upload-limit.test.ts`
+    - `pnpm lint:new-code:governance -- --files $(git diff --cached --name-only -- packages/go-usb-ai-ui/src/components/chat packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-attachment-upload-limit.test.ts | tr '\n' ' ')`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths $(git diff --cached --name-only -- packages/go-usb-ai-ui/src/components/chat packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-attachment-upload-limit.test.ts | tr '\n' ' ')`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第四十八批代码净变化：`0`
+  - 第四十八批非测试代码净变化：`0`
+  - 第四十八批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `0` 行，删除 `0` 行，净增 `0` 行
+    - 非测试代码增减报告：新增 `0` 行，删除 `0` 行，净增 `0` 行
+    - 可维护性总结：这批的关键价值不在行数，而在于把 `src/components/chat` 这一层彻底清空并继续向上回收空目录，使“从 `src` 开始自上而下逐层治理”第一次明确落实到次顶层目录回收
+
+- 补记第二十八批：
+  - 完成 `components/config/SearchConfig.tsx -> shared/components/search-config.tsx`
+  - 完成 `components/config/SearchConfig.test.tsx -> shared/components/search-config.test.tsx`
+  - 完成 legacy 导入承接：`packages/go-usb-ai-ui/tsconfig.json`、`vite.config.ts` 与 `vitest.config.ts` 现以精确 alias 把 `@/components/config/SearchConfig` 指向新的 allowed-root 实现
+  - 完成结构减债：移除 `SearchConfig` 的 effect 型本地状态修补，改为 keyed 表单初始化；同时把 provider 侧栏、provider fields 与表单装配拆成清晰子块，避免新 shared 页面继续携带超长函数与 file-budget 违规
+  - 明确记录一次失败路径：尝试让 `app.tsx` 直接改指向 `@/shared/components/search-config` 会被 strict `module-structure` 以 `new root file 'app.tsx' is outside the allowed root-file set` 阻断，因此本批最终仍沿精确 alias 承接旧导入，而不是触碰 root file
+  - 通过第二十八批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/shared/components/search-config.test.tsx src/app.test.tsx`
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit`
+    - `pnpm lint:new-code:governance -- --files packages/go-usb-ai-ui/src/components/config/SearchConfig.tsx packages/go-usb-ai-ui/src/components/config/SearchConfig.test.tsx packages/go-usb-ai-ui/src/shared/components/search-config.tsx packages/go-usb-ai-ui/src/shared/components/search-config.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/components/config/SearchConfig.tsx packages/go-usb-ai-ui/src/components/config/SearchConfig.test.tsx packages/go-usb-ai-ui/src/shared/components/search-config.tsx packages/go-usb-ai-ui/src/shared/components/search-config.test.tsx packages/go-usb-ai-ui/tsconfig.json packages/go-usb-ai-ui/vite.config.ts packages/go-usb-ai-ui/vitest.config.ts`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第二十八批代码净变化：`-35`
+  - 第二十八批非测试代码净变化：`-36`
+  - 第二十八批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `628` 行，删除 `663` 行，净增 `-35` 行
+    - 非测试代码增减报告：新增 `477` 行，删除 `513` 行，净增 `-36` 行
+    - 可维护性总结：`no maintainability findings`。这批不是只把搜索配置页换目录，而是同时消除了 effect 边界问题和超长函数；当前唯一保留观察点是 `shared/components/search-config.tsx` 已接近 file-budget，后续若继续扩张 provider 详情，应优先沿 provider-specific fields 再拆小
+
+# 交接提醒
+
+- 若上下文压缩，下一轮先重读本文件和 `state.json`
+- 下一轮不要再从 legacy roots 里直接长新目录，也不要再新建 shim；要延续“真实实现迁入 allowed roots + legacy 文件直接删除 + 整组入口切换承接旧导入”的模式
+- 若后续环境再次不允许写 `.git`，不要重复尝试新批次；先把提交阻塞作为硬失败处理
+
+- 第五十二批已经完成并通过验证：
+  - 完成 `src/hooks` 顶层整组回收：`use-realtime-query-bridge` 迁入 `app/hooks/`；`use-auth` 迁入 `features/account/hooks/`；`use-channel-auth` 迁入 `features/channels/hooks/`；`use-ncp-chat-session-types` 迁入 `features/chat/hooks/`
+  - 完成 marketplace hooks 与 helper 归位：`use-marketplace`、`use-mcp-marketplace` 与 `marketplace-installed-cache` / `marketplace-list-pages` 已收敛到 `features/marketplace/`
+  - 完成稳定共享 hooks 归位：`use-config`、`use-confirm-dialog`、`use-infinite-scroll-loader`、`use-agents` 与 `server-path/*` 已收敛到 `shared/hooks/`
+  - 完成真实消费方切根：`features/channels`、`features/chat`、`features/system-status` 与 `shared/components` 下的 config / auth / file-preview / sidebar 主链已直接依赖新路径
+  - 完成 legacy 顶层清空：`src/hooks/README.md`、全部旧 hooks 文件与未消费的 `useObservable.ts` 已删除；`src/` 顶层目录现只剩 `api`、`app`、`components`、`features`、`lib`、`platforms`、`shared`
+  - 通过第五十二批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/app.test.tsx src/features/account/hooks/use-auth.test.ts src/features/system-status/pages/runtime-config-page.test.tsx src/features/channels/pages/channels-list-page.test.tsx src/features/channels/components/config/channel-form.test.tsx src/features/channels/components/config/weixin-channel-auth-section.test.tsx src/features/chat/pages/sessions-config-page.test.tsx src/features/chat/components/chat-session-workspace-file-preview.test.tsx src/features/chat/components/layout/chat-sidebar.test.tsx src/shared/components/model-config.test.tsx src/shared/components/search-config.test.tsx src/shared/components/config/providers-list.test.tsx src/shared/components/config/secrets-config.test.tsx src/features/marketplace/utils/marketplace-installed-cache.utils.test.ts src/components/marketplace/marketplace-page.test.tsx src/components/agents/agents-page.test.tsx src/components/path-picker/server-path-picker-dialog.test.tsx`
+    - `git -C /Users/peiwang/Projects/nextbot diff --name-only --diff-filter=AMR -- packages/go-usb-ai-ui | xargs pnpm lint:new-code:governance -- --files`
+    - `git -C /Users/peiwang/Projects/nextbot diff --name-only -- packages/go-usb-ai-ui | xargs node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths`
+    - `pnpm check:governance-backlog-ratchet`
+  - 第五十二批代码净变化：`-1480`
+  - 第五十二批非测试代码净变化：`-1337`
+  - 第五十二批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `60` 行，删除 `1540` 行，净增 `-1480` 行
+    - 非测试代码增减报告：新增 `47` 行，删除 `1384` 行，净增 `-1337` 行
+    - 可维护性总结：这一批不是“迁完继续留一个 `hooks/` 空壳”的假收敛，而是直接清空 `src` 顶层一个完整 legacy root；当前仅保留三条观察点：`chat-sidebar.tsx` 接近 file-budget、`features/chat/hooks` 目录预算仍超线、`shared/components/search-config.tsx` 接近 file-budget，但本批没有继续恶化它们
+
+- 当前已自动进入下一轮扫描：顶层 legacy roots 现只剩 `lib`、`api`、`components`；下一轮优先扫描 `src/lib` 中仍明显属于单一 feature 私产或稳定共享基础设施的整组迁移路径，其次再看 `src/api`
+
+- 第五十四批已经完成并通过验证：
+  - 完成 `features/chat/hooks/runtime/` 当前层回收：`use-ncp-session-conversation`、`use-ncp-child-session-tabs-view` 与两条 runtime contract 测试已拍平到 `features/chat/hooks/`
+  - 完成 `shared/hooks/agents/` 与 `shared/hooks/server-path/` 当前层回收：`use-agents`、`use-server-path-browse`、`use-server-path-read` 已拍平到 `shared/hooks/`
+  - 完成 `shared/lib/` 模块容器收口：`app-resource-uri`、`config-hints`、`i18n`、`logos`、`provider-models`、`theme`、`ui-document-title`、`utils` 已全部改为目录模块；`shared/lib` 根上不再保留文件
+  - 完成真实消费方切根：`ncp-chat-page`、workspace panel / preview、`agents-page`、`use-agent-identity`、path picker 与相邻测试 / mock 已切到新的平铺 hooks 或 `features/chat` 根入口
+  - 完成空目录向上回收：`features/chat/hooks/runtime`、`shared/hooks/agents`、`shared/hooks/server-path` 与旧的 `shared/lib/i18n-runtime` 已物理删除
+  - 通过第五十四批最小验证：
+    - `pnpm --filter @go-usb-ai/ui exec tsc --noEmit --pretty false`
+    - `pnpm --filter @go-usb-ai/ui exec vitest run src/features/agents/components/agents-page.test.tsx src/features/chat/hooks/use-ncp-session-conversation.test.tsx src/features/chat/hooks/use-hydrated-ncp-agent.test.tsx src/features/chat/hooks/use-ncp-agent-runtime.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx src/features/chat/components/layout/chat-sidebar.test.tsx src/features/chat/components/chat-session-workspace-file-preview.test.tsx src/shared/components/path-picker/server-path-picker-dialog.test.tsx src/shared/lib/app-resource-uri/app-resource-uri.test.ts`
+    - `git diff --name-only --diff-filter=AMR -- packages/go-usb-ai-ui/src | xargs pnpm lint:new-code:governance -- --files`
+    - `git diff --name-only --diff-filter=AMR -- packages/go-usb-ai-ui/src | xargs node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths`
+    - `pnpm check:governance-backlog-ratchet`
+    - `find packages/go-usb-ai-ui/src -type d -path '*/hooks/*' | sort`
+    - `find packages/go-usb-ai-ui/src/shared/lib -maxdepth 1 -type f | sort`
+  - 第五十四批代码净变化：`+3`
+  - 第五十四批非测试代码净变化：`0`
+  - 第五十四批独立可维护性复核：
+    - 可维护性复核结论：通过
+    - 本次顺手减债：是
+    - 代码增减报告：新增 `32` 行，删除 `29` 行，净增 `+3` 行
+    - 非测试代码增减报告：新增 `17` 行，删除 `17` 行，净增 `0` 行
+    - 可维护性总结：这批不是只把文件挪位，而是把 `hooks` 平铺规则和 `lib` 模块容器规则真正落到了 `go-usb-ai-ui` 代码结构上；当前残留观察点只有 `chat-sidebar.tsx` 仍接近 file-budget，但本批没有继续恶化

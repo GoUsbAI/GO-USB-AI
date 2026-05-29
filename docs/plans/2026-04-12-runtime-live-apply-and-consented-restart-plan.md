@@ -2,17 +2,17 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** 把 NextClaw 的运行时配置与宿主变更默认收敛为“主进程尽量不中断、能热生效就热生效、实在必须中断时先明确告知用户并由用户一键确认重启”。
+**Goal:** 把 GoUsbAi 的运行时配置与宿主变更默认收敛为“主进程尽量不中断、能热生效就热生效、实在必须中断时先明确告知用户并由用户一键确认重启”。
 
 **Architecture:** 以单一的 `runtime change coordinator` 作为配置/宿主变更的 owner，统一决定一次变更应该是热应用、局部模块重建、仅登记 `pending restart`，还是在用户确认后执行进程级重启。已有 `ConfigReloader`、`ChannelManager`、`RemoteServiceModule`、插件/MCP 热重载能力继续复用，但不再允许各入口各自直接 `requestRestart()` 或静默杀掉当前服务。
 
-**Tech Stack:** TypeScript、Node.js、Hono、React、Zustand、NextClaw CLI runtime、`@nextclaw/core` 配置重载能力、`@nextclaw/remote` 远程运行时、Vitest。
+**Tech Stack:** TypeScript、Node.js、Hono、React、Zustand、GoUsbAi CLI runtime、`@go-usb-ai/core` 配置重载能力、`@go-usb-ai/remote` 远程运行时、Vitest。
 
 ---
 
 ## 长期目标对齐 / 可维护性推进
 
-- 这项工作直接服务 NextClaw 的产品愿景：统一入口必须足够可靠，不能让用户在“改一项设置”后失去当前对话、页面和控制权。
+- 这项工作直接服务 GoUsbAi 的产品愿景：统一入口必须足够可靠，不能让用户在“改一项设置”后失去当前对话、页面和控制权。
 - 这次优先推进的不是“更聪明地自动重启”，而是删掉多条互相打架的重启分支，把“如何应用变更”收敛成一个可预测合同。
 - 长期方向应该是：
   - 热应用优先于进程重启
@@ -81,7 +81,7 @@
 
 ## 目标产品合同
 
-实施后，NextClaw 的运行时变更必须遵守下面这份固定合同：
+实施后，GoUsbAi 的运行时变更必须遵守下面这份固定合同：
 
 1. 默认合同
 - 用户修改配置、启停 remote、登录 channel、应用 runtime 变更时，主进程默认继续存活。
@@ -200,7 +200,7 @@ type RuntimeChangeResult =
 交付标准：
 - 命中 `restartRequired` 只会登记 `pending restart`
 - UI 和 CLI 都能看到明确提示
-- 现有显式 `nextclaw restart` 仍保持可用
+- 现有显式 `go-usb-ai restart` 仍保持可用
 
 ### Phase 2: 把 `remote.*` 从进程重启改成模块级切换
 
@@ -224,10 +224,10 @@ type RuntimeChangeResult =
 ## Task 1: 修正并扩展 `buildReloadPlan()` 的判定合同
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/config/reload.ts`
-- Modify: `packages/nextclaw-core/src/config/reload.test.ts`
+- Modify: `packages/go-usb-ai-core/src/config/reload.ts`
+- Modify: `packages/go-usb-ai-core/src/config/reload.test.ts`
 - Modify: `docs/USAGE.md`
-- Modify: `packages/nextclaw/resources/USAGE.md`
+- Modify: `packages/go-usb-ai/resources/USAGE.md`
 
 **Step 1: 明确把 `remote` 收进判定表**
 - 为 `remote` 增加显式 kind，例如 `reload-remote`，不再让它隐式落入 `restartRequired`。
@@ -248,11 +248,11 @@ type RuntimeChangeResult =
 ## Task 2: 引入 `RuntimeChangeCoordinator` 作为单一编排 owner
 
 **Files:**
-- Create: `packages/nextclaw/src/cli/runtime-change/runtime-change-coordinator.ts`
-- Create: `packages/nextclaw/src/cli/runtime-change/pending-restart-state.store.ts`
-- Modify: `packages/nextclaw/src/cli/runtime.ts`
-- Modify: `packages/nextclaw/src/cli/types.ts`
-- Test: `packages/nextclaw/src/cli/runtime-change/runtime-change-coordinator.test.ts`
+- Create: `packages/go-usb-ai/src/cli/runtime-change/runtime-change-coordinator.ts`
+- Create: `packages/go-usb-ai/src/cli/runtime-change/pending-restart-state.store.ts`
+- Modify: `packages/go-usb-ai/src/cli/runtime.ts`
+- Modify: `packages/go-usb-ai/src/cli/types.ts`
+- Test: `packages/go-usb-ai/src/cli/runtime-change/runtime-change-coordinator.test.ts`
 
 **Step 1: 新建协调器 class**
 - owner 负责：
@@ -281,10 +281,10 @@ type RuntimeChangeResult =
 ## Task 3: 停止 watcher / gateway config apply 自动重启
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/config-reloader.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service-support/gateway/service-gateway-context.ts`
-- Modify: `packages/nextclaw/src/cli/gateway/controller.ts`
-- Test: `packages/nextclaw/src/cli/gateway/controller.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/config-reloader.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service-support/gateway/service-gateway-context.ts`
+- Modify: `packages/go-usb-ai/src/cli/gateway/controller.ts`
+- Test: `packages/go-usb-ai/src/cli/gateway/controller.test.ts`
 
 **Step 1: 把 `onRestartRequired` 从“直接 requestRestart”改成“登记 pending restart”**
 - `ConfigReloader` 命中 `restartRequired` 时，不再直接导致服务 stop/start。
@@ -308,12 +308,12 @@ type RuntimeChangeResult =
 ## Task 4: 把 CLI `config` / `secrets` / `channels` 入口接入统一协调器
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/config.ts`
-- Modify: `packages/nextclaw/src/cli/commands/secrets.ts`
-- Modify: `packages/nextclaw/src/cli/commands/channels.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service.ts`
-- Test: `packages/nextclaw/src/cli/commands/config-tests/config.test.ts`
-- Test: `packages/nextclaw/src/cli/commands/channels.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/config.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/secrets.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/channels.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service.ts`
+- Test: `packages/go-usb-ai/src/cli/commands/config-tests/config.test.ts`
+- Test: `packages/go-usb-ai/src/cli/commands/channels.test.ts`
 
 **Step 1: `config` 命令改为返回 apply 结果，不自动 restart**
 - 当后台 service 在运行时：
@@ -332,13 +332,13 @@ type RuntimeChangeResult =
 ## Task 5: 把 `remote.*` 改造成进程内模块切换
 
 **Files:**
-- Modify: `packages/nextclaw-remote/src/remote-service-module.ts`
-- Modify: `packages/nextclaw-remote/src/remote-runtime-actions.ts`
-- Modify: `packages/nextclaw/src/cli/commands/remote.ts`
-- Modify: `packages/nextclaw/src/cli/commands/remote-support/remote-access-host.ts`
-- Modify: `packages/nextclaw/src/cli/commands/remote-support/remote-access-service-control.ts`
-- Test: `packages/nextclaw/src/cli/commands/remote-support/remote-access-host.test.ts`
-- Test: `packages/nextclaw/src/cli/commands/remote-support/remote-runtime-support.test.ts`
+- Modify: `packages/go-usb-ai-remote/src/remote-service-module.ts`
+- Modify: `packages/go-usb-ai-remote/src/remote-runtime-actions.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/remote.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/remote-support/remote-access-host.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/remote-support/remote-access-service-control.ts`
+- Test: `packages/go-usb-ai/src/cli/commands/remote-support/remote-access-host.test.ts`
+- Test: `packages/go-usb-ai/src/cli/commands/remote-support/remote-runtime-support.test.ts`
 
 **Step 1: 为 `RemoteServiceModule` 增加明确的重配置入口**
 - 例如：
@@ -359,13 +359,13 @@ type RuntimeChangeResult =
 ## Task 6: 产品化 `pending restart` 状态与确认入口
 
 **Files:**
-- Modify: `packages/nextclaw-server/src/ui/types.ts`
-- Modify: `packages/nextclaw-server/src/ui/ui-routes/types.ts`
-- Create: `packages/nextclaw-server/src/ui/ui-routes/runtime.controller.ts`
-- Modify: `packages/nextclaw-server/src/ui/router.ts`
-- Modify: `packages/nextclaw-ui/src/api/types.ts`
-- Create: `packages/nextclaw-ui/src/api/runtime.ts`
-- Test: `packages/nextclaw-server/src/ui/router.runtime.test.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/types.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/ui-routes/types.ts`
+- Create: `packages/go-usb-ai-server/src/ui/ui-routes/runtime.controller.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/router.ts`
+- Modify: `packages/go-usb-ai-ui/src/api/types.ts`
+- Create: `packages/go-usb-ai-ui/src/api/runtime.ts`
+- Test: `packages/go-usb-ai-server/src/ui/router.runtime.test.ts`
 
 **Step 1: 新增运行时状态 API**
 - `GET /api/runtime/status`
@@ -390,17 +390,17 @@ type RuntimeChangeResult =
 ## Task 7: 在 UI 中做全局“待重启”提示，而不是把提示埋在单页面
 
 **Files:**
-- Create: `packages/nextclaw-ui/src/runtime/restart-consent.store.ts`
-- Create: `packages/nextclaw-ui/src/runtime/restart-consent.manager.ts`
-- Create: `packages/nextclaw-ui/src/components/ui/restart-required-banner.tsx`
-- Modify: `packages/nextclaw-ui/src/api/types.ts`
-- Modify: `packages/nextclaw-ui/src/transport/remote.transport.ts`
-- Modify: `packages/nextclaw-ui/src/components/chat/chat-page-shell.tsx`
-- Modify: `packages/nextclaw-ui/src/components/config/config-layout.ts`
-- Modify: `packages/nextclaw-ui/src/components/remote/RemoteAccessPage.tsx`
-- Modify: `packages/nextclaw-ui/src/lib/i18n.ts`
-- Modify: `packages/nextclaw-ui/src/lib/i18n.remote.ts`
-- Test: `packages/nextclaw-ui/src/components/ui/restart-required-banner.test.tsx`
+- Create: `packages/go-usb-ai-ui/src/runtime/restart-consent.store.ts`
+- Create: `packages/go-usb-ai-ui/src/runtime/restart-consent.manager.ts`
+- Create: `packages/go-usb-ai-ui/src/components/ui/restart-required-banner.tsx`
+- Modify: `packages/go-usb-ai-ui/src/api/types.ts`
+- Modify: `packages/go-usb-ai-ui/src/transport/remote.transport.ts`
+- Modify: `packages/go-usb-ai-ui/src/components/chat/chat-page-shell.tsx`
+- Modify: `packages/go-usb-ai-ui/src/components/config/config-layout.ts`
+- Modify: `packages/go-usb-ai-ui/src/components/remote/RemoteAccessPage.tsx`
+- Modify: `packages/go-usb-ai-ui/src/lib/i18n.ts`
+- Modify: `packages/go-usb-ai-ui/src/lib/i18n.remote.ts`
+- Test: `packages/go-usb-ai-ui/src/components/ui/restart-required-banner.test.tsx`
 
 **Step 1: 建立全局 store**
 - 保存当前 `pending restart` 视图。
@@ -425,10 +425,10 @@ type RuntimeChangeResult =
 ## Task 8: 让 agent/tool 路径也遵守同一合同
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/gateway/controller.ts`
-- Modify: `packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-tool-registry.ts`
+- Modify: `packages/go-usb-ai/src/cli/gateway/controller.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-tool-registry.ts`
 - Modify: `docs/USAGE.md`
-- Modify: `packages/nextclaw/resources/USAGE.md`
+- Modify: `packages/go-usb-ai/resources/USAGE.md`
 
 **Step 1: agent 经 gateway tool 触发配置变更时，不再隐式重启**
 - 返回结构化结果，让 agent 可以读到：
@@ -445,14 +445,14 @@ type RuntimeChangeResult =
 
 **Files:**
 - Modify: `docs/USAGE.md`
-- Modify: `packages/nextclaw/resources/USAGE.md`
+- Modify: `packages/go-usb-ai/resources/USAGE.md`
 
 **Step 1: 核心单元测试**
-- `pnpm -C packages/nextclaw-core test -- --run src/config/reload.test.ts`
-- `pnpm -C packages/nextclaw test -- --run src/cli/runtime-change/runtime-change-coordinator.test.ts`
-- `pnpm -C packages/nextclaw test -- --run src/cli/commands/remote-support/remote-access-host.test.ts`
-- `pnpm -C packages/nextclaw-server test -- --run src/ui/router.runtime.test.ts`
-- `pnpm -C packages/nextclaw-ui test -- --run src/components/ui/restart-required-banner.test.tsx`
+- `pnpm -C packages/go-usb-ai-core test -- --run src/config/reload.test.ts`
+- `pnpm -C packages/go-usb-ai test -- --run src/cli/runtime-change/runtime-change-coordinator.test.ts`
+- `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/remote-support/remote-access-host.test.ts`
+- `pnpm -C packages/go-usb-ai-server test -- --run src/ui/router.runtime.test.ts`
+- `pnpm -C packages/go-usb-ai-ui test -- --run src/components/ui/restart-required-banner.test.tsx`
 
 **Step 2: Service 级冒烟**
 - 启动 `pnpm dev start`
@@ -467,9 +467,9 @@ type RuntimeChangeResult =
   - 用户未点击前，主进程不退出
 
 **Step 3: CLI 冒烟**
-- `nextclaw config set providers.openrouter.apiKey ...`
-- `nextclaw config set remote.enabled true`
-- `nextclaw config set ui.port 55668`
+- `go-usb-ai config set providers.openrouter.apiKey ...`
+- `go-usb-ai config set remote.enabled true`
+- `go-usb-ai config set ui.port 55668`
 - 观察：
   - 前两项不自动重启
   - 第三项输出明确 `pending restart`

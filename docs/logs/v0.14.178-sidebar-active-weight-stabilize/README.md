@@ -9,24 +9,24 @@
   - 将导航项过渡从 `transition-all` 收敛为 `transition-colors`，避免不必要的全属性过渡。
 - 这样选中态仍保留背景色、文字颜色和图标颜色的明确反馈，但不再产生奇怪的字重跳变。
 - 同步补充回归断言，确保当前页侧边栏项不再携带 `font-semibold`：
-  - [`packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx`](../../../packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx)
+  - [`packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx`](../../../packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx)
 
 ## 测试 / 验证 / 验收方式
 
 - 定向单测：
-  - `pnpm --filter @nextclaw/ui test -- src/components/layout/sidebar.layout.test.tsx src/components/chat/ChatSidebar.test.tsx`
+  - `pnpm --filter @go-usb-ai/ui test -- src/components/layout/sidebar.layout.test.tsx src/components/chat/ChatSidebar.test.tsx`
 - 定向 lint：
-  - `pnpm exec eslint packages/nextclaw-ui/src/components/layout/sidebar-items.tsx packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx packages/nextclaw-ui/src/components/layout/Sidebar.tsx packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx packages/nextclaw-ui/src/components/chat/ChatSidebar.test.tsx`
+  - `pnpm exec eslint packages/go-usb-ai-ui/src/components/layout/sidebar-items.tsx packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx packages/go-usb-ai-ui/src/components/chat/ChatSidebar.test.tsx`
 - 类型检查：
-  - `pnpm --filter @nextclaw/ui tsc`
+  - `pnpm --filter @go-usb-ai/ui tsc`
 - 构建验证：
-  - `pnpm --filter @nextclaw/ui build`
+  - `pnpm --filter @go-usb-ai/ui build`
 - UI 冒烟（服务级）：
-  - `pnpm --filter @nextclaw/ui preview -- --host 127.0.0.1 --port 4173 --strictPort`
+  - `pnpm --filter @go-usb-ai/ui preview -- --host 127.0.0.1 --port 4173 --strictPort`
   - `curl -I http://127.0.0.1:4173/`
   - `curl -I http://127.0.0.1:4173/model`
 - 可维护性自检：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-ui/src/components/layout/sidebar-items.tsx packages/nextclaw-ui/src/components/layout/sidebar.layout.test.tsx packages/nextclaw-ui/src/components/layout/Sidebar.tsx packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx packages/nextclaw-ui/src/components/chat/ChatSidebar.test.tsx`
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-ui/src/components/layout/sidebar-items.tsx packages/go-usb-ai-ui/src/components/layout/sidebar.layout.test.tsx packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx packages/go-usb-ai-ui/src/components/chat/ChatSidebar.test.tsx`
 
 ## 发布 / 部署方式
 

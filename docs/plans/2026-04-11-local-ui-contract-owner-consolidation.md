@@ -22,7 +22,7 @@
 
 ## Recommended Approach
 
-推荐方案：把“`nextclaw start` 成功后，桌面端该访问哪个地址”收敛成**配置目标地址合同**。
+推荐方案：把“`go-usb-ai start` 成功后，桌面端该访问哪个地址”收敛成**配置目标地址合同**。
 
 - CLI `start` 的合同已经被收敛为：成功返回时，目标 UI 地址健康可达。
 - 对桌面端来说，这个目标地址不需要再从 `service.json` 反推，只需要从 `config.json` 的 `ui.port` 推导本地访问地址并做健康检查。
@@ -60,10 +60,10 @@
 
 ## Validation
 
-- `pnpm -C packages/nextclaw test -- --run src/cli/commands/service-support/runtime/tests/service-port-probe.test.ts`
-- `pnpm -C packages/nextclaw exec tsx --test ../../apps/desktop/src/runtime-service.test.ts`
+- `pnpm -C packages/go-usb-ai test -- --run src/cli/commands/service-support/runtime/tests/service-port-probe.test.ts`
+- `pnpm -C packages/go-usb-ai exec tsx --test ../../apps/desktop/src/runtime-service.test.ts`
 - `pnpm -C apps/desktop tsc -p tsconfig.json --noEmit`
-- `pnpm -C packages/nextclaw exec eslint src/cli/commands/service.ts src/cli/commands/service-support/runtime/service-port-probe.ts src/cli/runtime-state/local-ui-discovery.service.ts src/cli/utils.ts`
+- `pnpm -C packages/go-usb-ai exec eslint src/cli/commands/service.ts src/cli/commands/service-support/runtime/service-port-probe.ts src/cli/runtime-state/local-ui-discovery.service.ts src/cli/utils.ts`
 - `pnpm -C apps/desktop exec eslint src/runtime-service.ts src/runtime-service.test.ts`
 
 ## Expected Deletion Outcome

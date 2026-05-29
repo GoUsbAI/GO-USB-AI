@@ -10,10 +10,10 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui test -- src/features/chat/components/conversation/chat-conversation-header.test.tsx src/features/chat/components/conversation/session-header/chat-session-header-actions.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui exec eslint src/features/chat/components/conversation/chat-conversation-header.tsx src/features/chat/components/conversation/session-header/chat-session-header-actions.tsx src/features/chat/components/conversation/chat-conversation-header.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-header.tsx packages/nextclaw-ui/src/features/chat/components/conversation/session-header/chat-session-header-actions.tsx packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-header.test.tsx packages/nextclaw-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui test -- src/features/chat/components/conversation/chat-conversation-header.test.tsx src/features/chat/components/conversation/session-header/chat-session-header-actions.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/features/chat/components/conversation/chat-conversation-header.tsx src/features/chat/components/conversation/session-header/chat-session-header-actions.tsx src/features/chat/components/conversation/chat-conversation-header.test.tsx src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --non-feature --paths packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-header.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/session-header/chat-session-header-actions.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-header.test.tsx packages/go-usb-ai-ui/src/features/chat/components/conversation/chat-conversation-panel.test.tsx`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
 

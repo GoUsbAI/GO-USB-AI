@@ -18,12 +18,12 @@
 ## 验证（怎么确认符合预期）
 
 ```bash
-pnpm -C packages/nextclaw build
-pnpm -C packages/nextclaw lint
-pnpm -C packages/nextclaw tsc
+pnpm -C packages/go-usb-ai build
+pnpm -C packages/go-usb-ai lint
+pnpm -C packages/go-usb-ai tsc
 
 # smoke-check
-NEXTCLAW_HOME=/tmp/nextclaw-remove-guides pnpm -C packages/nextclaw dev start --ui-port 18816 --frontend-port 5177
+GOUSB_AI_HOME=/tmp/go-usb-ai-remove-guides pnpm -C packages/go-usb-ai dev start --ui-port 18816 --frontend-port 5177
 ```
 
 验收点：

@@ -12,8 +12,8 @@
 ## 测试/验证/验收方式
 
 - 执行命令：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 - 结果：命令均通过。
 - 冒烟建议：
   - 在底部/底部 10px 内触发流式输出，确认持续自动跟随；

@@ -11,24 +11,24 @@
 ## 测试/验证/验收方式
 
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/agent-chat tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ncp-react tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ncp-react-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ncp-demo-frontend tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/agent-chat tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ncp-react tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ncp-react-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ncp-demo-frontend tsc`
 - UI 级验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/ui test -- chat-message.adapter ncp-session-adapter`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui test -- chat-message-list`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/ui test -- chat-message.adapter ncp-session-adapter`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui test -- chat-message-list`
 - 可维护性检查：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/ncp-packages/nextclaw-ncp-react/src/attachments/ncp-attachments.ts apps/ncp-demo/frontend/src/components/chat-panel.tsx packages/ncp-packages/nextclaw-ncp-react-ui/src/chat/message-part.tsx packages/ncp-packages/nextclaw-ncp-react-ui/src/styles/index.css packages/nextclaw-agent-chat/src/types/ui-message.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-session-adapter.ts packages/nextclaw-ui/src/lib/i18n.chat.ts packages/nextclaw-ui/src/components/chat/containers/chat-input-bar.container.tsx packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.test.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-session-adapter.test.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/ncp-packages/go-usb-ai-ncp-react/src/attachments/ncp-attachments.ts apps/ncp-demo/frontend/src/components/chat-panel.tsx packages/ncp-packages/go-usb-ai-ncp-react-ui/src/chat/message-part.tsx packages/ncp-packages/go-usb-ai-ncp-react-ui/src/styles/index.css packages/go-usb-ai-agent-chat/src/types/ui-message.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-session-adapter.ts packages/go-usb-ai-ui/src/lib/i18n.chat.ts packages/go-usb-ai-ui/src/components/chat/containers/chat-input-bar.container.tsx packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.test.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-session-adapter.test.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-file.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
 - 结果：
   - 上述命令通过；维护性检查 `Errors: 0`、`Warnings: 0`。
 
 ## 发布/部署方式
 
 - 本次未执行发布。
-- 若需随后的前端交付，可按正常 UI 发布流程重新构建包含 `@nextclaw/ui`、`@nextclaw/agent-chat-ui`、`@nextclaw/ncp-react`、`@nextclaw/ncp-react-ui` 的产物并走既有发布链路。
+- 若需随后的前端交付，可按正常 UI 发布流程重新构建包含 `@go-usb-ai/ui`、`@go-usb-ai/agent-chat-ui`、`@go-usb-ai/ncp-react`、`@go-usb-ai/ncp-react-ui` 的产物并走既有发布链路。
 
 ## 用户/产品视角的验收步骤
 

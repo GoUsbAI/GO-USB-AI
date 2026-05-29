@@ -2,7 +2,7 @@
 
 - 按“能力都放到 class、逻辑都放进去”的要求，移除 hook 作为主逻辑承载层：
   - 删除 `use-chat-composer-view-bindings.ts`
-  - 新增 [chat-composer-runtime.ts](../../../packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-runtime.ts)
+  - 新增 [chat-composer-runtime.ts](../../../packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-runtime.ts)
 - 当前输入框分层变为：
   - `ChatComposerController`：编辑器领域命令与状态
   - `ChatComposerViewController`：DOM / 键盘 / 输入事件桥接
@@ -12,23 +12,23 @@
   - 不再通过 hook 承担逻辑编排
   - 组件主要只负责 props 解构、runtime 更新、effect 挂载与 JSX
 - 按要求保持 class 方法全部为箭头函数：
-  - [chat-composer-controller.ts](../../../packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-controller.ts)
-  - [chat-composer-view-controller.ts](../../../packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-view-controller.ts)
-  - [chat-composer-runtime.ts](../../../packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-runtime.ts)
+  - [chat-composer-controller.ts](../../../packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-controller.ts)
+  - [chat-composer-view-controller.ts](../../../packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-view-controller.ts)
+  - [chat-composer-runtime.ts](../../../packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-runtime.ts)
 
 # 测试/验证/验收方式
 
 - 单测：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-composer.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer-controller.test.ts src/components/chat/ui/chat-input-bar/chat-composer-dom.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-composer.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer-controller.test.ts src/components/chat/ui/chat-input-bar/chat-composer-dom.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer-keyboard.utils.test.ts src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
   - 结果：通过（5 个文件，12 个测试）
 - 类型校验：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
   - 结果：通过
 - 定向 lint：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-controller.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-view-controller.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-runtime.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-tokenized-composer.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm exec eslint packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-controller.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-view-controller.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-runtime.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-tokenized-composer.tsx`
   - 结果：通过
 - maintainability guard：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-controller.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-view-controller.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-runtime.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-tokenized-composer.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-controller.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-view-controller.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-runtime.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-tokenized-composer.tsx`
   - 结果：`Errors: 0`、`Warnings: 0`
 
 # 发布/部署方式

@@ -35,19 +35,19 @@ function normalizePem(value) {
 }
 
 function resolvePrivateKey(args) {
-  const inlineKey = args["private-key"]?.trim() || process.env.NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY?.trim();
+  const inlineKey = args["private-key"]?.trim() || process.env.GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY?.trim();
   if (inlineKey) {
     return createPrivateKey(normalizePem(inlineKey));
   }
 
   const privateKeyPath =
-    args["private-key-file"]?.trim() || process.env.NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY_FILE?.trim();
+    args["private-key-file"]?.trim() || process.env.GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY_FILE?.trim();
   if (privateKeyPath) {
     return createPrivateKey(readFileSync(resolve(privateKeyPath), "utf8"));
   }
 
   throw new Error(
-    "Missing bundle signing key. Provide --private-key, --private-key-file, NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY, or NEXTCLAW_DESKTOP_BUNDLE_PRIVATE_KEY_FILE."
+    "Missing bundle signing key. Provide --private-key, --private-key-file, GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY, or GOUSB_AI_DESKTOP_BUNDLE_PRIVATE_KEY_FILE."
   );
 }
 

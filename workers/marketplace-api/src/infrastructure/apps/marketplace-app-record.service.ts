@@ -211,7 +211,7 @@ export class MarketplaceAppRecordMapper {
   };
 
   private readOwnerScope = (row: MarketplaceAppItemRow): string => {
-    return row.owner_scope?.trim() || "nextclaw";
+    return row.owner_scope?.trim() || "go-usb-ai";
   };
 
   private readAppName = (row: MarketplaceAppItemRow): string => {

@@ -2,8 +2,8 @@
 
 ## 迭代完成说明（改了什么）
 
-- 本次迭代用于记录 `nextclaw@0.18.5` 与 `@nextclaw/ui@0.12.13` 的统一 NPM 发版，以及桌面稳定版 `v0.18.5-desktop.1 / 0.0.148` 的完整发布闭环。
-- 本次桌面 release 指向提交 `5561af9c chore: release nextclaw 0.18.5`，对应 GitHub release：[`v0.18.5-desktop.1`](./github-release.md)。
+- 本次迭代用于记录 `go-usb-ai@0.18.5` 与 `@go-usb-ai/ui@0.12.13` 的统一 NPM 发版，以及桌面稳定版 `v0.18.5-desktop.1 / 0.0.148` 的完整发布闭环。
+- 本次桌面 release 指向提交 `5561af9c chore: release go-usb-ai 0.18.5`，对应 GitHub release：[`v0.18.5-desktop.1`](./github-release.md)。
 - 桌面下载 fallback 已切到新的稳定线：
   - `apps/landing/src/desktop-release.service.ts`
   - `apps/landing/en/index.html`
@@ -25,25 +25,25 @@
 
 - 已通过：`PATH=/opt/homebrew/bin:$PATH pnpm release:check`
 - 已通过：`PATH=/opt/homebrew/bin:$PATH pnpm release:publish`
-  - 已确认实际发布包为 `nextclaw@0.18.5`、`@nextclaw/ui@0.12.13`
+  - 已确认实际发布包为 `go-usb-ai@0.18.5`、`@go-usb-ai/ui@0.12.13`
   - 已确认 `pnpm release:verify:published` 完成线上版本校验
 - 已通过：`PATH=/opt/homebrew/bin:$PATH pnpm desktop:package:verify`
   - 已验证 stable update manifest 验签
   - 已验证 seed bundle version `0.18.5`
   - 已验证 seed runtime `init` 路径 `dist/cli/app/index.js`
-  - 已验证 `apps/desktop/release/NextClaw Desktop-0.0.148-arm64.dmg` 的 macOS arm64 安装级 smoke
+  - 已验证 `apps/desktop/release/GoUsbAi Desktop-0.0.148-arm64.dmg` 的 macOS arm64 安装级 smoke
 - 已通过：`PATH=/opt/homebrew/bin:$PATH pnpm -C apps/landing build`
-- 已通过：`gh run view 24850921704 --repo Peiiii/nextclaw --json status,conclusion,url`
+- 已通过：`gh run view 24850921704 --repo Peiiii/go-usb-ai --json status,conclusion,url`
   - 已确认 workflow 最终为 `completed / success`
   - 已确认 `desktop-darwin-arm64`、`desktop-darwin-x64`、`desktop-win32-x64`、`desktop-linux-x64` 全部成功
   - 已确认 `publish-release-assets`、`publish-desktop-update-channels`、`publish-linux-apt-repo` 全部成功
-- 已通过：`gh release view v0.18.5-desktop.1 --repo Peiiii/nextclaw --json assets,url,tagName,targetCommitish,publishedAt`
+- 已通过：`gh release view v0.18.5-desktop.1 --repo Peiiii/go-usb-ai --json assets,url,tagName,targetCommitish,publishedAt`
   - 已确认 release 页面挂载 macOS / Windows / Linux 安装包、portable zip、bundle zip、manifest、`latest*.yml` 与 `update-bundle-public.pem`
 - 已通过：`origin/gh-pages` 与公开 Pages 双重抽查
   - `origin/gh-pages:desktop-updates/stable/manifest-stable-win32-x64.json`
   - `origin/gh-pages:desktop-updates/stable/manifest-stable-darwin-arm64.json`
-  - `https://peiiii.github.io/nextclaw/desktop-updates/stable/manifest-stable-win32-x64.json`
-  - `https://peiiii.github.io/nextclaw/desktop-updates/stable/manifest-stable-darwin-arm64.json`
+  - `https://peiiii.github.io/go-usb-ai/desktop-updates/stable/manifest-stable-win32-x64.json`
+  - `https://peiiii.github.io/go-usb-ai/desktop-updates/stable/manifest-stable-darwin-arm64.json`
   - 以上清单均已确认 `releaseNotesUrl` 与 `bundleUrl` 指向 `v0.18.5-desktop.1`
 
 ## 发布/部署方式
@@ -51,10 +51,10 @@
 - NPM：
   - 执行 `pnpm release:auto:prepare`
   - 执行 `pnpm release:version`
-  - 提交 release commit `5561af9c chore: release nextclaw 0.18.5`
+  - 提交 release commit `5561af9c chore: release go-usb-ai 0.18.5`
   - 推送 `master`
   - 执行 `pnpm release:publish`
-  - 推送 package tags：`nextclaw@0.18.5`、`@nextclaw/ui@0.12.13`
+  - 推送 package tags：`go-usb-ai@0.18.5`、`@go-usb-ai/ui@0.12.13`
 - Desktop：
   - 基于 `5561af9c` 创建 GitHub release tag `v0.18.5-desktop.1`
   - 首次 workflow 在 Windows installer smoke 阶段失败
@@ -65,15 +65,15 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 运行 `npm view nextclaw version`，确认线上版本为 `0.18.5`。
-2. 运行 `npm view @nextclaw/ui version`，确认线上版本为 `0.12.13`。
-3. 打开 `https://www.npmjs.com/package/nextclaw`，确认展示 `0.18.5`。
-4. 打开桌面正式 release 页面 `https://github.com/Peiiii/nextclaw/releases/tag/v0.18.5-desktop.1`。
+1. 运行 `npm view go-usb-ai version`，确认线上版本为 `0.18.5`。
+2. 运行 `npm view @go-usb-ai/ui version`，确认线上版本为 `0.12.13`。
+3. 打开 `https://www.npmjs.com/package/go-usb-ai`，确认展示 `0.18.5`。
+4. 打开桌面正式 release 页面 `https://github.com/Peiiii/go-usb-ai/releases/tag/v0.18.5-desktop.1`。
 5. 下载对应平台安装包：
-   - macOS arm64：`NextClaw.Desktop-0.0.148-arm64.dmg`
-   - macOS x64：`NextClaw.Desktop-0.0.148-x64.dmg`
-   - Windows x64：`NextClaw.Desktop-Setup-0.0.148-x64.exe`
-   - Linux x64：`NextClaw.Desktop-0.0.148-linux-x64.AppImage` 或 `nextclaw-desktop_0.0.148_amd64.deb`
+   - macOS arm64：`GoUsbAi.Desktop-0.0.148-arm64.dmg`
+   - macOS x64：`GoUsbAi.Desktop-0.0.148-x64.dmg`
+   - Windows x64：`GoUsbAi.Desktop-Setup-0.0.148-x64.exe`
+   - Linux x64：`GoUsbAi.Desktop-0.0.148-linux-x64.AppImage` 或 `go-usb-ai-desktop_0.0.148_amd64.deb`
 6. 启动桌面端并触发检查更新，确认稳定通道返回 `0.18.5` bundle。
 7. 打开 landing 下载页，确认 fallback 下载目标落到 `v0.18.5-desktop.1 / 0.0.148`。
 
@@ -90,13 +90,13 @@
 
 - 本次是否需要发包：需要。
 - 需要发布的包：
-  - `nextclaw`
-  - `@nextclaw/ui`
+  - `go-usb-ai`
+  - `@go-usb-ai/ui`
 - 每个包当前发布状态：
-  - `nextclaw@0.18.5`：已发布
-  - `@nextclaw/ui@0.12.13`：已发布
+  - `go-usb-ai@0.18.5`：已发布
+  - `@go-usb-ai/ui@0.12.13`：已发布
 - 本次不需要额外发布但已核验存在的相关包：
-  - `@nextclaw/app-runtime@0.7.0`：已发布，无需补发
+  - `@go-usb-ai/app-runtime@0.7.0`：已发布，无需补发
 - 待统一发布状态：
   - 无
 - 阻塞与触发条件：

@@ -31,30 +31,30 @@ pnpm release:version
 pnpm release:publish
 ```
 
-### nextclaw runtime update public key
+### go-usb-ai runtime update public key
 
-The `nextclaw` package contains the stable launcher for NPM installs. Before publishing any release batch that includes `nextclaw`, generate the packaged runtime update public key with the same signing key used by the runtime update channel:
+The `go-usb-ai` package contains the stable launcher for NPM installs. Before publishing any release batch that includes `go-usb-ai`, generate the packaged runtime update public key with the same signing key used by the runtime update channel:
 
 ```bash
-NEXTCLAW_UPDATE_BUNDLE_PRIVATE_KEY=... pnpm -C packages/nextclaw runtime-update:build -- --channel beta --skip-build --output-dir tmp/npm-runtime-update-key-check
+GOUSB_AI_UPDATE_BUNDLE_PRIVATE_KEY=... pnpm -C packages/go-usb-ai runtime-update:build -- --channel beta --skip-build --output-dir tmp/npm-runtime-update-key-check
 ```
 
-This writes `packages/nextclaw/resources/update-bundle-public.pem`. `prepack` verifies this file so a package without the verifier key is not published by accident.
+This writes `packages/go-usb-ai/resources/update-bundle-public.pem`. `prepack` verifies this file so a package without the verifier key is not published by accident.
 
 After publishing a beta package, trigger the `npm-runtime-update-release` workflow with `channel=beta`. Users can then test with:
 
 ```bash
-npm install -g nextclaw@beta
-nextclaw update --channel beta --check
-nextclaw update --channel beta --download-only
-nextclaw update --apply
-nextclaw update --channel beta
-nextclaw --version
+npm install -g go-usb-ai@beta
+go-usb-ai update --channel beta --check
+go-usb-ai update --channel beta --download-only
+go-usb-ai update --apply
+go-usb-ai update --channel beta
+go-usb-ai --version
 ```
 
 Runtime channel storage rule:
 - signed manifests and `update-bundle-public.pem` stay on `gh-pages`,
-- large `nextclaw-runtime-*.zip` bundle files are uploaded to GitHub Release assets for the matching release tag,
+- large `go-usb-ai-runtime-*.zip` bundle files are uploaded to GitHub Release assets for the matching release tag,
 - this avoids GitHub Pages / git push file-size limits while keeping the public manifest URL stable.
 
 Notes:
@@ -74,12 +74,12 @@ Notes:
 - Never run `npm publish` directly inside `packages/*`, `packages/extensions/*`, or `packages/ncp-packages/*`.
 - In this pnpm workspace, direct `npm publish` keeps `workspace:*` in the published manifest and breaks downstream installs.
 - If you need to publish a single package manually, use `pnpm publish` from that package directory, or the repo-root `pnpm release:publish` flow.
-- To force a clean rerun for the current batch, use `NEXTCLAW_RELEASE_CHECK_RESET=1 pnpm release:check`.
+- To force a clean rerun for the current batch, use `GOUSB_AI_RELEASE_CHECK_RESET=1 pnpm release:check`.
 
 ## UI-only shortcut
 
 If only the frontend UI changed, use the one-command shortcut. It will create a changeset for
-`@nextclaw/ui` + `nextclaw`, then run the standard version + publish steps. The publish check still
+`@go-usb-ai/ui` + `go-usb-ai`, then run the standard version + publish steps. The publish check still
 reuses the same batch-scoped `release:check`; there is no separate frontend-only checker anymore.
 
 ```bash
@@ -131,7 +131,7 @@ This owner command reuses the existing release contracts instead of inventing a 
 1. run `pnpm release:auto`
 2. create a release commit if version / changelog files changed
 3. push the current branch and local package tags
-4. if the published batch includes `nextclaw`, trigger `npm-runtime-update-release` with `channel=beta`
+4. if the published batch includes `go-usb-ai`, trigger `npm-runtime-update-release` with `channel=beta`
 5. wait for workflow success, verify runtime bundle assets on the matching GitHub release, and verify the public beta manifests on GitHub Pages
 
 Useful flags:
@@ -145,8 +145,8 @@ pnpm release:beta -- --minimum-launcher-version-override 0.18.12-beta.3
 Notes:
 
 - `release:beta` requires a clean worktree before it starts, because it may create a release commit and push tags.
-- The runtime workflow is only triggered when the release batch includes `nextclaw`; pure package batches do not pay that extra closure cost.
-- This command still follows the `minimumLauncherVersion` governance from `packages/nextclaw/npm-runtime-compatibility.json`; do not pass the override unless you are doing a deliberate recovery publish.
+- The runtime workflow is only triggered when the release batch includes `go-usb-ai`; pure package batches do not pay that extra closure cost.
+- This command still follows the `minimumLauncherVersion` governance from `packages/go-usb-ai/npm-runtime-compatibility.json`; do not pass the override unless you are doing a deliberate recovery publish.
 
 ## Split beta shortcuts
 
@@ -164,7 +164,7 @@ This is the fast path for:
 
 It is equivalent to the full beta owner with `--skip-runtime-channel`, but the command name makes the intent explicit.
 
-If `nextclaw@beta` is already published and you later want to open or refresh the runtime update channel only, use:
+If `go-usb-ai@beta` is already published and you later want to open or refresh the runtime update channel only, use:
 
 ```bash
 pnpm release:beta:runtime
@@ -172,7 +172,7 @@ pnpm release:beta:runtime
 
 By default it:
 
-1. reads the currently published `nextclaw@beta` version,
+1. reads the currently published `go-usb-ai@beta` version,
 2. triggers `npm-runtime-update-release` for `channel=beta`,
 3. waits for workflow success,
 4. verifies GitHub release assets,
@@ -183,7 +183,7 @@ Useful flags:
 ```bash
 pnpm release:beta:runtime -- --dry-run
 pnpm release:beta:runtime -- --version 0.18.12-beta.8
-pnpm release:beta:runtime -- --release-tag nextclaw@0.18.12-beta.8
+pnpm release:beta:runtime -- --release-tag go-usb-ai@0.18.12-beta.8
 pnpm release:beta:runtime -- --minimum-launcher-version-override 0.18.12-beta.3
 ```
 

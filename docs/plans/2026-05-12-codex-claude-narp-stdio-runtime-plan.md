@@ -4,9 +4,9 @@
 
 **Goal:** Make Codex and Claude Code appear and run as `narp-stdio` runtime entries instead of OpenClaw-style agent-runtime plugins.
 
-**Architecture:** NextClaw keeps one generic agent runtime integration path: `agents.runtimes.entries.* -> type: "narp-stdio"`. New Codex and Claude Code NARP packages own thin stdio launchers named with `narp`; the launchers reuse a small `narp-stdio` runtime wrapper that exposes an ACP stdio agent around an existing `NcpAgentRuntime`. Existing SDK runtime packages stay unchanged and are consumed as libraries. `acp` remains an internal `wireDialect` detail and must not appear in package or command names.
+**Architecture:** GoUsbAi keeps one generic agent runtime integration path: `agents.runtimes.entries.* -> type: "narp-stdio"`. New Codex and Claude Code NARP packages own thin stdio launchers named with `narp`; the launchers reuse a small `narp-stdio` runtime wrapper that exposes an ACP stdio agent around an existing `NcpAgentRuntime`. Existing SDK runtime packages stay unchanged and are consumed as libraries. `acp` remains an internal `wireDialect` detail and must not appear in package or command names.
 
-**Tech Stack:** TypeScript, `@agentclientprotocol/sdk`, existing `@nextclaw/nextclaw-ncp-runtime-stdio-client`, existing Codex SDK runtime package, existing Claude Agent SDK runtime package, Vitest, package-level `tsc`/`lint`/`build`.
+**Tech Stack:** TypeScript, `@agentclientprotocol/sdk`, existing `@go-usb-ai/go-usb-ai-ncp-runtime-stdio-client`, existing Codex SDK runtime package, existing Claude Agent SDK runtime package, Vitest, package-level `tsc`/`lint`/`build`.
 
 ---
 
@@ -14,12 +14,12 @@
 
 - The user-facing and package/command naming says `narp`, not `acp`.
 - `wireDialect: "acp"` is allowed only as the internal transport dialect consumed by `narp-stdio`.
-- `narp-stdio` remains generic. Do not add Codex or Claude Code branches to `packages/nextclaw-ncp-runtime-stdio-client`.
-- `packages/nextclaw-ncp-runtime-stdio-client` is the host-side client only. Do not put agent-side wrapper code or NCP-to-ACP runtime wrapping there.
+- `narp-stdio` remains generic. Do not add Codex or Claude Code branches to `packages/go-usb-ai-ncp-runtime-stdio-client`.
+- `packages/go-usb-ai-ncp-runtime-stdio-client` is the host-side client only. Do not put agent-side wrapper code or NCP-to-ACP runtime wrapping there.
 - The shared agent-side owner, if extracted, must be named and modeled as a wrapper, not as a new agent runtime provider.
 - Existing Codex and Claude Code SDK runtime packages are compatibility/library packages. Do not directly modify them for this migration unless a bug in the old library itself blocks reuse.
-- New Codex and Claude Code NARP packages may depend on existing SDK runtime classes, but NextClaw core/kernel/service should not import Codex or Claude SDK business logic.
-- NextClaw core/kernel/service must not hardcode `codex`, `claude`, package-specific launcher commands, or provider-specific runtime entry creation. Provider identity belongs in runtime entry config, installer/repair flow, marketplace metadata, or the provider wrapper package.
+- New Codex and Claude Code NARP packages may depend on existing SDK runtime classes, but GoUsbAi core/kernel/service should not import Codex or Claude SDK business logic.
+- GoUsbAi core/kernel/service must not hardcode `codex`, `claude`, package-specific launcher commands, or provider-specific runtime entry creation. Provider identity belongs in runtime entry config, installer/repair flow, marketplace metadata, or the provider wrapper package.
 - The final source of truth for runtime selection is `agents.runtimes.entries`, not `registerNcpAgentRuntime`.
 - Avoid long-term compatibility bridges. The old Codex/Claude agent-runtime plugin packages should be removed from the runtime registration path once the NARP entries are working.
 
@@ -27,42 +27,42 @@
 
 - When configured, `agents.runtimes.entries.codex.type` is `narp-stdio`.
 - When configured, `agents.runtimes.entries.claude.type` is `narp-stdio`.
-- `nextclaw agents runtimes --json --probe` lists configured `codex` and `claude` entries as ready when their launchers are available.
+- `go-usb-ai agents runtimes --json --probe` lists configured `codex` and `claude` entries as ready when their launchers are available.
 - A Codex session can stream a real response through `narp-stdio`.
 - A Claude Code session can stream a real response through `narp-stdio`.
-- The old `nextclaw-ncp-runtime-plugin-codex-sdk` and `nextclaw-ncp-runtime-plugin-claude-code-sdk` paths are not required for the NARP entries to run.
+- The old `go-usb-ai-ncp-runtime-plugin-codex-sdk` and `go-usb-ai-ncp-runtime-plugin-claude-code-sdk` paths are not required for the NARP entries to run.
 - Tests prove NCP events from the existing SDK runtimes are translated to ACP session updates that `narp-stdio` can translate back to NCP.
 
 ## Recommended Package Shape
 
 - Create a runtime-neutral wrapper package:
-  - Package: `packages/nextclaw-narp-stdio-runtime-wrapper`
+  - Package: `packages/go-usb-ai-narp-stdio-runtime-wrapper`
   - Public owner class: `NarpStdioRuntimeWrapper`
   - Responsibility: wrap `NcpAgentRuntime -> ACP AgentSideConnection` for a stdio child process.
 - Add new NARP adapter packages instead of editing existing SDK runtime packages:
-  - Codex NARP package: `packages/extensions/nextclaw-narp-runtime-codex-sdk`
-  - Claude Code NARP package: `packages/extensions/nextclaw-narp-runtime-claude-code-sdk`
+  - Codex NARP package: `packages/extensions/go-usb-ai-narp-runtime-codex-sdk`
+  - Claude Code NARP package: `packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk`
 - Keep existing packages unchanged in this migration:
-  - `packages/extensions/nextclaw-ncp-runtime-codex-sdk`
-  - `packages/extensions/nextclaw-ncp-runtime-claude-code-sdk`
-  - `packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk`
-  - `packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk`
+  - `packages/extensions/go-usb-ai-ncp-runtime-codex-sdk`
+  - `packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk`
+  - `packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk`
+  - `packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk`
 - Add binaries:
-  - `nextclaw-codex-narp`
-  - `nextclaw-claude-code-narp`
+  - `go-usb-ai-codex-narp`
+  - `go-usb-ai-claude-code-narp`
 - New packages and command names carry the `narp` contract. Existing SDK runtime packages keep their current names and remain library dependencies during this migration.
 
 ## Task 1: Prove The NARP Stdio Runtime Wrapper Boundary
 
 **Files:**
-- Create: `packages/nextclaw-narp-stdio-runtime-wrapper/package.json`
-- Create: `packages/nextclaw-narp-stdio-runtime-wrapper/tsconfig.json`
-- Create: `packages/nextclaw-narp-stdio-runtime-wrapper/module-structure.config.json`
-- Create: `packages/nextclaw-narp-stdio-runtime-wrapper/src/index.ts`
-- Create: `packages/nextclaw-narp-stdio-runtime-wrapper/src/services/narp-stdio-runtime-wrapper.service.ts`
-- Create: `packages/nextclaw-narp-stdio-runtime-wrapper/src/types/narp-stdio-runtime-wrapper.types.ts`
-- Test: `packages/nextclaw-narp-stdio-runtime-wrapper/src/services/narp-stdio-runtime-wrapper.service.test.ts`
-- Do not modify: `packages/nextclaw-ncp-runtime-stdio-client`
+- Create: `packages/go-usb-ai-narp-stdio-runtime-wrapper/package.json`
+- Create: `packages/go-usb-ai-narp-stdio-runtime-wrapper/tsconfig.json`
+- Create: `packages/go-usb-ai-narp-stdio-runtime-wrapper/module-structure.config.json`
+- Create: `packages/go-usb-ai-narp-stdio-runtime-wrapper/src/index.ts`
+- Create: `packages/go-usb-ai-narp-stdio-runtime-wrapper/src/services/narp-stdio-runtime-wrapper.service.ts`
+- Create: `packages/go-usb-ai-narp-stdio-runtime-wrapper/src/types/narp-stdio-runtime-wrapper.types.ts`
+- Test: `packages/go-usb-ai-narp-stdio-runtime-wrapper/src/services/narp-stdio-runtime-wrapper.service.test.ts`
+- Do not modify: `packages/go-usb-ai-ncp-runtime-stdio-client`
 
 **Steps:**
 
@@ -76,8 +76,8 @@
    - `cancel`
 3. Verify prompt input mapping:
    - ACP `prompt` text blocks become one NCP user message.
-   - `_meta.nextclaw_narp.providerRoute` is preserved as route metadata for the adapter factory.
-   - `_meta.nextclaw_narp.sessionMetadata` is preserved as NCP run metadata.
+   - `_meta.go-usb-ai_narp.providerRoute` is preserved as route metadata for the adapter factory.
+   - `_meta.go-usb-ai_narp.sessionMetadata` is preserved as NCP run metadata.
 4. Verify NCP event to ACP update mappings:
    - `MessageTextDelta` -> `agent_message_chunk`
    - `MessageReasoningDelta` -> `agent_thought_chunk`
@@ -90,38 +90,38 @@
 ## Task 2: Add Codex NARP Stdio Launcher
 
 **Files:**
-- Create: `packages/extensions/nextclaw-narp-runtime-codex-sdk/package.json`
-- Create: `packages/extensions/nextclaw-narp-runtime-codex-sdk/tsconfig.json`
-- Create: `packages/extensions/nextclaw-narp-runtime-codex-sdk/module-structure.config.json`
-- Create: `packages/extensions/nextclaw-narp-runtime-codex-sdk/src/index.ts`
-- Create: `packages/extensions/nextclaw-narp-runtime-codex-sdk/src/controllers/codex-narp.controller.ts`
-- Create: `packages/extensions/nextclaw-narp-runtime-codex-sdk/src/services/codex-narp-runtime-wrapper.service.ts`
-- Test: `packages/extensions/nextclaw-narp-runtime-codex-sdk/src/services/codex-narp-runtime-wrapper.service.test.ts`
+- Create: `packages/extensions/go-usb-ai-narp-runtime-codex-sdk/package.json`
+- Create: `packages/extensions/go-usb-ai-narp-runtime-codex-sdk/tsconfig.json`
+- Create: `packages/extensions/go-usb-ai-narp-runtime-codex-sdk/module-structure.config.json`
+- Create: `packages/extensions/go-usb-ai-narp-runtime-codex-sdk/src/index.ts`
+- Create: `packages/extensions/go-usb-ai-narp-runtime-codex-sdk/src/controllers/codex-narp.controller.ts`
+- Create: `packages/extensions/go-usb-ai-narp-runtime-codex-sdk/src/services/codex-narp-runtime-wrapper.service.ts`
+- Test: `packages/extensions/go-usb-ai-narp-runtime-codex-sdk/src/services/codex-narp-runtime-wrapper.service.test.ts`
 
 **Steps:**
 
 1. Write a launcher test using `@agentclientprotocol/sdk` client-side connection against the Codex NARP wrapper.
 2. Use a fake `NcpAgentRuntime` or fake Codex runtime factory so the test does not require real OpenAI credentials.
-3. Implement only Codex-specific runtime config resolution in the new package. Reuse `@nextclaw/nextclaw-narp-stdio-runtime-wrapper` for ACP agent methods.
-4. In `prompt`, read `_meta.nextclaw_narp.providerRoute`, `_meta.nextclaw_narp.sessionMetadata`, and `_meta.nextclaw_narp.tools`.
+3. Implement only Codex-specific runtime config resolution in the new package. Reuse `@go-usb-ai/go-usb-ai-narp-stdio-runtime-wrapper` for ACP agent methods.
+4. In `prompt`, read `_meta.go-usb-ai_narp.providerRoute`, `_meta.go-usb-ai_narp.sessionMetadata`, and `_meta.go-usb-ai_narp.tools`.
 5. Build the existing `CodexSdkNcpAgentRuntime` config from prompt/session state and environment-backed provider route.
 6. Stream NCP events from `runtime.run()` into ACP session updates.
-7. Add `bin.nextclaw-codex-narp`.
+7. Add `bin.go-usb-ai-codex-narp`.
 8. Run:
-   - `pnpm -C packages/extensions/nextclaw-narp-runtime-codex-sdk test`
-   - `pnpm -C packages/extensions/nextclaw-narp-runtime-codex-sdk tsc`
-   - `pnpm -C packages/extensions/nextclaw-narp-runtime-codex-sdk build`
+   - `pnpm -C packages/extensions/go-usb-ai-narp-runtime-codex-sdk test`
+   - `pnpm -C packages/extensions/go-usb-ai-narp-runtime-codex-sdk tsc`
+   - `pnpm -C packages/extensions/go-usb-ai-narp-runtime-codex-sdk build`
 
 ## Task 3: Add Claude Code NARP Stdio Launcher
 
 **Files:**
-- Create: `packages/extensions/nextclaw-narp-runtime-claude-code-sdk/package.json`
-- Create: `packages/extensions/nextclaw-narp-runtime-claude-code-sdk/tsconfig.json`
-- Create: `packages/extensions/nextclaw-narp-runtime-claude-code-sdk/module-structure.config.json`
-- Create: `packages/extensions/nextclaw-narp-runtime-claude-code-sdk/src/index.ts`
-- Create: `packages/extensions/nextclaw-narp-runtime-claude-code-sdk/src/controllers/claude-code-narp.controller.ts`
-- Create: `packages/extensions/nextclaw-narp-runtime-claude-code-sdk/src/services/claude-code-narp-runtime-wrapper.service.ts`
-- Test: `packages/extensions/nextclaw-narp-runtime-claude-code-sdk/src/services/claude-code-narp-runtime-wrapper.service.test.ts`
+- Create: `packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk/package.json`
+- Create: `packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk/tsconfig.json`
+- Create: `packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk/module-structure.config.json`
+- Create: `packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk/src/index.ts`
+- Create: `packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk/src/controllers/claude-code-narp.controller.ts`
+- Create: `packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk/src/services/claude-code-narp-runtime-wrapper.service.ts`
+- Test: `packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk/src/services/claude-code-narp-runtime-wrapper.service.test.ts`
 
 **Steps:**
 
@@ -129,11 +129,11 @@
 2. Write tests against a fake runtime factory first.
 3. Implement session state for selected model, cancellation, and prompt metadata.
 4. Forward provider route and request metadata into the existing Claude runtime config.
-5. Add `bin.nextclaw-claude-code-narp`.
+5. Add `bin.go-usb-ai-claude-code-narp`.
 6. Run:
-   - `pnpm -C packages/extensions/nextclaw-narp-runtime-claude-code-sdk test`
-   - `pnpm -C packages/extensions/nextclaw-narp-runtime-claude-code-sdk tsc`
-   - `pnpm -C packages/extensions/nextclaw-narp-runtime-claude-code-sdk build`
+   - `pnpm -C packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk test`
+   - `pnpm -C packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk tsc`
+   - `pnpm -C packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk build`
 
 ## Task 4: Configure Runtime Entries Outside Core
 
@@ -155,8 +155,8 @@
 
 **Files:**
 - Modify after NARP entries are validated:
-  - `packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk`
-  - `packages/extensions/nextclaw-ncp-runtime-plugin-claude-code-sdk`
+  - `packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk`
+  - `packages/extensions/go-usb-ai-ncp-runtime-plugin-claude-code-sdk`
   - root build/lint/tsc scripts if packages are removed
   - marketplace metadata/tests if they advertise old plugin registration
 
@@ -173,13 +173,13 @@
 **Commands:**
 
 ```bash
-pnpm -C packages/nextclaw-ncp-runtime-stdio-client test
-pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk test
-pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk tsc
-pnpm -C packages/extensions/nextclaw-ncp-runtime-codex-sdk build
-pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk test
-pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk tsc
-pnpm -C packages/extensions/nextclaw-ncp-runtime-claude-code-sdk build
+pnpm -C packages/go-usb-ai-ncp-runtime-stdio-client test
+pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk test
+pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk tsc
+pnpm -C packages/extensions/go-usb-ai-ncp-runtime-codex-sdk build
+pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk test
+pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk tsc
+pnpm -C packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk build
 pnpm lint:new-code:governance
 pnpm check:governance-backlog-ratchet
 node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs
@@ -187,7 +187,7 @@ node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainabilit
 
 **Smoke:**
 
-Use an isolated `NEXTCLAW_HOME` outside the repository. Configure:
+Use an isolated `GOUSB_AI_HOME` outside the repository. Configure:
 
 ```json
 {
@@ -199,7 +199,7 @@ Use an isolated `NEXTCLAW_HOME` outside the repository. Configure:
           "type": "narp-stdio",
           "config": {
             "wireDialect": "acp",
-            "command": "nextclaw-codex-narp"
+            "command": "go-usb-ai-codex-narp"
           }
         },
         "claude": {
@@ -207,7 +207,7 @@ Use an isolated `NEXTCLAW_HOME` outside the repository. Configure:
           "type": "narp-stdio",
           "config": {
             "wireDialect": "acp",
-            "command": "nextclaw-claude-code-narp"
+            "command": "go-usb-ai-claude-code-narp"
           }
         }
       }
@@ -219,7 +219,7 @@ Use an isolated `NEXTCLAW_HOME` outside the repository. Configure:
 Then verify:
 
 ```bash
-nextclaw agents runtimes --json --probe
+go-usb-ai agents runtimes --json --probe
 pnpm smoke:ncp-chat -- --session-type codex --prompt "Reply exactly OK" --json
 pnpm smoke:ncp-chat -- --session-type claude --prompt "Reply exactly OK" --json
 ```

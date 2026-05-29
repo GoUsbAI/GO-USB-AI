@@ -29,15 +29,15 @@
 
 ## 关键实现文件
 
-- `packages/nextclaw-ui/src/components/chat/ChatInputBar.tsx`
-- `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
-- `packages/nextclaw-ui/src/components/chat/ChatConversationPanel.tsx`
-- `packages/nextclaw-ui/src/components/chat/useChatStreamController.ts`
-- `packages/nextclaw-ui/src/components/chat/SkillsPicker.tsx`
-- `packages/nextclaw-ui/src/components/chat/ChatThread.tsx`
-- `packages/nextclaw-ui/src/lib/provider-models.ts`
-- `packages/nextclaw-ui/src/lib/i18n.ts`
-- `packages/nextclaw-ui/src/api/types.ts`
-- `packages/nextclaw-server/src/ui/router.ts`
-- `packages/nextclaw-server/src/ui/types.ts`
-- `packages/nextclaw-ui/src/components/config/ModelConfig.tsx`（复用 provider/model 解析逻辑，避免重复实现）
+- `packages/go-usb-ai-ui/src/components/chat/ChatInputBar.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatConversationPanel.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/useChatStreamController.ts`
+- `packages/go-usb-ai-ui/src/components/chat/SkillsPicker.tsx`
+- `packages/go-usb-ai-ui/src/components/chat/ChatThread.tsx`
+- `packages/go-usb-ai-ui/src/lib/provider-models.ts`
+- `packages/go-usb-ai-ui/src/lib/i18n.ts`
+- `packages/go-usb-ai-ui/src/api/types.ts`
+- `packages/go-usb-ai-server/src/ui/router.ts`
+- `packages/go-usb-ai-server/src/ui/types.ts`
+- `packages/go-usb-ai-ui/src/components/config/ModelConfig.tsx`（复用 provider/model 解析逻辑，避免重复实现）

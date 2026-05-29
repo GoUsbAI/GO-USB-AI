@@ -4,7 +4,7 @@
 
 本次迭代完成了前端“系统状态”收口整改，把原先分散在 `runtime-lifecycle`、`runtime-control`、聊天 store 与页面局部拼装逻辑中的系统级状态统一收口到新的 `features/system-status` 模块中。
 
-同批次续改又补做了一轮 `nextclaw-ui` 目录治理：
+同批次续改又补做了一轮 `go-usb-ai-ui` 目录治理：
 
 - 把 `account/` 正式迁到 `features/account/`
 - 把 `remote/` 与远程页面收口到 `features/remote/`
@@ -35,10 +35,10 @@
 本次实现命中根因的方式：
 
 - 新增唯一 owner：
-  - `packages/nextclaw-ui/src/features/system-status/managers/system-status.manager.ts`
-  - `packages/nextclaw-ui/src/features/system-status/stores/system-status.store.ts`
-  - `packages/nextclaw-ui/src/features/system-status/utils/system-status.utils.ts`
-  - `packages/nextclaw-ui/src/features/system-status/hooks/use-system-status.ts`
+  - `packages/go-usb-ai-ui/src/features/system-status/managers/system-status.manager.ts`
+  - `packages/go-usb-ai-ui/src/features/system-status/stores/system-status.store.ts`
+  - `packages/go-usb-ai-ui/src/features/system-status/utils/system-status.utils.ts`
+  - `packages/go-usb-ai-ui/src/features/system-status/hooks/use-system-status.ts`
 - 把 bootstrap、transport、连接中断恢复、runtime control、服务动作期状态统一收口到 `system-status`。
 - 删除旧的 `runtime-lifecycle` 整个模块。
 - 删除旧的 `use-runtime-control.ts` 与 `runtime-control.manager.ts`。
@@ -59,7 +59,7 @@
 已执行：
 
 ```bash
-pnpm -C packages/nextclaw-ui exec vitest run \
+pnpm -C packages/go-usb-ai-ui exec vitest run \
   src/system-status/system-status.manager.test.ts \
   src/system-status/system-status.selectors.test.ts \
   src/system-status/system-status.bootstrap-polling.test.ts \
@@ -81,7 +81,7 @@ pnpm -C packages/nextclaw-ui exec vitest run \
 已执行：
 
 ```bash
-pnpm -C packages/nextclaw-ui exec tsc --noEmit
+pnpm -C packages/go-usb-ai-ui exec tsc --noEmit
 ```
 
 结果：
@@ -91,7 +91,7 @@ pnpm -C packages/nextclaw-ui exec tsc --noEmit
 已执行：
 
 ```bash
-pnpm -C packages/nextclaw-ui exec vitest run \
+pnpm -C packages/go-usb-ai-ui exec vitest run \
   src/features/system-status/managers/system-status.manager.test.ts \
   src/features/system-status/managers/system-status.manager.bootstrap-polling.test.ts \
   src/features/remote/components/remote-access-page.test.tsx \
@@ -110,7 +110,7 @@ pnpm -C packages/nextclaw-ui exec vitest run \
 已执行：
 
 ```bash
-node scripts/governance/lint-new-code-file-role-boundaries.mjs -- packages/nextclaw-ui/src
+node scripts/governance/lint-new-code-file-role-boundaries.mjs -- packages/go-usb-ai-ui/src
 ```
 
 结果：
@@ -120,7 +120,7 @@ node scripts/governance/lint-new-code-file-role-boundaries.mjs -- packages/nextc
 已执行：
 
 ```bash
-node scripts/governance/module-structure/lint-new-code-module-structure.mjs -- packages/nextclaw-ui/src
+node scripts/governance/module-structure/lint-new-code-module-structure.mjs -- packages/go-usb-ai-ui/src
 ```
 
 结果：
@@ -131,7 +131,7 @@ node scripts/governance/module-structure/lint-new-code-module-structure.mjs -- p
 已执行：
 
 ```bash
-pnpm -C packages/nextclaw-ui exec eslint \
+pnpm -C packages/go-usb-ai-ui exec eslint \
   src/app.tsx \
   src/system-status \
   src/api/raw-client.utils.ts \
@@ -169,7 +169,7 @@ pnpm -C packages/nextclaw-ui exec eslint \
 ```bash
 node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs \
   --non-feature \
-  --paths $(git diff --name-only -- packages/nextclaw-ui/src)
+  --paths $(git diff --name-only -- packages/go-usb-ai-ui/src)
 ```
 
 结果：
@@ -195,7 +195,7 @@ pnpm lint:new-code:governance
 
 结果：
 
-- 未通过，但阻塞项均来自当前工作区中与本次任务无关的其它改动，集中在 `packages/nextclaw/src/cli/shared/services/**`
+- 未通过，但阻塞项均来自当前工作区中与本次任务无关的其它改动，集中在 `packages/go-usb-ai/src/cli/shared/services/**`
 - 本次新增的 `system-status.selectors.ts` 命名问题已在本迭代内修正为 `system-status.utils.ts`
 
 ## 发布 / 部署方式
@@ -205,7 +205,7 @@ pnpm lint:new-code:governance
 常规前端交付方式：
 
 1. 合并代码
-2. 按既有前端发布流程构建 `nextclaw-ui`
+2. 按既有前端发布流程构建 `go-usb-ai-ui`
 3. 在集成环境验证聊天页、runtime 管理页、头部状态入口与 presence 卡片
 
 若需要单独发布前端，可继续使用既有 `/release-frontend` 流程；本次不要求新增发布机制。

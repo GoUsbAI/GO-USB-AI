@@ -21,7 +21,7 @@
 
 - 已执行并通过：
   - `pnpm validate:platform:mvp`
-    - `workers/nextclaw-provider-gateway-api`：`build/lint/tsc`
+    - `workers/go-usb-ai-provider-gateway-api`：`build/lint/tsc`
     - `apps/platform-console`：`build/lint/tsc`
     - `apps/platform-admin`：`build/lint/tsc`
     - 自动冒烟：`pnpm smoke:platform:mvp`

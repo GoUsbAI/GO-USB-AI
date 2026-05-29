@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 const routeSyncScript = `
   (function() {
-    var LOCALE_KEY = 'nextclaw.docs.locale';
+    var LOCALE_KEY = 'go-usb-ai.docs.locale';
 
     function readSavedLocale() {
       try {
@@ -82,7 +82,7 @@ const enSidebar = [
   {
     text: 'Get Started',
     items: [
-      { text: 'What is NextClaw?', link: '/en/guide/introduction' },
+      { text: 'What is GoUsbAi?', link: '/en/guide/introduction' },
       { text: 'Quickstart', link: '/en/guide/getting-started' },
       { text: 'First Useful Workflow', link: '/en/guide/after-setup' }
     ]
@@ -155,7 +155,7 @@ const enNotesSidebar = [
     items: [
       { text: 'Overview', link: '/en/notes/' },
       { text: '2026-05-06: Auto Updates and Long-Context Awareness', link: '/en/notes/2026-05-06-auto-update-and-context-awareness' },
-      { text: '2026-04-26: NextClaw Feels Better on Mobile', link: '/en/notes/2026-04-26-mobile-experience-update' },
+      { text: '2026-04-26: GoUsbAi Feels Better on Mobile', link: '/en/notes/2026-04-26-mobile-experience-update' },
       { text: '2026-04-03: Sessions Now Actually Stay Project-Aware', link: '/en/notes/2026-04-03-project-aware-sessions-and-unified-patch-release' },
       { text: '2026-03-31: Cron Is Clearer Now, and One-Shot Jobs Finally Feel One-Shot', link: '/en/notes/2026-03-31-cron-clarity-and-one-shot-upgrade' },
       { text: '2026-03-11: Bocha Search Integration + Runtime Alignment', link: '/en/notes/2026-03-11-search-provider-controls-and-runtime-alignment' }
@@ -184,7 +184,7 @@ const zhSidebar = [
   {
     text: '开始',
     items: [
-      { text: 'NextClaw 是什么', link: '/zh/guide/introduction' },
+      { text: 'GoUsbAi 是什么', link: '/zh/guide/introduction' },
       { text: '快速开始', link: '/zh/guide/getting-started' },
       { text: '第一个有用工作流', link: '/zh/guide/after-setup' }
     ]
@@ -283,8 +283,8 @@ const zhDocsSidebar = [
 ]
 
 export default defineConfig({
-  title: 'NextClaw',
-  description: 'NextClaw documentation',
+  title: 'GoUsbAi',
+  description: 'GoUsbAi documentation',
   head: [
     ['link', { rel: 'icon', href: '/logo.svg' }],
     ['script', {}, routeSyncScript]
@@ -293,12 +293,12 @@ export default defineConfig({
     logo: '/logo.svg',
     nav: [],
     sidebar: {},
-    socialLinks: [{ icon: 'github', link: 'https://github.com/Peiiii/nextclaw' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/Peiiii/go-usb-ai' }],
     search: { provider: 'local' },
     outline: false,
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2026-present NextClaw'
+      copyright: 'Copyright © 2026-present GoUsbAi'
     }
   },
   locales: {
@@ -306,7 +306,7 @@ export default defineConfig({
       label: 'English',
       lang: 'en-US',
       link: '/en/',
-      title: 'NextClaw',
+      title: 'GoUsbAi',
       description: 'Effortlessly Simple Personal AI Assistant — Documentation',
       themeConfig: {
         nav: [
@@ -324,7 +324,7 @@ export default defineConfig({
         outline: { level: [2, 3], label: 'On this page' },
         footer: {
           message: 'Released under the MIT License.',
-          copyright: 'Copyright © 2026-present NextClaw'
+          copyright: 'Copyright © 2026-present GoUsbAi'
         }
       }
     },
@@ -332,7 +332,7 @@ export default defineConfig({
       label: '简体中文',
       lang: 'zh-CN',
       link: '/zh/',
-      title: 'NextClaw',
+      title: 'GoUsbAi',
       description: '轻量、易用、兼容 OpenClaw 的个人 AI 助手文档',
       themeConfig: {
         nav: [
@@ -350,7 +350,7 @@ export default defineConfig({
         outline: { level: [2, 3], label: '本页目录' },
         footer: {
           message: '基于 MIT License 发布。',
-          copyright: 'Copyright © 2026-present NextClaw'
+          copyright: 'Copyright © 2026-present GoUsbAi'
         }
       }
     }

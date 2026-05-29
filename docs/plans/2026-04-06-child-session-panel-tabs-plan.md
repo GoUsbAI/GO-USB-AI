@@ -5,7 +5,7 @@
 相关文档：
 
 - [NCP Session Conversation Unification Plan](./2026-04-06-ncp-session-conversation-unification-plan.md)
-- [NextClaw 产品愿景](../VISION.md)
+- [GoUsbAi 产品愿景](../VISION.md)
 
 ## 1. 目标
 
@@ -56,7 +56,7 @@
 
 ### 3.1 后端 / tool result
 
-让 `nextclaw.session_request` result 在已知时返回 `agentId`。
+让 `go-usb-ai.session_request` result 在已知时返回 `agentId`。
 
 来源：
 

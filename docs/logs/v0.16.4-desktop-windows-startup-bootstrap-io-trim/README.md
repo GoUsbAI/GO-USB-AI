@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-- 排查了 Windows 桌面端“双击后长时间无界面”的启动链路，确认主因不在 React 渲染或 `nextclaw init`，而是在桌面窗口创建前的 product bundle 预处理。
+- 排查了 Windows 桌面端“双击后长时间无界面”的启动链路，确认主因不在 React 渲染或 `go-usb-ai init`，而是在桌面窗口创建前的 product bundle 预处理。
 - 确认当前桌面端首启会先处理 `seed-product-bundle.zip`，旧链路会对约 2.1 万个文件执行 `JSZip` 解压，然后再把整个 bundle 目录额外递归复制一遍；这在 Windows Defender / 企业杀毒 / 慢盘环境下很容易被放大成分钟级卡顿。
 - 优化了 bundle 安装链路：
   - `DesktopBundleService.installFromDirectory()` 现在优先直接 `rename()` 把已验证 bundle 移入版本目录，只有在跨设备或 Windows 权限类失败时才回退到原来的复制方案，避免每次安装都额外整包复制。
@@ -14,7 +14,7 @@
 ## 测试/验证/验收方式
 
 - 已执行：`pnpm -C apps/desktop build:main`
-- 已执行：`pnpm -C packages/nextclaw exec tsx --test ../../apps/desktop/src/launcher/__tests__/launcher-foundation.test.ts ../../apps/desktop/src/launcher/__tests__/update-coordinator.service.test.ts`
+- 已执行：`pnpm -C packages/go-usb-ai exec tsx --test ../../apps/desktop/src/launcher/__tests__/launcher-foundation.test.ts ../../apps/desktop/src/launcher/__tests__/update-coordinator.service.test.ts`
 - 已执行：`pnpm lint:maintainability:guard`
 - 已执行：`pnpm -C apps/desktop bundle:seed`
 - 已执行：使用真实 `apps/desktop/build/update/seed-product-bundle.zip` 调用编译后 `DesktopUpdateService.stageLocalArchive()`，确认新 seed 包仍可被成功安装并激活。

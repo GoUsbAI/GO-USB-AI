@@ -9,32 +9,32 @@
 ## 测试/验证/验收方式
 
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server tsc`
 - 服务端真实链路测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server test -- server.weixin-channel.test.ts router.weixin-channel-config.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server test -- server.weixin-channel.test.ts router.weixin-channel-config.test.ts`
 - 构建验证：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/server build`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/server build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai build`
 - 可维护性闸门：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-server/src/ui/server.ts packages/nextclaw-server/src/ui/server.weixin-channel.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-server/src/ui/server.ts packages/go-usb-ai-server/src/ui/server.weixin-channel.test.ts`
 - 额外记录：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter nextclaw tsc` 当前仍会被仓库内无关脏改动阻塞，错误位于 `packages/nextclaw-remote/src/remote-app.adapter.ts:121`，与本次微信修复无关。
+  - `PATH=/opt/homebrew/bin:$PATH pnpm --filter go-usb-ai tsc` 当前仍会被仓库内无关脏改动阻塞，错误位于 `packages/go-usb-ai-remote/src/remote-app.adapter.ts:121`，与本次微信修复无关。
 
 ## 发布/部署方式
 
 - 本次仅补发真正受影响的两个包：
-  - `@nextclaw/server@0.10.30`
-  - `nextclaw@0.13.34`
+  - `@go-usb-ai/server@0.10.30`
+  - `go-usb-ai@0.13.34`
 - 发布命令：
-  - `PATH=/opt/homebrew/bin:$PATH NPM_CONFIG_USERCONFIG=/Users/peiwang/Projects/nextbot/.npmrc npm publish --access public`（在 `packages/nextclaw-server` 目录执行）
-  - `PATH=/opt/homebrew/bin:$PATH NPM_CONFIG_USERCONFIG=/Users/peiwang/Projects/nextbot/.npmrc npm publish`（在 `packages/nextclaw` 目录执行）
+  - `PATH=/opt/homebrew/bin:$PATH NPM_CONFIG_USERCONFIG=/Users/peiwang/Projects/nextbot/.npmrc npm publish --access public`（在 `packages/go-usb-ai-server` 目录执行）
+  - `PATH=/opt/homebrew/bin:$PATH NPM_CONFIG_USERCONFIG=/Users/peiwang/Projects/nextbot/.npmrc npm publish`（在 `packages/go-usb-ai` 目录执行）
 - 发布后校验：
-  - `PATH=/opt/homebrew/bin:$PATH npm view @nextclaw/server version`
-  - `PATH=/opt/homebrew/bin:$PATH npm view nextclaw version`
+  - `PATH=/opt/homebrew/bin:$PATH npm view @go-usb-ai/server version`
+  - `PATH=/opt/homebrew/bin:$PATH npm view go-usb-ai version`
 
 ## 用户/产品视角的验收步骤
 
-1. 安装 `nextclaw@0.13.34`。
+1. 安装 `go-usb-ai@0.13.34`。
 2. 启动服务后打开前端 `Channels` 页面。
 3. 确认渠道列表里能看到 `Weixin`，而不是只有 `wecom`。
 4. 打开 `Weixin` 配置项，确认能看到微信专属字段并正常保存。

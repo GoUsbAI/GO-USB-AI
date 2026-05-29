@@ -6,20 +6,20 @@
 
 # 测试/验证/验收方式
 
-- `pnpm --dir packages/nextclaw-core test -- openai_provider.test.ts`
-- `pnpm --dir packages/nextclaw-core tsc -p tsconfig.json`
-- `pnpm --dir packages/nextclaw-runtime tsc -p tsconfig.json`
+- `pnpm --dir packages/go-usb-ai-core test -- openai_provider.test.ts`
+- `pnpm --dir packages/go-usb-ai-core tsc -p tsconfig.json`
+- `pnpm --dir packages/go-usb-ai-runtime tsc -p tsconfig.json`
 - 本地用真实配置复验 `dashscope/qwen3-coder-next` 的 chat stream，确认正常返回，不再出现错误回退。
 
 # 发布/部署方式
 
-- 已准备 changeset：`@nextclaw/core`、`@nextclaw/runtime`、`nextclaw` patch。
+- 已准备 changeset：`@go-usb-ai/core`、`@go-usb-ai/runtime`、`go-usb-ai` patch。
 - 已执行发布前校验、`changeset version` 与 `changeset publish` 尝试。
 - 当前阻塞：本机 npm 发布登录态失效，`npm whoami` 返回 `401 Unauthorized`，导致 scoped 包发布被 registry 拒绝；恢复 npm 登录后继续执行发布闭环即可。
 
 # 用户/产品视角的验收步骤
 
-1. 安装或更新到包含本次修复的 `nextclaw` 版本。
+1. 安装或更新到包含本次修复的 `go-usb-ai` 版本。
 2. 使用默认 native 会话，选择或保持 `dashscope/qwen3-coder-next`。
 3. 发送一条普通消息，确认不再出现 `Unsupported model: qwen3-coder-next`。
 4. 观察聊天能正常开始、正常流式返回，并最终收到完整回复。

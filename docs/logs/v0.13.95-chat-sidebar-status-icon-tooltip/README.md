@@ -10,15 +10,15 @@
 
 ## 测试/验证/验收方式
 - 代码验证（受影响最小充分验证）：
-  - `pnpm -C packages/nextclaw-ui tsc`（通过）
-  - `pnpm -C packages/nextclaw-ui build`（通过）
+  - `pnpm -C packages/go-usb-ai-ui tsc`（通过）
+  - `pnpm -C packages/go-usb-ai-ui build`（通过）
 - 冒烟验证：
-  - 启动 `pnpm -C packages/nextclaw-ui dev --host 127.0.0.1 --port 4174 --strictPort`
+  - 启动 `pnpm -C packages/go-usb-ai-ui dev --host 127.0.0.1 --port 4174 --strictPort`
   - 请求首页 `curl http://127.0.0.1:4174/` 返回 `HTTP 200`（通过）
 
 ## 发布/部署方式
 - 本次为 UI 变更，发布前执行：
-  - `pnpm -C packages/nextclaw-ui tsc && pnpm -C packages/nextclaw-ui build`
+  - `pnpm -C packages/go-usb-ai-ui tsc && pnpm -C packages/go-usb-ai-ui build`
 - 如需发版，按仓库既有 release/changeset 流程执行。
 - 不适用项：
   - 远程 migration（未涉及后端数据库）。

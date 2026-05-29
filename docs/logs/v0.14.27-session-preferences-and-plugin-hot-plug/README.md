@@ -11,17 +11,17 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui test -- --run src/components/chat/chat-session-preference-sync.test.ts src/components/chat/chat-page-runtime.test.ts src/components/chat/ncp/ncp-session-adapter.test.ts`
-- `pnpm --filter @nextclaw/server test -- --run src/ui/router.session-type.test.ts src/ui/router.ncp-agent.test.ts`
-- `pnpm --filter @nextclaw/core test -- --run src/config/reload.test.ts`
-- `pnpm --filter nextclaw test -- --run src/cli/commands/plugin-reload.test.ts src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
-- `pnpm --filter @nextclaw/ncp-toolkit test -- --run src/agent/in-memory-agent-backend.test.ts`
-- `pnpm --filter @nextclaw/ui tsc`
-- `pnpm --filter @nextclaw/server tsc`
-- `pnpm --filter @nextclaw/core tsc`
-- `pnpm --filter nextclaw tsc`
-- `pnpm --filter @nextclaw/ncp tsc`
-- `pnpm --filter @nextclaw/ncp-toolkit tsc`
+- `pnpm --filter @go-usb-ai/ui test -- --run src/components/chat/chat-session-preference-sync.test.ts src/components/chat/chat-page-runtime.test.ts src/components/chat/ncp/ncp-session-adapter.test.ts`
+- `pnpm --filter @go-usb-ai/server test -- --run src/ui/router.session-type.test.ts src/ui/router.ncp-agent.test.ts`
+- `pnpm --filter @go-usb-ai/core test -- --run src/config/reload.test.ts`
+- `pnpm --filter go-usb-ai test -- --run src/cli/commands/plugin-reload.test.ts src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
+- `pnpm --filter @go-usb-ai/ncp-toolkit test -- --run src/agent/in-memory-agent-backend.test.ts`
+- `pnpm --filter @go-usb-ai/ui tsc`
+- `pnpm --filter @go-usb-ai/server tsc`
+- `pnpm --filter @go-usb-ai/core tsc`
+- `pnpm --filter go-usb-ai tsc`
+- `pnpm --filter @go-usb-ai/ncp tsc`
+- `pnpm --filter @go-usb-ai/ncp-toolkit tsc`
 
 ## 发布/部署方式
 

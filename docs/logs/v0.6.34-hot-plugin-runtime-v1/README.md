@@ -40,7 +40,7 @@
 
 ### 2) 热重载冒烟验证（隔离目录）
 
-在隔离 `NEXTCLAW_HOME`（`/tmp`）中执行：
+在隔离 `GOUSB_AI_HOME`（`/tmp`）中执行：
 
 1. 启动 gateway：`start --ui-port 20891`
 2. 记录 PID（before）
@@ -60,7 +60,7 @@
 ### 用户/产品视角验收步骤
 
 1. 用户在服务运行中执行插件操作（install/enable/disable/uninstall）。
-2. 确认无需执行 `nextclaw restart`，主服务持续可用。
+2. 确认无需执行 `go-usb-ai restart`，主服务持续可用。
 3. 观察服务日志，确认出现插件热重载日志（而非重启提示）。
 4. 对话不中断：在插件操作前后发送消息，验证 gateway 持续响应。
 

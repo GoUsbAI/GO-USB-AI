@@ -2,7 +2,7 @@
 
 ## 发布/部署方式
 
-1. 发布并部署 `nextclaw-core`、`nextclaw-server`、`nextclaw-ui`、`nextclaw`（包含 UI 入口与网关运行时变更）。
+1. 发布并部署 `go-usb-ai-core`、`go-usb-ai-server`、`go-usb-ai-ui`、`go-usb-ai`（包含 UI 入口与网关运行时变更）。
 2. 重启网关服务，确保新路由与新 runtime 逻辑生效。
 3. 打开 UI 对话页验证发送中按钮状态：支持时可点 Stop；不支持时为禁用提示。
 4. 执行一次 stop API 冒烟：`capabilities -> stream -> stop`。

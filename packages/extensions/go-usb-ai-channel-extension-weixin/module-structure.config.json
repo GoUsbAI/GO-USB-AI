@@ -1,0 +1,18 @@
+{
+  "contractKind": "legacy",
+  "organizationModel": "legacy-packages-extensions-go-usb-ai-channel-extension-weixin-workspace-root",
+  "rootPolicy": "allowlisted",
+  "allowedRootDirectories": [
+    "src",
+    "dist"
+  ],
+  "allowedRootFiles": [
+    "README.md",
+    "eslint.config.mjs",
+    "module-structure.config.json",
+    "go-usb-ai.extension.json",
+    "package.json",
+    "tsconfig.json"
+  ],
+  "sharedDirectories": []
+}

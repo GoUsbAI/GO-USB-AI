@@ -5,18 +5,18 @@
 - 适配 `createAgentClientFromServer`：请求类事件优先走 `server.send/stream/abort`，非请求类事件仍透传 `server.emit`；新增适配器测试覆盖该行为。
 - `DefaultNcpInMemoryAgentBackend` 显式实现 `NcpAgentServerEndpoint`，并将 `abort` 参数改为可选默认 `{}`。
 - 修复 ncp demo 前端“AI 回复完成后 stop 按钮不回退为 send”问题：在 `DefaultNcpAgentConversationStateManager` 中，`message.completed`/`message.failed`/`message.abort` 也会清理 `activeRun`，避免仅依赖 `run.finished` 导致状态卡住；新增回归测试。
-- 同步更新 `packages/ncp-packages/nextclaw-ncp/docs/USAGE.md` 里 server endpoint 的语义说明。
+- 同步更新 `packages/ncp-packages/go-usb-ai-ncp/docs/USAGE.md` 里 server endpoint 的语义说明。
 
 ## 测试/验证/验收方式
 - 类型检查：
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp tsc`
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp tsc`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
 - 单测：
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- agent-client-from-server`
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- agent-conversation-state-manager`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- agent-client-from-server`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- agent-conversation-state-manager`
 - Lint：
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp lint`
-  - `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit lint`（通过，存在 1 条既有规则告警：`max-lines-per-function`）
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp lint`
+  - `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit lint`（通过，存在 1 条既有规则告警：`max-lines-per-function`）
 
 ## 发布/部署方式
 - 本次涉及协议与 toolkit 运行时行为，按 monorepo 常规流程处理：

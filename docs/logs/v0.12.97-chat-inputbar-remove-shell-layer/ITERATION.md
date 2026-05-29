@@ -12,9 +12,9 @@
 
 ## 测试/验证/验收方式
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc --noEmit`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc --noEmit`
 - ESLint（受影响文件）：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/ChatConversationPanel.tsx src/components/chat/chat-page-data.ts src/components/chat/chat-page-runtime.ts src/components/chat/stores/chat-thread.store.ts src/components/chat/chat-input.types.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/ChatConversationPanel.tsx src/components/chat/chat-page-data.ts src/components/chat/chat-page-runtime.ts src/components/chat/stores/chat-thread.store.ts src/components/chat/chat-input.types.ts`
 - UI 构建：
   - `PATH=/opt/homebrew/bin:$PATH pnpm -C . build:ui`
 

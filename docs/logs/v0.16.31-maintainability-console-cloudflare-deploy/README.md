@@ -8,8 +8,8 @@
 - 页面顶部新增运行模式说明：本地仍显示“本地实时扫描”，Cloudflare 线上明确显示“Cloudflare 发布快照”，并提示刷新只会重新获取当前线上快照，不会实时扫描用户机器。
 - app 级脚本新增 `build:worker-snapshots`、`smoke:remote`、`deploy`，根脚本新增 `deploy:maintainability:console`；同时补了远程 smoke 所需的“跳过本地 server”能力。
 - 发布完成后，公网入口已可访问：
-  - 正式域名：`https://maintainability.nextclaw.io`
-  - Worker 回退地址：`https://nextclaw-maintainability-console.15353764479037.workers.dev`
+  - 正式域名：`https://maintainability.go-usb-ai.io`
+  - Worker 回退地址：`https://go-usb-ai-maintainability-console.15353764479037.workers.dev`
 - 相关文档：
   - 方案文档：[`docs/plans/2026-04-15-maintainability-console-cloudflare-deploy-plan.md`](../../plans/2026-04-15-maintainability-console-cloudflare-deploy-plan.md)
   - 上一条相关迭代：[`docs/logs/v0.16.29-maintainability-console-rule-dashboard/README.md`](../v0.16.29-maintainability-console-rule-dashboard/README.md)
@@ -24,9 +24,9 @@
 - `pnpm -C apps/maintainability-console exec wrangler deploy --config wrangler.toml --dry-run`
 - `pnpm -C apps/maintainability-console run deploy`
 - Web 打开线上地址：
-  - `https://maintainability.nextclaw.io`
-  - `https://maintainability.nextclaw.io/health`
-  - `https://nextclaw-maintainability-console.15353764479037.workers.dev`
+  - `https://maintainability.go-usb-ai.io`
+  - `https://maintainability.go-usb-ai.io/health`
+  - `https://go-usb-ai-maintainability-console.15353764479037.workers.dev`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
@@ -35,12 +35,12 @@
 
 - `lint / tsc / build / build:worker-snapshots / 本地 smoke / wrangler dry-run` 均通过。
 - `pnpm -C apps/maintainability-console run deploy` 成功；后续补上自定义域路由后再次执行 `wrangler deploy`，Cloudflare 返回：
-  - Worker：`nextclaw-maintainability-console`
-  - 自定义域名：`https://maintainability.nextclaw.io`
-  - workers.dev URL：`https://nextclaw-maintainability-console.15353764479037.workers.dev`
+  - Worker：`go-usb-ai-maintainability-console`
+  - 自定义域名：`https://maintainability.go-usb-ai.io`
+  - workers.dev URL：`https://go-usb-ai-maintainability-console.15353764479037.workers.dev`
   - Version ID：`468402ba-beac-43aa-8ba6-785922512b81`
 - 远程 smoke 脚本在当前终端网络环境下未跑通，失败形态是到 `workers.dev` 的连接超时；但通过外部打开线上根路径与 `/health` 已确认服务可达，因此当前更像是执行环境到 `workers.dev` 的网络限制，而不是部署失败。
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs` 未全绿，但剩余 error 仍来自并行改动中的 `packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx`，本次 `maintainability-console` 没有新增新的守卫错误。
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs` 未全绿，但剩余 error 仍来自并行改动中的 `packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx`，本次 `maintainability-console` 没有新增新的守卫错误。
 - `pnpm lint:new-code:governance` 仍被工作区其它已触达文件的历史命名问题阻塞：`ChatConversationPanel*.tsx`、`ChatSidebar*.tsx` 不是 kebab-case；本次新增的 `maintainability-console` 文件未新增此类命名错误。
 - `pnpm check:governance-backlog-ratchet` 仍因历史文档命名 backlog `13 > 11` 失败，与本次部署改动无直接关系。
 
@@ -52,17 +52,17 @@
   3. `pnpm -C apps/maintainability-console exec wrangler deploy --config wrangler.toml`
 - 若只想做部署前自检，可先跑 `pnpm -C apps/maintainability-console exec wrangler deploy --config wrangler.toml --dry-run`
 - 若只想验证线上站点，可执行：
-  - `MAINTAINABILITY_CONSOLE_BASE_URL='https://maintainability.nextclaw.io' pnpm -C apps/maintainability-console run smoke:remote`
+  - `MAINTAINABILITY_CONSOLE_BASE_URL='https://maintainability.go-usb-ai.io' pnpm -C apps/maintainability-console run smoke:remote`
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 `https://maintainability.nextclaw.io`
+1. 打开 `https://maintainability.go-usb-ai.io`
 2. 确认页面能正常加载 `Maintainability Console`，而不是只返回静态资源或 404。
 3. 确认顶部能看到“运行模式：Cloudflare 发布快照”之类的模式提示。
 4. 确认仍能看到“治理规则”“项目规则”“规则总览”“规则字典”“目录压力”“维护性热点”等面板。
 5. 点击 `Repo Volume`，确认页面能切到仓库口径而不是报错。
 6. 点击 `刷新数据`，确认页面会重新拉取当前线上快照，而不是挂死或返回 500。
-7. 打开 `https://maintainability.nextclaw.io/health`，确认能返回健康状态 JSON。
+7. 打开 `https://maintainability.go-usb-ai.io/health`，确认能返回健康状态 JSON。
 
 ## 可维护性总结汇总
 
@@ -71,7 +71,7 @@
 
 ### 长期目标对齐 / 可维护性推进
 
-- 这次把 maintainability console 从“只能在本地这台机器上看”的工具，推进成了“可从统一公网入口访问的研发 dashboard”，更接近 NextClaw 想成为统一入口的产品方向；同时又没有为了上线去伪造一套“云端实时扫描”的误导行为，而是明确固化成“发布快照”。
+- 这次把 maintainability console 从“只能在本地这台机器上看”的工具，推进成了“可从统一公网入口访问的研发 dashboard”，更接近 GoUsbAi 想成为统一入口的产品方向；同时又没有为了上线去伪造一套“云端实时扫描”的误导行为，而是明确固化成“发布快照”。
 - 架构上优先选择“Worker + Assets + 构建时快照”的最小明确模型，没有引入数据库、计划任务、额外后端服务，也没有把本地扫描逻辑硬塞进 Cloudflare 运行时。
 - 实现中顺手做了两笔减债：一是把 Node API 路由抽成独立 controller，二是把线上行为显式命名为 `published-snapshot`，避免未来在 UI 或 API 上继续制造“看起来能实时刷新”的 surprise success。
 

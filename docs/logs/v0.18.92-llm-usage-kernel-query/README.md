@@ -4,26 +4,26 @@
 
 本轮继续推进 service 到 kernel 的低冲突重构，完成 `LLM Usage 查询能力归属收敛`：
 
-- 将 `getSnapshot`、`getHistory`、`getStats` 和 history limit 解析规则移入 `@nextclaw/kernel` 的 `LlmUsageManager`。
+- 将 `getSnapshot`、`getHistory`、`getStats` 和 history limit 解析规则移入 `@go-usb-ai/kernel` 的 `LlmUsageManager`。
 - `LlmUsageStats` 类型由 kernel 导出，供 CLI、UI、诊断或未来 self-manage 复用。
 - 删除 service CLI 内部的 `llm-usage-query.service.ts`，避免 service 独占 usage 统计语义。
 - `LlmUsageCommandService` 只保留 usage 命令模式分派、JSON/text 输出和 `process.exitCode` 处理。
 - 新增 kernel 侧 `llm-usage.manager.test.ts`，直接覆盖 usage 读取、历史顺序和聚合统计规则。
 
-根因：LLM usage 是 NextClaw 自感知状态，记录 owner 已在 kernel，但查询和统计规则仍留在 service CLI，导致领域读模型和展示层耦合。
+根因：LLM usage 是 GoUsbAi 自感知状态，记录 owner 已在 kernel，但查询和统计规则仍留在 service CLI，导致领域读模型和展示层耦合。
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-kernel tsc`
-- `pnpm -C packages/nextclaw-kernel build`
-- `pnpm -C packages/nextclaw-service tsc`
-- `pnpm -C packages/nextclaw-kernel test -- src/managers/llm-usage.manager.test.ts`
-- `pnpm -C packages/nextclaw-service test -- --run src/cli/commands/usage/services/llm-usage-command.service.test.ts`
-- `pnpm -C packages/nextclaw-kernel exec eslint src/managers/llm-usage.manager.ts src/managers/llm-usage.manager.test.ts`
-- `pnpm -C packages/nextclaw-service exec eslint src/cli/commands/usage/services/llm-usage-command.service.ts src/cli/commands/usage/services/llm-usage-command.service.test.ts`
-- `pnpm -C packages/nextclaw-kernel lint`
-- `pnpm -C packages/nextclaw-service lint`：通过，有 24 个既有 warning。
-- `pnpm lint:new-code:governance`：通过，有 2 条 legacy module-structure warning，均来自已存在的 `packages/nextclaw-service/src/cli/commands/usage/services/*` 位于 legacy `cli/` 根下。
+- `pnpm -C packages/go-usb-ai-kernel tsc`
+- `pnpm -C packages/go-usb-ai-kernel build`
+- `pnpm -C packages/go-usb-ai-service tsc`
+- `pnpm -C packages/go-usb-ai-kernel test -- src/managers/llm-usage.manager.test.ts`
+- `pnpm -C packages/go-usb-ai-service test -- --run src/cli/commands/usage/services/llm-usage-command.service.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel exec eslint src/managers/llm-usage.manager.ts src/managers/llm-usage.manager.test.ts`
+- `pnpm -C packages/go-usb-ai-service exec eslint src/cli/commands/usage/services/llm-usage-command.service.ts src/cli/commands/usage/services/llm-usage-command.service.test.ts`
+- `pnpm -C packages/go-usb-ai-kernel lint`
+- `pnpm -C packages/go-usb-ai-service lint`：通过，有 24 个既有 warning。
+- `pnpm lint:new-code:governance`：通过，有 2 条 legacy module-structure warning，均来自已存在的 `packages/go-usb-ai-service/src/cli/commands/usage/services/*` 位于 legacy `cli/` 根下。
 - `pnpm check:governance-backlog-ratchet`
 
 ## 发布/部署方式
@@ -32,9 +32,9 @@
 
 ## 用户/产品视角的验收步骤
 
-- `nextclaw usage` 应继续展示最新 LLM usage snapshot。
-- `nextclaw usage --history --limit <n>` 应继续按最新记录优先展示历史。
-- `nextclaw usage --stats` 应继续输出记录数、token 汇总、cache hit 和 cache token rate。
+- `go-usb-ai usage` 应继续展示最新 LLM usage snapshot。
+- `go-usb-ai usage --history --limit <n>` 应继续按最新记录优先展示历史。
+- `go-usb-ai usage --stats` 应继续输出记录数、token 汇总、cache hit 和 cache token rate。
 - `--json` 输出的 `mode/path/records/stats` 结构保持可读。
 
 ## 可维护性总结汇总

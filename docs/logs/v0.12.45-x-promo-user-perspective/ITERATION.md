@@ -16,10 +16,10 @@
 - 文案可读性校验：
   - 人工检查是否以“用户收益”开头，且首屏不出现底层技术术语堆叠。
 - 事实一致性校验：
-  - `node -p "require('./packages/nextclaw/package.json').version"`
-  - `node -p "require('./packages/nextclaw-core/package.json').version"`
-  - `node -p "require('./packages/nextclaw-server/package.json').version"`
-  - `node -p "require('./packages/nextclaw-ui/package.json').version"`
+  - `node -p "require('./packages/go-usb-ai/package.json').version"`
+  - `node -p "require('./packages/go-usb-ai-core/package.json').version"`
+  - `node -p "require('./packages/go-usb-ai-server/package.json').version"`
+  - `node -p "require('./packages/go-usb-ai-ui/package.json').version"`
 - 本次仅文档文案改写，无代码逻辑变更，`build/lint/tsc` 不适用。
 
 ## 发布/部署方式

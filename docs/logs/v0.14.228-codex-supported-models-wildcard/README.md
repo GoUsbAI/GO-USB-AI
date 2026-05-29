@@ -12,23 +12,23 @@
 ## 测试/验证/验收方式
 
 - 定向测试：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw test -- --run src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai test -- --run src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
 - 可维护性自检：
-  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/src/codex-session-type.ts packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk/openclaw.plugin.json packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/src/codex-session-type.ts packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk/openclaw.plugin.json packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
 
 ## 发布/部署方式
 
 - 若需要让已安装环境获得该行为，按常规发布流程发布至少以下包：
-  - `@nextclaw/nextclaw`
-  - `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk`
-- 发布后重启或重载 NextClaw 服务，使新的 session type 描述生效。
+  - `@go-usb-ai/go-usb-ai`
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk`
+- 发布后重启或重载 GoUsbAi 服务，使新的 session type 描述生效。
 
 ## 用户/产品视角的验收步骤
 
-1. 启动 NextClaw 并进入聊天页。
+1. 启动 GoUsbAi 并进入聊天页。
 2. 新建一个 `Codex` 会话。
 3. 确认模型选择器不再只显示受限白名单，而是显示当前全局模型目录中的可选模型。
 4. 若在 Codex 插件高级配置中显式设置 `supportedModels` 为具体列表，确认会话只显示该列表中的模型。

@@ -24,7 +24,7 @@ export function CompanionShellContainer() {
             <div className="no-drag absolute right-1.5 top-1.5 z-20 flex gap-1">
               <button
                 type="button"
-                aria-label="Open NextClaw"
+                aria-label="Open GoUsbAi"
                 onClick={() => void presenter.companionShellManager.open()}
                 className="grid h-5 w-5 place-items-center rounded-full bg-slate-900/10 text-slate-700 transition hover:bg-slate-900/15"
               >
@@ -54,7 +54,7 @@ export function CompanionShellContainer() {
             className="no-drag w-full rounded-xl px-1 text-center"
           >
             <div className="truncate text-[12px] font-semibold leading-4 text-slate-900">
-              {bootstrapped ? view.title : "NextClaw"}
+              {bootstrapped ? view.title : "GoUsbAi"}
             </div>
             <div className="truncate pt-0.5 text-[11px] leading-4 text-slate-500">
               {bootstrapped ? view.subtitle : "Connecting"}

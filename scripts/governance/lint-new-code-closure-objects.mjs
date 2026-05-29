@@ -20,7 +20,7 @@ const usage = `Usage:
   node scripts/governance/lint-new-code-closure-objects.mjs
   node scripts/governance/lint-new-code-closure-objects.mjs --staged
   node scripts/governance/lint-new-code-closure-objects.mjs --base origin/main
-  node scripts/governance/lint-new-code-closure-objects.mjs -- packages/nextclaw/src
+  node scripts/governance/lint-new-code-closure-objects.mjs -- packages/go-usb-ai/src
 
 Checks touched factory functions that return closure-backed multi-method objects.
 If a touched factory returns a stateful object with multiple callable entries sharing captured state, promote it to a class or explicit owner abstraction.`;

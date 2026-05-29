@@ -7,9 +7,9 @@ description: Use when the user wants a disciplined software development workflow
 
 ## Overview
 
-Use this skill when the user wants a stronger engineering workflow inside NextClaw.
+Use this skill when the user wants a stronger engineering workflow inside GoUsbAi.
 
-This marketplace skill adapts the upstream `obra/superpowers` project into a single installable NextClaw skill. Because NextClaw marketplace installs one skill directory at a time, this package provides:
+This marketplace skill adapts the upstream `obra/superpowers` project into a single installable GoUsbAi skill. Because GoUsbAi marketplace installs one skill directory at a time, this package provides:
 
 - one top-level workflow router,
 - bundled local reference files for the most useful upstream superpowers skills,
@@ -19,7 +19,7 @@ Be explicit about the boundary:
 
 - This skill owns workflow selection, expectation-setting, and reference routing.
 - The bundled reference files own the detailed superpowers methodology.
-- NextClaw, the current project rules, and the actual tool runtime own execution.
+- GoUsbAi, the current project rules, and the actual tool runtime own execution.
 
 Do not present bundled superpowers guidance as a higher-priority authority than the user's instructions, the current project's `AGENTS.md`, or the host platform's rules.
 
@@ -36,7 +36,7 @@ Do not present bundled superpowers guidance as a higher-priority authority than 
 ## What This Skill Does Not Cover
 
 - overriding user instructions or project rulebooks,
-- pretending NextClaw natively supports the upstream superpowers multi-directory auto-discovery model,
+- pretending GoUsbAi natively supports the upstream superpowers multi-directory auto-discovery model,
 - forcing subagent workflows when the current runtime does not support them,
 - claiming a workflow step happened when the needed evidence was not actually collected,
 - replacing domain-specific project skills that are more specific than this general workflow skill.
@@ -45,16 +45,16 @@ Do not present bundled superpowers guidance as a higher-priority authority than 
 
 Always distinguish these paths:
 
-- NextClaw marketplace install:
-  `nextclaw skills install superpowers`
-- Installed NextClaw skill assets:
+- GoUsbAi marketplace install:
+  `go-usb-ai skills install superpowers`
+- Installed GoUsbAi skill assets:
   `<workspace>/skills/superpowers/`
-- Upstream standalone installation outside NextClaw:
+- Upstream standalone installation outside GoUsbAi:
   clone `https://github.com/obra/superpowers` and follow the upstream install docs
 
-For NextClaw users, prefer the marketplace-installed assets already bundled under `skills/superpowers/`.
+For GoUsbAi users, prefer the marketplace-installed assets already bundled under `skills/superpowers/`.
 
-Do not ask the user to install the upstream repo separately unless they explicitly want the original Codex or Claude plugin setup outside NextClaw.
+Do not ask the user to install the upstream repo separately unless they explicitly want the original Codex or Claude plugin setup outside GoUsbAi.
 
 ## Deterministic First-Use Workflow
 
@@ -190,7 +190,7 @@ If the work was executed from a formal plan and the runtime supports delegation,
 
 ### The task needs the upstream standalone ecosystem
 
-- Be explicit that the marketplace skill is a NextClaw adaptation, not the original multi-plugin install.
+- Be explicit that the marketplace skill is a GoUsbAi adaptation, not the original multi-plugin install.
 - Point the user to the upstream repository and install docs only if they want that exact standalone setup.
 
 ### The user wants speed over process
@@ -213,6 +213,6 @@ This skill is working correctly when:
 
 ## Attribution
 
-This skill adapts the upstream `obra/superpowers` project for the NextClaw marketplace.
+This skill adapts the upstream `obra/superpowers` project for the GoUsbAi marketplace.
 
 Upstream source mapping is documented in [references/SOURCES.md](references/SOURCES.md).

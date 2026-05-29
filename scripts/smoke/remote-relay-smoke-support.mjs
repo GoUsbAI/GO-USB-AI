@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 import { resolveRepoPath } from "../shared/repo-paths.mjs";
 
 export const rootDir = resolveRepoPath(import.meta.url);
-const workerDir = resolve(rootDir, "workers/nextclaw-provider-gateway-api");
+const workerDir = resolve(rootDir, "workers/go-usb-ai-provider-gateway-api");
 const workerConfig = resolve(workerDir, "wrangler.toml");
 export const wranglerBin = resolve(
   workerDir,
@@ -12,7 +12,7 @@ export const wranglerBin = resolve(
   process.platform === "win32" ? "wrangler.cmd" : "wrangler"
 );
 
-export const nextclawCli = resolve(rootDir, "packages/nextclaw/dist/cli/app/index.js");
+export const go-usb-aiCli = resolve(rootDir, "packages/go-usb-ai/dist/cli/app/index.js");
 const remoteAccessHostPattern = /^r-[a-z0-9-]+\.claw\.cool$/i;
 const remoteAccessFixedHost = "remote.claw.cool";
 
@@ -177,7 +177,7 @@ export function queryLocalD1({ persistDir, sql }) {
   const result = runOrThrow(wranglerBin, [
     "d1",
     "execute",
-    "NEXTCLAW_PLATFORM_DB",
+    "GOUSB_AI_PLATFORM_DB",
     "--local",
     "--config",
     workerConfig,

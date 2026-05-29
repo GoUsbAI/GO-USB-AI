@@ -2,7 +2,7 @@
 
 ## 迭代完成说明（改了什么）
 
-- 将 `@nextclaw/ncp-http-agent-server` 的单文件实现（`src/index.ts`）重构为模块化结构：
+- 将 `@go-usb-ai/ncp-http-agent-server` 的单文件实现（`src/index.ts`）重构为模块化结构：
   - `src/routes.ts`：路由挂载与 forward/replay 组装。
   - `src/sse-stream.ts`：SSE 事件流抽象（`createSseEventStream`、frame 构造、response 构造）。
   - `src/parsers.ts`：请求体/查询参数解析与基础校验。
@@ -14,11 +14,11 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ncp-http-agent-server lint`
-- `pnpm -C packages/nextclaw-ncp-http-agent-server tsc`
-- `pnpm -C packages/nextclaw-ncp-http-agent-server build`
-- `pnpm -C packages/nextclaw-ncp-http-agent-server test`
-- 回归执行：`pnpm -C packages/nextclaw-ncp-http-agent-client test`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-server lint`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-server tsc`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-server build`
+- `pnpm -C packages/go-usb-ai-ncp-http-agent-server test`
+- 回归执行：`pnpm -C packages/go-usb-ai-ncp-http-agent-client test`
 - 结果：以上命令均通过。
 
 ## 发布/部署方式

@@ -1,6 +1,6 @@
 ---
 title: 更新笔记
-description: 按用户价值阅读 NextClaw 的公开更新，不从技术变更表开始。
+description: 按用户价值阅读 GoUsbAi 的公开更新，不从技术变更表开始。
 ---
 
 # 更新笔记

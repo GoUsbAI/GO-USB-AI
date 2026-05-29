@@ -1,16 +1,16 @@
 # Iteration Completion
 
-- Optimized the reasoning block width behavior in `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-reasoning-block.tsx`.
+- Optimized the reasoning block width behavior in `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-reasoning-block.tsx`.
 - The reasoning content now uses `w-fit` with `max-w-[500px]`, so it can expand the bubble up to 500px and then wrap.
 - Regular message markdown rendering remains unchanged, so non-reasoning content can still drive wider bubble width when needed.
 
 # Test / Verification / Acceptance
 
-- `pnpm --filter @nextclaw/agent-chat-ui lint`
+- `pnpm --filter @go-usb-ai/agent-chat-ui lint`
   - Result: pass (existing repo warnings only, no new errors).
-- `pnpm --filter @nextclaw/agent-chat-ui test -- chat-message-list`
+- `pnpm --filter @go-usb-ai/agent-chat-ui test -- chat-message-list`
   - Result: pass (1 file, 12 tests).
-- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-reasoning-block.tsx`
+- `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-reasoning-block.tsx`
   - Result: pass with one existing directory-budget warning (pre-existing in `chat-message-list` directory).
 
 # Release / Deployment

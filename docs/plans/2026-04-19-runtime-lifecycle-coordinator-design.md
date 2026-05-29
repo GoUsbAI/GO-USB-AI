@@ -1,15 +1,15 @@
-# NextClaw UI Runtime Lifecycle Coordinator Design
+# GoUsbAi UI Runtime Lifecycle Coordinator Design
 
-**Goal:** 为本地 NextClaw UI 建立统一的运行时生命周期协调层，正确区分冷启动、正常可用、运行中短暂断开后的恢复、启动失败与长时间未恢复等状态，避免前端各处各自解释连接与生命周期语义。
+**Goal:** 为本地 GoUsbAi UI 建立统一的运行时生命周期协调层，正确区分冷启动、正常可用、运行中短暂断开后的恢复、启动失败与长时间未恢复等状态，避免前端各处各自解释连接与生命周期语义。
 
-**Scope:** 本次先覆盖 `packages/nextclaw-ui` 当前本地 UI 主链路，包括聊天页、应用级实时连接、bootstrap status、普通 HTTP 请求、SSE/chat stream 请求，以及侧边栏连接状态展示。`remote access` 与其它运行形态暂不纳入本次统一模型，但设计上预留扩展位。
+**Scope:** 本次先覆盖 `packages/go-usb-ai-ui` 当前本地 UI 主链路，包括聊天页、应用级实时连接、bootstrap status、普通 HTTP 请求、SSE/chat stream 请求，以及侧边栏连接状态展示。`remote access` 与其它运行形态暂不纳入本次统一模型，但设计上预留扩展位。
 
 **Why now:** 当前仓库里已经存在两套平行语义：
 - 一套是 `bootstrap-status`，代表“聊天能力是否已经 ready”
 - 一套是 `runtime-recovery`，代表“传输层是不是刚断开”
 
 这两套语义没有统一协调，导致前端把“冷启动尚未 ready”和“运行中断线后恢复”混成同一种“recovering”状态。结果就是：
-- 刚打开页面时就会误报“正在等待 NextClaw 恢复”
+- 刚打开页面时就会误报“正在等待 GoUsbAi 恢复”
 - websocket / fetch / SSE / NCP request 各自上报自己的局部理解
 - UI 组件必须靠局部 if 判断拼接产品语义
 
@@ -66,7 +66,7 @@ manager 负责把这些低层事实解释成产品态；其它层只负责上报
 本次新增一个明确的 feature root：
 
 ```text
-packages/nextclaw-ui/src/runtime-lifecycle/
+packages/go-usb-ai-ui/src/runtime-lifecycle/
 ├── runtime-lifecycle.types.ts
 ├── runtime-lifecycle.store.ts
 ├── runtime-lifecycle.manager.ts
@@ -137,9 +137,9 @@ packages/nextclaw-ui/src/runtime-lifecycle/
 - `startup-failed`
   显示“聊天能力启动失败”
 - `recovering`
-  显示“NextClaw 正在恢复连接”
+  显示“GoUsbAi 正在恢复连接”
 - `stalled`
-  显示“NextClaw 恢复时间过长，请检查服务状态”
+  显示“GoUsbAi 恢复时间过长，请检查服务状态”
 - `ready`
   不显示生命周期阻塞提示
 
@@ -194,12 +194,12 @@ packages/nextclaw-ui/src/runtime-lifecycle/
 
 ### 类型与定向 lint
 
-- `pnpm -C packages/nextclaw-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui tsc`
 - 触达文件级 `eslint`
 
 ### 真实问题验收
 
-1. 刚打开 NextClaw UI，服务仍在启动中
+1. 刚打开 GoUsbAi UI，服务仍在启动中
    预期：显示初始化中，不显示“正在恢复”
 2. UI 已经正常可用后，执行服务重启或模拟短暂断开
    预期：进入 recovering，恢复后自动可用

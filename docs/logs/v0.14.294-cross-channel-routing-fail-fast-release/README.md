@@ -8,15 +8,15 @@
 - 将前两轮已完成但尚未一起发布的改动并入本次 release batch：
   - skill 描述暴露进 `<available_skills>`，提升模型主动加载 `cross-channel-messaging` 的概率
   - `sessions_list` 支持按 `channel / to / accountId / sessionKey` 做 route 级过滤，减少 AI 广泛扫描 session 的需要
-- 将仓库内已存在、但尚未纳入 release batch 的 `@nextclaw/runtime` 历史发布漂移一并收口，避免 release health 长期残留未发布 drift。
+- 将仓库内已存在、但尚未纳入 release batch 的 `@go-usb-ai/runtime` 历史发布漂移一并收口，避免 release health 长期残留未发布 drift。
 
 # 测试 / 验证 / 验收方式
 
 - 单测：
-  - `pnpm -C packages/nextclaw-core exec vitest run src/agent/tools/message.test.ts src/agent/context.test.ts src/agent/tools/sessions-send.test.ts`
+  - `pnpm -C packages/go-usb-ai-core exec vitest run src/agent/tools/message.test.ts src/agent/context.test.ts src/agent/tools/sessions-send.test.ts`
 - 类型 / 构建：
-  - `pnpm -C packages/nextclaw-core tsc`
-  - `pnpm -C packages/nextclaw-core build`
+  - `pnpm -C packages/go-usb-ai-core tsc`
+  - `pnpm -C packages/go-usb-ai-core build`
 - 发布前检查：
   - `pnpm release:report:health`
   - `pnpm release:version`

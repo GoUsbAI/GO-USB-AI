@@ -25,7 +25,7 @@ if (options.local === options.remote) {
 }
 
 const rootDir = resolveRepoPath(import.meta.url);
-const workerDir = resolve(rootDir, "workers/nextclaw-provider-gateway-api");
+const workerDir = resolve(rootDir, "workers/go-usb-ai-provider-gateway-api");
 const workerConfigPath = resolve(workerDir, "wrangler.toml");
 const wranglerBin = resolve(workerDir, "node_modules/.bin", process.platform === "win32" ? "wrangler.cmd" : "wrangler");
 
@@ -143,7 +143,7 @@ Usage:
   pnpm platform:admin:grant -- --email <email> --local [--persist-to <dir>]
 
 Description:
-  Promote an existing NextClaw platform account to the admin role.
+  Promote an existing GoUsbAi platform account to the admin role.
 
 Examples:
   pnpm platform:admin:grant -- --email 1535376447@qq.com --remote
@@ -183,7 +183,7 @@ function buildWranglerArgs(sql) {
   const args = [
     "d1",
     "execute",
-    "NEXTCLAW_PLATFORM_DB",
+    "GOUSB_AI_PLATFORM_DB",
     "--json",
     "--config",
     workerConfigPath,

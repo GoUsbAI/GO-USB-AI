@@ -140,7 +140,7 @@ docs/logs/<iteration>/work/goal-progress.md
 
 - 目标漂移风险、锚点文件和计数器细节优先复用 `goal-progress-anchor`。
 - 复杂跨轮执行可同时使用 `iteration-work-notes`。
-- 编码任务仍必须使用 `nextclaw-clean-implementation` 和验证相关 skill。
-- 修改规则、命令或 skill 分层时仍必须使用 `nextclaw-agent-instructions-governance`。
+- 编码任务仍必须使用 `go-usb-ai-clean-implementation` 和验证相关 skill。
+- 修改规则、命令或 skill 分层时仍必须使用 `go-usb-ai-agent-instructions-governance`。
 
 目标模式不是替代其他 skill，而是把它们纳入同一个目标完成闭环。

@@ -7,9 +7,9 @@
 
 ## 迭代完成说明（改了什么）
 
-- `packages/nextclaw-ui/src/components/marketplace/MarketplacePage.tsx`
+- `packages/go-usb-ai-ui/src/components/marketplace/MarketplacePage.tsx`
   - 启用/禁用按钮改为同时参考 `enabled` 与 `runtimeStatus`，避免单一字段失真导致按钮文案长期不切换。
-- `packages/nextclaw-ui/src/hooks/useMarketplace.ts`
+- `packages/go-usb-ai-ui/src/hooks/useMarketplace.ts`
   - 安装/管理成功后强制触发 `marketplace-installed` 与 `marketplace-items` 的主动 refetch，确保 UI 状态及时刷新。
 
 ## 测试 / 验证 / 验收方式
@@ -17,8 +17,8 @@
 执行命令：
 
 ```bash
-pnpm -C packages/nextclaw-ui tsc
-pnpm -C packages/nextclaw-ui lint
+pnpm -C packages/go-usb-ai-ui tsc
+pnpm -C packages/go-usb-ai-ui lint
 pnpm build
 pnpm lint
 pnpm tsc
@@ -27,17 +27,17 @@ pnpm tsc
 CLI/UI API 冒烟（在临时目录，不写仓库）：
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-market-ui-smoke.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" pnpm -C packages/nextclaw dev:build serve --ui-port 18998
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-market-ui-smoke.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" pnpm -C packages/go-usb-ai dev:build serve --ui-port 18998
 
 # 观察点：Marketplace API 可用，启用/禁用按钮状态可随操作切换
 curl -sf http://127.0.0.1:18998/api/marketplace/installed
 curl -sf -X POST http://127.0.0.1:18998/api/marketplace/manage \
   -H 'content-type: application/json' \
-  -d '{"type":"plugin","action":"disable","id":"@nextclaw/channel-plugin-discord","spec":"@nextclaw/channel-plugin-discord"}'
+  -d '{"type":"plugin","action":"disable","id":"@go-usb-ai/channel-plugin-discord","spec":"@go-usb-ai/channel-plugin-discord"}'
 curl -sf -X POST http://127.0.0.1:18998/api/marketplace/manage \
   -H 'content-type: application/json' \
-  -d '{"type":"plugin","action":"enable","id":"@nextclaw/channel-plugin-discord","spec":"@nextclaw/channel-plugin-discord"}'
+  -d '{"type":"plugin","action":"enable","id":"@go-usb-ai/channel-plugin-discord","spec":"@go-usb-ai/channel-plugin-discord"}'
 
 rm -rf "$TMP_HOME"
 ```
@@ -48,8 +48,8 @@ rm -rf "$TMP_HOME"
   1. `pnpm release:version`
   2. `pnpm release:publish`
 - 发布结果：
-  - `@nextclaw/ui@0.5.4`
-  - `nextclaw@0.8.8`
+  - `@go-usb-ai/ui@0.5.4`
+  - `go-usb-ai@0.8.8`
 - 本次不涉及数据库变更，无 migration 需求。
 
 ## 用户 / 产品视角的验收步骤
@@ -62,6 +62,6 @@ rm -rf "$TMP_HOME"
 
 ## 影响范围 / 风险
 
-- 影响范围：`@nextclaw/ui`。
+- 影响范围：`@go-usb-ai/ui`。
 - Breaking change：否。
 - 风险：UI 状态刷新频率增加（多一次 refetch），风险低。

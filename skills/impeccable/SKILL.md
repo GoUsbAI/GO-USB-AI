@@ -7,9 +7,9 @@ description: Use when the user wants distinctive, production-grade frontend desi
 
 ## Overview
 
-Use this skill when the user wants stronger frontend design quality inside NextClaw.
+Use this skill when the user wants stronger frontend design quality inside GoUsbAi.
 
-This marketplace skill adapts the upstream `pbakaus/impeccable` project into a single installable NextClaw skill package with:
+This marketplace skill adapts the upstream `pbakaus/impeccable` project into a single installable GoUsbAi skill package with:
 
 - one top-level workflow router,
 - bundled local references for typography, color and contrast, layout, motion, interaction, responsive design, and UX writing,
@@ -21,9 +21,9 @@ Be explicit about the boundary:
 - This skill owns design-context gating, workflow selection, expectation-setting, and detector readiness guidance.
 - The bundled local references own the detailed design vocabulary.
 - The optional upstream `impeccable` CLI owns deterministic anti-pattern detection.
-- NextClaw, the current repository rules, and the active runtime own actual implementation and execution.
+- GoUsbAi, the current repository rules, and the active runtime own actual implementation and execution.
 
-Do not present third-party detector output as built-in NextClaw capability.
+Do not present third-party detector output as built-in GoUsbAi capability.
 Do not pretend the detector is ready when it is not.
 
 ## What This Skill Covers
@@ -44,15 +44,15 @@ Do not pretend the detector is ready when it is not.
 - claiming detector-based evidence when Node/npm or the CLI are unavailable,
 - overriding a stricter local design system or project rulebook,
 - turning every design request into the same maximalist or marketing-style aesthetic,
-- pretending that an upstream multi-command ecosystem maps one-to-one onto NextClaw command surfaces.
+- pretending that an upstream multi-command ecosystem maps one-to-one onto GoUsbAi command surfaces.
 
 ## Install Boundary
 
 Always distinguish these paths:
 
-- NextClaw marketplace install:
-  `nextclaw skills install impeccable`
-- Installed NextClaw skill assets:
+- GoUsbAi marketplace install:
+  `go-usb-ai skills install impeccable`
+- Installed GoUsbAi skill assets:
   `<workspace>/skills/impeccable/`
 - Optional upstream detector runtime:
   `npm install -g impeccable`
@@ -166,7 +166,7 @@ impeccable --help
 
 If the CLI is missing:
 
-- explain that the bundled NextClaw skill is ready, but the optional detector runtime is not,
+- explain that the bundled GoUsbAi skill is ready, but the optional detector runtime is not,
 - keep going with the bundled references when the user only needs design guidance,
 - ask before any install or download step because `npm install -g impeccable` or `npx impeccable ...` changes local machine state.
 
@@ -280,6 +280,6 @@ This skill is working correctly when:
 
 ## Attribution
 
-This skill adapts the upstream `pbakaus/impeccable` project for the NextClaw marketplace.
+This skill adapts the upstream `pbakaus/impeccable` project for the GoUsbAi marketplace.
 
 Source mapping is documented in [references/SOURCES.md](references/SOURCES.md).

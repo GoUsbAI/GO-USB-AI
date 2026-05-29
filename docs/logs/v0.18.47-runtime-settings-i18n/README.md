@@ -14,13 +14,13 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui test -- src/features/system-status/components/runtime-control-card.test.tsx src/features/system-status/pages/runtime-config-page.test.tsx`
+- `pnpm --filter @go-usb-ai/ui test -- src/features/system-status/components/runtime-control-card.test.tsx src/features/system-status/pages/runtime-config-page.test.tsx`
   - 结果：通过，覆盖英文保存路径、中文运行时设置文案展示、服务控制卡片 API 英文消息本地化。
-- `pnpm --filter @nextclaw/ui tsc`
+- `pnpm --filter @go-usb-ai/ui tsc`
   - 结果：通过。
-- `pnpm --filter @nextclaw/ui exec eslint <本次触达文件>`
+- `pnpm --filter @go-usb-ai/ui exec eslint <本次触达文件>`
   - 结果：0 error，保留 5 个既有 props destructuring warning。
-- `pnpm --filter @nextclaw/ui lint`
+- `pnpm --filter @go-usb-ai/ui lint`
   - 结果：失败，阻塞来自既有无关文件，包括 chat、doc-browser、旧测试与 shared api types 的 lint error。
 - `pnpm lint:new-code:governance`
   - 结果：通过。
@@ -31,7 +31,7 @@
 
 ## 发布/部署方式
 
-不涉及发布、部署、数据库 migration 或远程服务变更。若后续需要把这次 UI 修复发给用户，按现有 NextClaw 前端/NPM 发布流程统一发布。
+不涉及发布、部署、数据库 migration 或远程服务变更。若后续需要把这次 UI 修复发给用户，按现有 GoUsbAi 前端/NPM 发布流程统一发布。
 
 ## 用户/产品视角的验收步骤
 
@@ -45,7 +45,7 @@
 
 本次使用 `post-edit-maintainability-review` 做收尾复核。代码增减为总计 `+306 / -311 / -5`，非测试代码 `+279 / -296 / -17`。正向减债动作是删除运行时页对后端英文 `uiHints` 的展示依赖，并把新增运行时文案放入更明确的运行时 i18n 分片；不是通过压缩代码行数达成。
 
-遗留债务：`packages/nextclaw-ui/src/shared/lib/i18n/index.ts` 仍超过文件预算，但本次没有增长，后续应继续把大型混合 i18n 表拆到领域分片。
+遗留债务：`packages/go-usb-ai-ui/src/shared/lib/i18n/index.ts` 仍超过文件预算，但本次没有增长，后续应继续把大型混合 i18n 表拆到领域分片。
 
 ## NPM 包发布记录
 

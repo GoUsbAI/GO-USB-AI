@@ -15,14 +15,14 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-kernel test src/stores/ncp-agent-session-journal.store.test.ts src/services/ncp-session-api.service.test.ts src/services/ncp-agent-session-store-adapter.service.test.ts`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test src/agent/in-memory-agent-backend.test.ts src/agent/__tests__/agent-backend-append-session-event.test.ts src/agent/agent-backend-finalize-status.test.ts`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit tsc`
-- `pnpm -C packages/nextclaw-kernel tsc`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit build`
-- `pnpm -C packages/nextclaw-kernel build`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit lint`
-- `pnpm -C packages/nextclaw-kernel lint`
+- `pnpm -C packages/go-usb-ai-kernel test src/stores/ncp-agent-session-journal.store.test.ts src/services/ncp-session-api.service.test.ts src/services/ncp-agent-session-store-adapter.service.test.ts`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test src/agent/in-memory-agent-backend.test.ts src/agent/__tests__/agent-backend-append-session-event.test.ts src/agent/agent-backend-finalize-status.test.ts`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit tsc`
+- `pnpm -C packages/go-usb-ai-kernel tsc`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit build`
+- `pnpm -C packages/go-usb-ai-kernel build`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit lint`
+- `pnpm -C packages/go-usb-ai-kernel lint`
 - `node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs`
 - `pnpm lint:new-code:governance`
 - `pnpm check:governance-backlog-ratchet`
@@ -39,16 +39,16 @@
 已执行 stable NPM 全量 public workspace batch 发布。
 
 - release commit：`59d7b4e8 Release NPM packages`
-- `nextclaw@latest`：`0.19.17`
-- `@nextclaw/kernel@latest`：`0.1.8`
-- `@nextclaw/ncp-toolkit@latest`：`0.5.17`
-- `@nextclaw/service@latest`：`0.1.11`
+- `go-usb-ai@latest`：`0.19.17`
+- `@go-usb-ai/kernel@latest`：`0.1.8`
+- `@go-usb-ai/ncp-toolkit@latest`：`0.5.17`
+- `@go-usb-ai/service@latest`：`0.1.11`
 
-本次未发布 desktop installer；需要用户重启当前本地 dev backend 后，`http://127.0.0.1:5174` 才会加载本地源码运行链路的新构建产物。NPM 安装用户可直接安装 `nextclaw@latest`。
+本次未发布 desktop installer；需要用户重启当前本地 dev backend 后，`http://127.0.0.1:5174` 才会加载本地源码运行链路的新构建产物。NPM 安装用户可直接安装 `go-usb-ai@latest`。
 
 ## 用户/产品视角的验收步骤
 
-1. 重启本地 NextClaw dev backend/frontend。
+1. 重启本地 GoUsbAi dev backend/frontend。
 2. 新建或打开 NCP agent 会话。
 3. 发送会触发工具调用的消息，例如“随便读取一个文件测试一下。”
 4. 工具调用期间 reload 页面。
@@ -73,6 +73,6 @@
 - 发布入口：`NPM_CONFIG_USERCONFIG=/Users/peiwang/Projects/nextbot/.npmrc pnpm release:publish`
 - 发布范围：全量 public workspace batch，共 50 个包。
 - registry 验证：`release:verify:published` 显示 `published 50/50 package versions`。
-- dist-tag 验证：`npm view nextclaw dist-tags --json` 显示 `latest: 0.19.17`。
-- 安装验证：临时全局 prefix 安装 `nextclaw@latest`，`nextclaw --version` 输出 `0.19.17`。
-- update key 验证：隔离 `NEXTCLAW_HOME` 执行 `nextclaw update --check`，输出 runtime 已是最新 `0.19.17`。
+- dist-tag 验证：`npm view go-usb-ai dist-tags --json` 显示 `latest: 0.19.17`。
+- 安装验证：临时全局 prefix 安装 `go-usb-ai@latest`，`go-usb-ai --version` 输出 `0.19.17`。
+- update key 验证：隔离 `GOUSB_AI_HOME` 执行 `go-usb-ai update --check`，输出 runtime 已是最新 `0.19.17`。

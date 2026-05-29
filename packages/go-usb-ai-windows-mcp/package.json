@@ -1,0 +1,30 @@
+{
+  "name": "@go-usb-ai/windows-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "GoUsbAi Windows MCP Server – Windows desktop automation via stdio MCP, zero external runtime.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsdown src/index.ts --dts --clean --target es2022 --no-fixedExtension",
+    "lint": "cd ../.. && pnpm exec eslint packages/go-usb-ai-windows-mcp --config eslint.config.mjs",
+    "tsc": "tsc -p tsconfig.json",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "tsdown": "latest",
+    "typescript": "^5.6.3"
+  }
+}

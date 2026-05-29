@@ -10,22 +10,22 @@
 # 测试/验证/验收方式
 
 - 单元测试：
-  - `pnpm -C packages/nextclaw test -- run src/cli/commands/service-deferred-ncp-agent.test.ts src/cli/commands/ncp/ui-session-service.test.ts`
-  - `pnpm -C packages/nextclaw-server test -- run src/ui/router.ncp-agent.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- run src/cli/commands/service-deferred-ncp-agent.test.ts src/cli/commands/ncp/ui-session-service.test.ts`
+  - `pnpm -C packages/go-usb-ai-server test -- run src/ui/router.ncp-agent.test.ts`
 - 类型检查：
-  - `pnpm -C packages/nextclaw-server tsc`
-  - `pnpm -C packages/nextclaw tsc`
-  - 当前 `packages/nextclaw` 的 `tsc` 被仓库里已有的两处无关测试文件阻塞：
+  - `pnpm -C packages/go-usb-ai-server tsc`
+  - `pnpm -C packages/go-usb-ai tsc`
+  - 当前 `packages/go-usb-ai` 的 `tsc` 被仓库里已有的两处无关测试文件阻塞：
     - `src/cli/commands/codex-runtime-plugin-provider-routing.test.ts`
     - `src/cli/commands/ncp/create-ui-ncp-agent.test.ts`
 - 运行态冒烟：
-  - 使用隔离 `NEXTCLAW_HOME` 执行 `pnpm -C packages/nextclaw dev serve --ui-port 18893`
+  - 使用隔离 `GOUSB_AI_HOME` 执行 `pnpm -C packages/go-usb-ai dev serve --ui-port 18893`
   - 实测 `GET http://127.0.0.1:18893/api/ncp/sessions?limit=200` 已在 `✓ UI NCP agent: ready` 打印前返回 `200`
 
 # 发布/部署方式
 
 - 本次为本地 UI backend / CLI 启动链路重构，无数据库迁移。
-- 按常规发布 `@nextclaw/server` 与 `nextclaw` 所在包即可。
+- 按常规发布 `@go-usb-ai/server` 与 `go-usb-ai` 所在包即可。
 - 发布后重点验证：
   - UI shell 启动早期 `GET /api/ncp/sessions` 返回 `200`
   - `/chat` 页面首次打开时能直接读到会话列表，不再出现启动早期 `503`

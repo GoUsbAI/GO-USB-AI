@@ -1,0 +1,86 @@
+{
+  "name": "@go-usb-ai/service",
+  "version": "0.1.17",
+  "private": false,
+  "description": "GoUsbAi long-running service host and runtime lifecycle.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./*.js": {
+      "development": "./src/*.ts",
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    },
+    "./*": {
+      "development": "./src/*",
+      "types": "./dist/*",
+      "default": "./dist/*"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "go-usb-ai": {
+    "builtinExtensions": [
+      "@go-usb-ai/channel-extension-dingtalk",
+      "@go-usb-ai/channel-extension-discord",
+      "@go-usb-ai/channel-extension-email",
+      "@go-usb-ai/channel-extension-feishu",
+      "@go-usb-ai/channel-extension-qq",
+      "@go-usb-ai/channel-extension-slack",
+      "@go-usb-ai/channel-extension-telegram",
+      "@go-usb-ai/channel-extension-wecom",
+      "@go-usb-ai/channel-extension-weixin",
+      "@go-usb-ai/channel-extension-whatsapp"
+    ]
+  },
+  "scripts": {
+    "build": "tsdown \"src/**/*.ts\" \"!src/**/*.test.ts\" \"!src/**/tests/**\" --dts.sourcemap --clean --target es2022 --no-fixedExtension --unbundle",
+    "prepack": "pnpm run build",
+    "lint": "eslint .",
+    "tsc": "tsc -p tsconfig.json",
+    "test": "vitest",
+    "prepublishOnly": "node ../../scripts/release/ensure-pnpm-publish.mjs"
+  },
+  "dependencies": {
+    "@go-usb-ai/channel-extension-dingtalk": "workspace:*",
+    "@go-usb-ai/channel-extension-discord": "workspace:*",
+    "@go-usb-ai/channel-extension-email": "workspace:*",
+    "@go-usb-ai/channel-extension-feishu": "workspace:*",
+    "@go-usb-ai/channel-extension-qq": "workspace:*",
+    "@go-usb-ai/channel-extension-slack": "workspace:*",
+    "@go-usb-ai/channel-extension-telegram": "workspace:*",
+    "@go-usb-ai/channel-extension-wecom": "workspace:*",
+    "@go-usb-ai/channel-extension-weixin": "workspace:*",
+    "@go-usb-ai/channel-extension-whatsapp": "workspace:*",
+    "@go-usb-ai/core": "workspace:*",
+    "@go-usb-ai/kernel": "workspace:*",
+    "@go-usb-ai/mcp": "workspace:*",
+    "@go-usb-ai/ncp": "workspace:*",
+    "@go-usb-ai/ncp-agent-runtime": "workspace:*",
+    "@go-usb-ai/ncp-mcp": "workspace:*",
+    "@go-usb-ai/ncp-toolkit": "workspace:*",
+    "@go-usb-ai/go-usb-ai-hermes-acp-bridge": "workspace:*",
+    "@go-usb-ai/go-usb-ai-ncp-runtime-http-client": "workspace:*",
+    "@go-usb-ai/go-usb-ai-ncp-runtime-stdio-client": "workspace:*",
+    "@go-usb-ai/openclaw-compat": "workspace:*",
+    "@go-usb-ai/remote": "workspace:*",
+    "@go-usb-ai/runtime": "workspace:*",
+    "@go-usb-ai/server": "workspace:*",
+    "@go-usb-ai/shared": "workspace:*",
+    "chokidar": "^3.6.0",
+    "commander": "^12.1.0",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "prettier": "^3.3.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.2"
+  }
+}

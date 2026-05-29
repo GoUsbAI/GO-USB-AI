@@ -25,5 +25,5 @@
 1. 在仓库根目录执行 `pnpm dev:status`
 2. 确认输出中每一行代表一条实际实例链路，而不是被多个 `serve` 合并后的模糊结果
 3. 关注 `status` 列，快速区分 `running`、`partial`、`stale`
-4. 关注 `mode`、`ui`、`web`、`home`、`notes`，判断哪些实例仍连接默认 `~/.nextclaw`，哪些是隔离 home，哪些已残留但不再真正监听
+4. 关注 `mode`、`ui`、`web`、`home`、`notes`，判断哪些实例仍连接默认 `~/.go-usb-ai`，哪些是隔离 home，哪些已残留但不再真正监听
 5. 如需进一步定位，执行 `pnpm dev:status -- --verbose` 查看每组实例下的全部 PID、命令行与角色

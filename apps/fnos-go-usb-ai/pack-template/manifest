@@ -1,0 +1,20 @@
+appname=fnnas.go-usb-ai
+version=__GOUSB_AI_VERSION__
+display_name=GoUsbAi
+desc=GoUsbAi personal AI operating layer for fnOS
+platform=__FNOS_PLATFORM__
+source=thirdparty
+
+maintainer=GoUsbAi Team
+maintainer_url=https://github.com/Peiiii/go-usb-ai
+distributor=GoUsbAi Team
+distributor_url=https://github.com/Peiiii/go-usb-ai
+
+os_min_version=1.1.8
+desktop_uidir=ui
+desktop_applaunchname=fnnas.go-usb-ai.Application
+
+service_port=__GOUSB_AI_SERVICE_PORT__
+checkport=true
+disable_authorization_path=true
+install_dep_apps=nodejs_v22

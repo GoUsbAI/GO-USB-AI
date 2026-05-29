@@ -6,7 +6,7 @@
   - `.agents/skills/x-twitter-bird/SKILL.md`
   - `.agents/skills/x-twitter-bird/scripts/x-bird.mjs`
 - 该 skill 统一通过本机私有凭证文件读取 X cookie，并把 `bird` 调用收口到一个 wrapper，避免每次手动传 `auth_token` / `ct0`。
-- 凭证默认保存在本机 `~/.nextclaw/secrets/x-bird.json`，未写入仓库。
+- 凭证默认保存在本机 `~/.go-usb-ai/secrets/x-bird.json`，未写入仓库。
 - 修复 DeepSeek thinking + tool round 续跑时空 `reasoning_content` 被桥接层吞掉的问题，命中位置是通用 Responses bridge / NCP message bridge / session adapter 合同层，不是针对 DeepSeek 的 provider 特判。
 - 根因：
   - 旧链路把 `reasoning_content` 当成“非空字符串”处理。
@@ -27,15 +27,15 @@
   - `node .agents/skills/x-twitter-bird/scripts/x-bird.mjs bookmarks -n 2 --json`
   - 结果：通过，可读取当前账号信息与书签。
 - DeepSeek 回归测试：
-  - `pnpm -C packages/nextclaw test -- run src/cli/commands/ncp/compat/codex-openai-responses-bridge.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- run src/cli/commands/ncp/compat/codex-openai-responses-bridge.test.ts`
   - 结果：通过，`preserves empty reasoning_content across tool rounds for DeepSeek-compatible upstreams` 已覆盖旧问题。
 - 类型检查：
-  - `pnpm -C packages/extensions/nextclaw-ncp-runtime-plugin-codex-sdk tsc`
-  - `pnpm -C packages/nextclaw tsc`
+  - `pnpm -C packages/extensions/go-usb-ai-ncp-runtime-plugin-codex-sdk tsc`
+  - `pnpm -C packages/go-usb-ai tsc`
   - 结果：通过。
 - DeepSeek 实网冒烟：
   - `node scripts/smoke/deepseek-reasoning-content-smoke.mjs`
-  - 使用本机 `~/.nextclaw/config.json` 的 `deepseek-v4-flash` 配置。
+  - 使用本机 `~/.go-usb-ai/config.json` 的 `deepseek-v4-flash` 配置。
   - 结果：通过。当前实网返回：
     - `probeStatus: 200`
     - `missingReasoningStatus: 200`
@@ -80,10 +80,10 @@
 
 - 本次是否需要发包：当前不需要立即发包，原因是本轮先完成问题修复、验证与本地 skill 沉淀，尚未进入统一发布闭环。
 - 涉及的包：
-  - `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk`：待统一发布。
-  - `nextclaw`：待统一发布。
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk`：待统一发布。
+  - `go-usb-ai`：待统一发布。
 - 当前是否已经发布：
-  - `@nextclaw/nextclaw-ncp-runtime-plugin-codex-sdk`：未发布，待后续统一发布批次带出。
-  - `nextclaw`：未发布，待后续统一发布批次带出。
+  - `@go-usb-ai/go-usb-ai-ncp-runtime-plugin-codex-sdk`：未发布，待后续统一发布批次带出。
+  - `go-usb-ai`：未发布，待后续统一发布批次带出。
 - 已知阻塞或触发条件：
   - 发布前建议先决定是否顺带处理本次触达的历史命名治理债务，避免发布批次里混入额外结构改名。

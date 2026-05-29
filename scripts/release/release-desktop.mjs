@@ -12,7 +12,7 @@ import {
 } from "./desktop-release-worktree.mjs";
 
 const ROOT_DIR = process.cwd();
-const DEFAULT_REPO = "Peiiii/nextclaw";
+const DEFAULT_REPO = "Peiiii/go-usb-ai";
 const DEFAULT_PREFLIGHT_WORKFLOW = "desktop-release-preflight.yml";
 const DEFAULT_WORKFLOW = "desktop-release.yml";
 const DEFAULT_PUBLIC_ATTEMPTS = 24;
@@ -25,7 +25,7 @@ const RELEASE_SENSITIVE_PATHS = [
   ".github/workflows/desktop-release-preflight",
   "apps/desktop/",
   "package.json",
-  "packages/nextclaw/",
+  "packages/go-usb-ai/",
   "pnpm-lock.yaml",
   "pnpm-workspace.yaml",
   "scripts/release/"
@@ -42,7 +42,7 @@ Options:
   --channel <beta|stable>         Release channel. Provided by package scripts.
   --tag <tag>                     Override release tag. Defaults to next v<runtime>-desktop-beta.N or v<runtime>-desktop.N
   --desktop-version <version>     Override desktop app version. Defaults to apps/desktop/package.json
-  --runtime-version <version>     Override runtime bundle version. Defaults to packages/nextclaw/package.json
+  --runtime-version <version>     Override runtime bundle version. Defaults to packages/go-usb-ai/package.json
   --minimum-launcher-version <v>  Override governed channel floor assertion
   --branch <branch>               Branch to push/dispatch from. Defaults to the current branch
   --repo <owner/repo>             GitHub repository. Defaults to ${DEFAULT_REPO}
@@ -304,9 +304,9 @@ function buildReleaseTitle(options) {
   const { channel, desktopVersion, tag } = options;
   const suffix = Number(tag.split(".").at(-1));
   if (channel === "beta") {
-    return `NextClaw Desktop ${desktopVersion} Preview Beta ${Number.isInteger(suffix) ? suffix : ""}`.trim();
+    return `GoUsbAi Desktop ${desktopVersion} Preview Beta ${Number.isInteger(suffix) ? suffix : ""}`.trim();
   }
-  return `NextClaw Desktop ${desktopVersion}`;
+  return `GoUsbAi Desktop ${desktopVersion}`;
 }
 
 function buildReleaseNotes(options) {
@@ -317,7 +317,7 @@ function buildReleaseNotes(options) {
 
   if (channel === "beta") {
     return [
-      `NextClaw Desktop preview build for runtime ${runtimeVersion}.`,
+      `GoUsbAi Desktop preview build for runtime ${runtimeVersion}.`,
       "",
       "- Includes desktop installers, portable Windows builds, update bundles, and beta update manifests.",
       `- Desktop app version: ${desktopVersion}`,
@@ -329,14 +329,14 @@ function buildReleaseNotes(options) {
   return [
     "English Version",
     "",
-    `NextClaw Desktop ${desktopVersion} stable release for runtime ${runtimeVersion}.`,
+    `GoUsbAi Desktop ${desktopVersion} stable release for runtime ${runtimeVersion}.`,
     "",
     "- Includes desktop installers, update bundles, stable update manifests, and Linux APT publishing.",
     `- Minimum launcher version: ${minimumLauncherVersion}`,
     "",
     "中文版",
     "",
-    `NextClaw Desktop ${desktopVersion} 正式版，运行时版本 ${runtimeVersion}。`,
+    `GoUsbAi Desktop ${desktopVersion} 正式版，运行时版本 ${runtimeVersion}。`,
     "",
     "- 包含桌面安装包、更新包、stable 更新 manifest 与 Linux APT 发布。",
     `- 最低 launcher 版本：${minimumLauncherVersion}`
@@ -436,7 +436,7 @@ async function main() {
   options.branch ??= readCurrentBranch();
   options.target ??= readHeadSha();
   options.desktopVersion ??= readPackageVersion("apps/desktop/package.json");
-  options.runtimeVersion ??= readPackageVersion("packages/nextclaw/package.json");
+  options.runtimeVersion ??= readPackageVersion("packages/go-usb-ai/package.json");
   options.minimumLauncherVersion ??= readMinimumLauncherVersion(options.channel);
   options.tag ??= readNextTag(options.channel, options.runtimeVersion);
 

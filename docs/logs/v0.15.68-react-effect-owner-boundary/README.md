@@ -32,11 +32,11 @@
 - 未通过但已判定与本次改动无关：
   - `PATH=$HOME/.nvm/versions/node/v22.16.0/bin:$PATH pnpm lint:maintainability:guard`
   - 失败原因来自当前工作区其它并行业务改动触发的既有/外部预算问题，包括：
-    - `packages/nextclaw/src/cli/commands/platform-auth.ts`
+    - `packages/go-usb-ai/src/cli/commands/platform-auth.ts`
     - `workers/marketplace-api/src/infrastructure/d1-data-source.ts`
     - `workers/marketplace-api/src/infrastructure/in-memory-section-repository-base.ts`
-    - `workers/nextclaw-provider-gateway-api/src/repositories/platform-repository.ts`
-    - `workers/nextclaw-provider-gateway-api/src/utils/platform-utils.ts`
+    - `workers/go-usb-ai-provider-gateway-api/src/repositories/platform-repository.ts`
+    - `workers/go-usb-ai-provider-gateway-api/src/utils/platform-utils.ts`
 - 不适用项：
   - `build`：不适用。本次只改治理脚本、规则和文档，不触达构建产物链路
   - `tsc`：不适用。本次新增的是根目录 `.mjs` 脚本与 Markdown 文档，不属于 TypeScript 编译产物

@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-本次交付 Windows Portable Edition：release workflow 会产出 `NextClaw-Portable-<version>-win-x64.zip` 和 `NextClaw-Portable-<version>-win-arm64.zip`。Portable 启动时通过 `nextclaw-portable.json` 识别安装形态，数据落在 portable 根目录的 `data/` 下，并与普通安装版共存。
+本次交付 Windows Portable Edition：release workflow 会产出 `GoUsbAi-Portable-<version>-win-x64.zip` 和 `GoUsbAi-Portable-<version>-win-arm64.zip`。Portable 启动时通过 `go-usb-ai-portable.json` 识别安装形态，数据落在 portable 根目录的 `data/` 下，并与普通安装版共存。
 
 根因/背景：原有 Windows release 只有 installer 和 unpacked 备用包，unpacked 不是严格 portable 合同，运行数据仍可能走安装版默认路径。现在通过 `DesktopInstallationProfile` 把安装形态、路径、更新能力收敛为单一事实源。
 
@@ -14,7 +14,7 @@
 - `pnpm -C apps/desktop lint`
 - `pnpm -C apps/desktop build:main`
 - `node --test apps/desktop/dist/src/utils/desktop-installation-profile.utils.test.js apps/desktop/dist/src/launcher/__tests__/update-coordinator.service.test.js`
-- `pnpm -r --filter @nextclaw/desktop... build`
+- `pnpm -r --filter @go-usb-ai/desktop... build`
 - `pnpm -C apps/desktop smoke`
 - `node --check scripts/desktop/desktop-portable-verify.mjs`
 - `pnpm lint:maintainability:guard`
@@ -28,9 +28,9 @@ Windows x64 portable 的真实启动冒烟由 GitHub Actions `desktop-release` /
 
 ## 用户/产品视角的验收步骤
 
-1. 从 GitHub beta preview release 下载 `NextClaw-Portable-<version>-win-x64.zip`。
+1. 从 GitHub beta preview release 下载 `GoUsbAi-Portable-<version>-win-x64.zip`。
 2. 解压到 U 盘或本地任意目录。
-3. 双击 `NextClaw-Portable/NextClaw Desktop.exe`。
+3. 双击 `GoUsbAi-Portable/GoUsbAi Desktop.exe`。
 4. 确认主界面可进入，且目录下生成 `data/desktop`、`data/runtime-home`、`data/logs`。
 5. 同时启动普通安装版，确认两者互不覆盖数据。
 

@@ -15,8 +15,8 @@
 
 ## 测试/验证/验收方式
 - 定向单测：
-  - `pnpm -C packages/nextclaw-core test src/agent/tools/spawn.test.ts src/agent/subagent.test.ts`
-  - `pnpm -C packages/nextclaw test src/cli/commands/agent-runtime-pool.command.test.ts`
+  - `pnpm -C packages/go-usb-ai-core test src/agent/tools/spawn.test.ts src/agent/subagent.test.ts`
+  - `pnpm -C packages/go-usb-ai test src/cli/commands/agent-runtime-pool.command.test.ts`
 - 全量构建：
   - `pnpm build`
 - 全量 lint：

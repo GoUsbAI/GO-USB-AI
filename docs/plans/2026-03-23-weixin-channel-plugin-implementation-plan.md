@@ -2,11 +2,11 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** 在 NextClaw 中新增一个微信渠道，并以单独插件包的形式交付，支持扫码登录、长轮询收发消息，以及 agent 主动向指定微信用户发送文本消息。
+**Goal:** 在 GoUsbAi 中新增一个微信渠道，并以单独插件包的形式交付，支持扫码登录、长轮询收发消息，以及 agent 主动向指定微信用户发送文本消息。
 
-**Architecture:** 本方案明确采用“单独插件包，包内分层”的结构，而不是双层发布物。插件自身负责微信协议接入、账号状态、媒体能力和消息归一化；宿主只补齐最小通用 contract，让 `nextclaw` CLI、gateway、message tool、cron 能以统一方式调用该插件。
+**Architecture:** 本方案明确采用“单独插件包，包内分层”的结构，而不是双层发布物。插件自身负责微信协议接入、账号状态、媒体能力和消息归一化；宿主只补齐最小通用 contract，让 `go-usb-ai` CLI、gateway、message tool、cron 能以统一方式调用该插件。
 
-**Tech Stack:** TypeScript, Node.js 22, NextClaw plugin loader, OpenClaw-compatible manifest, `fetch`, `crypto`, `qrcode-terminal`, `zod`
+**Tech Stack:** TypeScript, Node.js 22, GoUsbAi plugin loader, OpenClaw-compatible manifest, `fetch`, `crypto`, `qrcode-terminal`, `zod`
 
 ---
 
@@ -22,7 +22,7 @@
 
 1. **本次不拆两层发布包**
    - 不额外拆 `sdk` 包和 `plugin` 包
-   - 只交付一个独立插件包：`packages/extensions/nextclaw-channel-plugin-weixin`
+   - 只交付一个独立插件包：`packages/extensions/go-usb-ai-channel-plugin-weixin`
    - 但包内必须分层，避免再次演变成 runtime 大杂烩
 
 2. **本次必须支持 agent 主动发消息**
@@ -57,7 +57,7 @@
 本次微信接入的最终交付物固定为：
 
 ```text
-packages/extensions/nextclaw-channel-plugin-weixin
+packages/extensions/go-usb-ai-channel-plugin-weixin
 ```
 
 插件包内部自己分层，但外部只暴露一个插件。
@@ -93,11 +93,11 @@ packages/extensions/nextclaw-channel-plugin-weixin
 
 当前代码库已经有通用 outbound contract：
 
-- [types.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/extensions/types.ts#L40)
+- [types.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/extensions/types.ts#L40)
 
 并且 agent 的 `message` tool 也已经支持跨 channel 指定 `channel` 和 `to`：
 
-- [message.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-core/src/agent/tools/message.ts#L1)
+- [message.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-core/src/agent/tools/message.ts#L1)
 
 因此本次方案的明确结论是：
 
@@ -114,7 +114,7 @@ packages/extensions/nextclaw-channel-plugin-weixin
 目标目录如下：
 
 ```text
-packages/extensions/nextclaw-channel-plugin-weixin/
+packages/extensions/go-usb-ai-channel-plugin-weixin/
   package.json
   tsconfig.json
   eslint.config.mjs
@@ -171,17 +171,17 @@ packages/extensions/nextclaw-channel-plugin-weixin/
 
 把微信插件加入 bundled channel packages：
 
-- 修改 [loader.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-openclaw-compat/src/plugins/loader.ts)
+- 修改 [loader.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-openclaw-compat/src/plugins/loader.ts)
 
 新增：
 
-- `@nextclaw/channel-plugin-weixin`
+- `@go-usb-ai/channel-plugin-weixin`
 
 ### 2. channels 状态与标签
 
 在 CLI 的 channel 状态中显示 `Weixin`：
 
-- 修改 [channels.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/channels.ts)
+- 修改 [channels.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/channels.ts)
 
 ### 3. plugin channel auth contract
 
@@ -197,8 +197,8 @@ auth?: {
 
 对应修改：
 
-- [types.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-openclaw-compat/src/plugins/types.ts)
-- [registry.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw-openclaw-compat/src/plugins/registry.ts)
+- [types.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-openclaw-compat/src/plugins/types.ts)
+- [registry.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai-openclaw-compat/src/plugins/registry.ts)
 
 要求：
 
@@ -207,7 +207,7 @@ auth?: {
 
 ### 4. plugin-aware `channels login`
 
-当前 `nextclaw channels login` 还是旧 bridge 路径，不适合插件化微信。
+当前 `go-usb-ai channels login` 还是旧 bridge 路径，不适合插件化微信。
 
 需要把该命令改为：
 
@@ -217,7 +217,7 @@ auth?: {
 
 关键文件：
 
-- [channels.ts](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/channels.ts#L59)
+- [channels.ts](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/channels.ts#L59)
 
 ## 微信主动发消息设计
 
@@ -283,16 +283,16 @@ to = <target_user_id@im.wechat>
 - `weclaw`
   - 作为主动发送、ACP/CLI/HTTP agent 路由和产品裁剪参考
 
-本次实现不追求对腾讯插件零改动兼容，而是吸收其实现要点，落成更适合 NextClaw 当前宿主 contract 的独立插件。
+本次实现不追求对腾讯插件零改动兼容，而是吸收其实现要点，落成更适合 GoUsbAi 当前宿主 contract 的独立插件。
 
 ## 任务拆分
 
 ### Task 1: 补齐 plugin channel 最小宿主 contract
 
 **Files:**
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/types.ts`
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/registry.ts`
-- Modify: `packages/nextclaw/src/cli/commands/channels.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/types.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/registry.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/channels.ts`
 
 **Step 1: 为 plugin channel 增加 auth contract**
 
@@ -309,31 +309,31 @@ to = <target_user_id@im.wechat>
 Run:
 
 ```bash
-pnpm -C packages/nextclaw build
-pnpm -C packages/nextclaw lint
-pnpm -C packages/nextclaw tsc
+pnpm -C packages/go-usb-ai build
+pnpm -C packages/go-usb-ai lint
+pnpm -C packages/go-usb-ai tsc
 ```
 
 Expected:
 
 - build/lint/tsc 通过
-- `nextclaw channels login --channel weixin` 能命中插件登录入口
+- `go-usb-ai channels login --channel weixin` 能命中插件登录入口
 
 ### Task 2: 新建微信独立插件包骨架
 
 **Files:**
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/package.json`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/tsconfig.json`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/eslint.config.mjs`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/openclaw.plugin.json`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/index.ts`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/channel.ts`
-- Modify: `packages/nextclaw-openclaw-compat/src/plugins/loader.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/package.json`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/tsconfig.json`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/eslint.config.mjs`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/openclaw.plugin.json`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/index.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/channel.ts`
+- Modify: `packages/go-usb-ai-openclaw-compat/src/plugins/loader.ts`
 - Modify: root `package.json`
 
 **Step 1: 建立独立包**
 
-- 包名使用 `@nextclaw/channel-plugin-weixin`
+- 包名使用 `@go-usb-ai/channel-plugin-weixin`
 - 内部依赖统一使用 `workspace:*`
 
 **Step 2: 插件注册**
@@ -350,9 +350,9 @@ Expected:
 Run:
 
 ```bash
-pnpm -C packages/extensions/nextclaw-channel-plugin-weixin build
-pnpm -C packages/extensions/nextclaw-channel-plugin-weixin lint
-pnpm -C packages/extensions/nextclaw-channel-plugin-weixin tsc
+pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin build
+pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin lint
+pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin tsc
 ```
 
 Expected:
@@ -363,13 +363,13 @@ Expected:
 ### Task 3: 实现微信协议与登录层
 
 **Files:**
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/auth/accounts.ts`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/auth/login-qr.ts`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/auth/session-guard.ts`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/api/api.ts`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/api/types.ts`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/storage/state-dir.ts`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/storage/sync-buf.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/auth/accounts.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/auth/login-qr.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/auth/session-guard.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/api/api.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/api/types.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/storage/state-dir.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/storage/sync-buf.ts`
 
 **Step 1: 完成账号与 token 存储**
 
@@ -394,7 +394,7 @@ Expected:
 Smoke:
 
 ```bash
-NEXTCLAW_HOME=/tmp/nextclaw-weixin-smoke nextclaw channels login --channel weixin
+GOUSB_AI_HOME=/tmp/go-usb-ai-weixin-smoke go-usb-ai channels login --channel weixin
 ```
 
 Expected:
@@ -405,12 +405,12 @@ Expected:
 ### Task 4: 实现 gateway、inbound、reply 与 proactive outbound
 
 **Files:**
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/gateway/monitor.ts`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/inbound/normalize-message.ts`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/inbound/process-message.ts`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/outbound/send-text.ts`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/outbound/send-proactive.ts`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/media/*`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/gateway/monitor.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/inbound/normalize-message.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/inbound/process-message.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/outbound/send-text.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/outbound/send-proactive.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/media/*`
 
 **Step 1: 长轮询监听**
 
@@ -440,7 +440,7 @@ Expected:
 Run:
 
 ```bash
-NEXTCLAW_HOME=/tmp/nextclaw-weixin-smoke nextclaw start
+GOUSB_AI_HOME=/tmp/go-usb-ai-weixin-smoke go-usb-ai start
 ```
 
 观察点：
@@ -452,10 +452,10 @@ NEXTCLAW_HOME=/tmp/nextclaw-weixin-smoke nextclaw start
 ### Task 5: 文档、可观测性与收尾
 
 **Files:**
-- Modify: `packages/nextclaw/templates/USAGE.md`
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/README.md`
+- Modify: `packages/go-usb-ai/templates/USAGE.md`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/README.md`
 - Add tests under:
-  - `packages/extensions/nextclaw-channel-plugin-weixin/src/**/*.test.ts`
+  - `packages/extensions/go-usb-ai-channel-plugin-weixin/src/**/*.test.ts`
 
 **Step 1: 文档补齐**
 
@@ -475,10 +475,10 @@ NEXTCLAW_HOME=/tmp/nextclaw-weixin-smoke nextclaw start
 Run:
 
 ```bash
-pnpm -C packages/extensions/nextclaw-channel-plugin-weixin build
-pnpm -C packages/extensions/nextclaw-channel-plugin-weixin lint
-pnpm -C packages/extensions/nextclaw-channel-plugin-weixin tsc
-node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/nextclaw-channel-plugin-weixin
+pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin build
+pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin lint
+pnpm -C packages/extensions/go-usb-ai-channel-plugin-weixin tsc
+node .agents/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/go-usb-ai-channel-plugin-weixin
 ```
 
 Expected:
@@ -502,9 +502,9 @@ Expected:
 
 本次若进入实现阶段，发布范围默认包含：
 
-- `@nextclaw/channel-plugin-weixin`
-- `@nextclaw/openclaw-compat`
-- `nextclaw`
+- `@go-usb-ai/channel-plugin-weixin`
+- `@go-usb-ai/openclaw-compat`
+- `go-usb-ai`
 - `apps/desktop`（如果桌面内置包清单直接依赖该插件）
 
 只有真正触发依赖链时，才联动发布其它包。
@@ -514,8 +514,8 @@ Expected:
 本方案实施完成后，必须满足：
 
 1. `weixin` 作为独立插件包存在，不再依赖统一 `channel-runtime` 内置实现。
-2. 用户可以通过 `nextclaw channels login --channel weixin` 扫码登录。
-3. 微信消息可以进入 NextClaw agent，并得到正常回复。
+2. 用户可以通过 `go-usb-ai channels login --channel weixin` 扫码登录。
+3. 微信消息可以进入 GoUsbAi agent，并得到正常回复。
 4. agent 可以主动向指定微信用户发送文本消息。
 5. 插件内部目录按职责拆分，没有单文件大杂烩。
 6. 宿主新增的是通用 contract，不是微信专属硬编码。

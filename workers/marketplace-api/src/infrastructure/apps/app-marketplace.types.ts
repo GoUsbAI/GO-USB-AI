@@ -1,5 +1,5 @@
-export const OFFICIAL_APPS_WEB_BASE_URL = "https://apps.nextclaw.io";
-export const OFFICIAL_APPS_REGISTRY_BASE_URL = "https://apps-registry.nextclaw.io";
+export const OFFICIAL_APPS_WEB_BASE_URL = "https://apps.go-usb-ai.io";
+export const OFFICIAL_APPS_REGISTRY_BASE_URL = "https://apps-registry.go-usb-ai.io";
 export const OFFICIAL_APPS_REGISTRY_METADATA_URL =
   `${OFFICIAL_APPS_REGISTRY_BASE_URL}/api/v1/apps/registry/`;
 

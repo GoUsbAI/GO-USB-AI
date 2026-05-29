@@ -14,7 +14,7 @@ function run(cwd, command, args, options = {}) {
 }
 
 export function createReleaseWorktree(repoRoot, target) {
-  const tempRoot = mkdtempSync(join(tmpdir(), "nextclaw-desktop-release-"));
+  const tempRoot = mkdtempSync(join(tmpdir(), "go-usb-ai-desktop-release-"));
   const workspacePath = join(tempRoot, "repo");
   run(repoRoot, "git", ["worktree", "add", "--detach", workspacePath, target], { capture: false });
   return {

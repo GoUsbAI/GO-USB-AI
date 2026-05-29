@@ -2,15 +2,15 @@
 
 ## 迭代完成说明
 
-- 调整 NextClaw 前端工具卡片的成功态展示。
+- 调整 GoUsbAi 前端工具卡片的成功态展示。
 - 工具状态为“已完成”时仅展示成功图标，不再展示状态文案。
 - 运行中、失败、取消等其它状态保持原有展示方式不变。
 
 # 测试/验证/验收方式
 
-- 组件测试：`pnpm -C packages/nextclaw-agent-chat-ui test -- src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
-- 类型检查：`pnpm -C packages/nextclaw-agent-chat-ui tsc`
-- 可维护性检查：`node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-tool-card.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+- 组件测试：`pnpm -C packages/go-usb-ai-agent-chat-ui test -- src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+- 类型检查：`pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+- 可维护性检查：`node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-tool-card.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
 
 # 发布/部署方式
 

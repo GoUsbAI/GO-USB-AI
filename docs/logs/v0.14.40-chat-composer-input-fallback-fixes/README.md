@@ -10,17 +10,17 @@
 # 测试/验证/验收方式
 
 - 单测：
-  - `pnpm -C packages/nextclaw-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx src/components/chat/ui/chat-input-bar/chat-composer.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer-dom.utils.test.ts`
+  - `pnpm -C packages/go-usb-ai-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx src/components/chat/ui/chat-input-bar/chat-composer.utils.test.ts src/components/chat/ui/chat-input-bar/chat-composer-dom.utils.test.ts`
   - 结果：通过（3 个文件，7 个测试）
 - 类型校验：
-  - `pnpm -C packages/nextclaw-agent-chat-ui tsc`
-  - `pnpm -C packages/nextclaw-ui tsc`
+  - `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
   - 结果：通过
 - 构建校验：
-  - `pnpm -C packages/nextclaw-agent-chat-ui build`
+  - `pnpm -C packages/go-usb-ai-agent-chat-ui build`
   - 结果：通过
 - maintainability guard：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-tokenized-composer.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-dom.utils.ts packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-dom.utils.test.ts`
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar-tokenized-composer.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-dom.utils.ts packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-input-bar/chat-composer-dom.utils.test.ts`
   - 结果：`Errors: 0`、`Warnings: 0`
 
 # 发布/部署方式

@@ -5,7 +5,7 @@
 本次将管理后台从用户前端中彻底拆分为独立站点，实现“admin 独立前端网站”。
 
 - 新增独立管理站：`apps/platform-admin`
-  - 独立 Vite 应用、独立页面标题（`NextClaw Admin Console`）
+  - 独立 Vite 应用、独立页面标题（`GoUsbAi Admin Console`）
   - 独立登录页（管理后台登录语义）
   - 仅展示管理能力页面（平台总览、用户调账、充值审核）
   - 非 admin 登录时显示“仅管理员可访问”，不再降级为用户页面
@@ -30,8 +30,8 @@
   - `node scripts/dev-platform-runner.mjs --check`
   - `node scripts/dev-platform-runner.mjs --admin --check`
 - 冒烟验证（隔离目录）
-  - 用户站：`pnpm dev:platform:stack:migrate` 后访问用户站端口，页面 title 为 `NextClaw Platform Console`
-  - 管理站：`pnpm dev:platform:admin:stack` 后访问管理站端口，页面 title 为 `NextClaw Admin Console`
+  - 用户站：`pnpm dev:platform:stack:migrate` 后访问用户站端口，页面 title 为 `GoUsbAi Platform Console`
+  - 管理站：`pnpm dev:platform:admin:stack` 后访问管理站端口，页面 title 为 `GoUsbAi Admin Console`
   - 结论：用户/管理两站可独立启动并独立访问
 
 ## 3) 发布/部署方式
@@ -44,7 +44,7 @@
   2. 发布 `apps/platform-admin/dist`
 - 平台后端（如有变更）
   1. `pnpm platform:db:migrate:remote`
-  2. `pnpm -C workers/nextclaw-provider-gateway-api deploy`
+  2. `pnpm -C workers/go-usb-ai-provider-gateway-api deploy`
 
 ## 4) 用户/产品视角的验收步骤
 

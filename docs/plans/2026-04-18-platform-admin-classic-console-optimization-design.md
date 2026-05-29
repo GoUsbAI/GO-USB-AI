@@ -8,12 +8,12 @@
 
 - 侧边栏应该只是导航，不应该塞大量描述文案
 - 布局应该直接参考顶级后台产品的经典结构，而不是半自定义
-- 视觉风格不要脱离 NextClaw 自身 UI，继续沿用产品现有暖中性色与克制面板风格
+- 视觉风格不要脱离 GoUsbAi 自身 UI，继续沿用产品现有暖中性色与克制面板风格
 - 需要沉淀一批真正可复用的后台框架组件，而不是每个页面自己拼布局
 
 ## 长期目标对齐
 
-这次优化直接服务 NextClaw 愿景中的三条主线：
+这次优化直接服务 GoUsbAi 愿景中的三条主线：
 
 - 统一入口：后台治理面必须像一个稳定控制面，而不是继续像临时运维页
 - 统一体验：后台与主产品在配色、密度、表面样式上保持同一设计语言
@@ -36,7 +36,7 @@
 
 即本次推荐方案：
 
-- 视觉沿用 NextClaw UI 风格
+- 视觉沿用 GoUsbAi UI 风格
 - 信息架构直接收敛到经典后台骨架
 - 壳层、页面框架、面板、工具栏统一沉淀为可复用组件
 
@@ -71,7 +71,7 @@
 
 ## 视觉策略
 
-本次不重新定义后台视觉风格，直接继承 NextClaw UI 的现有语言：
+本次不重新定义后台视觉风格，直接继承 GoUsbAi UI 的现有语言：
 
 - 暖中性色背景
 - 白色主内容面板
@@ -165,7 +165,7 @@
 3. 发布
    - `pnpm deploy:platform:admin`
 4. 线上 UI 冒烟
-   - `PLATFORM_ADMIN_BASE_URL=https://platform-admin.nextclaw.io pnpm smoke:platform:admin`
+   - `PLATFORM_ADMIN_BASE_URL=https://platform-admin.go-usb-ai.io pnpm smoke:platform:admin`
 
 ## 非目标
 

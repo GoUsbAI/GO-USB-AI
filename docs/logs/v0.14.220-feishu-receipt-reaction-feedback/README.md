@@ -11,24 +11,24 @@
 ## 测试/验证/验收方式
 
 - 单测：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH /Users/peiwang/Projects/nextbot/node_modules/.pnpm/node_modules/.bin/vitest run packages/extensions/nextclaw-channel-plugin-feishu/src/reply-dispatcher.streaming-placeholder.test.ts packages/extensions/nextclaw-channel-plugin-feishu/src/reply-dispatcher.test.ts packages/nextclaw/src/cli/commands/service-plugin-runtime-bridge.test.ts`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH /Users/peiwang/Projects/nextbot/node_modules/.pnpm/node_modules/.bin/vitest run packages/extensions/go-usb-ai-channel-plugin-feishu/src/reply-dispatcher.streaming-placeholder.test.ts packages/extensions/go-usb-ai-channel-plugin-feishu/src/reply-dispatcher.test.ts packages/go-usb-ai/src/cli/commands/service-plugin-runtime-bridge.test.ts`
 - 类型检查：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc`
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-openclaw-compat tsc`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-openclaw-compat tsc`
 - 可维护性检查：
-  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/nextclaw-channel-plugin-feishu/src/reply-dispatcher.ts packages/extensions/nextclaw-channel-plugin-feishu/src/typing.ts packages/extensions/nextclaw-channel-plugin-feishu/src/reply-dispatcher.streaming-placeholder.test.ts packages/extensions/nextclaw-channel-plugin-feishu/src/reply-dispatcher.test.ts packages/nextclaw/src/cli/commands/service-plugin-runtime-bridge.ts packages/nextclaw/src/cli/commands/service-plugin-runtime-bridge.test.ts packages/nextclaw-openclaw-compat/src/plugins/types.ts`
+  - `PATH=/Users/peiwang/.nvm/versions/node/v22.16.0/bin:/opt/homebrew/bin:$PATH node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/extensions/go-usb-ai-channel-plugin-feishu/src/reply-dispatcher.ts packages/extensions/go-usb-ai-channel-plugin-feishu/src/typing.ts packages/extensions/go-usb-ai-channel-plugin-feishu/src/reply-dispatcher.streaming-placeholder.test.ts packages/extensions/go-usb-ai-channel-plugin-feishu/src/reply-dispatcher.test.ts packages/go-usb-ai/src/cli/commands/service-plugin-runtime-bridge.ts packages/go-usb-ai/src/cli/commands/service-plugin-runtime-bridge.test.ts packages/go-usb-ai-openclaw-compat/src/plugins/types.ts`
 
 ## 发布/部署方式
 
-- 本次需要按项目 release 流程发布受影响包：`@nextclaw/channel-plugin-feishu`、`@nextclaw/openclaw-compat`、`@nextclaw/server`、`nextclaw`。
+- 本次需要按项目 release 流程发布受影响包：`@go-usb-ai/channel-plugin-feishu`、`@go-usb-ai/openclaw-compat`、`@go-usb-ai/server`、`go-usb-ai`。
 - 发布后在本地实例执行：
-  - `nextclaw update`
-  - `nextclaw restart`
-- 若服务当前未运行，则改用 `nextclaw start` 拉起，再执行状态检查与飞书实测。
+  - `go-usb-ai update`
+  - `go-usb-ai restart`
+- 若服务当前未运行，则改用 `go-usb-ai start` 拉起，再执行状态检查与飞书实测。
 
 ## 用户/产品视角的验收步骤
 
-1. 保持飞书机器人在线，并确保本地 `nextclaw` 服务处于运行状态。
+1. 保持飞书机器人在线，并确保本地 `go-usb-ai` 服务处于运行状态。
 2. 在飞书里给机器人发送一条普通文本消息。
 3. 预期结果：消息发出后，机器人会立即给这条消息加上一个可见 reaction（当前为 `THUMBSUP`）。
 4. 随后机器人再输出正常回复；即使回复很快，这个 reaction 也不会被自动撤回。

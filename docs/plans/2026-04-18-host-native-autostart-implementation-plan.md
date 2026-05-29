@@ -6,23 +6,23 @@
 
 **Architecture:** Keep desktop packaged login-at-login untouched and add a separate CLI-side host autostart owner under `service-support/autostart/`. Wire a new `service` command group into the CLI, implement Linux `systemd --user` and `systemd --system` flows with explicit unit-file generation plus `systemctl` control, and expose one shared JSON/plain-text status contract. Keep macOS/Windows out of scope for this batch and report them as unsupported instead of adding speculative fallbacks.
 
-**Tech Stack:** TypeScript, Commander, Node fs/path/os utilities, Linux systemd, Vitest, existing NextClaw CLI/service command structure
+**Tech Stack:** TypeScript, Commander, Node fs/path/os utilities, Linux systemd, Vitest, existing GoUsbAi CLI/service command structure
 
 ---
 
 ### Task 1: Add the host autostart owner
 
 **Files:**
-- Create: `packages/nextclaw/src/cli/commands/service-support/autostart/host-autostart.types.ts`
-- Create: `packages/nextclaw/src/cli/commands/service-support/autostart/linux-systemd-autostart.service.ts`
-- Create: `packages/nextclaw/src/cli/commands/service-support/autostart/host-autostart.service.ts`
-- Test: `packages/nextclaw/src/cli/commands/service-support/autostart/tests/linux-systemd-autostart.service.test.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/service-support/autostart/host-autostart.types.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/service-support/autostart/linux-systemd-autostart.service.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/service-support/autostart/host-autostart.service.ts`
+- Test: `packages/go-usb-ai/src/cli/commands/service-support/autostart/tests/linux-systemd-autostart.service.test.ts`
 
 **Step 1: Write failing tests for Linux unit generation, scope selection, unsupported-platform reporting, and status parsing.**
 
 **Step 2: Implement the minimal Linux owner with:**
 - unit-file path resolution for `--user` / `--system`
-- explicit `NEXTCLAW_HOME` and stable CLI entry resolution
+- explicit `GOUSB_AI_HOME` and stable CLI entry resolution
 - install / uninstall / status / doctor behavior
 - no hidden platform fallback
 
@@ -31,9 +31,9 @@
 ### Task 2: Wire commands into the CLI
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/index.ts`
-- Modify: `packages/nextclaw/src/cli/runtime.ts`
-- Modify: `packages/nextclaw/src/cli/commands/service.ts`
+- Modify: `packages/go-usb-ai/src/cli/index.ts`
+- Modify: `packages/go-usb-ai/src/cli/runtime.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/service.ts`
 
 **Step 1: Add a `service` command group with:**
 - `install-systemd`
@@ -51,7 +51,7 @@
 - Modify: `apps/docs/en/guide/commands.md`
 - Modify: `apps/docs/zh/guide/commands.md`
 - Modify: `docs/USAGE.md`
-- Modify: `packages/nextclaw/resources/USAGE.md`
+- Modify: `packages/go-usb-ai/resources/USAGE.md`
 
 **Step 1: Clarify that npm install does not auto-register autostart.**
 

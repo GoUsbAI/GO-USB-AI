@@ -13,9 +13,9 @@ export {
   PACKAGED_RUNTIME_HOME_OVERRIDE_ENV
 } from "./desktop-path-env.utils";
 
-const DEFAULT_NEXTCLAW_HOME_DIR = ".nextclaw";
-const LEGACY_RUNTIME_HOME_ENV = "NEXTCLAW_HOME";
-const LEGACY_DESKTOP_DATA_ENV = "NEXTCLAW_DESKTOP_DATA_DIR";
+const DEFAULT_GOUSB_AI_HOME_DIR = ".go-usb-ai";
+const LEGACY_RUNTIME_HOME_ENV = "GOUSB_AI_HOME";
+const LEGACY_DESKTOP_DATA_ENV = "GOUSB_AI_DESKTOP_DATA_DIR";
 
 function readOptionalEnv(name: string): string | null {
   const value = process.env[name]?.trim();
@@ -39,7 +39,7 @@ function resolveDesktopRuntimeHomeFromEnv(env: NodeJS.ProcessEnv): string {
     }
   }
 
-  return resolve(homedir(), DEFAULT_NEXTCLAW_HOME_DIR);
+  return resolve(homedir(), DEFAULT_GOUSB_AI_HOME_DIR);
 }
 
 function normalizeOptionalPath(value: string | undefined): string | null {
@@ -72,7 +72,7 @@ export function createDesktopRuntimeEnv(baseEnv: NodeJS.ProcessEnv = process.env
   delete runtimeEnv[LEGACY_RUNTIME_HOME_ENV];
   delete runtimeEnv[LEGACY_DESKTOP_DATA_ENV];
   runtimeEnv.ELECTRON_RUN_AS_NODE = "1";
-  runtimeEnv.NEXTCLAW_DISABLE_BUILTIN_EXTENSIONS = "1";
+  runtimeEnv.GOUSB_AI_DISABLE_BUILTIN_EXTENSIONS = "1";
   runtimeEnv[LEGACY_RUNTIME_HOME_ENV] = resolveDesktopRuntimeHomeFromEnv(baseEnv);
   return runtimeEnv;
 }

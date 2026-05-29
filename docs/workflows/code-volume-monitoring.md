@@ -1,6 +1,6 @@
 # Source LOC Monitoring Workflow
 
-目标：持续统计 NextClaw 源码行数（Source LOC）并形成可追踪快照，作为可维护性管理指标之一。
+目标：持续统计 GoUsbAi 源码行数（Source LOC）并形成可追踪快照，作为可维护性管理指标之一。
 
 ## 指标定义
 
@@ -34,7 +34,7 @@
 pnpm metrics:loc
 ```
 
-仅看本地结果输出（仅 NextClaw，不写回文件）：
+仅看本地结果输出（仅 GoUsbAi，不写回文件）：
 
 ```bash
 pnpm metrics:local

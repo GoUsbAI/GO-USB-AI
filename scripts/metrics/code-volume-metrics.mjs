@@ -205,7 +205,7 @@ if (options.benchmarkRoot) {
   const comparisonReport = {
     generatedAt,
     base: {
-      name: "nextclaw",
+      name: "go-usb-ai",
       projectRoot: rootDir,
       scope: {
         profile: scopeProfile,
@@ -246,9 +246,9 @@ if (options.benchmarkRoot) {
     "",
     `- Base (${baseScanConfig.title}) production LOC: ${baseCodeLines}`,
     `- Benchmark (${benchmarkName}) production LOC: ${benchmarkCodeLines}`,
-    `- NextClaw ${baseScanConfig.title} / ${benchmarkName}: ${basePercentOfBenchmark === null ? "N/A" : `${basePercentOfBenchmark}%`}`,
-    `- ${benchmarkName} / NextClaw: ${benchmarkMultipleOfBase === null ? "N/A" : `${benchmarkMultipleOfBase}x`}`,
-    `- NextClaw lighter by: ${baseIsLighterByPercent === null ? "N/A" : `${baseIsLighterByPercent}%`}`
+    `- GoUsbAi ${baseScanConfig.title} / ${benchmarkName}: ${basePercentOfBenchmark === null ? "N/A" : `${basePercentOfBenchmark}%`}`,
+    `- ${benchmarkName} / GoUsbAi: ${benchmarkMultipleOfBase === null ? "N/A" : `${benchmarkMultipleOfBase}x`}`,
+    `- GoUsbAi lighter by: ${baseIsLighterByPercent === null ? "N/A" : `${baseIsLighterByPercent}%`}`
   ];
 
   if (!options.noWrite) {
@@ -258,7 +258,7 @@ if (options.benchmarkRoot) {
   }
   if (basePercentOfBenchmark !== null && benchmarkMultipleOfBase !== null) {
     console.log(
-      `Vs ${benchmarkName}: ${basePercentOfBenchmark}% size (${benchmarkName} is ${benchmarkMultipleOfBase}x of NextClaw)`
+      `Vs ${benchmarkName}: ${basePercentOfBenchmark}% size (${benchmarkName} is ${benchmarkMultipleOfBase}x of GoUsbAi)`
     );
   }
 }

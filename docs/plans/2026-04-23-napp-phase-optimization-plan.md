@@ -106,7 +106,7 @@
 
 ### Phase 1
 
-- `packages/nextclaw-app-runtime`: `test` / `tsc` / `lint`
+- `packages/go-usb-ai-app-runtime`: `test` / `tsc` / `lint`
 - `workers/marketplace-api`: `tsc`
 - 本地 `napp validate-publish` smoke
 

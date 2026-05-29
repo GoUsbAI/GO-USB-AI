@@ -1,0 +1,50 @@
+name = "go-usb-ai-provider-gateway-api"
+main = "src/main.ts"
+compatibility_date = "2026-03-07"
+routes = [
+  { pattern = "ai-gateway-api.go-usb-ai.io", custom_domain = true },
+  "*.claw.cool/*"
+]
+
+[observability]
+enabled = true
+
+[[d1_databases]]
+binding = "GOUSB_AI_PLATFORM_DB"
+database_name = "go-usb-ai-platform"
+database_id = "748845b9-8f96-4862-87e9-c10e7c478a70"
+
+[[durable_objects.bindings]]
+name = "GOUSB_AI_REMOTE_RELAY"
+class_name = "GoUsbAiRemoteRelayDurableObject"
+
+[[durable_objects.bindings]]
+name = "GOUSB_AI_REMOTE_QUOTA"
+class_name = "GoUsbAiRemoteQuotaDurableObject"
+
+[[migrations]]
+tag = "remote-access-v1"
+new_sqlite_classes = ["GoUsbAiRemoteRelayDurableObject"]
+
+[[migrations]]
+tag = "remote-quota-v1"
+new_sqlite_classes = ["GoUsbAiRemoteQuotaDurableObject"]
+
+[vars]
+DASHSCOPE_API_BASE = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+MARKETPLACE_API_BASE = "https://marketplace-api.go-usb-ai.io"
+GOUSB_AI_WEB_BASE_URL = "https://platform.go-usb-ai.io"
+REMOTE_ACCESS_BASE_DOMAIN = "claw.cool"
+REMOTE_ACCESS_FIXED_DOMAIN = "remote.claw.cool"
+PLATFORM_AUTH_EMAIL_PROVIDER = "resend"
+PLATFORM_AUTH_EMAIL_FROM = "GoUsbAi <no-reply@mail.go-usb-ai.io>"
+GLOBAL_FREE_USD_LIMIT = "20"
+REQUEST_FLAT_USD_PER_REQUEST = "0.0002"
+REMOTE_QUOTA_SESSION_REQUESTS_PER_MINUTE = "180"
+REMOTE_QUOTA_INSTANCE_CONNECTIONS = "10000"
+REMOTE_PLATFORM_DAILY_WORKER_REQUEST_BUDGET = "100000"
+REMOTE_PLATFORM_DAILY_DO_REQUEST_BUDGET = "100000"
+REMOTE_PLATFORM_DAILY_RESERVE_PERCENT = "20"
+REMOTE_QUOTA_USER_DAILY_WORKER_REQUEST_UNITS = "20000"
+REMOTE_QUOTA_USER_DAILY_DO_REQUEST_UNITS = "20000"
+REMOTE_QUOTA_WS_MESSAGE_LEASE_SIZE = "10"

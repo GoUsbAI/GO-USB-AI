@@ -12,7 +12,7 @@
 ## 测试/验证/验收方式
 
 - 运行：
-  - `pnpm --filter @nextclaw/ui tsc`
+  - `pnpm --filter @go-usb-ai/ui tsc`
 - 观察点：
   - 首屏直接打开某个 NCP 会话路由时，历史消息应自动展示。
   - 点击任意会话项时，消息区可以进入加载态，但左侧会话列表不应整体闪成 loading 空态。

@@ -19,7 +19,7 @@ test("prepares packaged seed before resolving the runtime command", async () => 
   } as unknown as DesktopBundleManager;
   const runtimeCommand: RuntimeCommand = {
     source: "packaged-runtime",
-    scriptPath: "/resources/app.asar/node_modules/nextclaw/dist/cli/app/index.js"
+    scriptPath: "/resources/app.asar/node_modules/go-usb-ai/dist/cli/app/index.js"
   };
   const service = new DesktopRuntimeCommandService(
     { warn: () => undefined },
@@ -32,8 +32,8 @@ test("prepares packaged seed before resolving the runtime command", async () => 
 });
 
 test("keeps environment runtime override immediate", async () => {
-  const previousOverride = process.env.NEXTCLAW_DESKTOP_RUNTIME_SCRIPT;
-  process.env.NEXTCLAW_DESKTOP_RUNTIME_SCRIPT = "/runtime/override/index.js";
+  const previousOverride = process.env.GOUSB_AI_DESKTOP_RUNTIME_SCRIPT;
+  process.env.GOUSB_AI_DESKTOP_RUNTIME_SCRIPT = "/runtime/override/index.js";
   try {
     const bundleManager = {
       ensureInitialBundleAvailability: async () => {
@@ -53,9 +53,9 @@ test("keeps environment runtime override immediate", async () => {
     assert.equal(await service.resolve(), runtimeCommand);
   } finally {
     if (previousOverride === undefined) {
-      delete process.env.NEXTCLAW_DESKTOP_RUNTIME_SCRIPT;
+      delete process.env.GOUSB_AI_DESKTOP_RUNTIME_SCRIPT;
     } else {
-      process.env.NEXTCLAW_DESKTOP_RUNTIME_SCRIPT = previousOverride;
+      process.env.GOUSB_AI_DESKTOP_RUNTIME_SCRIPT = previousOverride;
     }
   }
 });

@@ -5,7 +5,7 @@
 - 用户期望：收到消息时应支持“选择不回复”，并与 OpenClaw 机制对齐。
 - 调研发现：
   - OpenClaw 使用 `NO_REPLY` 作为静默 token，并在回复归一化/投递前过滤（`parseReplyDirectives` + payload 过滤）。
-  - NextClaw 已支持 `NO_REPLY`，但当模型返回空字符串时会被兜底成默认文案，导致“本应静默却仍回复”。
+  - GoUsbAi 已支持 `NO_REPLY`，但当模型返回空字符串时会被兜底成默认文案，导致“本应静默却仍回复”。
 
 ## 决策
 
@@ -17,10 +17,10 @@
 
 ## 变更内容
 
-- `packages/nextclaw-core/src/agent/loop.ts`
+- `packages/go-usb-ai-core/src/agent/loop.ts`
   - `processMessage`：删除空回复兜底文案；当最终回复为空或 `NO_REPLY` 时直接 `return null`。
   - `processSystemMessage`：同样按“空回复或 `NO_REPLY` => 静默”处理。
-- `packages/nextclaw-core/src/agent/context.ts`
+- `packages/go-usb-ai-core/src/agent/context.ts`
   - Silent Replies 指令补充：入站渠道消息若无需有价值动作，优先 `NO_REPLY`。
   - 修正文案残留：`status/doctor/plugins/channels/...` → `status/doctor/channels/...`。
 - `docs/USAGE.md`
@@ -35,9 +35,9 @@ pnpm lint
 pnpm tsc
 
 # 隔离冒烟（不写仓库）
-TMP_HOME=$(mktemp -d /tmp/nextclaw-smoke-no-reply.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js init
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js status --json
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-smoke-no-reply.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js init
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js status --json
 ```
 
 验收点：

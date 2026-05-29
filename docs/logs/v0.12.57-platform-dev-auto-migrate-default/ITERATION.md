@@ -12,7 +12,7 @@
 ## 测试/验证/验收方式
 
 - 远程库结构复核（已执行）：
-  - `wrangler d1 execute NEXTCLAW_PLATFORM_DB --remote --command "SELECT name FROM sqlite_master ..."`
+  - `wrangler d1 execute GOUSB_AI_PLATFORM_DB --remote --command "SELECT name FROM sqlite_master ..."`
   - 结果包含 `platform_settings`、`users`、`usage_ledger` 等核心表。
 - 本地命令验证（已执行）：
   - `pnpm platform:db:migrate:local` 通过

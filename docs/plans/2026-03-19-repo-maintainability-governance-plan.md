@@ -224,14 +224,14 @@
 
 以下模块应作为首批红区管理对象：
 
-- `packages/nextclaw-core/src/agent/loop.ts`
-- `packages/nextclaw-core/src/providers/openai_provider.ts`
-- `packages/nextclaw/src/cli/commands/service.ts`
-- `packages/nextclaw-server/src/ui/router/chat.controller.ts`
-- `packages/nextclaw-server/src/ui/config.ts`
-- `packages/nextclaw-ui/src/components/config/ProviderForm.tsx`
-- `packages/extensions/nextclaw-channel-runtime/src/channels/discord.ts`
-- `packages/extensions/nextclaw-channel-runtime/src/channels/telegram.ts`
+- `packages/go-usb-ai-core/src/agent/loop.ts`
+- `packages/go-usb-ai-core/src/providers/openai_provider.ts`
+- `packages/go-usb-ai/src/cli/commands/service.ts`
+- `packages/go-usb-ai-server/src/ui/router/chat.controller.ts`
+- `packages/go-usb-ai-server/src/ui/config.ts`
+- `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx`
+- `packages/extensions/go-usb-ai-channel-runtime/src/channels/discord.ts`
+- `packages/extensions/go-usb-ai-channel-runtime/src/channels/telegram.ts`
 
 ### 5.3 红区操作规则
 

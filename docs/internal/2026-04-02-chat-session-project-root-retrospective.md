@@ -5,7 +5,7 @@
 这次问题表面上看是两个 bug：
 
 - 清除 `project_root` 提示成功，但刷新后还在
-- 设置项目目录后，runtime 又把 `NextClaw workspace` 当成当前项目
+- 设置项目目录后，runtime 又把 `GoUsbAi workspace` 当成当前项目
 
 但更深一层的问题不是“少写了一个 if”，而是我们一度在沿着错误方向演化：
 
@@ -33,7 +33,7 @@
 这里本来就有两个同时真实存在的目录语义：
 
 - `Current project directory`：当前用户正在工作的 repo / directory
-- `NextClaw host workspace directory`：NextClaw 自己的 memory、workspace-local skills、bootstrap 所在目录
+- `GoUsbAi host workspace directory`：GoUsbAi 自己的 memory、workspace-local skills、bootstrap 所在目录
 
 如果为了强调 project，就把 host workspace 删掉，等于把另一半真实上下文也删了；如果只保留 host workspace，又会让 runtime 误判“当前项目”。
 
@@ -76,7 +76,7 @@
 runtime prompt 改成显式暴露：
 
 - `Current project directory`
-- `NextClaw host workspace directory`
+- `GoUsbAi host workspace directory`
 
 两者都保留，不互相伪装，不互相降级。
 

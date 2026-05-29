@@ -28,7 +28,7 @@
 1. `pnpm build`
 2. `pnpm lint`
 3. `pnpm tsc`
-4. `pnpm --filter @nextclaw/docs build`
+4. `pnpm --filter @go-usb-ai/docs build`
 
 本地结果：
 
@@ -49,8 +49,8 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 打开 `https://docs.nextclaw.io/zh/`，确认首页不再强调多 Agent。
-2. 进入 `https://docs.nextclaw.io/zh/guide/introduction`，确认介绍页不提多 Agent，先引导新手路径。
-3. 进入 `https://docs.nextclaw.io/zh/guide/configuration`，确认默认内容是 UI 配置流程，不要求先改配置文件。
-4. 进入 `https://docs.nextclaw.io/zh/guide/advanced`，确认高级能力集中在进阶模块。
+1. 打开 `https://docs.go-usb-ai.io/zh/`，确认首页不再强调多 Agent。
+2. 进入 `https://docs.go-usb-ai.io/zh/guide/introduction`，确认介绍页不提多 Agent，先引导新手路径。
+3. 进入 `https://docs.go-usb-ai.io/zh/guide/configuration`，确认默认内容是 UI 配置流程，不要求先改配置文件。
+4. 进入 `https://docs.go-usb-ai.io/zh/guide/advanced`，确认高级能力集中在进阶模块。
 5. 检查侧栏：`多 Agent 路由` 位于“进阶”组，而非“功能”组。

@@ -2,7 +2,7 @@
 
 ## 背景 / 问题
 
-- Windows 用户执行 `nextclaw update` 时出现：`Update failed: no update strategy available`。
+- Windows 用户执行 `go-usb-ai update` 时出现：`Update failed: no update strategy available`。
 - 实际环境已安装 Node/npm，但 CLI 未正确识别到可用更新策略。
 
 ## 决策
@@ -17,24 +17,24 @@
 ## 变更内容（迭代完成说明）
 
 - 用户可见变化：
-  - Windows 环境执行 `nextclaw update` 不再错误落入 `no update strategy available`。
+  - Windows 环境执行 `go-usb-ai update` 不再错误落入 `no update strategy available`。
 - 关键实现点：
-  - `packages/nextclaw/src/cli/utils.ts`
+  - `packages/go-usb-ai/src/cli/utils.ts`
     - 新增 `findExecutableOnPath`，跨平台查找可执行文件。
     - `which` 改为复用该函数。
-  - `packages/nextclaw/src/cli/update/runner.ts`
-    - `NEXTCLAW_UPDATE_COMMAND` 执行按平台选择 shell。
+  - `packages/go-usb-ai/src/cli/update/runner.ts`
+    - `GOUSB_AI_UPDATE_COMMAND` 执行按平台选择 shell。
     - npm 更新改为直接调用解析到的 npm 可执行路径。
-  - `packages/nextclaw/src/cli/utils.which.test.ts`
+  - `packages/go-usb-ai/src/cli/utils.which.test.ts`
     - 新增 Windows/POSIX 查找逻辑单测。
 
 ## 测试 / 验证 / 验收方式
 
 ```bash
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw test -- run src/cli/utils.which.test.ts
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw build
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw lint
-PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai test -- run src/cli/utils.which.test.ts
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai build
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai lint
+PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai tsc
 ```
 
 验收点：
@@ -45,13 +45,13 @@ PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw tsc
 ## 用户 / 产品视角验收步骤
 
 1. 在 Windows 机器确认已安装 Node/npm（`npm -v` 可用）。
-2. 执行 `nextclaw update`。
+2. 执行 `go-usb-ai update`。
 3. 预期不再出现 `no update strategy available`。
-4. 执行 `nextclaw --version`，确认版本可更新/保持最新。
+4. 执行 `go-usb-ai --version`，确认版本可更新/保持最新。
 
 ## 发布 / 部署方式
 
-- 本次变更影响 `nextclaw` 包。
+- 本次变更影响 `go-usb-ai` 包。
 - 按发布流程执行：`docs/workflows/npm-release-process.md`。
 
 ## 影响范围 / 风险

@@ -3,9 +3,9 @@
 ## 迭代完成说明（改了什么）
 - 刷新对外产品截图资产，覆盖以下主入口：
   - GitHub / 仓库素材：`images/screenshots/*`
-  - landing 对外截图镜像：`apps/landing/public/nextclaw-*.png`
+  - landing 对外截图镜像：`apps/landing/public/go-usb-ai-*.png`
   - docs `Project Pulse` 派生图库：`apps/docs/public/project-pulse/gallery/*`
-- 本次截图刷新最终改为直接基于本机真实 NextClaw 实例（`http://127.0.0.1:55667`）重拍，不再以 mock 数据作为最终交付，已重新生成：
+- 本次截图刷新最终改为直接基于本机真实 GoUsbAi 实例（`http://127.0.0.1:55667`）重拍，不再以 mock 数据作为最终交付，已重新生成：
   - `providers`
   - `channels`
   - `chat`
@@ -28,8 +28,8 @@
   - `node scripts/project-pulse/generate-data.mjs`
   - 结果：成功生成 `apps/docs/.vitepress/data/project-pulse.generated.mjs`，并同步更新 `apps/docs/public/project-pulse/gallery/*`。
 - 关键图片人工抽查：
-  - 抽查 `images/screenshots/nextclaw-chat-page-en.png`
-  - 抽查 `images/screenshots/nextclaw-skills-doc-browser-en.png`
+  - 抽查 `images/screenshots/go-usb-ai-chat-page-en.png`
+  - 抽查 `images/screenshots/go-usb-ai-skills-doc-browser-en.png`
   - 结果：未出现报错态、骨架屏、空白详情页或半加载页面。
 - docs 构建与发布链路：
   - `pnpm deploy:docs`
@@ -44,21 +44,21 @@
 ## 发布/部署方式
 - landing：
   - `pnpm deploy:landing`
-  - 发布地址：`https://d29bf83f.nextclaw-landing.pages.dev`
+  - 发布地址：`https://d29bf83f.go-usb-ai-landing.pages.dev`
 - docs：
   - `pnpm deploy:docs`
-  - 发布地址：`https://36b18ffb.nextclaw-docs.pages.dev`
+  - 发布地址：`https://36b18ffb.go-usb-ai-docs.pages.dev`
 - GitHub 仓库首页截图与 README 素材会在本次提交推送后与仓库内容同步。
 
 ## 用户/产品视角的验收步骤
 1. 打开 landing 首页，确认英雄区与对外展示截图已不是旧版本 UI，并且 `chat` 图不是骨架屏。
 2. 打开仓库 [`README.md`](../../../README.md) 与 [`README.zh-CN.md`](../../../README.zh-CN.md)，确认 `Screenshots` 区块展示的是最新产品界面。
 3. 打开 docs 的 `Project Pulse` 页面，确认 gallery 中的 `chat / providers / channels / skills` 四组图片已同步为本次新截图，而不是 2026-04-14 之前的旧派生图。
-4. 抽查 `images/screenshots/nextclaw-providers-page-en.png`、`apps/landing/public/nextclaw-chat-page-en.png`、`apps/docs/public/project-pulse/gallery/skills-en.png`，确认三处入口展示的是同一批更新后的产品界面。
+4. 抽查 `images/screenshots/go-usb-ai-providers-page-en.png`、`apps/landing/public/go-usb-ai-chat-page-en.png`、`apps/docs/public/project-pulse/gallery/skills-en.png`，确认三处入口展示的是同一批更新后的产品界面。
 5. 抽查 `marketplace`、`skills detail` 与 `cron` 的截图资源，确认它们不再停留在更早版本的空白、报错或旧布局状态。
 
 ## 可维护性总结汇总
-- 长期目标对齐 / 可维护性推进：这次不是新增孤立功能，而是把 GitHub、landing、docs 三个对外入口的产品截图最终收敛到同一批真实实例资产，减少“展示图和真实产品不一致”的外部认知偏差，强化 NextClaw 作为统一入口的可信呈现。
+- 长期目标对齐 / 可维护性推进：这次不是新增孤立功能，而是把 GitHub、landing、docs 三个对外入口的产品截图最终收敛到同一批真实实例资产，减少“展示图和真实产品不一致”的外部认知偏差，强化 GoUsbAi 作为统一入口的可信呈现。
 - 本次是否已尽最大努力优化可维护性：是。本轮没有继续叠加 mock 分支去修截图，而是把最终交付切回真实实例模式，并把波动最大的两个场景压成可复用 helper，减少后续重复补丁。
 - 是否优先遵循“删减优先、简化优先、代码更少更好、复杂度更低更好、清晰度更高更好”的原则：是。最终修法优先删掉“靠 mock 兜最终交付”的隐含依赖，改成显式真实模式；同时把 `chat` 与 `skills detail` 的等待逻辑收回单独 helper，而不是继续在 scene 配置里复制粘贴等待片段。
 - 是否让总代码量、分支数、函数数、文件数或目录平铺度下降，或至少没有继续恶化：这轮代码量小幅净增，主要来自两个稳定等待 helper 与一处 `localStorage` 安全保护；增长是最小必要，用来换取真实截图链路稳定成功。图片资产大量更新属于内容替换，不构成逻辑复杂度膨胀。

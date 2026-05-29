@@ -8,10 +8,10 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm --filter @nextclaw/ui test -- --run src/components/chat/chat-page-runtime.test.ts`
-- `pnpm --filter @nextclaw/ui tsc`
-- `pnpm --filter @nextclaw/ui exec eslint src/components/chat/chat-page-runtime.ts src/components/chat/chat-page-data.ts src/components/chat/ncp/ncp-chat-page-data.ts src/components/chat/legacy/LegacyChatPage.tsx src/components/chat/ncp/NcpChatPage.tsx src/components/chat/chat-page-runtime.test.ts`
-- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-ui/src/components/chat/chat-page-data.ts packages/nextclaw-ui/src/components/chat/ncp/ncp-chat-page-data.ts packages/nextclaw-ui/src/components/chat/legacy/LegacyChatPage.tsx packages/nextclaw-ui/src/components/chat/ncp/NcpChatPage.tsx`
+- `pnpm --filter @go-usb-ai/ui test -- --run src/components/chat/chat-page-runtime.test.ts`
+- `pnpm --filter @go-usb-ai/ui tsc`
+- `pnpm --filter @go-usb-ai/ui exec eslint src/components/chat/chat-page-runtime.ts src/components/chat/chat-page-data.ts src/components/chat/ncp/ncp-chat-page-data.ts src/components/chat/legacy/LegacyChatPage.tsx src/components/chat/ncp/NcpChatPage.tsx src/components/chat/chat-page-runtime.test.ts`
+- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-ui/src/components/chat/chat-page-data.ts packages/go-usb-ai-ui/src/components/chat/ncp/ncp-chat-page-data.ts packages/go-usb-ai-ui/src/components/chat/legacy/LegacyChatPage.tsx packages/go-usb-ai-ui/src/components/chat/ncp/NcpChatPage.tsx`
 - 说明：目标文件 lint 仅剩仓库里已有的超长函数 warning，本次改动未新增 error。
 
 ## 发布/部署方式

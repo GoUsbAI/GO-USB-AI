@@ -17,7 +17,7 @@
 
 ## 测试/验证/验收方式
 
-- 文档构建验证：`pnpm --filter @nextclaw/docs build`
+- 文档构建验证：`pnpm --filter @go-usb-ai/docs build`
 - 文档双语镜像校验：`pnpm docs:i18n:check`
 - 关键验收点：
   - 新页面可构建并生成静态站点；
@@ -31,7 +31,7 @@
 
 ## 用户/产品视角的验收步骤
 
-1. 新用户按快速开始安装并执行 `nextclaw start`。
+1. 新用户按快速开始安装并执行 `go-usb-ai start`。
 2. 打开文档站 `Quick Start/快速开始`，能看到“安装后第一步：MiniMax”入口。
 3. 按文档完成 MiniMax Provider 配置与模型选择。
 4. 发送测试消息并拿到预期回复（`MINIMAX-OK` 或等价语义）。

@@ -1,12 +1,12 @@
 # Configuration Manual
 
-This manual explains the configuration surfaces in NextClaw. It is not the first page for new users; if you have not run NextClaw yet, start with [Quickstart](/en/guide/getting-started).
+This manual explains the configuration surfaces in GoUsbAi. It is not the first page for new users; if you have not run GoUsbAi yet, start with [Quickstart](/en/guide/getting-started).
 
 ## Configuration areas
 
 ### Model providers
 
-Providers decide which model service NextClaw calls. This includes provider identity, API base, authentication, and default model.
+Providers decide which model service GoUsbAi calls. This includes provider identity, API base, authentication, and default model.
 
 Related guides:
 
@@ -15,7 +15,7 @@ Related guides:
 
 ### Channels
 
-Channels decide where users enter NextClaw, such as the local UI, a messaging platform, or another entry point.
+Channels decide where users enter GoUsbAi, such as the local UI, a messaging platform, or another entry point.
 
 Related guide:
 
@@ -40,8 +40,8 @@ Related guide:
 ## Check configuration changes
 
 ```bash
-nextclaw status
-nextclaw doctor
+go-usb-ai status
+go-usb-ai doctor
 ```
 
 If a change does not take effect, see [Troubleshooting](/en/guide/troubleshooting).
@@ -49,6 +49,6 @@ If a change does not take effect, see [Troubleshooting](/en/guide/troubleshootin
 ## When to use commands for configuration
 
 Most users should prefer the UI.  
-Use `nextclaw config` when you need scripting, remote maintenance, or exact path-level edits.
+Use `go-usb-ai config` when you need scripting, remote maintenance, or exact path-level edits.
 
 For all commands, see [Command Index](/en/guide/commands).

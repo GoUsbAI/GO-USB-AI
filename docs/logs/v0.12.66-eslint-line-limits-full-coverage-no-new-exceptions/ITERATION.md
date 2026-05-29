@@ -5,7 +5,7 @@
   - `apps/platform-admin/.eslintrc.cjs`
   - `apps/platform-console/.eslintrc.cjs`
   - `workers/marketplace-api/eslint.config.mjs`
-  - `workers/nextclaw-provider-gateway-api/eslint.config.mjs`
+  - `workers/go-usb-ai-provider-gateway-api/eslint.config.mjs`
 - 统一新增规则：
   - `max-lines`: `warn`，`max=800`，`skipBlankLines=true`，`skipComments=true`
   - `max-lines-per-function`: `warn`，`max=150`，`skipBlankLines=true`，`skipComments=true`，`IIFEs=true`
@@ -22,15 +22,15 @@
   - `pnpm -C workers/marketplace-api lint`
   - `pnpm -C workers/marketplace-api build`
   - `pnpm -C workers/marketplace-api tsc`
-  - `pnpm -C workers/nextclaw-provider-gateway-api lint`
-  - `pnpm -C workers/nextclaw-provider-gateway-api build`
-  - `pnpm -C workers/nextclaw-provider-gateway-api tsc`
+  - `pnpm -C workers/go-usb-ai-provider-gateway-api lint`
+  - `pnpm -C workers/go-usb-ai-provider-gateway-api build`
+  - `pnpm -C workers/go-usb-ai-provider-gateway-api tsc`
 - 结果：
   - `build` / `tsc`：全部通过。
   - `lint`：
     - `apps/platform-admin` 失败（`AdminDashboardPage` 338 > 150）。
     - `apps/platform-console` 失败（`AdminDashboardPage` 155 > 150）。
-    - `workers/nextclaw-provider-gateway-api` 失败（`chargeUsage` 183 > 150）。
+    - `workers/go-usb-ai-provider-gateway-api` 失败（`chargeUsage` 183 > 150）。
     - `workers/marketplace-api` 通过。
 - 结论：规则补齐已生效；在“不新增例外”前提下，需后续拆分上述超限函数以恢复 lint 全绿。
 
@@ -43,7 +43,7 @@
    - `pnpm -C apps/platform-admin lint`
    - `pnpm -C apps/platform-console lint`
    - `pnpm -C workers/marketplace-api lint`
-   - `pnpm -C workers/nextclaw-provider-gateway-api lint`
+   - `pnpm -C workers/go-usb-ai-provider-gateway-api lint`
 2. 确认四个目标包均已启用 `max-lines` 与 `max-lines-per-function` 规则。
 3. 确认当前没有新增文件级例外配置（除历史既有例外外）。
 4. 对超限函数开展拆分后，再次执行 lint 验证直至全绿。

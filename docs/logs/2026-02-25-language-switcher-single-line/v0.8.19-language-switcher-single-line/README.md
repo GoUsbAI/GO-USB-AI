@@ -6,14 +6,14 @@
 - 入口样式对齐：左侧图标 + 文案，右侧展示当前语言值。
 - 保留既有行为：切换语言后整页 reload，确保当前与未来后端语言配置可统一生效。
 - 变更文件：
-  - `packages/nextclaw-ui/src/components/layout/Sidebar.tsx`
+  - `packages/go-usb-ai-ui/src/components/layout/Sidebar.tsx`
 
 ## 测试 / 验证 / 验收方式
 
 - 执行：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui build`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui build`
 - 验收观察点：
   1. 语言入口与侧边栏其它项风格一致。
   2. 入口在单行内展示（不换行）。

@@ -1,6 +1,6 @@
-# NextClaw 用户文档架构重整方案
+# GoUsbAi 用户文档架构重整方案
 
-**Goal:** 为 NextClaw 建立一套面向用户、可扩展、可持续治理的文档信息架构，让用户能以最少学习成本完成安装、接入、使用、常驻、远程访问与排障，同时把 AI 自管理与高阶命令参考从主用户叙事中剥离出去。
+**Goal:** 为 GoUsbAi 建立一套面向用户、可扩展、可持续治理的文档信息架构，让用户能以最少学习成本完成安装、接入、使用、常驻、远程访问与排障，同时把 AI 自管理与高阶命令参考从主用户叙事中剥离出去。
 
 **Architecture:** 采用“用户任务流主轴 + 完整命令参考旁路 + AI 自管理独立真相源”的三层结构。公开文档站只承接用户真正需要理解和操作的内容；高频命令只保留最小必要集合；完整命令索引继续存在，但降级为查询型参考；AI/系统自管理命令继续留在包内 `USAGE.md` 体系，而不再主导公开文档站的信息架构。
 
@@ -18,7 +18,7 @@
 - 一些实际上主要供 AI 或高级操作者使用的命令，被过早暴露在面向普通用户的主路径里。
 - 文档随着能力增长容易继续变成“功能和命令的堆积”，而不是稳定的产品说明系统。
 
-这与 NextClaw 的产品愿景不一致。NextClaw 追求的是统一入口、意图优先、开箱即用和统一体验；文档站也应该服务这个目标，而不是要求用户先理解大量命令表面。
+这与 GoUsbAi 的产品愿景不一致。GoUsbAi 追求的是统一入口、意图优先、开箱即用和统一体验；文档站也应该服务这个目标，而不是要求用户先理解大量命令表面。
 
 ## 2. 设计原则
 
@@ -66,7 +66,7 @@
 AI、自管理、内建助手、系统控制能力所需的完整命令知识，继续由：
 
 - `docs/USAGE.md`
-- `packages/nextclaw/resources/USAGE.md`
+- `packages/go-usb-ai/resources/USAGE.md`
 
 承接。
 
@@ -153,7 +153,7 @@ AI、自管理、内建助手、系统控制能力所需的完整命令知识，
 - 但该索引页的定位是查询型参考，不是用户入门主流程
 - 文档站主导航与用户路径，不应围绕命令穷举展开
 
-### 4.2 `docs/USAGE.md` 与 `packages/nextclaw/resources/USAGE.md`
+### 4.2 `docs/USAGE.md` 与 `packages/go-usb-ai/resources/USAGE.md`
 
 定位：AI 自管理 / CLI 自说明真相源。
 
@@ -178,7 +178,7 @@ AI、自管理、内建助手、系统控制能力所需的完整命令知识，
 
 建议把公开文档站重构为以下一级主轴。
 
-### 5.1 认识 NextClaw
+### 5.1 认识 GoUsbAi
 
 目标：帮助用户理解产品是什么、适合谁、核心价值是什么。
 
@@ -225,7 +225,7 @@ AI、自管理、内建助手、系统控制能力所需的完整命令知识，
 
 ### 5.5 运行与托管
 
-目标：承接“让 NextClaw 持续存在”的全部语义。
+目标：承接“让 GoUsbAi 持续存在”的全部语义。
 
 这是当前最缺失、也最需要新增的结构层。
 
@@ -281,13 +281,13 @@ AI、自管理、内建助手、系统控制能力所需的完整命令知识，
 
 允许在快速开始、安装后下一步、首页 CTA 等主用户链路中反复出现：
 
-- `npm i -g nextclaw`
-- `nextclaw start`
-- `nextclaw stop`
-- `nextclaw restart`
-- `nextclaw status`
-- `nextclaw doctor`
-- `nextclaw update`
+- `npm i -g go-usb-ai`
+- `go-usb-ai start`
+- `go-usb-ai stop`
+- `go-usb-ai restart`
+- `go-usb-ai status`
+- `go-usb-ai doctor`
+- `go-usb-ai update`
 
 ### 6.2 场景命令
 
@@ -304,10 +304,10 @@ AI、自管理、内建助手、系统控制能力所需的完整命令知识，
 
 例如：
 
-- `nextclaw service install-systemd --user`
-- `sudo nextclaw service install-systemd --system`
-- `nextclaw service install-launch-agent`
-- `nextclaw service install-task`
+- `go-usb-ai service install-systemd --user`
+- `sudo go-usb-ai service install-systemd --system`
+- `go-usb-ai service install-launch-agent`
+- `go-usb-ai service install-task`
 
 这些命令不应出现在面向普通用户的主命令页首屏，而应进入：
 
@@ -349,7 +349,7 @@ AI、自管理、内建助手、系统控制能力所需的完整命令知识，
 
 - `after-setup.md`
   - 保留
-  - 改成“第一次让 NextClaw 真正跑起来”
+  - 改成“第一次让 GoUsbAi 真正跑起来”
   - 增加“是否需要后台常驻 / 登录自启动”的明确分流
 
 - `commands.md`
@@ -394,7 +394,7 @@ AI、自管理、内建助手、系统控制能力所需的完整命令知识，
 
 1. 用户在“安装后下一步”看到分流：
    - 只想先跑起来
-   - 想让 NextClaw 持续在后台可用
+   - 想让 GoUsbAi 持续在后台可用
 2. 若选择第二条，进入“运行与托管”
 3. 在“后台运行与自启动”页理解：
    - 什么是前台运行
@@ -416,7 +416,7 @@ AI、自管理、内建助手、系统控制能力所需的完整命令知识，
 - 用户主路径里只保留最小必要命令
 - `运行与托管` 成为后台常驻、自启动、远程访问、宿主运行的统一归属
 - `after-setup` 与 `getting-started` 回到面向用户的短路径职责
-- `apps/docs`、`docs/USAGE.md`、`packages/nextclaw/resources/USAGE.md` 的边界一次性对齐
+- `apps/docs`、`docs/USAGE.md`、`packages/go-usb-ai/resources/USAGE.md` 的边界一次性对齐
 
 同时，至少验证以下问题是否能在 3 步内被用户找到答案：
 
@@ -454,7 +454,7 @@ AI、自管理、内建助手、系统控制能力所需的完整命令知识，
 
 ## 12. 结论
 
-NextClaw 的公开文档站，应该是用户理解和进入这套“个人操作层”的产品入口，而不是完整 CLI 和 AI 自管理合同的投影。
+GoUsbAi 的公开文档站，应该是用户理解和进入这套“个人操作层”的产品入口，而不是完整 CLI 和 AI 自管理合同的投影。
 
 因此，后续文档改造的总原则应明确为：
 

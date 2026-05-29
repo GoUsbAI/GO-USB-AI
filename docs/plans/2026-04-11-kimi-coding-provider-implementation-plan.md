@@ -2,19 +2,19 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** 在 NextClaw 中新增可实际运行的 `kimi-coding` 专用 provider，让 Kimi Coding 不再被当作普通 OpenAI custom provider 接入。
+**Goal:** 在 GoUsbAi 中新增可实际运行的 `kimi-coding` 专用 provider，让 Kimi Coding 不再被当作普通 OpenAI custom provider 接入。
 
 **Architecture:** 保持现有 `ProviderManager -> LiteLLMProvider` 入口不变，但给 provider spec 增加显式协议字段，并在 core 内新增一个轻量的 `AnthropicMessagesProvider`。`kimi-coding` 作为 builtin provider 走 `anthropic-messages` 协议和专用默认 header，避免把 Kimi Coding 错接到 OpenAI chat/responses 探针。同时顺手修正 custom provider 在前端无法正确保存/测试 `wireApi` 的不一致问题。
 
-**Tech Stack:** TypeScript, Vitest, fetch/undici, NextClaw core/runtime/server/ui
+**Tech Stack:** TypeScript, Vitest, fetch/undici, GoUsbAi core/runtime/server/ui
 
 ---
 
 ### Task 1: 锁定 provider 协议边界
 
 **Files:**
-- Modify: `packages/nextclaw-core/src/providers/types.ts`
-- Modify: `packages/nextclaw-core/src/providers/litellm_provider.ts`
+- Modify: `packages/go-usb-ai-core/src/providers/types.ts`
+- Modify: `packages/go-usb-ai-core/src/providers/litellm_provider.ts`
 
 **Step 1: 给 ProviderSpec 增加显式协议字段**
 
@@ -33,9 +33,9 @@
 ### Task 2: 在 core 新增 Anthropic Messages provider
 
 **Files:**
-- Create: `packages/nextclaw-core/src/providers/anthropic/anthropic-messages.provider.ts`
-- Create: `packages/nextclaw-core/src/providers/anthropic/anthropic-messages.provider.test.ts`
-- Modify: `packages/nextclaw-core/src/index.ts`
+- Create: `packages/go-usb-ai-core/src/providers/anthropic/anthropic-messages.provider.ts`
+- Create: `packages/go-usb-ai-core/src/providers/anthropic/anthropic-messages.provider.test.ts`
+- Modify: `packages/go-usb-ai-core/src/index.ts`
 
 **Step 1: 实现最小可用的消息协议转换**
 
@@ -59,11 +59,11 @@
 ### Task 3: 注册 builtin `kimi-coding` provider
 
 **Files:**
-- Create: `packages/nextclaw-runtime/src/providers/plugins/kimi-coding.provider.ts`
-- Modify: `packages/nextclaw-runtime/src/providers/plugins/builtin.ts`
-- Modify: `packages/nextclaw-server/src/ui/config.ts`
-- Modify: `packages/nextclaw-server/src/ui/router.provider-test.test.ts`
-- Modify: `packages/nextclaw-core/src/config/schema.provider-routing.test.ts`
+- Create: `packages/go-usb-ai-runtime/src/providers/plugins/kimi-coding.provider.ts`
+- Modify: `packages/go-usb-ai-runtime/src/providers/plugins/builtin.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/config.ts`
+- Modify: `packages/go-usb-ai-server/src/ui/router.provider-test.test.ts`
+- Modify: `packages/go-usb-ai-core/src/config/schema.provider-routing.test.ts`
 
 **Step 1: 新增 provider spec**
 
@@ -85,7 +85,7 @@
 ### Task 4: 修正 custom provider 的 wireApi 前端不一致
 
 **Files:**
-- Modify: `packages/nextclaw-ui/src/components/config/ProviderForm.tsx`
+- Modify: `packages/go-usb-ai-ui/src/components/config/ProviderForm.tsx`
 
 **Step 1: 统一 supportsWireApi 判定**
 
@@ -97,24 +97,24 @@
 ### Task 5: 验证与收尾
 
 **Files:**
-- Read: `packages/nextclaw-core/src/providers/anthropic/anthropic-messages.provider.test.ts`
-- Read: `packages/nextclaw-core/src/config/schema.provider-routing.test.ts`
-- Read: `packages/nextclaw-server/src/ui/router.provider-test.test.ts`
+- Read: `packages/go-usb-ai-core/src/providers/anthropic/anthropic-messages.provider.test.ts`
+- Read: `packages/go-usb-ai-core/src/config/schema.provider-routing.test.ts`
+- Read: `packages/go-usb-ai-server/src/ui/router.provider-test.test.ts`
 
 **Step 1: 运行最小充分测试**
 
 建议命令：
-- `pnpm -C packages/nextclaw-core test -- run src/providers/anthropic/anthropic-messages.provider.test.ts src/providers/litellm_provider.test.ts src/config/schema.provider-routing.test.ts`
-- `pnpm -C packages/nextclaw-server test -- run src/ui/router.provider-test.test.ts`
-- `pnpm -C packages/nextclaw-ui test -- --run`（若当前包有可直接运行的测试入口）
+- `pnpm -C packages/go-usb-ai-core test -- run src/providers/anthropic/anthropic-messages.provider.test.ts src/providers/litellm_provider.test.ts src/config/schema.provider-routing.test.ts`
+- `pnpm -C packages/go-usb-ai-server test -- run src/ui/router.provider-test.test.ts`
+- `pnpm -C packages/go-usb-ai-ui test -- --run`（若当前包有可直接运行的测试入口）
 
 **Step 2: 运行受影响构建/类型/治理检查**
 
 建议命令：
-- `pnpm -C packages/nextclaw-core tsc`
-- `pnpm -C packages/nextclaw-runtime tsc`
-- `pnpm -C packages/nextclaw-server tsc`
-- `pnpm -C packages/nextclaw-ui tsc`
+- `pnpm -C packages/go-usb-ai-core tsc`
+- `pnpm -C packages/go-usb-ai-runtime tsc`
+- `pnpm -C packages/go-usb-ai-server tsc`
+- `pnpm -C packages/go-usb-ai-ui tsc`
 - `pnpm lint:maintainability:guard`
 
 **Step 3: 迭代留痕**
@@ -123,6 +123,6 @@
 
 **长期目标对齐 / 可维护性推进**
 
-- 这次改动是把“coding agent 专用入口”收敛成一个清晰 provider，而不是继续让用户在 custom provider 里猜协议和 header，符合 NextClaw 的“统一体验优先、意图优先”目标。
+- 这次改动是把“coding agent 专用入口”收敛成一个清晰 provider，而不是继续让用户在 custom provider 里猜协议和 header，符合 GoUsbAi 的“统一体验优先、意图优先”目标。
 - 优先删减的是错误接入路径和隐式猜测，而不是再叠一层兼容补丁。
 - 若出现净增长，其最小必要性在于补齐缺失的协议 owner class；同时偿还的维护性债务是 custom provider / builtin provider 协议边界混乱和 UI 行为不一致。

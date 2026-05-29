@@ -6,7 +6,7 @@
 
 **Architecture:** 保持现有 `NcpTool` 接口和 `tool.parameters` 事实源不变，只在 runtime 内做两件事：第一，用 `Ajv` 替换手写轻量 schema validator，完整执行现有 JSON Schema 风格的 `parameters`；第二，在 `toolRegistry.execute()` 外收拢统一的 `try/catch`，把工具执行异常转成结构化 tool result。工具侧只补齐重点 schema，并删除已经被 schema 覆盖的重复参数兜底逻辑。
 
-**Tech Stack:** TypeScript, Ajv, Vitest, NCP runtime/toolkit, NextClaw CLI runtime tools
+**Tech Stack:** TypeScript, Ajv, Vitest, NCP runtime/toolkit, GoUsbAi CLI runtime tools
 
 ---
 
@@ -14,9 +14,9 @@
 
 **Files:**
 - Read: `docs/rfcs/ncp-tool-argument-contract-v1.md`
-- Read: `packages/ncp-packages/nextclaw-ncp-agent-runtime/src/utils.ts`
-- Read: `packages/ncp-packages/nextclaw-ncp-agent-runtime/src/runtime.ts`
-- Read: `packages/nextclaw-openclaw-compat/src/plugins/schema-validator.ts`
+- Read: `packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/utils.ts`
+- Read: `packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/runtime.ts`
+- Read: `packages/go-usb-ai-openclaw-compat/src/plugins/schema-validator.ts`
 
 **Step 1: 明确 primary contract**
 
@@ -44,16 +44,16 @@ runtime 只负责：
 ### Task 2: 用 Ajv 替换手写轻量 schema validator
 
 **Files:**
-- Modify: `packages/ncp-packages/nextclaw-ncp-agent-runtime/package.json`
-- Modify: `packages/ncp-packages/nextclaw-ncp-agent-runtime/src/utils.ts`
-- Create: `packages/ncp-packages/nextclaw-ncp-agent-runtime/src/utils.test.ts`
-- Read: `packages/nextclaw-openclaw-compat/src/plugins/schema-validator.ts`
+- Modify: `packages/ncp-packages/go-usb-ai-ncp-agent-runtime/package.json`
+- Modify: `packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/utils.ts`
+- Create: `packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/utils.test.ts`
+- Read: `packages/go-usb-ai-openclaw-compat/src/plugins/schema-validator.ts`
 
 **Step 1: 增加 Ajv 依赖并复用现有思路**
 
 变更：
-- 在 `@nextclaw/ncp-agent-runtime` 中加入 `ajv`
-- 参考 `packages/nextclaw-openclaw-compat/src/plugins/schema-validator.ts` 的缓存与错误格式化思路
+- 在 `@go-usb-ai/ncp-agent-runtime` 中加入 `ajv`
+- 参考 `packages/go-usb-ai-openclaw-compat/src/plugins/schema-validator.ts` 的缓存与错误格式化思路
 - 不新建通用包，先在 runtime 包内落最小实现
 
 **Step 2: 替换 `validateToolArgs`**
@@ -81,9 +81,9 @@ runtime 只负责：
 ### Task 3: 在 runtime 收敛工具执行错误边界
 
 **Files:**
-- Modify: `packages/ncp-packages/nextclaw-ncp-agent-runtime/src/runtime.ts`
-- Modify: `packages/ncp-packages/nextclaw-ncp-agent-runtime/src/utils.ts`
-- Modify: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/in-memory-agent-backend.test.ts`
+- Modify: `packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/runtime.ts`
+- Modify: `packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/utils.ts`
+- Modify: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/in-memory-agent-backend.test.ts`
 
 **Step 1: 为 execute 增加统一 try/catch**
 
@@ -113,8 +113,8 @@ runtime 只负责：
 ### Task 4: 补齐重点工具 schema，并删除重复兜底
 
 **Files:**
-- Modify: `packages/nextclaw/src/cli/commands/ncp/runtime/ncp-asset-tools.ts`
-- Create: `packages/nextclaw/src/cli/commands/ncp/runtime/ncp-asset-tools.test.ts`
+- Modify: `packages/go-usb-ai/src/cli/commands/ncp/runtime/ncp-asset-tools.ts`
+- Create: `packages/go-usb-ai/src/cli/commands/ncp/runtime/ncp-asset-tools.test.ts`
 
 **Step 1: 把 `asset_put.parameters` 写完整**
 
@@ -149,9 +149,9 @@ runtime 只负责：
 ### Task 5: 校准其它高风险工具的 schema 书写方式
 
 **Files:**
-- Read: `packages/nextclaw/src/cli/commands/ncp/runtime/ncp-asset-tools.ts`
-- Read: `packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-tool-registry.ts`
-- Read: `packages/nextclaw-core/src/agent/tools/base.ts`
+- Read: `packages/go-usb-ai/src/cli/commands/ncp/runtime/ncp-asset-tools.ts`
+- Read: `packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-tool-registry.ts`
+- Read: `packages/go-usb-ai-core/src/agent/tools/base.ts`
 
 **Step 1: 形成 schema 书写最小规范**
 
@@ -172,16 +172,16 @@ runtime 只负责：
 ### Task 6: 验证与收尾
 
 **Files:**
-- Read: `packages/ncp-packages/nextclaw-ncp-agent-runtime/src/utils.test.ts`
-- Read: `packages/ncp-packages/nextclaw-ncp-toolkit/src/agent/in-memory-agent-backend.test.ts`
-- Read: `packages/nextclaw/src/cli/commands/ncp/runtime/ncp-asset-tools.test.ts`
+- Read: `packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src/utils.test.ts`
+- Read: `packages/ncp-packages/go-usb-ai-ncp-toolkit/src/agent/in-memory-agent-backend.test.ts`
+- Read: `packages/go-usb-ai/src/cli/commands/ncp/runtime/ncp-asset-tools.test.ts`
 
 **Step 1: 运行最小充分测试**
 
 建议命令：
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-agent-runtime test -- run src/utils.test.ts`
-- `pnpm -C packages/ncp-packages/nextclaw-ncp-toolkit test -- run src/agent/in-memory-agent-backend.test.ts`
-- `pnpm -C packages/nextclaw test -- run src/cli/commands/ncp/runtime/ncp-asset-tools.test.ts`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-agent-runtime test -- run src/utils.test.ts`
+- `pnpm -C packages/ncp-packages/go-usb-ai-ncp-toolkit test -- run src/agent/in-memory-agent-backend.test.ts`
+- `pnpm -C packages/go-usb-ai test -- run src/cli/commands/ncp/runtime/ncp-asset-tools.test.ts`
 
 **Step 2: 运行治理检查**
 

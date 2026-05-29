@@ -20,7 +20,7 @@ import { prepareLocalUpdateChannelArtifacts } from "./update/services/local-upda
 const desktopDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const workspaceRoot = resolve(desktopDir, "..", "..");
 const defaultSupportRoot = resolve(desktopDir, "release", "manual-update-validation-support");
-const defaultStableSeedBundlePath = "/Applications/NextClaw Desktop.app/Contents/Resources/update/seed-product-bundle.zip";
+const defaultStableSeedBundlePath = "/Applications/GoUsbAi Desktop.app/Contents/Resources/update/seed-product-bundle.zip";
 const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
 
 function parseArgs(argv) {
@@ -201,9 +201,9 @@ function buildReadme({ installerDmgPath, supportRoot, stableVersion, betaVersion
 
 ## 安装和验证步骤
 
-1. 双击上面的 DMG，把 \`NextClaw Desktop.app\` 拖到 \`Applications\`。
+1. 双击上面的 DMG，把 \`GoUsbAi Desktop.app\` 拖到 \`Applications\`。
 2. 双击 \`1-start-local-update-server.command\`，保持这个终端窗口不要关闭。
-3. 正常从 \`Applications/NextClaw Desktop.app\` 打开应用。
+3. 正常从 \`Applications/GoUsbAi Desktop.app\` 打开应用。
 4. 进入“设置 > 桌面端更新”。
 5. 在 \`Stable\` 下点击“检查更新”，预期当前版本是 \`${stableVersion}\`，结果为“已是最新”。
 6. 切到 \`Beta\`，再次点击“检查更新”，预期看到 \`${betaVersion}\`。
@@ -217,7 +217,7 @@ function buildReadme({ installerDmgPath, supportRoot, stableVersion, betaVersion
 ## 注意
 
 - 这是标准 DMG 安装包，不是让你直接在奇怪目录里跑 \`.app\`
-- 这个验证包只把本地更新源地址烘进安装包里，标准运行数据仍会继续使用用户自己的 \`~/.nextclaw\`
+- 这个验证包只把本地更新源地址烘进安装包里，标准运行数据仍会继续使用用户自己的 \`~/.go-usb-ai\`
 - 你只需要额外启动一次本地更新源脚本，因为这次还没有把测试用 beta 版本发布到正式线上更新源
 `;
 }
@@ -234,7 +234,7 @@ async function main() {
 
   const stableVersion = await readBundleVersion(stableSeedBundlePath);
   const installerOutputRoot = join(supportRoot, "pack-output");
-  const installerDmgPath = resolve(desktopDir, "release", "NextClaw Desktop-manual-update-validation-installer.dmg");
+  const installerDmgPath = resolve(desktopDir, "release", "GoUsbAi Desktop-manual-update-validation-installer.dmg");
   rmSync(supportRoot, { recursive: true, force: true });
   rmSync(installerDmgPath, { force: true });
   mkdirSync(supportRoot, { recursive: true });

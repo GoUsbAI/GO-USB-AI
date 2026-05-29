@@ -2,7 +2,7 @@
 
 ## 迭代完成说明
 
-- 基于本地 `~/.nextclaw/sessions` 的 Discord 历史复现到问题：
+- 基于本地 `~/.go-usb-ai/sessions` 的 Discord 历史复现到问题：
   - 大量 `assistant` 消息在工具调用后含 `<think>...</think>` 文本块。
   - 这些文本会写入会话历史，污染后续上下文，并在部分场景表现为“回复奇怪内容”。
 - 根因定位：
@@ -24,9 +24,9 @@
 ### 开发验证
 
 ```bash
-pnpm -C packages/nextclaw-core build
-pnpm -C packages/nextclaw-core lint
-pnpm -C packages/nextclaw-core tsc
+pnpm -C packages/go-usb-ai-core build
+pnpm -C packages/go-usb-ai-core lint
+pnpm -C packages/go-usb-ai-core tsc
 ```
 
 结果：通过（仅仓库既有 lint warning，无新增 error）。

@@ -21,10 +21,10 @@ const shouldStartUi = !process.env.SCREENSHOT_UI_ORIGIN;
 const useRealAppData = parseBooleanEnv(process.env.SCREENSHOT_USE_REAL_APP_DATA || process.env.SCREENSHOT_REAL_APP_DATA);
 const useRealMarketplace = parseBooleanEnv(process.env.REAL_MARKETPLACE || process.env.SCREENSHOT_REAL_MARKETPLACE);
 const realMarketplaceBase = normalizeBaseUrl(
-  process.env.REAL_MARKETPLACE_BASE || process.env.SCREENSHOT_REAL_MARKETPLACE_BASE || 'https://marketplace-api.nextclaw.io'
+  process.env.REAL_MARKETPLACE_BASE || process.env.SCREENSHOT_REAL_MARKETPLACE_BASE || 'https://marketplace-api.go-usb-ai.io'
 );
 
-const languageStorageKey = 'nextclaw.ui.language';
+const languageStorageKey = 'go-usb-ai.ui.language';
 const viewport = { width: 1512, height: 828 };
 const deviceScaleFactor = 2;
 
@@ -39,7 +39,7 @@ function parseBooleanEnv(raw) {
 function normalizeBaseUrl(raw) {
   const value = String(raw || '').trim();
   if (!value) {
-    return 'https://marketplace-api.nextclaw.io';
+    return 'https://marketplace-api.go-usb-ai.io';
   }
   return value.replace(/\/+$/, '');
 }
@@ -70,9 +70,9 @@ const scenes = [
     language: 'en',
     waitText: uiText.en.providers,
     outputs: [
-      'images/screenshots/nextclaw-providers-page-en.png',
-      'images/screenshots/nextclaw-providers-page.png',
-      'apps/landing/public/nextclaw-providers-page-en.png'
+      'images/screenshots/go-usb-ai-providers-page-en.png',
+      'images/screenshots/go-usb-ai-providers-page.png',
+      'apps/landing/public/go-usb-ai-providers-page-en.png'
     ]
   },
   {
@@ -81,8 +81,8 @@ const scenes = [
     language: 'zh',
     waitText: uiText.zh.providers,
     outputs: [
-      'images/screenshots/nextclaw-providers-page-cn.png',
-      'apps/landing/public/nextclaw-providers-page-cn.png'
+      'images/screenshots/go-usb-ai-providers-page-cn.png',
+      'apps/landing/public/go-usb-ai-providers-page-cn.png'
     ]
   },
   {
@@ -91,9 +91,9 @@ const scenes = [
     language: 'en',
     waitText: uiText.en.channels,
     outputs: [
-      'images/screenshots/nextclaw-channels-page-en.png',
-      'images/screenshots/nextclaw-channels-page.png',
-      'apps/landing/public/nextclaw-channels-page-en.png'
+      'images/screenshots/go-usb-ai-channels-page-en.png',
+      'images/screenshots/go-usb-ai-channels-page.png',
+      'apps/landing/public/go-usb-ai-channels-page-en.png'
     ]
   },
   {
@@ -102,8 +102,8 @@ const scenes = [
     language: 'zh',
     waitText: uiText.zh.channels,
     outputs: [
-      'images/screenshots/nextclaw-channels-page-cn.png',
-      'apps/landing/public/nextclaw-channels-page-cn.png'
+      'images/screenshots/go-usb-ai-channels-page-cn.png',
+      'apps/landing/public/go-usb-ai-channels-page-cn.png'
     ]
   },
   {
@@ -111,21 +111,21 @@ const scenes = [
     route: '/marketplace/plugins',
     language: 'en',
     waitText: uiText.en.pluginMarketplace,
-    outputs: ['images/screenshots/nextclaw-plugins-page.png']
+    outputs: ['images/screenshots/go-usb-ai-plugins-page.png']
   },
   {
     id: 'marketplace-skills',
     route: '/marketplace/skills',
     language: 'en',
     waitText: uiText.en.skillMarketplace,
-    outputs: ['images/screenshots/nextclaw-skills-page.png']
+    outputs: ['images/screenshots/go-usb-ai-skills-page.png']
   },
   {
     id: 'cron-jobs',
     route: '/cron',
     language: 'en',
     waitText: uiText.en.cron,
-    outputs: ['images/screenshots/nextclaw-cron-job-page.png']
+    outputs: ['images/screenshots/go-usb-ai-cron-job-page.png']
   },
   {
     id: 'chat-home-en',
@@ -134,9 +134,9 @@ const scenes = [
     waitText: [uiText.en.chatWelcome, 'New Task'],
     afterLoad: async ({ page }) => waitForChatReady(page),
     outputs: [
-      'images/screenshots/nextclaw-chat-page-en.png',
-      'images/screenshots/nextclaw-ui-screenshot.png',
-      'apps/landing/public/nextclaw-chat-page-en.png'
+      'images/screenshots/go-usb-ai-chat-page-en.png',
+      'images/screenshots/go-usb-ai-ui-screenshot.png',
+      'apps/landing/public/go-usb-ai-chat-page-en.png'
     ]
   },
   {
@@ -146,8 +146,8 @@ const scenes = [
     waitText: [uiText.zh.chatWelcome, '新任务'],
     afterLoad: async ({ page }) => waitForChatReady(page),
     outputs: [
-      'images/screenshots/nextclaw-chat-page-cn.png',
-      'apps/landing/public/nextclaw-chat-page-cn.png'
+      'images/screenshots/go-usb-ai-chat-page-cn.png',
+      'apps/landing/public/go-usb-ai-chat-page-cn.png'
     ]
   },
   {
@@ -157,8 +157,8 @@ const scenes = [
     waitText: uiText.en.skillMarketplace,
     afterLoad: async ({ page }) => openFirstSkillDetail(page),
     outputs: [
-      'images/screenshots/nextclaw-skills-doc-browser-en.png',
-      'apps/landing/public/nextclaw-skills-doc-browser-en.png'
+      'images/screenshots/go-usb-ai-skills-doc-browser-en.png',
+      'apps/landing/public/go-usb-ai-skills-doc-browser-en.png'
     ]
   },
   {
@@ -168,8 +168,8 @@ const scenes = [
     waitText: uiText.zh.skillMarketplace,
     afterLoad: async ({ page }) => openFirstSkillDetail(page),
     outputs: [
-      'images/screenshots/nextclaw-skills-doc-browser-cn.png',
-      'apps/landing/public/nextclaw-skills-doc-browser-cn.png'
+      'images/screenshots/go-usb-ai-skills-doc-browser-cn.png',
+      'apps/landing/public/go-usb-ai-skills-doc-browser-cn.png'
     ]
   }
 ];
@@ -231,8 +231,8 @@ const channelSpecs = [
     displayName: 'Discord',
     enabled: true,
     tutorialUrls: {
-      en: 'https://docs.nextclaw.io/en/guide/tutorials/feishu',
-      zh: 'https://docs.nextclaw.io/zh/guide/tutorials/feishu'
+      en: 'https://docs.go-usb-ai.io/en/guide/tutorials/feishu',
+      zh: 'https://docs.go-usb-ai.io/zh/guide/tutorials/feishu'
     }
   },
   {
@@ -266,7 +266,7 @@ const configPayload = {
   agents: {
     defaults: {
       model: 'openai/gpt-5.1',
-      workspace: '~/workspace-nextclaw',
+      workspace: '~/workspace-go-usb-ai',
       contextTokens: 64000,
       maxToolIterations: 1000
     },
@@ -353,7 +353,7 @@ const configPayload = {
     providers: {
       global: {
         source: 'env',
-        prefix: 'NEXTCLAW_'
+        prefix: 'GOUSB_AI_'
       }
     },
     refs: {}
@@ -383,7 +383,7 @@ const schemaPayload = {
 
 const marketplacePlugins = [
   {
-    id: 'plugin-nextclaw-web-search',
+    id: 'plugin-go-usb-ai-web-search',
     slug: 'web-search',
     type: 'plugin',
     name: 'Web Search',
@@ -393,17 +393,17 @@ const marketplacePlugins = [
       zh: '在 Agent 工作流中直接进行网页搜索。'
     },
     tags: ['search', 'tooling'],
-    author: 'NextClaw',
+    author: 'GoUsbAi',
     install: {
       kind: 'npm',
-      spec: '@nextclaw/plugin-web-search',
-      command: 'npm i @nextclaw/plugin-web-search'
+      spec: '@go-usb-ai/plugin-web-search',
+      command: 'npm i @go-usb-ai/plugin-web-search'
     },
     updatedAt: '2026-03-05T00:00:00.000Z',
     publishedAt: '2026-03-01T00:00:00.000Z'
   },
   {
-    id: 'plugin-nextclaw-github',
+    id: 'plugin-go-usb-ai-github',
     slug: 'github',
     type: 'plugin',
     name: 'GitHub Toolkit',
@@ -413,11 +413,11 @@ const marketplacePlugins = [
       zh: '读取 Issue、PR 与仓库元数据。'
     },
     tags: ['github', 'dev'],
-    author: 'NextClaw',
+    author: 'GoUsbAi',
     install: {
       kind: 'npm',
-      spec: '@nextclaw/plugin-github',
-      command: 'npm i @nextclaw/plugin-github'
+      spec: '@go-usb-ai/plugin-github',
+      command: 'npm i @go-usb-ai/plugin-github'
     },
     updatedAt: '2026-03-04T00:00:00.000Z',
     publishedAt: '2026-03-02T00:00:00.000Z'
@@ -426,7 +426,7 @@ const marketplacePlugins = [
 
 const marketplaceSkills = [
   {
-    id: 'skill-nextclaw-content-ops',
+    id: 'skill-go-usb-ai-content-ops',
     slug: 'content-ops',
     type: 'skill',
     name: 'Content Ops',
@@ -436,17 +436,17 @@ const marketplaceSkills = [
       zh: '用于撰写、改写与内容重组。'
     },
     tags: ['writing', 'workflow'],
-    author: 'NextClaw',
+    author: 'GoUsbAi',
     install: {
       kind: 'git',
-      spec: 'https://github.com/nextclaw/skills/content-ops',
-      command: 'nextclaw skill install content-ops'
+      spec: 'https://github.com/go-usb-ai/skills/content-ops',
+      command: 'go-usb-ai skill install content-ops'
     },
     updatedAt: '2026-03-03T00:00:00.000Z',
     publishedAt: '2026-02-28T00:00:00.000Z'
   },
   {
-    id: 'skill-nextclaw-release-manager',
+    id: 'skill-go-usb-ai-release-manager',
     slug: 'release-manager',
     type: 'skill',
     name: 'Release Manager',
@@ -456,11 +456,11 @@ const marketplaceSkills = [
       zh: '自动化发布检查与发布说明。'
     },
     tags: ['release', 'automation'],
-    author: 'NextClaw',
+    author: 'GoUsbAi',
     install: {
       kind: 'git',
-      spec: 'https://github.com/nextclaw/skills/release-manager',
-      command: 'nextclaw skill install release-manager'
+      spec: 'https://github.com/go-usb-ai/skills/release-manager',
+      command: 'go-usb-ai skill install release-manager'
     },
     updatedAt: '2026-03-01T00:00:00.000Z',
     publishedAt: '2026-02-25T00:00:00.000Z'
@@ -470,8 +470,8 @@ const marketplaceSkills = [
 const installedPluginRecords = [
   {
     type: 'plugin',
-    id: 'plugin-nextclaw-web-search',
-    spec: '@nextclaw/plugin-web-search',
+    id: 'plugin-go-usb-ai-web-search',
+    spec: '@go-usb-ai/plugin-web-search',
     label: 'Web Search',
     installedAt: '2026-03-05T01:00:00.000Z',
     enabled: true,
@@ -483,8 +483,8 @@ const installedPluginRecords = [
 const installedSkillRecords = [
   {
     type: 'skill',
-    id: 'skill-nextclaw-content-ops',
-    spec: 'https://github.com/nextclaw/skills/content-ops',
+    id: 'skill-go-usb-ai-content-ops',
+    spec: 'https://github.com/go-usb-ai/skills/content-ops',
     label: 'Content Ops',
     installedAt: '2026-03-05T01:00:00.000Z',
     enabled: true,
@@ -672,7 +672,7 @@ function resolveMock(pathname, searchParams, method) {
       ...item,
       description: item.summary,
       descriptionI18n: item.summaryI18n,
-      sourceRepo: 'https://github.com/nextclaw/plugins'
+      sourceRepo: 'https://github.com/go-usb-ai/plugins'
     });
   }
 
@@ -687,7 +687,7 @@ function resolveMock(pathname, searchParams, method) {
       ...item,
       description: item.summary,
       descriptionI18n: item.summaryI18n,
-      sourceRepo: 'https://github.com/nextclaw/skills'
+      sourceRepo: 'https://github.com/go-usb-ai/skills'
     });
   }
 
@@ -706,7 +706,7 @@ function resolveMock(pathname, searchParams, method) {
       source: 'repo',
       bodyRaw: item.summary,
       metadataRaw: JSON.stringify(item, null, 2),
-      sourceUrl: 'https://github.com/nextclaw/plugins'
+      sourceUrl: 'https://github.com/go-usb-ai/plugins'
     });
   }
 
@@ -725,7 +725,7 @@ function resolveMock(pathname, searchParams, method) {
       source: 'workspace',
       raw: `# ${item.name}\n\n${item.summary}`,
       bodyRaw: item.summary,
-      sourceUrl: 'https://github.com/nextclaw/skills'
+      sourceUrl: 'https://github.com/go-usb-ai/skills'
     });
   }
 
@@ -925,7 +925,7 @@ async function waitForServer(url, timeoutMs = 60_000) {
 function startUiServer(port) {
   const child = spawn(
     'pnpm',
-    ['-C', 'packages/nextclaw-ui', 'dev', '--host', '127.0.0.1', '--port', String(port), '--strictPort'],
+    ['-C', 'packages/go-usb-ai-ui', 'dev', '--host', '127.0.0.1', '--port', String(port), '--strictPort'],
     {
       cwd: repoRoot,
       stdio: ['ignore', 'pipe', 'pipe']
@@ -1036,7 +1036,7 @@ async function main() {
     }
 
     if (shouldStartUi) {
-      console.log('[screenshot] starting @nextclaw/ui dev server...');
+      console.log('[screenshot] starting @go-usb-ai/ui dev server...');
       uiProcess = startUiServer(uiPort);
       await waitForServer(resolvedUiOrigin);
     } else {

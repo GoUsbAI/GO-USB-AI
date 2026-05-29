@@ -9,10 +9,10 @@
 ## 测试/验证/验收方式
 - 影响面判定：触达 chat 页面状态同步与 runs 查询策略，执行 chat 定向 lint + UI tsc + UI build + 预览冒烟。
 - 已执行：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/ChatPage.tsx src/components/chat/chat-page-runtime.ts src/hooks/useConfig.ts src/components/chat/useChatStreamController.ts src/components/chat/chat-stream/controller.ts src/components/chat/chat-stream/transport.ts src/components/chat/chat-stream/types.ts src/components/chat/useChatSessionTypeState.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/ChatPage.tsx src/components/chat/chat-page-runtime.ts src/hooks/useConfig.ts src/components/chat/useChatStreamController.ts src/components/chat/chat-stream/controller.ts src/components/chat/chat-stream/transport.ts src/components/chat/chat-stream/types.ts src/components/chat/useChatSessionTypeState.ts`
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc:ui`
   - `PATH=/opt/homebrew/bin:$PATH pnpm build:ui`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui preview --host 127.0.0.1 --port 4175` + `curl http://127.0.0.1:4175/`（页面包含 `<div id="root"></div>`）
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui preview --host 127.0.0.1 --port 4175` + `curl http://127.0.0.1:4175/`（页面包含 `<div id="root"></div>`）
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint:ui`
 - 结果说明：
   - 定向 eslint / tsc / build / 冒烟均通过。

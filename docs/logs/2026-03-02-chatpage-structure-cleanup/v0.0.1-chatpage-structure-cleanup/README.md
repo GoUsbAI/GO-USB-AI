@@ -4,10 +4,10 @@
 
 - 对 UI Chat 页面做“只重构不改产品行为”的结构化拆分。
 - `ChatPage` 从单体函数拆分为编排层 + 子组件 + 流式发送控制 hook：
-  - `packages/nextclaw-ui/src/components/chat/ChatPage.tsx`
-  - `packages/nextclaw-ui/src/components/chat/ChatSessionsSidebar.tsx`
-  - `packages/nextclaw-ui/src/components/chat/ChatConversationPanel.tsx`
-  - `packages/nextclaw-ui/src/components/chat/useChatStreamController.ts`
+  - `packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx`
+  - `packages/go-usb-ai-ui/src/components/chat/ChatSessionsSidebar.tsx`
+  - `packages/go-usb-ai-ui/src/components/chat/ChatConversationPanel.tsx`
+  - `packages/go-usb-ai-ui/src/components/chat/useChatStreamController.ts`
 - 将高风险流程（队列发送/流式事件合并/错误回滚）集中到 `useChatStreamController`，避免页面组件内散落状态机。
 - 保留此前修复语义：
   - optimistic user `seq` 使用“历史最大 seq + 1”；
@@ -22,10 +22,10 @@
 
 已执行：
 
-- `pnpm -C packages/nextclaw-ui exec eslint src/components/chat/ChatPage.tsx src/components/chat/ChatSessionsSidebar.tsx src/components/chat/ChatConversationPanel.tsx src/components/chat/useChatStreamController.ts`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui build`
-- `node -e "<spawn preview + GET / smoke>"`（启动 `packages/nextclaw-ui` preview 后请求 `http://127.0.0.1:4173/`）
+- `pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/ChatPage.tsx src/components/chat/ChatSessionsSidebar.tsx src/components/chat/ChatConversationPanel.tsx src/components/chat/useChatStreamController.ts`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `node -e "<spawn preview + GET / smoke>"`（启动 `packages/go-usb-ai-ui` preview 后请求 `http://127.0.0.1:4173/`）
 
 结果：
 

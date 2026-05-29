@@ -17,15 +17,15 @@
 ## 测试/验证/验收方式
 
 - 运行：
-  - `pnpm --filter @nextclaw/ui test -- --run src/components/chat/useChatSessionTypeState.test.tsx src/components/chat/ChatSidebar.test.tsx src/components/chat/chat-page-runtime.test.ts`
-  - `pnpm --filter @nextclaw/server test -- --run src/ui/router.session-type.test.ts`
-  - `pnpm --filter @nextclaw/ui tsc`
-  - `pnpm --filter @nextclaw/server tsc`
-  - `pnpm --filter nextclaw tsc`
+  - `pnpm --filter @go-usb-ai/ui test -- --run src/components/chat/useChatSessionTypeState.test.tsx src/components/chat/ChatSidebar.test.tsx src/components/chat/chat-page-runtime.test.ts`
+  - `pnpm --filter @go-usb-ai/server test -- --run src/ui/router.session-type.test.ts`
+  - `pnpm --filter @go-usb-ai/ui tsc`
+  - `pnpm --filter @go-usb-ai/server tsc`
+  - `pnpm --filter go-usb-ai tsc`
 - 可维护性自检：
-  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-ui/src/components/chat/useChatSessionTypeState.ts packages/nextclaw-ui/src/components/chat/ChatSidebar.tsx packages/nextclaw-ui/src/components/chat/useChatSessionTypeState.test.tsx packages/nextclaw-ui/src/components/chat/ChatSidebar.test.tsx packages/nextclaw-server/src/ui/router/chat-utils.ts packages/nextclaw-server/src/ui/router.session-type.test.ts packages/nextclaw/src/cli/commands/service.ts`
+  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-ui/src/components/chat/useChatSessionTypeState.ts packages/go-usb-ai-ui/src/components/chat/ChatSidebar.tsx packages/go-usb-ai-ui/src/components/chat/useChatSessionTypeState.test.tsx packages/go-usb-ai-ui/src/components/chat/ChatSidebar.test.tsx packages/go-usb-ai-server/src/ui/router/chat-utils.ts packages/go-usb-ai-server/src/ui/router.session-type.test.ts packages/go-usb-ai/src/cli/commands/service.ts`
 - 说明：
-  - maintainability guard 仅报告 [`service.ts`](/Users/peiwang/Projects/nextbot/packages/nextclaw/src/cli/commands/service.ts) 仍是既有超预算大文件，但本次文件行数未增长。
+  - maintainability guard 仅报告 [`service.ts`](/Users/peiwang/Projects/nextbot/packages/go-usb-ai/src/cli/commands/service.ts) 仍是既有超预算大文件，但本次文件行数未增长。
 
 ## 发布/部署方式
 

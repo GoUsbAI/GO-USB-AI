@@ -5,17 +5,17 @@
 - `useChatStreamController` 重写为订阅适配层，改为 `useSyncExternalStore` 订阅控制器状态，移除 render 阶段的 `ref.current` 读写（通过 `updateParams` 同步最新参数）。
 - 修复运行态退出延迟：`finalizeExecuteSuccess` 中本地 `isSending/activeRunRef` 清理前置，`refetch` 改为后台触发，避免被网络请求阻塞。
 - 修复强制发送打断链路卡顿：`stopActiveRun` 改为本地先 `abort`，后端 stop 请求异步补偿，保证队列可快速继续。
-- `@nextclaw/ui` 增加 `rxjs` 依赖。
+- `@go-usb-ai/ui` 增加 `rxjs` 依赖。
 
 ## 2) 测试/验证/验收方式
 - 静态检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui exec eslint src/components/chat/useChatStreamController.ts src/components/chat/chat-stream/runtime-controller.ts src/components/chat/chat-stream/controller.ts src/components/chat/chat-stream/types.ts src/components/chat/chat-page-runtime.ts src/components/chat/ChatPage.tsx src/hooks/useConfig.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/useChatStreamController.ts src/components/chat/chat-stream/runtime-controller.ts src/components/chat/chat-stream/controller.ts src/components/chat/chat-stream/types.ts src/components/chat/chat-page-runtime.ts src/components/chat/ChatPage.tsx src/hooks/useConfig.ts`
 - 类型检查：
   - `PATH=/opt/homebrew/bin:$PATH pnpm tsc:ui`
 - 构建验证：
   - `PATH=/opt/homebrew/bin:$PATH pnpm build:ui`
 - UI 冒烟：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui preview --host 127.0.0.1 --port 4175`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui preview --host 127.0.0.1 --port 4175`
   - `curl -I http://127.0.0.1:4175/` 或 `curl http://127.0.0.1:4175/ | head`
 
 ## 3) 发布/部署方式

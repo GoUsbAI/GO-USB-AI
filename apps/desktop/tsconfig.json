@@ -7,7 +7,7 @@
     "types": ["node", "electron"],
     "baseUrl": ".",
     "paths": {
-      "@nextclaw/kernel": ["../../packages/nextclaw-kernel/dist/index.d.ts"]
+      "@go-usb-ai/kernel": ["../../packages/go-usb-ai-kernel/dist/index.d.ts"]
     }
   },
   "include": ["src/**/*.ts"]

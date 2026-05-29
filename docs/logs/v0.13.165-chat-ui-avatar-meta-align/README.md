@@ -1,6 +1,6 @@
 # 迭代完成说明
 
-本次迭代修复了聊天消息列表的两个展示细节，并且改动落在共享展示层 `@nextclaw/agent-chat-ui`，因此 legacy 与 NCP 两条链路都会一起受益。
+本次迭代修复了聊天消息列表的两个展示细节，并且改动落在共享展示层 `@go-usb-ai/agent-chat-ui`，因此 legacy 与 NCP 两条链路都会一起受益。
 
 本次改动包括：
 
@@ -13,10 +13,10 @@
 
 已执行：
 
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui test -- src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui tsc`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @nextclaw/agent-chat-ui lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui test -- src/components/chat/ui/chat-message-list/chat-message-list.test.tsx`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm --filter @go-usb-ai/agent-chat-ui lint`
 
 结果：
 
@@ -32,7 +32,7 @@
 如需继续集成验证：
 
 - 保持当前工作区代码
-- 启动 nextclaw UI
+- 启动 go-usb-ai UI
 - 分别在 legacy 与 `?chatChain=ncp` 两条链路下检查消息列表表现
 
 # 用户/产品视角的验收步骤

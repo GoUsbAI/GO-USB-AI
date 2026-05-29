@@ -41,10 +41,10 @@
 
 ### 工程验证
 
-- `pnpm -C packages/nextclaw-server tsc`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-server lint`
-- `pnpm -C packages/nextclaw-ui lint`
+- `pnpm -C packages/go-usb-ai-server tsc`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-server lint`
+- `pnpm -C packages/go-usb-ai-ui lint`
 - `pnpm build`
 - `pnpm lint`
 - `pnpm tsc`
@@ -54,8 +54,8 @@
 ### 冒烟验证（非仓库目录写入）
 
 - 执行环境：`/tmp`
-- 命令：`pnpm -C packages/nextclaw-server exec tsx /tmp/nextclaw-runtime-smoke.ts`
-- 脚本：使用 `packages/nextclaw-server/src/ui/config.ts` 的 `updateRuntime` + `updateChannel` 对临时配置文件进行真实写入与读取验证。
+- 命令：`pnpm -C packages/go-usb-ai-server exec tsx /tmp/go-usb-ai-runtime-smoke.ts`
+- 脚本：使用 `packages/go-usb-ai-server/src/ui/config.ts` 的 `updateRuntime` + `updateChannel` 对临时配置文件进行真实写入与读取验证。
 - 观察点：
   - `agents.list` 成功落盘
   - `bindings` 成功落盘
@@ -99,8 +99,8 @@ SMOKE_OK {
   3. `pnpm changeset publish`
   4. `pnpm changeset tag`
 - 已发布版本：
-  - `nextclaw@0.6.24`
-  - `@nextclaw/server@0.4.8`
-  - `@nextclaw/ui@0.3.12`
+  - `go-usb-ai@0.6.24`
+  - `@go-usb-ai/server@0.4.8`
+  - `@go-usb-ai/ui@0.3.12`
 - 部署方式：升级到上述版本后重启 Gateway/UI 进程即可生效。
 - 发布后文档影响检查：已更新 `docs/designs/2026-02-21-openclaw-alignment-gap-report.md`，补充前端对齐进展。

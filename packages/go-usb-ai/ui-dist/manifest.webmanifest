@@ -1,0 +1,24 @@
+{
+  "name": "GO-USB-AI",
+  "short_name": "GO-USB-AI",
+  "description": "GO-USB-AI is your installable AI operating layer for chat, configuration, orchestration, and local runtime control.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f9f8f5",
+  "theme_color": "#f9f8f5",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "960x960",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

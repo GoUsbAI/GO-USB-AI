@@ -3,10 +3,10 @@
 ## 迭代完成说明
 
 - 新增 remote access 总执行方案文档：
-  - [NextClaw Remote Access Overall Execution Plan](../../plans/2026-03-21-nextclaw-remote-access-overall-execution-plan.md)
+  - [GoUsbAi Remote Access Overall Execution Plan](../../plans/2026-03-21-go-usb-ai-remote-access-overall-execution-plan.md)
 - 文档将两份专题方案收敛到统一执行顺序：
-  - 先执行 [Remote Relay Hibernation Cost Optimization Design](../../plans/2026-03-21-nextclaw-remote-relay-hibernation-cost-optimization-design.md)
-  - 再执行 [Account And Remote Access Product Design](../../plans/2026-03-21-nextclaw-account-and-remote-access-product-design.md)
+  - 先执行 [Remote Relay Hibernation Cost Optimization Design](../../plans/2026-03-21-go-usb-ai-remote-relay-hibernation-cost-optimization-design.md)
+  - 再执行 [Account And Remote Access Product Design](../../plans/2026-03-21-go-usb-ai-account-and-remote-access-product-design.md)
 - 文档明确禁止顺序颠倒、长期双轨与 scope 混杂推进。
 
 ## 测试/验证/验收方式

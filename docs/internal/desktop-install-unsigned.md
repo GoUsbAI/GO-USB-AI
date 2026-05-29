@@ -10,31 +10,31 @@
 
 ## 安装产物
 
-- macOS（Apple Silicon）：`NextClaw Desktop-<version>-arm64.dmg`
-- macOS（Intel）：`NextClaw Desktop-<version>-x64.dmg`
-- Windows 安装器：`NextClaw.Desktop-Setup-<version>-x64.exe`
-- Windows Portable Edition：`NextClaw-Portable-<version>-win-x64.zip`
-- Windows Portable Edition（ARM64）：`NextClaw-Portable-<version>-win-arm64.zip`
-- Windows 备用 unpacked 包：`NextClaw.Desktop-<version>-win32-x64-unpacked.zip`
+- macOS（Apple Silicon）：`GoUsbAi Desktop-<version>-arm64.dmg`
+- macOS（Intel）：`GoUsbAi Desktop-<version>-x64.dmg`
+- Windows 安装器：`GoUsbAi.Desktop-Setup-<version>-x64.exe`
+- Windows Portable Edition：`GoUsbAi-Portable-<version>-win-x64.zip`
+- Windows Portable Edition（ARM64）：`GoUsbAi-Portable-<version>-win-arm64.zip`
+- Windows 备用 unpacked 包：`GoUsbAi.Desktop-<version>-win32-x64-unpacked.zip`
 
 ## macOS 验证步骤
 
-1. 双击打开 `.dmg`，拖拽 `NextClaw Desktop.app` 到 `Applications`。
+1. 双击打开 `.dmg`，拖拽 `GoUsbAi Desktop.app` 到 `Applications`。
 2. 从 `Applications` 里直接双击应用，系统若弹出拦截提示，先点击“完成”关闭提示窗。
 3. 打开 `系统设置 -> 隐私与安全性`，在页面底部点击“仍要打开”，按系统提示确认。
-4. 回到 `Applications`，再次启动应用；若仍被拦截，再使用右键（Control + 点击）`NextClaw Desktop.app`，选择“打开”。
+4. 回到 `Applications`，再次启动应用；若仍被拦截，再使用右键（Control + 点击）`GoUsbAi Desktop.app`，选择“打开”。
 5. 若提示“已损坏”，执行：
 
 ```bash
-xattr -cr "/Applications/NextClaw Desktop.app"
-open -a "NextClaw Desktop"
+xattr -cr "/Applications/GoUsbAi Desktop.app"
+open -a "GoUsbAi Desktop"
 ```
 
 ## Windows 验证步骤
 
 ### 路径 A：安装器（推荐）
 
-1. 双击 `NextClaw.Desktop-Setup-<version>-x64.exe`。
+1. 双击 `GoUsbAi.Desktop-Setup-<version>-x64.exe`。
 2. 若出现 SmartScreen，点击 `More info -> Run anyway`。
 3. 在安装向导中点击 `Next`，按需调整安装目录，再点击 `Install`。
 4. 安装完成后从安装器完成页、开始菜单或桌面快捷方式启动应用。
@@ -42,8 +42,8 @@ open -a "NextClaw Desktop"
 
 ### 路径 B：Portable Edition（U 盘/免安装）
 
-1. 解压 `NextClaw-Portable-<version>-win-x64.zip` 到 U 盘或任意本地目录。
-2. 打开 `NextClaw-Portable` 目录，双击 `NextClaw Desktop.exe`。
+1. 解压 `GoUsbAi-Portable-<version>-win-x64.zip` 到 U 盘或任意本地目录。
+2. 打开 `GoUsbAi-Portable` 目录，双击 `GoUsbAi Desktop.exe`。
 3. 若出现 SmartScreen，点击 `More info -> Run anyway`。
 4. 启动后验证主界面可正常进入并可交互。
 5. 验证同目录下自动创建 `data/desktop`、`data/runtime-home`、`data/logs`。
@@ -51,8 +51,8 @@ open -a "NextClaw Desktop"
 
 ## 验收口径（内部）
 
-- 安装器成功：用户无需命令行即可完成安装向导，并获得 `NextClaw Desktop` 的桌面或开始菜单入口。
-- Portable Edition 成功：用户无需命令行即可完成解压并看到 `NextClaw Desktop.exe`，首次启动数据落在 portable 目录的 `data/` 下。
+- 安装器成功：用户无需命令行即可完成安装向导，并获得 `GoUsbAi Desktop` 的桌面或开始菜单入口。
+- Portable Edition 成功：用户无需命令行即可完成解压并看到 `GoUsbAi Desktop.exe`，首次启动数据落在 portable 目录的 `data/` 下。
 - 首次启动成功：无论通过安装器还是便携包启动，主界面都可打开且可交互。
 - 二次启动成功：关闭后再次双击仍可正常使用。
 - 升级成功：再次运行新的 `Setup.exe`，或解压新版 portable 并保留/迁移 `data/` 后，仍可正常启动并保留核心配置。

@@ -69,7 +69,7 @@
 
 对于大多数用户：
 
-- 不应该要求他们知道 `~/.nextclaw/config.json`
+- 不应该要求他们知道 `~/.go-usb-ai/config.json`
 - 不应该要求他们手工打开配置文件去启用插件
 - 不应该要求他们理解 runtime 装配边界
 
@@ -127,7 +127,7 @@ Examples
   -> Claude Code Plugin
   -> custom internal runtime plugin
 
-Nextclaw UI / NCP backend
+GoUsbAi UI / NCP backend
   -> discover installed plugins
   -> collect runtime registrations
   -> build runtime registry

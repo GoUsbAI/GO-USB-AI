@@ -15,7 +15,7 @@ const SKILL_MARKETPLACE_SCENE_SEEDS: SkillMarketplaceSceneSeed[] = [
   ["browser-automation", "Browser", "Operate pages, capture dynamic content, and verify user paths.", ["browser", "automation", "web"]],
   ["local-environment", "Local", "Manage shells, files, runtimes, and local services.", ["tmux", "shell", "files", "runtime"]],
   ["social-platforms", "Social", "Handle posting, interaction, search, and distribution.", ["social", "twitter", "media"]],
-  ["nextclaw-official", "NextClaw Official", "Browse native capabilities from NextClaw.", ["nextclaw"]]
+  ["go-usb-ai-official", "GoUsbAi Official", "Browse native capabilities from GoUsbAi.", ["go-usb-ai"]]
 ];
 
 export const SKILL_MARKETPLACE_SCENES: SkillMarketplaceSceneConfig[] = SKILL_MARKETPLACE_SCENE_SEEDS.map(

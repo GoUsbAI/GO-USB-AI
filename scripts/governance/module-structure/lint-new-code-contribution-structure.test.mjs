@@ -8,9 +8,9 @@ import {
 } from "./lint-new-code-module-structure.mjs";
 
 test("allows contribution root index files as contribution boundary entries", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-kernel/src/contributions/session-activity-preview/index.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-kernel/src/contributions/session-activity-preview/index.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-kernel/src/contributions/session-activity-preview/index.ts",
+    filePath: "packages/go-usb-ai-kernel/src/contributions/session-activity-preview/index.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false
@@ -20,9 +20,9 @@ test("allows contribution root index files as contribution boundary entries", ()
 });
 
 test("blocks contribution files outside index or role directories", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-kernel/src/contributions/session-activity-preview/session-activity-preview.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-kernel/src/contributions/session-activity-preview/session-activity-preview.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-kernel/src/contributions/session-activity-preview/session-activity-preview.ts",
+    filePath: "packages/go-usb-ai-kernel/src/contributions/session-activity-preview/session-activity-preview.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -35,9 +35,9 @@ test("blocks contribution files outside index or role directories", () => {
 });
 
 test("requires contribution index entry when adding files under a contribution role directory", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-kernel/src/contributions/session-activity-preview/utils/session-activity-preview.utils.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-kernel/src/contributions/session-activity-preview/utils/session-activity-preview.utils.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-kernel/src/contributions/session-activity-preview/utils/session-activity-preview.utils.ts",
+    filePath: "packages/go-usb-ai-kernel/src/contributions/session-activity-preview/utils/session-activity-preview.utils.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -50,9 +50,9 @@ test("requires contribution index entry when adding files under a contribution r
 });
 
 test("blocks nested directories under flat role dirs inside contributions", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-kernel/src/contributions/session-activity-preview/utils/events/session-activity-preview-event.utils.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-kernel/src/contributions/session-activity-preview/utils/events/session-activity-preview-event.utils.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-kernel/src/contributions/session-activity-preview/utils/events/session-activity-preview-event.utils.ts",
+    filePath: "packages/go-usb-ai-kernel/src/contributions/session-activity-preview/utils/events/session-activity-preview-event.utils.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -65,9 +65,9 @@ test("blocks nested directories under flat role dirs inside contributions", () =
 });
 
 test("allows nested contributions under contribution roots", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-kernel/src/contributions/kernel-branch/contributions/agent-run-runtime/index.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-kernel/src/contributions/kernel-branch/contributions/agent-run-runtime/index.ts");
   const findings = evaluateModuleStructureFindings({
-    filePath: "packages/nextclaw-kernel/src/contributions/kernel-branch/contributions/agent-run-runtime/index.ts",
+    filePath: "packages/go-usb-ai-kernel/src/contributions/kernel-branch/contributions/agent-run-runtime/index.ts",
     contract,
     existedInComparisonRef: false,
     rootEntryExistedInComparisonRef: false,
@@ -78,9 +78,9 @@ test("allows nested contributions under contribution roots", () => {
 });
 
 test("blocks new deep imports into contribution internals", () => {
-  const contract = findModuleStructureContract("packages/nextclaw-kernel/src/app/nextclaw-kernel.ts");
+  const contract = findModuleStructureContract("packages/go-usb-ai-kernel/src/app/go-usb-ai-kernel.ts");
   const findings = evaluateProtocolImportBoundaryFindings({
-    filePath: "packages/nextclaw-kernel/src/app/nextclaw-kernel.ts",
+    filePath: "packages/go-usb-ai-kernel/src/app/go-usb-ai-kernel.ts",
     contract,
     source: `import { createPreview } from "@kernel/contributions/session-activity-preview/utils/session-activity-preview.utils";\n`,
     addedLines: new Set([1])

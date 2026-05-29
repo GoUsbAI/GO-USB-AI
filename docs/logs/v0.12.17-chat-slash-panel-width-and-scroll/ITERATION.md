@@ -10,16 +10,16 @@
 
 # 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui build`
-- `pnpm -C packages/nextclaw-ui lint`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `pnpm -C packages/go-usb-ai-ui lint`
   - 结果：失败，失败点在仓库既有文件（如 `useChatStreamController.ts`、`MaskedInput.tsx`），与本次改动无关。
 
 # 发布/部署方式
 
 - 本次仅涉及 UI 代码，按常规前端发布流程：
   1. 合并变更并完成版本管理（如需 changeset）。
-  2. 构建 UI 并随 `nextclaw` 发布链路分发。
+  2. 构建 UI 并随 `go-usb-ai` 发布链路分发。
   3. 无后端/数据库变更，无 migration。
 
 # 用户/产品视角的验收步骤

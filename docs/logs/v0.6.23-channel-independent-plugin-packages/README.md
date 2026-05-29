@@ -5,17 +5,17 @@
 - 目标：把内置渠道从“仓内 bundled 定义”升级为“独立可安装 npm 插件包”，并继续保持默认可用（bundled 加载）。
 - 本次完成：
   - 新增 9 个独立渠道插件包（每个渠道一个 package）：
-    - `@nextclaw/channel-plugin-telegram`
-    - `@nextclaw/channel-plugin-whatsapp`
-    - `@nextclaw/channel-plugin-discord`
-    - `@nextclaw/channel-plugin-feishu`
-    - `@nextclaw/channel-plugin-mochat`
-    - `@nextclaw/channel-plugin-dingtalk`
-    - `@nextclaw/channel-plugin-email`
-    - `@nextclaw/channel-plugin-slack`
-    - `@nextclaw/channel-plugin-qq`
+    - `@go-usb-ai/channel-plugin-telegram`
+    - `@go-usb-ai/channel-plugin-whatsapp`
+    - `@go-usb-ai/channel-plugin-discord`
+    - `@go-usb-ai/channel-plugin-feishu`
+    - `@go-usb-ai/channel-plugin-mochat`
+    - `@go-usb-ai/channel-plugin-dingtalk`
+    - `@go-usb-ai/channel-plugin-email`
+    - `@go-usb-ai/channel-plugin-slack`
+    - `@go-usb-ai/channel-plugin-qq`
   - 每个插件包都包含独立入口与 `openclaw.plugin.json`，可单独安装/发布。
-  - `@nextclaw/openclaw-compat` 的 bundled 渠道加载改为动态解析上述独立包并注册，不再依赖仓内静态定义来源。
+  - `@go-usb-ai/openclaw-compat` 的 bundled 渠道加载改为动态解析上述独立包并注册，不再依赖仓内静态定义来源。
 
 ## 测试 / 验证 / 验收方式
 
@@ -33,17 +33,17 @@ pnpm tsc
 ### 冒烟验证（隔离目录）
 
 ```bash
-TMP_HOME=$(mktemp -d /tmp/nextclaw-final-externalized-ok.XXXXXX)
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js channels status
-NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
-NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0 NEXTCLAW_HOME="$TMP_HOME" node packages/nextclaw/dist/cli/index.js plugins list --enabled
+TMP_HOME=$(mktemp -d /tmp/go-usb-ai-final-externalized-ok.XXXXXX)
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js channels status
+GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
+GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0 GOUSB_AI_HOME="$TMP_HOME" node packages/go-usb-ai/dist/cli/index.js plugins list --enabled
 rm -rf "$TMP_HOME"
 ```
 
 验收点：
 - `channels status` 显示 9 个 `builtin-channel-*` 的插件绑定。
 - `plugins list --enabled` 显示 9 个 bundled 插件，来源为独立插件包。
-- `NEXTCLAW_ENABLE_OPENCLAW_PLUGINS=0` 时，独立包渠道插件仍可加载。
+- `GOUSB_AI_ENABLE_OPENCLAW_PLUGINS=0` 时，独立包渠道插件仍可加载。
 
 ## 发布 / 部署方式
 
@@ -57,16 +57,16 @@ pnpm release:publish
 ```
 
 发布结果：
-- `@nextclaw/openclaw-compat@0.1.8` ✅
-- `@nextclaw/channel-plugin-telegram@0.1.0` ✅
-- `@nextclaw/channel-plugin-whatsapp@0.1.0` ✅
-- `@nextclaw/channel-plugin-discord@0.1.0` ✅
-- `@nextclaw/channel-plugin-feishu@0.1.0` ✅
-- `@nextclaw/channel-plugin-mochat@0.1.0` ✅
-- `@nextclaw/channel-plugin-dingtalk@0.1.0` ✅
-- `@nextclaw/channel-plugin-email@0.1.0` ✅
-- `@nextclaw/channel-plugin-slack@0.1.0` ✅
-- `@nextclaw/channel-plugin-qq@0.1.0` ✅
+- `@go-usb-ai/openclaw-compat@0.1.8` ✅
+- `@go-usb-ai/channel-plugin-telegram@0.1.0` ✅
+- `@go-usb-ai/channel-plugin-whatsapp@0.1.0` ✅
+- `@go-usb-ai/channel-plugin-discord@0.1.0` ✅
+- `@go-usb-ai/channel-plugin-feishu@0.1.0` ✅
+- `@go-usb-ai/channel-plugin-mochat@0.1.0` ✅
+- `@go-usb-ai/channel-plugin-dingtalk@0.1.0` ✅
+- `@go-usb-ai/channel-plugin-email@0.1.0` ✅
+- `@go-usb-ai/channel-plugin-slack@0.1.0` ✅
+- `@go-usb-ai/channel-plugin-qq@0.1.0` ✅
 
 ### 闭环说明（按需项）
 

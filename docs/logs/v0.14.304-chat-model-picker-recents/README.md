@@ -13,21 +13,21 @@
 ## 测试/验证/验收方式
 
 - 单测：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui test -- --run src/lib/recent-selection.manager.test.ts src/components/chat/adapters/chat-input-bar.adapter.test.ts`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui test -- --run src/lib/recent-selection.manager.test.ts src/components/chat/adapters/chat-input-bar.adapter.test.ts`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui test -- --run src/components/chat/ui/chat-input-bar/chat-input-bar.test.tsx`
 - 类型检查：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui tsc`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui tsc`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
 - 构建验证：
   - `PATH=/opt/homebrew/bin:$PATH pnpm build:ui`
 - Lint / 治理：
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-ui lint`
-  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/nextclaw-agent-chat-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-ui lint`
+  - `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/go-usb-ai-agent-chat-ui lint`
   - `PATH=/opt/homebrew/bin:$PATH pnpm lint:maintainability:guard`
 - 结果摘要：
   - 本次相关测试、类型检查与前端构建通过。
   - `lint` 存在仓库内既有 warning，但无新增错误阻塞。
-  - `lint:maintainability:guard` 通过，保留对 `packages/nextclaw-ui/src/lib` 与 `packages/nextclaw-ui/src/lib/i18n.ts` 的既有维护性 warning。
+  - `lint:maintainability:guard` 通过，保留对 `packages/go-usb-ai-ui/src/lib` 与 `packages/go-usb-ai-ui/src/lib/i18n.ts` 的既有维护性 warning。
 
 ## 发布/部署方式
 

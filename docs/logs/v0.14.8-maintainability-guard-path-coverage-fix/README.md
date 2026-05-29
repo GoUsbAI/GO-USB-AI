@@ -15,7 +15,7 @@ python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainabil
 - 验证 `config.ts` 已按更严格规则判定为阻塞项：
 
 ```bash
-python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-ui/src/api/config.ts --json --no-fail
+python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-ui/src/api/config.ts --json --no-fail
 ```
 
 - 验证本次修改后的守卫脚本自身未触发新的可维护性风险：
@@ -31,7 +31,7 @@ python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainabil
 
 # 用户/产品视角的验收步骤
 
-1. 保持当前仓库中存在未跟踪的新代码目录，例如 `packages/extensions/nextclaw-ncp-runtime-codex-sdk/`。
+1. 保持当前仓库中存在未跟踪的新代码目录，例如 `packages/extensions/go-usb-ai-ncp-runtime-codex-sdk/`。
 2. 运行守卫脚本并查看 `inspected_paths`，确认该目录下的 `.ts` / `.cjs` / `.tsup.config.ts` 等代码文件已被纳入检查，而不是整目录被忽略。
-3. 再对 `packages/nextclaw-ui/src/api/config.ts` 单独执行守卫，确认它不再被当作“纯配置文件”宽松放过，而会以默认预算触发阻塞。
+3. 再对 `packages/go-usb-ai-ui/src/api/config.ts` 单独执行守卫，确认它不再被当作“纯配置文件”宽松放过，而会以默认预算触发阻塞。
 4. 确认输出仍保留原有风险文件、预算、增量和建议拆分缝信息，说明补丁只补齐漏检与误分类，没有破坏原有报告格式。

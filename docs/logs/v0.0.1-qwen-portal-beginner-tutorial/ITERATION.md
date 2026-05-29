@@ -52,7 +52,7 @@
 
 1. 打开文档站教程总览页，确认能看到“Qwen Portal 免费配置教程（小白版）”。
 2. 进入教程页，确认开头明确说明 `chat.qwen.ai` 无需预先拥有单独账号，可按页面提供方式注册或登录。
-3. 按教程打开 NextClaw 的 `Providers` 页面，进入 `Qwen Portal`。
+3. 按教程打开 GoUsbAi 的 `Providers` 页面，进入 `Qwen Portal`。
 4. 点击 `浏览器授权`，在 Qwen 页面完成登录与授权。
-5. 返回 NextClaw，确认出现授权完成状态。
+5. 返回 GoUsbAi，确认出现授权完成状态。
 6. 选择 `qwen-portal/coder-model` 发起一条测试消息，确认可正常响应。

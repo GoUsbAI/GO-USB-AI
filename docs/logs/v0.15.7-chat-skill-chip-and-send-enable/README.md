@@ -6,18 +6,18 @@
 - 续改：根据验收反馈将 skill token 进一步“清亮化、弱强调”，降低阴影与填充强度，避免在消息正文中视觉过重。
 - 调整输入区发送可用性判断：发送按钮改为基于 `composerNodes` 中解析出的 skill 选择状态进行兜底判断，确保“仅选择 skill、无文本”时也可发送。
 - 改动文件：
-  - `packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-inline-content.tsx`
-  - `packages/nextclaw-ui/src/components/chat/containers/chat-input-bar.container.tsx`
+  - `packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-inline-content.tsx`
+  - `packages/go-usb-ai-ui/src/components/chat/containers/chat-input-bar.container.tsx`
 
 ## 测试/验证/验收方式
-- `pnpm -C packages/nextclaw-agent-chat-ui tsc`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-ui test -- src/components/chat/ChatConversationPanel.test.tsx`
-- `pnpm -C packages/nextclaw-agent-chat-ui test`
-- `pnpm -C packages/nextclaw-agent-chat-ui tsc`（清亮化续改后复验）
+- `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/ChatConversationPanel.test.tsx`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui test`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`（清亮化续改后复验）
 - `pnpm lint:maintainability:guard`
 - `ReadLints` 针对本次改动文件检查：无新增 linter error
-- 备注：执行 `pnpm -C packages/nextclaw-ui test` 全量测试时出现 Node heap OOM，与本次改动无直接报错关联；已改用受影响范围的最小充分验证完成收尾。
+- 备注：执行 `pnpm -C packages/go-usb-ai-ui test` 全量测试时出现 Node heap OOM，与本次改动无直接报错关联；已改用受影响范围的最小充分验证完成收尾。
 
 ## 发布/部署方式
 - 本次为前端样式与发送可用性修正，未执行发布。

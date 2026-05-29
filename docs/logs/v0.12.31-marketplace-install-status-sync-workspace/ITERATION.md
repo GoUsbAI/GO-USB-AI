@@ -13,13 +13,13 @@
 ## 测试/验证/验收方式
 
 - 单测：
-  - `pnpm -C packages/nextclaw test -- --run src/cli/runtime.skills-install-workdir.test.ts src/cli/commands/service.marketplace-skill-args.test.ts`
+  - `pnpm -C packages/go-usb-ai test -- --run src/cli/runtime.skills-install-workdir.test.ts src/cli/commands/service.marketplace-skill-args.test.ts`
 - 代码检查：
-  - `pnpm -C packages/nextclaw lint`
-  - `pnpm -C packages/nextclaw tsc`
+  - `pnpm -C packages/go-usb-ai lint`
+  - `pnpm -C packages/go-usb-ai tsc`
 - CLI 冒烟（隔离环境）：
-  - 使用临时 `NEXTCLAW_HOME` + 自定义 workspace，执行：
-    - `pnpm -C packages/nextclaw exec tsx src/cli/index.ts skills install weather --api-base https://marketplace-api.nextclaw.io`
+  - 使用临时 `GOUSB_AI_HOME` + 自定义 workspace，执行：
+    - `pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts skills install weather --api-base https://marketplace-api.go-usb-ai.io`
 
 验收点：
 

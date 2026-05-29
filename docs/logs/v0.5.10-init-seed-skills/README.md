@@ -12,7 +12,7 @@
 
 ## 变更内容
 
-- `packages/nextclaw/src/cli/runtime.ts`
+- `packages/go-usb-ai/src/cli/runtime.ts`
   - init 时创建 `workspace/skills` 后自动 seed 内置 skills
   - 仅在目录为空或 `--force` 时覆盖
   - 兼容 dev（src）与包发布（dist/skills）两种来源（通过模块入口定位包根目录）
@@ -26,10 +26,10 @@ pnpm lint
 pnpm tsc
 
 # smoke-check（非仓库目录）
-export NEXTCLAW_HOME=/tmp/nextclaw-init-smoke
-rm -rf "$NEXTCLAW_HOME"
-PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" node /Users/peiwang/Projects/nextbot/packages/nextclaw/dist/cli/index.js init --force
-ls -1 "$NEXTCLAW_HOME/workspace/skills" | head -n 5
+export GOUSB_AI_HOME=/tmp/go-usb-ai-init-smoke
+rm -rf "$GOUSB_AI_HOME"
+PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" node /Users/peiwang/Projects/nextbot/packages/go-usb-ai/dist/cli/index.js init --force
+ls -1 "$GOUSB_AI_HOME/workspace/skills" | head -n 5
 ```
 
 验收点：
@@ -54,25 +54,25 @@ pnpm release:publish
 
 发布结果：
 
-- `nextclaw@0.4.2`
-- `nextclaw-core@0.4.2`
+- `go-usb-ai@0.4.2`
+- `go-usb-ai-core@0.4.2`
 
 线上冒烟（npm）：
 
 ```bash
 cd /tmp
-PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" npm view nextclaw@0.4.2 version
-PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" npm install -g nextclaw@0.4.2
-export NEXTCLAW_HOME=/tmp/nextclaw-init-smoke-release
-rm -rf "$NEXTCLAW_HOME"
-PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" nextclaw init --force
-ls -1 "$NEXTCLAW_HOME/workspace/skills" | head -n 5
+PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" npm view go-usb-ai@0.4.2 version
+PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" npm install -g go-usb-ai@0.4.2
+export GOUSB_AI_HOME=/tmp/go-usb-ai-init-smoke-release
+rm -rf "$GOUSB_AI_HOME"
+PATH="/Users/peiwang/.nvm/versions/node/v22.16.0/bin:$PATH" go-usb-ai init --force
+ls -1 "$GOUSB_AI_HOME/workspace/skills" | head -n 5
 ```
 
 观察点：
 
 - `npm view` 输出 `0.4.2`
-- `nextclaw init --force` 输出 `seeded`，且 `workspace/skills` 非空
+- `go-usb-ai init --force` 输出 `seeded`，且 `workspace/skills` 非空
 
 ## 影响范围 / 风险
 

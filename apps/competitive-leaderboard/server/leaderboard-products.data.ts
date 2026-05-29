@@ -261,12 +261,12 @@ export const PRODUCT_SEEDS: ProductSeed[] = [
   },
   {
     product: {
-      id: "nextclaw",
-      name: "NextClaw",
-      displayName: "NextClaw",
+      id: "go-usb-ai",
+      name: "GoUsbAi",
+      displayName: "GoUsbAi",
       category: "operating-layer",
       comparability: "core",
-      disclosure: "nextclaw-owned",
+      disclosure: "go-usb-ai-owned",
       shortDescription: "强调统一入口、浏览器控制面与多渠道接入的个人 AI 操作层。",
       positioning: "官方公开定位围绕 personal assistant 与统一入口展开，并把浏览器 UI、渠道、自动化和本地运行收在同一个产品里。",
       bestFor: "最适合想长期持有一个 AI 入口，而不是只部署一个 chat UI 的用户。",
@@ -274,103 +274,103 @@ export const PRODUCT_SEEDS: ProductSeed[] = [
       highlight: "统一入口叙事清晰，Web UI、多渠道和自动化组合完整。",
       tags: ["operating-layer", "web-ui", "channels", "automation", "local-first"],
       sources: [
-        repoSource("https://github.com/Peiiii/nextclaw"),
-        docsSource("https://docs.nextclaw.io/en/"),
-        siteSource("https://nextclaw.io"),
-        readmeSource("https://github.com/Peiiii/nextclaw/blob/master/README.md")
+        repoSource("https://github.com/Peiiii/go-usb-ai"),
+        docsSource("https://docs.go-usb-ai.io/en/"),
+        siteSource("https://go-usb-ai.io"),
+        readmeSource("https://github.com/Peiiii/go-usb-ai/blob/master/README.md")
       ]
     },
     repoStats: {
-      repoFullName: "Peiiii/nextclaw",
+      repoFullName: "Peiiii/go-usb-ai",
       stars: 160,
       forks: 22,
       pushedAt: "2026-04-13T11:31:55Z",
       createdAt: "2026-02-10T17:45:54Z",
-      homepage: "https://nextclaw.io",
+      homepage: "https://go-usb-ai.io",
       license: "MIT"
     },
     inclusionChecks: buildInclusionChecks({
       "assistant-identity": {
         passed: true,
         summary: "官方 README 明确把产品表述为 omnipotent personal AI assistant。",
-        evidenceIds: ["nextclaw-positioning"]
+        evidenceIds: ["go-usb-ai-positioning"]
       },
       "standalone-entry": {
         passed: true,
         summary: "官方主表达是 One command + browser UI + channels 的统一入口产品，不是附属能力。",
-        evidenceIds: ["nextclaw-positioning"]
+        evidenceIds: ["go-usb-ai-positioning"]
       },
       "self-hosted-or-local": {
         passed: true,
         summary: "README 明确写了 runs locally，并强调配置、历史和 tokens 留在本机。",
-        evidenceIds: ["nextclaw-positioning"]
+        evidenceIds: ["go-usb-ai-positioning"]
       },
       "action-layer": {
         passed: true,
         summary: "公开能力里包含 channels、cron / heartbeat 和插件生态兼容。",
-        evidenceIds: ["nextclaw-positioning"]
+        evidenceIds: ["go-usb-ai-positioning"]
       },
       "official-docs": {
         passed: true,
-        summary: "官方仓库、站点与 docs.nextclaw.io 都公开可访问。",
-        evidenceIds: ["nextclaw-docs"]
+        summary: "官方仓库、站点与 docs.go-usb-ai.io 都公开可访问。",
+        evidenceIds: ["go-usb-ai-docs"]
       }
     }),
     capabilityAssessments: buildCapabilityAssessments({
       "local-control": {
         status: "yes",
         summary: "官方 README 明确写明 runs locally，配置和历史保留在本机。",
-        evidenceIds: ["nextclaw-positioning"]
+        evidenceIds: ["go-usb-ai-positioning"]
       },
       "web-or-admin-ui": {
         status: "yes",
         summary: "官方公开承诺 browser UI 作为主入口之一。",
-        evidenceIds: ["nextclaw-positioning"]
+        evidenceIds: ["go-usb-ai-positioning"]
       },
       "multi-channel": {
         status: "yes",
         summary: "README 公开列出 Discord、Telegram、Slack、WhatsApp、Feishu、DingTalk、WeCom、QQ、Weixin、Email。",
-        evidenceIds: ["nextclaw-positioning"]
+        evidenceIds: ["go-usb-ai-positioning"]
       },
       "scheduled-automation": {
         status: "yes",
         summary: "官方 README 直接列出 Cron 与 Heartbeat。",
-        evidenceIds: ["nextclaw-positioning"]
+        evidenceIds: ["go-usb-ai-positioning"]
       },
       extensibility: {
         status: "yes",
         summary: "README 明确写到与 OpenClaw plugin ecosystem 兼容。",
-        evidenceIds: ["nextclaw-positioning"]
+        evidenceIds: ["go-usb-ai-positioning"]
       },
       "task-execution": {
         status: "yes",
         summary: "公开表述强调 orchestrates the internet and raw compute to manifest user intent。",
-        evidenceIds: ["nextclaw-positioning"]
+        evidenceIds: ["go-usb-ai-positioning"]
       },
       "deployment-flexibility": {
         status: "yes",
         summary: "README 同时给出本地、VPS 和反代部署路径。",
-        evidenceIds: ["nextclaw-docs"]
+        evidenceIds: ["go-usb-ai-docs"]
       },
       "docs-onboarding": {
         status: "yes",
         summary: "官方公开了 docs、getting started 与 configuration guide。",
-        evidenceIds: ["nextclaw-docs"]
+        evidenceIds: ["go-usb-ai-docs"]
       }
     }),
     evidence: [
       createEvidence(
-        "nextclaw-positioning",
-        "nextclaw",
-        "NextClaw README",
-        "https://github.com/Peiiii/nextclaw/blob/master/README.md",
-        "官方 README 将 NextClaw 表述为 omnipotent personal AI assistant，并公开列出 browser UI、10+ 消息渠道、Cron / Heartbeat、本地运行与 OpenClaw 插件生态兼容。"
+        "go-usb-ai-positioning",
+        "go-usb-ai",
+        "GoUsbAi README",
+        "https://github.com/Peiiii/go-usb-ai/blob/master/README.md",
+        "官方 README 将 GoUsbAi 表述为 omnipotent personal AI assistant，并公开列出 browser UI、10+ 消息渠道、Cron / Heartbeat、本地运行与 OpenClaw 插件生态兼容。"
       ),
       createEvidence(
-        "nextclaw-docs",
-        "nextclaw",
-        "NextClaw Documentation",
-        "https://docs.nextclaw.io/en/",
+        "go-usb-ai-docs",
+        "go-usb-ai",
+        "GoUsbAi Documentation",
+        "https://docs.go-usb-ai.io/en/",
         "官方文档站提供 getting started、configuration、roadmap 等公开资料，可用于验证安装和运行路径。"
       )
     ]

@@ -1,7 +1,7 @@
 # v0.13.47 desktop release core/runtime prebuild
 
 ## 迭代完成说明（改了什么）
-- 修复 desktop 打包链路在 CI 干净环境下缺少 `@nextclaw/core` / `@nextclaw/runtime` 构建产物的问题。
+- 修复 desktop 打包链路在 CI 干净环境下缺少 `@go-usb-ai/core` / `@go-usb-ai/runtime` 构建产物的问题。
 - 在以下链路增加预构建步骤：
   - `.github/workflows/desktop-release.yml`（macOS / Windows）
   - `.github/workflows/desktop-validate.yml`（macOS / Windows）
@@ -13,7 +13,7 @@
 - 本地执行：`pnpm desktop:package:verify`（macOS）。
 - 远程执行：触发 `desktop-release` workflow，观察 macOS / Windows 两个矩阵任务均通过。
 - 验收观察点：
-  - 不再出现 `@nextclaw/core/dist/index.js` 缺失导致的 `ERR_MODULE_NOT_FOUND`。
+  - 不再出现 `@go-usb-ai/core/dist/index.js` 缺失导致的 `ERR_MODULE_NOT_FOUND`。
   - 上传产物包含 macOS DMG/ZIP 与 Windows unpacked ZIP。
 
 ## 发布/部署方式

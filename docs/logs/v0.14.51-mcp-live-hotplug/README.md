@@ -6,13 +6,13 @@
 
 - 将 `mcp.*` 配置变更从 `restart-required` 调整为独立的 `reload-mcp` 热加载分支。
 - 为 `ConfigReloader` 新增 MCP reload 回调能力，并在 gateway/service 常驻进程中接入。
-- 为 `@nextclaw/mcp` 的 lifecycle/registry 增加配置 reconcile 能力，支持：
+- 为 `@go-usb-ai/mcp` 的 lifecycle/registry 增加配置 reconcile 能力，支持：
   - 新增 server 后立即 warm
   - 删除 server 后立即 close
   - enable/disable 后即时生效
   - transport 变更后 close + re-warm
 - 为 UI native NCP agent 增加 `applyMcpConfig`，让运行中的 native runtime 能在不重启进程的情况下接收新的 MCP tool catalog。
-- 移除 `nextclaw mcp add/remove/enable/disable` 的重启提示。
+- 移除 `go-usb-ai mcp add/remove/enable/disable` 的重启提示。
 - 改善重复添加 MCP server 的用户体验：已存在时输出友好提示并返回非零退出码，不再抛出整屏堆栈。
 
 相关文档：
@@ -24,25 +24,25 @@
 
 已执行自动化验证：
 
-- `pnpm -C packages/nextclaw-core exec vitest run src/config/reload.test.ts`
-- `pnpm -C packages/nextclaw-mcp test`
-- `pnpm -C packages/nextclaw exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts src/cli/commands/ncp/nextclaw-ncp-tool-registry.mcp.test.ts`
-- `pnpm -C packages/nextclaw-core build`
-- `pnpm -C packages/nextclaw-mcp tsc`
-- `pnpm -C packages/nextclaw-mcp build`
-- `pnpm -C packages/nextclaw tsc`
-- `pnpm -C packages/nextclaw build`
-- `pnpm -C packages/nextclaw-core lint`
-- `pnpm -C packages/nextclaw-mcp lint`
-- `pnpm -C packages/nextclaw lint`
+- `pnpm -C packages/go-usb-ai-core exec vitest run src/config/reload.test.ts`
+- `pnpm -C packages/go-usb-ai-mcp test`
+- `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts src/cli/commands/ncp/go-usb-ai-ncp-tool-registry.mcp.test.ts`
+- `pnpm -C packages/go-usb-ai-core build`
+- `pnpm -C packages/go-usb-ai-mcp tsc`
+- `pnpm -C packages/go-usb-ai-mcp build`
+- `pnpm -C packages/go-usb-ai tsc`
+- `pnpm -C packages/go-usb-ai build`
+- `pnpm -C packages/go-usb-ai-core lint`
+- `pnpm -C packages/go-usb-ai-mcp lint`
+- `pnpm -C packages/go-usb-ai lint`
   - 结果：均无 error；仓库既有 maintainability warning 仍存在
 
 已执行真实冒烟验证：
 
 - 启动常驻服务：
-  - `NEXTCLAW_HOME=<tmp> node packages/nextclaw/dist/cli/index.js serve --ui-port 18897`
+  - `GOUSB_AI_HOME=<tmp> node packages/go-usb-ai/dist/cli/index.js serve --ui-port 18897`
 - 热插拔新增：
-  - `NEXTCLAW_HOME=<tmp> node packages/nextclaw/dist/cli/index.js mcp add demo -- <node> <mock-server> stdio`
+  - `GOUSB_AI_HOME=<tmp> node packages/go-usb-ai/dist/cli/index.js mcp add demo -- <node> <mock-server> stdio`
   - 观察点：
     - CLI 输出仅为 `Added MCP server demo.`
     - 常驻服务输出 `Config reload: MCP servers reloaded.`
@@ -54,7 +54,7 @@
     - 退出码非零
     - 不再打印 JS stack trace
 - 热插拔移除：
-  - `NEXTCLAW_HOME=<tmp> node packages/nextclaw/dist/cli/index.js mcp remove demo`
+  - `GOUSB_AI_HOME=<tmp> node packages/go-usb-ai/dist/cli/index.js mcp remove demo`
   - 观察点：
     - CLI 输出 `Removed MCP server demo.`
     - 常驻服务再次输出 `Config reload: MCP servers reloaded.`
@@ -72,10 +72,10 @@
 如需发布，按现有 NPM/CLI 发布流程执行：
 
 - 发布受影响包：
-  - `@nextclaw/core`
-  - `@nextclaw/mcp`
-  - `nextclaw`
-- 发布后使用已安装的 `nextclaw` 重跑 `mcp add/remove/doctor` 热插拔冒烟
+  - `@go-usb-ai/core`
+  - `@go-usb-ai/mcp`
+  - `go-usb-ai`
+- 发布后使用已安装的 `go-usb-ai` 重跑 `mcp add/remove/doctor` 热插拔冒烟
 - 若有常驻服务场景，再补一轮“服务运行中修改 MCP 配置”的在线验证
 
 本次不适用：
@@ -88,16 +88,16 @@
 1. 启动一个常驻服务实例，例如：
 
 ```bash
-tmp=$(mktemp -d /tmp/nextclaw-mcp-live.XXXXXX)
-export NEXTCLAW_HOME="$tmp"
+tmp=$(mktemp -d /tmp/go-usb-ai-mcp-live.XXXXXX)
+export GOUSB_AI_HOME="$tmp"
 
-node packages/nextclaw/dist/cli/index.js serve --ui-port 18897
+node packages/go-usb-ai/dist/cli/index.js serve --ui-port 18897
 ```
 
 2. 在另一个终端添加真实 MCP server：
 
 ```bash
-NEXTCLAW_HOME="$tmp" node packages/nextclaw/dist/cli/index.js \
+GOUSB_AI_HOME="$tmp" node packages/go-usb-ai/dist/cli/index.js \
   mcp add chrome-devtools -- npx chrome-devtools-mcp@latest
 ```
 
@@ -106,8 +106,8 @@ NEXTCLAW_HOME="$tmp" node packages/nextclaw/dist/cli/index.js \
 4. 执行：
 
 ```bash
-NEXTCLAW_HOME="$tmp" node packages/nextclaw/dist/cli/index.js mcp list
-NEXTCLAW_HOME="$tmp" node packages/nextclaw/dist/cli/index.js mcp doctor chrome-devtools
+GOUSB_AI_HOME="$tmp" node packages/go-usb-ai/dist/cli/index.js mcp list
+GOUSB_AI_HOME="$tmp" node packages/go-usb-ai/dist/cli/index.js mcp doctor chrome-devtools
 ```
 
 5. 再次执行同一条 `mcp add`，确认得到友好提示而不是堆栈报错。
@@ -115,7 +115,7 @@ NEXTCLAW_HOME="$tmp" node packages/nextclaw/dist/cli/index.js mcp doctor chrome-
 6. 执行：
 
 ```bash
-NEXTCLAW_HOME="$tmp" node packages/nextclaw/dist/cli/index.js mcp remove chrome-devtools
+GOUSB_AI_HOME="$tmp" node packages/go-usb-ai/dist/cli/index.js mcp remove chrome-devtools
 ```
 
 7. 确认运行中的服务无需重启即可完成移除；随后再次 `mcp add`，确认无需重启即可重新可用。

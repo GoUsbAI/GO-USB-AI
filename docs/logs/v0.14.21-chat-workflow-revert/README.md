@@ -8,13 +8,13 @@
 
 ## 测试/验证/验收方式
 
-- `pnpm -C packages/nextclaw-agent-chat-ui test`
-- `pnpm -C packages/nextclaw-ui test`
-- `pnpm -C packages/nextclaw-agent-chat-ui tsc`
-- `pnpm -C packages/nextclaw-ui tsc`
-- `pnpm -C packages/nextclaw-agent-chat-ui build`
-- `pnpm -C packages/nextclaw-ui build`
-- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.tsx packages/nextclaw-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.ts packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.test.ts`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui test`
+- `pnpm -C packages/go-usb-ai-ui test`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui tsc`
+- `pnpm -C packages/go-usb-ai-ui tsc`
+- `pnpm -C packages/go-usb-ai-agent-chat-ui build`
+- `pnpm -C packages/go-usb-ai-ui build`
+- `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.tsx packages/go-usb-ai-agent-chat-ui/src/components/chat/ui/chat-message-list/chat-message-list.test.tsx packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.ts packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.test.ts`
 
 ## 发布/部署方式
 

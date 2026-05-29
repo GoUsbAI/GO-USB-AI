@@ -5,20 +5,20 @@
 ## 1. 服务是否在运行
 
 ```bash
-nextclaw status
-nextclaw doctor
+go-usb-ai status
+go-usb-ai doctor
 ```
 
 如果服务没有运行，先执行：
 
 ```bash
-nextclaw start
+go-usb-ai start
 ```
 
 如果状态异常，再尝试：
 
 ```bash
-nextclaw restart
+go-usb-ai restart
 ```
 
 ## 2. UI 打不开
@@ -46,7 +46,7 @@ nextclaw restart
 - token 是否过期
 - 渠道权限是否完整
 - 平台回调或网络是否可达
-- `nextclaw channels status` 是否显示异常
+- `go-usb-ai channels status` 是否显示异常
 
 ## 5. 自动化没有触发
 
@@ -60,19 +60,19 @@ nextclaw restart
 ## 常用诊断命令
 
 ```bash
-nextclaw status --verbose
-nextclaw doctor --verbose
-nextclaw service autostart doctor
-nextclaw remote doctor
+go-usb-ai status --verbose
+go-usb-ai doctor --verbose
+go-usb-ai service autostart doctor
+go-usb-ai remote doctor
 ```
 
 ## 仍然无法定位
 
 带着下面信息再反馈问题：
 
-- NextClaw 版本
+- GoUsbAi 版本
 - 操作系统
 - 安装方式
-- `nextclaw status` 输出
-- `nextclaw doctor` 输出
+- `go-usb-ai status` 输出
+- `go-usb-ai doctor` 输出
 - 复现步骤

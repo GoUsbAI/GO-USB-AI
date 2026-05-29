@@ -3,7 +3,7 @@
 ## 背景 / 问题
 
 - `nanobot` README 中有“实时代码量”表达，但本质是 README 文字 + 本地脚本校验，不是仓库级自动回写。
-- NextClaw 已有 LOC 统计 workflow，但之前仅产物上传，不会把快照持续同步到主分支，因此 README 无法稳定展示“最新值”。
+- GoUsbAi 已有 LOC 统计 workflow，但之前仅产物上传，不会把快照持续同步到主分支，因此 README 无法稳定展示“最新值”。
 
 ## 决策
 

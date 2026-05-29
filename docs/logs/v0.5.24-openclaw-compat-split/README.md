@@ -2,23 +2,23 @@
 
 ## 背景 / 问题
 
-- 之前 OpenClaw 插件兼容逻辑直接位于 `@nextclaw/core`，会持续增加 core 的职责与依赖体积。
+- 之前 OpenClaw 插件兼容逻辑直接位于 `@go-usb-ai/core`，会持续增加 core 的职责与依赖体积。
 - 项目目标是长期可维护，核心层应保持稳定与轻量；兼容层应可独立演进与发布。
 
 ## 决策
 
-- 新增独立包 `@nextclaw/openclaw-compat` 承载 OpenClaw 兼容能力（发现、加载、安装、卸载、manifest/schema/hints 合并等）。
-- `@nextclaw/core` 仅保留通用扩展 SPI：`ExtensionRegistry`、`ExtensionToolAdapter`、`ExtensionChannelAdapter`。
+- 新增独立包 `@go-usb-ai/openclaw-compat` 承载 OpenClaw 兼容能力（发现、加载、安装、卸载、manifest/schema/hints 合并等）。
+- `@go-usb-ai/core` 仅保留通用扩展 SPI：`ExtensionRegistry`、`ExtensionToolAdapter`、`ExtensionChannelAdapter`。
 - CLI/UI 都改为依赖 compat 包实现插件能力；core 不再直接依赖 OpenClaw 专有实现。
 
 ## 变更内容
 
 - 架构拆分：
-  - 新增 `packages/nextclaw-openclaw-compat`（含 `src/plugins/*`、`src/plugin-sdk/*`、独立 build/lint/tsc）。
+  - 新增 `packages/go-usb-ai-openclaw-compat`（含 `src/plugins/*`、`src/plugin-sdk/*`、独立 build/lint/tsc）。
   - 移除 core 内 OpenClaw 专有目录，新增 core 通用扩展层：
-    - `packages/nextclaw-core/src/extensions/types.ts`
-    - `packages/nextclaw-core/src/extensions/tool-adapter.ts`
-    - `packages/nextclaw-core/src/channels/extension_channel.ts`
+    - `packages/go-usb-ai-core/src/extensions/types.ts`
+    - `packages/go-usb-ai-core/src/extensions/tool-adapter.ts`
+    - `packages/go-usb-ai-core/src/channels/extension_channel.ts`
 - 运行时接线：
   - `AgentLoop` 从 `pluginRegistry` 切换为 `extensionRegistry`。
   - `ChannelManager` 从 plugin channels 切换为 extension channels。
@@ -39,20 +39,20 @@ pnpm lint
 pnpm tsc
 
 # smoke: path plugin
-NEXTCLAW_HOME=/tmp/nextclaw-smoke-openclaw-compat-split/home \
-  node packages/nextclaw/dist/cli/index.js plugins install /tmp/nextclaw-smoke-openclaw-compat-split/demo-plugin
-NEXTCLAW_HOME=/tmp/nextclaw-smoke-openclaw-compat-split/home \
-  node packages/nextclaw/dist/cli/index.js plugins info demo-plugin
-NEXTCLAW_HOME=/tmp/nextclaw-smoke-openclaw-compat-split/home \
-  node packages/nextclaw/dist/cli/index.js plugins uninstall demo-plugin --dry-run
-NEXTCLAW_HOME=/tmp/nextclaw-smoke-openclaw-compat-split/home \
-  node packages/nextclaw/dist/cli/index.js plugins uninstall demo-plugin --force
+GOUSB_AI_HOME=/tmp/go-usb-ai-smoke-openclaw-compat-split/home \
+  node packages/go-usb-ai/dist/cli/index.js plugins install /tmp/go-usb-ai-smoke-openclaw-compat-split/demo-plugin
+GOUSB_AI_HOME=/tmp/go-usb-ai-smoke-openclaw-compat-split/home \
+  node packages/go-usb-ai/dist/cli/index.js plugins info demo-plugin
+GOUSB_AI_HOME=/tmp/go-usb-ai-smoke-openclaw-compat-split/home \
+  node packages/go-usb-ai/dist/cli/index.js plugins uninstall demo-plugin --dry-run
+GOUSB_AI_HOME=/tmp/go-usb-ai-smoke-openclaw-compat-split/home \
+  node packages/go-usb-ai/dist/cli/index.js plugins uninstall demo-plugin --force
 
 # smoke: archive plugin
-NEXTCLAW_HOME=/tmp/nextclaw-smoke-openclaw-compat-archive-split/home \
-  node packages/nextclaw/dist/cli/index.js plugins install /tmp/nextclaw-smoke-openclaw-compat-archive-split/src/demo-plugin/*.tgz
-NEXTCLAW_HOME=/tmp/nextclaw-smoke-openclaw-compat-archive-split/home \
-  node packages/nextclaw/dist/cli/index.js plugins uninstall demo-plugin-archive --force
+GOUSB_AI_HOME=/tmp/go-usb-ai-smoke-openclaw-compat-archive-split/home \
+  node packages/go-usb-ai/dist/cli/index.js plugins install /tmp/go-usb-ai-smoke-openclaw-compat-archive-split/src/demo-plugin/*.tgz
+GOUSB_AI_HOME=/tmp/go-usb-ai-smoke-openclaw-compat-archive-split/home \
+  node packages/go-usb-ai/dist/cli/index.js plugins uninstall demo-plugin-archive --force
 ```
 
 验收点：
@@ -65,10 +65,10 @@ NEXTCLAW_HOME=/tmp/nextclaw-smoke-openclaw-compat-archive-split/home \
 ## 发布 / 部署
 
 - 本次涉及包结构与依赖变化，发布时需要至少覆盖：
-  - `@nextclaw/core`
-  - `@nextclaw/openclaw-compat`（新包）
-  - `@nextclaw/server`
-  - `nextclaw`
+  - `@go-usb-ai/core`
+  - `@go-usb-ai/openclaw-compat`（新包）
+  - `@go-usb-ai/server`
+  - `go-usb-ai`
 - 按 `docs/workflows/npm-release-process.md` 执行 changeset/version/publish；确保 consumer 包依赖指向已发布版本。
 
 ## 影响范围 / 风险

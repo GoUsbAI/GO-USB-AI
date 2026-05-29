@@ -11,8 +11,8 @@
 - 验收清单与快速排障映射
 
 2. 同步模板文档：
-- 运行同步脚本将 `docs/USAGE.md` 同步至 `packages/nextclaw/templates/USAGE.md`
-- 确保 `nextclaw init` 生成的新工作区拿到同版本协作指引
+- 运行同步脚本将 `docs/USAGE.md` 同步至 `packages/go-usb-ai/templates/USAGE.md`
+- 确保 `go-usb-ai init` 生成的新工作区拿到同版本协作指引
 
 ## 测试 / 验证 / 验收方式
 
@@ -20,10 +20,10 @@
 
 - 本次仅涉及文档与模板同步，无运行时代码逻辑变更。
 - 已执行：
-  - `node packages/nextclaw/scripts/sync-usage-template.mjs`
+  - `node packages/go-usb-ai/scripts/sync-usage-template.mjs`
 - 已核对：
   - `docs/USAGE.md` 新增多 Agent 协作章节
-  - `packages/nextclaw/templates/USAGE.md` 同步包含相同章节
+  - `packages/go-usb-ai/templates/USAGE.md` 同步包含相同章节
 
 ### 验收说明
 
@@ -34,7 +34,7 @@
 
 - 文档变更无需单独部署后端服务。
 - 若发布 NPM 包，沿既有发布流程执行即可；本次变更会随包内 `templates/USAGE.md` 一并发布。
-- 对现有已初始化工作区，若需要立即获取新文档，可手动复制或重新执行模板覆盖流程（如 `nextclaw init --force`，会覆盖模板文件）。
+- 对现有已初始化工作区，若需要立即获取新文档，可手动复制或重新执行模板覆盖流程（如 `go-usb-ai init --force`，会覆盖模板文件）。
 
 ## 用户/产品视角验收步骤
 
@@ -44,7 +44,7 @@
 - 协作配方（recipes）
 - 验收清单（acceptance checklist）
 - 排障映射（troubleshooting map）
-2. 打开 `packages/nextclaw/templates/USAGE.md`，确认包含同样章节。
-3. （可选）在新工作区执行 `nextclaw init`，确认生成的 `USAGE.md` 含上述协作内容。
+2. 打开 `packages/go-usb-ai/templates/USAGE.md`，确认包含同样章节。
+3. （可选）在新工作区执行 `go-usb-ai init`，确认生成的 `USAGE.md` 含上述协作内容。
 
 验收通过标准：文档可直接指导多 Agent 协作配置、验证与排障，且模板与主文档保持一致。

@@ -13,14 +13,14 @@
 ## 测试/验证/验收方式
 
 - 单测：
-  - `pnpm -C packages/nextclaw-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts`
+  - `pnpm -C packages/go-usb-ai-ui test -- src/components/chat/adapters/chat-message.adapter.test.ts`
 - 类型检查：
-  - `pnpm -C packages/nextclaw-ui tsc`
+  - `pnpm -C packages/go-usb-ai-ui tsc`
 - 冒烟测试：
-  - `pnpm -C packages/nextclaw-ui exec tsx --eval '...adaptChatMessages(...)...'`
+  - `pnpm -C packages/go-usb-ai-ui exec tsx --eval '...adaptChatMessages(...)...'`
   - 观察点：空白 assistant 消息不出现在结果中，正常 assistant 消息仍保留
 - 可维护性自检：
-  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.ts packages/nextclaw-ui/src/components/chat/containers/chat-message-list.container.tsx packages/nextclaw-ui/src/components/chat/adapters/chat-message.adapter.test.ts`
+  - `python3 .codex/skills/post-edit-maintainability-guard/scripts/check_maintainability.py --paths packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.ts packages/go-usb-ai-ui/src/components/chat/containers/chat-message-list.container.tsx packages/go-usb-ai-ui/src/components/chat/adapters/chat-message.adapter.test.ts`
 - 结果：
   - 单测 4/4 通过
   - `tsc` 通过

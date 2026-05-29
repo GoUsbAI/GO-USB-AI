@@ -39,12 +39,12 @@ const galleryItems = [
     },
     sources: {
       en: resolveFirstExisting(
-        resolve(rootDir, "images/screenshots/nextclaw-chat-page-en.png"),
-        resolve(rootDir, "apps/landing/public/nextclaw-chat-page-en.png")
+        resolve(rootDir, "images/screenshots/go-usb-ai-chat-page-en.png"),
+        resolve(rootDir, "apps/landing/public/go-usb-ai-chat-page-en.png")
       ),
       zh: resolveFirstExisting(
-        resolve(rootDir, "images/screenshots/nextclaw-chat-page-cn.png"),
-        resolve(rootDir, "apps/landing/public/nextclaw-chat-page-cn.png")
+        resolve(rootDir, "images/screenshots/go-usb-ai-chat-page-cn.png"),
+        resolve(rootDir, "apps/landing/public/go-usb-ai-chat-page-cn.png")
       )
     }
   },
@@ -60,12 +60,12 @@ const galleryItems = [
     },
     sources: {
       en: resolveFirstExisting(
-        resolve(rootDir, "images/screenshots/nextclaw-providers-page-en.png"),
-        resolve(rootDir, "apps/landing/public/nextclaw-providers-page-en.png")
+        resolve(rootDir, "images/screenshots/go-usb-ai-providers-page-en.png"),
+        resolve(rootDir, "apps/landing/public/go-usb-ai-providers-page-en.png")
       ),
       zh: resolveFirstExisting(
-        resolve(rootDir, "images/screenshots/nextclaw-providers-page-cn.png"),
-        resolve(rootDir, "apps/landing/public/nextclaw-providers-page-cn.png")
+        resolve(rootDir, "images/screenshots/go-usb-ai-providers-page-cn.png"),
+        resolve(rootDir, "apps/landing/public/go-usb-ai-providers-page-cn.png")
       )
     }
   },
@@ -81,12 +81,12 @@ const galleryItems = [
     },
     sources: {
       en: resolveFirstExisting(
-        resolve(rootDir, "images/screenshots/nextclaw-channels-page-en.png"),
-        resolve(rootDir, "apps/landing/public/nextclaw-channels-page-en.png")
+        resolve(rootDir, "images/screenshots/go-usb-ai-channels-page-en.png"),
+        resolve(rootDir, "apps/landing/public/go-usb-ai-channels-page-en.png")
       ),
       zh: resolveFirstExisting(
-        resolve(rootDir, "images/screenshots/nextclaw-channels-page-cn.png"),
-        resolve(rootDir, "apps/landing/public/nextclaw-channels-page-cn.png")
+        resolve(rootDir, "images/screenshots/go-usb-ai-channels-page-cn.png"),
+        resolve(rootDir, "apps/landing/public/go-usb-ai-channels-page-cn.png")
       )
     }
   },
@@ -102,12 +102,12 @@ const galleryItems = [
     },
     sources: {
       en: resolveFirstExisting(
-        resolve(rootDir, "images/screenshots/nextclaw-skills-doc-browser-en.png"),
-        resolve(rootDir, "apps/landing/public/nextclaw-skills-doc-browser-en.png")
+        resolve(rootDir, "images/screenshots/go-usb-ai-skills-doc-browser-en.png"),
+        resolve(rootDir, "apps/landing/public/go-usb-ai-skills-doc-browser-en.png")
       ),
       zh: resolveFirstExisting(
-        resolve(rootDir, "images/screenshots/nextclaw-skills-doc-browser-cn.png"),
-        resolve(rootDir, "apps/landing/public/nextclaw-skills-doc-browser-cn.png")
+        resolve(rootDir, "images/screenshots/go-usb-ai-skills-doc-browser-cn.png"),
+        resolve(rootDir, "apps/landing/public/go-usb-ai-skills-doc-browser-cn.png")
       )
     }
   },
@@ -123,12 +123,12 @@ const galleryItems = [
     },
     sources: {
       en: resolveFirstExisting(
-        resolve(rootDir, "images/screenshots/nextclaw-micro-browser-dock-en.png"),
-        resolve(rootDir, "apps/landing/public/nextclaw-micro-browser-dock-en.png")
+        resolve(rootDir, "images/screenshots/go-usb-ai-micro-browser-dock-en.png"),
+        resolve(rootDir, "apps/landing/public/go-usb-ai-micro-browser-dock-en.png")
       ),
       zh: resolveFirstExisting(
-        resolve(rootDir, "images/screenshots/nextclaw-micro-browser-dock-cn.jpg"),
-        resolve(rootDir, "apps/landing/public/nextclaw-micro-browser-dock-cn.jpg")
+        resolve(rootDir, "images/screenshots/go-usb-ai-micro-browser-dock-cn.jpg"),
+        resolve(rootDir, "apps/landing/public/go-usb-ai-micro-browser-dock-cn.jpg")
       )
     }
   }

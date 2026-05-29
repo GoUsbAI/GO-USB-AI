@@ -2,11 +2,11 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Add a real Weixin "AI is typing" indicator during agent processing, using the iLink API with the smallest maintainable design that fits NextClaw's existing channel lifecycle.
+**Goal:** Add a real Weixin "AI is typing" indicator during agent processing, using the iLink API with the smallest maintainable design that fits GoUsbAi's existing channel lifecycle.
 
-**Architecture:** Reuse NextClaw's existing inbound -> agent loop -> outbound/control lifecycle instead of copying CoPaw's full channel-local orchestration. Keep protocol-specific complexity isolated to the Weixin plugin: extend the Weixin API client with `getconfig` / `sendtyping`, add one small plugin-local typing controller for ticket caching and keepalive/cancel, and wire it to existing typing-stop control messages from core.
+**Architecture:** Reuse GoUsbAi's existing inbound -> agent loop -> outbound/control lifecycle instead of copying CoPaw's full channel-local orchestration. Keep protocol-specific complexity isolated to the Weixin plugin: extend the Weixin API client with `getconfig` / `sendtyping`, add one small plugin-local typing controller for ticket caching and keepalive/cancel, and wire it to existing typing-stop control messages from core.
 
-**Tech Stack:** TypeScript, `@nextclaw/core` bus/control lifecycle, `@nextclaw/channel-plugin-weixin`, fetch-based Weixin iLink HTTP API.
+**Tech Stack:** TypeScript, `@go-usb-ai/core` bus/control lifecycle, `@go-usb-ai/channel-plugin-weixin`, fetch-based Weixin iLink HTTP API.
 
 ---
 
@@ -78,7 +78,7 @@
 
 直接复用现有能力：
 
-- `@nextclaw/core` 已有 typing stop control message。
+- `@go-usb-ai/core` 已有 typing stop control message。
 - agent loop 在“没有最终回复”时已经会发 stop control。
 - channel manager 已经支持把 control message 投递给具体 channel。
 
@@ -88,7 +88,7 @@
 
 新增一个小型插件内控制器，例如：
 
-- `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-typing-controller.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-typing-controller.ts`
 
 职责只做三件事：
 
@@ -129,28 +129,28 @@
 
 ### 修改
 
-- `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-api.client.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-api.client.ts`
   - 补 `getconfig` / `sendtyping`
   - 收口 iLink 请求头
-- `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-channel.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-channel.ts`
   - 在 inbound 时启动 typing
   - 在 outbound `send()` 后停止 typing
   - 实现 `handleControlMessage()` 响应 typing stop
-- `packages/extensions/nextclaw-channel-plugin-weixin/src/index.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-weixin/src/index.ts`
   - 若需要导出或注册新 helper，则只做最小接线
 
 ### 新增
 
-- `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-typing-controller.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-typing-controller.ts`
   - ticket cache
   - active session map
   - start/stop/stopAll
 
 ### 测试
 
-- `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-api.client.test.ts`
-- `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-typing-controller.test.ts`
-- `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-channel.test.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-api.client.test.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-typing-controller.test.ts`
+- `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-channel.test.ts`
 
 ## 行为设计
 
@@ -249,7 +249,7 @@
 
 ### 冒烟
 
-- 在隔离 `NEXTCLAW_HOME` 下接入真实或可控 Weixin iLink 环境
+- 在隔离 `GOUSB_AI_HOME` 下接入真实或可控 Weixin iLink 环境
 - 发送一条消息给机器人
 - 观察 AI 开始处理后微信侧出现“正在输入”
 - 回复送达后输入态消失
@@ -260,20 +260,20 @@
 ### Task 1: 补 Weixin API typing 协议面
 
 **Files:**
-- Modify: `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-api.client.ts`
-- Test: `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-api.client.test.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-api.client.ts`
+- Test: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-api.client.test.ts`
 
 ### Task 2: 实现插件内 WeixinTypingController
 
 **Files:**
-- Create: `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-typing-controller.ts`
-- Test: `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-typing-controller.test.ts`
+- Create: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-typing-controller.ts`
+- Test: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-typing-controller.test.ts`
 
 ### Task 3: 在 WeixinChannel 挂接 typing lifecycle
 
 **Files:**
-- Modify: `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-channel.ts`
-- Test: `packages/extensions/nextclaw-channel-plugin-weixin/src/weixin-channel.test.ts`
+- Modify: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-channel.ts`
+- Test: `packages/extensions/go-usb-ai-channel-plugin-weixin/src/weixin-channel.test.ts`
 
 ### Task 4: 运行最小充分验证
 
@@ -284,5 +284,5 @@
 
 **Files:**
 - Modify: `docs/logs/<pending-iteration>/README.md`（仅在真正代码实现后）
-- Optional: `packages/extensions/nextclaw-channel-plugin-weixin/README.md`
+- Optional: `packages/extensions/go-usb-ai-channel-plugin-weixin/README.md`
 

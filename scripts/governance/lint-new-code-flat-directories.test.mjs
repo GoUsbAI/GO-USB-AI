@@ -103,35 +103,35 @@ test("downgrades to warning when a subtree exception is recorded", () => {
 
 test("blocks touched strict flat directories even when they are not newly growing", () => {
   const finding = evaluateFlatDirectoryFinding({
-    directoryPath: "packages/nextclaw-ui/src/components/chat",
+    directoryPath: "packages/go-usb-ai-ui/src/components/chat",
     currentShape: {
       directCodeFiles: [
-        "packages/nextclaw-ui/src/components/chat/ChatPage.tsx",
-        "packages/nextclaw-ui/src/components/chat/chat.service.ts",
-        "packages/nextclaw-ui/src/components/chat/chat.store.ts",
-        "packages/nextclaw-ui/src/components/chat/chat-adapter.ts",
-        "packages/nextclaw-ui/src/components/chat/chat-runtime.ts",
-        "packages/nextclaw-ui/src/components/chat/chat-controller.ts",
-        "packages/nextclaw-ui/src/components/chat/chat-provider.ts",
-        "packages/nextclaw-ui/src/components/chat/chat-panel.tsx"
+        "packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx",
+        "packages/go-usb-ai-ui/src/components/chat/chat.service.ts",
+        "packages/go-usb-ai-ui/src/components/chat/chat.store.ts",
+        "packages/go-usb-ai-ui/src/components/chat/chat-adapter.ts",
+        "packages/go-usb-ai-ui/src/components/chat/chat-runtime.ts",
+        "packages/go-usb-ai-ui/src/components/chat/chat-controller.ts",
+        "packages/go-usb-ai-ui/src/components/chat/chat-provider.ts",
+        "packages/go-usb-ai-ui/src/components/chat/chat-panel.tsx"
       ],
       directSubdirectories: []
     },
     previousShape: {
       directCodeFiles: [
-        "packages/nextclaw-ui/src/components/chat/ChatPage.tsx",
-        "packages/nextclaw-ui/src/components/chat/chat.service.ts",
-        "packages/nextclaw-ui/src/components/chat/chat.store.ts",
-        "packages/nextclaw-ui/src/components/chat/chat-adapter.ts",
-        "packages/nextclaw-ui/src/components/chat/chat-runtime.ts",
-        "packages/nextclaw-ui/src/components/chat/chat-controller.ts",
-        "packages/nextclaw-ui/src/components/chat/chat-provider.ts",
-        "packages/nextclaw-ui/src/components/chat/chat-panel.tsx"
+        "packages/go-usb-ai-ui/src/components/chat/ChatPage.tsx",
+        "packages/go-usb-ai-ui/src/components/chat/chat.service.ts",
+        "packages/go-usb-ai-ui/src/components/chat/chat.store.ts",
+        "packages/go-usb-ai-ui/src/components/chat/chat-adapter.ts",
+        "packages/go-usb-ai-ui/src/components/chat/chat-runtime.ts",
+        "packages/go-usb-ai-ui/src/components/chat/chat-controller.ts",
+        "packages/go-usb-ai-ui/src/components/chat/chat-provider.ts",
+        "packages/go-usb-ai-ui/src/components/chat/chat-panel.tsx"
       ],
       directSubdirectories: []
     },
     exception: {
-      readmePath: "packages/nextclaw-ui/src/components/chat/README.md",
+      readmePath: "packages/go-usb-ai-ui/src/components/chat/README.md",
       found: false,
       missingFields: ["原因"],
       reason: null
@@ -144,35 +144,35 @@ test("blocks touched strict flat directories even when they are not newly growin
 
 test("skips subtree enforcement for protocol flat role directories", () => {
   const finding = evaluateFlatDirectoryFinding({
-    directoryPath: "packages/nextclaw-kernel/src/services",
+    directoryPath: "packages/go-usb-ai-kernel/src/services",
     currentShape: {
       directCodeFiles: [
-        "packages/nextclaw-kernel/src/services/agent.service.ts",
-        "packages/nextclaw-kernel/src/services/runtime.service.ts",
-        "packages/nextclaw-kernel/src/services/session.service.ts",
-        "packages/nextclaw-kernel/src/services/provider.service.ts",
-        "packages/nextclaw-kernel/src/services/model.service.ts",
-        "packages/nextclaw-kernel/src/services/plugin.service.ts",
-        "packages/nextclaw-kernel/src/services/skill.service.ts",
-        "packages/nextclaw-kernel/src/services/context.service.ts"
+        "packages/go-usb-ai-kernel/src/services/agent.service.ts",
+        "packages/go-usb-ai-kernel/src/services/runtime.service.ts",
+        "packages/go-usb-ai-kernel/src/services/session.service.ts",
+        "packages/go-usb-ai-kernel/src/services/provider.service.ts",
+        "packages/go-usb-ai-kernel/src/services/model.service.ts",
+        "packages/go-usb-ai-kernel/src/services/plugin.service.ts",
+        "packages/go-usb-ai-kernel/src/services/skill.service.ts",
+        "packages/go-usb-ai-kernel/src/services/context.service.ts"
       ],
       directSubdirectories: []
     },
     previousShape: {
       directCodeFiles: [
-        "packages/nextclaw-kernel/src/services/agent.service.ts",
-        "packages/nextclaw-kernel/src/services/runtime.service.ts",
-        "packages/nextclaw-kernel/src/services/session.service.ts",
-        "packages/nextclaw-kernel/src/services/provider.service.ts",
-        "packages/nextclaw-kernel/src/services/model.service.ts",
-        "packages/nextclaw-kernel/src/services/plugin.service.ts",
-        "packages/nextclaw-kernel/src/services/skill.service.ts",
-        "packages/nextclaw-kernel/src/services/context.service.ts"
+        "packages/go-usb-ai-kernel/src/services/agent.service.ts",
+        "packages/go-usb-ai-kernel/src/services/runtime.service.ts",
+        "packages/go-usb-ai-kernel/src/services/session.service.ts",
+        "packages/go-usb-ai-kernel/src/services/provider.service.ts",
+        "packages/go-usb-ai-kernel/src/services/model.service.ts",
+        "packages/go-usb-ai-kernel/src/services/plugin.service.ts",
+        "packages/go-usb-ai-kernel/src/services/skill.service.ts",
+        "packages/go-usb-ai-kernel/src/services/context.service.ts"
       ],
       directSubdirectories: []
     },
     exception: {
-      readmePath: "packages/nextclaw-kernel/src/services/README.md",
+      readmePath: "packages/go-usb-ai-kernel/src/services/README.md",
       found: false,
       missingFields: ["原因"],
       reason: null

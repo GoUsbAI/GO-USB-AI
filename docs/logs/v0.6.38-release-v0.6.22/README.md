@@ -4,22 +4,22 @@
 
 - 执行了本次版本发布闭环（changeset version + publish + tag）。
 - 覆盖并发布了与本轮变更相关的组件：
-  - `@nextclaw/core@0.6.21`
-  - `@nextclaw/channel-runtime@0.1.7`
-  - `@nextclaw/openclaw-compat@0.1.14`
-  - `@nextclaw/server@0.4.6`
-  - `@nextclaw/ui@0.3.11`
-  - `nextclaw@0.6.22`
-  - `@nextclaw/channel-plugin-telegram@0.1.2`
-  - `@nextclaw/channel-plugin-whatsapp@0.1.2`
-  - `@nextclaw/channel-plugin-discord@0.1.2`
-  - `@nextclaw/channel-plugin-feishu@0.1.2`
-  - `@nextclaw/channel-plugin-mochat@0.1.2`
-  - `@nextclaw/channel-plugin-dingtalk@0.1.2`
-  - `@nextclaw/channel-plugin-email@0.1.2`
-  - `@nextclaw/channel-plugin-slack@0.1.2`
-  - `@nextclaw/channel-plugin-qq@0.1.2`
-  - `@nextclaw/channel-plugin-wecom@0.1.2`（首次发布）
+  - `@go-usb-ai/core@0.6.21`
+  - `@go-usb-ai/channel-runtime@0.1.7`
+  - `@go-usb-ai/openclaw-compat@0.1.14`
+  - `@go-usb-ai/server@0.4.6`
+  - `@go-usb-ai/ui@0.3.11`
+  - `go-usb-ai@0.6.22`
+  - `@go-usb-ai/channel-plugin-telegram@0.1.2`
+  - `@go-usb-ai/channel-plugin-whatsapp@0.1.2`
+  - `@go-usb-ai/channel-plugin-discord@0.1.2`
+  - `@go-usb-ai/channel-plugin-feishu@0.1.2`
+  - `@go-usb-ai/channel-plugin-mochat@0.1.2`
+  - `@go-usb-ai/channel-plugin-dingtalk@0.1.2`
+  - `@go-usb-ai/channel-plugin-email@0.1.2`
+  - `@go-usb-ai/channel-plugin-slack@0.1.2`
+  - `@go-usb-ai/channel-plugin-qq@0.1.2`
+  - `@go-usb-ai/channel-plugin-wecom@0.1.2`（首次发布）
 
 ## 测试 / 验证 / 验收方式
 

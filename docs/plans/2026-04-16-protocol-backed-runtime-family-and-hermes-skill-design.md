@@ -1,10 +1,10 @@
 # Unified Agent Runtime Registry, NARP, And Hermes Skill Design
 
-**Goal:** 为 NextClaw 定义一套更准确的统一 agent runtime 方案：系统先拥有统一的 `agent runtime registry / runtime entry` 模型，然后在这套大模型里承载多种 runtime type，例如 `native`、`codex`、`claude-code`、`narp-http`、`narp-stdio`。其中 `narp-http` 与 `narp-stdio` 组成同一个明确命名的 runtime protocol family：`NARP`，两者共享同一套 route/credential contract，只在 transport 不同；`Hermes` 是首个 `narp-stdio` runtime entry，`Hermes skill` 负责帮助新用户安装、接入、诊断、验证与修复。
+**Goal:** 为 GoUsbAi 定义一套更准确的统一 agent runtime 方案：系统先拥有统一的 `agent runtime registry / runtime entry` 模型，然后在这套大模型里承载多种 runtime type，例如 `native`、`codex`、`claude-code`、`narp-http`、`narp-stdio`。其中 `narp-http` 与 `narp-stdio` 组成同一个明确命名的 runtime protocol family：`NARP`，两者共享同一套 route/credential contract，只在 transport 不同；`Hermes` 是首个 `narp-stdio` runtime entry，`Hermes skill` 负责帮助新用户安装、接入、诊断、验证与修复。
 
-**One-line conclusion:** 我们不是在设计“plugin 驱动的 Hermes 方案”，也不是只在设计“ACP runtime”。更准确的架构是：NextClaw 先有一个统一的 agent runtime 注册层，所有 runtime 都在同一个产品层被配置、注册、展示、选择；`plugin` 只是 runtime 的一个提供来源。`NARP` 是我们对外的协议家族名，`narp-http` 和 `narp-stdio` 是它的两个 concrete runtime type；`acp` 只作为 `narp-stdio` 第一版的底层 wire dialect，而不再是对外协议名。
+**One-line conclusion:** 我们不是在设计“plugin 驱动的 Hermes 方案”，也不是只在设计“ACP runtime”。更准确的架构是：GoUsbAi 先有一个统一的 agent runtime 注册层，所有 runtime 都在同一个产品层被配置、注册、展示、选择；`plugin` 只是 runtime 的一个提供来源。`NARP` 是我们对外的协议家族名，`narp-http` 和 `narp-stdio` 是它的两个 concrete runtime type；`acp` 只作为 `narp-stdio` 第一版的底层 wire dialect，而不再是对外协议名。
 
-**Vision alignment:** 这份方案服务于 NextClaw 的“统一入口、能力编排、统一体验、开箱即用”目标。用户最终感知到的是“我在 NextClaw 里多了一个正式会话类型”，而不是“我去接了一套插件私有配置”。
+**Vision alignment:** 这份方案服务于 GoUsbAi 的“统一入口、能力编排、统一体验、开箱即用”目标。用户最终感知到的是“我在 GoUsbAi 里多了一个正式会话类型”，而不是“我去接了一套插件私有配置”。
 
 **Tech Stack:** TypeScript、runtime registry、session type registry、HTTP/SSE、stdio、JSON-RPC、ACP、child process lifecycle、marketplace skill。
 
@@ -14,7 +14,7 @@
 
 这份文档要一次性回答六件事：
 
-1. NextClaw 的 runtime 总体模型到底是什么。
+1. GoUsbAi 的 runtime 总体模型到底是什么。
 2. 为什么 runtime 不能被设计成必须依附 plugin。
 3. `narp-http` 与 `narp-stdio` 在整个系统里处于什么层级。
 4. 配置应该写在哪里，怎样才算“接入完成”。
@@ -84,7 +84,7 @@
 
 这套架构的主语顺序应该是：
 
-1. NextClaw 先有统一 runtime registry
+1. GoUsbAi 先有统一 runtime registry
 2. registry 里有多个 runtime entry
 3. 每个 runtime entry 有自己的 `type`
 4. 不同 `type` 有不同 config 分支
@@ -208,7 +208,7 @@ type RuntimeRoute = {
 
 ### 5.1 Product Runtime Layer
 
-这是 NextClaw 必须拥有的核心资产。
+这是 GoUsbAi 必须拥有的核心资产。
 
 负责：
 
@@ -323,7 +323,7 @@ type RuntimeSessionCreateInput = {
 };
 ```
 
-然后由 NextClaw 把选中的模型统一解析成：
+然后由 GoUsbAi 把选中的模型统一解析成：
 
 ```ts
 type RuntimeRoute = {
@@ -413,7 +413,7 @@ type RuntimeRoute = {
 
 第一版明确采用：
 
-- 每个 NextClaw 会话一个 stdio 子进程
+- 每个 GoUsbAi 会话一个 stdio 子进程
 
 原因：
 
@@ -524,22 +524,22 @@ plugin 若存在，只负责：
 
 - `codex / claude / narp-http / narp-stdio` 全都在同一个地方
 - 只是各自 `type` 和 `config` 分支不同
-- `narp-http` 与 `narp-stdio` 共用同一份由 NextClaw 所有的 route ownership；字段桥接细节应由运行时内建处理，而不是要求用户手填映射
+- `narp-http` 与 `narp-stdio` 共用同一份由 GoUsbAi 所有的 route ownership；字段桥接细节应由运行时内建处理，而不是要求用户手填映射
 
 ### 9.3 统一注册链路
 
 固定链路如下：
 
-1. NextClaw 读取统一 runtime registry 配置。
+1. GoUsbAi 读取统一 runtime registry 配置。
 2. runtime provider layer 判断自己能否承载对应 `type`。
 3. 每个有效 runtime entry 被注册成一个正式 session type。
 4. 前端显示这些 session type。
 5. 用户选择某个 session type。
 6. 用户选择模型。
-7. NextClaw 解析出 `RuntimeRoute`。
+7. GoUsbAi 解析出 `RuntimeRoute`。
 8. 目标 runtime 消费这份 `RuntimeRoute`。
 9. 外部 runtime 返回流式事件。
-10. NextClaw 映射成统一 NCP 事件。
+10. GoUsbAi 映射成统一 NCP 事件。
 
 只要这 10 步都成立，就算接入成功。
 
@@ -579,7 +579,7 @@ Hermes 更准确的定位是：
 
 `Hermes skill` 的定位是：
 
-**帮助一个完全不懂 Hermes 的新用户，把 Hermes 安装、接入、验证并修复成一个正式可用的 NextClaw runtime entry。**
+**帮助一个完全不懂 Hermes 的新用户，把 Hermes 安装、接入、验证并修复成一个正式可用的 GoUsbAi runtime entry。**
 
 ### 11.2 `setup` 必须做什么
 
@@ -653,7 +653,7 @@ Hermes 更准确的定位是：
 
 至少固定下面这组真实场景：
 
-1. 启动本地开发态 NextClaw。
+1. 启动本地开发态 GoUsbAi。
 2. `Hermes skill` 完成 setup。
 3. 聊天页出现 `Hermes` 会话类型。
 4. 新建 `Hermes` 会话。
@@ -684,7 +684,7 @@ Hermes 更准确的定位是：
 
 满足以下条件，才算方案真正成立：
 
-1. NextClaw 内部存在统一的 agent runtime registry。
+1. GoUsbAi 内部存在统一的 agent runtime registry。
 2. 所有 runtime 在同一个产品层被配置、注册、展示和选择。
 3. `plugin` 被降回 runtime provider/source，而不是配置主语。
 4. `codex / claude-code / narp-http / narp-stdio / native` 可以在同一份 runtime entry 模型中表达。

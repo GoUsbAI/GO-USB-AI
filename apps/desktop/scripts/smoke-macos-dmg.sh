@@ -4,7 +4,7 @@ set -eo pipefail
 DMG_PATH="${1:-}"
 STARTUP_TIMEOUT_SEC="${2:-120}"
 MAX_READY_SEC="${DESKTOP_SMOKE_MAX_READY_SEC:-45}"
-SMOKE_PROFILE="${NEXTCLAW_DESKTOP_SMOKE_PROFILE:-isolated}"
+SMOKE_PROFILE="${GOUSB_AI_DESKTOP_SMOKE_PROFILE:-isolated}"
 
 if [[ -z "${DMG_PATH}" ]]; then
   echo "[desktop-smoke] usage: smoke-macos-dmg.sh <dmg-path> [startup-timeout-sec]" >&2
@@ -32,12 +32,12 @@ if [[ "${SMOKE_PROFILE}" != "isolated" && "${SMOKE_PROFILE}" != "real" ]]; then
 fi
 
 TEMP_ROOT="${RUNNER_TEMP:-${TMPDIR:-/tmp}}"
-SMOKE_HOME="${TEMP_ROOT}/nextclaw-desktop-smoke-home"
-REAL_DESKTOP_DATA_DIR="${NEXTCLAW_DESKTOP_SMOKE_DATA_DIR:-${HOME}/Library/Application Support/@nextclaw/desktop}"
+SMOKE_HOME="${TEMP_ROOT}/go-usb-ai-desktop-smoke-home"
+REAL_DESKTOP_DATA_DIR="${GOUSB_AI_DESKTOP_SMOKE_DATA_DIR:-${HOME}/Library/Application Support/@go-usb-ai/desktop}"
 MOUNT_POINT=""
-INSTALL_ROOT="${NEXTCLAW_DESKTOP_SMOKE_INSTALL_ROOT:-${HOME}/Applications/.nextclaw-desktop-smoke-${$}}"
-INSTALLED_APP="${INSTALL_ROOT}/NextClaw Desktop.app"
-LOG_ROOT="${TEMP_ROOT}/nextclaw-desktop-smoke-logs"
+INSTALL_ROOT="${GOUSB_AI_DESKTOP_SMOKE_INSTALL_ROOT:-${HOME}/Applications/.go-usb-ai-desktop-smoke-${$}}"
+INSTALLED_APP="${INSTALL_ROOT}/GoUsbAi Desktop.app"
+LOG_ROOT="${TEMP_ROOT}/go-usb-ai-desktop-smoke-logs"
 APP_STDOUT_LOG="${LOG_ROOT}/app-stdout.log"
 APP_HEALTH_LOG="${LOG_ROOT}/health.json"
 APP_MAIN_LOG="${SMOKE_HOME}/launcher/main.log"
@@ -101,7 +101,7 @@ collect_candidate_ports() {
   local entry
   local port
 
-  for env_name in NEXTCLAW_UI_PORT NEXTCLAW_PORT PORT; do
+  for env_name in GOUSB_AI_UI_PORT GOUSB_AI_PORT PORT; do
     env_port="${!env_name:-}"
     if [[ "${env_port}" =~ ^[0-9]+$ ]]; then
       ports+=("${env_port}")
@@ -140,7 +140,7 @@ prepare_isolated_runtime_config() {
     return 1
   fi
 
-  export NEXTCLAW_UI_PORT="${SMOKE_UI_PORT}"
+  export GOUSB_AI_UI_PORT="${SMOKE_UI_PORT}"
   echo "[desktop-smoke] writing isolated runtime config on port ${SMOKE_UI_PORT}"
 
   if ! node - "${SMOKE_HOME}/config.json" "${SMOKE_UI_PORT}" <<'NODE'
@@ -275,14 +275,14 @@ mkdir -p "${INSTALL_ROOT}"
 if [[ "${SMOKE_PROFILE}" == "isolated" ]]; then
   rm -rf "${SMOKE_HOME}" >/dev/null 2>&1 || true
   mkdir -p "${SMOKE_HOME}"
-  export NEXTCLAW_HOME="${SMOKE_HOME}"
-  export NEXTCLAW_DESKTOP_RUNTIME_HOME_OVERRIDE="${SMOKE_HOME}"
-  export NEXTCLAW_DESKTOP_DATA_DIR_OVERRIDE="${SMOKE_HOME}"
+  export GOUSB_AI_HOME="${SMOKE_HOME}"
+  export GOUSB_AI_DESKTOP_RUNTIME_HOME_OVERRIDE="${SMOKE_HOME}"
+  export GOUSB_AI_DESKTOP_DATA_DIR_OVERRIDE="${SMOKE_HOME}"
 else
-  unset NEXTCLAW_HOME
-  unset NEXTCLAW_UI_PORT
-  unset NEXTCLAW_DESKTOP_RUNTIME_HOME_OVERRIDE
-  unset NEXTCLAW_DESKTOP_DATA_DIR_OVERRIDE
+  unset GOUSB_AI_HOME
+  unset GOUSB_AI_UI_PORT
+  unset GOUSB_AI_DESKTOP_RUNTIME_HOME_OVERRIDE
+  unset GOUSB_AI_DESKTOP_DATA_DIR_OVERRIDE
 fi
 
 echo "[desktop-smoke] mounting dmg"
@@ -304,7 +304,7 @@ echo "[desktop-smoke] installing app from dmg"
 ditto "${SOURCE_APP}" "${INSTALLED_APP}"
 xattr -dr com.apple.quarantine "${INSTALLED_APP}" >/dev/null 2>&1 || true
 
-APP_BIN="${INSTALLED_APP}/Contents/MacOS/NextClaw Desktop"
+APP_BIN="${INSTALLED_APP}/Contents/MacOS/GoUsbAi Desktop"
 if [[ ! -x "${APP_BIN}" ]]; then
   echo "[desktop-smoke] app binary not executable: ${APP_BIN}" >&2
   exit 1

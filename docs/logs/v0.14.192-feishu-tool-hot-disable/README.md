@@ -5,7 +5,7 @@
 - 修复飞书相关 channel 配置热更新后的 agent tool 可见性问题。
 - 当 `channels.feishu.*` 发生变更时，reload plan 现在会同步触发 agent runtime 刷新，不再只重启 channels。
 - 扩展工具注册现在会按当前配置与上下文动态判断可用性；当扩展 factory 返回空时，该 tool 不再出现在模型可见工具列表里，也不会继续以旧 alias 残留。
-- 修复 `pnpm dev start` 实际命中的 UI NCP 链路：`NextclawNcpToolRegistry` 现在会在 `listTools` / `getTool` / `getToolDefinitions` 阶段统一过滤当前不可用的 core/扩展工具，避免已 disable 的飞书 tool 仍然注入到 system prompt。
+- 修复 `pnpm dev start` 实际命中的 UI NCP 链路：`GoUsbAiNcpToolRegistry` 现在会在 `listTools` / `getTool` / `getToolDefinitions` 阶段统一过滤当前不可用的 core/扩展工具，避免已 disable 的飞书 tool 仍然注入到 system prompt。
 - 补充回归测试，覆盖：
   - `channels.feishu.enabled` 变更会触发 `reloadAgent`
   - `AgentLoop` runtime config 从启用切到禁用后，`feishu_doc` 会从 system prompt 工具列表中移除
@@ -14,27 +14,27 @@
 ## 测试/验证/验收方式
 
 - 定向测试：
-  - `pnpm -C packages/nextclaw-core exec vitest run src/config/reload.test.ts src/agent/loop.tool-catalog.test.ts`
-  - `pnpm -C packages/nextclaw exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts src/cli/commands/ncp/nextclaw-ncp-context-builder.test.ts src/cli/commands/ncp/nextclaw-ncp-tool-registry.mcp.test.ts`
+  - `pnpm -C packages/go-usb-ai-core exec vitest run src/config/reload.test.ts src/agent/loop.tool-catalog.test.ts`
+  - `pnpm -C packages/go-usb-ai exec vitest run src/cli/commands/ncp/create-ui-ncp-agent.test.ts src/cli/commands/ncp/go-usb-ai-ncp-context-builder.test.ts src/cli/commands/ncp/go-usb-ai-ncp-tool-registry.mcp.test.ts`
 - 类型检查：
-  - `pnpm -C packages/nextclaw-core exec tsc --noEmit`
-  - `pnpm -C packages/nextclaw exec tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai-core exec tsc --noEmit`
+  - `pnpm -C packages/go-usb-ai exec tsc --noEmit`
 - lint：
-  - `pnpm -C packages/nextclaw-core lint`
+  - `pnpm -C packages/go-usb-ai-core lint`
   - 结果：通过，存在仓库既有 warning，无本次改动新增 error
-  - `pnpm -C packages/nextclaw lint`
+  - `pnpm -C packages/go-usb-ai lint`
   - 结果：通过，存在仓库既有 warning，无本次改动新增 error
 - build：
-  - `pnpm -C packages/nextclaw-core build`
-  - `pnpm -C packages/nextclaw build`
+  - `pnpm -C packages/go-usb-ai-core build`
+  - `pnpm -C packages/go-usb-ai build`
 - 可维护性检查：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw/src/cli/commands/ncp/nextclaw-ncp-tool-registry.ts packages/nextclaw/src/cli/commands/ncp/create-ui-ncp-agent.test.ts packages/nextclaw-core/src/agent/tools/base.ts packages/nextclaw-core/src/agent/tools/registry.ts packages/nextclaw-core/src/extensions/tool-adapter.ts packages/nextclaw-core/src/config/reload.ts packages/nextclaw-core/src/config/reload.test.ts packages/nextclaw-core/src/agent/loop.tool-catalog.test.ts`
-  - 结果：0 error，3 warnings；`create-ui-ncp-agent.test.ts` 接近测试文件预算，`loop.tool-catalog.test.ts` 增长明显但仍低于预算，`nextclaw-ncp-tool-registry.ts` 接近源码文件预算
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai/src/cli/commands/ncp/go-usb-ai-ncp-tool-registry.ts packages/go-usb-ai/src/cli/commands/ncp/create-ui-ncp-agent.test.ts packages/go-usb-ai-core/src/agent/tools/base.ts packages/go-usb-ai-core/src/agent/tools/registry.ts packages/go-usb-ai-core/src/extensions/tool-adapter.ts packages/go-usb-ai-core/src/config/reload.ts packages/go-usb-ai-core/src/config/reload.test.ts packages/go-usb-ai-core/src/agent/loop.tool-catalog.test.ts`
+  - 结果：0 error，3 warnings；`create-ui-ncp-agent.test.ts` 接近测试文件预算，`loop.tool-catalog.test.ts` 增长明显但仍低于预算，`go-usb-ai-ncp-tool-registry.ts` 接近源码文件预算
 
 ## 发布/部署方式
 
 - 本次变更只修改运行时逻辑与测试，无独立部署脚本变更。
-- 按常规 NextClaw 发布流程合入后，至少发布受影响的 `@nextclaw/core` 与 `nextclaw`（以及依赖它们的联动包，如本轮版本策略要求）。
+- 按常规 GoUsbAi 发布流程合入后，至少发布受影响的 `@go-usb-ai/core` 与 `go-usb-ai`（以及依赖它们的联动包，如本轮版本策略要求）。
 - 若用于本地 `pnpm dev start` 验证，无需手动重启整个开发进程；保存配置并等待热更新生效即可。
 
 ## 用户/产品视角的验收步骤

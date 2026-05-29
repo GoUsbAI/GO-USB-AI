@@ -19,8 +19,8 @@
 ## 常用检查
 
 ```bash
-nextclaw secrets audit
-nextclaw doctor
+go-usb-ai secrets audit
+go-usb-ai doctor
 ```
 
 ## 和配置的关系

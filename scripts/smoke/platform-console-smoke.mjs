@@ -64,12 +64,12 @@ function createDashboardFixtures() {
         reviewedAt: "2026-03-23T08:30:00.000Z",
         publishedAt: "2026-03-23T08:00:00.000Z",
         updatedAt: "2026-03-23T09:00:00.000Z",
-        sourceRepo: "https://github.com/nextclaw/stock-briefing",
-        homepage: "https://platform.nextclaw.io/skills/stock-briefing",
+        sourceRepo: "https://github.com/go-usb-ai/stock-briefing",
+        homepage: "https://platform.go-usb-ai.io/skills/stock-briefing",
         install: {
           kind: "marketplace",
           spec: "@peiiii/stock-briefing",
-          command: "nextclaw skills install @peiiii/stock-briefing"
+          command: "go-usb-ai skills install @peiiii/stock-briefing"
         },
         canShow: false,
         canHide: true,
@@ -294,7 +294,7 @@ async function fulfillNotFound(route) {
 async function initializeDashboardPage(page) {
   await page.addInitScript(() => {
     window.localStorage.clear();
-    window.localStorage.setItem("nextclaw.platform.token", "demo-token");
+    window.localStorage.setItem("go-usb-ai.platform.token", "demo-token");
     window.__openedUrls = [];
     window.open = (url) => {
       window.__openedUrls.push(String(url));
@@ -307,7 +307,7 @@ async function assertDashboardLanding(page) {
   await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
   const bodyText = await page.locator("body").innerText();
   const requiredText = [
-    "NEXTCLAW WORKBENCH",
+    "GOUSB_AI WORKBENCH",
     "My Instances",
     "PUBLISH READINESS",
     "Remote Quota & Usage",
@@ -461,7 +461,7 @@ async function assertLoginFlow(browser) {
   await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
   const loginEn = await page.locator("body").innerText();
 
-  if (!loginEn.includes("Sign in to NextClaw Web and continue your instances and agent workflows.")) {
+  if (!loginEn.includes("Sign in to GoUsbAi Web and continue your instances and agent workflows.")) {
     throw new Error("Login page did not render the default English hero copy.");
   }
 
@@ -469,7 +469,7 @@ async function assertLoginFlow(browser) {
   await page.waitForTimeout(300);
 
   const loginZh = await page.locator("body").innerText();
-  if (!loginZh.includes("登录 NextClaw Web，继续你的实例与 Agent 工作流。")) {
+  if (!loginZh.includes("登录 GoUsbAi Web，继续你的实例与 Agent 工作流。")) {
     throw new Error("Login page did not switch to Chinese.");
   }
 

@@ -9,13 +9,13 @@ description: Use when the user wants to discover, evaluate, and install external
 
 Use this skill when the user is asking for a capability that might already exist as an installable skill in the open agent skills ecosystem.
 
-This skill wraps the upstream Vercel-style Skills CLI workflow for NextClaw users.
+This skill wraps the upstream Vercel-style Skills CLI workflow for GoUsbAi users.
 
 Be explicit about the boundary:
 
 - This marketplace skill helps the AI search, evaluate, and explain external skills.
 - The upstream Skills CLI (`npx skills`) owns actual discovery and installation in its supported agent ecosystems.
-- NextClaw marketplace is a separate channel and should be checked first when the user specifically wants a NextClaw-native skill.
+- GoUsbAi marketplace is a separate channel and should be checked first when the user specifically wants a GoUsbAi-native skill.
 
 Do not blur those ecosystems together.
 
@@ -43,7 +43,7 @@ Use this skill when the user:
 - wants help exploring `skills.sh`,
 - or wants to install a skill from the open agent skills ecosystem.
 
-Do not use this skill when the user already knows the exact NextClaw marketplace skill they want and only needs `nextclaw skills install`.
+Do not use this skill when the user already knows the exact GoUsbAi marketplace skill they want and only needs `go-usb-ai skills install`.
 
 ## What The Skills CLI Is
 
@@ -68,11 +68,11 @@ https://skills.sh/
 
 When the user asks for a skill, follow this order:
 
-1. Check whether the user wants a NextClaw-native marketplace skill or a broader external skill.
-2. If a NextClaw-native match is likely, prefer NextClaw marketplace first.
+1. Check whether the user wants a GoUsbAi-native marketplace skill or a broader external skill.
+2. If a GoUsbAi-native match is likely, prefer GoUsbAi marketplace first.
 3. If the user wants the broader open ecosystem, use the Skills CLI flow below.
 
-Do not send the user to an external ecosystem when a NextClaw-native option already solves the problem cleanly.
+Do not send the user to an external ecosystem when a GoUsbAi-native option already solves the problem cleanly.
 
 ## External Skill Discovery Flow
 
@@ -158,18 +158,18 @@ npx skills add <owner/repo@skill> -g -y
 Use the exact upstream command shape that matches the selected skill source.
 On Windows, consider `--copy` when symlink behavior is undesirable or unsupported.
 
-## Important Boundary For NextClaw Users
+## Important Boundary For GoUsbAi Users
 
-Do not imply that `npx skills add` installs a NextClaw marketplace skill.
+Do not imply that `npx skills add` installs a GoUsbAi marketplace skill.
 
 Treat these as separate paths:
 
-- NextClaw marketplace install:
-  `nextclaw skills install <slug>`
+- GoUsbAi marketplace install:
+  `go-usb-ai skills install <slug>`
 - Open skills ecosystem install:
   `npx skills add <package-or-source>`
 
-If the user wants the capability specifically inside NextClaw and there is no NextClaw-native packaging path yet, say that clearly.
+If the user wants the capability specifically inside GoUsbAi and there is no GoUsbAi-native packaging path yet, say that clearly.
 
 ## Search Tips
 
@@ -190,7 +190,7 @@ If no relevant external skill is found:
 
 This skill is working correctly when:
 
-- the user learns whether they need NextClaw marketplace or the broader open skills ecosystem,
+- the user learns whether they need GoUsbAi marketplace or the broader open skills ecosystem,
 - search happens with explicit queries,
 - quality is checked before recommendation,
 - install commands are shown accurately,

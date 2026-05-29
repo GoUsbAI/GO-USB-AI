@@ -4,7 +4,7 @@
 
 相关文档：
 
-- [NextClaw 产品愿景](../VISION.md)
+- [GoUsbAi 产品愿景](../VISION.md)
 - [NCP Single Session Stream Design](./2026-04-04-ncp-single-session-stream-design.md)
 - [NCP Session Realtime Sync Refactor Plan](./2026-03-29-ncp-session-realtime-sync-refactor-plan.md)
 

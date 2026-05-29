@@ -15,10 +15,10 @@
 ## 测试/验证/验收方式
 
 - 运行：
-  - `pnpm --filter @nextclaw/ncp build`
-  - `pnpm --filter @nextclaw/ncp-agent-runtime build`
-  - `pnpm --filter @nextclaw/ncp-toolkit exec vitest run src/agent/in-memory-agent-backend.test.ts`
-  - `pnpm --filter @nextclaw/ncp-toolkit build`
+  - `pnpm --filter @go-usb-ai/ncp build`
+  - `pnpm --filter @go-usb-ai/ncp-agent-runtime build`
+  - `pnpm --filter @go-usb-ai/ncp-toolkit exec vitest run src/agent/in-memory-agent-backend.test.ts`
+  - `pnpm --filter @go-usb-ai/ncp-toolkit build`
 - 观察点：
   - `invalid_tool_arguments` 结果中包含 `toolCallId`、`toolName`、`rawArgumentsText`、`issues`
   - 非法参数时真实工具执行次数应为 0
@@ -26,7 +26,7 @@
 
 ## 发布/部署方式
 
-- 本次涉及 `@nextclaw/ncp`、`@nextclaw/ncp-agent-runtime`、`@nextclaw/ncp-toolkit`。
+- 本次涉及 `@go-usb-ai/ncp`、`@go-usb-ai/ncp-agent-runtime`、`@go-usb-ai/ncp-toolkit`。
 - 本地 workspace 环境下，重新构建以上包后即可生效。
 - 如需正式发布，按 NCP 相关包的常规发布流程进行联动发布。
 

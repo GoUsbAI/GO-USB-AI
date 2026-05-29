@@ -2,11 +2,11 @@
 
 ## 迭代完成说明
 
-本次迭代新增了 `@nextclaw/ncp-react-ui` 包，目录为 `packages/ncp-packages/nextclaw-ncp-react-ui`，用于承载 NCP Agent 应用的纯展示 React 组件。
+本次迭代新增了 `@go-usb-ai/ncp-react-ui` 包，目录为 `packages/ncp-packages/go-usb-ai-ncp-react-ui`，用于承载 NCP Agent 应用的纯展示 React 组件。
 
 本次完成内容：
 
-- 新建 `@nextclaw/ncp-react-ui` 包骨架、构建脚本、类型检查、ESLint 配置与样式子路径导出
+- 新建 `@go-usb-ai/ncp-react-ui` 包骨架、构建脚本、类型检查、ESLint 配置与样式子路径导出
 - 迁移 `ncp-demo` 原有纯展示组件：
   - `chat-header`
   - `chat-input`
@@ -18,22 +18,22 @@
   - `session-card`
   - `session-list`
 - 将原本散落在 `apps/ncp-demo/frontend/src/styles.css` 中的组件样式抽离到新包的 `src/styles/index.css` 与 `src/styles/tokens.css`
-- 将 `apps/ncp-demo/frontend` 改为消费 `@nextclaw/ncp-react-ui`，并删除本地已迁移的 `src/ui/*` 文件
+- 将 `apps/ncp-demo/frontend` 改为消费 `@go-usb-ai/ncp-react-ui`，并删除本地已迁移的 `src/ui/*` 文件
 - 更新根级 `package.json`，把新包纳入根级 `build`、`lint`、`tsc` 流程
 - 更新 `pnpm-lock.yaml` 与 workspace 依赖链接
 
 相关设计文档：
 
-- [`@nextclaw/ncp-react-ui` 设计文档](../../plans/2026-03-17-ncp-react-ui-design.md)
+- [`@go-usb-ai/ncp-react-ui` 设计文档](../../plans/2026-03-17-ncp-react-ui-design.md)
 
 ## 测试/验证/验收方式
 
 已执行验证：
 
 - `PATH=/opt/homebrew/bin:$PATH pnpm install`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-react-ui build`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-react-ui lint`
-- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/nextclaw-ncp-react-ui tsc`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-react-ui build`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-react-ui lint`
+- `PATH=/opt/homebrew/bin:$PATH pnpm -C packages/ncp-packages/go-usb-ai-ncp-react-ui tsc`
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo/frontend build`
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo/frontend lint`
 - `PATH=/opt/homebrew/bin:$PATH pnpm -C apps/ncp-demo/frontend tsc`

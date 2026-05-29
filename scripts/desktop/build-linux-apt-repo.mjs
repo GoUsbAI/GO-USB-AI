@@ -16,7 +16,7 @@ import { spawnSync } from "node:child_process";
 import { gzipSync } from "node:zlib";
 
 const DEFAULT_OUTPUT_DIR = "dist/linux-apt-repo";
-const APT_PACKAGE_NAME = "nextclaw-desktop";
+const APT_PACKAGE_NAME = "go-usb-ai-desktop";
 const APT_ARCH = "amd64";
 const APT_DIST = "stable";
 const APT_COMPONENT = "main";
@@ -173,9 +173,9 @@ function writeReleaseFile(repoRoot) {
     "apt-ftparchive",
     [
       "-o",
-      "APT::FTPArchive::Release::Origin=NextClaw",
+      "APT::FTPArchive::Release::Origin=GoUsbAi",
       "-o",
-      "APT::FTPArchive::Release::Label=NextClaw",
+      "APT::FTPArchive::Release::Label=GoUsbAi",
       "-o",
       `APT::FTPArchive::Release::Suite=${APT_DIST}`,
       "-o",
@@ -185,7 +185,7 @@ function writeReleaseFile(repoRoot) {
       "-o",
       `APT::FTPArchive::Release::Components=${APT_COMPONENT}`,
       "-o",
-      "APT::FTPArchive::Release::Description=NextClaw Linux APT Repository",
+      "APT::FTPArchive::Release::Description=GoUsbAi Linux APT Repository",
       "release",
       resolve(repoRoot, "dists", APT_DIST)
     ],
@@ -205,8 +205,8 @@ function createTestKey(gpgHome) {
       "Key-Length: 2048",
       "Subkey-Type: RSA",
       "Subkey-Length: 2048",
-      "Name-Real: NextClaw APT Test Repo",
-      "Name-Email: apt-test@nextclaw.local",
+      "Name-Real: GoUsbAi APT Test Repo",
+      "Name-Email: apt-test@go-usb-ai.local",
       "Expire-Date: 0",
       "%commit",
       ""
@@ -229,10 +229,10 @@ function resolveKeyId(gpgHome) {
 }
 
 function importEnvKey(gpgHome) {
-  const privateKey = process.env.NEXTCLAW_APT_GPG_PRIVATE_KEY;
-  const passphrase = process.env.NEXTCLAW_APT_GPG_PASSPHRASE;
+  const privateKey = process.env.GOUSB_AI_APT_GPG_PRIVATE_KEY;
+  const passphrase = process.env.GOUSB_AI_APT_GPG_PASSPHRASE;
   if (!privateKey || !passphrase) {
-    throw new Error("NEXTCLAW_APT_GPG_PRIVATE_KEY and NEXTCLAW_APT_GPG_PASSPHRASE are required for --signing-mode env");
+    throw new Error("GOUSB_AI_APT_GPG_PRIVATE_KEY and GOUSB_AI_APT_GPG_PASSPHRASE are required for --signing-mode env");
   }
   const keyPath = resolve(gpgHome, "signing-key.asc");
   writeFileSync(keyPath, privateKey);
@@ -251,11 +251,11 @@ function importEnvKey(gpgHome) {
       keyPath
     ]
   );
-  return process.env.NEXTCLAW_APT_GPG_KEY_ID || resolveKeyId(gpgHome);
+  return process.env.GOUSB_AI_APT_GPG_KEY_ID || resolveKeyId(gpgHome);
 }
 
 function signRelease(repoRoot, releasePath, signingMode) {
-  const gpgHome = mkdtempSync(join(tmpdir(), "nextclaw-apt-gpg-"));
+  const gpgHome = mkdtempSync(join(tmpdir(), "go-usb-ai-apt-gpg-"));
   mkdirSync(gpgHome, { recursive: true });
   let keyId = "";
   let passphrase = "";
@@ -265,7 +265,7 @@ function signRelease(repoRoot, releasePath, signingMode) {
       keyId = createTestKey(gpgHome);
     } else {
       keyId = importEnvKey(gpgHome);
-      passphrase = process.env.NEXTCLAW_APT_GPG_PASSPHRASE ?? "";
+      passphrase = process.env.GOUSB_AI_APT_GPG_PASSPHRASE ?? "";
     }
 
     const sharedArgs = ["--homedir", gpgHome, "--batch", "--yes", "--local-user", keyId];
@@ -298,7 +298,7 @@ function signRelease(repoRoot, releasePath, signingMode) {
       "--key-id",
       keyId,
       "--output",
-      resolve(repoRoot, "nextclaw-archive-keyring.gpg")
+      resolve(repoRoot, "go-usb-ai-archive-keyring.gpg")
     ]);
 
     return keyId;

@@ -25,44 +25,44 @@
 - 为避免继续把热点目录摊平，本轮还顺手把“路径逻辑”放进 `lib/session-project/`，把“breadcrumb 展示组件”放进 `components/chat/workspace/`，而不是继续堆在 `components/chat/` 根目录或 `chat/adapters/` 目录里。
 
 ## 测试/验证/验收方式
-- 已执行：`pnpm -C packages/nextclaw-ui test -- src/lib/session-project/workspace-file-breadcrumb.test.ts src/components/chat/chat-session-workspace-file-preview.test.tsx src/components/chat/chat-conversation-panel.test.tsx`
+- 已执行：`pnpm -C packages/go-usb-ai-ui test -- src/lib/session-project/workspace-file-breadcrumb.test.ts src/components/chat/chat-session-workspace-file-preview.test.tsx src/components/chat/chat-conversation-panel.test.tsx`
   - 结果：通过（3 个测试文件、20 个测试全部通过）。
   - 覆盖点：breadcrumb 视图模型构建、工作区文件预览组件渲染、现有 workspace panel 集成面未回归。
-- 已执行：`pnpm -C packages/nextclaw-ui test -- src/components/chat/chat-session-workspace-file-preview.test.tsx`
+- 已执行：`pnpm -C packages/go-usb-ai-ui test -- src/components/chat/chat-session-workspace-file-preview.test.tsx`
   - 结果：通过（5 个测试全部通过）。
   - 覆盖点：补充锁定 breadcrumb 紧凑 header 的 `py-1.5` 节奏约束，避免后续再次被撑高。
-- 已执行：`pnpm -C packages/nextclaw-ui test -- src/components/chat/chat-session-workspace-file-preview.test.tsx src/components/chat/chat-conversation-panel.test.tsx`
+- 已执行：`pnpm -C packages/go-usb-ai-ui test -- src/components/chat/chat-session-workspace-file-preview.test.tsx src/components/chat/chat-conversation-panel.test.tsx`
   - 结果：通过（2 个测试文件、17 个测试全部通过）。
   - 覆盖点：锁定 breadcrumb 与 workspace tabs 的横向滚动条都直接挂在外层边界壳上，而内容层只保留自身节奏。
-- 已执行：`pnpm -C packages/nextclaw-ui tsc`
+- 已执行：`pnpm -C packages/go-usb-ai-ui tsc`
   - 结果：失败，但失败点来自当前工作区里的并行改动，并非本次 workspace 滚动条重构引入：
     - `src/components/config/ChannelsList.tsx(41,47)`
     - `src/components/config/ChannelsList.tsx(42,48)`
-  - 结论：本次改动文件未出现新的类型错误，但 `@nextclaw/ui` 当前整体类型检查未恢复到绿色。
-- 已执行：`pnpm -C packages/nextclaw-ui exec eslint src/lib/session-project/workspace-file-breadcrumb.ts src/lib/session-project/workspace-file-breadcrumb.test.ts src/components/chat/workspace/chat-session-workspace-file-breadcrumbs.tsx src/components/chat/chat-session-workspace-file-preview.tsx src/components/chat/chat-session-workspace-file-preview.test.tsx`
+  - 结论：本次改动文件未出现新的类型错误，但 `@go-usb-ai/ui` 当前整体类型检查未恢复到绿色。
+- 已执行：`pnpm -C packages/go-usb-ai-ui exec eslint src/lib/session-project/workspace-file-breadcrumb.ts src/lib/session-project/workspace-file-breadcrumb.test.ts src/components/chat/workspace/chat-session-workspace-file-breadcrumbs.tsx src/components/chat/chat-session-workspace-file-preview.tsx src/components/chat/chat-session-workspace-file-preview.test.tsx`
   - 结果：通过。
-- 已执行：`pnpm -C packages/nextclaw-ui exec eslint src/components/chat/workspace/chat-session-workspace-file-breadcrumbs.tsx src/components/chat/chat-session-workspace-file-preview.test.tsx`
+- 已执行：`pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/workspace/chat-session-workspace-file-breadcrumbs.tsx src/components/chat/chat-session-workspace-file-preview.test.tsx`
   - 结果：通过。
-- 已执行：`pnpm -C packages/nextclaw-ui exec eslint src/index.css src/components/chat/chat-session-workspace-panel-nav.tsx src/components/chat/chat-session-workspace-file-preview.test.tsx`
+- 已执行：`pnpm -C packages/go-usb-ai-ui exec eslint src/index.css src/components/chat/chat-session-workspace-panel-nav.tsx src/components/chat/chat-session-workspace-file-preview.test.tsx`
   - 结果：`TypeScript/TSX` 改动文件通过；`index.css` 被 ESLint 直接忽略（`File ignored because no matching configuration was supplied`），不是代码错误。
-- 已执行：`pnpm -C packages/nextclaw-ui exec eslint src/components/chat/workspace/chat-session-workspace-file-breadcrumbs.tsx src/components/chat/chat-session-workspace-panel-nav.tsx src/components/chat/chat-session-workspace-file-preview.test.tsx src/components/chat/chat-conversation-panel.test.tsx`
+- 已执行：`pnpm -C packages/go-usb-ai-ui exec eslint src/components/chat/workspace/chat-session-workspace-file-breadcrumbs.tsx src/components/chat/chat-session-workspace-panel-nav.tsx src/components/chat/chat-session-workspace-file-preview.test.tsx src/components/chat/chat-conversation-panel.test.tsx`
   - 结果：通过。
 - 已执行：`pnpm lint:maintainability:guard`
   - 结果：失败，但失败项均来自当前工作区里与本次 breadcrumb 续改无关的并行改动，例如：
     - `apps/platform-console/src/api/client.ts`
-    - `packages/nextclaw-server/src/ui/config.ts`
-    - `packages/nextclaw-server/src/ui/types.ts`
+    - `packages/go-usb-ai-server/src/ui/config.ts`
+    - `packages/go-usb-ai-server/src/ui/types.ts`
     - `scripts/smoke/platform-console-smoke.mjs`
     - `workers/marketplace-api/src/main.ts`
-    - `workers/nextclaw-provider-gateway-api/src/types/platform.ts`
-  - 结论：本次调整后，先前因新增 breadcrumb 文件而短暂冒出的 `packages/nextclaw-ui/src/components/chat` 与 `packages/nextclaw-ui/src/components/chat/adapters` 目录预算 warning 已被消掉；当前 guard 红项不由本次功能引入。
+    - `workers/go-usb-ai-provider-gateway-api/src/types/platform.ts`
+  - 结论：本次调整后，先前因新增 breadcrumb 文件而短暂冒出的 `packages/go-usb-ai-ui/src/components/chat` 与 `packages/go-usb-ai-ui/src/components/chat/adapters` 目录预算 warning 已被消掉；当前 guard 红项不由本次功能引入。
 - 已执行：`pnpm check:governance-backlog-ratchet`
   - 结果：通过（`ratchet status: OK`）。
 - 未执行：真实页面端到端手工冒烟
   - 原因：当前会话没有现成运行中的目标聊天页面与可复现文件面板场景；因此本次以定向组件/集成测试替代，并明确保留这一验收缺口。
 
 ## 发布/部署方式
-- 本次仅涉及 `@nextclaw/ui` 的聊天工作区展示细节调整，无需单独发布。
+- 本次仅涉及 `@go-usb-ai/ui` 的聊天工作区展示细节调整，无需单独发布。
 - 如后续随前端批次发布，按既有前端构建与发布流程一并带出即可。
 
 ## 用户/产品视角的验收步骤

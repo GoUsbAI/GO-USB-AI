@@ -23,14 +23,14 @@
 
 ## 测试/验证/验收方式
 
-- 构建：`pnpm -C workers/nextclaw-provider-gateway-api build`
-- Lint：`pnpm -C workers/nextclaw-provider-gateway-api lint`
-- 类型检查：`pnpm -C workers/nextclaw-provider-gateway-api tsc`
-- quota 策略测试：`pnpm -C workers/nextclaw-provider-gateway-api test:quota`
-- 可维护性检查：`node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths workers/nextclaw-provider-gateway-api/src/remote-quota-contract.ts workers/nextclaw-provider-gateway-api/src/remote-quota-budget-support.ts workers/nextclaw-provider-gateway-api/src/remote-quota-state-support.ts workers/nextclaw-provider-gateway-api/src/remote-quota-policy.ts workers/nextclaw-provider-gateway-api/src/remote-quota-do.ts workers/nextclaw-provider-gateway-api/src/services/remote-quota-guard.service.ts workers/nextclaw-provider-gateway-api/tests/remote-quota-policy.test.mjs`
+- 构建：`pnpm -C workers/go-usb-ai-provider-gateway-api build`
+- Lint：`pnpm -C workers/go-usb-ai-provider-gateway-api lint`
+- 类型检查：`pnpm -C workers/go-usb-ai-provider-gateway-api tsc`
+- quota 策略测试：`pnpm -C workers/go-usb-ai-provider-gateway-api test:quota`
+- 可维护性检查：`node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths workers/go-usb-ai-provider-gateway-api/src/remote-quota-contract.ts workers/go-usb-ai-provider-gateway-api/src/remote-quota-budget-support.ts workers/go-usb-ai-provider-gateway-api/src/remote-quota-state-support.ts workers/go-usb-ai-provider-gateway-api/src/remote-quota-policy.ts workers/go-usb-ai-provider-gateway-api/src/remote-quota-do.ts workers/go-usb-ai-provider-gateway-api/src/services/remote-quota-guard.service.ts workers/go-usb-ai-provider-gateway-api/tests/remote-quota-policy.test.mjs`
 - 线上最小冒烟：
-  - `curl -sS https://ai-gateway-api.nextclaw.io/health`
-  - 返回：`{"ok":true,"data":{"status":"ok","service":"nextclaw-provider-gateway-api","authRequired":true,"billingMode":"usd-only"}}`
+  - `curl -sS https://ai-gateway-api.go-usb-ai.io/health`
+  - 返回：`{"ok":true,"data":{"status":"ok","service":"go-usb-ai-provider-gateway-api","authRequired":true,"billingMode":"usd-only"}}`
 
 自动化测试覆盖：
 
@@ -46,16 +46,16 @@
 ## 发布/部署方式
 
 - 本次不涉及 D1 schema 变更，`platform:db:migrate:remote` 不适用。
-- 发布命令：`pnpm -C workers/nextclaw-provider-gateway-api run deploy`
+- 发布命令：`pnpm -C workers/go-usb-ai-provider-gateway-api run deploy`
 - 发布后检查 deploy 输出，确认以下绑定与环境变量生效：
-  - `NEXTCLAW_REMOTE_RELAY`
-  - `NEXTCLAW_REMOTE_QUOTA`
+  - `GOUSB_AI_REMOTE_RELAY`
+  - `GOUSB_AI_REMOTE_QUOTA`
   - `REMOTE_QUOTA_SESSION_REQUESTS_PER_MINUTE`
   - `REMOTE_QUOTA_INSTANCE_CONNECTIONS`
   - `REMOTE_QUOTA_USER_DAILY_WORKER_REQUEST_UNITS`
   - `REMOTE_QUOTA_USER_DAILY_DO_REQUEST_UNITS`
 - 本次实际发布结果：
-  - Route：`ai-gateway-api.nextclaw.io` / `*.claw.cool/*`
+  - Route：`ai-gateway-api.go-usb-ai.io` / `*.claw.cool/*`
   - Current Version ID：`4ba3c8d6-9502-4204-b255-9d6073bcde98`
 - 文档影响检查：
   - 公共使用文档中没有维护这些内部 quota 数值入口，本次无需同步修改用户文档；设计与迭代留痕已补齐。

@@ -2,7 +2,7 @@
 
 ## 任务 / 范围
 
-- 目标：对 OpenClaw / Moltis / IronClaw / ZeroClaw / NanoClaw / PicoClaw / ZeptoClaw / nextclaw 做用户视角功能对比与完善度评估，并补充“插件/Skills/扩展生态”对比。
+- 目标：对 OpenClaw / Moltis / IronClaw / ZeroClaw / NanoClaw / PicoClaw / ZeptoClaw / go-usb-ai 做用户视角功能对比与完善度评估，并补充“插件/Skills/扩展生态”对比。
 - 视角：以“普通用户能否快速上手、功能是否完整、日常使用是否顺滑”为核心，不做开发者代码审计式解读。
 - 资料来源：各项目公开仓库 README / 文档；本地已拉取仓库位于 `/Users/peiwang/Projects/claw-repos`。
 
@@ -15,14 +15,14 @@
 - ✅ PicoClaw（`sipeed/picoclaw`）
 - ✅ ZeptoClaw（`qhkm/zeptoclaw`）
 - ⚠️ IronClaw：暂未找到公开仓库（如有官方地址请补充）
-- ✅ nextclaw：本仓库（`/Users/peiwang/Projects/nextbot`）
+- ✅ go-usb-ai：本仓库（`/Users/peiwang/Projects/nextbot`）
 
 ## 结论摘要（用户视角）
 
 - **OpenClaw** 功能面最全（渠道、端侧、可视化、技能生态），但上手与运维成本最高。
 - **Rust 系（Moltis / ZeptoClaw / ZeroClaw）** 是“功能 + 安全 + 轻量”的中间态，功能比极简系更全，但生态规模仍不及 OpenClaw。
 - **极简系（NanoClaw / PicoClaw）** 强在轻量与清晰边界，牺牲功能广度与 UI 体验。
-- **nextclaw** 的核心差异依旧是“最快上手 + UI-first + 多通道多模型”，插件/扩展生态目前仍是短板（有规划但尚未落地）。
+- **go-usb-ai** 的核心差异依旧是“最快上手 + UI-first + 多通道多模型”，插件/扩展生态目前仍是短板（有规划但尚未落地）。
 
 ## 扩展生态（插件 / Skills）对比
 
@@ -36,7 +36,7 @@
 | NanoClaw | 🟡 | ⚪ | 主要靠 Claude Code skills（外部技能），不强调内置插件系统 |
 | PicoClaw | 🟡 | ⚪ | Workspace 有 skills 目录，未强调插件系统 |
 | ZeptoClaw | 🟡 | ✅ | 有插件系统（`~/.zeptoclaw/plugins`），skills 以迁移/导入为主 |
-| nextclaw | ✅ | 🧭 | 有 ClawHub skills install + workspace skills；OpenClaw 插件兼容在规划中 |
+| go-usb-ai | ✅ | 🧭 | 有 ClawHub skills install + workspace skills；OpenClaw 插件兼容在规划中 |
 
 ## OpenClaw 功能覆盖清单（用户视角）
 
@@ -44,7 +44,7 @@
 
 ### 核心能力
 
-| 能力 | OpenClaw | Moltis | ZeroClaw | NanoClaw | PicoClaw | ZeptoClaw | nextclaw |
+| 能力 | OpenClaw | Moltis | ZeroClaw | NanoClaw | PicoClaw | ZeptoClaw | go-usb-ai |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 上手体验（向导/一键） | ✅ 向导 | ✅ 向导/零配置 | ✅ CLI 快速 | ✅ Claude Code | ✅ 快速 | ✅ 一键安装 | ✅ 一键启动 + UI |
 | Web UI / 可视化 | ✅ 控制台 + Canvas | ✅ 内置 UI | ⚪ | ⚪ | 🟡 基础 UI/CLI | ⚪ | ✅ 内置配置 UI |
@@ -57,7 +57,7 @@
 
 ### 高阶能力
 
-| 能力 | OpenClaw | Moltis | ZeroClaw | NanoClaw | PicoClaw | ZeptoClaw | nextclaw |
+| 能力 | OpenClaw | Moltis | ZeroClaw | NanoClaw | PicoClaw | ZeptoClaw | go-usb-ai |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 语音（TTS/STT） | ✅ 多端 | ✅ | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ |
 | 端侧/多设备节点 | ✅ macOS/iOS/Android | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ | ⚪ |
@@ -103,13 +103,13 @@
 - **Skills**：提到可从 OpenClaw 迁移技能。
 - **用户感知**：安全与功能平衡，偏生产化。
 
-### nextclaw
+### go-usb-ai
 
 - **Skills**：有 ClawHub 安装与 workspace skills。
 - **插件**：OpenClaw 插件兼容处于规划阶段（尚未落地）。
 - **用户感知**：上手最快，生态扩展仍需补齐。
 
-## 对 nextclaw 的建议（面向“用户选择你”的差异化）
+## 对 go-usb-ai 的建议（面向“用户选择你”的差异化）
 
 1. **把“插件/扩展”讲清楚**：当前已支持 skills，但插件生态仍规划中；建议公开“能力路线图”，避免用户预期错位。
 2. **用 UI 强化技能生态入口**：将 skills 安装做成 UI 一级入口（比 CLI 更直观）。

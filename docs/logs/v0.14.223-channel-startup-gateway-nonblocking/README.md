@@ -12,12 +12,12 @@
 ## 测试/验证/验收方式
 
 - 单测：
-  - `pnpm -C packages/nextclaw-openclaw-compat exec vitest run src/plugins/channel-runtime.test.ts`
-  - `node packages/nextclaw-openclaw-compat/node_modules/vitest/vitest.mjs run packages/extensions/nextclaw-channel-plugin-feishu/src/channel.test.ts`
+  - `pnpm -C packages/go-usb-ai-openclaw-compat exec vitest run src/plugins/channel-runtime.test.ts`
+  - `node packages/go-usb-ai-openclaw-compat/node_modules/vitest/vitest.mjs run packages/extensions/go-usb-ai-channel-plugin-feishu/src/channel.test.ts`
 - 可维护性检查：
-  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/nextclaw-openclaw-compat/src/plugins/channel-runtime.ts packages/nextclaw-openclaw-compat/src/plugins/channel-runtime.test.ts packages/extensions/nextclaw-channel-plugin-feishu/src/channel.ts packages/extensions/nextclaw-channel-plugin-feishu/src/channel.test.ts`
+  - `node .codex/skills/post-edit-maintainability-guard/scripts/check-maintainability.mjs --paths packages/go-usb-ai-openclaw-compat/src/plugins/channel-runtime.ts packages/go-usb-ai-openclaw-compat/src/plugins/channel-runtime.test.ts packages/extensions/go-usb-ai-channel-plugin-feishu/src/channel.ts packages/extensions/go-usb-ai-channel-plugin-feishu/src/channel.test.ts`
 - 启动冒烟：
-  - `NEXTCLAW_DEV_FIRST_PARTY_PLUGIN_DIR=/Users/peiwang/Projects/nextbot/packages/extensions NEXTCLAW_DISABLE_STATIC_UI=1 NEXTCLAW_HOME=/Users/peiwang/.nextclaw pnpm -C packages/nextclaw exec tsx src/cli/index.ts serve --ui-port 18899`
+  - `GOUSB_AI_DEV_FIRST_PARTY_PLUGIN_DIR=/Users/peiwang/Projects/nextbot/packages/extensions GOUSB_AI_DISABLE_STATIC_UI=1 GOUSB_AI_HOME=/Users/peiwang/.go-usb-ai pnpm -C packages/go-usb-ai exec tsx src/cli/index.ts serve --ui-port 18899`
   - 观察到日志继续推进到：
     - `QQ bot connected`
     - `Discord bot connected`

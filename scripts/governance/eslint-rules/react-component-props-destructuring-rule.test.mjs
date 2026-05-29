@@ -22,14 +22,14 @@ const lintText = async (code) => {
           }
         },
         plugins: {
-          nextclaw: {
+          go-usb-ai: {
             rules: {
               "react-component-props-destructuring": reactComponentPropsDestructuringRule
             }
           }
         },
         rules: {
-          "nextclaw/react-component-props-destructuring": "warn"
+          "go-usb-ai/react-component-props-destructuring": "warn"
         }
       }
     ]
