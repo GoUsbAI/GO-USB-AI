@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-05-24T03:23:05.302Z",
+  "generatedAt": "2026-05-29T12:54:16.678Z",
   "base": {
     "name": "go-usb-ai",
-    "projectRoot": "/home/runner/work/go-usb-ai/go-usb-ai",
+    "projectRoot": "/home/runner/work/GO-USB-AI/GO-USB-AI",
     "scope": {
       "profile": "source",
       "title": "Source LOC",
@@ -10,37 +10,28 @@
         "apps/companion/src",
         "apps/competitive-leaderboard/src",
         "apps/desktop/src",
+        "apps/go-usb-ai-apps-web/src",
         "apps/landing/src",
         "apps/maintainability-console/src",
-        "apps/go-usb-ai-apps-web/src",
         "apps/platform-admin/src",
         "apps/platform-console/src",
         "apps/public-roadmap-feedback-portal/src",
         "bridge/src",
+        "packages/extensions/go-usb-ai-channel-extension-dingtalk/src",
+        "packages/extensions/go-usb-ai-channel-extension-discord/src",
+        "packages/extensions/go-usb-ai-channel-extension-email/src",
         "packages/extensions/go-usb-ai-channel-extension-feishu/src",
         "packages/extensions/go-usb-ai-channel-extension-qq/src",
+        "packages/extensions/go-usb-ai-channel-extension-slack/src",
+        "packages/extensions/go-usb-ai-channel-extension-telegram/src",
+        "packages/extensions/go-usb-ai-channel-extension-wecom/src",
         "packages/extensions/go-usb-ai-channel-extension-weixin/src",
-        "packages/extensions/go-usb-ai-channel-plugin-dingtalk/index.js",
-        "packages/extensions/go-usb-ai-channel-plugin-discord/index.js",
-        "packages/extensions/go-usb-ai-channel-plugin-email/index.js",
-        "packages/extensions/go-usb-ai-channel-plugin-slack/index.js",
-        "packages/extensions/go-usb-ai-channel-plugin-telegram/index.js",
-        "packages/extensions/go-usb-ai-channel-plugin-wecom/index.js",
-        "packages/extensions/go-usb-ai-channel-plugin-whatsapp/index.js",
-        "packages/extensions/go-usb-ai-channel-runtime/src",
+        "packages/extensions/go-usb-ai-channel-extension-whatsapp/src",
         "packages/extensions/go-usb-ai-feishu-core/src",
         "packages/extensions/go-usb-ai-narp-runtime-claude-code-sdk/src",
         "packages/extensions/go-usb-ai-narp-runtime-codex-sdk/src",
         "packages/extensions/go-usb-ai-ncp-runtime-claude-code-sdk/src",
         "packages/extensions/go-usb-ai-ncp-runtime-codex-sdk/src",
-        "packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src",
-        "packages/ncp-packages/go-usb-ai-ncp-http-agent-client/src",
-        "packages/ncp-packages/go-usb-ai-ncp-http-agent-server/src",
-        "packages/ncp-packages/go-usb-ai-ncp-mcp/src",
-        "packages/ncp-packages/go-usb-ai-ncp-react-ui/src",
-        "packages/ncp-packages/go-usb-ai-ncp-react/src",
-        "packages/ncp-packages/go-usb-ai-ncp-toolkit/src",
-        "packages/ncp-packages/go-usb-ai-ncp/src",
         "packages/go-usb-ai-agent-chat-ui/src",
         "packages/go-usb-ai-agent-chat/src",
         "packages/go-usb-ai-app-runtime/src",
@@ -62,10 +53,20 @@
         "packages/go-usb-ai-service/src",
         "packages/go-usb-ai-shared/src",
         "packages/go-usb-ai-ui/src",
+        "packages/go-usb-ai-windows-mcp/src",
         "packages/go-usb-ai/bridge/src",
         "packages/go-usb-ai/src",
-        "workers/marketplace-api/src",
-        "workers/go-usb-ai-provider-gateway-api/src"
+        "packages/ncp-packages/go-usb-ai-ncp-agent-runtime-next/src",
+        "packages/ncp-packages/go-usb-ai-ncp-agent-runtime/src",
+        "packages/ncp-packages/go-usb-ai-ncp-http-agent-client/src",
+        "packages/ncp-packages/go-usb-ai-ncp-http-agent-server/src",
+        "packages/ncp-packages/go-usb-ai-ncp-mcp/src",
+        "packages/ncp-packages/go-usb-ai-ncp-react-ui/src",
+        "packages/ncp-packages/go-usb-ai-ncp-react/src",
+        "packages/ncp-packages/go-usb-ai-ncp-toolkit/src",
+        "packages/ncp-packages/go-usb-ai-ncp/src",
+        "workers/go-usb-ai-provider-gateway-api/src",
+        "workers/marketplace-api/src"
       ],
       "includeExtensions": [
         ".ts",
@@ -92,17 +93,17 @@
       ]
     },
     "totals": {
-      "files": 1766,
-      "totalLines": 246452,
-      "blankLines": 23113,
-      "commentLines": 640,
-      "codeLines": 173986,
-      "testCodeLines": 48713
+      "files": 1804,
+      "totalLines": 248473,
+      "blankLines": 23086,
+      "commentLines": 708,
+      "codeLines": 176255,
+      "testCodeLines": 48424
     }
   },
   "benchmark": {
     "name": "openclaw",
-    "projectRoot": "/home/runner/work/go-usb-ai/go-usb-ai/external/openclaw",
+    "projectRoot": "/home/runner/work/GO-USB-AI/GO-USB-AI/external/openclaw",
     "scope": {
       "profile": "source",
       "includePaths": [
@@ -134,18 +135,18 @@
       ]
     },
     "totals": {
-      "files": 13798,
-      "totalLines": 3346377,
-      "blankLines": 280607,
-      "commentLines": 46513,
-      "codeLines": 1444843,
-      "testCodeLines": 1574414
+      "files": 14337,
+      "totalLines": 3597182,
+      "blankLines": 301056,
+      "commentLines": 54118,
+      "codeLines": 1541615,
+      "testCodeLines": 1700393
     }
   },
   "comparison": {
-    "baseMinusBenchmarkLines": -1270857,
-    "basePercentOfBenchmark": 12.04,
-    "benchmarkMultipleOfBase": 8.3,
-    "baseIsLighterByPercent": 87.96
+    "baseMinusBenchmarkLines": -1365360,
+    "basePercentOfBenchmark": 11.43,
+    "benchmarkMultipleOfBase": 8.75,
+    "baseIsLighterByPercent": 88.57
   }
 }

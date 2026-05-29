@@ -1,18 +1,18 @@
 export default {
-  "generatedAt": "2026-05-25T01:27:05.090Z",
+  "generatedAt": "2026-05-29T12:54:17.864Z",
   "hero": {
-    "currentLoc": 173986,
-    "testLoc": 48713,
-    "trackedFiles": 1766,
-    "recentCommitCount": 433,
-    "activeDays30": 22,
-    "recentReleaseCount": 63,
-    "latestReleaseDate": "2026-05-24",
+    "currentLoc": 176255,
+    "testLoc": 48424,
+    "trackedFiles": 1804,
+    "recentCommitCount": 8,
+    "activeDays30": 2,
+    "recentReleaseCount": 0,
+    "latestReleaseDate": "",
     "latestNoteDate": "2026-05-06",
     "benchmarkName": "openclaw",
-    "benchmarkCodeLines": 1444843,
-    "basePercentOfBenchmark": 12.04,
-    "lighterByPercent": 87.96
+    "benchmarkCodeLines": 1541615,
+    "basePercentOfBenchmark": 11.43,
+    "lighterByPercent": 88.57
   },
   "trends": {
     "locDaily": [
@@ -495,6 +495,26 @@ export default {
         "key": "2026-05-25",
         "label": "05-25",
         "value": 173986
+      },
+      {
+        "key": "2026-05-26",
+        "label": "05-26",
+        "value": 173986
+      },
+      {
+        "key": "2026-05-27",
+        "label": "05-27",
+        "value": 173986
+      },
+      {
+        "key": "2026-05-28",
+        "label": "05-28",
+        "value": 173986
+      },
+      {
+        "key": "2026-05-29",
+        "label": "05-29",
+        "value": 176255
       }
     ],
     "testLocDaily": [
@@ -567,29 +587,14 @@ export default {
         "key": "2026-05-24",
         "label": "05-24",
         "value": 48713
+      },
+      {
+        "key": "2026-05-29",
+        "label": "05-29",
+        "value": 48424
       }
     ],
     "commitDaily": [
-      {
-        "key": "2026-04-26",
-        "label": "04-26",
-        "value": 6
-      },
-      {
-        "key": "2026-04-27",
-        "label": "04-27",
-        "value": 0
-      },
-      {
-        "key": "2026-04-28",
-        "label": "04-28",
-        "value": 0
-      },
-      {
-        "key": "2026-04-29",
-        "label": "04-29",
-        "value": 0
-      },
       {
         "key": "2026-04-30",
         "label": "04-30",
@@ -618,144 +623,164 @@ export default {
       {
         "key": "2026-05-05",
         "label": "05-05",
-        "value": 14
+        "value": 0
       },
       {
         "key": "2026-05-06",
         "label": "05-06",
-        "value": 41
+        "value": 0
       },
       {
         "key": "2026-05-07",
         "label": "05-07",
-        "value": 59
+        "value": 0
       },
       {
         "key": "2026-05-08",
         "label": "05-08",
-        "value": 7
+        "value": 0
       },
       {
         "key": "2026-05-09",
         "label": "05-09",
-        "value": 12
+        "value": 0
       },
       {
         "key": "2026-05-10",
         "label": "05-10",
-        "value": 10
+        "value": 0
       },
       {
         "key": "2026-05-11",
         "label": "05-11",
-        "value": 13
+        "value": 0
       },
       {
         "key": "2026-05-12",
         "label": "05-12",
-        "value": 10
+        "value": 0
       },
       {
         "key": "2026-05-13",
         "label": "05-13",
-        "value": 19
+        "value": 0
       },
       {
         "key": "2026-05-14",
         "label": "05-14",
-        "value": 29
+        "value": 0
       },
       {
         "key": "2026-05-15",
         "label": "05-15",
-        "value": 18
+        "value": 0
       },
       {
         "key": "2026-05-16",
         "label": "05-16",
-        "value": 13
+        "value": 0
       },
       {
         "key": "2026-05-17",
         "label": "05-17",
-        "value": 5
+        "value": 0
       },
       {
         "key": "2026-05-18",
         "label": "05-18",
-        "value": 14
+        "value": 0
       },
       {
         "key": "2026-05-19",
         "label": "05-19",
-        "value": 39
+        "value": 0
       },
       {
         "key": "2026-05-20",
         "label": "05-20",
-        "value": 11
+        "value": 0
       },
       {
         "key": "2026-05-21",
         "label": "05-21",
-        "value": 17
+        "value": 0
       },
       {
         "key": "2026-05-22",
         "label": "05-22",
-        "value": 26
+        "value": 0
       },
       {
         "key": "2026-05-23",
         "label": "05-23",
-        "value": 40
+        "value": 0
       },
       {
         "key": "2026-05-24",
         "label": "05-24",
-        "value": 22
+        "value": 0
       },
       {
         "key": "2026-05-25",
         "label": "05-25",
-        "value": 8
+        "value": 7
+      },
+      {
+        "key": "2026-05-26",
+        "label": "05-26",
+        "value": 0
+      },
+      {
+        "key": "2026-05-27",
+        "label": "05-27",
+        "value": 0
+      },
+      {
+        "key": "2026-05-28",
+        "label": "05-28",
+        "value": 0
+      },
+      {
+        "key": "2026-05-29",
+        "label": "05-29",
+        "value": 1
       }
     ],
     "commitWeekly": [
       {
         "key": "2026-03-09",
         "label": "03-09",
-        "value": 126
+        "value": 0
       },
       {
         "key": "2026-03-16",
         "label": "03-16",
-        "value": 134
+        "value": 0
       },
       {
         "key": "2026-03-23",
         "label": "03-23",
-        "value": 164
+        "value": 0
       },
       {
         "key": "2026-03-30",
         "label": "03-30",
-        "value": 119
+        "value": 0
       },
       {
         "key": "2026-04-06",
         "label": "04-06",
-        "value": 141
+        "value": 0
       },
       {
         "key": "2026-04-13",
         "label": "04-13",
-        "value": 188
+        "value": 0
       },
       {
         "key": "2026-04-20",
         "label": "04-20",
-        "value": 132
+        "value": 0
       },
       {
         "key": "2026-04-27",
@@ -765,17 +790,17 @@ export default {
       {
         "key": "2026-05-04",
         "label": "05-04",
-        "value": 143
+        "value": 0
       },
       {
         "key": "2026-05-11",
         "label": "05-11",
-        "value": 107
+        "value": 0
       },
       {
         "key": "2026-05-18",
         "label": "05-18",
-        "value": 169
+        "value": 0
       },
       {
         "key": "2026-05-25",
@@ -827,22 +852,22 @@ export default {
       {
         "key": "2026-02",
         "label": "02/26",
-        "value": 17
+        "value": 0
       },
       {
         "key": "2026-03",
         "label": "03/26",
-        "value": 28
+        "value": 0
       },
       {
         "key": "2026-04",
         "label": "04/26",
-        "value": 17
+        "value": 0
       },
       {
         "key": "2026-05",
         "label": "05/26",
-        "value": 14
+        "value": 0
       }
     ]
   },
@@ -850,123 +875,68 @@ export default {
     "topScopes": [
       {
         "name": "packages/go-usb-ai-ui",
-        "codeLines": 36110,
-        "testCodeLines": 12889,
-        "files": 419,
-        "sharePercent": 20.8
+        "codeLines": 36097,
+        "testCodeLines": 12958,
+        "files": 420,
+        "sharePercent": 20.5
       },
       {
         "name": "packages/go-usb-ai-service",
-        "codeLines": 15718,
-        "testCodeLines": 5966,
-        "files": 163,
-        "sharePercent": 9
+        "codeLines": 15732,
+        "testCodeLines": 5950,
+        "files": 164,
+        "sharePercent": 8.9
       },
       {
         "name": "packages/go-usb-ai-core",
-        "codeLines": 15424,
-        "testCodeLines": 4220,
+        "codeLines": 15502,
+        "testCodeLines": 4216,
         "files": 159,
-        "sharePercent": 8.9
+        "sharePercent": 8.8
+      },
+      {
+        "name": "packages/go-usb-ai-kernel",
+        "codeLines": 12815,
+        "testCodeLines": 3328,
+        "files": 128,
+        "sharePercent": 7.3
       },
       {
         "name": "workers/go-usb-ai-provider-gateway-api",
         "codeLines": 11595,
         "testCodeLines": 0,
         "files": 54,
-        "sharePercent": 6.7
-      },
-      {
-        "name": "packages/go-usb-ai-kernel",
-        "codeLines": 11206,
-        "testCodeLines": 3597,
-        "files": 104,
-        "sharePercent": 6.4
+        "sharePercent": 6.6
       },
       {
         "name": "packages/go-usb-ai-server",
-        "codeLines": 8619,
-        "testCodeLines": 5971,
-        "files": 83,
-        "sharePercent": 5
+        "codeLines": 8588,
+        "testCodeLines": 5958,
+        "files": 84,
+        "sharePercent": 4.9
       },
       {
         "name": "packages/go-usb-ai-agent-chat-ui",
         "codeLines": 6248,
         "testCodeLines": 2898,
         "files": 67,
-        "sharePercent": 3.6
+        "sharePercent": 3.5
       },
       {
         "name": "packages/go-usb-ai-app-runtime",
         "codeLines": 5845,
         "testCodeLines": 1149,
         "files": 66,
-        "sharePercent": 3.4
+        "sharePercent": 3.3
       }
     ],
     "benchmark": {
       "name": "openclaw",
-      "benchmarkCodeLines": 1444843,
-      "basePercentOfBenchmark": 12.04,
-      "lighterByPercent": 87.96
+      "benchmarkCodeLines": 1541615,
+      "basePercentOfBenchmark": 11.43,
+      "lighterByPercent": 88.57
     },
-    "recentReleaseBatches": [
-      {
-        "date": "2026-05-24",
-        "tagCount": 59,
-        "sampleTags": [
-          "@go-usb-ai/agent-chat-ui@0.3.24",
-          "@go-usb-ai/agent-chat@0.1.22",
-          "@go-usb-ai/app-runtime@0.7.12"
-        ]
-      },
-      {
-        "date": "2026-05-23",
-        "tagCount": 150,
-        "sampleTags": [
-          "@go-usb-ai/agent-chat-ui@0.3.21",
-          "@go-usb-ai/agent-chat@0.1.19",
-          "@go-usb-ai/app-runtime@0.7.9"
-        ]
-      },
-      {
-        "date": "2026-05-22",
-        "tagCount": 62,
-        "sampleTags": [
-          "v0.19.18-desktop-beta.1",
-          "v0.19.19-desktop-beta.1",
-          "v0.19.20-desktop-beta.1"
-        ]
-      },
-      {
-        "date": "2026-05-21",
-        "tagCount": 4,
-        "sampleTags": [
-          "v0.19.17-desktop-beta.1",
-          "v0.19.17-desktop-beta.2",
-          "v0.19.17-desktop-beta.3"
-        ]
-      },
-      {
-        "date": "2026-05-19",
-        "tagCount": 110,
-        "sampleTags": [
-          "v0.19.10-desktop-beta.1",
-          "v0.19.10-desktop-beta.2",
-          "v0.19.12-desktop-beta.1"
-        ]
-      },
-      {
-        "date": "2026-05-18",
-        "tagCount": 4,
-        "sampleTags": [
-          "v0.19.9-desktop-beta.2",
-          "v0.19.9-desktop-beta.3",
-          "v0.19.9-desktop-beta.4"
-        ]
-      }
-    ]
+    "recentReleaseBatches": []
   },
   "timeline": {
     "notes": [
@@ -1067,7 +1037,7 @@ export default {
     ]
   },
   "gallery": {
-    "refreshedAt": "2026-04-16",
+    "refreshedAt": "2026-05-29",
     "items": [
       {
         "key": "chat",
@@ -1148,7 +1118,7 @@ export default {
   },
   "meta": {
     "locProfile": "source",
-    "locGeneratedAt": "2026-05-24T03:23:05.302Z",
+    "locGeneratedAt": "2026-05-29T12:54:16.678Z",
     "sourceCount": {
       "notes": 5,
       "scopes": 8
