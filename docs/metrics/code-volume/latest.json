@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-05-29T12:54:16.678Z",
+  "generatedAt": "2026-05-30T09:32:08.291Z",
   "projectRoot": "/home/runner/work/GO-USB-AI/GO-USB-AI",
   "git": {
-    "sha": "0876850cf4c9d9d74c482083cac27fc7bf7089b2",
+    "sha": "9badab5d7364961dc76c1d4c72905fddf69f05e5",
     "ref": "main"
   },
   "scope": {
@@ -18707,8 +18707,8 @@
     }
   ],
   "delta": {
-    "previousCodeLines": null,
-    "codeLines": null,
-    "percent": null
+    "previousCodeLines": 176255,
+    "codeLines": 0,
+    "percent": 0
   }
 }
