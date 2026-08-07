@@ -1,5 +1,5 @@
 export default {
-  "generatedAt": "2026-08-06T05:27:01.453Z",
+  "generatedAt": "2026-08-07T04:32:42.114Z",
   "hero": {
     "currentLoc": 176255,
     "testLoc": 48424,
@@ -10,17 +10,12 @@ export default {
     "latestReleaseDate": "",
     "latestNoteDate": "2026-05-06",
     "benchmarkName": "openclaw",
-    "benchmarkCodeLines": 2434098,
+    "benchmarkCodeLines": 2435951,
     "basePercentOfBenchmark": 7.24,
     "lighterByPercent": 92.76
   },
   "trends": {
     "locDaily": [
-      {
-        "key": "2026-04-09",
-        "label": "04-09",
-        "value": 169779
-      },
       {
         "key": "2026-04-10",
         "label": "04-10",
@@ -615,6 +610,11 @@ export default {
         "key": "2026-08-06",
         "label": "08-06",
         "value": 176255
+      },
+      {
+        "key": "2026-08-07",
+        "label": "08-07",
+        "value": 176255
       }
     ],
     "testLocDaily": [
@@ -1037,14 +1037,14 @@ export default {
         "key": "2026-08-06",
         "label": "08-06",
         "value": 48424
+      },
+      {
+        "key": "2026-08-07",
+        "label": "08-07",
+        "value": 48424
       }
     ],
     "commitDaily": [
-      {
-        "key": "2026-07-08",
-        "label": "07-08",
-        "value": 1
-      },
       {
         "key": "2026-07-09",
         "label": "07-09",
@@ -1188,6 +1188,11 @@ export default {
       {
         "key": "2026-08-06",
         "label": "08-06",
+        "value": 1
+      },
+      {
+        "key": "2026-08-07",
+        "label": "08-07",
         "value": 0
       }
     ],
@@ -1250,7 +1255,7 @@ export default {
       {
         "key": "2026-08-03",
         "label": "08-03",
-        "value": 3
+        "value": 4
       }
     ],
     "releaseMonthly": [
@@ -1377,7 +1382,7 @@ export default {
     ],
     "benchmark": {
       "name": "openclaw",
-      "benchmarkCodeLines": 2434098,
+      "benchmarkCodeLines": 2435951,
       "basePercentOfBenchmark": 7.24,
       "lighterByPercent": 92.76
     },
@@ -1563,7 +1568,7 @@ export default {
   },
   "meta": {
     "locProfile": "source",
-    "locGeneratedAt": "2026-08-06T05:26:59.584Z",
+    "locGeneratedAt": "2026-08-07T04:32:40.281Z",
     "sourceCount": {
       "notes": 5,
       "scopes": 8
