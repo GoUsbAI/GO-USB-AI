@@ -1,5 +1,5 @@
 export default {
-  "generatedAt": "2026-08-11T03:54:58.687Z",
+  "generatedAt": "2026-08-12T04:17:43.717Z",
   "hero": {
     "currentLoc": 176255,
     "testLoc": 48424,
@@ -10,146 +10,141 @@ export default {
     "latestReleaseDate": "",
     "latestNoteDate": "2026-05-06",
     "benchmarkName": "openclaw",
-    "benchmarkCodeLines": 2476365,
-    "basePercentOfBenchmark": 7.12,
-    "lighterByPercent": 92.88
+    "benchmarkCodeLines": 2473641,
+    "basePercentOfBenchmark": 7.13,
+    "lighterByPercent": 92.87
   },
   "trends": {
     "locDaily": [
       {
-        "key": "2026-04-14",
-        "label": "04-14",
-        "value": 182759
-      },
-      {
         "key": "2026-04-15",
         "label": "04-15",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-16",
         "label": "04-16",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-17",
         "label": "04-17",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-18",
         "label": "04-18",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-19",
         "label": "04-19",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-20",
         "label": "04-20",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-21",
         "label": "04-21",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-22",
         "label": "04-22",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-23",
         "label": "04-23",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-24",
         "label": "04-24",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-25",
         "label": "04-25",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-26",
         "label": "04-26",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-27",
         "label": "04-27",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-28",
         "label": "04-28",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-29",
         "label": "04-29",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-04-30",
         "label": "04-30",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-05-01",
         "label": "05-01",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-05-02",
         "label": "05-02",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-05-03",
         "label": "05-03",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-05-04",
         "label": "05-04",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-05-05",
         "label": "05-05",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-05-06",
         "label": "05-06",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-05-07",
         "label": "05-07",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-05-08",
         "label": "05-08",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-05-09",
         "label": "05-09",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-05-10",
         "label": "05-10",
-        "value": 182759
+        "value": 0
       },
       {
         "key": "2026-05-11",
@@ -615,6 +610,11 @@ export default {
         "key": "2026-08-11",
         "label": "08-11",
         "value": 176255
+      },
+      {
+        "key": "2026-08-12",
+        "label": "08-12",
+        "value": 176255
       }
     ],
     "testLocDaily": [
@@ -1062,14 +1062,14 @@ export default {
         "key": "2026-08-11",
         "label": "08-11",
         "value": 48424
+      },
+      {
+        "key": "2026-08-12",
+        "label": "08-12",
+        "value": 48424
       }
     ],
     "commitDaily": [
-      {
-        "key": "2026-07-13",
-        "label": "07-13",
-        "value": 1
-      },
       {
         "key": "2026-07-14",
         "label": "07-14",
@@ -1213,6 +1213,11 @@ export default {
       {
         "key": "2026-08-11",
         "label": "08-11",
+        "value": 1
+      },
+      {
+        "key": "2026-08-12",
+        "label": "08-12",
         "value": 0
       }
     ],
@@ -1275,7 +1280,7 @@ export default {
       {
         "key": "2026-08-10",
         "label": "08-10",
-        "value": 1
+        "value": 2
       }
     ],
     "releaseMonthly": [
@@ -1402,9 +1407,9 @@ export default {
     ],
     "benchmark": {
       "name": "openclaw",
-      "benchmarkCodeLines": 2476365,
-      "basePercentOfBenchmark": 7.12,
-      "lighterByPercent": 92.88
+      "benchmarkCodeLines": 2473641,
+      "basePercentOfBenchmark": 7.13,
+      "lighterByPercent": 92.87
     },
     "recentReleaseBatches": []
   },
@@ -1588,7 +1593,7 @@ export default {
   },
   "meta": {
     "locProfile": "source",
-    "locGeneratedAt": "2026-08-11T03:54:56.837Z",
+    "locGeneratedAt": "2026-08-12T04:17:42.159Z",
     "sourceCount": {
       "notes": 5,
       "scopes": 8
