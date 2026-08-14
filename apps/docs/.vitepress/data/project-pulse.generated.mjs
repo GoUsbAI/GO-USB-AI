@@ -1,5 +1,5 @@
 export default {
-  "generatedAt": "2026-08-13T04:20:35.240Z",
+  "generatedAt": "2026-08-14T04:18:34.024Z",
   "hero": {
     "currentLoc": 176255,
     "testLoc": 48424,
@@ -10,17 +10,12 @@ export default {
     "latestReleaseDate": "",
     "latestNoteDate": "2026-05-06",
     "benchmarkName": "openclaw",
-    "benchmarkCodeLines": 2502082,
-    "basePercentOfBenchmark": 7.04,
-    "lighterByPercent": 92.96
+    "benchmarkCodeLines": 2520216,
+    "basePercentOfBenchmark": 6.99,
+    "lighterByPercent": 93.01
   },
   "trends": {
     "locDaily": [
-      {
-        "key": "2026-04-16",
-        "label": "04-16",
-        "value": 0
-      },
       {
         "key": "2026-04-17",
         "label": "04-17",
@@ -615,6 +610,11 @@ export default {
         "key": "2026-08-13",
         "label": "08-13",
         "value": 176255
+      },
+      {
+        "key": "2026-08-14",
+        "label": "08-14",
+        "value": 176255
       }
     ],
     "testLocDaily": [
@@ -1072,14 +1072,14 @@ export default {
         "key": "2026-08-13",
         "label": "08-13",
         "value": 48424
+      },
+      {
+        "key": "2026-08-14",
+        "label": "08-14",
+        "value": 48424
       }
     ],
     "commitDaily": [
-      {
-        "key": "2026-07-15",
-        "label": "07-15",
-        "value": 1
-      },
       {
         "key": "2026-07-16",
         "label": "07-16",
@@ -1223,6 +1223,11 @@ export default {
       {
         "key": "2026-08-13",
         "label": "08-13",
+        "value": 1
+      },
+      {
+        "key": "2026-08-14",
+        "label": "08-14",
         "value": 0
       }
     ],
@@ -1285,7 +1290,7 @@ export default {
       {
         "key": "2026-08-10",
         "label": "08-10",
-        "value": 3
+        "value": 4
       }
     ],
     "releaseMonthly": [
@@ -1412,9 +1417,9 @@ export default {
     ],
     "benchmark": {
       "name": "openclaw",
-      "benchmarkCodeLines": 2502082,
-      "basePercentOfBenchmark": 7.04,
-      "lighterByPercent": 92.96
+      "benchmarkCodeLines": 2520216,
+      "basePercentOfBenchmark": 6.99,
+      "lighterByPercent": 93.01
     },
     "recentReleaseBatches": []
   },
@@ -1598,7 +1603,7 @@ export default {
   },
   "meta": {
     "locProfile": "source",
-    "locGeneratedAt": "2026-08-13T04:20:33.281Z",
+    "locGeneratedAt": "2026-08-14T04:18:32.073Z",
     "sourceCount": {
       "notes": 5,
       "scopes": 8
