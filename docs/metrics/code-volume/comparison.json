@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-20T10:01:43.026Z",
+  "generatedAt": "2026-11-21T09:50:18.740Z",
   "base": {
     "name": "go-usb-ai",
     "projectRoot": "/home/runner/work/GO-USB-AI/GO-USB-AI",
@@ -135,18 +135,18 @@
       ]
     },
     "totals": {
-      "files": 41550,
-      "totalLines": 9080773,
-      "blankLines": 467692,
-      "commentLines": 180538,
-      "codeLines": 4075743,
-      "testCodeLines": 4356800
+      "files": 41651,
+      "totalLines": 9092480,
+      "blankLines": 468234,
+      "commentLines": 181179,
+      "codeLines": 4081553,
+      "testCodeLines": 4361514
     }
   },
   "comparison": {
-    "baseMinusBenchmarkLines": -3899488,
+    "baseMinusBenchmarkLines": -3905298,
     "basePercentOfBenchmark": 4.32,
-    "benchmarkMultipleOfBase": 23.12,
+    "benchmarkMultipleOfBase": 23.16,
     "baseIsLighterByPercent": 95.68
   }
 }
